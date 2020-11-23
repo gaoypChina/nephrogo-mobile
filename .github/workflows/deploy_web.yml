@@ -13,12 +13,14 @@ jobs:
         with:
           channel: 'beta'
 
+      - run: flutter config --enable-web
+
       - run: dart --version
       - run: flutter --version
 
       - run: flutter pub get
 
-#      - run: flutter analyze
+      #      - run: flutter analyze
 
       - name: Build WEB
         run: flutter build web --release
