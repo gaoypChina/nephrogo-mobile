@@ -28,9 +28,7 @@ jobs:
 
       - run: flutter analyze
 
-      - run: flutter test
-
-      - run: flutter build apk -v
+      - run: flutter build apk
         env:
           KEY_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
