@@ -34,31 +34,61 @@ class NutritionTabBody extends StatelessWidget {
               title: "Kalis",
               subTitle: "Paros norma 4 g",
               child: BarChartGraph.exampleIndicatorGraph(),
+              onIconTap: () => Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("TODO: ekranas su valgiais"),
+                ),
+              ),
             ),
             SectionCard(
               title: "Baltymai",
               subTitle: "Paros norma 1.1 g",
               child: BarChartGraph.exampleIndicatorGraph(),
+              onIconTap: () => Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("TODO: ekranas su valgiais"),
+                ),
+              ),
             ),
             SectionCard(
               title: "Natris",
               subTitle: "Paros norma 2.3 g",
               child: BarChartGraph.exampleIndicatorGraph(),
+              onIconTap: () => Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("TODO: ekranas su valgiais"),
+                ),
+              ),
             ),
             SectionCard(
               title: "Fosforas",
               subTitle: "Paros norma 5 g",
               child: BarChartGraph.exampleIndicatorGraph(),
+              onIconTap: () => Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("TODO: ekranas su valgiais"),
+                ),
+              ),
             ),
             SectionCard(
               title: "Energija",
               subTitle: "Paros norma 2800 kcal",
               child: BarChartGraph.exampleIndicatorGraph(),
+              onIconTap: () => Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("TODO: ekranas su valgiais"),
+                ),
+              ),
             ),
             SectionCard(
               title: "Skysčiai",
               subTitle: "Paros norma 1100 ml",
               child: BarChartGraph.exampleIndicatorGraph(),
+              onIconTap: () => Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("TODO: ekranas su valgiais"),
+                ),
+              ),
             ),
           ],
         ),
@@ -74,7 +104,35 @@ class DailyNormsSection extends StatelessWidget {
       title: "Paros normos",
       subTitle: "TODO: mini paaiškinimas",
       icon: Icons.help_outline_outlined,
+      onIconTap: () => showInformationDialog(context),
       child: BarChartGraph.exampleDailyTotals(),
+    );
+  }
+
+  showInformationDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("GERAI"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("TODO: Informacija"),
+      content: Text("O Giedre cia jau sugalvok :)"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
@@ -105,7 +163,7 @@ class SectionCard extends StatelessWidget {
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.(12.0),
           child: Column(
             children: [
               Row(
@@ -171,6 +229,9 @@ class IntakesCard extends StatelessWidget {
 
     return SectionCard(
       title: "Valgiai",
+      onIconTap: () => Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("TODO: ekranas su visais valgiais"),
+      )),
       child: Column(
         children: dividedIntakeTiles,
       ),
@@ -193,15 +254,20 @@ class IntakeTile extends StatelessWidget {
         ? Icons.local_cafe
         : Icons.local_dining;
 
-    return Container(
-      child: ListTile(
-        title: Text(product.name),
-        subtitle: Text(
-          dateFormat.format(intake.dateTime).capitalizeFirst(),
-        ),
-        leading: Icon(icon),
-        trailing: Text("${intake.amountG} g"),
+    return ListTile(
+      title: Text(product.name),
+      contentPadding: EdgeInsets.zero,
+      subtitle: Text(
+        dateFormat.format(intake.dateTime).capitalizeFirst(),
       ),
+      leading: IconButton(
+        icon: Icon(
+          icon,
+          size: 24,
+        ),
+        onPressed: null,
+      ),
+      trailing: Text("${intake.amountG} g"),
     );
   }
 }

@@ -39,16 +39,19 @@ class BarChartGraph extends StatefulWidget {
     );
   }
 
-  static BarChartGraph example(bool fullTile, List<String> data) {
+  static BarChartGraph example(bool today, List<String> data) {
     var exceededDay = Random().nextInt(data.length);
     List<BarChartEntry> entries = [];
     for (int i = 0; i < data.length; i++) {
       var r = (i == exceededDay) ? 1.0 : min(Random().nextDouble(), 0.9);
 
-      final tooltip = data[i] + '\n' + (r.toStringAsPrecision(1)).toString();
+      var tooltip = "Suvartota: 3 g";
+      if (today) {
+        tooltip = "${data[i]}\nSuvartota 3 g.\nDar galima 1 g";
+      }
 
       entries.add(BarChartEntry(
-        title: fullTile ? data[i] : data[i][0],
+        title: today ? data[i] : data[i][0],
         y: r,
         tooltip: tooltip,
         barColor: i != exceededDay ? Colors.lightGreen : Colors.deepOrange,
@@ -119,7 +122,7 @@ class _BarChartGraph extends State<BarChartGraph> {
       barRods: [
         BarChartRodData(
           y: isTouched ? y + 1 : y,
-          colors: isTouched ? [Colors.yellow, Colors.blue] : [barColor],
+          colors: isTouched ? [Colors.yellow] : [barColor],
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
