@@ -39,7 +39,7 @@ jobs:
         name: Upload Android APK
         with:
           name: app-release.apk
-          path: build/app/outputs/apk/release/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
 
       - uses: actions/upload-artifact@v2
         name: Upload Proguard mapping.txt
