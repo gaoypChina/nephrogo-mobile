@@ -4,7 +4,7 @@ on: [push, pull_request]
 jobs:
   build_android:
     name: Build Nephrolog Android version
-    runs-on: macos-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@master
