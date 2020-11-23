@@ -11,7 +11,7 @@ jobs:
 
       - uses: subosito/flutter-action@v1
         with:
-          channel: 'beta'
+          channel: beta
 
       - run: flutter config --enable-web
 
@@ -20,10 +20,8 @@ jobs:
 
       - run: flutter pub get
 
-      #      - run: flutter analyze
-
       - name: Build WEB
-        run: flutter build web --release
+        run: flutter build web
 
       - name: Deploy WEB 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
