@@ -163,7 +163,7 @@ class SectionCard extends StatelessWidget {
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         child: Padding(
-          padding: const EdgeInsets.(12.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
               Row(
