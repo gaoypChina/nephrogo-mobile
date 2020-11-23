@@ -52,3 +52,24 @@ jobs:
         with:
           name: pubspec.lock
           path: pubspec.lock
+
+  build_web:
+    name: Build Nephrolog WEB version
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: stable
+
+      - run: flutter config --enable-web
+
+      - run: dart --version
+      - run: flutter --version
+
+      - run: flutter pub get
+
+      - run: flutter build web
+
