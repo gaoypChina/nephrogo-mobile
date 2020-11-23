@@ -1,5 +1,8 @@
 name: Build and deploy nephrolog WEB
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   deploy_web:
