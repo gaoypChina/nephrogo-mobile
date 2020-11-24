@@ -12,8 +12,8 @@ class MealCreationScreen extends StatefulWidget {
 
 class _MealCreationScreenState extends State<MealCreationScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _dateFormat = DateFormat.yMMMMEEEEd('lt');
-  final _timeFormat = DateFormat.Hm('lt');
+  final _dateFormat = DateFormat.yMMMMEEEEd();
+  final _timeFormat = DateFormat.Hm();
 
   var _mealDate = DateTime.now();
   var _mealTimeOfDay = TimeOfDay.now();

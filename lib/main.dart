@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrolog/routes.dart';
 
 void main() {
@@ -9,6 +10,8 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Intl.defaultLocale = 'lt';
+
     return MaterialApp(
       title: 'Nephrolog',
       theme: ThemeData(
