@@ -12,6 +12,7 @@ class MealCreationScreen extends StatefulWidget {
 
 class _MealCreationScreenState extends State<MealCreationScreen> {
   final _formKey = GlobalKey<FormState>();
+
   final _dateFormat = DateFormat.yMMMMEEEEd();
   final _timeFormat = DateFormat.Hm();
 
@@ -86,10 +87,10 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                       helperText: "Kiekis gramais",
                     ),
                     keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     onSaved: (value) {
                       _quantityInGrams = int.parse(value);
                     },
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     autofocus: _selectedProduct != null,
                     validator: (value) {
                       if (value.isEmpty) {
