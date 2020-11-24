@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/DateExtensions.dart';
+import 'package:nephrolog/models/intake.dart';
+import 'package:nephrolog/ui/search.dart';
 
 class MealCreationScreen extends StatefulWidget {
   @override
@@ -15,6 +17,15 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
 
   var _mealDate = DateTime.now();
   var _mealTimeOfDay = TimeOfDay.now();
+  int _quantityInGrams;
+
+  Product _selectedProduct;
+
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => showSearch(context));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +34,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
         title: Text("Pridėti valgį"),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: saveMeal,
+        onPressed: () => validateAndSaveMeal(context),
         label: Text("IŠSAUGOTI"),
         icon: Icon(Icons.save),
       ),
@@ -60,8 +71,9 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                     icon: const Icon(Icons.restaurant_outlined),
                     onPressed: null,
                   ),
-                  title: const Text('Valgis'),
-                  subtitle: const Text('Lašiša'),
+                  title: const Text('Produktas'),
+                  subtitle: Text(_selectedProduct?.name ?? "Nepasirinktas"),
+                  onTap: () => showSearch(context),
                 ),
                 ListTile(
                   leading: IconButton(
@@ -74,7 +86,11 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                       helperText: "Kiekis gramais",
                     ),
                     keyboardType: TextInputType.number,
+                    onSaved: (value) {
+                      _quantityInGrams = int.parse(value);
+                    },
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    autofocus: _selectedProduct != null,
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'Privalomas laukelis';
@@ -119,7 +135,28 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
     }
   }
 
-  saveMeal() {
-    if (_formKey.currentState.validate()) {}
+  validateAndSaveMeal(BuildContext context) {
+    if (!_formKey.currentState.validate()) {
+      return false;
+    }
+    if (_selectedProduct == null) {
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text('Nepasirinktas produktas!')));
+
+      return false;
+    }
+
+    _formKey.currentState.save();
+
+    print(_quantityInGrams);
+
+    Navigator.pop(context);
+  }
+
+  showSearch(BuildContext context) async {
+    final product = await showProductSearch(context);
+    setState(() {
+      _selectedProduct = product ?? _selectedProduct;
+    });
   }
 }

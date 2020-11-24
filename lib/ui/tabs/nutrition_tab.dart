@@ -228,6 +228,28 @@ class IntakesCard extends StatelessWidget {
   }
 }
 
+class ProductKindIcon extends StatelessWidget {
+  final ProductKind productKind;
+
+  const ProductKindIcon({Key key, @required this.productKind})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final icon = (productKind == ProductKind.drink)
+        ? Icons.local_cafe
+        : Icons.local_dining;
+
+    return IconButton(
+      icon: Icon(
+        icon,
+        size: 24,
+      ),
+      onPressed: null,
+    );
+  }
+}
+
 class IntakeTile extends StatelessWidget {
   static final dateFormat = DateFormat("E, d MMM HH:mm", "lt");
 
@@ -239,23 +261,13 @@ class IntakeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = intake.product;
 
-    final icon = (product.kind == ProductKind.drink)
-        ? Icons.local_cafe
-        : Icons.local_dining;
-
     return ListTile(
       title: Text(product.name),
       contentPadding: EdgeInsets.zero,
       subtitle: Text(
         dateFormat.format(intake.dateTime).capitalizeFirst(),
       ),
-      leading: IconButton(
-        icon: Icon(
-          icon,
-          size: 24,
-        ),
-        onPressed: null,
-      ),
+      leading: ProductKindIcon(productKind: product.kind),
       trailing: Text("${intake.amountG} g"),
     );
   }

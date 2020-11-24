@@ -42,6 +42,11 @@ class Product {
       _$ProductFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductToJson(this);
+
+  static final dummy = [
+    Product(1, "Lašiša", ProductKind.food),
+    Product(2, "Alus", ProductKind.drink),
+  ];
 }
 
 @JsonSerializable()
