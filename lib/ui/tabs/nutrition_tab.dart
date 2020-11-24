@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/ui/models/intake.dart';
 import 'package:nephrolog/extensions/StringExtension.dart';
+import 'package:nephrolog/models/intake.dart';
+import 'package:nephrolog/routes.dart';
+import 'package:nephrolog/ui/intakes_screen.dart';
 
 import 'graph.dart';
 
@@ -10,7 +12,10 @@ class NutritionTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => print("TODO: Add dish"),
+        onPressed: () => Navigator.pushNamed(
+          context,
+          Routes.ROUTE_MEAL_CREATION,
+        ),
         label: Text("PRIDĖTI VALGĮ"),
         icon: Icon(Icons.add),
       ),
@@ -34,65 +39,49 @@ class NutritionTabBody extends StatelessWidget {
               title: "Kalis",
               subTitle: "Paros norma 4 g",
               child: BarChartGraph.exampleIndicatorGraph(),
-              onIconTap: () => Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("TODO: ekranas su valgiais"),
-                ),
-              ),
+              onIconTap: () => openIntakesScreen(context, Indicator.potassium),
             ),
             SectionCard(
               title: "Baltymai",
               subTitle: "Paros norma 1.1 g",
               child: BarChartGraph.exampleIndicatorGraph(),
-              onIconTap: () => Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("TODO: ekranas su valgiais"),
-                ),
-              ),
+              onIconTap: () => openIntakesScreen(context, Indicator.proteins),
             ),
             SectionCard(
               title: "Natris",
               subTitle: "Paros norma 2.3 g",
               child: BarChartGraph.exampleIndicatorGraph(),
-              onIconTap: () => Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("TODO: ekranas su valgiais"),
-                ),
-              ),
+              onIconTap: () => openIntakesScreen(context, Indicator.sodium),
             ),
             SectionCard(
               title: "Fosforas",
               subTitle: "Paros norma 5 g",
               child: BarChartGraph.exampleIndicatorGraph(),
-              onIconTap: () => Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("TODO: ekranas su valgiais"),
-                ),
-              ),
+              onIconTap: () => openIntakesScreen(context, Indicator.phosphorus),
             ),
             SectionCard(
               title: "Energija",
               subTitle: "Paros norma 2800 kcal",
               child: BarChartGraph.exampleIndicatorGraph(),
-              onIconTap: () => Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("TODO: ekranas su valgiais"),
-                ),
-              ),
+              onIconTap: () => openIntakesScreen(context, Indicator.energy),
             ),
             SectionCard(
               title: "Skysčiai",
               subTitle: "Paros norma 1100 ml",
               child: BarChartGraph.exampleIndicatorGraph(),
-              onIconTap: () => Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("TODO: ekranas su valgiais"),
-                ),
-              ),
+              onIconTap: () => openIntakesScreen(context, Indicator.liquids),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  openIntakesScreen(BuildContext context, Indicator indicator) {
+    Navigator.pushNamed(
+      context,
+      Routes.ROUTE_INTAKES,
+      arguments: IntakesScreenArguments(indicator),
     );
   }
 }
@@ -250,7 +239,7 @@ class IntakeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = intake.product;
 
-    final icon = (product.kind == ProductKind.DRINK)
+    final icon = (product.kind == ProductKind.drink)
         ? Icons.local_cafe
         : Icons.local_dining;
 

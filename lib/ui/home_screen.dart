@@ -32,8 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
             // label: AppLocalizations.of(context).tabIndicators,
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.person),
-            label: "Profilis",
+            icon: new Icon(Icons.settings),
+            label: "Nustatymai",
           ),
         ],
       ),

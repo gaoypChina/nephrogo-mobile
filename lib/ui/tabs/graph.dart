@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:nephrolog/ui/models/graph.dart';
+import 'package:nephrolog/models/graph.dart';
 
 class BarChartGraph extends StatefulWidget {
   final List<BarChartEntry> entries;
@@ -65,7 +65,7 @@ class BarChartGraph extends StatefulWidget {
   static Widget exampleDailyTotals() {
     final first = BarChartGraph.example(
       true,
-      ["Kalis", "Baltymai", "Natris", "Fosforas"],
+      ["Kalis", "Baltymai", "Natris"],
     );
     final second = BarChartGraph.example(
       true,
@@ -76,15 +76,20 @@ class BarChartGraph extends StatefulWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          Container(
-            height: 100,
-            child: first,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 100,
+              constraints: BoxConstraints(maxWidth: 250),
+              child: first,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
               height: 100,
-              child: FractionallySizedBox(widthFactor: 0.6, child: second),
+              constraints: BoxConstraints(maxWidth: 250),
+              child: second,
             ),
           ),
         ],
