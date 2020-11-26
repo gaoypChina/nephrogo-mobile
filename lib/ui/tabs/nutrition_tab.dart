@@ -145,7 +145,7 @@ class SectionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final visibleIcon =
-        (icon == null && onIconTap != null) ? Icons.chevron_right : icon;
+    (icon == null && onIconTap != null) ? Icons.chevron_right : icon;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -208,7 +208,7 @@ class IntakesCard extends StatelessWidget {
     final intakeTiles = intakes
         .map(
           (intake) => IntakeTile(intake: intake),
-        )
+    )
         .toList();
 
     final dividedIntakeTiles = ListTile.divideTiles(
@@ -218,9 +218,10 @@ class IntakesCard extends StatelessWidget {
 
     return SectionCard(
       title: "Valgiai",
-      onIconTap: () => Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("TODO: ekranas su visais valgiais"),
-      )),
+      onIconTap: () =>
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text("TODO: ekranas su visais valgiais"),
+          )),
       child: Column(
         children: dividedIntakeTiles,
       ),
