@@ -35,6 +35,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
           child: Form(
             key: _formKey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 AppDropdownButtonFormField(
                   labelText: "Lytis",
@@ -68,8 +69,9 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   onSaved: (v) => print(v),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Divider(),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 18),
+                  child: SizedBox.shrink(),
                 ),
                 AppIntegerFormField(
                   labelText: "Kiek metų sergate lėtine inkstų liga",
@@ -127,8 +129,9 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Divider(),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 18),
+                  child: SizedBox.shrink(),
                 ),
                 AppDropdownButtonFormField(
                   labelText: "Cukriniu diabeto tipas",
