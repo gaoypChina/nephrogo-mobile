@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'tabs/settings_tab.dart';
 import 'tabs/nutrition_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -47,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
         return NutritionTab();
       case 2:
-        return NutritionTab();
+        return SettingsTab();
       default:
         throw ArgumentError("Tab with index $_currentIndex doesn't exist");
     }

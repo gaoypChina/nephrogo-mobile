@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/extensions/DateExtensions.dart';
 import 'package:nephrolog/models/intake.dart';
 import 'package:nephrolog/ui/search.dart';
+
+import 'forms.dart';
 
 class MealCreationScreen extends StatefulWidget {
   @override
@@ -20,12 +20,14 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
   var _mealTimeOfDay = TimeOfDay.now();
   int _quantityInGrams;
 
+  // AppSelectionFormField<Product> _productFormField;
   Product _selectedProduct;
 
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => showSearch(context));
+    // WidgetsBinding.instance
+    //     .addPostFrameCallback((_) => showSearch(context));
   }
 
   @override
@@ -45,60 +47,44 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                ListTile(
-                  leading: IconButton(
-                    icon: const Icon(Icons.today),
-                    onPressed: null,
-                  ),
-                  title: const Text('Data'),
-                  subtitle: Text(_dateFormat.format(_mealDate)),
-                  onTap: showMealDatePicker,
+                AppDatePickerFormField(
+                  initialDate: _mealDate,
+                  firstDate: DateTime(2020),
+                  lastDate: DateTime.now(),
+                  dateFormat: _dateFormat,
+                  iconData: Icons.calendar_today,
+                  labelText: "Data",
                 ),
-                ListTile(
-                  leading: IconButton(
-                    icon: const Icon(Icons.access_time),
-                    onPressed: null,
-                  ),
-                  title: const Text('Laikas'),
-                  subtitle: Text(
-                    _timeFormat.format(_mealDate.applied(_mealTimeOfDay)),
-                  ),
-                  onTap: showMealTimePicker,
+                AppDatePickerFormField(
+                  initialDate: _mealDate,
+                  firstDate: DateTime(2020),
+                  lastDate: DateTime.now(),
+                  dateFormat: _dateFormat,
+                  iconData: Icons.access_time,
+                  labelText: "Laikas",
                 ),
-                ListTile(
-                  leading: IconButton(
-                    icon: const Icon(Icons.restaurant_outlined),
-                    onPressed: null,
-                  ),
-                  title: const Text('Produktas'),
-                  subtitle: Text(_selectedProduct?.name ?? "Nepasirinktas"),
-                  onTap: () => showSearch(context),
+                AppSelectionFormField<Product>(
+                  labelText: "Produktas",
+                  iconData: Icons.restaurant_outlined,
+                  autoFocus: true,
+                  onTap: () async {
+                    return await showProductSearch(context);
+                  },
+                  valueToTextConverter: (Product p) {
+                    return p?.name ?? "Nepasirinktas";
+                  },
+                  initialValue: _selectedProduct,
+                  // onSaved: (Product p) => print("p"),
                 ),
-                ListTile(
-                  leading: IconButton(
-                    icon: const Icon(Icons.kitchen),
-                    onPressed: null,
-                  ),
-                  title: TextFormField(
-                    decoration: InputDecoration(
-                      hintText: "Kiekis",
-                      helperText: "Kiekis gramais",
-                    ),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    onSaved: (value) {
-                      _quantityInGrams = int.parse(value);
-                    },
-                    autofocus: _selectedProduct != null,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Privalomas laukelis';
-                      }
-                      return null;
-                    },
-                  ),
+                AppIntegerFormField(
+                  labelText: "Kiekis",
+                  helperText: "Kiekis gramais",
+                  suffixText: "g",
+                  iconData: Icons.kitchen,
+                  onSaved: (value) {
+                    _quantityInGrams = value;
+                  },
                 ),
               ],
             ),
@@ -106,6 +92,15 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
         ),
       ),
     );
+  }
+
+  void onSavedProduct<Product>(Product product) {
+    // _selectedProduct = product;
+  }
+
+  String toProductText(dynamic p) {
+    return (p as Product)?.name ?? "Nepasirinktas";
+
   }
 
   showMealDatePicker() async {
@@ -154,10 +149,10 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
     Navigator.pop(context);
   }
 
-  showSearch(BuildContext context) async {
-    final product = await showProductSearch(context);
-    setState(() {
-      _selectedProduct = product ?? _selectedProduct;
-    });
-  }
+  // showSearch(BuildContext context) async {
+  //   final product = await showProductSearch(context);
+  //   setState(() {
+  //     _selectedProduct = product ?? _selectedProduct;
+  //   });
+  // }
 }

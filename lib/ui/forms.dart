@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class AppDropdownMenuItem<T> {
   final Key key;
@@ -8,6 +9,8 @@ class AppDropdownMenuItem<T> {
 
   AppDropdownMenuItem({this.key, @required this.text, @required this.value});
 }
+
+const _defaultFieldPadding = const EdgeInsets.all(8.0);
 
 class AppDropdownButtonFormField<T> extends StatelessWidget {
   final String labelText;
@@ -19,6 +22,7 @@ class AppDropdownButtonFormField<T> extends StatelessWidget {
   final ValueChanged<T> onChanged;
 
   final T value;
+  final EdgeInsets padding;
 
   final List<AppDropdownMenuItem> items;
 
@@ -32,6 +36,7 @@ class AppDropdownButtonFormField<T> extends StatelessWidget {
     this.validator,
     this.onSaved,
     this.value,
+    this.padding = _defaultFieldPadding,
   }) : super(key: key);
 
   @override
@@ -50,11 +55,9 @@ class AppDropdownButtonFormField<T> extends StatelessWidget {
         .toList();
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: padding,
       child: DropdownButtonFormField<T>(
         decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(),
           labelText: labelText,
           helperText: helperText,
           icon: iconData != null ? Icon(iconData) : null,
@@ -70,14 +73,20 @@ class AppDropdownButtonFormField<T> extends StatelessWidget {
 }
 
 class AppTextFormField extends StatelessWidget {
+  final TextEditingController controller;
   final String labelText;
   final String helperText;
+  final String initialValue;
   final IconData iconData;
   final FormFieldValidator<String> validator;
   final FormFieldSetter<String> onSaved;
   final TextInputType keyboardType;
   final List<TextInputFormatter> inputFormatters;
   final String suffixText;
+  final GestureTapCallback onTap;
+  final EdgeInsets padding;
+  final bool disabled;
+  final bool autoFocus;
 
   const AppTextFormField({
     Key key,
@@ -86,19 +95,23 @@ class AppTextFormField extends StatelessWidget {
     this.helperText,
     this.iconData,
     this.validator,
+    this.controller,
     this.keyboardType,
     this.inputFormatters,
     this.suffixText,
+    this.onTap,
+    this.initialValue,
+    this.padding = _defaultFieldPadding,
+    this.autoFocus = false,
+    this.disabled = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: padding,
       child: TextFormField(
         decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(),
           labelText: labelText,
           helperText: helperText,
           suffixText: suffixText,
@@ -108,8 +121,195 @@ class AppTextFormField extends StatelessWidget {
         onSaved: onSaved,
         keyboardType: keyboardType,
         inputFormatters: inputFormatters,
+        controller: controller,
+        initialValue: initialValue,
+        readOnly: disabled,
+        autofocus: autoFocus,
+        enableInteractiveSelection: !disabled,
+        onTap: onTap,
       ),
     );
+  }
+}
+
+class AppInputDatePickerFormField extends StatelessWidget {
+  final DateTime initialDate;
+  final DateTime firstDate;
+  final DateTime lastDate;
+
+  final String labelText;
+  final IconData iconData;
+  final ValueChanged<DateTime> onDateSaved;
+  final DateFormat dateFormat;
+  final EdgeInsets padding;
+
+  const AppInputDatePickerFormField({
+    Key key,
+    @required this.initialDate,
+    @required this.firstDate,
+    @required this.lastDate,
+    this.dateFormat,
+    this.labelText,
+    this.iconData,
+    this.onDateSaved,
+    this.padding = _defaultFieldPadding,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: padding,
+      child: InputDatePickerFormField(
+        initialDate: initialDate,
+        firstDate: firstDate,
+        lastDate: lastDate,
+        fieldLabelText: labelText,
+        // fieldHintText: "yyyy/mm/dd",
+        onDateSaved: onDateSaved,
+      ),
+    );
+  }
+}
+
+typedef ValueToStringConverter<T> = String Function(T v);
+
+class AppSelectionFormField<T> extends StatefulWidget {
+  final String labelText;
+  final String helperText;
+  final IconData iconData;
+  final FormFieldValidator<String> validator;
+  final void Function(T newValue) onSaved;
+  final autoFocus;
+
+  final T initialValue;
+  final Future<T> Function() onTap;
+  final ValueToStringConverter<T> valueToTextConverter;
+
+  const AppSelectionFormField({
+    Key key,
+    @required this.onTap,
+    @required this.valueToTextConverter,
+    this.labelText,
+    this.helperText,
+    this.iconData,
+    this.validator,
+    this.onSaved,
+    this.initialValue,
+    this.autoFocus = false,
+  }) : super(key: key);
+
+  @override
+  _AppSelectionFormFieldState<T> createState() =>
+      _AppSelectionFormFieldState<T>();
+}
+
+class _AppSelectionFormFieldState<T> extends State<AppSelectionFormField> {
+  T _selectedValue;
+
+  @override
+  Widget build(BuildContext context) {
+    _setValueIfNonNull(widget.initialValue);
+
+    return AppTextFormField(
+      labelText: widget.labelText,
+      initialValue: convertValueToText(widget.initialValue),
+      helperText: widget.helperText,
+      iconData: widget.iconData,
+      validator: widget.validator,
+      disabled: true,
+      autoFocus: widget.autoFocus,
+      onTap: _onTap,
+      onSaved: _onSaved,
+    );
+  }
+
+  String convertValueToText(T value) {
+    if (value == null) {
+      return "";
+    }
+    return widget.valueToTextConverter(value);
+  }
+
+  _setValueIfNonNull(T value) {
+    if (value != null) {
+      setState(() {
+        _selectedValue = value;
+      });
+    }
+  }
+
+  _onTap() async {
+    final value = await widget.onTap();
+
+    _setValueIfNonNull(value);
+  }
+
+  _onSaved(String v) {
+    widget.onSaved(_selectedValue);
+  }
+}
+
+class AppDatePickerFormField extends StatefulWidget {
+  final DateTime initialDate;
+  final DateTime firstDate;
+  final DateTime lastDate;
+
+  final String labelText;
+  final String helperText;
+  final IconData iconData;
+  final FormFieldValidator<String> validator;
+  final FormFieldSetter<DateTime> onSaved;
+  final DateFormat dateFormat;
+
+  const AppDatePickerFormField({
+    Key key,
+    @required this.initialDate,
+    @required this.firstDate,
+    @required this.lastDate,
+    this.dateFormat,
+    this.labelText,
+    this.helperText,
+    this.iconData,
+    this.validator,
+    this.onSaved,
+  }) : super(key: key);
+
+  @override
+  _AppDatePickerFormFieldState createState() => _AppDatePickerFormFieldState();
+}
+
+class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
+  static final DateFormat _defaultDateFormat = DateFormat.yMd();
+
+  DateTime _selectedDateTime;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppSelectionFormField<DateTime>(
+      onTap: _onTap,
+      valueToTextConverter: _dateTimeToTextConverter,
+      // initialValue: _selectedDateTime ?? widget.initialDate,
+      labelText: widget.labelText,
+      helperText: widget.helperText,
+      iconData: widget.iconData,
+      validator: widget.validator,
+      onSaved: widget.onSaved,
+    );
+  }
+
+  Future<DateTime> _onTap() async {
+    return await showDatePicker(
+      context: context,
+      firstDate: widget.firstDate,
+      lastDate: widget.lastDate,
+      initialDate: widget.initialDate,
+    );
+  }
+
+  String _dateTimeToTextConverter(DateTime dateTime) {
+    final dateFormat = widget.dateFormat ?? _defaultDateFormat;
+
+    return dateFormat.format(_selectedDateTime);
   }
 }
 

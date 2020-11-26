@@ -8,6 +8,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  final _defaultLocale = Locale("lt", "LT");
+
   @override
   Widget build(BuildContext context) {
     Intl.defaultLocale = 'lt';
@@ -17,15 +19,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        inputDecorationTheme: InputDecorationTheme(
+          focusedBorder: OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(),
+        ),
       ),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [
-        const Locale('lt', ''),
-      ],
+      locale: _defaultLocale,
+      supportedLocales: [_defaultLocale],
       initialRoute: Routes.ROUTE_HOME,
       onGenerateRoute: Routes.onGenerateRoute,
     );

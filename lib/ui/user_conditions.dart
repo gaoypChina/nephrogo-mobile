@@ -23,8 +23,12 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding:
-              const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 80),
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 16,
+            bottom: 80,
+          ),
           child: Form(
             key: _formKey,
             child: Column(
@@ -36,6 +40,13 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                     AppDropdownMenuItem(text: "Vyras", value: "Vyras"),
                     AppDropdownMenuItem(text: "Moteris", value: "Moteris"),
                   ],
+                ),
+                AppInputDatePickerFormField(
+                  labelText: "Gimimo data",
+                  firstDate: DateTime(1920),
+                  lastDate: DateTime.now(),
+                  initialDate: null,
+                  onDateSaved: (v) => print(v),
                 ),
                 AppIntegerFormField(
                   labelText: "Ūgis (centimetrais)",
