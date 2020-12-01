@@ -92,7 +92,5 @@ class IntakesScreenTab extends StatelessWidget {
         },
       ),
     );
-
-    return Text("$intakesScreenType");
   }
 }

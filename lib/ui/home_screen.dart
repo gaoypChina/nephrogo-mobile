@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'app_logo.dart';
 import 'tabs/settings_tab.dart';
 import 'tabs/nutrition_tab.dart';
 
@@ -15,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Nephrolog"),
+        title: AppLogo(),
         centerTitle: true,
       ),
       body: getTabBody(),
