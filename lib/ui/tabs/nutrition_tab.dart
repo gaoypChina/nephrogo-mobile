@@ -34,42 +34,74 @@ class NutritionTabBody extends StatelessWidget {
         child: Column(
           children: [
             DailyNormsSection(),
-            IntakesCard(),
+            DailyIntakesCard(
+              title: "Valgiai",
+              leading: OutlineButton(
+                child: Text("DAUGIAU"),
+                onPressed: () =>
+                    openIntakesScreen(context, IntakesScreenType.potassium),
+              ),
+              intakes: Intake.generateDummies(n: 3).toList(),
+            ),
             SectionCard(
               title: "Kalis",
               subTitle: "Paros norma 4 g",
               child: BarChartGraph.exampleIndicatorGraph(),
-              onIconTap: () => openIntakesScreen(context, Indicator.potassium),
+              leading: OutlineButton(
+                child: Text("DAUGIAU"),
+                onPressed: () =>
+                    openIntakesScreen(context, IntakesScreenType.potassium),
+              ),
             ),
             SectionCard(
               title: "Baltymai",
               subTitle: "Paros norma 1.1 g",
               child: BarChartGraph.exampleIndicatorGraph(),
-              onIconTap: () => openIntakesScreen(context, Indicator.proteins),
+              leading: OutlineButton(
+                child: Text("DAUGIAU"),
+                onPressed: () =>
+                    openIntakesScreen(context, IntakesScreenType.proteins),
+              ),
             ),
             SectionCard(
               title: "Natris",
               subTitle: "Paros norma 2.3 g",
               child: BarChartGraph.exampleIndicatorGraph(),
-              onIconTap: () => openIntakesScreen(context, Indicator.sodium),
+              leading: OutlineButton(
+                child: Text("DAUGIAU"),
+                onPressed: () =>
+                    openIntakesScreen(context, IntakesScreenType.sodium),
+              ),
             ),
             SectionCard(
               title: "Fosforas",
               subTitle: "Paros norma 5 g",
               child: BarChartGraph.exampleIndicatorGraph(),
-              onIconTap: () => openIntakesScreen(context, Indicator.phosphorus),
+              leading: OutlineButton(
+                child: Text("DAUGIAU"),
+                onPressed: () =>
+                    openIntakesScreen(context, IntakesScreenType.phosphorus),
+              ),
             ),
             SectionCard(
               title: "Energija",
               subTitle: "Paros norma 2800 kcal",
               child: BarChartGraph.exampleIndicatorGraph(),
-              onIconTap: () => openIntakesScreen(context, Indicator.energy),
+              leading: OutlineButton(
+                child: Text("DAUGIAU"),
+                onPressed: () =>
+                    openIntakesScreen(context, IntakesScreenType.energy),
+              ),
             ),
             SectionCard(
               title: "Skysčiai",
               subTitle: "Paros norma 1100 ml",
               child: BarChartGraph.exampleIndicatorGraph(),
-              onIconTap: () => openIntakesScreen(context, Indicator.liquids),
+              leading: OutlineButton(
+                child: Text("DAUGIAU"),
+                onPressed: () =>
+                    openIntakesScreen(context, IntakesScreenType.liquids),
+              ),
             ),
           ],
         ),
@@ -77,7 +109,7 @@ class NutritionTabBody extends StatelessWidget {
     );
   }
 
-  openIntakesScreen(BuildContext context, Indicator indicator) {
+  openIntakesScreen(BuildContext context, IntakesScreenType indicator) {
     Navigator.pushNamed(
       context,
       Routes.ROUTE_INTAKES,
@@ -92,35 +124,32 @@ class DailyNormsSection extends StatelessWidget {
     return SectionCard(
       title: "Paros normos",
       subTitle: "TODO: mini paaiškinimas",
-      icon: Icons.help_outline_outlined,
-      onIconTap: () => showInformationDialog(context),
+      leading: IconButton(
+        icon: Icon(
+          Icons.help_outline_outlined,
+        ),
+        onPressed: () => showInformationDialog(context),
+      ),
       child: BarChartGraph.exampleDailyTotals(),
     );
   }
 
   showInformationDialog(BuildContext context) {
-    // set up the button
-    Widget okButton = FlatButton(
-      child: Text("GERAI"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("TODO: Informacija"),
-      content: Text("O Giedre cia jau sugalvok :)"),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return alert;
+        return AlertDialog(
+          title: Text("TODO: Informacija"),
+          content: Text("O Giedre cia jau sugalvok :)"),
+          actions: [
+            FlatButton(
+              child: Text("GERAI"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
       },
     );
   }
@@ -130,23 +159,18 @@ class SectionCard extends StatelessWidget {
   final Widget child;
   final String title;
   final String subTitle;
-  final IconData icon;
-  final GestureTapCallback onIconTap;
+  final Widget leading;
 
   const SectionCard({
     Key key,
     @required this.title,
-    this.subTitle,
-    this.icon,
-    this.onIconTap,
     @required this.child,
+    this.subTitle,
+    this.leading,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final visibleIcon =
-    (icon == null && onIconTap != null) ? Icons.chevron_right : icon;
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Card(
@@ -180,15 +204,7 @@ class SectionCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Visibility(
-                    visible: visibleIcon != null,
-                    child: IconButton(
-                      icon: Icon(
-                        visibleIcon,
-                      ),
-                      onPressed: onIconTap,
-                    ),
-                  )
+                  if (leading != null) leading
                 ],
               ),
               child,
@@ -200,16 +216,24 @@ class SectionCard extends StatelessWidget {
   }
 }
 
-class IntakesCard extends StatelessWidget {
+class DailyIntakesCard extends StatelessWidget {
+  final String title;
+  final String subTitle;
+  final Widget leading;
+  final List<Intake> intakes;
+
+  const DailyIntakesCard({
+    Key key,
+    this.title,
+    this.subTitle,
+    this.leading,
+    @required this.intakes,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final intakes = Intake.dummy;
-
-    final intakeTiles = intakes
-        .map(
-          (intake) => IntakeTile(intake: intake),
-    )
-        .toList();
+    final intakeTiles =
+        intakes.map((intake) => IntakeTile(intake: intake)).toList();
 
     final dividedIntakeTiles = ListTile.divideTiles(
       context: context,
@@ -217,11 +241,9 @@ class IntakesCard extends StatelessWidget {
     ).toList();
 
     return SectionCard(
-      title: "Valgiai",
-      onIconTap: () =>
-          Scaffold.of(context).showSnackBar(SnackBar(
-            content: Text("TODO: ekranas su visais valgiais"),
-          )),
+      title: title,
+      subTitle: subTitle,
+      leading: leading,
       child: Column(
         children: dividedIntakeTiles,
       ),
@@ -252,7 +274,9 @@ class ProductKindIcon extends StatelessWidget {
 }
 
 class IntakeTile extends StatelessWidget {
-  static final dateFormat = DateFormat("E, d MMM HH:mm", "lt");
+  static final dateFormat = DateFormat(
+    "E, d MMM HH:mm",
+  );
 
   final Intake intake;
 

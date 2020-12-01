@@ -69,6 +69,12 @@ Intake _$IntakeFromJson(Map<String, dynamic> json) {
         ? null
         : DateTime.parse(json['dateTime'] as String),
     json['amountG'] as int,
+    json['potassiumMg'] as int,
+    json['proteinsMg'] as int,
+    json['sodiumMg'] as int,
+    json['phosphorusMg'] as int,
+    json['energyKC'] as int,
+    json['liquidsMl'] as int,
   );
 }
 
@@ -77,6 +83,12 @@ Map<String, dynamic> _$IntakeToJson(Intake instance) => <String, dynamic>{
       'product': instance.product,
       'dateTime': instance.dateTime?.toIso8601String(),
       'amountG': instance.amountG,
+      'potassiumMg': instance.potassiumMg,
+      'proteinsMg': instance.proteinsMg,
+      'sodiumMg': instance.sodiumMg,
+      'phosphorusMg': instance.phosphorusMg,
+      'energyKC': instance.energyKC,
+      'liquidsMl': instance.liquidsMl,
     };
 
 IndicatorConsumption _$IndicatorConsumptionFromJson(Map<String, dynamic> json) {
@@ -103,32 +115,13 @@ DailyIntake _$DailyIntakeFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Intake.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    json['energy'] == null
-        ? null
-        : IndicatorConsumption.fromJson(json['energy'] as Map<String, dynamic>),
-    json['carbohydrates'] == null
-        ? null
-        : IndicatorConsumption.fromJson(
-            json['carbohydrates'] as Map<String, dynamic>),
-    json['proteins'] == null
-        ? null
-        : IndicatorConsumption.fromJson(
-            json['proteins'] as Map<String, dynamic>),
-    json['liquids'] == null
-        ? null
-        : IndicatorConsumption.fromJson(
-            json['liquids'] as Map<String, dynamic>),
-    json['sodium'] == null
-        ? null
-        : IndicatorConsumption.fromJson(json['sodium'] as Map<String, dynamic>),
-    json['potassium'] == null
-        ? null
-        : IndicatorConsumption.fromJson(
-            json['potassium'] as Map<String, dynamic>),
-    json['phosphorus'] == null
-        ? null
-        : IndicatorConsumption.fromJson(
-            json['phosphorus'] as Map<String, dynamic>),
+    json['amountG'] as int,
+    json['potassiumMg'] as int,
+    json['proteinsMg'] as int,
+    json['sodiumMg'] as int,
+    json['phosphorusMg'] as int,
+    json['energyKC'] as int,
+    json['liquidsMl'] as int,
   );
 }
 
@@ -137,11 +130,11 @@ Map<String, dynamic> _$DailyIntakeToJson(DailyIntake instance) =>
       'id': instance.id,
       'date': instance.date?.toIso8601String(),
       'intakes': instance.intakes,
-      'energy': instance.energy,
-      'carbohydrates': instance.carbohydrates,
-      'proteins': instance.proteins,
-      'liquids': instance.liquids,
-      'sodium': instance.sodium,
-      'potassium': instance.potassium,
-      'phosphorus': instance.phosphorus,
+      'amountG': instance.amountG,
+      'potassiumMg': instance.potassiumMg,
+      'proteinsMg': instance.proteinsMg,
+      'sodiumMg': instance.sodiumMg,
+      'phosphorusMg': instance.phosphorusMg,
+      'energyKC': instance.energyKC,
+      'liquidsMl': instance.liquidsMl,
     };

@@ -71,7 +71,7 @@ class ProductSearchDelegate extends SearchDelegate<Product> {
   }
 
   Widget _searchForProduct(BuildContext context, String query) {
-    final results = Product.dummy;
+    final results = Product.generateDummies();
 
     return ListView.builder(
       itemCount: results.length,
