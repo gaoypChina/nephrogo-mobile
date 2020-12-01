@@ -1,8 +1,10 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/models/intake.dart';
 import 'package:nephrolog/extensions/StringExtension.dart';
 
+import 'app_logo.dart';
 import 'tabs/nutrition_tab.dart';
 
 class IntakesScreenArguments {
@@ -46,16 +48,26 @@ class IntakesScreen extends StatelessWidget {
       length: _tabs.length,
       initialIndex: _tabs.indexWhere((t) => t.screenType == intakesScreenType),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("Nephrolog"),
-          centerTitle: true,
-          bottom: TabBar(
-            tabs: _tabs.map((t) => Tab(text: t.name)).toList(),
-            isScrollable: true,
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                floating: true,
+                pinned: true,
+                snap: true,
+                stretch: true,
+                title: AppLogo(),
+                centerTitle: true,
+                bottom: TabBar(
+                  tabs: _tabs.map((t) => Tab(text: t.name)).toList(),
+                  isScrollable: true,
+                ),
+              ),
+            ];
+          },
+          body: TabBarView(
+            children: _tabs.map((t) => t.body(dailyIntakes)).toList(),
           ),
-        ),
-        body: TabBarView(
-          children: _tabs.map((t) => t.body(dailyIntakes)).toList(),
         ),
       ),
     );
@@ -85,12 +97,41 @@ class IntakesScreenTab extends StatelessWidget {
 
           return DailyIntakesCard(
             title: _dateFormat.format(dailyIntake.date).capitalizeFirst(),
-            leading: Text("4.8 g"),
-            subTitle: "5 g dienos norma neviršyta",
+            leading: _getVisualIndicator(
+                Faker().randomGenerator.decimal(scale: 1.5)),
+            subTitle: "Suvartota 4.8 g\nDienos norma: 5 g",
             intakes: dailyIntake.intakes,
           );
         },
       ),
+    );
+  }
+
+  Widget _getVisualIndicator(double percent) {
+    return Container(
+      width: 70.0,
+      height: 70.0,
+      padding: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+          color: percent > 1.0 ? Colors.deepOrange : Colors.teal,
+          shape: BoxShape.circle),
+      child: Stack(alignment: Alignment.center, children: [
+        Positioned.fill(
+          child: CircularProgressIndicator(
+            value: percent,
+            strokeWidth: 4.0,
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+          ),
+        ),
+        Text(
+          "${(percent * 100).toInt()}%",
+          style: TextStyle(
+            fontSize: 13.0,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ]),
     );
   }
 }
