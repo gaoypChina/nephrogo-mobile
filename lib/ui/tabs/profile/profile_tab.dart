@@ -21,10 +21,10 @@ class ProfileTab extends StatelessWidget {
                   ),
                 ),
                 title: Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
+                  padding: const EdgeInsets.only(left: 8.0, top: 8),
                   child: Text(
                     "Karolis Vyčius",
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ),
                 subtitle: Flex(
