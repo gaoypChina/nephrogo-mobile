@@ -28,26 +28,17 @@ jobs:
 
       - run: flutter analyze
 
-      - run: flutter build appbundle
+      - run: flutter build appbundle --build-number $(git rev-list --count HEAD)
         env:
           KEY_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ANDROID_SIGNING_KEY_ALIAS }}
           KEY_PATH: key.jks
 
-      - uses: r0adkll/upload-google-play@v1
-        name: Upload to Google play for Internal testing
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
-          packageName: lt.nephrolog
-          releaseFiles: build/app/outputs/bundle/release/app-release.aab
-          mappingFile: build/app/outputs/mapping/release/mapping.txt
-          track: internal
-
       - uses: actions/upload-artifact@v2
         name: Upload Android APK
         with:
-          name: app-release.apk
+          name: app-release.aab
           path: build/app/outputs/bundle/release/app-release.aab
 
       - uses: actions/upload-artifact@v2
@@ -82,3 +73,26 @@ jobs:
 
       - run: flutter build web
 
+  deploy_android_internal_testing:
+    name: Deploys Android ABB to Google play for Internal Testing
+    runs-on: ubuntu-20.04
+    needs: build_android
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Download AAB
+        uses: actions/download-artifact@v2
+        with:
+          name: app-release.aab
+      - name: Download mapping.txt
+        uses: actions/download-artifact@v2
+        with:
+          name: mapping.txt
+
+      - uses: r0adkll/upload-google-play@v1
+        name: Upload to Google play for Internal testing
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
+          packageName: lt.nephrolog
+          releaseFiles: app-release.aab
+          mappingFile: mapping.txt
+          track: internal
