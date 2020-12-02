@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'app_logo.dart';
-import 'tabs/settings_tab.dart';
+import 'tabs/profile/profile_tab.dart';
 import 'tabs/nutrition_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,17 +25,17 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
-            icon: new Icon(Icons.restaurant_outlined),
+            icon: const Icon(Icons.restaurant_outlined),
             label: "Mityba",
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.analytics_outlined),
+            icon: const Icon(Icons.analytics_outlined),
             label: "Rodikliai",
             // label: AppLocalizations.of(context).tabIndicators,
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.settings),
-            label: "Nustatymai",
+            icon: const Icon(Icons.person),
+            label: "Paskyra",
           ),
         ],
       ),
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
         return NutritionTab();
       case 2:
-        return SettingsTab();
+        return ProfileTab();
       default:
         throw ArgumentError("Tab with index $_currentIndex doesn't exist");
     }
