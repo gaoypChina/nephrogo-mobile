@@ -15,11 +15,56 @@
       },
       "oauth_client": [
         {
+          "client_id": "1094475099023-d3aaiqfnva0vtseurs6fn1ckksjl7cfb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "lt.nephrolog",
+            "certificate_hash": "97fbd04e6bff3be10afbcd1b04a743700f7df591"
+          }
+        },
+        {
           "client_id": "1094475099023-grj1hl2hbhfhardobuvf8dfae8ci2t45.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "lt.nephrolog",
             "certificate_hash": "deed58c078c63d66ebbe59a6e9a0b7859fe103b7"
+          }
+        },
+        {
+          "client_id": "1094475099023-6134vpb802snl4m07d6u9qu6kip2kps9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDymch6mW-zQrfUdkCWE6NIw_3GbtTKofU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1094475099023-6134vpb802snl4m07d6u9qu6kip2kps9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1094475099023:android:f71b760e2ff045ce07b9fa",
+        "android_client_info": {
+          "package_name": "lt.nephrolog.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1094475099023-a6psnjhi366i2fnpkl9jtc223kc40lvo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "lt.nephrolog.debug",
+            "certificate_hash": "0749e69d968ec243df8cdf81a400379ed6f33f71"
           }
         },
         {
