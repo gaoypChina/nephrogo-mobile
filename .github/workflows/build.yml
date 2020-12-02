@@ -64,7 +64,7 @@ jobs:
         name: Upload Android APK
         with:
           name: app-release.apk
-          path: build/app/outputs/bundle/release/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
 
   build_web:
     name: Build Nephrolog WEB version
