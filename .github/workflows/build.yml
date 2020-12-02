@@ -35,8 +35,21 @@ jobs:
           KEY_ALIAS: ${{ secrets.ANDROID_SIGNING_KEY_ALIAS }}
           KEY_PATH: key.jks
 
+      - run: flutter build apk --build-number $(git rev-list --count HEAD)
+        env:
+          KEY_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_SIGNING_KEY_ALIAS }}
+          KEY_PATH: key.jks
+
       - uses: actions/upload-artifact@v2
         name: Upload Android APK
+        with:
+          name: app-release.aab
+          path: build/app/outputs/bundle/release/app-release.apk
+
+      - uses: actions/upload-artifact@v2
+        name: Upload Android AAB
         with:
           name: app-release.aab
           path: build/app/outputs/bundle/release/app-release.aab
