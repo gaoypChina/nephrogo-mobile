@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/StringExtension.dart';
-import 'package:nephrolog/models/intake.dart';
+import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/ui/components.dart';
 import 'package:nephrolog/ui/intakes_screen.dart';

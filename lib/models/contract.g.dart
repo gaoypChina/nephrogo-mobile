@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'intake.dart';
+part of 'contract.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

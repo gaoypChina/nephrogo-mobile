@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/models/intake.dart';
+import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/ui/search.dart';
 
 import 'forms.dart';

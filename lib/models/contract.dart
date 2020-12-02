@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:faker/faker.dart';
 import 'package:nephrolog/extensions/DateExtensions.dart';
 
-part 'intake.g.dart';
+part 'contract.g.dart';
 
 enum IntakesScreenType {
   energy,

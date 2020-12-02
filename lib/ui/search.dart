@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/models/intake.dart';
+import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/ui/tabs/nutrition_tab.dart';
 
 Future<Product> showProductSearch(BuildContext context) async {

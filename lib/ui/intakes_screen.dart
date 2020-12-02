@@ -1,7 +1,7 @@
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/models/intake.dart';
+import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/extensions/StringExtension.dart';
 
 import 'app_logo.dart';
@@ -34,7 +34,7 @@ class IntakesScreen extends StatelessWidget {
     _IntakesScreenTabData("KALIS", IntakesScreenType.potassium),
     _IntakesScreenTabData("BALTYMAI", IntakesScreenType.proteins),
     _IntakesScreenTabData("NATRIS", IntakesScreenType.sodium),
-    _IntakesScreenTabData("FORFORAS", IntakesScreenType.phosphorus),
+    _IntakesScreenTabData("FOSFORAS", IntakesScreenType.phosphorus),
     _IntakesScreenTabData("ENERGIJA", IntakesScreenType.energy),
     _IntakesScreenTabData("SKYSČIAI", IntakesScreenType.liquids),
   ];
