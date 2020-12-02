@@ -73,6 +73,8 @@ android {
             applicationIdSuffix '.debug'
         }
         release {
+            signingConfig signingConfigs.release
+
             shrinkResources true
             minifyEnabled true
 

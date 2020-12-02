@@ -40,7 +40,7 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
           packageName: lt.nephrolog
-          releaseFile: build/app/outputs/bundle/release/app-release.aab
+          releaseFiles: build/app/outputs/bundle/release/app-release.aab
           mappingFile: build/app/outputs/mapping/release/mapping.txt
           track: internal
 
