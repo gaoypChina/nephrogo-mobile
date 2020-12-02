@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'app_logo.dart';
+import 'tabs/health_indicators/health_indicators_tab.dart';
 import 'tabs/profile/profile_tab.dart';
 import 'tabs/nutrition_tab.dart';
 
@@ -47,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 0:
         return NutritionTab();
       case 1:
-        return NutritionTab();
+        return HealthIndicatorsTab();
       case 2:
         return ProfileTab();
       default:

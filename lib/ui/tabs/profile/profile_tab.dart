@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nephrolog/routes.dart';
+import 'package:nephrolog/ui/components.dart';
 
 class ProfileTab extends StatelessWidget {
   @override
@@ -8,8 +9,7 @@ class ProfileTab extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+            BasicSection(
               child: ProfileCell(
                 leading: Container(
                   width: 64,
@@ -42,16 +42,18 @@ class ProfileTab extends StatelessWidget {
                 ),
               ),
             ),
-            ProfileCell(
-              title: Text("Mano būklė"),
-              leading: Icon(Icons.quick_contacts_dialer),
-              trailing: Icon(Icons.chevron_right),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  Routes.ROUTE_USER_CONDITIONS,
-                );
-              },
+            BasicSection(
+              child: ProfileCell(
+                title: Text("Mano būklė"),
+                leading: Icon(Icons.quick_contacts_dialer),
+                trailing: Icon(Icons.chevron_right),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.ROUTE_USER_CONDITIONS,
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -81,6 +83,7 @@ class ProfileCell extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: ListTile(
+        contentPadding: EdgeInsets.zero,
         leading: leading,
         title: title,
         subtitle: subtitle,

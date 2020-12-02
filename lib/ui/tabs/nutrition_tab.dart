@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/StringExtension.dart';
 import 'package:nephrolog/models/intake.dart';
 import 'package:nephrolog/routes.dart';
+import 'package:nephrolog/ui/components.dart';
 import 'package:nephrolog/ui/intakes_screen.dart';
 
 import 'graph.dart';
@@ -41,7 +42,7 @@ class NutritionTabBody extends StatelessWidget {
             ),
             intakes: Intake.generateDummies(n: 3).toList(),
           ),
-          SectionCard(
+          LargeSection(
             title: "Kalis",
             subTitle: "Paros norma 4 g",
             child: BarChartGraph.exampleIndicatorGraph(),
@@ -51,7 +52,7 @@ class NutritionTabBody extends StatelessWidget {
                   openIntakesScreen(context, IntakesScreenType.potassium),
             ),
           ),
-          SectionCard(
+          LargeSection(
             title: "Baltymai",
             subTitle: "Paros norma 1.1 g",
             child: BarChartGraph.exampleIndicatorGraph(),
@@ -61,7 +62,7 @@ class NutritionTabBody extends StatelessWidget {
                   openIntakesScreen(context, IntakesScreenType.proteins),
             ),
           ),
-          SectionCard(
+          LargeSection(
             title: "Natris",
             subTitle: "Paros norma 2.3 g",
             child: BarChartGraph.exampleIndicatorGraph(),
@@ -71,7 +72,7 @@ class NutritionTabBody extends StatelessWidget {
                   openIntakesScreen(context, IntakesScreenType.sodium),
             ),
           ),
-          SectionCard(
+          LargeSection(
             title: "Fosforas",
             subTitle: "Paros norma 5 g",
             child: BarChartGraph.exampleIndicatorGraph(),
@@ -81,7 +82,7 @@ class NutritionTabBody extends StatelessWidget {
                   openIntakesScreen(context, IntakesScreenType.phosphorus),
             ),
           ),
-          SectionCard(
+          LargeSection(
             title: "Energija",
             subTitle: "Paros norma 2800 kcal",
             child: BarChartGraph.exampleIndicatorGraph(),
@@ -91,7 +92,7 @@ class NutritionTabBody extends StatelessWidget {
                   openIntakesScreen(context, IntakesScreenType.energy),
             ),
           ),
-          SectionCard(
+          LargeSection(
             title: "Skysčiai",
             subTitle: "Paros norma 1100 ml",
             child: BarChartGraph.exampleIndicatorGraph(),
@@ -118,7 +119,7 @@ class NutritionTabBody extends StatelessWidget {
 class DailyNormsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SectionCard(
+    return LargeSection(
       title: "Paros normos",
       subTitle: "TODO: mini paaiškinimas",
       leading: IconButton(
@@ -152,73 +153,6 @@ class DailyNormsSection extends StatelessWidget {
   }
 }
 
-class SectionCard extends StatelessWidget {
-  final Widget child;
-  final String title;
-  final String subTitle;
-  final Widget leading;
-
-  const SectionCard({
-    Key key,
-    @required this.title,
-    @required this.child,
-    this.subTitle,
-    this.leading,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-            top: Divider.createBorderSide(context),
-            bottom: Divider.createBorderSide(context),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          this.title,
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.teal,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        if (this.subTitle != null)
-                          Text(
-                            this.subTitle,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  if (leading != null) leading
-                ],
-              ),
-              child,
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class DailyIntakesCard extends StatelessWidget {
   final String title;
   final String subTitle;
@@ -238,7 +172,7 @@ class DailyIntakesCard extends StatelessWidget {
     final intakeTiles =
         intakes.map((intake) => IntakeTile(intake: intake)).toList();
 
-    return SectionCard(
+    return LargeSection(
       title: title,
       subTitle: subTitle,
       leading: leading,

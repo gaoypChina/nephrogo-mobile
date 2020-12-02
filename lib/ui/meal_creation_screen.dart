@@ -87,42 +87,6 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
     );
   }
 
-  void onSavedProduct<Product>(Product product) {
-    // _selectedProduct = product;
-  }
-
-  String toProductText(dynamic p) {
-    return (p as Product)?.name ?? "Nepasirinktas";
-  }
-
-  showMealDatePicker() async {
-    final dateTime = await showDatePicker(
-      context: context,
-      initialDate: _mealDate,
-      firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
-    );
-    if (dateTime != null) {
-      setState(() {
-        _mealDate = dateTime;
-      });
-    }
-  }
-
-  showMealTimePicker() async {
-    final time = await showTimePicker(
-      context: context,
-      initialTime: _mealTimeOfDay,
-      initialEntryMode: TimePickerEntryMode.dial,
-    );
-
-    if (time != null) {
-      setState(() {
-        _mealTimeOfDay = time;
-      });
-    }
-  }
-
   showProductSearchScreen(BuildContext context) async {
     final product = await showProductSearch(context);
 
