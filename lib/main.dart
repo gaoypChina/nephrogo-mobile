@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     Intl.defaultLocale = 'lt';
 
     return MaterialApp(
-      title: 'Nephrolog',
+      title: 'NephroLog',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
