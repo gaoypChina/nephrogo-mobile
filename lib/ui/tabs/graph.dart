@@ -8,15 +8,6 @@ import 'package:nephrolog/models/graph.dart';
 class BarChartGraph extends StatefulWidget {
   final List<BarChartEntry> entries;
 
-  static final List<Color> availableColors = [
-    Colors.purpleAccent,
-    Colors.yellow,
-    Colors.lightBlue,
-    Colors.orange,
-    Colors.pink,
-    Colors.redAccent,
-  ];
-
   const BarChartGraph({Key key, this.entries}) : super(key: key);
 
   static const weekDays = [
@@ -54,7 +45,7 @@ class BarChartGraph extends StatefulWidget {
         title: today ? data[i] : data[i][0],
         y: r,
         tooltip: tooltip,
-        barColor: i != exceededDay ? Colors.lightGreen : Colors.deepOrange,
+        barColor: i != exceededDay ? Colors.teal : Colors.redAccent,
       ));
     }
     return BarChartGraph(
@@ -132,7 +123,7 @@ class _BarChartGraph extends State<BarChartGraph> {
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             y: 1,
-            colors: [Colors.blueGrey],
+            colors: [Colors.grey],
           ),
         ),
       ],

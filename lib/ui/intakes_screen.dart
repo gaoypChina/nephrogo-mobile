@@ -113,7 +113,7 @@ class IntakesScreenTab extends StatelessWidget {
       height: 70.0,
       padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-          color: percent > 1.0 ? Colors.deepOrange : Colors.teal,
+          color: percent > 1.0 ? Colors.redAccent : Colors.teal,
           shape: BoxShape.circle),
       child: Stack(alignment: Alignment.center, children: [
         Positioned.fill(

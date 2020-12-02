@@ -88,7 +88,7 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 flutter_icons:
-  adaptive_icon_background: "ffffff"
+  adaptive_icon_background: "3F51B5"
   android: true
   ios: true
   image_path: "assets/logo/square-logo.png"

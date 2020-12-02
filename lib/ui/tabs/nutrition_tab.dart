@@ -189,6 +189,7 @@ class SectionCard extends StatelessWidget {
                           this.title,
                           style: TextStyle(
                             fontSize: 24,
+                            color: Colors.teal,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -196,7 +197,6 @@ class SectionCard extends StatelessWidget {
                           Text(
                             this.subTitle,
                             style: TextStyle(
-                              color: const Color(0xff379982),
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
