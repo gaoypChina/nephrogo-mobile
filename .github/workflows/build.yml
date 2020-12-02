@@ -90,7 +90,7 @@ jobs:
     name: Deploys Android ABB to Google play for Internal Testing
     runs-on: ubuntu-20.04
     needs: build_android
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Download AAB
         uses: actions/download-artifact@v2
