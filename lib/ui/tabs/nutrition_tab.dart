@@ -28,83 +28,80 @@ class NutritionTab extends StatelessWidget {
 class NutritionTabBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            DailyNormsSection(),
-            DailyIntakesCard(
-              title: "Valgiai",
-              leading: OutlineButton(
-                child: Text("DAUGIAU"),
-                onPressed: () =>
-                    openIntakesScreen(context, IntakesScreenType.potassium),
-              ),
-              intakes: Intake.generateDummies(n: 3).toList(),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          DailyNormsSection(),
+          DailyIntakesCard(
+            title: "Valgiai",
+            leading: OutlineButton(
+              child: Text("DAUGIAU"),
+              onPressed: () =>
+                  openIntakesScreen(context, IntakesScreenType.potassium),
             ),
-            SectionCard(
-              title: "Kalis",
-              subTitle: "Paros norma 4 g",
-              child: BarChartGraph.exampleIndicatorGraph(),
-              leading: OutlineButton(
-                child: Text("DAUGIAU"),
-                onPressed: () =>
-                    openIntakesScreen(context, IntakesScreenType.potassium),
-              ),
+            intakes: Intake.generateDummies(n: 3).toList(),
+          ),
+          SectionCard(
+            title: "Kalis",
+            subTitle: "Paros norma 4 g",
+            child: BarChartGraph.exampleIndicatorGraph(),
+            leading: OutlineButton(
+              child: Text("DAUGIAU"),
+              onPressed: () =>
+                  openIntakesScreen(context, IntakesScreenType.potassium),
             ),
-            SectionCard(
-              title: "Baltymai",
-              subTitle: "Paros norma 1.1 g",
-              child: BarChartGraph.exampleIndicatorGraph(),
-              leading: OutlineButton(
-                child: Text("DAUGIAU"),
-                onPressed: () =>
-                    openIntakesScreen(context, IntakesScreenType.proteins),
-              ),
+          ),
+          SectionCard(
+            title: "Baltymai",
+            subTitle: "Paros norma 1.1 g",
+            child: BarChartGraph.exampleIndicatorGraph(),
+            leading: OutlineButton(
+              child: Text("DAUGIAU"),
+              onPressed: () =>
+                  openIntakesScreen(context, IntakesScreenType.proteins),
             ),
-            SectionCard(
-              title: "Natris",
-              subTitle: "Paros norma 2.3 g",
-              child: BarChartGraph.exampleIndicatorGraph(),
-              leading: OutlineButton(
-                child: Text("DAUGIAU"),
-                onPressed: () =>
-                    openIntakesScreen(context, IntakesScreenType.sodium),
-              ),
+          ),
+          SectionCard(
+            title: "Natris",
+            subTitle: "Paros norma 2.3 g",
+            child: BarChartGraph.exampleIndicatorGraph(),
+            leading: OutlineButton(
+              child: Text("DAUGIAU"),
+              onPressed: () =>
+                  openIntakesScreen(context, IntakesScreenType.sodium),
             ),
-            SectionCard(
-              title: "Fosforas",
-              subTitle: "Paros norma 5 g",
-              child: BarChartGraph.exampleIndicatorGraph(),
-              leading: OutlineButton(
-                child: Text("DAUGIAU"),
-                onPressed: () =>
-                    openIntakesScreen(context, IntakesScreenType.phosphorus),
-              ),
+          ),
+          SectionCard(
+            title: "Fosforas",
+            subTitle: "Paros norma 5 g",
+            child: BarChartGraph.exampleIndicatorGraph(),
+            leading: OutlineButton(
+              child: Text("DAUGIAU"),
+              onPressed: () =>
+                  openIntakesScreen(context, IntakesScreenType.phosphorus),
             ),
-            SectionCard(
-              title: "Energija",
-              subTitle: "Paros norma 2800 kcal",
-              child: BarChartGraph.exampleIndicatorGraph(),
-              leading: OutlineButton(
-                child: Text("DAUGIAU"),
-                onPressed: () =>
-                    openIntakesScreen(context, IntakesScreenType.energy),
-              ),
+          ),
+          SectionCard(
+            title: "Energija",
+            subTitle: "Paros norma 2800 kcal",
+            child: BarChartGraph.exampleIndicatorGraph(),
+            leading: OutlineButton(
+              child: Text("DAUGIAU"),
+              onPressed: () =>
+                  openIntakesScreen(context, IntakesScreenType.energy),
             ),
-            SectionCard(
-              title: "Skysčiai",
-              subTitle: "Paros norma 1100 ml",
-              child: BarChartGraph.exampleIndicatorGraph(),
-              leading: OutlineButton(
-                child: Text("DAUGIAU"),
-                onPressed: () =>
-                    openIntakesScreen(context, IntakesScreenType.liquids),
-              ),
+          ),
+          SectionCard(
+            title: "Skysčiai",
+            subTitle: "Paros norma 1100 ml",
+            child: BarChartGraph.exampleIndicatorGraph(),
+            leading: OutlineButton(
+              child: Text("DAUGIAU"),
+              onPressed: () =>
+                  openIntakesScreen(context, IntakesScreenType.liquids),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -172,11 +169,17 @@ class SectionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            top: Divider.createBorderSide(context),
+            bottom: Divider.createBorderSide(context),
+          ),
+        ),
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
           child: Column(
             children: [
               Row(
@@ -235,17 +238,15 @@ class DailyIntakesCard extends StatelessWidget {
     final intakeTiles =
         intakes.map((intake) => IntakeTile(intake: intake)).toList();
 
-    final dividedIntakeTiles = ListTile.divideTiles(
-      context: context,
-      tiles: intakeTiles,
-    ).toList();
-
     return SectionCard(
       title: title,
       subTitle: subTitle,
       leading: leading,
       child: Column(
-        children: dividedIntakeTiles,
+        children: ListTile.divideTiles(
+          context: context,
+          tiles: intakeTiles,
+        ).toList(),
       ),
     );
   }

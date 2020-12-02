@@ -88,22 +88,19 @@ class IntakesScreenTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListView.builder(
-        itemCount: dailyIntakes.length,
-        itemBuilder: (context, index) {
-          final dailyIntake = dailyIntakes[index];
+    return ListView.builder(
+      itemCount: dailyIntakes.length,
+      itemBuilder: (context, index) {
+        final dailyIntake = dailyIntakes[index];
 
-          return DailyIntakesCard(
-            title: _dateFormat.format(dailyIntake.date).capitalizeFirst(),
-            leading: _getVisualIndicator(
-                Faker().randomGenerator.decimal(scale: 1.5)),
-            subTitle: "Suvartota 4.8 g\nDienos norma: 5 g",
-            intakes: dailyIntake.intakes,
-          );
-        },
-      ),
+        return DailyIntakesCard(
+          title: _dateFormat.format(dailyIntake.date).capitalizeFirst(),
+          leading:
+              _getVisualIndicator(Faker().randomGenerator.decimal(scale: 1.5)),
+          subTitle: "Suvartota 4.8 g\nDienos norma: 5 g",
+          intakes: dailyIntake.intakes,
+        );
+      },
     );
   }
 
