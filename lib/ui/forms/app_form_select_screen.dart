@@ -5,8 +5,13 @@ import 'package:nephrolog/ui/forms.dart';
 class AppFromSelectScreenData {
   final String title;
   final List<AppSelectFormFieldItem> items;
+  final int selectedValue;
 
-  const AppFromSelectScreenData({this.title, @required this.items});
+  const AppFromSelectScreenData({
+    this.title,
+    @required this.items,
+    this.selectedValue,
+  });
 }
 
 class AppFromSelectScreen extends StatelessWidget {
@@ -20,12 +25,14 @@ class AppFromSelectScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(data.title),
       ),
-      body: BasicSection(
-        padding: EdgeInsets.zero,
-        child: Column(
-          children: data.items
-              .map((item) => _generateItemCell(context, item))
-              .toList(),
+      body: SingleChildScrollView(
+        child: BasicSection(
+          padding: EdgeInsets.zero,
+          child: Column(
+            children: data.items
+                .map((item) => _generateItemCell(context, item))
+                .toList(),
+          ),
         ),
       ),
     );
@@ -33,6 +40,11 @@ class AppFromSelectScreen extends StatelessWidget {
 
   AppListTile _generateItemCell(
       BuildContext context, AppSelectFormFieldItem item) {
+    final iconData =
+        data.selectedValue != null && item.value == data.selectedValue
+            ? Icons.radio_button_on
+            : Icons.radio_button_off;
+
     return AppListTile(
       title: Text(item.title),
       subtitle: item.description != null ? Text(item.description) : null,
@@ -44,7 +56,7 @@ class AppFromSelectScreen extends StatelessWidget {
               onPressed: null,
             )
           : null,
-      trailing: Icon(Icons.chevron_right),
+      trailing: Icon(iconData, color: Theme.of(context).primaryColor),
       onTap: () => Navigator.pop(context, item),
     );
   }

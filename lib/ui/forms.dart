@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/DateExtensions.dart';
 
-import 'forms/AppFormSelectScreen.dart';
+import 'forms/app_form_select_screen.dart';
 
 class AppDropdownMenuItem<T> {
   final Key key;
@@ -85,7 +85,7 @@ class AppSelectFormFieldItem {
     @required this.title,
     this.description,
     this.icon,
-    this.value,
+    @required this.value,
   });
 }
 
@@ -94,7 +94,9 @@ class AppSelectFormField extends StatefulWidget {
   final String labelText;
   final String helperText;
   final IconData iconData;
-  final FormFieldSetter<int> onChanged;
+  final FormFieldSetter<AppSelectFormFieldItem> onChanged;
+  final FormFieldSetter<AppSelectFormFieldItem> onSaved;
+  final int initialValue;
 
   const AppSelectFormField({
     Key key,
@@ -103,6 +105,8 @@ class AppSelectFormField extends StatefulWidget {
     this.helperText,
     this.iconData,
     this.onChanged,
+    this.initialValue,
+    this.onSaved,
   }) : super(key: key);
 
   @override
@@ -111,6 +115,22 @@ class AppSelectFormField extends StatefulWidget {
 
 class _AppSelectFormFieldState extends State<AppSelectFormField> {
   TextEditingController _textEditingController = TextEditingController();
+  AppSelectFormFieldItem _selectedItem;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.initialValue != null) {
+      _selectedItem =
+          widget.items.firstWhere((e) => e.value == widget.initialValue);
+
+      if (_selectedItem == null) {
+        throw ArgumentError.value("initialValue",
+            "Unable to find initial value in AppSelectFormField items");
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +142,14 @@ class _AppSelectFormFieldState extends State<AppSelectFormField> {
       disabled: true,
       onTap: () => onTap(context),
       suffixIconData: Icons.chevron_right,
+      onSaved: _onSaved,
     );
+  }
+
+  _onSaved(String s) {
+    if (widget.onSaved != null) {
+      widget.onSaved(_selectedItem);
+    }
   }
 
   Future<void> onTap(BuildContext context) async {
@@ -133,15 +160,17 @@ class _AppSelectFormFieldState extends State<AppSelectFormField> {
         data: AppFromSelectScreenData(
           title: widget.labelText,
           items: widget.items,
+          selectedValue: _selectedItem.value,
         ),
       );
     }));
 
     if (item != null) {
       _textEditingController.text = item.title;
+      _selectedItem = item;
 
       if (widget.onChanged != null) {
-        widget.onChanged(item.value);
+        widget.onChanged(item);
       }
     }
   }

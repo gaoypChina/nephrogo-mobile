@@ -105,10 +105,6 @@ class _HealthIndicatorsCreationScreenState
                     children: [
                       AppSelectFormField(
                         labelText: "Patinimų sunkumas",
-                        onChanged: (int value) {
-                          print(value);
-                          print(value.runtimeType);
-                        },
                         items: [
                           AppSelectFormFieldItem(
                             title: "0+",
@@ -118,21 +114,25 @@ class _HealthIndicatorsCreationScreenState
                           ),
                           AppSelectFormFieldItem(
                             title: "1+",
+                            description: "TODO",
                             icon: Icons.sentiment_satisfied,
                             value: 1,
                           ),
                           AppSelectFormFieldItem(
                             title: "2+",
+                            description: "TODO",
                             icon: Icons.sentiment_dissatisfied,
                             value: 2,
                           ),
                           AppSelectFormFieldItem(
                             title: "3+",
+                            description: "TODO",
                             icon: Icons.sentiment_very_dissatisfied,
                             value: 3,
                           ),
                           AppSelectFormFieldItem(
                             title: "4+",
+                            description: "TODO",
                             icon: Icons.sick,
                             value: 4,
                           ),
