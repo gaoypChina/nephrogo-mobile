@@ -5,6 +5,8 @@ import 'package:nephrolog/extensions/DateExtensions.dart';
 
 import 'forms/app_form_select_screen.dart';
 
+typedef FormFieldItemSetter<T> = void Function(T newItem);
+
 class AppDropdownMenuItem<T> {
   final Key key;
   final String text;
@@ -29,6 +31,92 @@ class AppSelectFormFieldItem<T> {
   });
 }
 
+class AppSelectionScreenFormField<T> extends StatefulWidget {
+  final String labelText;
+  final String helperText;
+  final T initialSelection;
+  final String Function(T item) itemToStringConverter;
+  final Future<T> Function(BuildContext context) onTap;
+  final IconData iconData;
+  final FormFieldItemSetter<T> onChanged;
+  final FormFieldItemSetter<T> onSaved;
+
+  const AppSelectionScreenFormField({
+    Key key,
+    @required this.onTap,
+    @required this.itemToStringConverter,
+    this.labelText,
+    this.helperText,
+    this.initialSelection,
+    this.iconData,
+    this.onChanged,
+    this.onSaved,
+  }) : super(key: key);
+
+  @override
+  _AppSelectionScreenFormFieldState createState() =>
+      _AppSelectionScreenFormFieldState<T>();
+}
+
+class _AppSelectionScreenFormFieldState<T>
+    extends State<AppSelectionScreenFormField<T>> {
+  TextEditingController _textEditingController = TextEditingController();
+  T _selectedItem;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.initialSelection != null) {
+      _setItem(widget.initialSelection, initial: true);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AppTextFormField(
+      labelText: widget.labelText,
+      controller: _textEditingController,
+      helperText: widget.helperText,
+      iconData: widget.iconData,
+      disabled: true,
+      onTap: () => _onTap(context),
+      suffixIconData: Icons.chevron_right,
+      onSaved: _onSaved,
+    );
+  }
+
+  _onSaved(String s) {
+    if (widget.onSaved != null) {
+      widget.onSaved(_selectedItem);
+    }
+  }
+
+  Future _onTap(BuildContext context) async {
+    final selectedItem = await widget.onTap(context);
+
+    if (selectedItem != null) {
+      _setItem(selectedItem);
+    }
+  }
+
+  _setItem(T item, {initial: false}) {
+    _selectedItem = item;
+    _textEditingController.text = widget.itemToStringConverter(_selectedItem);
+
+    if (!initial && widget.onChanged != null) {
+      widget.onChanged(item);
+    }
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+
+    super.dispose();
+  }
+}
+
 class AppSelectFormField<T> extends StatefulWidget {
   final List<AppSelectFormFieldItem<T>> items;
   final String labelText;
@@ -44,56 +132,59 @@ class AppSelectFormField<T> extends StatefulWidget {
     this.labelText,
     this.helperText,
     this.iconData,
-    this.onChanged,
     this.initialValue,
+    this.onChanged,
     this.onSaved,
   }) : super(key: key);
 
   @override
-  _AppSelectFormFieldState createState() => _AppSelectFormFieldState<T>();
+  _AppSelectFormFieldState<T> createState() => _AppSelectFormFieldState<T>();
 }
 
 class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
-  TextEditingController _textEditingController = TextEditingController();
-  AppSelectFormFieldItem _selectedItem;
-
-  @override
-  void initState() {
-    super.initState();
-
-    if (widget.initialValue != null) {
-      _selectedItem =
-          widget.items.firstWhere((e) => e.value == widget.initialValue);
-
-      if (_selectedItem == null) {
-        throw ArgumentError.value("initialValue",
-            "Unable to find initial value in AppSelectFormField items");
-      }
-    }
-  }
+  AppSelectFormFieldItem<T> selectedItem;
 
   @override
   Widget build(BuildContext context) {
-    return AppTextFormField(
+    selectedItem = _getInitialSelection();
+
+    return AppSelectionScreenFormField<AppSelectFormFieldItem<T>>(
+      onTap: onTap,
+      itemToStringConverter: (item) => item.text,
       labelText: widget.labelText,
-      controller: _textEditingController,
       helperText: widget.helperText,
       iconData: widget.iconData,
-      disabled: true,
-      onTap: () => onTap(context),
-      suffixIconData: Icons.chevron_right,
-      onSaved: _onSaved,
+      onChanged: _onChanged,
+      onSaved: widget.onSaved,
+      initialSelection: selectedItem,
     );
   }
 
-  _onSaved(String s) {
+  _onChanged(AppSelectFormFieldItem<T> newlySelectedItem) {
+    selectedItem = newlySelectedItem;
+
     if (widget.onSaved != null) {
-      widget.onSaved(_selectedItem);
+      widget.onSaved(selectedItem);
     }
   }
 
-  Future<void> onTap(BuildContext context) async {
-    AppSelectFormFieldItem<T> item = await Navigator.push(
+  AppSelectFormFieldItem<T> _getInitialSelection() {
+    if (widget.initialValue == null) {
+      return null;
+    }
+
+    final initialSelection =
+        widget.items.firstWhere((e) => e.value == widget.initialValue);
+    if (initialSelection == null) {
+      throw ArgumentError.value("initialValue",
+          "Unable to find initial value in AppSelectFormField items");
+    }
+
+    return initialSelection;
+  }
+
+  Future<AppSelectFormFieldItem<T>> onTap(BuildContext context) async {
+    return await Navigator.push(
       context,
       MaterialPageRoute<AppSelectFormFieldItem<T>>(
         builder: (BuildContext context) {
@@ -101,28 +192,12 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
             data: AppFromSelectScreenData<T>(
               title: widget.labelText,
               items: widget.items,
-              selectedValue: _selectedItem?.value,
+              selectedValue: selectedItem?.value,
             ),
           );
         },
       ),
     );
-
-    if (item != null) {
-      _textEditingController.text = item.text;
-      _selectedItem = item;
-
-      if (widget.onChanged != null) {
-        widget.onChanged(item);
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    _textEditingController.dispose();
   }
 }
 
