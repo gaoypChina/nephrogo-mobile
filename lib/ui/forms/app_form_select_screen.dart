@@ -24,6 +24,7 @@ class AppFormSelectScreen<T> extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(data.title),
+        leading: CloseButton(),
       ),
       body: SingleChildScrollView(
         child: BasicSection(

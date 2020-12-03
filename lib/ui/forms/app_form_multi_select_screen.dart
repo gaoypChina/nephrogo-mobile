@@ -47,6 +47,7 @@ class _AppFormMultipleSelectScreenState<T>
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.data.title),
+        leading: CloseButton(),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => Navigator.pop(context, _getSelectedItems()),
@@ -83,6 +84,7 @@ class _AppFormMultipleSelectScreenState<T>
           : null,
       trailing: Checkbox(
         value: selected,
+        activeColor: primaryColor,
         onChanged: (b) => onTap(index),
       ),
       selected: selected,
