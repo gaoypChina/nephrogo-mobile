@@ -45,7 +45,7 @@ class ProfileTab extends StatelessWidget {
             BasicSection(
               child: ProfileCell(
                 title: Text("Mano būklė"),
-                leading: Icon(Icons.quick_contacts_dialer),
+                leading: Icon(Icons.medical_services),
                 trailing: Icon(Icons.chevron_right),
                 onTap: () {
                   Navigator.pushNamed(
@@ -80,16 +80,13 @@ class ProfileCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: ListTile(
-        contentPadding: EdgeInsets.zero,
-        leading: leading,
-        title: title,
-        subtitle: subtitle,
-        trailing: trailing,
-        onTap: onTap,
-      ),
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: leading,
+      title: title,
+      subtitle: subtitle,
+      trailing: trailing,
+      onTap: onTap,
     );
   }
 }

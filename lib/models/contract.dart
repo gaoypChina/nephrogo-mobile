@@ -240,3 +240,79 @@ class DailyIntake {
         .toList();
   }
 }
+
+@JsonSerializable()
+class DailyHealthIndicators {
+  @JsonKey()
+  final int id;
+
+  @JsonKey()
+  final DateTime date;
+
+  @JsonKey()
+  final int systolicBloodPressure;
+  @JsonKey()
+  final int diastolicBloodPressure;
+
+  @JsonKey()
+  final int weight;
+
+  @JsonKey()
+  final int urineMl;
+
+  @JsonKey()
+  final int severityOfSwelling;
+
+  @JsonKey()
+  final int numberOfSwellings;
+
+  @JsonKey()
+  final int feelingAtEase;
+
+  @JsonKey()
+  final int apetite;
+
+  @JsonKey()
+  final int shortnessOfBreath;
+
+  const DailyHealthIndicators(
+    this.id,
+    this.date,
+    this.systolicBloodPressure,
+    this.diastolicBloodPressure,
+    this.weight,
+    this.urineMl,
+    this.severityOfSwelling,
+    this.numberOfSwellings,
+    this.feelingAtEase,
+    this.apetite,
+    this.shortnessOfBreath,
+  );
+
+  factory DailyHealthIndicators.fromJson(Map<String, dynamic> json) =>
+      _$DailyHealthIndicatorsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DailyHealthIndicatorsToJson(this);
+
+  static DailyHealthIndicators generateDummy({int day: 1}) {
+    return DailyHealthIndicators(
+      random.integer(10000000),
+      DateTime(2020, 12, day),
+      random.integer(200, min: 130),
+      random.integer(120, min: 60),
+      random.integer(110, min: 100),
+      random.integer(700, min: 400),
+      random.integer(4, min: 0),
+      random.integer(4, min: 0),
+      random.integer(5, min: 1),
+      random.integer(5, min: 1),
+      random.integer(4, min: 0),
+    );
+  }
+
+  static List<DailyHealthIndicators> generateDummies() {
+    return List.generate(30, (index) => DailyHealthIndicators.generateDummy(day: index))
+        .reversed
+        .toList();
+  }
+}

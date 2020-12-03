@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
+
+import 'health_indicators_section.dart';
 
 class HealthIndicatorsTab extends StatelessWidget {
   @override
@@ -20,12 +23,19 @@ class HealthIndicatorsTab extends StatelessWidget {
 }
 
 class HealthIndicatorsTabBody extends StatelessWidget {
+  final dailyHealthIndicators = DailyHealthIndicators.generateDummies();
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [Text("TODO")],
-      ),
+    return ListView.builder(
+      itemCount: dailyHealthIndicators.length,
+      itemBuilder: (context, index) {
+        final dailyHealthIndicator = dailyHealthIndicators[index];
+
+        return HealthIndicatorsSection(
+          dailyHealthIndicators: dailyHealthIndicator,
+        );
+      },
     );
   }
 }

@@ -138,3 +138,36 @@ Map<String, dynamic> _$DailyIntakeToJson(DailyIntake instance) =>
       'energyKC': instance.energyKC,
       'liquidsMl': instance.liquidsMl,
     };
+
+DailyHealthIndicators _$DailyHealthIndicatorsFromJson(
+    Map<String, dynamic> json) {
+  return DailyHealthIndicators(
+    json['id'] as int,
+    json['date'] == null ? null : DateTime.parse(json['date'] as String),
+    json['systolicBloodPressure'] as int,
+    json['diastolicBloodPressure'] as int,
+    json['weight'] as int,
+    json['urineMl'] as int,
+    json['severityOfSwelling'] as int,
+    json['numberOfSwellings'] as int,
+    json['feelingAtEase'] as int,
+    json['apetite'] as int,
+    json['shortnessOfBreath'] as int,
+  );
+}
+
+Map<String, dynamic> _$DailyHealthIndicatorsToJson(
+        DailyHealthIndicators instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'date': instance.date?.toIso8601String(),
+      'systolicBloodPressure': instance.systolicBloodPressure,
+      'diastolicBloodPressure': instance.diastolicBloodPressure,
+      'weight': instance.weight,
+      'urineMl': instance.urineMl,
+      'severityOfSwelling': instance.severityOfSwelling,
+      'numberOfSwellings': instance.numberOfSwellings,
+      'feelingAtEase': instance.feelingAtEase,
+      'apetite': instance.apetite,
+      'shortnessOfBreath': instance.shortnessOfBreath,
+    };
