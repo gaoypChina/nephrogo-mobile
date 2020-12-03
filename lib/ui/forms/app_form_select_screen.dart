@@ -40,10 +40,11 @@ class AppFromSelectScreen<T> extends StatelessWidget {
 
   AppListTile _generateItemCell(
       BuildContext context, AppSelectFormFieldItem item) {
-    final iconData =
-        data.selectedValue != null && item.value == data.selectedValue
-            ? Icons.radio_button_on
-            : Icons.radio_button_off;
+    final selected =
+        data.selectedValue != null && item.value == data.selectedValue;
+    final primaryColor = Theme.of(context).primaryColor;
+
+    final iconData = selected ? Icons.radio_button_on : Icons.radio_button_off;
 
     return AppListTile(
       title: Text(item.title),
@@ -52,11 +53,13 @@ class AppFromSelectScreen<T> extends StatelessWidget {
           ? IconButton(
               icon: Icon(
                 item.icon,
+                color: selected ? primaryColor : null,
               ),
               onPressed: null,
             )
           : null,
-      trailing: Icon(iconData, color: Theme.of(context).primaryColor),
+      trailing: Icon(iconData, color: primaryColor),
+      selected: selected,
       onTap: () => Navigator.pop(context, item),
     );
   }

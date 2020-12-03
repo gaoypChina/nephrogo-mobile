@@ -157,6 +157,7 @@ class AppListTile extends StatelessWidget {
   final Widget subtitle;
   final Widget trailing;
   final GestureTapCallback onTap;
+  final bool selected;
 
   const AppListTile({
     Key key,
@@ -165,6 +166,7 @@ class AppListTile extends StatelessWidget {
     this.leading,
     this.trailing,
     this.onTap,
+    this.selected: false,
   }) : super(key: key);
 
   @override
@@ -176,6 +178,7 @@ class AppListTile extends StatelessWidget {
       subtitle: subtitle,
       trailing: trailing,
       onTap: onTap,
+      selected: selected,
     );
   }
 }

@@ -70,7 +70,7 @@ class _HealthIndicatorsCreationScreenState
                         padding: const EdgeInsets.all(8),
                         child: Text(
                           "Jei vartojate kraujo spaudimą reguliuojančius vaistus, "
-                              "kraujo spaudimą matuokite tik po vaistų suvartojimo!",
+                          "kraujo spaudimą matuokite tik po vaistų suvartojimo!",
                         ),
                       ),
                     ],
@@ -180,85 +180,112 @@ class _HealthIndicatorsCreationScreenState
                   ),
                 ),
                 SmallSection(
-                  title: "Dabartinė būsena",
+                  title: "Savijauta",
                   setLeftPadding: true,
                   child: Column(
                     children: [
-                      AppDropdownButtonFormField(
+                      AppSelectFormField<int>(
                         labelText: "Savijauta",
-                        onChanged: (value) {},
                         items: [
-                          AppDropdownMenuItem(
-                            text: "Puiki",
-                            value: "1",
+                          AppSelectFormFieldItem(
+                            title: "Puiki",
+                            description: "TODO description",
+                            icon: Icons.sentiment_very_satisfied,
+                            value: 0,
                           ),
-                          AppDropdownMenuItem(
-                            text: "Gera",
-                            value: "2",
+                          AppSelectFormFieldItem(
+                            title: "Gera",
+                            description: "TODO description",
+                            icon: Icons.sentiment_satisfied,
+                            value: 1,
                           ),
-                          AppDropdownMenuItem(
-                            text: "Vidutinė",
-                            value: "3",
+                          AppSelectFormFieldItem(
+                            title: "Vidutinė",
+                            description: "TODO description",
+                            icon: Icons.sentiment_dissatisfied,
+                            value: 2,
                           ),
-                          AppDropdownMenuItem(
-                            text: "Bloga",
-                            value: "4",
+                          AppSelectFormFieldItem(
+                            title: "Bloga",
+                            description: "TODO description",
+                            icon: Icons.sentiment_very_dissatisfied,
+                            value: 3,
                           ),
-                          AppDropdownMenuItem(
-                            text: "Labai bloga",
-                            value: "5",
+                          AppSelectFormFieldItem(
+                            title: "Labai bloga",
+                            description: "TODO description",
+                            icon: Icons.sick,
+                            value: 4,
                           ),
                         ],
                       ),
-                      AppDropdownButtonFormField(
+                      AppSelectFormField<int>(
                         labelText: "Apetitas",
-                        onChanged: (value) {},
                         items: [
-                          AppDropdownMenuItem(
-                            text: "Puikus",
-                            value: "1",
+                          AppSelectFormFieldItem(
+                            title: "Puikus",
+                            description: "TODO description",
+                            icon: Icons.sentiment_very_satisfied,
+                            value: 0,
                           ),
-                          AppDropdownMenuItem(
-                            text: "Geras",
-                            value: "2",
+                          AppSelectFormFieldItem(
+                            title: "Geras",
+                            description: "TODO description",
+                            icon: Icons.sentiment_satisfied,
+                            value: 1,
                           ),
-                          AppDropdownMenuItem(
-                            text: "Vidutinis",
-                            value: "3",
+                          AppSelectFormFieldItem(
+                            title: "Vidutinis",
+                            description: "TODO description",
+                            icon: Icons.sentiment_dissatisfied,
+                            value: 2,
                           ),
-                          AppDropdownMenuItem(
-                            text: "Prastas",
-                            value: "4",
+                          AppSelectFormFieldItem(
+                            title: "Blogas",
+                            description: "TODO description",
+                            icon: Icons.sentiment_very_dissatisfied,
+                            value: 3,
                           ),
-                          AppDropdownMenuItem(
-                            text: "Labai prastas",
-                            value: "5",
+                          AppSelectFormFieldItem(
+                            title: "Labai blogas",
+                            description: "TODO description",
+                            icon: Icons.sick,
+                            value: 4,
                           ),
                         ],
                       ),
-                      AppDropdownButtonFormField(
+                      AppSelectFormField<int>(
                         labelText: "Dusulys",
-                        onChanged: (value) {},
                         items: [
-                          AppDropdownMenuItem(
-                            text: "Nėra",
-                            value: "1",
+                          AppSelectFormFieldItem(
+                            title: "Nėra",
+                            description: "TODO description",
+                            icon: Icons.sentiment_very_satisfied,
+                            value: 0,
                           ),
-                          AppDropdownMenuItem(
-                            text: "Lengvas",
-                            value: "2",
+                          AppSelectFormFieldItem(
+                            title: "Lengvas",
+                            description: "TODO description",
+                            icon: Icons.sentiment_satisfied,
+                            value: 1,
                           ),
-                          AppDropdownMenuItem(
-                            text: "Vidutinis",
-                            value: "3",
+                          AppSelectFormFieldItem(
+                            title: "Vidutinis",
+                            description: "TODO description",
+                            icon: Icons.sentiment_dissatisfied,
+                            value: 2,
                           ),
-                          AppDropdownMenuItem(
-                            text: "Sunkus",
-                            value: "4",
+                          AppSelectFormFieldItem(
+                            title: "Sunkus",
+                            description: "TODO description",
+                            icon: Icons.sentiment_very_dissatisfied,
+                            value: 3,
                           ),
-                          AppDropdownMenuItem(
-                            text: "Labai sunkus",
-                            value: "5",
+                          AppSelectFormFieldItem(
+                            title: "Labai sunkus",
+                            description: "TODO description",
+                            icon: Icons.sick,
+                            value: 4,
                           ),
                         ],
                       ),
