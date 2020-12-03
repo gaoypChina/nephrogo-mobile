@@ -72,7 +72,7 @@ class ProfileTab extends StatelessWidget {
                   leading: Icon(Icons.lock),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
-                    launch(privacyPolicyUrl);
+                    _launchURL(privacyPolicyUrl);
                   },
                 ),
                 AppListTile(
@@ -80,7 +80,7 @@ class ProfileTab extends StatelessWidget {
                   leading: Icon(Icons.description),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
-                    launch(rulesUrl);
+                    _launchURL(rulesUrl);
                   },
                 ),
               ],
@@ -98,6 +98,14 @@ class ProfileTab extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   Future<String> _getVersionString() async {
