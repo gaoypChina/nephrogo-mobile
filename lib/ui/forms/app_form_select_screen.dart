@@ -44,7 +44,8 @@ class AppFormSelectScreen<T> extends StatelessWidget {
         data.selectedValue != null && item.value == data.selectedValue;
     final primaryColor = Theme.of(context).primaryColor;
 
-    final iconData = selected ? Icons.radio_button_on : Icons.radio_button_off;
+    final radioIconData =
+        selected ? Icons.radio_button_on : Icons.radio_button_off;
 
     return AppListTile(
       title: Text(item.text),
@@ -58,7 +59,7 @@ class AppFormSelectScreen<T> extends StatelessWidget {
               onPressed: null,
             )
           : null,
-      trailing: Icon(iconData, color: primaryColor),
+      trailing: Icon(radioIconData, color: primaryColor),
       selected: selected,
       onTap: () => Navigator.pop(context, item),
     );

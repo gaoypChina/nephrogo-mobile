@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nephrolog/ui/components.dart';
 import 'package:nephrolog/ui/forms/forms.dart';
+import 'package:nephrolog/extensions/CollectionExtensions.dart';
 
 class AppFormMultipleSelectScreenData<T> {
   final String title;
@@ -27,13 +28,18 @@ class AppFormMultipleSelectScreen<T> extends StatefulWidget {
 
 class _AppFormMultipleSelectScreenState<T>
     extends State<AppFormMultipleSelectScreen<T>> {
-  List<AppSelectFormFieldItem<T>> _selectedItems;
+  List<bool> _itemsSelection;
 
   @override
   void initState() {
     super.initState();
 
-    _selectedItems = [...widget.data.selectedItems];
+    _itemsSelection = widget.data.items
+        .map((e) =>
+            widget.data.selectedItems
+                .firstWhere((s) => e.value == s.value, orElse: () => null) !=
+            null)
+        .toList();
   }
 
   @override
@@ -43,7 +49,7 @@ class _AppFormMultipleSelectScreenState<T>
         title: Text(widget.data.title),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.pop(context, _selectedItems),
+        onPressed: () => Navigator.pop(context, _getSelectedItems()),
         label: Text("PASIRINKTI"),
         icon: Icon(Icons.save),
       ),
@@ -52,7 +58,7 @@ class _AppFormMultipleSelectScreenState<T>
           padding: EdgeInsets.zero,
           child: Column(
             children: widget.data.items
-                .map((item) => _generateItemCell(context, item))
+                .mapIndexed((item, i) => _generateItemCell(context, item, i))
                 .toList(),
           ),
         ),
@@ -61,10 +67,8 @@ class _AppFormMultipleSelectScreenState<T>
   }
 
   AppListTile _generateItemCell(
-      BuildContext context, AppSelectFormFieldItem item) {
-    final selected = _selectedItems.firstWhere((e) => e.value == item.value,
-            orElse: () => null) !=
-        null;
+      BuildContext context, AppSelectFormFieldItem item, int index) {
+    final selected = _itemsSelection[index];
 
     final primaryColor = Theme.of(context).primaryColor;
     return AppListTile(
@@ -81,18 +85,27 @@ class _AppFormMultipleSelectScreenState<T>
           : null,
       trailing: Checkbox(
         value: selected,
-        onChanged: null,
+        onChanged: (b) => onTap(index),
       ),
       selected: selected,
-      onTap: () {
-        setState(() {
-          if (selected) {
-            _selectedItems.remove(item);
-          } else {
-            _selectedItems.add(item);
-          }
-        });
-      },
+      onTap: () => onTap(index),
     );
+  }
+
+  onTap(int index) {
+    setState(() {
+      _itemsSelection[index] ^= true;
+    });
+  }
+
+  List<AppSelectFormFieldItem<T>> _getSelectedItems() {
+    List<AppSelectFormFieldItem<T>> selectedItems = [];
+    for (int i = 0; i < _itemsSelection.length; ++i) {
+      if (_itemsSelection[i]) {
+        selectedItems.add(widget.data.items[i]);
+      }
+    }
+
+    return selectedItems;
   }
 }

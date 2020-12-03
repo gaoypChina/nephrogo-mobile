@@ -295,13 +295,7 @@ class _AppMultipleSelectFormFieldState<T>
   Widget build(BuildContext context) {
     return AppSelectionScreenFormField<List<AppSelectFormFieldItem<T>>>(
       onTap: onTap,
-      itemToStringConverter: (items) {
-        if (items.isNotEmpty) {
-          return "Pasirinkti ${items.length}";
-        }
-
-        return "Nieko nepasirinkta";
-      },
+      itemToStringConverter: (items) => items.map((e) => e.text).join(", "),
       labelText: widget.labelText,
       helperText: widget.helperText,
       iconData: widget.iconData,
