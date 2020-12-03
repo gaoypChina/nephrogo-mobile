@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/DateExtensions.dart';
 
+import 'app_form_multi_select_screen.dart';
 import 'app_form_select_screen.dart';
 
 typedef FormFieldItemSetter<T> = void Function(T newItem);
@@ -246,8 +247,8 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
       context,
       MaterialPageRoute<AppSelectFormFieldItem<T>>(
         builder: (BuildContext context) {
-          return AppFromSelectScreen<T>(
-            data: AppFromSelectScreenData<T>(
+          return AppFormSelectScreen<T>(
+            data: AppFormSelectScreenData<T>(
               title: widget.labelText,
               items: widget.items,
               selectedValue: selectedItem?.value,
@@ -260,6 +261,74 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
     selectedItem = item ?? selectedItem;
 
     return item;
+  }
+}
+
+class AppMultipleSelectFormField<T> extends StatefulWidget {
+  final List<AppSelectFormFieldItem<T>> items;
+  final String labelText;
+  final String helperText;
+  final IconData iconData;
+  final FormFieldSetter<List<AppSelectFormFieldItem<T>>> onChanged;
+  final FormFieldSetter<List<AppSelectFormFieldItem<T>>> onSaved;
+
+  const AppMultipleSelectFormField({
+    Key key,
+    @required this.items,
+    this.labelText,
+    this.helperText,
+    this.iconData,
+    this.onChanged,
+    this.onSaved,
+  }) : super(key: key);
+
+  @override
+  _AppMultipleSelectFormFieldState<T> createState() =>
+      _AppMultipleSelectFormFieldState<T>();
+}
+
+class _AppMultipleSelectFormFieldState<T>
+    extends State<AppMultipleSelectFormField<T>> {
+  List<AppSelectFormFieldItem<T>> _selectedItems = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return AppSelectionScreenFormField<List<AppSelectFormFieldItem<T>>>(
+      onTap: onTap,
+      itemToStringConverter: (items) {
+        if (items.isNotEmpty) {
+          return "Pasirinkti ${items.length}";
+        }
+
+        return "Nieko nepasirinkta";
+      },
+      labelText: widget.labelText,
+      helperText: widget.helperText,
+      iconData: widget.iconData,
+      onChanged: widget.onChanged,
+      onSaved: widget.onSaved,
+    );
+  }
+
+  Future<List<AppSelectFormFieldItem<T>>> onTap(BuildContext context) async {
+    final items = await Navigator.push(
+      context,
+      MaterialPageRoute<List<AppSelectFormFieldItem<T>>>(
+        builder: (BuildContext context) {
+          return AppFormMultipleSelectScreen<T>(
+            data: AppFormMultipleSelectScreenData<T>(
+              title: widget.labelText,
+              items: widget.items,
+              selectedItems: _selectedItems,
+            ),
+          );
+        },
+      ),
+    );
+
+    _selectedItems = items ?? _selectedItems;
+
+    return items;
   }
 }
 

@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:nephrolog/ui/components.dart';
 import 'package:nephrolog/ui/forms/forms.dart';
 
-class AppFromSelectScreenData<T> {
+class AppFormSelectScreenData<T> {
   final String title;
   final List<AppSelectFormFieldItem> items;
   final T selectedValue;
 
-  const AppFromSelectScreenData({
+  const AppFormSelectScreenData({
     this.title,
     @required this.items,
     this.selectedValue,
   });
 }
 
-class AppFromSelectScreen<T> extends StatelessWidget {
-  final AppFromSelectScreenData<T> data;
+class AppFormSelectScreen<T> extends StatelessWidget {
+  final AppFormSelectScreenData<T> data;
 
-  const AppFromSelectScreen({Key key, @required this.data}) : super(key: key);
+  const AppFormSelectScreen({Key key, @required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

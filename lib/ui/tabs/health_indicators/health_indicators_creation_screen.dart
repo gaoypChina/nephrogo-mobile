@@ -140,7 +140,7 @@ class _HealthIndicatorsCreationScreenState
                           ),
                         ],
                       ),
-                      AppSelectFormField<String>(
+                      AppMultipleSelectFormField<String>(
                         labelText: "Patinimų lokalizacija",
                         onChanged: (value) {},
                         items: [
