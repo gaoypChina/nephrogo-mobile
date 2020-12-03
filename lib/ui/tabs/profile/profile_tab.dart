@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/ui/components.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:package_info/package_info.dart';
 
 class ProfileTab extends StatelessWidget {
+  static const privacyPolicyUrl =
+      "https://www.nephrolog.lt/privatumo-politika/";
+  static const rulesUrl = "https://www.nephrolog.lt/privatumo-politika/";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,9 +65,48 @@ class ProfileTab extends StatelessWidget {
                 ),
               ],
             ),
+            AppListTile(
+              title: Text("Privatumo politika"),
+              leading: Icon(Icons.lock),
+              trailing: Icon(Icons.chevron_right),
+              onTap: () {
+                _launchURL(privacyPolicyUrl);
+              },
+            ),
+            AppListTile(
+              title: Text("Naudojimosi taisyklės"),
+              leading: Icon(Icons.description),
+              trailing: Icon(Icons.chevron_right),
+              onTap: () {
+                _launchURL(privacyPolicyUrl);
+              },
+            ),
+            FutureBuilder(
+              future: _getVersionString(),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.hasData) {
+                  return Center(child: Text(snapshot.data));
+                }
+                return SizedBox.shrink();
+              },
+            )
           ],
         ),
       ),
     );
+  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Future<String> _getVersionString() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+
+    return "${packageInfo.version} (${packageInfo.buildNumber})";
   }
 }
