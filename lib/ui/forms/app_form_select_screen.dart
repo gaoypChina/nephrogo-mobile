@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:nephrolog/ui/components.dart';
 import 'package:nephrolog/ui/forms.dart';
 
-class AppFromSelectScreenData {
+class AppFromSelectScreenData<T> {
   final String title;
   final List<AppSelectFormFieldItem> items;
-  final int selectedValue;
+  final T selectedValue;
 
   const AppFromSelectScreenData({
     this.title,
@@ -14,8 +14,8 @@ class AppFromSelectScreenData {
   });
 }
 
-class AppFromSelectScreen extends StatelessWidget {
-  final AppFromSelectScreenData data;
+class AppFromSelectScreen<T> extends StatelessWidget {
+  final AppFromSelectScreenData<T> data;
 
   const AppFromSelectScreen({Key key, @required this.data}) : super(key: key);
 

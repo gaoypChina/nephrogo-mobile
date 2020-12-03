@@ -70,7 +70,7 @@ class _HealthIndicatorsCreationScreenState
                         padding: const EdgeInsets.all(8),
                         child: Text(
                           "Jei vartojate kraujo spaudimą reguliuojančius vaistus, "
-                          "kraujo spaudimą matuokite tik po vaistų suvartojimo!",
+                              "kraujo spaudimą matuokite tik po vaistų suvartojimo!",
                         ),
                       ),
                     ],
@@ -103,7 +103,7 @@ class _HealthIndicatorsCreationScreenState
                   setLeftPadding: true,
                   child: Column(
                     children: [
-                      AppSelectFormField(
+                      AppSelectFormField<int>(
                         labelText: "Patinimų sunkumas",
                         items: [
                           AppSelectFormFieldItem(

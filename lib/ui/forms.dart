@@ -75,11 +75,11 @@ class AppDropdownButtonFormField<T> extends StatelessWidget {
   }
 }
 
-class AppSelectFormFieldItem {
+class AppSelectFormFieldItem<T> {
   final String title;
   final String description;
   final IconData icon;
-  final int value;
+  final T value;
 
   const AppSelectFormFieldItem({
     @required this.title,
@@ -89,13 +89,13 @@ class AppSelectFormFieldItem {
   });
 }
 
-class AppSelectFormField extends StatefulWidget {
-  final List<AppSelectFormFieldItem> items;
+class AppSelectFormField<T> extends StatefulWidget {
+  final List<AppSelectFormFieldItem<T>> items;
   final String labelText;
   final String helperText;
   final IconData iconData;
-  final FormFieldSetter<AppSelectFormFieldItem> onChanged;
-  final FormFieldSetter<AppSelectFormFieldItem> onSaved;
+  final FormFieldSetter<AppSelectFormFieldItem<T>> onChanged;
+  final FormFieldSetter<AppSelectFormFieldItem<T>> onSaved;
   final int initialValue;
 
   const AppSelectFormField({
@@ -110,10 +110,10 @@ class AppSelectFormField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AppSelectFormFieldState createState() => _AppSelectFormFieldState();
+  _AppSelectFormFieldState createState() => _AppSelectFormFieldState<T>();
 }
 
-class _AppSelectFormFieldState extends State<AppSelectFormField> {
+class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
   TextEditingController _textEditingController = TextEditingController();
   AppSelectFormFieldItem _selectedItem;
 
@@ -153,17 +153,20 @@ class _AppSelectFormFieldState extends State<AppSelectFormField> {
   }
 
   Future<void> onTap(BuildContext context) async {
-    AppSelectFormFieldItem item = await Navigator.push(context,
-        MaterialPageRoute<AppSelectFormFieldItem>(
-            builder: (BuildContext context) {
-      return AppFromSelectScreen(
-        data: AppFromSelectScreenData(
-          title: widget.labelText,
-          items: widget.items,
-          selectedValue: _selectedItem.value,
-        ),
-      );
-    }));
+    AppSelectFormFieldItem<T> item = await Navigator.push(
+      context,
+      MaterialPageRoute<AppSelectFormFieldItem<T>>(
+        builder: (BuildContext context) {
+          return AppFromSelectScreen<T>(
+            data: AppFromSelectScreenData<T>(
+              title: widget.labelText,
+              items: widget.items,
+              selectedValue: _selectedItem?.value,
+            ),
+          );
+        },
+      ),
+    );
 
     if (item != null) {
       _textEditingController.text = item.title;
