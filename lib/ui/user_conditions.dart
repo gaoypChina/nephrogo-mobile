@@ -63,7 +63,6 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                         initialDate: DateTime(1995, 6, 26),
                         initialDatePickerMode: DatePickerMode.year,
                         initialEntryMode: DatePickerEntryMode.input,
-                        suffixIcon: Icons.calendar_today,
                         dateFormat: _birthdayFormat,
                         onDateSaved: (v) => print(v),
                       ),
@@ -72,7 +71,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                         suffixText: "cm",
                         onSaved: (v) => print(v),
                       ),
-                      AppIntegerFormField(
+                      AppFloatInputField(
                         labelText: "Svoris",
                         helperText:
                             "Jeigu atliekate dializes, įrašykite savo sausąjį svorį",

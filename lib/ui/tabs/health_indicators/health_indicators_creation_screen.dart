@@ -81,7 +81,7 @@ class _HealthIndicatorsCreationScreenState
                   setLeftPadding: true,
                   child: Column(
                     children: [
-                      AppIntegerFormField(
+                      AppFloatInputField(
                         labelText: "Kūno svoris",
                         suffixText: "kg",
                         helperText:

@@ -50,9 +50,9 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
               children: <Widget>[
                 AppDatePickerFormField(
                   initialDate: _mealDate,
+                  selectedDate: _mealDate,
                   firstDate: DateTime(2020),
                   lastDate: DateTime.now(),
-                  showInitialValue: true,
                   dateFormat: _dateFormat,
                   iconData: Icons.calendar_today,
                   onDateSaved: (dt) => print(dt),
@@ -62,7 +62,6 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                   labelText: "Laikas",
                   iconData: Icons.access_time,
                   initialTime: _mealTimeOfDay,
-                  showInitialValue: true,
                   onTimeSaved: (t) => print(t),
                 ),
                 AppSelectionFormField(

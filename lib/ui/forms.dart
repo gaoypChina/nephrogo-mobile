@@ -17,6 +17,72 @@ class AppDropdownMenuItem<T> {
 
 const _defaultFieldPadding = const EdgeInsets.all(8.0);
 
+class AppTextFormField extends StatelessWidget {
+  final TextEditingController controller;
+  final String labelText;
+  final String helperText;
+  final String hintText;
+  final String initialValue;
+  final IconData iconData;
+  final FormFieldValidator<String> validator;
+  final FormFieldSetter<String> onSaved;
+  final TextInputType keyboardType;
+  final List<TextInputFormatter> inputFormatters;
+  final String suffixText;
+  final GestureTapCallback onTap;
+  final EdgeInsets padding;
+  final bool disabled;
+  final bool autoFocus;
+  final suffixIconData;
+
+  const AppTextFormField({
+    Key key,
+    @required this.labelText,
+    this.onSaved,
+    this.helperText,
+    this.hintText,
+    this.iconData,
+    this.validator,
+    this.controller,
+    this.keyboardType,
+    this.inputFormatters,
+    this.suffixText,
+    this.onTap,
+    this.initialValue,
+    this.suffixIconData,
+    this.padding = _defaultFieldPadding,
+    this.autoFocus = false,
+    this.disabled = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: padding,
+      child: TextFormField(
+        decoration: InputDecoration(
+          labelText: labelText,
+          helperText: helperText,
+          suffixText: suffixText,
+          hintText: hintText,
+          suffixIcon: suffixIconData != null ? Icon(suffixIconData) : null,
+          icon: iconData != null ? Icon(iconData) : null,
+        ),
+        validator: validator,
+        onSaved: onSaved,
+        keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
+        controller: controller,
+        initialValue: initialValue,
+        readOnly: disabled,
+        autofocus: autoFocus,
+        enableInteractiveSelection: !disabled,
+        onTap: onTap,
+      ),
+    );
+  }
+}
+
 class AppSelectFormFieldItem<T> {
   final String text;
   final String description;
@@ -154,18 +220,10 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
       labelText: widget.labelText,
       helperText: widget.helperText,
       iconData: widget.iconData,
-      onChanged: _onChanged,
+      onChanged: widget.onChanged,
       onSaved: widget.onSaved,
       initialSelection: selectedItem,
     );
-  }
-
-  _onChanged(AppSelectFormFieldItem<T> newlySelectedItem) {
-    selectedItem = newlySelectedItem;
-
-    if (widget.onSaved != null) {
-      widget.onSaved(selectedItem);
-    }
   }
 
   AppSelectFormFieldItem<T> _getInitialSelection() {
@@ -184,7 +242,7 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
   }
 
   Future<AppSelectFormFieldItem<T>> onTap(BuildContext context) async {
-    return await Navigator.push(
+    final item = await Navigator.push(
       context,
       MaterialPageRoute<AppSelectFormFieldItem<T>>(
         builder: (BuildContext context) {
@@ -198,69 +256,10 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
         },
       ),
     );
-  }
-}
 
-class AppTextFormField extends StatelessWidget {
-  final TextEditingController controller;
-  final String labelText;
-  final String helperText;
-  final String initialValue;
-  final IconData iconData;
-  final FormFieldValidator<String> validator;
-  final FormFieldSetter<String> onSaved;
-  final TextInputType keyboardType;
-  final List<TextInputFormatter> inputFormatters;
-  final String suffixText;
-  final GestureTapCallback onTap;
-  final EdgeInsets padding;
-  final bool disabled;
-  final bool autoFocus;
-  final suffixIconData;
+    selectedItem = item ?? selectedItem;
 
-  const AppTextFormField({
-    Key key,
-    @required this.labelText,
-    this.onSaved,
-    this.helperText,
-    this.iconData,
-    this.validator,
-    this.controller,
-    this.keyboardType,
-    this.inputFormatters,
-    this.suffixText,
-    this.onTap,
-    this.initialValue,
-    this.suffixIconData,
-    this.padding = _defaultFieldPadding,
-    this.autoFocus = false,
-    this.disabled = false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: labelText,
-          helperText: helperText,
-          suffixText: suffixText,
-          suffixIcon: suffixIconData != null ? Icon(suffixIconData) : null,
-          icon: iconData != null ? Icon(iconData) : null,
-        ),
-        validator: validator,
-        onSaved: onSaved,
-        keyboardType: keyboardType,
-        inputFormatters: inputFormatters,
-        controller: controller,
-        initialValue: initialValue,
-        readOnly: disabled,
-        autofocus: autoFocus,
-        enableInteractiveSelection: !disabled,
-        onTap: onTap,
-      ),
-    );
+    return item;
   }
 }
 
@@ -309,6 +308,7 @@ class AppSelectionFormField<T> extends StatelessWidget {
 
 class AppDatePickerFormField extends StatefulWidget {
   final DateTime initialDate;
+  final DateTime selectedDate;
   final DateTime firstDate;
   final DateTime lastDate;
 
@@ -317,27 +317,26 @@ class AppDatePickerFormField extends StatefulWidget {
   final IconData iconData;
   final FormFieldValidator<String> validator;
   final FormFieldSetter<DateTime> onDateSaved;
+  final FormFieldSetter<DateTime> onDateChanged;
   final DateFormat dateFormat;
-  final bool showInitialValue;
   final DatePickerEntryMode initialEntryMode;
   final DatePickerMode initialDatePickerMode;
-  final IconData suffixIcon;
 
   const AppDatePickerFormField({
     Key key,
     @required this.initialDate,
     @required this.firstDate,
     @required this.lastDate,
-    @required this.onDateSaved,
+    this.selectedDate,
+    this.onDateSaved,
+    this.onDateChanged,
     this.dateFormat,
     this.labelText,
     this.helperText,
     this.iconData,
     this.validator,
-    this.suffixIcon,
     this.initialEntryMode = DatePickerEntryMode.calendar,
     this.initialDatePickerMode = DatePickerMode.day,
-    this.showInitialValue = false,
   }) : super(key: key);
 
   @override
@@ -350,41 +349,27 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
   // TODO this is a bug with platform translation. Incorrect format is shown. Set to correct one.
   static const _fieldHintText = "yyyy-mm-dd";
 
-  DateFormat _dateFormat;
-  TextEditingController _textEditingController = TextEditingController();
-
-  DateTime _selectedDateTime;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _dateFormat = widget.dateFormat ?? _defaultDateFormat;
-
-    if (widget.showInitialValue) {
-      _setNewDateTime(widget.initialDate);
-    }
-  }
+  DateTime selectedDateTime;
 
   @override
   Widget build(BuildContext context) {
-    return AppSelectionFormField(
+    selectedDateTime = widget.selectedDate;
+
+    return AppSelectionScreenFormField<DateTime>(
       onTap: _onTap,
-      textEditingController: _textEditingController,
+      itemToStringConverter: (date) {
+        return (widget.dateFormat ?? _defaultDateFormat).format(date);
+      },
       labelText: widget.labelText,
       helperText: widget.helperText,
       iconData: widget.iconData,
-      validator: widget.validator,
-      suffixIcon: widget.suffixIcon,
-      onSaved: _onSaved,
+      onSaved: widget.onDateSaved,
+      onChanged: widget.onDateChanged,
+      initialSelection: selectedDateTime,
     );
   }
 
-  _onSaved(String s) {
-    widget.onDateSaved(_selectedDateTime);
-  }
-
-  _onTap() async {
+  Future<DateTime> _onTap(BuildContext context) async {
     final dateTime = await showDatePicker(
       context: context,
       firstDate: widget.firstDate,
@@ -395,45 +380,28 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
       fieldHintText: _fieldHintText,
     );
 
-    _setNewDateTime(dateTime);
-  }
+    selectedDateTime = dateTime ?? selectedDateTime;
 
-  _setNewDateTime(DateTime newlySelectedDateTime) {
-    if (newlySelectedDateTime != null) {
-      _selectedDateTime = newlySelectedDateTime;
-      _textEditingController.text = _dateFormat.format(newlySelectedDateTime);
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    _textEditingController.dispose();
+    return dateTime;
   }
 }
 
 class AppTimePickerFormField extends StatefulWidget {
   final TimeOfDay initialTime;
-
   final String labelText;
   final String helperText;
   final IconData iconData;
-  final FormFieldValidator<String> validator;
   final FormFieldSetter<TimeOfDay> onTimeSaved;
-  final bool showInitialValue;
-  final IconData suffixIcon;
+  final FormFieldSetter<TimeOfDay> onTimeChanged;
 
   const AppTimePickerFormField({
     Key key,
     @required this.initialTime,
-    @required this.onTimeSaved,
+    this.onTimeSaved,
+    this.onTimeChanged,
     this.labelText,
     this.helperText,
     this.iconData,
-    this.validator,
-    this.suffixIcon,
-    this.showInitialValue = false,
   }) : super(key: key);
 
   @override
@@ -443,65 +411,44 @@ class AppTimePickerFormField extends StatefulWidget {
 class _AppTimePickerFormFieldState extends State<AppTimePickerFormField> {
   static final DateFormat _defaultDateFormat = DateFormat.Hm();
 
-  TextEditingController _textEditingController = TextEditingController();
-
   TimeOfDay _selectedTimeOfDay;
 
   @override
-  void initState() {
-    super.initState();
-
-    if (widget.showInitialValue) {
-      _setNewTimeOfDay(widget.initialTime);
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return AppSelectionFormField(
+    _selectedTimeOfDay = widget.initialTime;
+
+    return AppSelectionScreenFormField<TimeOfDay>(
       onTap: _onTap,
-      textEditingController: _textEditingController,
+      itemToStringConverter: (newlySelectedTimeOfDay) {
+        final newDateTime = DateTime.now().applied(newlySelectedTimeOfDay);
+
+        return _defaultDateFormat.format(newDateTime);
+      },
       labelText: widget.labelText,
       helperText: widget.helperText,
       iconData: widget.iconData,
-      validator: widget.validator,
-      suffixIcon: widget.suffixIcon,
-      onSaved: _onSaved,
+      onSaved: widget.onTimeSaved,
+      onChanged: widget.onTimeChanged,
+      initialSelection: widget.initialTime,
     );
   }
 
-  _onSaved(String s) {
-    widget.onTimeSaved(_selectedTimeOfDay);
-  }
-
-  _onTap() async {
+  Future<TimeOfDay> _onTap(BuildContext _) async {
     final timeOfDay = await showTimePicker(
       context: context,
-      initialTime: widget.initialTime,
+      initialTime: widget.initialTime ?? TimeOfDay.now(),
     );
 
-    _setNewTimeOfDay(timeOfDay);
-  }
+    _selectedTimeOfDay = timeOfDay ?? _selectedTimeOfDay;
 
-  _setNewTimeOfDay(TimeOfDay newlySelectedTimeOfDay) {
-    if (newlySelectedTimeOfDay != null) {
-      _selectedTimeOfDay = newlySelectedTimeOfDay;
-      _textEditingController.text = _defaultDateFormat
-          .format(DateTime.now().applied(newlySelectedTimeOfDay));
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    _textEditingController.dispose();
+    return timeOfDay;
   }
 }
 
 class AppIntegerFormField extends StatelessWidget {
   final String labelText;
   final String helperText;
+  final String hintText;
   final IconData iconData;
   final FormFieldValidator<String> validator;
   final FormFieldSetter<int> onSaved;
@@ -515,6 +462,7 @@ class AppIntegerFormField extends StatelessWidget {
     this.iconData,
     this.validator,
     this.suffixText,
+    this.hintText,
   }) : super(key: key);
 
   @override
@@ -522,6 +470,7 @@ class AppIntegerFormField extends StatelessWidget {
     return AppTextFormField(
       labelText: labelText,
       helperText: helperText,
+      hintText: hintText,
       iconData: iconData,
       validator: validator,
       onSaved: onSaved != null ? _onSaved : null,
@@ -533,6 +482,50 @@ class AppIntegerFormField extends StatelessWidget {
 
   _onSaved(String v) {
     int n = v != null ? int.parse(v) : null;
+
+    this.onSaved(n);
+  }
+}
+
+class AppFloatInputField extends StatelessWidget {
+  final String labelText;
+  final String helperText;
+  final String hintText;
+  final IconData iconData;
+  final FormFieldValidator<String> validator;
+  final FormFieldSetter<double> onSaved;
+  final String suffixText;
+
+  const AppFloatInputField({
+    Key key,
+    @required this.onSaved,
+    @required this.labelText,
+    this.hintText,
+    this.helperText,
+    this.iconData,
+    this.validator,
+    this.suffixText,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppTextFormField(
+      labelText: labelText,
+      helperText: helperText,
+      iconData: iconData,
+      validator: validator,
+      hintText: hintText,
+      onSaved: onSaved != null ? _onSaved : null,
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'(\d+\.?\d*)|(\.\d+)'))
+      ],
+      suffixText: suffixText,
+    );
+  }
+
+  _onSaved(String v) {
+    final n = v != null ? double.parse(v) : null;
 
     this.onSaved(n);
   }
