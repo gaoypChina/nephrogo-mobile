@@ -263,49 +263,6 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
   }
 }
 
-class AppSelectionFormField<T> extends StatelessWidget {
-  final String labelText;
-  final String helperText;
-  final IconData iconData;
-  final FormFieldValidator<String> validator;
-  final autoFocus;
-
-  final FormFieldSetter<String> onSaved;
-  final String initialText;
-  final GestureTapCallback onTap;
-  final TextEditingController textEditingController;
-  final IconData suffixIcon;
-
-  const AppSelectionFormField({
-    Key key,
-    @required this.onTap,
-    @required this.textEditingController,
-    this.labelText,
-    this.helperText,
-    this.iconData,
-    this.validator,
-    this.initialText,
-    this.onSaved,
-    this.suffixIcon,
-    this.autoFocus = false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AppTextFormField(
-      labelText: labelText,
-      controller: textEditingController,
-      helperText: helperText,
-      iconData: iconData,
-      validator: validator,
-      disabled: true,
-      autoFocus: autoFocus,
-      onTap: onTap,
-      suffixIconData: suffixIcon,
-    );
-  }
-}
-
 class AppDatePickerFormField extends StatefulWidget {
   final DateTime initialDate;
   final DateTime selectedDate;

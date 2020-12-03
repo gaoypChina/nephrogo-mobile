@@ -15,20 +15,11 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
 
   final _dateFormat = DateFormat.yMMMMEEEEd();
 
-  final _productTextEditingController = TextEditingController();
-
   var _mealDate = DateTime.now();
   var _mealTimeOfDay = TimeOfDay.now();
   int _quantityInGrams;
 
   Product _selectedProduct;
-
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => showProductSearchScreen(context));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +55,12 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                   initialTime: _mealTimeOfDay,
                   onTimeSaved: (t) => print(t),
                 ),
-                AppSelectionFormField(
+                AppSelectionScreenFormField<Product>(
                   labelText: "Produktas",
                   iconData: Icons.restaurant_outlined,
-                  textEditingController: _productTextEditingController,
-                  onTap: () => showProductSearchScreen(context),
+                  itemToStringConverter: (p) => p.name,
+                  onTap: showProductSearch,
+                  onSaved: (p) => _selectedProduct = p,
                 ),
                 AppIntegerFormField(
                   labelText: "Kiekis",
@@ -84,15 +76,6 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
         ),
       ),
     );
-  }
-
-  showProductSearchScreen(BuildContext context) async {
-    final product = await showProductSearch(context);
-
-    if (product != null) {
-      _selectedProduct = product;
-      _productTextEditingController.text = product.name;
-    }
   }
 
   validateAndSaveMeal(BuildContext context) {
@@ -111,11 +94,5 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
     print(_quantityInGrams);
 
     Navigator.pop(context);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _productTextEditingController.dispose();
   }
 }
