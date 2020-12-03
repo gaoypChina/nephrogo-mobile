@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class BasicSection extends StatelessWidget {
-  final Widget child;
+  final List<Widget> children;
   final EdgeInsetsGeometry padding;
 
   const BasicSection({
     Key key,
-    @required this.child,
+    @required this.children,
     this.padding = const EdgeInsets.only(bottom: 18.0),
   }) : super(key: key);
 
@@ -24,7 +24,10 @@ class BasicSection extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
-          child: child,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: children,
+          ),
         ),
       ),
     );
@@ -32,7 +35,7 @@ class BasicSection extends StatelessWidget {
 }
 
 class LargeSection extends StatelessWidget {
-  final Widget child;
+  final List<Widget> children;
   final String title;
   final String subTitle;
   final Widget leading;
@@ -40,7 +43,7 @@ class LargeSection extends StatelessWidget {
   const LargeSection({
     Key key,
     @required this.title,
-    @required this.child,
+    @required this.children,
     this.subTitle,
     this.leading,
   }) : super(key: key);
@@ -48,52 +51,50 @@ class LargeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BasicSection(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    this.title,
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.teal,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  if (this.subTitle != null)
                     Text(
-                      this.title,
+                      this.subTitle,
                       style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.teal,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    if (this.subTitle != null)
-                      Text(
-                        this.subTitle,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                  ],
-                ),
+                ],
               ),
-              if (leading != null) leading
-            ],
-          ),
-          child,
-        ],
-      ),
+            ),
+            if (leading != null) leading
+          ],
+        ),
+        ...children,
+      ],
     );
   }
 }
 
 class SmallSection extends StatelessWidget {
   final String title;
-  final Widget child;
+  final List<Widget> children;
   final EdgeInsetsGeometry padding;
   final bool setLeftPadding;
 
   const SmallSection({
     Key key,
-    @required this.child,
+    @required this.children,
     @required this.title,
     this.setLeftPadding: false,
     this.padding,
@@ -107,21 +108,18 @@ class SmallSection extends StatelessWidget {
     }
 
     return BasicSection(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: headerPadding,
-            child: Text(
-              this.title,
-              style: Theme.of(context).textTheme.subtitle1.copyWith(
-                    color: Colors.grey,
-                  ),
-            ),
+      children: [
+        Padding(
+          padding: headerPadding,
+          child: Text(
+            this.title,
+            style: Theme.of(context).textTheme.subtitle1.copyWith(
+                  color: Colors.grey,
+                ),
           ),
-          child,
-        ],
-      ),
+        ),
+        ...children,
+      ],
     );
   }
 }

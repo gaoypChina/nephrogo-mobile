@@ -10,50 +10,54 @@ class ProfileTab extends StatelessWidget {
         child: Column(
           children: [
             BasicSection(
-              child: AppListTile(
-                leading: Container(
-                  width: 64,
-                  height: 64,
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      "https://avatars2.githubusercontent.com/u/3719141?s=460&u=93b7989bcf06fcc23144917944203f315c3d4134&v=4",
-                    ),
-                  ),
-                ),
-                title: Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 8),
-                  child: Text(
-                    "Karolis Vyčius",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                ),
-                subtitle: Flex(
-                  direction: Axis.horizontal,
-                  children: [
-                    TextButton(
-                      child: Text(
-                        "Atsijungti",
-                        style: TextStyle(color: Colors.redAccent),
-                        textAlign: TextAlign.start,
+              children: [
+                AppListTile(
+                  leading: Container(
+                    width: 64,
+                    height: 64,
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        "https://avatars2.githubusercontent.com/u/3719141?s=460&u=93b7989bcf06fcc23144917944203f315c3d4134&v=4",
                       ),
-                      onPressed: () => print("Logout"),
                     ),
-                  ],
+                  ),
+                  title: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                    child: Text(
+                      "Karolis Vyčius",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ),
+                  subtitle: Flex(
+                    direction: Axis.horizontal,
+                    children: [
+                      TextButton(
+                        child: Text(
+                          "Atsijungti",
+                          style: TextStyle(color: Colors.redAccent),
+                          textAlign: TextAlign.start,
+                        ),
+                        onPressed: () => print("Logout"),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
             BasicSection(
-              child: AppListTile(
-                title: Text("Mano būklė"),
-                leading: Icon(Icons.medical_services),
-                trailing: Icon(Icons.chevron_right),
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.ROUTE_USER_CONDITIONS,
-                  );
-                },
-              ),
+              children: [
+                AppListTile(
+                  title: Text("Mano būklė"),
+                  leading: Icon(Icons.medical_services),
+                  trailing: Icon(Icons.chevron_right),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      Routes.ROUTE_USER_CONDITIONS,
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -61,5 +65,3 @@ class ProfileTab extends StatelessWidget {
     );
   }
 }
-
-

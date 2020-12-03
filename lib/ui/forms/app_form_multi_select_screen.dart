@@ -56,11 +56,9 @@ class _AppFormMultipleSelectScreenState<T>
       body: SingleChildScrollView(
         child: BasicSection(
           padding: EdgeInsets.zero,
-          child: Column(
-            children: widget.data.items
-                .mapIndexed((item, i) => _generateItemCell(context, item, i))
-                .toList(),
-          ),
+          children: widget.data.items
+              .mapIndexed((item, i) => _generateItemCell(context, item, i))
+              .toList(),
         ),
       ),
     );

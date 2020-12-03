@@ -28,11 +28,9 @@ class AppFormSelectScreen<T> extends StatelessWidget {
       body: SingleChildScrollView(
         child: BasicSection(
           padding: EdgeInsets.zero,
-          child: Column(
-            children: data.items
-                .map((item) => _generateItemCell(context, item))
-                .toList(),
-          ),
+          children: data.items
+              .map((item) => _generateItemCell(context, item))
+              .toList(),
         ),
       ),
     );

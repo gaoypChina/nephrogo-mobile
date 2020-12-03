@@ -14,9 +14,11 @@ class HealthIndicatorsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return LargeSection(
       title: "Mano šiandienos rodikliai",
-      child: _DailyHealthIndicatorsColumn(
-        dailyHealthIndicators: dailyHealthIndicators,
-      ),
+      children: [
+        _DailyHealthIndicatorsColumn(
+          dailyHealthIndicators: dailyHealthIndicators,
+        ),
+      ],
       leading: OutlineButton(
         child: Text("REDAGUOTI"),
         onPressed: () => Navigator.pushNamed(

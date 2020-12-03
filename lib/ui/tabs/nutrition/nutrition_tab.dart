@@ -45,7 +45,7 @@ class NutritionTabBody extends StatelessWidget {
           LargeSection(
             title: "Kalis",
             subTitle: "Paros norma 4 g",
-            child: BarChartGraph.exampleIndicatorGraph(),
+            children: [BarChartGraph.exampleIndicatorGraph()],
             leading: OutlineButton(
               child: Text("DAUGIAU"),
               onPressed: () =>
@@ -55,7 +55,7 @@ class NutritionTabBody extends StatelessWidget {
           LargeSection(
             title: "Baltymai",
             subTitle: "Paros norma 1.1 g",
-            child: BarChartGraph.exampleIndicatorGraph(),
+            children: [BarChartGraph.exampleIndicatorGraph()],
             leading: OutlineButton(
               child: Text("DAUGIAU"),
               onPressed: () =>
@@ -65,7 +65,7 @@ class NutritionTabBody extends StatelessWidget {
           LargeSection(
             title: "Natris",
             subTitle: "Paros norma 2.3 g",
-            child: BarChartGraph.exampleIndicatorGraph(),
+            children: [BarChartGraph.exampleIndicatorGraph()],
             leading: OutlineButton(
               child: Text("DAUGIAU"),
               onPressed: () =>
@@ -75,7 +75,7 @@ class NutritionTabBody extends StatelessWidget {
           LargeSection(
             title: "Fosforas",
             subTitle: "Paros norma 5 g",
-            child: BarChartGraph.exampleIndicatorGraph(),
+            children: [BarChartGraph.exampleIndicatorGraph()],
             leading: OutlineButton(
               child: Text("DAUGIAU"),
               onPressed: () =>
@@ -85,7 +85,7 @@ class NutritionTabBody extends StatelessWidget {
           LargeSection(
             title: "Energija",
             subTitle: "Paros norma 2800 kcal",
-            child: BarChartGraph.exampleIndicatorGraph(),
+            children: [BarChartGraph.exampleIndicatorGraph()],
             leading: OutlineButton(
               child: Text("DAUGIAU"),
               onPressed: () =>
@@ -95,7 +95,7 @@ class NutritionTabBody extends StatelessWidget {
           LargeSection(
             title: "Skysčiai",
             subTitle: "Paros norma 1100 ml",
-            child: BarChartGraph.exampleIndicatorGraph(),
+            children: [BarChartGraph.exampleIndicatorGraph()],
             leading: OutlineButton(
               child: Text("DAUGIAU"),
               onPressed: () =>
@@ -128,7 +128,14 @@ class DailyNormsSection extends StatelessWidget {
         ),
         onPressed: () => showInformationDialog(context),
       ),
-      child: BarChartGraph.exampleDailyTotals(),
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BarChartGraph.exampleDailyTotals(),
+          ],
+        )
+      ],
     );
   }
 
@@ -176,12 +183,10 @@ class DailyIntakesCard extends StatelessWidget {
       title: title,
       subTitle: subTitle,
       leading: leading,
-      child: Column(
-        children: ListTile.divideTiles(
-          context: context,
-          tiles: intakeTiles,
-        ).toList(),
-      ),
+      children: ListTile.divideTiles(
+        context: context,
+        tiles: intakeTiles,
+      ).toList(),
     );
   }
 }
