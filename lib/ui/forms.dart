@@ -15,74 +15,14 @@ class AppDropdownMenuItem<T> {
 
 const _defaultFieldPadding = const EdgeInsets.all(8.0);
 
-class AppDropdownButtonFormField<T> extends StatelessWidget {
-  final String labelText;
-  final String helperText;
-  final IconData iconData;
-  final FormFieldValidator<String> validator;
-
-  final FormFieldSetter<T> onSaved;
-  final ValueChanged<T> onChanged;
-
-  final T value;
-  final EdgeInsets padding;
-
-  final List<AppDropdownMenuItem> items;
-
-  const AppDropdownButtonFormField({
-    Key key,
-    @required this.items,
-    @required this.onChanged,
-    this.labelText,
-    this.helperText,
-    this.iconData,
-    this.validator,
-    this.onSaved,
-    this.value,
-    this.padding = _defaultFieldPadding,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    List<DropdownMenuItem<T>> dropdownItems = items
-        .map(
-          (e) => DropdownMenuItem<T>(
-            key: e.key,
-            value: e.value,
-            child: Text(
-              e.text,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        )
-        .toList();
-
-    return Padding(
-      padding: padding,
-      child: DropdownButtonFormField<T>(
-        decoration: InputDecoration(
-          labelText: labelText,
-          helperText: helperText,
-          icon: iconData != null ? Icon(iconData) : null,
-        ),
-        isExpanded: true,
-        value: value,
-        onChanged: onChanged,
-        onSaved: onSaved,
-        items: dropdownItems,
-      ),
-    );
-  }
-}
-
 class AppSelectFormFieldItem<T> {
-  final String title;
+  final String text;
   final String description;
   final IconData icon;
   final T value;
 
   const AppSelectFormFieldItem({
-    @required this.title,
+    @required this.text,
     this.description,
     this.icon,
     @required this.value,
@@ -96,7 +36,7 @@ class AppSelectFormField<T> extends StatefulWidget {
   final IconData iconData;
   final FormFieldSetter<AppSelectFormFieldItem<T>> onChanged;
   final FormFieldSetter<AppSelectFormFieldItem<T>> onSaved;
-  final int initialValue;
+  final T initialValue;
 
   const AppSelectFormField({
     Key key,
@@ -169,7 +109,7 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
     );
 
     if (item != null) {
-      _textEditingController.text = item.title;
+      _textEditingController.text = item.text;
       _selectedItem = item;
 
       if (widget.onChanged != null) {

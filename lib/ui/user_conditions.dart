@@ -42,13 +42,18 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   setLeftPadding: true,
                   child: Column(
                     children: [
-                      AppDropdownButtonFormField(
+                      AppSelectFormField<int>(
                         labelText: "Lytis",
-                        onChanged: (value) {},
+                        onChanged: (v) {},
                         items: [
-                          AppDropdownMenuItem(text: "Vyras", value: "Vyras"),
-                          AppDropdownMenuItem(
-                              text: "Moteris", value: "Moteris"),
+                          AppSelectFormFieldItem(
+                            text: "Vyras",
+                            value: 0,
+                          ),
+                          AppSelectFormFieldItem(
+                            text: "Moteris",
+                            value: 1,
+                          ),
                         ],
                       ),
                       AppDatePickerFormField(
@@ -63,12 +68,12 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                         onDateSaved: (v) => print(v),
                       ),
                       AppIntegerFormField(
-                        labelText: "Ūgis (centimetrais)",
+                        labelText: "Ūgis",
                         suffixText: "cm",
                         onSaved: (v) => print(v),
                       ),
                       AppIntegerFormField(
-                        labelText: "Svoris (kilogramais)",
+                        labelText: "Svoris",
                         helperText:
                             "Jeigu atliekate dializes, įrašykite savo sausąjį svorį",
                         suffixText: "kg",
@@ -86,52 +91,52 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                         labelText: "Kiek metų sergate lėtine inkstų liga",
                         onSaved: (v) => print(v),
                       ),
-                      AppDropdownButtonFormField(
+                      AppSelectFormField<String>(
                         labelText: "Lėtinės inkstų ligos stadija",
                         helperText: "GFG – glomerulų filtracijos greitis",
                         onChanged: (value) {},
                         items: [
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "I – GFG > 90 ml/min./1,73 m²",
                             value: "1",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "II – GFG 89 – 60 ml/min./1,73 m²",
                             value: "2",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "III – GFG 59 – 30 ml/min./1,73 m²",
                             value: "3",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "IV – GFG 29 – 15 ml/min./1,73 m²",
                             value: "4",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "V – GFG < 15 ml/min./1,73 m²",
                             value: "5",
                           ),
-                          AppDropdownMenuItem(text: "Nežinau", value: "6"),
+                          AppSelectFormFieldItem(text: "Nežinau", value: "6"),
                         ],
                       ),
-                      AppDropdownButtonFormField(
+                      AppSelectFormField<String>(
                         labelText: "Atliekamos dializės tipas",
                         onChanged: (value) {},
                         items: [
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "Peritoninė dializė",
                             value: "1",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "Hemodializė",
                             value: "2",
                           ),
-                          AppDropdownMenuItem(
-                            text:
-                                "Neatlieku, esu po inksto transplantacijos (6 savaitės ir ilgiau)",
+                          AppSelectFormFieldItem(
+                            text: "Neatlieku, esu po inksto transplantacijos",
+                            description: "Praėjo daugiau 6 savaitės¬",
                             value: "3",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "Neatlieku",
                             value: "4",
                           ),
@@ -145,24 +150,24 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   setLeftPadding: true,
                   child: Column(
                     children: [
-                      AppDropdownButtonFormField(
+                      AppSelectFormField<String>(
                         labelText: "Cukriniu diabeto tipas",
-                        value: "3",
-                        onChanged: (value) {
+                        initialValue: "3",
+                        onChanged: (item) {
                           setState(() {
-                            isDiabetic = value != "3";
+                            isDiabetic = item.value != "3";
                           });
                         },
                         items: [
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "1 tipo",
                             value: "1",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "2 tipo",
                             value: "2",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "Nesergu",
                             value: "3",
                           ),
@@ -177,20 +182,20 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                               suffixText: "m.",
                               onSaved: (v) => print(v),
                             ),
-                            AppDropdownButtonFormField(
+                            AppSelectFormField<String>(
                               labelText:
                                   "Ar jums pasireiškė cukrinio diabeto komplikacijos?",
                               onChanged: (value) {},
                               items: [
-                                AppDropdownMenuItem(
+                                AppSelectFormFieldItem(
                                   text: "Taip",
                                   value: "1",
                                 ),
-                                AppDropdownMenuItem(
+                                AppSelectFormFieldItem(
                                   text: "Ne",
                                   value: "2",
                                 ),
-                                AppDropdownMenuItem(
+                                AppSelectFormFieldItem(
                                   text: "Nežinau",
                                   value: "3",
                                 ),

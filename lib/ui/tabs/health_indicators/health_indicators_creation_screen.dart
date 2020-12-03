@@ -84,6 +84,8 @@ class _HealthIndicatorsCreationScreenState
                       AppIntegerFormField(
                         labelText: "Kūno svoris",
                         suffixText: "kg",
+                        helperText:
+                            "Jeigu atliekate dializes, įrašykite savo sausąjį svorį",
                         onSaved: (value) {
                           _weight = value.toDouble();
                         },
@@ -107,70 +109,70 @@ class _HealthIndicatorsCreationScreenState
                         labelText: "Patinimų sunkumas",
                         items: [
                           AppSelectFormFieldItem(
-                            title: "0+",
+                            text: "0+",
                             description: "TODO",
                             icon: Icons.sentiment_very_satisfied,
                             value: 0,
                           ),
                           AppSelectFormFieldItem(
-                            title: "1+",
+                            text: "1+",
                             description: "TODO",
                             icon: Icons.sentiment_satisfied,
                             value: 1,
                           ),
                           AppSelectFormFieldItem(
-                            title: "2+",
+                            text: "2+",
                             description: "TODO",
                             icon: Icons.sentiment_dissatisfied,
                             value: 2,
                           ),
                           AppSelectFormFieldItem(
-                            title: "3+",
+                            text: "3+",
                             description: "TODO",
                             icon: Icons.sentiment_very_dissatisfied,
                             value: 3,
                           ),
                           AppSelectFormFieldItem(
-                            title: "4+",
+                            text: "4+",
                             description: "TODO",
                             icon: Icons.sick,
                             value: 4,
                           ),
                         ],
                       ),
-                      AppDropdownButtonFormField(
+                      AppSelectFormField<String>(
                         labelText: "Patinimų lokalizacija",
                         onChanged: (value) {},
                         items: [
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "Paakiai",
                             value: "1",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "Visas veidas",
                             value: "2",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "Plaštakos",
                             value: "3",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "Visos rankos",
                             value: "4",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "Pilvas",
                             value: "5",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "Keliai",
                             value: "6",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "Pėdos",
                             value: "7",
                           ),
-                          AppDropdownMenuItem(
+                          AppSelectFormFieldItem(
                             text: "Visos kojos",
                             value: "8",
                           ),
@@ -188,31 +190,31 @@ class _HealthIndicatorsCreationScreenState
                         labelText: "Savijauta",
                         items: [
                           AppSelectFormFieldItem(
-                            title: "Puiki",
+                            text: "Puiki",
                             description: "TODO description",
                             icon: Icons.sentiment_very_satisfied,
                             value: 0,
                           ),
                           AppSelectFormFieldItem(
-                            title: "Gera",
+                            text: "Gera",
                             description: "TODO description",
                             icon: Icons.sentiment_satisfied,
                             value: 1,
                           ),
                           AppSelectFormFieldItem(
-                            title: "Vidutinė",
+                            text: "Vidutinė",
                             description: "TODO description",
                             icon: Icons.sentiment_dissatisfied,
                             value: 2,
                           ),
                           AppSelectFormFieldItem(
-                            title: "Bloga",
+                            text: "Bloga",
                             description: "TODO description",
                             icon: Icons.sentiment_very_dissatisfied,
                             value: 3,
                           ),
                           AppSelectFormFieldItem(
-                            title: "Labai bloga",
+                            text: "Labai bloga",
                             description: "TODO description",
                             icon: Icons.sick,
                             value: 4,
@@ -223,31 +225,31 @@ class _HealthIndicatorsCreationScreenState
                         labelText: "Apetitas",
                         items: [
                           AppSelectFormFieldItem(
-                            title: "Puikus",
+                            text: "Puikus",
                             description: "TODO description",
                             icon: Icons.sentiment_very_satisfied,
                             value: 0,
                           ),
                           AppSelectFormFieldItem(
-                            title: "Geras",
+                            text: "Geras",
                             description: "TODO description",
                             icon: Icons.sentiment_satisfied,
                             value: 1,
                           ),
                           AppSelectFormFieldItem(
-                            title: "Vidutinis",
+                            text: "Vidutinis",
                             description: "TODO description",
                             icon: Icons.sentiment_dissatisfied,
                             value: 2,
                           ),
                           AppSelectFormFieldItem(
-                            title: "Blogas",
+                            text: "Blogas",
                             description: "TODO description",
                             icon: Icons.sentiment_very_dissatisfied,
                             value: 3,
                           ),
                           AppSelectFormFieldItem(
-                            title: "Labai blogas",
+                            text: "Labai blogas",
                             description: "TODO description",
                             icon: Icons.sick,
                             value: 4,
@@ -258,31 +260,31 @@ class _HealthIndicatorsCreationScreenState
                         labelText: "Dusulys",
                         items: [
                           AppSelectFormFieldItem(
-                            title: "Nėra",
+                            text: "Nėra",
                             description: "TODO description",
                             icon: Icons.sentiment_very_satisfied,
                             value: 0,
                           ),
                           AppSelectFormFieldItem(
-                            title: "Lengvas",
+                            text: "Lengvas",
                             description: "TODO description",
                             icon: Icons.sentiment_satisfied,
                             value: 1,
                           ),
                           AppSelectFormFieldItem(
-                            title: "Vidutinis",
+                            text: "Vidutinis",
                             description: "TODO description",
                             icon: Icons.sentiment_dissatisfied,
                             value: 2,
                           ),
                           AppSelectFormFieldItem(
-                            title: "Sunkus",
+                            text: "Sunkus",
                             description: "TODO description",
                             icon: Icons.sentiment_very_dissatisfied,
                             value: 3,
                           ),
                           AppSelectFormFieldItem(
-                            title: "Labai sunkus",
+                            text: "Labai sunkus",
                             description: "TODO description",
                             icon: Icons.sick,
                             value: 4,

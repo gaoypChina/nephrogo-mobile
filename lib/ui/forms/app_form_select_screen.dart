@@ -47,7 +47,7 @@ class AppFromSelectScreen<T> extends StatelessWidget {
     final iconData = selected ? Icons.radio_button_on : Icons.radio_button_off;
 
     return AppListTile(
-      title: Text(item.title),
+      title: Text(item.text),
       subtitle: item.description != null ? Text(item.description) : null,
       leading: item.icon != null
           ? IconButton(
