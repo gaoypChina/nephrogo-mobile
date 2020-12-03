@@ -10,7 +10,7 @@ class ProfileTab extends StatelessWidget {
         child: Column(
           children: [
             BasicSection(
-              child: ProfileCell(
+              child: AppListTile(
                 leading: Container(
                   width: 64,
                   height: 64,
@@ -43,7 +43,7 @@ class ProfileTab extends StatelessWidget {
               ),
             ),
             BasicSection(
-              child: ProfileCell(
+              child: AppListTile(
                 title: Text("Mano būklė"),
                 leading: Icon(Icons.medical_services),
                 trailing: Icon(Icons.chevron_right),
@@ -62,31 +62,4 @@ class ProfileTab extends StatelessWidget {
   }
 }
 
-class ProfileCell extends StatelessWidget {
-  final Widget leading;
-  final Widget title;
-  final Widget subtitle;
-  final Widget trailing;
-  final GestureTapCallback onTap;
 
-  const ProfileCell({
-    Key key,
-    @required this.title,
-    this.subtitle,
-    this.leading,
-    this.trailing,
-    this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: leading,
-      title: title,
-      subtitle: subtitle,
-      trailing: trailing,
-      onTap: onTap,
-    );
-  }
-}

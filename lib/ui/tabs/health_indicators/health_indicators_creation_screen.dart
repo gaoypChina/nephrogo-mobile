@@ -103,29 +103,38 @@ class _HealthIndicatorsCreationScreenState
                   setLeftPadding: true,
                   child: Column(
                     children: [
-                      AppDropdownButtonFormField(
+                      AppSelectFormField(
                         labelText: "Patinimų sunkumas",
-                        onChanged: (value) {},
+                        onChanged: (int value) {
+                          print(value);
+                          print(value.runtimeType);
+                        },
                         items: [
-                          AppDropdownMenuItem(
-                            text: "0+",
-                            value: "1",
+                          AppSelectFormFieldItem(
+                            title: "0+",
+                            description: "TODO",
+                            icon: Icons.sentiment_very_satisfied,
+                            value: 0,
                           ),
-                          AppDropdownMenuItem(
-                            text: "1+",
-                            value: "2",
+                          AppSelectFormFieldItem(
+                            title: "1+",
+                            icon: Icons.sentiment_satisfied,
+                            value: 1,
                           ),
-                          AppDropdownMenuItem(
-                            text: "2+",
-                            value: "3",
+                          AppSelectFormFieldItem(
+                            title: "2+",
+                            icon: Icons.sentiment_dissatisfied,
+                            value: 2,
                           ),
-                          AppDropdownMenuItem(
-                            text: "3+",
-                            value: "4",
+                          AppSelectFormFieldItem(
+                            title: "3+",
+                            icon: Icons.sentiment_very_dissatisfied,
+                            value: 3,
                           ),
-                          AppDropdownMenuItem(
-                            text: "4+",
-                            value: "5",
+                          AppSelectFormFieldItem(
+                            title: "4+",
+                            icon: Icons.sick,
+                            value: 4,
                           ),
                         ],
                       ),

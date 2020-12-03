@@ -27,13 +27,18 @@ class SmallSectionHeader extends StatelessWidget {
 
 class BasicSection extends StatelessWidget {
   final Widget child;
+  final EdgeInsetsGeometry padding;
 
-  const BasicSection({Key key, @required this.child}) : super(key: key);
+  const BasicSection({
+    Key key,
+    @required this.child,
+    this.padding = const EdgeInsets.only(bottom: 18.0),
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      padding: padding,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -43,7 +48,7 @@ class BasicSection extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
           child: child,
         ),
       ),
@@ -142,6 +147,35 @@ class SmallSection extends StatelessWidget {
           child,
         ],
       ),
+    );
+  }
+}
+
+class AppListTile extends StatelessWidget {
+  final Widget leading;
+  final Widget title;
+  final Widget subtitle;
+  final Widget trailing;
+  final GestureTapCallback onTap;
+
+  const AppListTile({
+    Key key,
+    @required this.title,
+    this.subtitle,
+    this.leading,
+    this.trailing,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: leading,
+      title: title,
+      subtitle: subtitle,
+      trailing: trailing,
+      onTap: onTap,
     );
   }
 }

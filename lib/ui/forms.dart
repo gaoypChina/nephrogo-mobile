@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/DateExtensions.dart';
 
+import 'forms/AppFormSelectScreen.dart';
+
 class AppDropdownMenuItem<T> {
   final Key key;
   final String text;
@@ -70,6 +72,85 @@ class AppDropdownButtonFormField<T> extends StatelessWidget {
         items: dropdownItems,
       ),
     );
+  }
+}
+
+class AppSelectFormFieldItem {
+  final String title;
+  final String description;
+  final IconData icon;
+  final int value;
+
+  const AppSelectFormFieldItem({
+    @required this.title,
+    this.description,
+    this.icon,
+    this.value,
+  });
+}
+
+class AppSelectFormField extends StatefulWidget {
+  final List<AppSelectFormFieldItem> items;
+  final String labelText;
+  final String helperText;
+  final IconData iconData;
+  final FormFieldSetter<int> onChanged;
+
+  const AppSelectFormField({
+    Key key,
+    @required this.items,
+    this.labelText,
+    this.helperText,
+    this.iconData,
+    this.onChanged,
+  }) : super(key: key);
+
+  @override
+  _AppSelectFormFieldState createState() => _AppSelectFormFieldState();
+}
+
+class _AppSelectFormFieldState extends State<AppSelectFormField> {
+  TextEditingController _textEditingController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return AppTextFormField(
+      labelText: widget.labelText,
+      controller: _textEditingController,
+      helperText: widget.helperText,
+      iconData: widget.iconData,
+      disabled: true,
+      onTap: () => onTap(context),
+      suffixIconData: Icons.chevron_right,
+    );
+  }
+
+  Future<void> onTap(BuildContext context) async {
+    AppSelectFormFieldItem item = await Navigator.push(context,
+        MaterialPageRoute<AppSelectFormFieldItem>(
+            builder: (BuildContext context) {
+      return AppFromSelectScreen(
+        data: AppFromSelectScreenData(
+          title: widget.labelText,
+          items: widget.items,
+        ),
+      );
+    }));
+
+    if (item != null) {
+      _textEditingController.text = item.title;
+
+      if (widget.onChanged != null) {
+        widget.onChanged(item.value);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _textEditingController.dispose();
   }
 }
 
