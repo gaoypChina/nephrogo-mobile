@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/DateExtensions.dart';
 
-import 'forms/app_form_select_screen.dart';
+import 'app_form_select_screen.dart';
 
 typedef FormFieldItemSetter<T> = void Function(T newItem);
 

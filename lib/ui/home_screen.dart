@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'app_logo.dart';
 import 'tabs/health_indicators/health_indicators_tab.dart';
 import 'tabs/profile/profile_tab.dart';
-import 'tabs/nutrition_tab.dart';
+import 'tabs/nutrition/nutrition_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

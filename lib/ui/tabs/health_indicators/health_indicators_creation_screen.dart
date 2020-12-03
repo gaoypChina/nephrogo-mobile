@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/ui/components.dart';
-import 'package:nephrolog/ui/forms.dart';
+import 'package:nephrolog/ui/forms/forms.dart';
 
 class HealthIndicatorsCreationScreen extends StatefulWidget {
   @override

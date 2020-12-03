@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'ui/home_screen.dart';
-import 'ui/intakes_screen.dart';
-import 'ui/meal_creation_screen.dart';
+import 'ui/tabs/nutrition/intakes_screen.dart';
+import 'ui/tabs/nutrition/meal_creation_screen.dart';
 import 'ui/tabs/health_indicators/health_indicators_creation_screen.dart';
 import 'ui/user_conditions.dart';
 

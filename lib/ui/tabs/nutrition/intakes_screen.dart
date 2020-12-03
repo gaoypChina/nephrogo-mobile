@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/extensions/StringExtension.dart';
 
-import 'app_logo.dart';
-import 'tabs/nutrition_tab.dart';
+import '../../app_logo.dart';
+import 'nutrition_tab.dart';
 
 class IntakesScreenArguments {
   final IntakesScreenType intakesScreenType;
