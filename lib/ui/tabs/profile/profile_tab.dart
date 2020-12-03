@@ -65,21 +65,25 @@ class ProfileTab extends StatelessWidget {
                 ),
               ],
             ),
-            AppListTile(
-              title: Text("Privatumo politika"),
-              leading: Icon(Icons.lock),
-              trailing: Icon(Icons.chevron_right),
-              onTap: () {
-                _launchURL(privacyPolicyUrl);
-              },
-            ),
-            AppListTile(
-              title: Text("Naudojimosi taisyklės"),
-              leading: Icon(Icons.description),
-              trailing: Icon(Icons.chevron_right),
-              onTap: () {
-                _launchURL(privacyPolicyUrl);
-              },
+            BasicSection(
+              children: [
+                AppListTile(
+                  title: Text("Privatumo politika"),
+                  leading: Icon(Icons.lock),
+                  trailing: Icon(Icons.chevron_right),
+                  onTap: () {
+                    launch(privacyPolicyUrl);
+                  },
+                ),
+                AppListTile(
+                  title: Text("Naudojimosi taisyklės"),
+                  leading: Icon(Icons.description),
+                  trailing: Icon(Icons.chevron_right),
+                  onTap: () {
+                    launch(rulesUrl);
+                  },
+                ),
+              ],
             ),
             FutureBuilder(
               future: _getVersionString(),
@@ -94,14 +98,6 @@ class ProfileTab extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 
   Future<String> _getVersionString() async {
