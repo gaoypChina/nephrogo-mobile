@@ -34,7 +34,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           child: Form(
             key: _formKey,
             child: Column(

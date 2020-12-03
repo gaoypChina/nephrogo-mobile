@@ -41,6 +41,7 @@ class _HealthIndicatorsCreationScreenState
                 SmallSection(
                   title: "Kraujo spaudimas",
                   setLeftPadding: true,
+                  showDividers: false,
                   padding: EdgeInsets.all(8),
                   children: [
                     Row(
@@ -77,6 +78,7 @@ class _HealthIndicatorsCreationScreenState
                 SmallSection(
                   title: "Bendra informacija",
                   setLeftPadding: true,
+                  showDividers: false,
                   children: [
                     AppFloatInputField(
                       labelText: "Kūno svoris",
@@ -106,6 +108,7 @@ class _HealthIndicatorsCreationScreenState
                 SmallSection(
                   title: "Patinimai",
                   setLeftPadding: true,
+                  showDividers: false,
                   children: [
                     AppSelectFormField<int>(
                       labelText: "Patinimų sunkumas",
@@ -184,6 +187,7 @@ class _HealthIndicatorsCreationScreenState
                 ),
                 SmallSection(
                   title: "Savijauta",
+                  showDividers: false,
                   setLeftPadding: true,
                   children: [
                     AppSelectFormField<int>(

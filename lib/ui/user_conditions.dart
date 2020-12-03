@@ -40,6 +40,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                 SmallSection(
                   title: "Bendra informacija",
                   setLeftPadding: true,
+                  showDividers: false,
                   children: [
                     AppSelectFormField<int>(
                       labelText: "Lytis",
@@ -82,6 +83,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                 SmallSection(
                   title: "Lėtinė inkstų liga",
                   setLeftPadding: true,
+                  showDividers: false,
                   children: [
                     AppIntegerFormField(
                       labelText: "Kiek metų sergate lėtine inkstų liga",
@@ -129,7 +131,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                         ),
                         AppSelectFormFieldItem(
                           text: "Neatlieku, esu po inksto transplantacijos",
-                          description: "Praėjo daugiau 6 savaitės¬",
+                          description: "Praėjo daugiau 6 savaitės",
                           value: "3",
                         ),
                         AppSelectFormFieldItem(
@@ -143,6 +145,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                 SmallSection(
                   title: "Cukrinis diabetas",
                   setLeftPadding: true,
+                  showDividers: false,
                   children: [
                     AppSelectFormField<String>(
                       labelText: "Cukriniu diabeto tipas",

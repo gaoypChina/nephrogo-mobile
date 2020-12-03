@@ -183,10 +183,7 @@ class DailyIntakesCard extends StatelessWidget {
       title: title,
       subTitle: subTitle,
       leading: leading,
-      children: ListTile.divideTiles(
-        context: context,
-        tiles: intakeTiles,
-      ).toList(),
+      children: intakeTiles,
     );
   }
 }
