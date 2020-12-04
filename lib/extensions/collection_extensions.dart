@@ -20,6 +20,14 @@ extension IndexedIterable<E> on Iterable<E> {
   }
 }
 
+extension ListExtensions<E> on List<E> {
+  List<E> shift(int n) {
+    if (this.isEmpty) return this;
+    var i = n % this.length;
+    return this.sublist(i)..addAll(this.sublist(0, i));
+  }
+}
+
 extension NumericIterable<E extends num> on Iterable<E> {
   E get sum => reduce((a, b) => a + b);
 

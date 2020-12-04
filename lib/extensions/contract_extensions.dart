@@ -1,5 +1,5 @@
 import 'package:nephrolog/models/contract.dart';
-import 'CollectionExtensions.dart';
+import 'collection_extensions.dart';
 
 String _formatAmount(int amount, String baseDim, String kDim) {
   if (kDim == null || amount < 200) {

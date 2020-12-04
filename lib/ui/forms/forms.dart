@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/extensions/DateExtensions.dart';
+import 'package:nephrolog/extensions/date_extensions.dart';
 
 import 'app_form_multi_select_screen.dart';
 import 'app_form_select_screen.dart';

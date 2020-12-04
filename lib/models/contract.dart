@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:faker/faker.dart';
-import 'package:nephrolog/extensions/DateExtensions.dart';
+import 'package:nephrolog/extensions/date_extensions.dart';
 
 // Used IndicatorType internally
 enum IndicatorType {

@@ -2,7 +2,7 @@ import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/models/contract.dart';
-import 'package:nephrolog/extensions/StringExtension.dart';
+import 'package:nephrolog/extensions/string_extensions.dart';
 import 'package:nephrolog/ui/general/app_logo.dart';
 
 import 'nutrition_tab.dart';

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrolog/constants.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/models/graph.dart';
-import 'package:nephrolog/extensions/CollectionExtensions.dart';
+import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 
 class IndicatorBarChart extends StatelessWidget {
