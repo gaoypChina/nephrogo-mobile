@@ -28,6 +28,8 @@ jobs:
 
       - run: flutter analyze || true
 
+      - run: flutter test
+
       - run: flutter build appbundle --build-number $(git rev-list --count HEAD)
         env:
           KEY_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_STORE_PASSWORD }}
