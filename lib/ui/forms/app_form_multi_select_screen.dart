@@ -58,7 +58,7 @@ class _AppFormMultipleSelectScreenState<T>
         child: BasicSection(
           padding: EdgeInsets.zero,
           children: widget.data.items
-              .mapIndexed((item, i) => _generateItemCell(context, item, i))
+              .mapIndexed((i, item) => _generateItemCell(context, item, i))
               .toList(),
         ),
       ),
