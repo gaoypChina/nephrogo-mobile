@@ -183,7 +183,7 @@ class AppListTile extends StatelessWidget {
       leading: leading,
       title: title,
       subtitle: subtitle,
-      trailing: trailing,
+      trailing: trailing ?? (onTap != null ? Icon(Icons.chevron_right) : null),
       onTap: onTap,
       selected: selected,
     );

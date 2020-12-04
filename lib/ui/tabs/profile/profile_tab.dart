@@ -55,7 +55,6 @@ class ProfileTab extends StatelessWidget {
                 AppListTile(
                   title: Text("Mano būklė"),
                   leading: Icon(Icons.medical_services),
-                  trailing: Icon(Icons.chevron_right),
                   onTap: () {
                     Navigator.pushNamed(
                       context,
@@ -70,7 +69,6 @@ class ProfileTab extends StatelessWidget {
                 AppListTile(
                   title: Text("Privatumo politika"),
                   leading: Icon(Icons.lock),
-                  trailing: Icon(Icons.chevron_right),
                   onTap: () {
                     _launchURL(privacyPolicyUrl);
                   },
@@ -78,7 +76,6 @@ class ProfileTab extends StatelessWidget {
                 AppListTile(
                   title: Text("Naudojimosi taisyklės"),
                   leading: Icon(Icons.description),
-                  trailing: Icon(Icons.chevron_right),
                   onTap: () {
                     _launchURL(rulesUrl);
                   },
