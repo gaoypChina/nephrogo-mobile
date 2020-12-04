@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
-import 'package:nephrolog/ui/components.dart';
+import 'package:nephrolog/ui/general/components.dart';
 
 class HealthIndicatorsSection extends StatelessWidget {
   final DailyHealthIndicators dailyHealthIndicators;

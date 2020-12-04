@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/extensions/StringExtension.dart';
 
-import '../../app_logo.dart';
+import '../../general/app_logo.dart';
 import 'nutrition_tab.dart';
 
 class IntakesScreenArguments {

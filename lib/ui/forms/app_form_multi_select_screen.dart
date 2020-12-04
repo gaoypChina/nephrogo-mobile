@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/ui/components.dart';
+import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/forms/forms.dart';
 import 'package:nephrolog/extensions/CollectionExtensions.dart';
 

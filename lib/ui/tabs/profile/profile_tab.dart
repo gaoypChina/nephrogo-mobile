@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nephrolog/routes.dart';
-import 'package:nephrolog/ui/components.dart';
+import 'package:nephrolog/ui/general/app_network_image.dart';
+import 'package:nephrolog/ui/general/components.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info/package_info.dart';
 
@@ -18,13 +19,12 @@ class ProfileTab extends StatelessWidget {
             BasicSection(
               children: [
                 AppListTile(
-                  leading: Container(
-                    width: 64,
-                    height: 64,
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        "https://avatars2.githubusercontent.com/u/3719141?s=460&u=93b7989bcf06fcc23144917944203f315c3d4134&v=4",
-                      ),
+                  leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      width: 64,
+                      height: 64,
+                      child: getUserProfilePhoto(),
                     ),
                   ),
                   title: Padding(
@@ -106,6 +106,14 @@ class ProfileTab extends StatelessWidget {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  Widget getUserProfilePhoto() {
+    return AppNetworkImage(
+      url:
+          "https://avatars2.githubusercontent.com/u/3719141?s=460&u=93b7989bcf06fcc23144917944203f315c3d4134&v=4",
+      fallbackAssetImage: "assets/anonymous_avatar.jpg",
+    );
   }
 
   Future<String> _getVersionString() async {

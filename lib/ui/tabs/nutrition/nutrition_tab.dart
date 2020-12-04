@@ -3,10 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/StringExtension.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
-import 'package:nephrolog/ui/components.dart';
+import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/tabs/nutrition/intakes_screen.dart';
 
-import '../graph.dart';
+import '../../general/graph.dart';
 
 class NutritionTab extends StatelessWidget {
   @override
