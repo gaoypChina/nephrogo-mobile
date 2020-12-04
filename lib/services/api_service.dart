@@ -7,14 +7,11 @@ class ApiService {
     DateTime from,
     DateTime to,
   ) {
-    final response = DailyIntakesResponse.generateDummy(from, to);
+    return Future.delayed(const Duration(milliseconds: 500), () {
+      final response = DailyIntakesResponse.generateDummy(from, to);
+      response.dailyIntakes.sort((a, b) => b.date.compareTo(a.date));
 
-    // response.dailyIntakes.sort((a, b) => b.date.compareTo(a.date));
-
-    return Future.value(response);
-
-    //  Future.delayed(const Duration(milliseconds: 500), () {
-    //   return response;
-    // });
+      return response;
+    });
   }
 }
