@@ -9,7 +9,7 @@ import 'package:nephrolog/extensions/CollectionExtensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 
 class IndicatorBarChart extends StatelessWidget {
-  final List<DailyIntakes> dailyIntakes;
+  final List<DailyIntake> dailyIntakes;
   final double dailyNorm;
   final IndicatorType type;
 
@@ -29,7 +29,7 @@ class IndicatorBarChart extends StatelessWidget {
         child: BarChartGraph(
           data: AppBarChartData(
             groups: _getChartGroups(dailyNorm),
-            horizontalLinesInterval: dailyNorm,
+            horizontalLinesInterval: 1,
           ),
         ),
       ),
@@ -44,13 +44,11 @@ class IndicatorBarChart extends StatelessWidget {
 
     return Constants.weekDays.mapIndexed((i, dayText) {
       final di = dailyIntakesByWeekDay[i + 1];
-      final y = di?.getTotalIndicatorAmountByType(type) ?? 0;
-
-      print("$type: y = $y, dailyNorm = $dailyNorm");
+      final y = di?.getDailyTotalByType(type) ?? 0;
 
       AppBarChartRod entry = AppBarChartRod(
-        tooltip: di?.getFormattedDailyNorm(type) ?? "",
-        y: y.toDouble(),
+        tooltip: di?.getFormattedDailyTotal(type) ?? "",
+        y: y.toDouble() / dailyNorm,
         barColor: y > dailyNorm ? Colors.redAccent : Colors.teal,
       );
 
@@ -58,6 +56,86 @@ class IndicatorBarChart extends StatelessWidget {
         text: dayText[0],
         x: i,
         rods: entry != null ? [entry] : [],
+      );
+    }).toList();
+  }
+}
+
+class DailyTotalIndicatorBarChart extends StatelessWidget {
+  final DailyIntake dailyIntake;
+
+  const DailyTotalIndicatorBarChart({
+    Key key,
+    this.dailyIntake,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 100,
+              constraints: BoxConstraints(maxWidth: 250),
+              child: _buildGraph(
+                [
+                  IndicatorType.potassium,
+                  IndicatorType.proteins,
+                  IndicatorType.sodium,
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 100,
+              constraints: BoxConstraints(maxWidth: 250),
+              child: _buildGraph(
+                [
+                  IndicatorType.phosphorus,
+                  IndicatorType.energy,
+                  IndicatorType.liquids,
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGraph(List<IndicatorType> types) {
+    return BarChartGraph(
+      data: AppBarChartData(
+        groups: _buildChartGroups(types),
+      ),
+    );
+  }
+
+  List<AppBarChartGroup> _buildChartGroups(List<IndicatorType> types) {
+    return types.mapIndexed((i, type) {
+      final dailyNorm =
+          dailyIntake.userIntakeNorms.getIndicatorAmountByType(type);
+
+      final y = dailyIntake.getDailyTotalByType(type) ?? 0;
+      final yPercent = min(y.toDouble() / dailyNorm, 1.0);
+      final barColor = y > dailyNorm ? Colors.redAccent : Colors.teal;
+
+      final entry = AppBarChartRod(
+        tooltip: dailyIntake.getFormattedDailyTotal(type) ?? "",
+        y: yPercent,
+        barColor: barColor,
+        backDrawRodY: 1.0,
+      );
+
+      return AppBarChartGroup(
+        text: type.name,
+        x: i,
+        rods: [entry],
       );
     }).toList();
   }
@@ -78,14 +156,9 @@ class _BarChartGraph extends State<BarChartGraph> {
 
   @override
   Widget build(BuildContext context) {
-    final maxY = widget.data.groups
-        .map((e) => e.rods.map((e) => e.y))
-        .expand((e) => e)
-        .max;
-
     return BarChart(
       BarChartData(
-        maxY: max(maxY * 1.1, widget.data.horizontalLinesInterval ?? 0),
+        maxY: widget.data.maxY,
         barTouchData: BarTouchData(
           touchTooltipData: BarTouchTooltipData(
               tooltipBgColor: Colors.grey,
@@ -158,19 +231,18 @@ class _BarChartGraph extends State<BarChartGraph> {
               final y = rod.y.toDouble();
 
               return BarChartRodData(
-                y: y,
-                colors: isTouched ? [Colors.orange] : [rod.barColor],
-                width: widget.data.barWidth,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(widget.data.rodRadius),
-                  topRight: Radius.circular(widget.data.rodRadius),
-                ),
-                backDrawRodData: BackgroundBarChartRodData(
-                  show: true,
                   y: y,
-                  colors: [Colors.grey],
-                ),
-              );
+                  colors: isTouched ? [Colors.orange] : [rod.barColor],
+                  width: widget.data.barWidth,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(widget.data.rodRadius),
+                    topRight: Radius.circular(widget.data.rodRadius),
+                  ),
+                  backDrawRodData: BackgroundBarChartRodData(
+                    show: rod.backDrawRodY != null,
+                    y: rod.backDrawRodY,
+                    colors: [Colors.grey],
+                  ));
             },
           ).toList(),
         );

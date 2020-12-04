@@ -7,12 +7,14 @@ class AppBarChartData {
   final double horizontalLinesInterval;
   final double barWidth;
   final double rodRadius;
+  final double maxY;
 
   AppBarChartData({
     @required this.groups,
     this.horizontalLinesInterval,
     this.barWidth: 22,
     this.rodRadius: 6,
+    this.maxY,
   });
 }
 
@@ -32,10 +34,12 @@ class AppBarChartRod {
   final double y;
   final String tooltip;
   final Color barColor;
+  final double backDrawRodY;
 
   const AppBarChartRod({
     @required this.y,
     @required this.tooltip,
     @required this.barColor,
+    this.backDrawRodY,
   });
 }

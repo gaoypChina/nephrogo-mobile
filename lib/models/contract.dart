@@ -1,7 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:faker/faker.dart';
 import 'package:nephrolog/extensions/DateExtensions.dart';
-import 'package:nephrolog/extensions/CollectionExtensions.dart';
 
 // Used IndicatorType internally
 enum IndicatorType {
@@ -192,7 +191,7 @@ class DailyIntakeNorms {
 }
 
 @JsonSerializable()
-class DailyIntakes {
+class DailyIntake {
   @JsonKey()
   final int id;
 
@@ -205,15 +204,15 @@ class DailyIntakes {
   @JsonKey()
   final DailyIntakeNorms userIntakeNorms;
 
-  const DailyIntakes(
+  const DailyIntake(
     this.id,
     this.date,
     this.intakes,
     this.userIntakeNorms,
   );
 
-  static DailyIntakes generateDummy({int day: 1}) {
-    return DailyIntakes(
+  static DailyIntake generateDummy({int day: 1}) {
+    return DailyIntake(
       random.integer(10000000),
       DateTime(2020, 12, day),
       Intake.generateDummies(
@@ -224,8 +223,8 @@ class DailyIntakes {
     );
   }
 
-  static List<DailyIntakes> generateDummies() {
-    return List.generate(30, (index) => DailyIntakes.generateDummy(day: index))
+  static List<DailyIntake> generateDummies() {
+    return List.generate(30, (index) => DailyIntake.generateDummy(day: index))
         .reversed
         .toList();
   }

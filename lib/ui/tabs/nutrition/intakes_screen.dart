@@ -19,7 +19,7 @@ class _IntakesScreenTabData {
 
   const _IntakesScreenTabData(this.name, this.screenType);
 
-  IntakesScreenTab body(List<DailyIntakes> dailyIntakes) => IntakesScreenTab(
+  IntakesScreenTab body(List<DailyIntake> dailyIntakes) => IntakesScreenTab(
         intakesScreenType: screenType,
         dailyIntakes: dailyIntakes,
       );
@@ -28,7 +28,7 @@ class _IntakesScreenTabData {
 class IntakesScreen extends StatelessWidget {
   final IndicatorType intakesScreenType;
 
-  static final dailyIntakes = DailyIntakes.generateDummies();
+  static final dailyIntakes = DailyIntake.generateDummies();
 
   static final _tabs = [
     _IntakesScreenTabData("KALIS", IndicatorType.potassium),
@@ -78,7 +78,7 @@ class IntakesScreenTab extends StatelessWidget {
   static final _dateFormat = DateFormat("E, d MMM");
 
   final IndicatorType intakesScreenType;
-  final List<DailyIntakes> dailyIntakes;
+  final List<DailyIntake> dailyIntakes;
 
   const IntakesScreenTab({
     Key key,

@@ -31,69 +31,67 @@ class NutritionTabBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: FutureBuilder<List<DailyIntakes>>(
-        future: Future.delayed(const Duration(milliseconds: 500), () {
-          return DailyIntakes.generateDummies().take(6).toList();
-        }),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<DailyIntakes>> snapshot) {
-          if (snapshot.hasData) {
-            final dailyIntakes = snapshot.data;
-            final intakes = dailyIntakes.expand((e) => e.intakes).toList();
-            intakes.sort((a, b) => b.dateTime.compareTo(a.dateTime));
-            final latestIntakes = intakes.take(3).toList();
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 64),
+        child: FutureBuilder<List<DailyIntake>>(
+          future: Future.delayed(const Duration(milliseconds: 500), () {
+            return DailyIntake.generateDummies().take(6).toList();
+          }),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<DailyIntake>> snapshot) {
+            if (snapshot.hasData) {
+              final dailyIntakes = snapshot.data;
+              final intakes = dailyIntakes.expand((e) => e.intakes).toList();
+              intakes.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+              final latestIntakes = intakes.take(3).toList();
 
-            return Column(
-              children: [
-                DailyNormsSection(),
-                DailyIntakesCard(
-                  title: "Valgiai",
-                  leading: OutlineButton(
-                    child: Text("DAUGIAU"),
-                    onPressed: () =>
-                        openIntakesScreen(context, IndicatorType.potassium),
+              return Column(
+                children: [
+                  DailyNormsSection(dailyIntake: dailyIntakes.first),
+                  DailyIntakesCard(
+                    title: "Valgiai",
+                    leading: OutlineButton(
+                      child: Text("DAUGIAU"),
+                      onPressed: () =>
+                          openIntakesScreen(context, IndicatorType.potassium),
+                    ),
+                    intakes: latestIntakes,
                   ),
-                  intakes: latestIntakes,
-                ),
-                buildIndicatorChartSection(
-                  context,
-                  dailyIntakes,
-                  IndicatorType.potassium,
-                  "Kalis",
-                ),
-                buildIndicatorChartSection(
-                  context,
-                  dailyIntakes,
-                  IndicatorType.proteins,
-                  "Baltymai",
-                ),
-                buildIndicatorChartSection(
-                  context,
-                  dailyIntakes,
-                  IndicatorType.sodium,
-                  "Natris",
-                ),
-                buildIndicatorChartSection(
-                  context,
-                  dailyIntakes,
-                  IndicatorType.phosphorus,
-                  "Fosforas",
-                ),
-                buildIndicatorChartSection(
-                  context,
-                  dailyIntakes,
-                  IndicatorType.energy,
-                  "Energija",
-                ),
-              ],
-            );
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error));
-          }
+                  buildIndicatorChartSection(
+                    context,
+                    dailyIntakes,
+                    IndicatorType.potassium,
+                  ),
+                  buildIndicatorChartSection(
+                    context,
+                    dailyIntakes,
+                    IndicatorType.proteins,
+                  ),
+                  buildIndicatorChartSection(
+                    context,
+                    dailyIntakes,
+                    IndicatorType.sodium,
+                  ),
+                  buildIndicatorChartSection(
+                    context,
+                    dailyIntakes,
+                    IndicatorType.phosphorus,
+                  ),
+                  buildIndicatorChartSection(
+                    context,
+                    dailyIntakes,
+                    IndicatorType.energy,
+                  ),
+                ],
+              );
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text(snapshot.error));
+            }
 
-          return Center(child: AppProgressIndicator());
-        },
+            return Center(child: AppProgressIndicator());
+          },
+        ),
       ),
     );
   }
@@ -108,16 +106,14 @@ class NutritionTabBody extends StatelessWidget {
 
   LargeSection buildIndicatorChartSection(
     BuildContext context,
-    List<DailyIntakes> dailyIntakes,
+    List<DailyIntake> dailyIntakes,
     IndicatorType type,
-    String title,
   ) {
-    final dailyNorm =
-        dailyIntakes.first.getTotalIndicatorAmountByType(type).toDouble();
-    final dailyNormFormatted = dailyIntakes.first.getFormattedDailyNorm(type);
+    final dailyNorm = dailyIntakes.first.getDailyTotalByType(type).toDouble();
+    final dailyNormFormatted = dailyIntakes.first.getFormattedDailyTotal(type);
 
     return LargeSection(
-      title: title,
+      title: type.name,
       subTitle: "Paros norma $dailyNormFormatted",
       children: [
         IndicatorBarChart(
@@ -135,6 +131,13 @@ class NutritionTabBody extends StatelessWidget {
 }
 
 class DailyNormsSection extends StatelessWidget {
+  final DailyIntake dailyIntake;
+
+  const DailyNormsSection({
+    Key key,
+    this.dailyIntake,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return LargeSection(
@@ -150,9 +153,11 @@ class DailyNormsSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("TODO fix"),
+            DailyTotalIndicatorBarChart(
+              dailyIntake: dailyIntake,
+            ),
           ],
-        )
+        ),
       ],
     );
   }
