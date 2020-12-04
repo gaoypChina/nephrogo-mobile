@@ -3,40 +3,40 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/extensions/StringExtension.dart';
+import 'package:nephrolog/ui/general/app_logo.dart';
 
-import '../../general/app_logo.dart';
 import 'nutrition_tab.dart';
 
 class IntakesScreenArguments {
-  final IntakesScreenType intakesScreenType;
+  final IndicatorType intakesScreenType;
 
   IntakesScreenArguments(this.intakesScreenType);
 }
 
 class _IntakesScreenTabData {
   final String name;
-  final IntakesScreenType screenType;
+  final IndicatorType screenType;
 
   const _IntakesScreenTabData(this.name, this.screenType);
 
-  IntakesScreenTab body(List<DailyIntake> dailyIntakes) => IntakesScreenTab(
+  IntakesScreenTab body(List<DailyIntakes> dailyIntakes) => IntakesScreenTab(
         intakesScreenType: screenType,
         dailyIntakes: dailyIntakes,
       );
 }
 
 class IntakesScreen extends StatelessWidget {
-  final IntakesScreenType intakesScreenType;
+  final IndicatorType intakesScreenType;
 
-  static final dailyIntakes = DailyIntake.generateDummies();
+  static final dailyIntakes = DailyIntakes.generateDummies();
 
   static final _tabs = [
-    _IntakesScreenTabData("KALIS", IntakesScreenType.potassium),
-    _IntakesScreenTabData("BALTYMAI", IntakesScreenType.proteins),
-    _IntakesScreenTabData("NATRIS", IntakesScreenType.sodium),
-    _IntakesScreenTabData("FOSFORAS", IntakesScreenType.phosphorus),
-    _IntakesScreenTabData("ENERGIJA", IntakesScreenType.energy),
-    _IntakesScreenTabData("SKYSČIAI", IntakesScreenType.liquids),
+    _IntakesScreenTabData("KALIS", IndicatorType.potassium),
+    _IntakesScreenTabData("BALTYMAI", IndicatorType.proteins),
+    _IntakesScreenTabData("NATRIS", IndicatorType.sodium),
+    _IntakesScreenTabData("FOSFORAS", IndicatorType.phosphorus),
+    _IntakesScreenTabData("ENERGIJA", IndicatorType.energy),
+    _IntakesScreenTabData("SKYSČIAI", IndicatorType.liquids),
   ];
 
   const IntakesScreen({Key key, @required this.intakesScreenType})
@@ -77,8 +77,8 @@ class IntakesScreen extends StatelessWidget {
 class IntakesScreenTab extends StatelessWidget {
   static final _dateFormat = DateFormat("E, d MMM");
 
-  final IntakesScreenType intakesScreenType;
-  final List<DailyIntake> dailyIntakes;
+  final IndicatorType intakesScreenType;
+  final List<DailyIntakes> dailyIntakes;
 
   const IntakesScreenTab({
     Key key,

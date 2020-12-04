@@ -10,13 +10,6 @@ class AppProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final baseTheme = Theme.of(context);
-
-    return Theme(
-      data: baseTheme.copyWith(
-        accentColor: this.color != null ? this.color : baseTheme.primaryColor,
-      ),
-      child: const CircularProgressIndicator(),
-    );
+    return const CircularProgressIndicator();
   }
 }

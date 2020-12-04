@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:faker/faker.dart';
 import 'package:nephrolog/extensions/DateExtensions.dart';
+import 'package:nephrolog/extensions/CollectionExtensions.dart';
 
-part 'contract.g.dart';
-
-enum IntakesScreenType {
+// Used IndicatorType internally
+enum IndicatorType {
   energy,
   proteins,
   liquids,
@@ -38,11 +38,6 @@ class Product {
     this.name,
     this.kind,
   );
-
-  factory Product.fromJson(Map<String, dynamic> json) =>
-      _$ProductFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ProductToJson(this);
 
   static Product generateDummy() {
     return Product(
@@ -102,10 +97,6 @@ class Intake {
     this.liquidsMl,
   );
 
-  factory Intake.fromJson(Map<String, dynamic> json) => _$IntakeFromJson(json);
-
-  Map<String, dynamic> toJson() => _$IntakeToJson(this);
-
   //Pvz.žmogaus, kurio idealus svoris 62 kg ir jis atlieka peritonines dializes bei laikosi rekomenduojamos dietos, dienos suvestinė pvz atrodytų taip:
   // Na 2,2 g
   // K 3 g
@@ -121,65 +112,31 @@ class Intake {
   // Balt 96 g
   // Vanduo 1100 ml (nedidelis, nes vandens galima suvartoti max 1000ml plius tos dienos šlapimo kiekis, o  šie su dializėmis pacientai dažniausiai neturi šlapimo, būna tik apie 100ml, kartais mažiau)
   // Energija 2800 kcal
-  static Intake generateDummy({int day = 1}) {
+  static Intake generateDummy({int n, int day}) {
+    final ratio = n - 0.5 / n;
     return Intake(
       random.integer(10000000),
       Product.generateDummy(),
       faker.date.dateTime().copyWith(year: 2020, month: 12, day: day),
-      random.integer(3000),
-      random.integer(1100),
-      random.integer(80000),
-      random.integer(2200),
-      random.integer(2000),
-      random.integer(3000),
-      random.integer(1500),
+      random.integer(3000 ~/ ratio),
+      random.integer(1100 ~/ ratio),
+      random.integer(80000 ~/ ratio),
+      random.integer(2200 ~/ ratio),
+      random.integer(2000 ~/ ratio),
+      random.integer(3000 ~/ ratio),
+      random.integer(1500 ~/ ratio),
     );
   }
 
-  static List<Intake> generateDummies({int n = 100, int day = 1}) {
-    final l = List.generate(n, (i) => Intake.generateDummy());
+  static List<Intake> generateDummies({int n, int day = 1}) {
+    final l = List.generate(n, (i) => Intake.generateDummy(n: n, day: day));
     l.sort((a, b) => b.dateTime.compareTo(a.dateTime));
     return l;
   }
 }
 
 @JsonSerializable()
-class IndicatorConsumption {
-  @JsonKey()
-  final int consumed;
-
-  @JsonKey()
-  final int norm;
-
-  @JsonKey()
-  final String unit;
-
-  const IndicatorConsumption(
-    this.consumed,
-    this.norm,
-    this.unit,
-  );
-
-  factory IndicatorConsumption.fromJson(Map<String, dynamic> json) =>
-      _$IndicatorConsumptionFromJson(json);
-
-  Map<String, dynamic> toJson() => _$IndicatorConsumptionToJson(this);
-}
-
-@JsonSerializable()
-class DailyIntake {
-  @JsonKey()
-  final int id;
-
-  @JsonKey()
-  final DateTime date;
-
-  @JsonKey()
-  final List<Intake> intakes;
-
-  @JsonKey()
-  final int amountG;
-
+class DailyIntakeNorms {
   @JsonKey()
   final int potassiumMg;
 
@@ -198,11 +155,7 @@ class DailyIntake {
   @JsonKey()
   final int liquidsMl;
 
-  const DailyIntake(
-    this.id,
-    this.date,
-    this.intakes,
-    this.amountG,
+  const DailyIntakeNorms(
     this.potassiumMg,
     this.proteinsMg,
     this.sodiumMg,
@@ -211,31 +164,68 @@ class DailyIntake {
     this.liquidsMl,
   );
 
-  factory DailyIntake.fromJson(Map<String, dynamic> json) =>
-      _$DailyIntakeFromJson(json);
+  //Pvz.žmogaus, kurio idealus svoris 62 kg ir jis atlieka peritonines dializes bei laikosi rekomenduojamos dietos, dienos suvestinė pvz atrodytų taip:
+  // Na 2,2 g
+  // K 3 g
+  // P 0,8 g
+  // Baltymai 68,2 g
+  // Vanduo 1100 ml
+  // Energija 1550 kcal
 
-  Map<String, dynamic> toJson() => _$DailyIntakeToJson(this);
+  // Arba jei 80kg, galėtų atrodyt pvz taip
+  // Na 2.3g
+  // K 4g
+  // P 1.1g
+  // Balt 96 g
+  // Vanduo 1100 ml (nedidelis, nes vandens galima suvartoti max 1000ml plius tos dienos šlapimo kiekis, o  šie su dializėmis pacientai dažniausiai neturi šlapimo, būna tik apie 100ml, kartais mažiau)
+  // Energija 2800 kcal
+  static DailyIntakeNorms generateDummy() {
+    return DailyIntakeNorms(
+      4000,
+      68200,
+      2300,
+      1100,
+      2800,
+      1100,
+    );
+  }
+}
 
-  static DailyIntake generateDummy({int day: 1}) {
-    return DailyIntake(
+@JsonSerializable()
+class DailyIntakes {
+  @JsonKey()
+  final int id;
+
+  @JsonKey()
+  final DateTime date;
+
+  @JsonKey()
+  final List<Intake> intakes;
+
+  @JsonKey()
+  final DailyIntakeNorms userIntakeNorms;
+
+  const DailyIntakes(
+    this.id,
+    this.date,
+    this.intakes,
+    this.userIntakeNorms,
+  );
+
+  static DailyIntakes generateDummy({int day: 1}) {
+    return DailyIntakes(
       random.integer(10000000),
       DateTime(2020, 12, day),
       Intake.generateDummies(
         n: faker.randomGenerator.integer(10, min: 1),
         day: day,
       ),
-      random.integer(3000),
-      random.integer(1100),
-      random.integer(80000),
-      random.integer(2200),
-      random.integer(2000),
-      random.integer(3000),
-      random.integer(1500),
+      DailyIntakeNorms.generateDummy(),
     );
   }
 
-  static List<DailyIntake> generateDummies() {
-    return List.generate(30, (index) => DailyIntake.generateDummy(day: index))
+  static List<DailyIntakes> generateDummies() {
+    return List.generate(30, (index) => DailyIntakes.generateDummy(day: index))
         .reversed
         .toList();
   }
@@ -289,11 +279,6 @@ class DailyHealthIndicators {
     this.shortnessOfBreath,
   );
 
-  factory DailyHealthIndicators.fromJson(Map<String, dynamic> json) =>
-      _$DailyHealthIndicatorsFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DailyHealthIndicatorsToJson(this);
-
   static DailyHealthIndicators generateDummy({int day: 1}) {
     return DailyHealthIndicators(
       random.integer(10000000),
@@ -311,7 +296,8 @@ class DailyHealthIndicators {
   }
 
   static List<DailyHealthIndicators> generateDummies() {
-    return List.generate(30, (index) => DailyHealthIndicators.generateDummy(day: index))
+    return List.generate(
+            30, (index) => DailyHealthIndicators.generateDummy(day: index))
         .reversed
         .toList();
   }

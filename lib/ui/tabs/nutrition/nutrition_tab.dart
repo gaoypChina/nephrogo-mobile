@@ -4,9 +4,10 @@ import 'package:nephrolog/extensions/StringExtension.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/ui/general/components.dart';
+import 'package:nephrolog/ui/general/graph.dart';
+import 'package:nephrolog/ui/general/progress_indicator.dart';
 import 'package:nephrolog/ui/tabs/nutrition/intakes_screen.dart';
-
-import '../../general/graph.dart';
+import 'package:nephrolog/extensions/contract_extensions.dart';
 
 class NutritionTab extends StatelessWidget {
   @override
@@ -30,88 +31,105 @@ class NutritionTabBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          DailyNormsSection(),
-          DailyIntakesCard(
-            title: "Valgiai",
-            leading: OutlineButton(
-              child: Text("DAUGIAU"),
-              onPressed: () =>
-                  openIntakesScreen(context, IntakesScreenType.potassium),
-            ),
-            intakes: Intake.generateDummies(n: 3).toList(),
-          ),
-          LargeSection(
-            title: "Kalis",
-            subTitle: "Paros norma 4 g",
-            children: [BarChartGraph.exampleIndicatorGraph()],
-            leading: OutlineButton(
-              child: Text("DAUGIAU"),
-              onPressed: () =>
-                  openIntakesScreen(context, IntakesScreenType.potassium),
-            ),
-          ),
-          LargeSection(
-            title: "Baltymai",
-            subTitle: "Paros norma 1.1 g",
-            children: [BarChartGraph.exampleIndicatorGraph()],
-            leading: OutlineButton(
-              child: Text("DAUGIAU"),
-              onPressed: () =>
-                  openIntakesScreen(context, IntakesScreenType.proteins),
-            ),
-          ),
-          LargeSection(
-            title: "Natris",
-            subTitle: "Paros norma 2.3 g",
-            children: [BarChartGraph.exampleIndicatorGraph()],
-            leading: OutlineButton(
-              child: Text("DAUGIAU"),
-              onPressed: () =>
-                  openIntakesScreen(context, IntakesScreenType.sodium),
-            ),
-          ),
-          LargeSection(
-            title: "Fosforas",
-            subTitle: "Paros norma 5 g",
-            children: [BarChartGraph.exampleIndicatorGraph()],
-            leading: OutlineButton(
-              child: Text("DAUGIAU"),
-              onPressed: () =>
-                  openIntakesScreen(context, IntakesScreenType.phosphorus),
-            ),
-          ),
-          LargeSection(
-            title: "Energija",
-            subTitle: "Paros norma 2800 kcal",
-            children: [BarChartGraph.exampleIndicatorGraph()],
-            leading: OutlineButton(
-              child: Text("DAUGIAU"),
-              onPressed: () =>
-                  openIntakesScreen(context, IntakesScreenType.energy),
-            ),
-          ),
-          LargeSection(
-            title: "Skysčiai",
-            subTitle: "Paros norma 1100 ml",
-            children: [BarChartGraph.exampleIndicatorGraph()],
-            leading: OutlineButton(
-              child: Text("DAUGIAU"),
-              onPressed: () =>
-                  openIntakesScreen(context, IntakesScreenType.liquids),
-            ),
-          ),
-        ],
+      child: FutureBuilder<List<DailyIntakes>>(
+        future: Future.delayed(const Duration(milliseconds: 500), () {
+          return DailyIntakes.generateDummies().take(6).toList();
+        }),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<DailyIntakes>> snapshot) {
+          if (snapshot.hasData) {
+            final dailyIntakes = snapshot.data;
+            final intakes = dailyIntakes.expand((e) => e.intakes).toList();
+            intakes.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+            final latestIntakes = intakes.take(3).toList();
+
+            return Column(
+              children: [
+                DailyNormsSection(),
+                DailyIntakesCard(
+                  title: "Valgiai",
+                  leading: OutlineButton(
+                    child: Text("DAUGIAU"),
+                    onPressed: () =>
+                        openIntakesScreen(context, IndicatorType.potassium),
+                  ),
+                  intakes: latestIntakes,
+                ),
+                buildIndicatorChartSection(
+                  context,
+                  dailyIntakes,
+                  IndicatorType.potassium,
+                  "Kalis",
+                ),
+                buildIndicatorChartSection(
+                  context,
+                  dailyIntakes,
+                  IndicatorType.proteins,
+                  "Baltymai",
+                ),
+                buildIndicatorChartSection(
+                  context,
+                  dailyIntakes,
+                  IndicatorType.sodium,
+                  "Natris",
+                ),
+                buildIndicatorChartSection(
+                  context,
+                  dailyIntakes,
+                  IndicatorType.phosphorus,
+                  "Fosforas",
+                ),
+                buildIndicatorChartSection(
+                  context,
+                  dailyIntakes,
+                  IndicatorType.energy,
+                  "Energija",
+                ),
+              ],
+            );
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text(snapshot.error));
+          }
+
+          return Center(child: AppProgressIndicator());
+        },
       ),
     );
   }
 
-  openIntakesScreen(BuildContext context, IntakesScreenType indicator) {
+  openIntakesScreen(BuildContext context, IndicatorType indicator) {
     Navigator.pushNamed(
       context,
       Routes.ROUTE_INTAKES,
       arguments: IntakesScreenArguments(indicator),
+    );
+  }
+
+  LargeSection buildIndicatorChartSection(
+    BuildContext context,
+    List<DailyIntakes> dailyIntakes,
+    IndicatorType type,
+    String title,
+  ) {
+    final dailyNorm =
+        dailyIntakes.first.getTotalIndicatorAmountByType(type).toDouble();
+    final dailyNormFormatted = dailyIntakes.first.getFormattedDailyNorm(type);
+
+    return LargeSection(
+      title: title,
+      subTitle: "Paros norma $dailyNormFormatted",
+      children: [
+        IndicatorBarChart(
+          dailyIntakes: dailyIntakes,
+          type: type,
+          dailyNorm: dailyNorm,
+        ),
+      ],
+      leading: OutlineButton(
+        child: Text("DAUGIAU"),
+        onPressed: () => openIntakesScreen(context, type),
+      ),
     );
   }
 }
@@ -132,7 +150,7 @@ class DailyNormsSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            BarChartGraph.exampleDailyTotals(),
+            Text("TODO fix"),
           ],
         )
       ],

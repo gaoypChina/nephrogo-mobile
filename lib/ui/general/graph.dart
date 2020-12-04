@@ -1,92 +1,72 @@
-// https://github.com/imaNNeoFighT/fl_chart/issues/476
 import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:nephrolog/constants.dart';
+import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/models/graph.dart';
+import 'package:nephrolog/extensions/CollectionExtensions.dart';
+import 'package:nephrolog/extensions/contract_extensions.dart';
 
-class BarChartGraph extends StatefulWidget {
-  final List<BarChartEntry> entries;
+class IndicatorBarChart extends StatelessWidget {
+  final List<DailyIntakes> dailyIntakes;
+  final double dailyNorm;
+  final IndicatorType type;
 
-  const BarChartGraph({Key key, this.entries}) : super(key: key);
+  const IndicatorBarChart({
+    Key key,
+    @required this.dailyIntakes,
+    @required this.type,
+    @required this.dailyNorm,
+  }) : super(key: key);
 
-  static const weekDays = [
-    'Pirmadienis',
-    'Antradienis',
-    'Trečiadienis',
-    'Ketvirtadienis',
-    'Penktadienis',
-    'Šeštadienis',
-    'Sekmadienis',
-  ];
-
-  static Widget exampleIndicatorGraph() {
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
       child: AspectRatio(
         aspectRatio: 2,
-        child: BarChartGraph.example(false, weekDays),
+        child: BarChartGraph(
+          data: AppBarChartData(
+            groups: _getChartGroups(dailyNorm),
+            horizontalLinesInterval: dailyNorm,
+          ),
+        ),
       ),
     );
   }
 
-  static BarChartGraph example(bool today, List<String> data) {
-    var exceededDay = Random().nextInt(data.length);
-    List<BarChartEntry> entries = [];
-    for (int i = 0; i < data.length; i++) {
-      var r = (i == exceededDay) ? 1.0 : min(Random().nextDouble(), 0.9);
+  List<AppBarChartGroup> _getChartGroups(double dailyNorm) {
+    final dailyIntakesByWeekDay =
+        dailyIntakes.groupBy((e) => e.date.weekday).map(
+              (key, value) => MapEntry(key, value.firstOrNull()),
+            );
 
-      var tooltip = "Suvartota: 3 g";
-      if (today) {
-        tooltip = "${data[i]}\nSuvartota 3 g.\nDar galima 1 g";
-      }
+    return Constants.weekDays.mapIndexed((i, dayText) {
+      final di = dailyIntakesByWeekDay[i + 1];
+      final y = di?.getTotalIndicatorAmountByType(type) ?? 0;
 
-      entries.add(BarChartEntry(
-        title: today ? data[i] : data[i][0],
-        y: r,
-        tooltip: tooltip,
-        barColor: i != exceededDay ? Colors.teal : Colors.redAccent,
-      ));
-    }
-    return BarChartGraph(
-      entries: entries,
-    );
+      print("$type: y = $y, dailyNorm = $dailyNorm");
+
+      AppBarChartRod entry = AppBarChartRod(
+        tooltip: di?.getFormattedDailyNorm(type) ?? "",
+        y: y.toDouble(),
+        barColor: y > dailyNorm ? Colors.redAccent : Colors.teal,
+      );
+
+      return AppBarChartGroup(
+        text: dayText[0],
+        x: i,
+        rods: entry != null ? [entry] : [],
+      );
+    }).toList();
   }
+}
 
-  static Widget exampleDailyTotals() {
-    final first = BarChartGraph.example(
-      true,
-      ["Kalis", "Baltymai", "Natris"],
-    );
-    final second = BarChartGraph.example(
-      true,
-      ["Fosforas", "Energija", "Skysčiai"],
-    );
+class BarChartGraph extends StatefulWidget {
+  final AppBarChartData data;
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 100,
-              constraints: BoxConstraints(maxWidth: 250),
-              child: first,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 100,
-              constraints: BoxConstraints(maxWidth: 250),
-              child: second,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  const BarChartGraph({Key key, @required this.data}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _BarChartGraph();
@@ -94,101 +74,107 @@ class BarChartGraph extends StatefulWidget {
 
 class _BarChartGraph extends State<BarChartGraph> {
   final Duration animDuration = const Duration(milliseconds: 250);
-
   int touchedIndex;
 
   @override
   Widget build(BuildContext context) {
+    final maxY = widget.data.groups
+        .map((e) => e.rods.map((e) => e.y))
+        .expand((e) => e)
+        .max;
+
     return BarChart(
-      mainBarData(),
+      BarChartData(
+        maxY: max(maxY * 1.1, widget.data.horizontalLinesInterval ?? 0),
+        barTouchData: BarTouchData(
+          touchTooltipData: BarTouchTooltipData(
+              tooltipBgColor: Colors.grey,
+              getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                return BarTooltipItem(
+                  this.widget.data.groups[groupIndex].rods[rodIndex].tooltip,
+                  TextStyle(color: Colors.yellow),
+                );
+              }),
+          touchCallback: (barTouchResponse) {
+            setState(() {
+              if (barTouchResponse.spot != null &&
+                  barTouchResponse.touchInput is! FlPanEnd &&
+                  barTouchResponse.touchInput is! FlLongPressEnd) {
+                touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
+              } else {
+                touchedIndex = -1;
+              }
+            });
+          },
+        ),
+        titlesData: FlTitlesData(
+          show: true,
+          bottomTitles: SideTitles(
+            showTitles: true,
+            getTextStyles: (value) => const TextStyle(
+                color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 14),
+            margin: 16,
+            getTitles: (double value) {
+              return this.widget.data.groups[value.toInt()].text;
+            },
+          ),
+          leftTitles: SideTitles(
+            showTitles: false,
+          ),
+        ),
+        gridData: FlGridData(
+          show: widget.data.horizontalLinesInterval != null,
+          horizontalInterval: widget.data.horizontalLinesInterval,
+          checkToShowHorizontalLine: (value) {
+            return (value - widget.data.horizontalLinesInterval).abs() < 1e-6;
+          },
+          getDrawingHorizontalLine: (value) {
+            return FlLine(
+              color: Colors.teal,
+              dashArray: [5, 5],
+              strokeWidth: 2,
+            );
+          },
+        ),
+        borderData: FlBorderData(
+          show: false,
+        ),
+        barGroups: showingGroups(),
+      ),
       swapAnimationDuration: animDuration,
     );
   }
 
-  BarChartGroupData makeGroupData(
-    int x,
-    double y, {
-    bool isTouched = false,
-    Color barColor = Colors.lightGreen,
-    double width = 22,
-    List<int> showTooltips = const [],
-  }) {
-    return BarChartGroupData(
-      x: x,
-      barRods: [
-        BarChartRodData(
-          y: isTouched ? y + 1 : y,
-          colors: isTouched ? [Colors.yellow] : [barColor],
-          width: width,
-          backDrawRodData: BackgroundBarChartRodData(
-            show: true,
-            y: 1,
-            colors: [Colors.grey],
-          ),
-        ),
-      ],
-      showingTooltipIndicators: showTooltips,
-    );
-  }
-
   List<BarChartGroupData> showingGroups() {
-    final entries = widget.entries;
+    return widget.data.groups.map(
+      (group) {
+        final x = group.x;
+        final isTouched = x == touchedIndex;
 
-    return List.generate(entries.length, (i) {
-      if (i >= entries.length) {
-        return null;
-      }
+        return BarChartGroupData(
+          x: x,
+          barRods: group.rods.map(
+            (rod) {
+              final y = rod.y.toDouble();
 
-      final entry = entries[i];
-      return makeGroupData(
-        i,
-        entry.y,
-        isTouched: i == touchedIndex,
-        barColor: entry.barColor,
-      );
-    });
-  }
-
-  BarChartData mainBarData() {
-    return BarChartData(
-      barTouchData: BarTouchData(
-        touchTooltipData: BarTouchTooltipData(
-            tooltipBgColor: Colors.grey,
-            getTooltipItem: (group, groupIndex, rod, rodIndex) {
-              return BarTooltipItem(this.widget.entries[groupIndex].tooltip,
-                  TextStyle(color: Colors.yellow));
-            }),
-        touchCallback: (barTouchResponse) {
-          setState(() {
-            if (barTouchResponse.spot != null &&
-                barTouchResponse.touchInput is! FlPanEnd &&
-                barTouchResponse.touchInput is! FlLongPressEnd) {
-              touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
-            } else {
-              touchedIndex = -1;
-            }
-          });
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-              color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 14),
-          margin: 16,
-          getTitles: (double value) {
-            return this.widget.entries[value.toInt()].title;
-          },
-        ),
-        leftTitles: SideTitles(
-          showTitles: false,
-        ),
-      ),
-      borderData: FlBorderData(
-        show: false,
-      ),
-      barGroups: showingGroups(),
-    );
+              return BarChartRodData(
+                y: y,
+                colors: isTouched ? [Colors.orange] : [rod.barColor],
+                width: widget.data.barWidth,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(widget.data.rodRadius),
+                  topRight: Radius.circular(widget.data.rodRadius),
+                ),
+                backDrawRodData: BackgroundBarChartRodData(
+                  show: true,
+                  y: y,
+                  colors: [Colors.grey],
+                ),
+              );
+            },
+          ).toList(),
+        );
+      },
+    ).toList();
   }
 }
