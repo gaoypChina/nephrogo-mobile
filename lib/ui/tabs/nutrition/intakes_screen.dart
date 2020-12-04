@@ -5,7 +5,6 @@ import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/extensions/string_extensions.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:nephrolog/services/api_service.dart';
-import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/graph.dart';
 import 'package:nephrolog/ui/general/progress_indicator.dart';
 
