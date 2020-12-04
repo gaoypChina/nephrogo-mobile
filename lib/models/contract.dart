@@ -235,7 +235,7 @@ class DailyIntake {
     while (date.isBefore(to)) {
       dailyIntakes.add(DailyIntake.generateDummy(date));
 
-      date.add(Duration(days: 1));
+      date = date.add(Duration(days: 1));
     }
 
     return dailyIntakes;
