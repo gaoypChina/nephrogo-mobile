@@ -10,14 +10,12 @@ import 'package:nephrolog/extensions/contract_extensions.dart';
 
 class IndicatorBarChart extends StatelessWidget {
   final List<DailyIntake> dailyIntakes;
-  final double dailyNorm;
   final IndicatorType type;
 
   const IndicatorBarChart({
     Key key,
     @required this.dailyIntakes,
     @required this.type,
-    @required this.dailyNorm,
   }) : super(key: key);
 
   @override
@@ -28,7 +26,7 @@ class IndicatorBarChart extends StatelessWidget {
         aspectRatio: 2,
         child: BarChartGraph(
           data: AppBarChartData(
-            groups: _getChartGroups(dailyNorm),
+            groups: _getChartGroups(),
             horizontalLinesInterval: 1,
           ),
         ),
@@ -36,7 +34,7 @@ class IndicatorBarChart extends StatelessWidget {
     );
   }
 
-  List<AppBarChartGroup> _getChartGroups(double dailyNorm) {
+  List<AppBarChartGroup> _getChartGroups() {
     final dailyIntakesByWeekDay =
         dailyIntakes.groupBy((e) => e.date.weekday).map(
               (key, value) => MapEntry(key, value.firstOrNull()),
@@ -45,6 +43,7 @@ class IndicatorBarChart extends StatelessWidget {
     return Constants.weekDays.mapIndexed((i, dayText) {
       final di = dailyIntakesByWeekDay[i + 1];
       final y = di?.getDailyTotalByType(type) ?? 0;
+      final dailyNorm = di?.userIntakeNorms?.getIndicatorAmountByType(type) ?? 1;
 
       AppBarChartRod entry = AppBarChartRod(
         tooltip: di?.getFormattedDailyTotal(type) ?? "",

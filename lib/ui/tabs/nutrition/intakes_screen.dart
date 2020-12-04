@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/extensions/string_extensions.dart';
-import 'package:nephrolog/ui/general/app_logo.dart';
+import 'package:nephrolog/extensions/date_extensions.dart';
+import 'package:nephrolog/services/api_service.dart';
+import 'package:nephrolog/ui/general/components.dart';
+import 'package:nephrolog/ui/general/graph.dart';
+import 'package:nephrolog/ui/general/progress_indicator.dart';
 
 import 'nutrition_tab.dart';
 
@@ -13,63 +17,126 @@ class IntakesScreenArguments {
   IntakesScreenArguments(this.intakesScreenType);
 }
 
-class _IntakesScreenTabData {
-  final String name;
-  final IndicatorType screenType;
+class IntakesScreen extends StatefulWidget {
+  final IndicatorType type;
 
-  const _IntakesScreenTabData(this.name, this.screenType);
+  const IntakesScreen({Key key, @required this.type}) : super(key: key);
 
-  IntakesScreenTab body(List<DailyIntake> dailyIntakes) => IntakesScreenTab(
-        intakesScreenType: screenType,
-        dailyIntakes: dailyIntakes,
-      );
+  @override
+  _IntakesScreenState createState() => _IntakesScreenState();
 }
 
-class IntakesScreen extends StatelessWidget {
-  final IndicatorType intakesScreenType;
+class _IntakesScreenState extends State<IntakesScreen> {
+  final dateFormatter = DateFormat.MMMMd();
 
-  static final dailyIntakes = DailyIntake.generateDummies();
+  // It's hacky, but let's load pages nearby
+  final controller = PageController(viewportFraction: 0.9999999);
+  DateTime today = DateTime.now();
 
-  static final _tabs = [
-    _IntakesScreenTabData("KALIS", IndicatorType.potassium),
-    _IntakesScreenTabData("BALTYMAI", IndicatorType.proteins),
-    _IntakesScreenTabData("NATRIS", IndicatorType.sodium),
-    _IntakesScreenTabData("FOSFORAS", IndicatorType.phosphorus),
-    _IntakesScreenTabData("ENERGIJA", IndicatorType.energy),
-    _IntakesScreenTabData("SKYSČIAI", IndicatorType.liquids),
-  ];
+  DateTime initialWeekStart;
+  DateTime initialWeekEnd;
 
-  const IntakesScreen({Key key, @required this.intakesScreenType})
-      : super(key: key);
+  DateTime weekStart;
+  DateTime weekEnd;
+
+  @override
+  void initState() {
+    super.initState();
+
+    initialWeekStart =
+        today.startOfDay().subtract(Duration(days: today.weekday - 1));
+    initialWeekEnd = today
+        .endOfDay()
+        .add(Duration(days: DateTime.daysPerWeek - today.weekday));
+
+    weekStart = initialWeekStart;
+    weekEnd = initialWeekEnd;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: _tabs.length,
-      initialIndex: _tabs.indexWhere((t) => t.screenType == intakesScreenType),
-      child: Scaffold(
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [
-              SliverAppBar(
-                floating: true,
-                pinned: true,
-                snap: true,
-                stretch: true,
-                title: AppLogo(),
-                centerTitle: true,
-                bottom: TabBar(
-                  tabs: _tabs.map((t) => Tab(text: t.name)).toList(),
-                  isScrollable: true,
-                ),
-              ),
-            ];
-          },
-          body: TabBarView(
-            children: _tabs.map((t) => t.body(dailyIntakes)).toList(),
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(title: Text(_getAppTitle())),
+      body: PageView.builder(
+        controller: controller,
+        onPageChanged: changeWeek,
+        reverse: true,
+        itemBuilder: (context, index) {
+          return _WeeklyIntakesComponent(
+            type: widget.type,
+            weekStart: calculateWeekStart(index),
+            weekEnd: calculateWeekEnd(index),
+          );
+        },
       ),
+    );
+  }
+
+  String _getAppTitle() {
+    return "${dateFormatter.format(weekStart)} - ${dateFormatter.format(weekEnd)}"
+        .capitalizeFirst();
+  }
+
+  DateTime calculateWeekStart(int n) {
+    final changeDuration = Duration(days: 7 * n);
+
+    return initialWeekStart.subtract(changeDuration);
+  }
+
+  DateTime calculateWeekEnd(int n) {
+    final changeDuration = Duration(days: 7 * n);
+
+    return initialWeekEnd.subtract(changeDuration);
+  }
+
+  changeWeek(int index) {
+    setState(() {
+      weekStart = calculateWeekStart(index);
+      weekEnd = calculateWeekEnd(index);
+    });
+  }
+}
+
+class _WeeklyIntakesComponent extends StatelessWidget {
+  final apiService = const ApiService();
+
+  final IndicatorType type;
+
+  final DateTime weekStart;
+  final DateTime weekEnd;
+
+  const _WeeklyIntakesComponent({
+    Key key,
+    @required this.type,
+    @required this.weekStart,
+    @required this.weekEnd,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<DailyIntakesResponse>(
+      future: apiService.getUserIntakesResponse(weekStart, weekEnd),
+      builder:
+          (BuildContext context, AsyncSnapshot<DailyIntakesResponse> snapshot) {
+        if (snapshot.hasData) {
+          final dailyIntakes = snapshot.data.dailyIntakes;
+
+          return Column(
+            children: [
+              IndicatorBarChart(
+                dailyIntakes: dailyIntakes,
+                type: type,
+              ),
+               IntakesScreenTab(dailyIntakes: dailyIntakes, type: type),
+            ],
+          );
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error));
+        }
+
+        return Center(child: AppProgressIndicator());
+      },
     );
   }
 }
@@ -77,12 +144,12 @@ class IntakesScreen extends StatelessWidget {
 class IntakesScreenTab extends StatelessWidget {
   static final _dateFormat = DateFormat("E, d MMM");
 
-  final IndicatorType intakesScreenType;
+  final IndicatorType type;
   final List<DailyIntake> dailyIntakes;
 
   const IntakesScreenTab({
     Key key,
-    @required this.intakesScreenType,
+    @required this.type,
     @required this.dailyIntakes,
   }) : super(key: key);
 

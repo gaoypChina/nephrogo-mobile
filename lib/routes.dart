@@ -38,7 +38,7 @@ class Routes {
           IntakesScreenArguments arguments = settings.arguments;
 
           return IntakesScreen(
-            intakesScreenType: arguments.intakesScreenType,
+            type: arguments.intakesScreenType,
           );
         });
       default:

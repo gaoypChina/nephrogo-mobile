@@ -111,12 +111,16 @@ class Intake {
   // Balt 96 g
   // Vanduo 1100 ml (nedidelis, nes vandens galima suvartoti max 1000ml plius tos dienos šlapimo kiekis, o  šie su dializėmis pacientai dažniausiai neturi šlapimo, būna tik apie 100ml, kartais mažiau)
   // Energija 2800 kcal
-  static Intake generateDummy({int n, int day}) {
+  static Intake generateDummy({int n, DateTime dateTime}) {
     final ratio = n - 0.5 / n;
     return Intake(
       random.integer(10000000),
       Product.generateDummy(),
-      faker.date.dateTime().copyWith(year: 2020, month: 12, day: day),
+      faker.date.dateTime().copyWith(
+            year: dateTime.year,
+            month: dateTime.month,
+            day: dateTime.day,
+          ),
       random.integer(3000 ~/ ratio),
       random.integer(1100 ~/ ratio),
       random.integer(80000 ~/ ratio),
@@ -127,8 +131,9 @@ class Intake {
     );
   }
 
-  static List<Intake> generateDummies({int n, int day = 1}) {
-    final l = List.generate(n, (i) => Intake.generateDummy(n: n, day: day));
+  static List<Intake> generateDummies({int n, DateTime dateTime}) {
+    final l =
+        List.generate(n, (i) => Intake.generateDummy(n: n, dateTime: dateTime));
     l.sort((a, b) => b.dateTime.compareTo(a.dateTime));
     return l;
   }
@@ -211,22 +216,41 @@ class DailyIntake {
     this.userIntakeNorms,
   );
 
-  static DailyIntake generateDummy({int day: 1}) {
+  static DailyIntake generateDummy(DateTime dateTime) {
     return DailyIntake(
       random.integer(10000000),
-      DateTime(2020, 12, day),
+      dateTime,
       Intake.generateDummies(
         n: faker.randomGenerator.integer(10, min: 1),
-        day: day,
+        dateTime: dateTime,
       ),
       DailyIntakeNorms.generateDummy(),
     );
   }
 
-  static List<DailyIntake> generateDummies() {
-    return List.generate(30, (index) => DailyIntake.generateDummy(day: index))
-        .reversed
-        .toList();
+  static List<DailyIntake> generateDummies(DateTime from, DateTime to) {
+    final dailyIntakes = <DailyIntake>[];
+
+    var date = from;
+    while (date.isBefore(to)) {
+      dailyIntakes.add(DailyIntake.generateDummy(date));
+
+      date.add(Duration(days: 1));
+    }
+
+    return dailyIntakes;
+  }
+}
+
+@JsonSerializable()
+class DailyIntakesResponse {
+  @JsonKey()
+  final List<DailyIntake> dailyIntakes;
+
+  DailyIntakesResponse(this.dailyIntakes);
+
+  static DailyIntakesResponse generateDummy(DateTime from, DateTime to) {
+    return DailyIntakesResponse(DailyIntake.generateDummies(from, to));
   }
 }
 

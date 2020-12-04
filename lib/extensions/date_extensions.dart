@@ -6,6 +6,14 @@ extension DateTimeExtension on DateTime {
     return DateTime(year, month, day, time.hour, time.minute);
   }
 
+  DateTime startOfDay() {
+    return DateTime(year, month, day);
+  }
+
+  DateTime endOfDay() {
+    return DateTime(year, month, day, 23, 59, 59);
+  }
+
   // https://stackoverflow.com/questions/52627973/dart-how-to-set-the-hour-and-minute-of-datetime-object
   DateTime copyWith(
       {int year,

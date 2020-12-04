@@ -3,11 +3,13 @@ import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/string_extensions.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
+import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/graph.dart';
 import 'package:nephrolog/ui/general/progress_indicator.dart';
 import 'package:nephrolog/ui/tabs/nutrition/intakes_screen.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
+import 'package:nephrolog/extensions/date_extensions.dart';
 
 class NutritionTab extends StatelessWidget {
   @override
@@ -28,19 +30,23 @@ class NutritionTab extends StatelessWidget {
 }
 
 class NutritionTabBody extends StatelessWidget {
+  final now = DateTime.now();
+  final apiService = ApiService();
+
   @override
   Widget build(BuildContext context) {
+    final from = now.startOfDay().subtract(Duration(days: 7));
+    final to = now.endOfDay();
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 64),
-        child: FutureBuilder<List<DailyIntake>>(
-          future: Future.delayed(const Duration(milliseconds: 500), () {
-            return DailyIntake.generateDummies().take(6).toList();
-          }),
-          builder:
-              (BuildContext context, AsyncSnapshot<List<DailyIntake>> snapshot) {
+        child: FutureBuilder<DailyIntakesResponse>(
+          future: apiService.getUserIntakesResponse(from, to),
+          builder: (BuildContext context,
+              AsyncSnapshot<DailyIntakesResponse> snapshot) {
             if (snapshot.hasData) {
-              final dailyIntakes = snapshot.data;
+              final dailyIntakes = snapshot.data.dailyIntakes;
               final intakes = dailyIntakes.expand((e) => e.intakes).toList();
               intakes.sort((a, b) => b.dateTime.compareTo(a.dateTime));
               final latestIntakes = intakes.take(3).toList();
@@ -109,7 +115,6 @@ class NutritionTabBody extends StatelessWidget {
     List<DailyIntake> dailyIntakes,
     IndicatorType type,
   ) {
-    final dailyNorm = dailyIntakes.first.getDailyTotalByType(type).toDouble();
     final dailyNormFormatted = dailyIntakes.first.getFormattedDailyTotal(type);
 
     return LargeSection(
@@ -119,7 +124,6 @@ class NutritionTabBody extends StatelessWidget {
         IndicatorBarChart(
           dailyIntakes: dailyIntakes,
           type: type,
-          dailyNorm: dailyNorm,
         ),
       ],
       leading: OutlineButton(
