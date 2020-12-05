@@ -25,38 +25,48 @@ class IndicatorBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final maximumRatio =
-        dailyIntakes.map((e) => e.getIndicatorConsumptionRatio(type)).max;
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
       child: AspectRatio(
         aspectRatio: 2,
         child: AppBarChart(
-          data: AppBarChartData(
-            groups: _getChartGroups(),
-            horizontalLinesInterval: 1,
-            maxY: max(maximumRatio, 1.01),
-          ),
+          data: _getChartData(),
         ),
       ),
     );
   }
 
-  List<AppBarChartGroup> _getChartGroups() {
+  AppBarChartData _getChartData() {
     final startOfToday = DateTime.now().startOfDay();
 
     final dailyIntakesSorted = dailyIntakes.sortedBy((e) => e.date);
 
-    return dailyIntakesSorted.mapIndexed((i, di) {
-      final ratio = di.getIndicatorConsumptionRatio(type);
+    final maximumNorm = dailyIntakes
+        .map((e) => e.userIntakeNorms.getIndicatorAmountByType(type))
+        .max
+        .toDouble();
+
+    final maximumAmount =
+        dailyIntakes.map((e) => e.getDailyTotalByType(type)).max.toDouble();
+
+    var interval = maximumNorm / 2;
+    if (maximumAmount ~/ maximumNorm > 3) {
+      interval = maximumNorm;
+    }
+
+    final scaleValue = (type != IndicatorType.energy) ? 1e-3 : 1.0;
+
+    final groups = dailyIntakesSorted.mapIndexed((i, di) {
+      final y = di.getDailyTotalByType(type).toDouble();
+      final norm = di.userIntakeNorms.getIndicatorAmountByType(type);
+
       final dateFormatted = _dateFormatter.format(di.date);
       final dailyTotalFormatted = di.getFormattedDailyTotal(type);
 
       AppBarChartRod entry = AppBarChartRod(
         tooltip: "$dateFormatted\n$dailyTotalFormatted",
-        y: ratio,
-        barColor: ratio > 1.0 ? Colors.redAccent : Colors.teal,
+        y: y * scaleValue,
+        barColor: y > norm ? Colors.redAccent : Colors.teal,
       );
 
       return AppBarChartGroup(
@@ -66,5 +76,12 @@ class IndicatorBarChart extends StatelessWidget {
         rods: [entry],
       );
     }).toList();
+
+    return AppBarChartData(
+      groups: groups,
+      dashedHorizontalLine: maximumNorm * scaleValue,
+      interval: interval * scaleValue,
+      maxY: max(maximumNorm, maximumAmount) * scaleValue * 1.01,
+    );
   }
 }

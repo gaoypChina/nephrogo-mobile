@@ -42,7 +42,6 @@ class _AppBarChart extends State<AppBarChart> {
           },
         ),
         titlesData: FlTitlesData(
-          show: true,
           bottomTitles: SideTitles(
             showTitles: true,
             getTextStyles: (value) {
@@ -60,14 +59,15 @@ class _AppBarChart extends State<AppBarChart> {
             },
           ),
           leftTitles: SideTitles(
-            showTitles: false,
+            showTitles: widget.data.interval != null,
+            interval: widget.data.interval,
           ),
         ),
         gridData: FlGridData(
-          show: widget.data.horizontalLinesInterval != null,
-          horizontalInterval: widget.data.horizontalLinesInterval,
+          show: widget.data.interval != null,
+          horizontalInterval: widget.data.interval,
           checkToShowHorizontalLine: (value) {
-            return (value - widget.data.horizontalLinesInterval).abs() < 1e-6;
+            return (value - widget.data.dashedHorizontalLine).abs() < 1e-6;
           },
           getDrawingHorizontalLine: (value) {
             return FlLine(

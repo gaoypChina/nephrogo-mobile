@@ -4,17 +4,19 @@ import 'package:flutter/foundation.dart';
 
 class AppBarChartData {
   final List<AppBarChartGroup> groups;
-  final double horizontalLinesInterval;
+  final double dashedHorizontalLine;
   final double barWidth;
   final double rodRadius;
+  final double interval;
   final double maxY;
 
   AppBarChartData({
     @required this.groups,
-    this.horizontalLinesInterval,
+    this.dashedHorizontalLine,
     this.barWidth: 22,
     this.rodRadius: 6,
     this.maxY,
+    this.interval,
   });
 }
 
