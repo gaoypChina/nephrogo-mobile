@@ -64,31 +64,7 @@ class NutritionTabBody extends StatelessWidget {
                     ),
                     intakes: latestIntakes,
                   ),
-                  buildIndicatorChartSection(
-                    context,
-                    dailyIntakes,
-                    IndicatorType.potassium,
-                  ),
-                  buildIndicatorChartSection(
-                    context,
-                    dailyIntakes,
-                    IndicatorType.proteins,
-                  ),
-                  buildIndicatorChartSection(
-                    context,
-                    dailyIntakes,
-                    IndicatorType.sodium,
-                  ),
-                  buildIndicatorChartSection(
-                    context,
-                    dailyIntakes,
-                    IndicatorType.phosphorus,
-                  ),
-                  buildIndicatorChartSection(
-                    context,
-                    dailyIntakes,
-                    IndicatorType.energy,
-                  ),
+                  ..._buildIndicatorCharsSections(context, dailyIntakes),
                 ],
               );
             }
@@ -101,6 +77,15 @@ class NutritionTabBody extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildIndicatorCharsSections(
+    BuildContext context,
+    List<DailyIntake> dailyIntakes,
+  ) {
+    return IndicatorType.values
+        .map((t) => buildIndicatorChartSection(context, dailyIntakes, t))
+        .toList();
   }
 
   openIntakesScreen(BuildContext context, IndicatorType indicator) {
