@@ -122,7 +122,7 @@ class Intake {
             day: dateTime.day,
           ),
       random.integer(3000 ~/ ratio),
-      random.integer(1100 ~/ ratio),
+      random.integer(4400 ~/ ratio),
       random.integer(80000 ~/ ratio),
       random.integer(2200 ~/ ratio),
       random.integer(2000 ~/ ratio),
@@ -230,12 +230,12 @@ class DailyIntake {
 
   static List<DailyIntake> generateDummies(DateTime from, DateTime to) {
     final dailyIntakes = <DailyIntake>[];
+    final toStartOfDay = to.startOfDay();
 
-    var date = from;
-    while (date.isBefore(to)) {
+    for (var date = from;
+        date.isBefore(toStartOfDay);
+        date = date.add(Duration(days: 1))) {
       dailyIntakes.add(DailyIntake.generateDummy(date));
-
-      date = date.add(Duration(days: 1));
     }
 
     return dailyIntakes;

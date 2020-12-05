@@ -61,10 +61,8 @@ extension DailyIntakesExtensions on DailyIntake {
   }
 
   double getIndicatorConsumptionRatio(IndicatorType type) {
-    final consumption = this
-        .intakes
-        .map((e) => e.getIndicatorAmountByType(type))
-        .sum;
+    final consumption =
+        this.intakes.map((e) => e.getIndicatorAmountByType(type)).sum;
     final recommendation = this.userIntakeNorms.getIndicatorAmountByType(type);
 
     return consumption.toDouble() / recommendation;

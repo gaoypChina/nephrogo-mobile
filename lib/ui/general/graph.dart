@@ -2,13 +2,16 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:nephrolog/constants.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/models/graph.dart';
 import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
+import 'package:nephrolog/extensions/string_extensions.dart';
 
 class IndicatorBarChart extends StatelessWidget {
+  static final _dayFormatter = DateFormat.E();
+
   final List<DailyIntake> dailyIntakes;
   final IndicatorType type;
 
@@ -39,23 +42,17 @@ class IndicatorBarChart extends StatelessWidget {
   }
 
   List<AppBarChartGroup> _getChartGroups() {
-    final dailyIntakesByWeekDay =
-        dailyIntakes.groupBy((e) => e.date.weekday).map(
-              (key, value) => MapEntry(key, value.firstOrNull()),
-            );
-
-    return Constants.weekDays.mapIndexed((i, dayText) {
-      final di = dailyIntakesByWeekDay[i + 1];
-      final ratio = di?.getIndicatorConsumptionRatio(type) ?? 0;
+    return dailyIntakes.mapIndexed((i, di) {
+      final ratio = di.getIndicatorConsumptionRatio(type);
 
       AppBarChartRod entry = AppBarChartRod(
-        tooltip: di?.getFormattedDailyTotal(type) ?? "",
+        tooltip: di.getFormattedDailyTotal(type),
         y: ratio,
         barColor: ratio > 1.0 ? Colors.redAccent : Colors.teal,
       );
 
       return AppBarChartGroup(
-        text: dayText[0],
+        text: _dayFormatter.format(di.date).capitalizeFirst(),
         x: i,
         rods: entry != null ? [entry] : [],
       );
