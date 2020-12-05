@@ -25,8 +25,12 @@ class IntakesScreen extends StatefulWidget {
 }
 
 class _IntakesScreenState extends State<IntakesScreen> {
+  static final dateFormatter = DateFormat.MMMMd();
+
   // It's hacky, but let's load pages nearby
-  final controller = PageController(viewportFraction: 0.9999999);
+  final pageController = PageController(viewportFraction: 0.9999999);
+
+  ValueNotifier<IndicatorType> indicatorChangeNotifier;
 
   final DateTime today = DateTime.now();
 
@@ -51,6 +55,9 @@ class _IntakesScreenState extends State<IntakesScreen> {
 
     weekStart = initialWeekStart;
     weekEnd = initialWeekEnd;
+
+    indicatorChangeNotifier = ValueNotifier<IndicatorType>(type);
+    pageController.addListener(onPageChanged);
   }
 
   @override
@@ -64,20 +71,58 @@ class _IntakesScreenState extends State<IntakesScreen> {
         label: Text("ELEMENTAS"),
         icon: Icon(Icons.swap_horizontal_circle),
       ),
-      body: PageView.builder(
-        controller: controller,
-        onPageChanged: changeWeek,
-        reverse: true,
-        itemBuilder: (context, index) {
-          return _WeeklyIntakesComponent(
-            type: widget.type,
-            weekStart: calculateWeekStart(index),
-            weekEnd: calculateWeekEnd(index),
-            pageController: controller,
-          );
-        },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: Material(
+              elevation: 1,
+              child: BasicSection(
+                padding: EdgeInsets.zero,
+                children: [
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.chevron_left),
+                        onPressed: advanceToPreviousDateRange,
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            _getDateRangeFormatted(),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.subtitle2,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.chevron_right),
+                        onPressed:
+                            hasNextDateRange() ? advanceToNextDateRange : null,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: _WeeklyIntakesPager(
+              pageController: pageController,
+              indicatorChangeNotifier: indicatorChangeNotifier,
+              initialWeekStart: initialWeekStart,
+              initialWeekEnd: initialWeekEnd,
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  void onPageChanged() {
+    if (pageController.page == pageController.page.roundToDouble()) {
+      changeWeek(pageController.page.toInt());
+    }
   }
 
   DateTime calculateWeekStart(int n) {
@@ -122,6 +167,7 @@ class _IntakesScreenState extends State<IntakesScreen> {
   _changeIndicator(IndicatorType selectedType) {
     setState(() {
       type = selectedType;
+      indicatorChangeNotifier.value = selectedType;
     });
   }
 
@@ -149,14 +195,118 @@ class _IntakesScreenState extends State<IntakesScreen> {
       _changeIndicator(selectedType);
     }
   }
+
+  bool hasNextDateRange() => weekEnd.isBefore(DateTime.now());
+
+  advanceToNextDateRange() {
+    pageController.previousPage(
+        duration: const Duration(milliseconds: 700), curve: Curves.ease);
+  }
+
+  advanceToPreviousDateRange() {
+    pageController.nextPage(
+        duration: const Duration(milliseconds: 700), curve: Curves.ease);
+  }
+
+  String _getDateRangeFormatted() {
+    return "${dateFormatter.format(weekStart).capitalizeFirst()} – "
+        "${dateFormatter.format(weekEnd).capitalizeFirst()}";
+  }
+
+  @override
+  void dispose() {
+    pageController.removeListener(onPageChanged);
+
+    super.dispose();
+  }
+}
+
+class _WeeklyIntakesPager extends StatefulWidget {
+  final PageController pageController;
+  final ValueNotifier<IndicatorType> indicatorChangeNotifier;
+  final DateTime initialWeekStart;
+  final DateTime initialWeekEnd;
+
+  const _WeeklyIntakesPager({
+    Key key,
+    @required this.pageController,
+    @required this.indicatorChangeNotifier,
+    @required this.initialWeekStart,
+    @required this.initialWeekEnd,
+  }) : super(key: key);
+
+  @override
+  _WeeklyIntakesPagerState createState() => _WeeklyIntakesPagerState();
+}
+
+class _WeeklyIntakesPagerState extends State<_WeeklyIntakesPager> {
+  IndicatorType type;
+
+  DateTime weekStart;
+  DateTime weekEnd;
+
+  @override
+  void initState() {
+    super.initState();
+
+    type = widget.indicatorChangeNotifier.value;
+    weekStart = widget.initialWeekStart;
+    weekEnd = widget.initialWeekEnd;
+
+    widget.indicatorChangeNotifier.addListener(onIndicatorChanged);
+  }
+
+  onIndicatorChanged() {
+    setState(() {
+      type = widget.indicatorChangeNotifier.value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView.builder(
+      controller: widget.pageController,
+      onPageChanged: changeWeek,
+      reverse: true,
+      itemBuilder: (context, index) {
+        return _WeeklyIntakesComponent(
+          type: type,
+          weekStart: weekStart,
+          weekEnd: weekEnd,
+        );
+      },
+    );
+  }
+
+  DateTime calculateWeekStart(int n) {
+    final changeDuration = Duration(days: 7 * n);
+
+    return widget.initialWeekStart.subtract(changeDuration);
+  }
+
+  DateTime calculateWeekEnd(int n) {
+    final changeDuration = Duration(days: 7 * n);
+
+    return widget.initialWeekEnd.subtract(changeDuration);
+  }
+
+  changeWeek(int index) {
+    setState(() {
+      weekStart = calculateWeekStart(index);
+      weekEnd = calculateWeekEnd(index);
+    });
+  }
+
+  @override
+  void dispose() {
+    widget.indicatorChangeNotifier.removeListener(onIndicatorChanged);
+
+    super.dispose();
+  }
 }
 
 class _WeeklyIntakesComponent extends StatelessWidget {
-  static final dateFormatter = DateFormat.MMMMd();
-
   final apiService = const ApiService();
-
-  final PageController pageController;
 
   final IndicatorType type;
 
@@ -168,7 +318,6 @@ class _WeeklyIntakesComponent extends StatelessWidget {
     @required this.type,
     @required this.weekStart,
     @required this.weekEnd,
-    @required this.pageController,
   }) : super(key: key);
 
   @override
@@ -183,18 +332,12 @@ class _WeeklyIntakesComponent extends StatelessWidget {
           return CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
-                child: Column(
+                child: BasicSection(
                   children: [
-                    BasicSection(
-                      header: _buildDateRangeHeader(context),
-                      children: [
-                        IndicatorBarChart(
-                          dailyIntakes: dailyIntakes,
-                          type: type,
-                        ),
-                      ],
+                    IndicatorBarChart(
+                      dailyIntakes: dailyIntakes,
+                      type: type,
                     ),
-                    // IntakesScreenTab(dailyIntakes: dailyIntakes, type: type),
                   ],
                 ),
               ),
@@ -223,51 +366,10 @@ class _WeeklyIntakesComponent extends StatelessWidget {
       },
     );
   }
-
-  Widget _buildDateRangeHeader(BuildContext context) {
-    return Row(
-      children: [
-        IconButton(
-          icon: Icon(Icons.chevron_left),
-          onPressed: advanceToPreviousDateRange,
-        ),
-        Expanded(
-          child: Center(
-            child: Text(
-              _getDateRangeFormatted(),
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.subtitle2,
-            ),
-          ),
-        ),
-        IconButton(
-          icon: Icon(Icons.chevron_right),
-          onPressed: hasNextDateRange() ? advanceToNextDateRange : null,
-        ),
-      ],
-    );
-  }
-
-  bool hasNextDateRange() => weekEnd.isBefore(DateTime.now());
-
-  advanceToNextDateRange() {
-    pageController.previousPage(
-        duration: const Duration(milliseconds: 700), curve: Curves.ease);
-  }
-
-  advanceToPreviousDateRange() {
-    pageController.nextPage(
-        duration: const Duration(milliseconds: 700), curve: Curves.ease);
-  }
-
-  String _getDateRangeFormatted() {
-    return "${dateFormatter.format(weekStart).capitalizeFirst()} – "
-        "${dateFormatter.format(weekEnd).capitalizeFirst()}";
-  }
 }
 
 class DailyIntakeSection extends StatelessWidget {
-  final _dateFormat = DateFormat("EEEE, d");
+  static final _dateFormat = DateFormat("EEEE, d");
 
   final IndicatorType type;
   final DailyIntake dailyIntake;
