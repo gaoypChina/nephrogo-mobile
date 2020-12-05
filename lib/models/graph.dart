@@ -9,6 +9,8 @@ class AppBarChartData {
   final double rodRadius;
   final double interval;
   final double maxY;
+  final fitInsideHorizontally;
+  final fitInsideVertically;
 
   AppBarChartData({
     @required this.groups,
@@ -17,6 +19,8 @@ class AppBarChartData {
     this.rodRadius: 6,
     this.maxY,
     this.interval,
+    this.fitInsideHorizontally: true,
+    this.fitInsideVertically: true,
   });
 }
 

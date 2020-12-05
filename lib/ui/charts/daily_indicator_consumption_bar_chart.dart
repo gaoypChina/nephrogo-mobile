@@ -58,6 +58,7 @@ class DailyTotalIndicatorBarChart extends StatelessWidget {
   Widget _buildGraph(List<IndicatorType> types) {
     return AppBarChart(
       data: AppBarChartData(
+        fitInsideHorizontally: false,
         groups: _buildChartGroups(types),
       ),
     );

@@ -23,6 +23,8 @@ class _AppBarChart extends State<AppBarChart> {
         barTouchData: BarTouchData(
           touchTooltipData: BarTouchTooltipData(
               tooltipBgColor: Colors.grey,
+              fitInsideHorizontally: widget.data.fitInsideHorizontally,
+              fitInsideVertically: widget.data.fitInsideVertically,
               getTooltipItem: (group, groupIndex, rod, rodIndex) {
                 return BarTooltipItem(
                   this.widget.data.groups[groupIndex].rods[rodIndex].tooltip,
