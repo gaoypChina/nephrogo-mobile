@@ -2,7 +2,7 @@ import 'package:nephrolog/models/contract.dart';
 import 'collection_extensions.dart';
 
 String _formatAmount(int amount, String baseDim, String kDim) {
-  if (kDim == null || amount < 200) {
+  if (kDim == null || amount < 1000) {
     return "$amount $baseDim";
   }
   final fractionDigits = amount > 10000 ? 1 : 2;
@@ -100,6 +100,10 @@ extension IntakeExtension on Intake {
     final amount = getIndicatorAmountByType(type);
 
     return _getFormattedIndicator(type, amount);
+  }
+
+  String getAmountFormatted() {
+    return _formatAmount(this.amountG, "g", "kg");
   }
 }
 

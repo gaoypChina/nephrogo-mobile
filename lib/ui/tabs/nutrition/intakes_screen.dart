@@ -1,15 +1,13 @@
-import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/extensions/string_extensions.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
+import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/charts/indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/progress_indicator.dart';
-
-import 'nutrition_tab.dart';
 
 class IntakesScreenArguments {
   final IndicatorType intakesScreenType;
@@ -27,21 +25,23 @@ class IntakesScreen extends StatefulWidget {
 }
 
 class _IntakesScreenState extends State<IntakesScreen> {
-  final dateFormatter = DateFormat.MMMMd();
-
   // It's hacky, but let's load pages nearby
   final controller = PageController(viewportFraction: 0.9999999);
-  DateTime today = DateTime.now();
+
+  final DateTime today = DateTime.now();
 
   DateTime initialWeekStart;
   DateTime initialWeekEnd;
 
   DateTime weekStart;
   DateTime weekEnd;
+  IndicatorType type;
 
   @override
   void initState() {
     super.initState();
+
+    type = widget.type;
 
     initialWeekStart =
         today.startOfDay().subtract(Duration(days: today.weekday - 1));
@@ -56,7 +56,14 @@ class _IntakesScreenState extends State<IntakesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_getAppTitle())),
+      appBar: AppBar(
+        title: Text(_getTitle()),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _showIndicatorSelectionPopupMenu,
+        label: Text("ELEMENTAS"),
+        icon: Icon(Icons.swap_horizontal_circle),
+      ),
       body: PageView.builder(
         controller: controller,
         onPageChanged: changeWeek,
@@ -66,15 +73,11 @@ class _IntakesScreenState extends State<IntakesScreen> {
             type: widget.type,
             weekStart: calculateWeekStart(index),
             weekEnd: calculateWeekEnd(index),
+            pageController: controller,
           );
         },
       ),
     );
-  }
-
-  String _getAppTitle() {
-    return "${dateFormatter.format(weekStart)} - ${dateFormatter.format(weekEnd)}"
-        .capitalizeFirst();
   }
 
   DateTime calculateWeekStart(int n) {
@@ -95,10 +98,65 @@ class _IntakesScreenState extends State<IntakesScreen> {
       weekEnd = calculateWeekEnd(index);
     });
   }
+
+  String _getTitle() {
+    switch (type) {
+      case IndicatorType.energy:
+        return "Energijos suvartojimas";
+      case IndicatorType.liquids:
+        return "Skysčių suvartojimas";
+      case IndicatorType.proteins:
+        return "Baltymų suvartojimas";
+      case IndicatorType.sodium:
+        return "Natrio suvartojimas";
+      case IndicatorType.potassium:
+        return "Kalio suvartojimas";
+      case IndicatorType.phosphorus:
+        return "Fosforo suvartojimas";
+      default:
+        throw ArgumentError.value(
+            this, "type", "Unable to map indicator to name");
+    }
+  }
+
+  _changeIndicator(IndicatorType selectedType) {
+    setState(() {
+      type = selectedType;
+    });
+  }
+
+  Future _showIndicatorSelectionPopupMenu() async {
+    final options = IndicatorType.values.map((t) {
+      return SimpleDialogOption(
+        child: Text(t.name),
+        onPressed: () => Navigator.pop(context, t),
+        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+      );
+    }).toList();
+
+    // show the dialog
+    final selectedType = await showDialog<IndicatorType>(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: const Text('Pasirinkite elementą'),
+          children: options,
+        );
+      },
+    );
+
+    if (selectedType != null) {
+      _changeIndicator(selectedType);
+    }
+  }
 }
 
 class _WeeklyIntakesComponent extends StatelessWidget {
+  static final dateFormatter = DateFormat.MMMMd();
+
   final apiService = const ApiService();
+
+  final PageController pageController;
 
   final IndicatorType type;
 
@@ -110,6 +168,7 @@ class _WeeklyIntakesComponent extends StatelessWidget {
     @required this.type,
     @required this.weekStart,
     @required this.weekEnd,
+    @required this.pageController,
   }) : super(key: key);
 
   @override
@@ -121,15 +180,38 @@ class _WeeklyIntakesComponent extends StatelessWidget {
         if (snapshot.hasData) {
           final dailyIntakes = snapshot.data.dailyIntakes;
 
-          return Column(
-            children: [
-              BasicSection(children: [
-                IndicatorBarChart(
-                  dailyIntakes: dailyIntakes,
-                  type: type,
+          return CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    BasicSection(
+                      header: _buildDateRangeHeader(context),
+                      children: [
+                        IndicatorBarChart(
+                          dailyIntakes: dailyIntakes,
+                          type: type,
+                        ),
+                      ],
+                    ),
+                    // IntakesScreenTab(dailyIntakes: dailyIntakes, type: type),
+                  ],
                 ),
-              ]),
-              // IntakesScreenTab(dailyIntakes: dailyIntakes, type: type),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return DailyIntakeSection(
+                      type: type,
+                      dailyIntake: dailyIntakes[index],
+                    );
+                  },
+                  childCount: dailyIntakes.length,
+                ),
+              ),
+              SliverPadding(
+                padding: EdgeInsets.only(bottom: 64),
+              )
             ],
           );
         }
@@ -141,35 +223,80 @@ class _WeeklyIntakesComponent extends StatelessWidget {
       },
     );
   }
+
+  Widget _buildDateRangeHeader(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+          icon: Icon(Icons.chevron_left),
+          onPressed: advanceToPreviousDateRange,
+        ),
+        Expanded(
+          child: Center(
+            child: Text(
+              _getDateRangeFormatted(),
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
+          ),
+        ),
+        IconButton(
+          icon: Icon(Icons.chevron_right),
+          onPressed: hasNextDateRange() ? advanceToNextDateRange : null,
+        ),
+      ],
+    );
+  }
+
+  bool hasNextDateRange() => weekEnd.isBefore(DateTime.now());
+
+  advanceToNextDateRange() {
+    pageController.previousPage(
+        duration: const Duration(milliseconds: 700), curve: Curves.ease);
+  }
+
+  advanceToPreviousDateRange() {
+    pageController.nextPage(
+        duration: const Duration(milliseconds: 700), curve: Curves.ease);
+  }
+
+  String _getDateRangeFormatted() {
+    return "${dateFormatter.format(weekStart).capitalizeFirst()} – "
+        "${dateFormatter.format(weekEnd).capitalizeFirst()}";
+  }
 }
 
-class IntakesScreenTab extends StatelessWidget {
-  static final _dateFormat = DateFormat("E, d MMM");
+class DailyIntakeSection extends StatelessWidget {
+  final _dateFormat = DateFormat("EEEE, d");
 
   final IndicatorType type;
-  final List<DailyIntake> dailyIntakes;
+  final DailyIntake dailyIntake;
 
-  const IntakesScreenTab({
+  DailyIntakeSection({
     Key key,
     @required this.type,
-    @required this.dailyIntakes,
+    @required this.dailyIntake,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: dailyIntakes.length,
-      itemBuilder: (context, index) {
-        final dailyIntake = dailyIntakes[index];
+    final ratio = dailyIntake.getIndicatorConsumptionRatio(type);
+    final dailyNormFormatted =
+        dailyIntake.userIntakeNorms.getFormattedIndicator(type);
+    final consumptionFormatted = dailyIntake.getFormattedDailyTotal(type);
 
-        return DailyIntakesCard(
-          title: _dateFormat.format(dailyIntake.date).capitalizeFirst(),
-          leading:
-              _getVisualIndicator(Faker().randomGenerator.decimal(scale: 1.5)),
-          subTitle: "Suvartota 4.8 g\nDienos norma: 5 g",
-          intakes: dailyIntake.intakes,
-        );
-      },
+    return LargeSection(
+      title: _dateFormat.format(dailyIntake.date).capitalizeFirst() + " d.",
+      leading: _getVisualIndicator(ratio),
+      subTitle: "$consumptionFormatted iš $dailyNormFormatted",
+      children: dailyIntake.intakes
+          .map(
+            (intake) => IndicatorIntakeTile(
+              intake: intake,
+              type: type,
+            ),
+          )
+          .toList(),
     );
   }
 
@@ -198,6 +325,38 @@ class IntakesScreenTab extends StatelessWidget {
           ),
         ),
       ]),
+    );
+  }
+}
+
+class IndicatorIntakeTile extends StatelessWidget {
+  static final dateFormat = DateFormat(
+    "MMMM d HH:mm",
+  );
+
+  final Intake intake;
+  final IndicatorType type;
+
+  const IndicatorIntakeTile({
+    Key key,
+    this.intake,
+    this.type,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final product = intake.product;
+
+    final dateFormatted = dateFormat.format(intake.dateTime).capitalizeFirst();
+
+    return ListTile(
+      title: Text(product.name),
+      contentPadding: EdgeInsets.zero,
+      subtitle: Text(
+        "${intake.getAmountFormatted()} | $dateFormatted",
+      ),
+      leading: ProductKindIcon(productKind: product.kind),
+      trailing: Text(intake.getFormattedIndicatorConsumption(type)),
     );
   }
 }

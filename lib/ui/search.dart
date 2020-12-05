@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nephrolog/models/contract.dart';
-import 'package:nephrolog/ui/tabs/nutrition/nutrition_tab.dart';
+
+import 'general/components.dart';
 
 Future<Product> showProductSearch(BuildContext context) async {
   final product = await showSearch(

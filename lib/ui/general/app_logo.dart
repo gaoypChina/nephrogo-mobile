@@ -7,6 +7,7 @@ class AppLogo extends StatelessWidget {
       'assets/logo/logo.png',
       fit: BoxFit.cover,
       height: 30,
+      key: UniqueKey(),
     );
   }
 }

@@ -217,28 +217,6 @@ class DailyIntakesCard extends StatelessWidget {
   }
 }
 
-class ProductKindIcon extends StatelessWidget {
-  final ProductKind productKind;
-
-  const ProductKindIcon({Key key, @required this.productKind})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final icon = (productKind == ProductKind.drink)
-        ? Icons.local_cafe
-        : Icons.local_dining;
-
-    return IconButton(
-      icon: Icon(
-        icon,
-        size: 24,
-      ),
-      onPressed: null,
-    );
-  }
-}
-
 class IntakeTile extends StatelessWidget {
   static final dateFormat = DateFormat(
     "E, d MMM HH:mm",

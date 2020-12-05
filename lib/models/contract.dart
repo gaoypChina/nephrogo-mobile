@@ -4,12 +4,12 @@ import 'package:nephrolog/extensions/date_extensions.dart';
 
 // Used IndicatorType internally
 enum IndicatorType {
-  energy,
-  proteins,
-  liquids,
-  sodium,
   potassium,
+  proteins,
+  sodium,
   phosphorus,
+  liquids,
+  energy,
 }
 
 enum ProductKind {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nephrolog/models/contract.dart';
 
 class BasicSection extends StatelessWidget {
   static const _defaultChildrenPadding =
@@ -186,6 +187,28 @@ class AppListTile extends StatelessWidget {
       trailing: trailing ?? (onTap != null ? Icon(Icons.chevron_right) : null),
       onTap: onTap,
       selected: selected,
+    );
+  }
+}
+
+class ProductKindIcon extends StatelessWidget {
+  final ProductKind productKind;
+
+  const ProductKindIcon({Key key, @required this.productKind})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final icon = (productKind == ProductKind.drink)
+        ? Icons.local_cafe
+        : Icons.local_dining;
+
+    return IconButton(
+      icon: Icon(
+        icon,
+        size: 24,
+      ),
+      onPressed: null,
     );
   }
 }
