@@ -21,12 +21,14 @@ class AppBarChartData {
 class AppBarChartGroup {
   final String text;
   final int x;
+  final bool isSelected;
   final List<AppBarChartRod> rods;
 
   const AppBarChartGroup({
     @required this.text,
     @required this.x,
     @required this.rods,
+    this.isSelected: false,
   });
 }
 

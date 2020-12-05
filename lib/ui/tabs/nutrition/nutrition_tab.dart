@@ -36,8 +36,10 @@ class NutritionTabBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final from = now.startOfDay().subtract(Duration(days: 7));
-    final to = now.endOfDay();
+    final weekStartEnd = now.startAndEndOfWeek();
+
+    final from = weekStartEnd.item1;
+    final to = weekStartEnd.item2;
 
     return SingleChildScrollView(
       child: Padding(
@@ -64,7 +66,7 @@ class NutritionTabBody extends StatelessWidget {
                     ),
                     intakes: latestIntakes,
                   ),
-                  ..._buildIndicatorCharsSections(context, dailyIntakes),
+                  ..._buildIndicatorChartSections(context, dailyIntakes),
                 ],
               );
             }
@@ -79,7 +81,7 @@ class NutritionTabBody extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildIndicatorCharsSections(
+  List<Widget> _buildIndicatorChartSections(
     BuildContext context,
     List<DailyIntake> dailyIntakes,
   ) {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/models/graph.dart';
+import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog/extensions/string_extensions.dart';
@@ -11,11 +12,12 @@ import 'chart.dart';
 
 class IndicatorBarChart extends StatelessWidget {
   static final _dayFormatter = DateFormat.E();
+  static final _dateFormatter = DateFormat.MMMd();
 
-  final List<DailyIntake> dailyIntakes;
   final IndicatorType type;
+  final List<DailyIntake> dailyIntakes;
 
-  const IndicatorBarChart({
+  IndicatorBarChart({
     Key key,
     @required this.dailyIntakes,
     @required this.type,
@@ -42,11 +44,17 @@ class IndicatorBarChart extends StatelessWidget {
   }
 
   List<AppBarChartGroup> _getChartGroups() {
-    return dailyIntakes.mapIndexed((i, di) {
+    final startOfToday = DateTime.now().startOfDay();
+
+    final dailyIntakesSorted = dailyIntakes.sortedBy((e) => e.date);
+
+    return dailyIntakesSorted.mapIndexed((i, di) {
       final ratio = di.getIndicatorConsumptionRatio(type);
+      final dateFormatted = _dateFormatter.format(di.date);
+      final dailyTotalFormatted = di.getFormattedDailyTotal(type);
 
       AppBarChartRod entry = AppBarChartRod(
-        tooltip: di.getFormattedDailyTotal(type),
+        tooltip: "$dateFormatted\n$dailyTotalFormatted",
         y: ratio,
         barColor: ratio > 1.0 ? Colors.redAccent : Colors.teal,
       );
@@ -54,7 +62,8 @@ class IndicatorBarChart extends StatelessWidget {
       return AppBarChartGroup(
         text: _dayFormatter.format(di.date).capitalizeFirst(),
         x: i,
-        rods: entry != null ? [entry] : [],
+        isSelected: di.date.startOfDay().compareTo(startOfToday) == 0,
+        rods: [entry],
       );
     }).toList();
   }

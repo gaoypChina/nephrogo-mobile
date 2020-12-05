@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 extension DateTimeExtension on DateTime {
   // https://stackoverflow.com/questions/50198891/how-to-convert-flutter-timeofday-to-datetime
@@ -12,6 +13,14 @@ extension DateTimeExtension on DateTime {
 
   DateTime endOfDay() {
     return DateTime(year, month, day, 23, 59, 59);
+  }
+
+  Tuple2<DateTime, DateTime> startAndEndOfWeek() {
+    final start = this.startOfDay().subtract(Duration(days: weekday - 1));
+    final end =
+        this.endOfDay().add(Duration(days: DateTime.daysPerWeek - weekday));
+
+    return Tuple2(start, end);
   }
 
   // https://stackoverflow.com/questions/52627973/dart-how-to-set-the-hour-and-minute-of-datetime-object

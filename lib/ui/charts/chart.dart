@@ -45,8 +45,15 @@ class _AppBarChart extends State<AppBarChart> {
           show: true,
           bottomTitles: SideTitles(
             showTitles: true,
-            getTextStyles: (value) => const TextStyle(
-                color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 14),
+            getTextStyles: (value) {
+              final group = this.widget.data.groups[value.toInt()];
+
+              return TextStyle(
+                color: group.isSelected ? Colors.teal : Colors.grey,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              );
+            },
             margin: 16,
             getTitles: (double value) {
               return this.widget.data.groups[value.toInt()].text;

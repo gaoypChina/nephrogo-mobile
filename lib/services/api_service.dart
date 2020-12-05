@@ -1,4 +1,5 @@
 import 'package:nephrolog/models/contract.dart';
+import 'package:nephrolog/extensions/collection_extensions.dart';
 
 class ApiService {
   const ApiService();
@@ -9,7 +10,7 @@ class ApiService {
   ) {
     return Future.delayed(const Duration(milliseconds: 500), () {
       final response = DailyIntakesResponse.generateDummy(from, to);
-      response.dailyIntakes.sort((a, b) => b.date.compareTo(a.date));
+      response.dailyIntakes.sortedBy((e) => e.date, true);
 
       return response;
     });

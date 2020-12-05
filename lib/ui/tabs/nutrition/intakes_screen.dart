@@ -32,7 +32,7 @@ class _IntakesScreenState extends State<IntakesScreen> {
 
   ValueNotifier<IndicatorType> indicatorChangeNotifier;
 
-  final DateTime today = DateTime.now();
+  final DateTime now = DateTime.now();
 
   DateTime initialWeekStart;
   DateTime initialWeekEnd;
@@ -47,14 +47,10 @@ class _IntakesScreenState extends State<IntakesScreen> {
 
     type = widget.type;
 
-    initialWeekStart =
-        today.startOfDay().subtract(Duration(days: today.weekday - 1));
-    initialWeekEnd = today
-        .endOfDay()
-        .add(Duration(days: DateTime.daysPerWeek - today.weekday));
+    final weekStartEnd = now.startAndEndOfWeek();
 
-    weekStart = initialWeekStart;
-    weekEnd = initialWeekEnd;
+    weekStart = initialWeekStart = weekStartEnd.item1;
+    weekEnd = initialWeekEnd = weekStartEnd.item2;
 
     indicatorChangeNotifier = ValueNotifier<IndicatorType>(type);
     pageController.addListener(onPageChanged);
