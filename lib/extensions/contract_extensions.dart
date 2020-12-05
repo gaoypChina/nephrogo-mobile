@@ -1,11 +1,17 @@
+import 'package:intl/intl.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'collection_extensions.dart';
 
 String _formatAmount(int amount, String baseDim, String kDim) {
   if (kDim == null || amount < 1000) {
-    return "$amount $baseDim";
+    return NumberFormat.currency(decimalDigits: 0, symbol: baseDim).format(amount);
   }
   final fractionDigits = amount > 10000 ? 1 : 2;
+
+  final formatter =
+      NumberFormat.currency(decimalDigits: fractionDigits, symbol: kDim);
+
+  return formatter.format(amount / 1000);
 
   return "${(amount / 1000).toStringAsFixed(fractionDigits)} $kDim";
 }

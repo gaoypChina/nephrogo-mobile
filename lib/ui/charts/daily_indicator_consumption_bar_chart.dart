@@ -72,8 +72,12 @@ class DailyTotalIndicatorBarChart extends StatelessWidget {
       final yPercent = min(y.toDouble() / dailyNorm, 1.0);
       final barColor = y > dailyNorm ? Colors.redAccent : Colors.teal;
 
+      final formattedTotal = dailyIntake.getFormattedDailyTotal(type);
+      final formattedDailyNorm =
+          dailyIntake.userIntakeNorms.getFormattedIndicator(type);
+
       final entry = AppBarChartRod(
-        tooltip: dailyIntake.getFormattedDailyTotal(type) ?? "",
+        tooltip: "$formattedTotal iš $formattedDailyNorm",
         y: yPercent,
         barColor: barColor,
         backDrawRodY: 1.0,
