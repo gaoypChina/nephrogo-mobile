@@ -28,7 +28,7 @@ jobs:
 
       - run: flutter analyze || true
 
-#      - run: flutter test
+      # - run: flutter test
 
       - run: flutter build appbundle --build-number $(git rev-list --count HEAD)
         env:
@@ -94,6 +94,8 @@ jobs:
     needs: build_android
     if: github.ref == 'refs/heads/main'
     steps:
+      - uses: actions/checkout@master
+
       - name: Download APK
         uses: actions/download-artifact@v2
         with:
