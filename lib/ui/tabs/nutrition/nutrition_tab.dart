@@ -41,20 +41,20 @@ class NutritionTabBody extends StatelessWidget {
     final from = weekStartEnd.item1;
     final to = weekStartEnd.item2;
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 64),
-        child: FutureBuilder<DailyIntakesResponse>(
-          future: apiService.getUserIntakesResponse(from, to),
-          builder: (BuildContext context,
-              AsyncSnapshot<DailyIntakesResponse> snapshot) {
-            if (snapshot.hasData) {
-              final dailyIntakes = snapshot.data.dailyIntakes;
-              final intakes = dailyIntakes.expand((e) => e.intakes).toList();
-              intakes.sort((a, b) => b.dateTime.compareTo(a.dateTime));
-              final latestIntakes = intakes.take(3).toList();
+    return FutureBuilder<DailyIntakesResponse>(
+      future: apiService.getUserIntakesResponse(from, to),
+      builder:
+          (BuildContext context, AsyncSnapshot<DailyIntakesResponse> snapshot) {
+        if (snapshot.hasData) {
+          final dailyIntakes = snapshot.data.dailyIntakes;
+          final intakes = dailyIntakes.expand((e) => e.intakes).toList();
+          intakes.sort((a, b) => b.dateTime.compareTo(a.dateTime));
+          final latestIntakes = intakes.take(3).toList();
 
-              return Column(
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 64),
+              child: Column(
                 children: [
                   DailyNormsSection(dailyIntake: dailyIntakes.first),
                   DailyIntakesCard(
@@ -63,16 +63,16 @@ class NutritionTabBody extends StatelessWidget {
                   ),
                   ..._buildIndicatorChartSections(context, dailyIntakes),
                 ],
-              );
-            }
-            if (snapshot.hasError) {
-              return Center(child: Text(snapshot.error));
-            }
+              ),
+            ),
+          );
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error));
+        }
 
-            return Center(child: AppProgressIndicator());
-          },
-        ),
-      ),
+        return Center(child: AppProgressIndicator());
+      },
     );
   }
 
