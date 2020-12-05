@@ -115,7 +115,8 @@ class NutritionTabBody extends StatelessWidget {
     List<DailyIntake> dailyIntakes,
     IndicatorType type,
   ) {
-    final dailyNormFormatted = dailyIntakes.first.getFormattedDailyTotal(type);
+    final dailyNormFormatted =
+        dailyIntakes.first.userIntakeNorms.getFormattedIndicator(type);
 
     return LargeSection(
       title: type.name,
