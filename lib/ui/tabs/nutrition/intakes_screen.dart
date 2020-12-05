@@ -68,7 +68,7 @@ class _IntakesScreenState extends State<IntakesScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _showIndicatorSelectionPopupMenu,
-        label: Text("ELEMENTAS"),
+        label: Text("MEDŽIAGA"),
         icon: Icon(Icons.swap_horizontal_circle),
       ),
       body: Column(
@@ -185,7 +185,7 @@ class _IntakesScreenState extends State<IntakesScreen> {
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: const Text('Pasirinkite elementą'),
+          title: const Text('Pasirinkite maisto medžiagą'),
           children: options,
         );
       },
