@@ -95,10 +95,8 @@ class _AppBarChart extends State<AppBarChart> {
                   y: y,
                   colors: isTouched ? [Colors.orange] : [rod.barColor],
                   width: widget.data.barWidth,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(widget.data.rodRadius),
-                    topRight: Radius.circular(widget.data.rodRadius),
-                  ),
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(widget.data.rodRadius)),
                   backDrawRodData: BackgroundBarChartRodData(
                     show: rod.backDrawRodY != null,
                     y: rod.backDrawRodY,
