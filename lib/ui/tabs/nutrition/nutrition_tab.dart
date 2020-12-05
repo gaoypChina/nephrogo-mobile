@@ -59,11 +59,6 @@ class NutritionTabBody extends StatelessWidget {
                   DailyNormsSection(dailyIntake: dailyIntakes.first),
                   DailyIntakesCard(
                     title: "Valgiai",
-                    leading: OutlineButton(
-                      child: Text("DAUGIAU"),
-                      onPressed: () =>
-                          openIntakesScreen(context, IndicatorType.potassium),
-                    ),
                     intakes: latestIntakes,
                   ),
                   ..._buildIndicatorChartSections(context, dailyIntakes),
