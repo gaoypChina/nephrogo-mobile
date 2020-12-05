@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:faker/faker.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
+import 'package:nephrolog/extensions/collection_extensions.dart';
 
 // Used Nutrient internally
 enum Nutrient {
@@ -198,9 +199,6 @@ class DailyIntakeNorms {
 @JsonSerializable()
 class DailyIntake {
   @JsonKey()
-  final int id;
-
-  @JsonKey()
   final DateTime date;
 
   @JsonKey()
@@ -210,7 +208,6 @@ class DailyIntake {
   final DailyIntakeNorms userIntakeNorms;
 
   const DailyIntake(
-    this.id,
     this.date,
     this.intakes,
     this.userIntakeNorms,
@@ -218,7 +215,6 @@ class DailyIntake {
 
   static DailyIntake generateDummy(DateTime dateTime) {
     return DailyIntake(
-      random.integer(10000000),
       dateTime,
       Intake.generateDummies(
         n: faker.randomGenerator.integer(10, min: 1),
@@ -243,19 +239,19 @@ class DailyIntake {
 }
 
 @JsonSerializable()
-class DailyIntakesResponse {
+class UserIntakesResponse {
   @JsonKey()
   final List<DailyIntake> dailyIntakes;
 
-  DailyIntakesResponse(this.dailyIntakes);
+  UserIntakesResponse(this.dailyIntakes);
 
-  static DailyIntakesResponse generateDummy(DateTime from, DateTime to) {
-    return DailyIntakesResponse(DailyIntake.generateDummies(from, to));
+  static UserIntakesResponse generateDummy(DateTime from, DateTime to) {
+    return UserIntakesResponse(DailyIntake.generateDummies(from, to));
   }
 }
 
 @JsonSerializable()
-class DailyHealthIndicators {
+class DailyHealthStatus {
   @JsonKey()
   final int id;
 
@@ -288,7 +284,7 @@ class DailyHealthIndicators {
   @JsonKey()
   final int shortnessOfBreath;
 
-  const DailyHealthIndicators(
+  const DailyHealthStatus(
     this.id,
     this.date,
     this.systolicBloodPressure,
@@ -302,10 +298,10 @@ class DailyHealthIndicators {
     this.shortnessOfBreath,
   );
 
-  static DailyHealthIndicators generateDummy({int day: 1}) {
-    return DailyHealthIndicators(
+  static DailyHealthStatus generateDummy(DateTime date) {
+    return DailyHealthStatus(
       random.integer(10000000),
-      DateTime(2020, 12, day),
+      date,
       random.integer(200, min: 130),
       random.integer(120, min: 60),
       random.integer(110, min: 100),
@@ -317,11 +313,26 @@ class DailyHealthIndicators {
       random.integer(4, min: 0),
     );
   }
+}
 
-  static List<DailyHealthIndicators> generateDummies() {
-    return List.generate(
-            30, (index) => DailyHealthIndicators.generateDummy(day: index))
-        .reversed
-        .toList();
+@JsonSerializable()
+class UserHealthStatusResponse {
+  final List<DailyHealthStatus> dailyHealthStatuses;
+
+  const UserHealthStatusResponse(this.dailyHealthStatuses);
+
+  static UserHealthStatusResponse generateDummy(DateTime from, DateTime to) {
+    final dailyHealthStatuses = <DailyHealthStatus>[];
+    final toStartOfDay = to.startOfDay();
+
+    for (var date = from;
+        date.isBefore(toStartOfDay);
+        date = date.add(Duration(days: 1))) {
+      dailyHealthStatuses.add(DailyHealthStatus.generateDummy(date));
+    }
+
+    return UserHealthStatusResponse(
+      dailyHealthStatuses.sortedBy((e) => e.date, true).toList(),
+    );
   }
 }

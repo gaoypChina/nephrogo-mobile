@@ -9,22 +9,22 @@ import 'package:nephrolog/ui/charts/indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/progress_indicator.dart';
 
-class IntakesScreenArguments {
-  final Nutrient intakesScreenType;
-
-  IntakesScreenArguments(this.intakesScreenType);
-}
-
-class IntakesScreen extends StatefulWidget {
+class WeeklyNutrientsScreenArguments {
   final Nutrient nutrient;
 
-  const IntakesScreen({Key key, @required this.nutrient}) : super(key: key);
-
-  @override
-  _IntakesScreenState createState() => _IntakesScreenState();
+  WeeklyNutrientsScreenArguments(this.nutrient);
 }
 
-class _IntakesScreenState extends State<IntakesScreen> {
+class WeeklyNutrientsScreen extends StatefulWidget {
+  final Nutrient nutrient;
+
+  const WeeklyNutrientsScreen({Key key, @required this.nutrient}) : super(key: key);
+
+  @override
+  _WeeklyNutrientsScreenState createState() => _WeeklyNutrientsScreenState();
+}
+
+class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
   static final dateFormatter = DateFormat.MMMMd();
 
   // It's hacky, but let's load pages nearby
@@ -318,10 +318,10 @@ class _WeeklyIntakesComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<DailyIntakesResponse>(
-      future: apiService.getUserIntakesResponse(weekStart, weekEnd),
+    return FutureBuilder<UserIntakesResponse>(
+      future: apiService.getUserIntakes(weekStart, weekEnd),
       builder:
-          (BuildContext context, AsyncSnapshot<DailyIntakesResponse> snapshot) {
+          (BuildContext context, AsyncSnapshot<UserIntakesResponse> snapshot) {
         if (snapshot.hasData) {
           final dailyIntakes = snapshot.data.dailyIntakes;
 

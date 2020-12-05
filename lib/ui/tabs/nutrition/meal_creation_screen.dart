@@ -4,7 +4,7 @@ import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/search.dart';
 
-import '../../forms/forms.dart';
+import 'package:nephrolog/ui/forms/forms.dart';
 
 class MealCreationScreen extends StatefulWidget {
   @override

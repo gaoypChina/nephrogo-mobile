@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
+import 'package:nephrolog/services/api_service.dart';
+import 'package:nephrolog/ui/general/progress_indicator.dart';
+import 'package:nephrolog/extensions/date_extensions.dart';
 
 import 'health_indicators_section.dart';
 
@@ -23,18 +26,41 @@ class HealthIndicatorsTab extends StatelessWidget {
 }
 
 class HealthIndicatorsTabBody extends StatelessWidget {
-  final dailyHealthIndicators = DailyHealthIndicators.generateDummies();
+  final apiService = ApiService();
+  final now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: dailyHealthIndicators.length,
-      itemBuilder: (context, index) {
-        final dailyHealthIndicator = dailyHealthIndicators[index];
+    final weekStartEnd = now.startAndEndOfWeek();
 
-        return HealthIndicatorsSection(
-          dailyHealthIndicators: dailyHealthIndicator,
-        );
+    final from = weekStartEnd.item1;
+    final to = weekStartEnd.item2;
+
+    return FutureBuilder<UserHealthStatusResponse>(
+      future: apiService.getUserHealthStatus(from, to),
+      builder: (BuildContext context,
+          AsyncSnapshot<UserHealthStatusResponse> snapshot) {
+        if (snapshot.hasData) {
+          final dailyHealthStatuses = snapshot.data.dailyHealthStatuses;
+
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 64),
+              child: Column(
+                children: [
+                  HealthIndicatorsSection(
+                    dailyHealthIndicators: dailyHealthStatuses.first,
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+        if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error));
+        }
+
+        return Center(child: AppProgressIndicator());
       },
     );
   }

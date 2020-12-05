@@ -5,7 +5,7 @@ import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/ui/general/components.dart';
 
 class HealthIndicatorsSection extends StatelessWidget {
-  final DailyHealthIndicators dailyHealthIndicators;
+  final DailyHealthStatus dailyHealthIndicators;
 
   const HealthIndicatorsSection({Key key, this.dailyHealthIndicators})
       : super(key: key);
@@ -38,7 +38,7 @@ class _HealthIndicatorColumnData {
 }
 
 class _DailyHealthIndicatorsColumn extends StatelessWidget {
-  final DailyHealthIndicators dailyHealthIndicators;
+  final DailyHealthStatus dailyHealthIndicators;
 
   const _DailyHealthIndicatorsColumn({Key key, this.dailyHealthIndicators})
       : super(key: key);

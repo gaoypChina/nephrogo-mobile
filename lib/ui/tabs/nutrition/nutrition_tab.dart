@@ -41,10 +41,10 @@ class NutritionTabBody extends StatelessWidget {
     final from = weekStartEnd.item1;
     final to = weekStartEnd.item2;
 
-    return FutureBuilder<DailyIntakesResponse>(
-      future: apiService.getUserIntakesResponse(from, to),
+    return FutureBuilder<UserIntakesResponse>(
+      future: apiService.getUserIntakes(from, to),
       builder:
-          (BuildContext context, AsyncSnapshot<DailyIntakesResponse> snapshot) {
+          (BuildContext context, AsyncSnapshot<UserIntakesResponse> snapshot) {
         if (snapshot.hasData) {
           final dailyIntakes = snapshot.data.dailyIntakes;
           final intakes = dailyIntakes.expand((e) => e.intakes).toList();
@@ -89,7 +89,7 @@ class NutritionTabBody extends StatelessWidget {
     Navigator.pushNamed(
       context,
       Routes.ROUTE_INTAKES,
-      arguments: IntakesScreenArguments(indicator),
+      arguments: WeeklyNutrientsScreenArguments(indicator),
     );
   }
 

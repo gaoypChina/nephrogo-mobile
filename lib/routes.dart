@@ -35,10 +35,10 @@ class Routes {
         });
       case ROUTE_INTAKES:
         return MaterialPageRoute(builder: (context) {
-          IntakesScreenArguments arguments = settings.arguments;
+          WeeklyNutrientsScreenArguments arguments = settings.arguments;
 
-          return IntakesScreen(
-            nutrient: arguments.intakesScreenType,
+          return WeeklyNutrientsScreen(
+            nutrient: arguments.nutrient,
           );
         });
       default:
