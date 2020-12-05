@@ -8,10 +8,10 @@ import 'package:nephrolog/extensions/contract_extensions.dart';
 
 import 'chart.dart';
 
-class DailyTotalIndicatorBarChart extends StatelessWidget {
+class TodayNutrientsConsumptionBarChart extends StatelessWidget {
   final DailyIntake dailyIntake;
 
-  const DailyTotalIndicatorBarChart({
+  const TodayNutrientsConsumptionBarChart({
     Key key,
     this.dailyIntake,
   }) : super(key: key);
@@ -29,9 +29,9 @@ class DailyTotalIndicatorBarChart extends StatelessWidget {
               constraints: BoxConstraints(maxWidth: 250),
               child: _buildGraph(
                 [
-                  IndicatorType.potassium,
-                  IndicatorType.proteins,
-                  IndicatorType.sodium,
+                  Nutrient.potassium,
+                  Nutrient.proteins,
+                  Nutrient.sodium,
                 ],
               ),
             ),
@@ -43,9 +43,9 @@ class DailyTotalIndicatorBarChart extends StatelessWidget {
               constraints: BoxConstraints(maxWidth: 250),
               child: _buildGraph(
                 [
-                  IndicatorType.phosphorus,
-                  IndicatorType.energy,
-                  IndicatorType.liquids,
+                  Nutrient.phosphorus,
+                  Nutrient.energy,
+                  Nutrient.liquids,
                 ],
               ),
             ),
@@ -55,7 +55,7 @@ class DailyTotalIndicatorBarChart extends StatelessWidget {
     );
   }
 
-  Widget _buildGraph(List<IndicatorType> types) {
+  Widget _buildGraph(List<Nutrient> types) {
     return AppBarChart(
       data: AppBarChartData(
         fitInsideHorizontally: false,
@@ -64,18 +64,18 @@ class DailyTotalIndicatorBarChart extends StatelessWidget {
     );
   }
 
-  List<AppBarChartGroup> _buildChartGroups(List<IndicatorType> types) {
+  List<AppBarChartGroup> _buildChartGroups(List<Nutrient> types) {
     return types.mapIndexed((i, type) {
       final dailyNorm =
-          dailyIntake.userIntakeNorms.getIndicatorAmountByType(type);
+          dailyIntake.userIntakeNorms.getNutrientAmount(type);
 
-      final y = dailyIntake.getDailyTotalByType(type) ?? 0;
+      final y = dailyIntake.getNutrientTotalAmount(type) ?? 0;
       final yPercent = min(y.toDouble() / dailyNorm, 1.0);
       final barColor = y > dailyNorm ? Colors.redAccent : Colors.teal;
 
-      final formattedTotal = dailyIntake.getFormattedDailyTotal(type);
+      final formattedTotal = dailyIntake.getNutrientTotalAmountFormatted(type);
       final formattedDailyNorm =
-          dailyIntake.userIntakeNorms.getFormattedIndicator(type);
+          dailyIntake.userIntakeNorms.getNutrientAmountFormatted(type);
 
       final entry = AppBarChartRod(
         tooltip: "$formattedTotal iš $formattedDailyNorm",

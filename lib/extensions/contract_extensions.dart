@@ -18,20 +18,20 @@ String _formatAmount(int amount, String baseDim, String kDim) {
       .format(amount);
 }
 
-String _getFormattedIndicator(IndicatorType type, int amount) {
-  switch (type) {
-    case IndicatorType.energy:
+String _getFormattedNutrient(Nutrient nutrient, int amount) {
+  switch (nutrient) {
+    case Nutrient.energy:
       return _formatAmount(amount, "kcal", null);
-    case IndicatorType.liquids:
+    case Nutrient.liquids:
       return _formatAmount(amount, "ml", "l");
-    case IndicatorType.proteins:
-    case IndicatorType.sodium:
-    case IndicatorType.potassium:
-    case IndicatorType.phosphorus:
+    case Nutrient.proteins:
+    case Nutrient.sodium:
+    case Nutrient.potassium:
+    case Nutrient.phosphorus:
       return _formatAmount(amount, "mg", "g");
     default:
       throw ArgumentError.value(
-          type, "type", "Unable to map indicator to amount");
+          nutrient, "nutrient", "Unable to map nutrient to amount");
   }
 }
 
@@ -48,66 +48,66 @@ extension DailyIntakesExtensions on DailyIntake {
 
   int get totalLiquidsMl => intakes.map((e) => e.liquidsMl).sum;
 
-  int getDailyTotalByType(IndicatorType type) {
-    switch (type) {
-      case IndicatorType.energy:
+  int getNutrientTotalAmount(Nutrient nutrient) {
+    switch (nutrient) {
+      case Nutrient.energy:
         return this.totalEnergyKC;
-      case IndicatorType.liquids:
+      case Nutrient.liquids:
         return this.totalLiquidsMl;
-      case IndicatorType.proteins:
+      case Nutrient.proteins:
         return this.totalProteinsMg;
-      case IndicatorType.sodium:
+      case Nutrient.sodium:
         return this.totalSodiumMg;
-      case IndicatorType.potassium:
+      case Nutrient.potassium:
         return this.totalPotassiumMg;
-      case IndicatorType.phosphorus:
+      case Nutrient.phosphorus:
         return this.totalPhosphorusMg;
       default:
         throw ArgumentError.value(
-            type, "type", "Unable to map indicator to total amount");
+            nutrient, "nutrient", "Unable to map indicator to total amount");
     }
   }
 
-  double getIndicatorConsumptionRatio(IndicatorType type) {
+  double getNutrientConsumptionRatio(Nutrient nutrient) {
     final consumption =
-        this.intakes.map((e) => e.getIndicatorAmountByType(type)).sum;
-    final recommendation = this.userIntakeNorms.getIndicatorAmountByType(type);
+        this.intakes.map((e) => e.getNutrientAmount(nutrient)).sum;
+    final recommendation = this.userIntakeNorms.getNutrientAmount(nutrient);
 
     return consumption.toDouble() / recommendation;
   }
 
-  String getFormattedDailyTotal(IndicatorType type) {
-    final amount = getDailyTotalByType(type);
+  String getNutrientTotalAmountFormatted(Nutrient nutrient) {
+    final amount = getNutrientTotalAmount(nutrient);
 
-    return _getFormattedIndicator(type, amount);
+    return _getFormattedNutrient(nutrient, amount);
   }
 }
 
 extension IntakeExtension on Intake {
-  int getIndicatorAmountByType(IndicatorType type) {
-    switch (type) {
-      case IndicatorType.energy:
+  int getNutrientAmount(Nutrient nutrient) {
+    switch (nutrient) {
+      case Nutrient.energy:
         return this.energyKC;
-      case IndicatorType.liquids:
+      case Nutrient.liquids:
         return this.liquidsMl;
-      case IndicatorType.proteins:
+      case Nutrient.proteins:
         return this.proteinsMg;
-      case IndicatorType.sodium:
+      case Nutrient.sodium:
         return this.sodiumMg;
-      case IndicatorType.potassium:
+      case Nutrient.potassium:
         return this.potassiumMg;
-      case IndicatorType.phosphorus:
+      case Nutrient.phosphorus:
         return this.phosphorusMg;
       default:
         throw ArgumentError.value(
-            type, "type", "Unable to map indicator to amount");
+            nutrient, "nutrient", "Unable to map indicator to amount");
     }
   }
 
-  String getFormattedIndicatorConsumption(IndicatorType type) {
-    final amount = getIndicatorAmountByType(type);
+  String getNutrientAmountFormatted(Nutrient nutrient) {
+    final amount = getNutrientAmount(nutrient);
 
-    return _getFormattedIndicator(type, amount);
+    return _getFormattedNutrient(nutrient, amount);
   }
 
   String getAmountFormatted() {
@@ -116,47 +116,47 @@ extension IntakeExtension on Intake {
 }
 
 extension DailyIntakeNormsExtensions on DailyIntakeNorms {
-  int getIndicatorAmountByType(IndicatorType type) {
-    switch (type) {
-      case IndicatorType.energy:
+  int getNutrientAmount(Nutrient nutrient) {
+    switch (nutrient) {
+      case Nutrient.energy:
         return this.energyKC;
-      case IndicatorType.liquids:
+      case Nutrient.liquids:
         return this.liquidsMl;
-      case IndicatorType.proteins:
+      case Nutrient.proteins:
         return this.proteinsMg;
-      case IndicatorType.sodium:
+      case Nutrient.sodium:
         return this.sodiumMg;
-      case IndicatorType.potassium:
+      case Nutrient.potassium:
         return this.potassiumMg;
-      case IndicatorType.phosphorus:
+      case Nutrient.phosphorus:
         return this.phosphorusMg;
       default:
         throw ArgumentError.value(
-            type, "type", "Unable to map indicator to amount");
+            nutrient, "nutrient", "Unable to map indicator to amount");
     }
   }
 
-  String getFormattedIndicator(IndicatorType type) {
-    final amount = getIndicatorAmountByType(type);
+  String getNutrientAmountFormatted(Nutrient nutrient) {
+    final amount = getNutrientAmount(nutrient);
 
-    return _getFormattedIndicator(type, amount);
+    return _getFormattedNutrient(nutrient, amount);
   }
 }
 
-extension IndicatorTypeExtensions on IndicatorType {
+extension NutrientExtensions on Nutrient {
   String get name {
     switch (this) {
-      case IndicatorType.energy:
+      case Nutrient.energy:
         return "Energija";
-      case IndicatorType.liquids:
+      case Nutrient.liquids:
         return "Skysčiai";
-      case IndicatorType.proteins:
+      case Nutrient.proteins:
         return "Baltymai";
-      case IndicatorType.sodium:
+      case Nutrient.sodium:
         return "Natris";
-      case IndicatorType.potassium:
+      case Nutrient.potassium:
         return "Kalis";
-      case IndicatorType.phosphorus:
+      case Nutrient.phosphorus:
         return "Fosforas";
       default:
         throw ArgumentError.value(

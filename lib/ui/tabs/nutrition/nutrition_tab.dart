@@ -4,7 +4,7 @@ import 'package:nephrolog/extensions/string_extensions.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/services/api_service.dart';
-import 'package:nephrolog/ui/charts/daily_indicator_consumption_bar_chart.dart';
+import 'package:nephrolog/ui/charts/today_nutrients_consumption_bar_chart.dart';
 import 'package:nephrolog/ui/charts/indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/progress_indicator.dart';
@@ -80,12 +80,12 @@ class NutritionTabBody extends StatelessWidget {
     BuildContext context,
     List<DailyIntake> dailyIntakes,
   ) {
-    return IndicatorType.values
+    return Nutrient.values
         .map((t) => buildIndicatorChartSection(context, dailyIntakes, t))
         .toList();
   }
 
-  openIntakesScreen(BuildContext context, IndicatorType indicator) {
+  openIntakesScreen(BuildContext context, Nutrient indicator) {
     Navigator.pushNamed(
       context,
       Routes.ROUTE_INTAKES,
@@ -96,24 +96,24 @@ class NutritionTabBody extends StatelessWidget {
   LargeSection buildIndicatorChartSection(
     BuildContext context,
     List<DailyIntake> dailyIntakes,
-    IndicatorType type,
+    Nutrient nutrient,
   ) {
     final dailyNormFormatted =
-        dailyIntakes.first.userIntakeNorms.getFormattedIndicator(type);
-    final todayConsumption = dailyIntakes.first.getFormattedDailyTotal(type);
+        dailyIntakes.first.userIntakeNorms.getNutrientAmountFormatted(nutrient);
+    final todayConsumption = dailyIntakes.first.getNutrientTotalAmountFormatted(nutrient);
 
     return LargeSection(
-      title: type.name,
+      title: nutrient.name,
       subTitle: "Šiandien: $todayConsumption iš $dailyNormFormatted",
       children: [
         IndicatorBarChart(
           dailyIntakes: dailyIntakes,
-          type: type,
+          nutrient: nutrient,
         ),
       ],
       leading: OutlineButton(
         child: Text("DAUGIAU"),
-        onPressed: () => openIntakesScreen(context, type),
+        onPressed: () => openIntakesScreen(context, nutrient),
       ),
     );
   }
@@ -142,7 +142,7 @@ class DailyNormsSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            DailyTotalIndicatorBarChart(
+            TodayNutrientsConsumptionBarChart(
               dailyIntake: dailyIntake,
             ),
           ],

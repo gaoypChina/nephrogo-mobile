@@ -10,15 +10,15 @@ import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/progress_indicator.dart';
 
 class IntakesScreenArguments {
-  final IndicatorType intakesScreenType;
+  final Nutrient intakesScreenType;
 
   IntakesScreenArguments(this.intakesScreenType);
 }
 
 class IntakesScreen extends StatefulWidget {
-  final IndicatorType type;
+  final Nutrient nutrient;
 
-  const IntakesScreen({Key key, @required this.type}) : super(key: key);
+  const IntakesScreen({Key key, @required this.nutrient}) : super(key: key);
 
   @override
   _IntakesScreenState createState() => _IntakesScreenState();
@@ -30,7 +30,7 @@ class _IntakesScreenState extends State<IntakesScreen> {
   // It's hacky, but let's load pages nearby
   final pageController = PageController(viewportFraction: 0.9999999);
 
-  ValueNotifier<IndicatorType> indicatorChangeNotifier;
+  ValueNotifier<Nutrient> nutrientChangeNotifier;
 
   final DateTime now = DateTime.now();
 
@@ -39,20 +39,20 @@ class _IntakesScreenState extends State<IntakesScreen> {
 
   DateTime weekStart;
   DateTime weekEnd;
-  IndicatorType type;
+  Nutrient nutrient;
 
   @override
   void initState() {
     super.initState();
 
-    type = widget.type;
+    nutrient = widget.nutrient;
 
     final weekStartEnd = now.startAndEndOfWeek();
 
     weekStart = initialWeekStart = weekStartEnd.item1;
     weekEnd = initialWeekEnd = weekStartEnd.item2;
 
-    indicatorChangeNotifier = ValueNotifier<IndicatorType>(type);
+    nutrientChangeNotifier = ValueNotifier<Nutrient>(nutrient);
     pageController.addListener(onPageChanged);
   }
 
@@ -105,7 +105,7 @@ class _IntakesScreenState extends State<IntakesScreen> {
           Expanded(
             child: _WeeklyIntakesPager(
               pageController: pageController,
-              indicatorChangeNotifier: indicatorChangeNotifier,
+              nutrientChangeNotifier: nutrientChangeNotifier,
               initialWeekStart: initialWeekStart,
               initialWeekEnd: initialWeekEnd,
             ),
@@ -141,18 +141,18 @@ class _IntakesScreenState extends State<IntakesScreen> {
   }
 
   String _getTitle() {
-    switch (type) {
-      case IndicatorType.energy:
+    switch (nutrient) {
+      case Nutrient.energy:
         return "Energijos suvartojimas";
-      case IndicatorType.liquids:
+      case Nutrient.liquids:
         return "Skysčių suvartojimas";
-      case IndicatorType.proteins:
+      case Nutrient.proteins:
         return "Baltymų suvartojimas";
-      case IndicatorType.sodium:
+      case Nutrient.sodium:
         return "Natrio suvartojimas";
-      case IndicatorType.potassium:
+      case Nutrient.potassium:
         return "Kalio suvartojimas";
-      case IndicatorType.phosphorus:
+      case Nutrient.phosphorus:
         return "Fosforo suvartojimas";
       default:
         throw ArgumentError.value(
@@ -160,15 +160,15 @@ class _IntakesScreenState extends State<IntakesScreen> {
     }
   }
 
-  _changeIndicator(IndicatorType selectedType) {
+  _changeNutrient(Nutrient nutrient) {
     setState(() {
-      type = selectedType;
-      indicatorChangeNotifier.value = selectedType;
+      nutrient = nutrient;
+      nutrientChangeNotifier.value = nutrient;
     });
   }
 
   Future _showIndicatorSelectionPopupMenu() async {
-    final options = IndicatorType.values.map((t) {
+    final options = Nutrient.values.map((t) {
       return SimpleDialogOption(
         child: Text(t.name),
         onPressed: () => Navigator.pop(context, t),
@@ -177,7 +177,7 @@ class _IntakesScreenState extends State<IntakesScreen> {
     }).toList();
 
     // show the dialog
-    final selectedType = await showDialog<IndicatorType>(
+    final selectedType = await showDialog<Nutrient>(
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
@@ -188,7 +188,7 @@ class _IntakesScreenState extends State<IntakesScreen> {
     );
 
     if (selectedType != null) {
-      _changeIndicator(selectedType);
+      _changeNutrient(selectedType);
     }
   }
 
@@ -219,14 +219,14 @@ class _IntakesScreenState extends State<IntakesScreen> {
 
 class _WeeklyIntakesPager extends StatefulWidget {
   final PageController pageController;
-  final ValueNotifier<IndicatorType> indicatorChangeNotifier;
+  final ValueNotifier<Nutrient> nutrientChangeNotifier;
   final DateTime initialWeekStart;
   final DateTime initialWeekEnd;
 
   const _WeeklyIntakesPager({
     Key key,
     @required this.pageController,
-    @required this.indicatorChangeNotifier,
+    @required this.nutrientChangeNotifier,
     @required this.initialWeekStart,
     @required this.initialWeekEnd,
   }) : super(key: key);
@@ -236,7 +236,7 @@ class _WeeklyIntakesPager extends StatefulWidget {
 }
 
 class _WeeklyIntakesPagerState extends State<_WeeklyIntakesPager> {
-  IndicatorType type;
+  Nutrient nutrient;
 
   DateTime weekStart;
   DateTime weekEnd;
@@ -245,16 +245,16 @@ class _WeeklyIntakesPagerState extends State<_WeeklyIntakesPager> {
   void initState() {
     super.initState();
 
-    type = widget.indicatorChangeNotifier.value;
+    nutrient = widget.nutrientChangeNotifier.value;
     weekStart = widget.initialWeekStart;
     weekEnd = widget.initialWeekEnd;
 
-    widget.indicatorChangeNotifier.addListener(onIndicatorChanged);
+    widget.nutrientChangeNotifier.addListener(onIndicatorChanged);
   }
 
   onIndicatorChanged() {
     setState(() {
-      type = widget.indicatorChangeNotifier.value;
+      nutrient = widget.nutrientChangeNotifier.value;
     });
   }
 
@@ -266,7 +266,7 @@ class _WeeklyIntakesPagerState extends State<_WeeklyIntakesPager> {
       reverse: true,
       itemBuilder: (context, index) {
         return _WeeklyIntakesComponent(
-          type: type,
+          nutrient: nutrient,
           weekStart: weekStart,
           weekEnd: weekEnd,
         );
@@ -295,7 +295,7 @@ class _WeeklyIntakesPagerState extends State<_WeeklyIntakesPager> {
 
   @override
   void dispose() {
-    widget.indicatorChangeNotifier.removeListener(onIndicatorChanged);
+    widget.nutrientChangeNotifier.removeListener(onIndicatorChanged);
 
     super.dispose();
   }
@@ -304,14 +304,14 @@ class _WeeklyIntakesPagerState extends State<_WeeklyIntakesPager> {
 class _WeeklyIntakesComponent extends StatelessWidget {
   final apiService = const ApiService();
 
-  final IndicatorType type;
+  final Nutrient nutrient;
 
   final DateTime weekStart;
   final DateTime weekEnd;
 
   const _WeeklyIntakesComponent({
     Key key,
-    @required this.type,
+    @required this.nutrient,
     @required this.weekStart,
     @required this.weekEnd,
   }) : super(key: key);
@@ -332,7 +332,7 @@ class _WeeklyIntakesComponent extends StatelessWidget {
                   children: [
                     IndicatorBarChart(
                       dailyIntakes: dailyIntakes,
-                      type: type,
+                      nutrient: nutrient,
                     ),
                   ],
                 ),
@@ -341,7 +341,7 @@ class _WeeklyIntakesComponent extends StatelessWidget {
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
                     return DailyIntakeSection(
-                      type: type,
+                      nutrient: nutrient,
                       dailyIntake: dailyIntakes[index],
                     );
                   },
@@ -367,21 +367,21 @@ class _WeeklyIntakesComponent extends StatelessWidget {
 class DailyIntakeSection extends StatelessWidget {
   static final _dateFormat = DateFormat("EEEE, d");
 
-  final IndicatorType type;
+  final Nutrient nutrient;
   final DailyIntake dailyIntake;
 
   DailyIntakeSection({
     Key key,
-    @required this.type,
+    @required this.nutrient,
     @required this.dailyIntake,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final ratio = dailyIntake.getIndicatorConsumptionRatio(type);
+    final ratio = dailyIntake.getNutrientConsumptionRatio(nutrient);
     final dailyNormFormatted =
-        dailyIntake.userIntakeNorms.getFormattedIndicator(type);
-    final consumptionFormatted = dailyIntake.getFormattedDailyTotal(type);
+        dailyIntake.userIntakeNorms.getNutrientAmountFormatted(nutrient);
+    final consumptionFormatted = dailyIntake.getNutrientTotalAmountFormatted(nutrient);
 
     return LargeSection(
       title: _dateFormat.format(dailyIntake.date).capitalizeFirst() + " d.",
@@ -391,7 +391,7 @@ class DailyIntakeSection extends StatelessWidget {
           .map(
             (intake) => IndicatorIntakeTile(
               intake: intake,
-              type: type,
+              nutrient: nutrient,
             ),
           )
           .toList(),
@@ -433,12 +433,12 @@ class IndicatorIntakeTile extends StatelessWidget {
   );
 
   final Intake intake;
-  final IndicatorType type;
+  final Nutrient nutrient;
 
   const IndicatorIntakeTile({
     Key key,
     this.intake,
-    this.type,
+    this.nutrient,
   }) : super(key: key);
 
   @override
@@ -454,7 +454,7 @@ class IndicatorIntakeTile extends StatelessWidget {
         "${intake.getAmountFormatted()} | $dateFormatted",
       ),
       leading: ProductKindIcon(productKind: product.kind),
-      trailing: Text(intake.getFormattedIndicatorConsumption(type)),
+      trailing: Text(intake.getNutrientAmountFormatted(nutrient)),
     );
   }
 }

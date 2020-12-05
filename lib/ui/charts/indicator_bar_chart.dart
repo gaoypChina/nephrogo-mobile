@@ -14,13 +14,13 @@ class IndicatorBarChart extends StatelessWidget {
   static final _dayFormatter = DateFormat.E();
   static final _dateFormatter = DateFormat.MMMd();
 
-  final IndicatorType type;
+  final Nutrient nutrient;
   final List<DailyIntake> dailyIntakes;
 
   IndicatorBarChart({
     Key key,
     @required this.dailyIntakes,
-    @required this.type,
+    @required this.nutrient,
   }) : super(key: key);
 
   @override
@@ -42,26 +42,26 @@ class IndicatorBarChart extends StatelessWidget {
     final dailyIntakesSorted = dailyIntakes.sortedBy((e) => e.date);
 
     final maximumNorm = dailyIntakes
-        .map((e) => e.userIntakeNorms.getIndicatorAmountByType(type))
+        .map((e) => e.userIntakeNorms.getNutrientAmount(nutrient))
         .max
         .toDouble();
 
     final maximumAmount =
-        dailyIntakes.map((e) => e.getDailyTotalByType(type)).max.toDouble();
+        dailyIntakes.map((e) => e.getNutrientTotalAmount(nutrient)).max.toDouble();
 
     var interval = maximumNorm / 2;
     if (maximumAmount ~/ maximumNorm > 3) {
       interval = maximumNorm;
     }
 
-    final scaleValue = (type != IndicatorType.energy) ? 1e-3 : 1.0;
+    final scaleValue = (nutrient != Nutrient.energy) ? 1e-3 : 1.0;
 
     final groups = dailyIntakesSorted.mapIndexed((i, di) {
-      final y = di.getDailyTotalByType(type).toDouble();
-      final norm = di.userIntakeNorms.getIndicatorAmountByType(type);
+      final y = di.getNutrientTotalAmount(nutrient).toDouble();
+      final norm = di.userIntakeNorms.getNutrientAmount(nutrient);
 
       final dateFormatted = _dateFormatter.format(di.date);
-      final dailyTotalFormatted = di.getFormattedDailyTotal(type);
+      final dailyTotalFormatted = di.getNutrientTotalAmountFormatted(nutrient);
 
       AppBarChartRod entry = AppBarChartRod(
         tooltip: "$dateFormatted\n$dailyTotalFormatted",
