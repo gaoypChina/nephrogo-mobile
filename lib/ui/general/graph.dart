@@ -20,6 +20,9 @@ class IndicatorBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final maximumRatio =
+        dailyIntakes.map((e) => e.getIndicatorConsumptionRatio(type)).max;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
       child: AspectRatio(
@@ -28,6 +31,7 @@ class IndicatorBarChart extends StatelessWidget {
           data: AppBarChartData(
             groups: _getChartGroups(),
             horizontalLinesInterval: 1,
+            maxY: max(maximumRatio, 1.01),
           ),
         ),
       ),
@@ -42,13 +46,12 @@ class IndicatorBarChart extends StatelessWidget {
 
     return Constants.weekDays.mapIndexed((i, dayText) {
       final di = dailyIntakesByWeekDay[i + 1];
-      final y = di?.getDailyTotalByType(type) ?? 0;
-      final dailyNorm = di?.userIntakeNorms?.getIndicatorAmountByType(type) ?? 1;
+      final ratio = di?.getIndicatorConsumptionRatio(type) ?? 0;
 
       AppBarChartRod entry = AppBarChartRod(
         tooltip: di?.getFormattedDailyTotal(type) ?? "",
-        y: y.toDouble() / dailyNorm,
-        barColor: y > dailyNorm ? Colors.redAccent : Colors.teal,
+        y: ratio,
+        barColor: ratio > 1.0 ? Colors.redAccent : Colors.teal,
       );
 
       return AppBarChartGroup(
