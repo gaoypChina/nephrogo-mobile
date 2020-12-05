@@ -100,10 +100,11 @@ class NutritionTabBody extends StatelessWidget {
   ) {
     final dailyNormFormatted =
         dailyIntakes.first.userIntakeNorms.getFormattedIndicator(type);
+    final todayConsumption = dailyIntakes.first.getFormattedDailyTotal(type);
 
     return LargeSection(
       title: type.name,
-      subTitle: "Paros norma $dailyNormFormatted",
+      subTitle: "Šiandien: $todayConsumption iš $dailyNormFormatted",
       children: [
         IndicatorBarChart(
           dailyIntakes: dailyIntakes,
