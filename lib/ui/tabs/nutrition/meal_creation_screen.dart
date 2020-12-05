@@ -40,27 +40,6 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                BasicSection(
-                  showDividers: false,
-                  children: [
-                    AppDatePickerFormField(
-                      initialDate: _mealDate,
-                      selectedDate: _mealDate,
-                      firstDate: DateTime(2020),
-                      lastDate: DateTime.now(),
-                      dateFormat: _dateFormat,
-                      iconData: Icons.calendar_today,
-                      onDateSaved: (dt) => print(dt),
-                      labelText: "Data",
-                    ),
-                    AppTimePickerFormField(
-                      labelText: "Laikas",
-                      iconData: Icons.access_time,
-                      initialTime: _mealTimeOfDay,
-                      onTimeSaved: (t) => print(t),
-                    ),
-                  ],
-                ),
                 SmallSection(
                   title: "Valgis arba gėrimas",
                   showDividers: false,
@@ -79,6 +58,28 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                       onSaved: (value) {
                         _quantityInGrams = value;
                       },
+                    ),
+                  ],
+                ),
+                SmallSection(
+                  title: "Data ir laikas",
+                  showDividers: false,
+                  children: [
+                    AppDatePickerFormField(
+                      initialDate: _mealDate,
+                      selectedDate: _mealDate,
+                      firstDate: DateTime(2020),
+                      lastDate: DateTime.now(),
+                      dateFormat: _dateFormat,
+                      iconData: Icons.calendar_today,
+                      onDateSaved: (dt) => print(dt),
+                      labelText: "Data",
+                    ),
+                    AppTimePickerFormField(
+                      labelText: "Laikas",
+                      iconData: Icons.access_time,
+                      initialTime: _mealTimeOfDay,
+                      onTimeSaved: (t) => print(t),
                     ),
                   ],
                 ),
