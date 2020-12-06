@@ -238,10 +238,10 @@ class DailyIntake {
 
   static List<DailyIntake> generateDummies(DateTime from, DateTime to) {
     final dailyIntakes = <DailyIntake>[];
-    final toStartOfDay = to.startOfDay();
+    final toEndOfDay = to.endOfDay();
 
     for (var date = from;
-        date.isBefore(toStartOfDay);
+        date.isBefore(toEndOfDay);
         date = date.add(Duration(days: 1))) {
       dailyIntakes.add(DailyIntake.generateDummy(date));
     }
@@ -335,10 +335,10 @@ class UserHealthStatusResponse {
 
   static UserHealthStatusResponse generateDummy(DateTime from, DateTime to) {
     final dailyHealthStatuses = <DailyHealthStatus>[];
-    final toStartOfDay = to.startOfDay();
+    final toEndOfDay = to.endOfDay();
 
     for (var date = from;
-        date.isBefore(toStartOfDay);
+        date.isBefore(toEndOfDay);
         date = date.add(Duration(days: 1))) {
       dailyHealthStatuses.add(DailyHealthStatus.generateDummy(date));
     }

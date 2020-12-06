@@ -31,8 +31,8 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
   DateTime initialWeekStart;
   DateTime initialWeekEnd;
 
-  DateTime weekStart;
-  DateTime weekEnd;
+  DateTime currentWeekStart;
+  DateTime currentWeekEnd;
   T value;
 
   @override
@@ -43,8 +43,8 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
 
     final weekStartEnd = now.startAndEndOfWeek();
 
-    weekStart = initialWeekStart = weekStartEnd.item1;
-    weekEnd = initialWeekEnd = weekStartEnd.item2;
+    currentWeekStart = initialWeekStart = weekStartEnd.item1;
+    currentWeekEnd = initialWeekEnd = weekStartEnd.item2;
 
     widget.valueChangeNotifier.addListener(onIndicatorChanged);
   }
@@ -84,8 +84,8 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
 
   void changeWeek(int index) {
     setState(() {
-      weekStart = calculateWeekStart(index);
-      weekEnd = calculateWeekEnd(index);
+      currentWeekStart = calculateWeekStart(index);
+      currentWeekEnd = calculateWeekEnd(index);
     });
   }
 
@@ -101,7 +101,7 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
     return initialWeekEnd.subtract(changeDuration);
   }
 
-  bool hasNextDateRange() => weekEnd.isBefore(DateTime.now());
+  bool hasNextDateRange() => currentWeekEnd.isBefore(DateTime.now());
 
   advanceToNextDateRange() {
     _pageController.previousPage(
@@ -113,8 +113,8 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
   }
 
   String _getDateRangeFormatted() {
-    return "${dateFormatter.format(weekStart).capitalizeFirst()} – "
-        "${dateFormatter.format(weekEnd).capitalizeFirst()}";
+    return "${dateFormatter.format(currentWeekStart).capitalizeFirst()} – "
+        "${dateFormatter.format(currentWeekEnd).capitalizeFirst()}";
   }
 
   Widget _buildDateSelectionSection() {
