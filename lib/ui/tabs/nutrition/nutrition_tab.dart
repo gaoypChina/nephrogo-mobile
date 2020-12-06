@@ -8,7 +8,7 @@ import 'package:nephrolog/ui/charts/today_nutrients_consumption_bar_chart.dart';
 import 'package:nephrolog/ui/charts/indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/progress_indicator.dart';
-import 'package:nephrolog/ui/tabs/nutrition/intakes_screen.dart';
+import 'package:nephrolog/ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
 
