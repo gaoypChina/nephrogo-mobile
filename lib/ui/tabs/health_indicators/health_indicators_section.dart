@@ -1,14 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
+import 'package:nephrolog/extensions/string_extensions.dart';
 
 class HealthIndicatorsList extends StatelessWidget {
+  final HealthIndicator healthIndicator;
   final List<DailyHealthStatus> dailyHealthStatuses;
 
-  const HealthIndicatorsList({Key key, this.dailyHealthStatuses})
-      : super(key: key);
+  const HealthIndicatorsList({
+    Key key,
+    this.dailyHealthStatuses,
+    this.healthIndicator,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +30,8 @@ class HealthIndicatorsList extends StatelessWidget {
 }
 
 class DailyHealthStatusSection extends StatelessWidget {
+  static final _dateFormat = DateFormat("EEEE, d");
+
   final DailyHealthStatus dailyHealthStatus;
 
   const DailyHealthStatusSection({Key key, this.dailyHealthStatus})
@@ -32,7 +40,7 @@ class DailyHealthStatusSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LargeSection(
-      title: "Mano šiandienos rodikliai",
+      title: _dateFormat.format(dailyHealthStatus.date).capitalizeFirst() + " d.",
       children: _buildHealthIndicatorsTiles(),
     );
   }
