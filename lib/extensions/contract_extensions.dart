@@ -257,43 +257,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     }
   }
 
-  String _numberToFeelingScale(int amount) {}
 
-  String _getFormattedHealthIndicatorWithAmount(
-      HealthIndicator indicator, int amount) {
-    switch (indicator) {
-      case HealthIndicator.bloodPressure:
-        // TODO: Handle this case.
-        break;
-      case HealthIndicator.weight:
-        // TODO: Handle this case.
-        break;
-      case HealthIndicator.urine:
-        // TODO: Handle this case.
-        break;
-      case HealthIndicator.severityOfSwelling:
-        // TODO: Handle this case.
-        break;
-      case HealthIndicator.numberOfSwellings:
-        // TODO: Handle this case.
-        break;
-      case HealthIndicator.wellBeing:
-        // TODO: Handle this case.
-        break;
-      case HealthIndicator.appetite:
-        // TODO: Handle this case.
-        break;
-      case HealthIndicator.shortnessOfBreath:
-        // TODO: Handle this case.
-        break;
-      default:
-        throw ArgumentError.value(
-          this,
-          "healthIndicator",
-          "Unable to map indicator to name",
-        );
-    }
-  }
 }
 
 extension HealthIndicatorExtensions on HealthIndicator {

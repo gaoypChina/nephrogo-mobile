@@ -1,7 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:faker/faker.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
-import 'package:nephrolog/extensions/collection_extensions.dart';
 
 // Used internally
 enum Nutrient {

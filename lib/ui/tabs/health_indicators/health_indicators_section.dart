@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrolog/models/contract.dart';
-import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 
