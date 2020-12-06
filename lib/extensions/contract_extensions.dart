@@ -160,7 +160,167 @@ extension NutrientExtensions on Nutrient {
         return "Fosforas";
       default:
         throw ArgumentError.value(
-            this, "type", "Unable to map indicator to name");
+            this, "nutrient", "Unable to map nutrient to name");
+    }
+  }
+}
+
+// Health indicators
+extension DailyHealthStatusExtensions on DailyHealthStatus {
+  bool isIndicatorExists(HealthIndicator indicator) {
+    switch (indicator) {
+      case HealthIndicator.bloodPressure:
+        return diastolicBloodPressure != null && systolicBloodPressure != null;
+      case HealthIndicator.weight:
+        return weight != null;
+      case HealthIndicator.urine:
+        return urineMl != null;
+      case HealthIndicator.severityOfSwelling:
+        return severityOfSwelling != null;
+      case HealthIndicator.numberOfSwellings:
+        return numberOfSwellings != null;
+      case HealthIndicator.wellBeing:
+        return wellBeing != null;
+      case HealthIndicator.appetite:
+        return appetite != null;
+      case HealthIndicator.shortnessOfBreath:
+        return shortnessOfBreath != null;
+      default:
+        throw ArgumentError.value(
+          this,
+          "healthIndicator",
+          "Unable to map indicator and check for indicator existance",
+        );
+    }
+  }
+
+  String getHealthIndicatorFormatted(HealthIndicator indicator) {
+    if (!isIndicatorExists(indicator)) {
+      return null;
+    }
+
+    switch (indicator) {
+      case HealthIndicator.bloodPressure:
+        return "$diastolicBloodPressure / $systolicBloodPressure mmHg";
+      case HealthIndicator.weight:
+        return "$weight kg";
+      case HealthIndicator.urine:
+        return _formatAmount(urineMl, "ml", "l");
+      case HealthIndicator.severityOfSwelling:
+        return "TODO $severityOfSwelling";
+      case HealthIndicator.numberOfSwellings:
+        return numberOfSwellings.toString();
+      case HealthIndicator.wellBeing:
+        switch (wellBeing) {
+          case 1:
+            return "Labai bloga";
+          case 2:
+            return "Bloga";
+          case 3:
+            return "Vidutinė";
+          case 4:
+            return "Gera";
+          case 5:
+            return "Puiki";
+        }
+        throw ArgumentError.value(
+          wellBeing,
+          "wellBeing",
+          "Invalid wellBeing value",
+        );
+      case HealthIndicator.appetite:
+        switch (appetite) {
+          case 1:
+            return "Labai blogas";
+          case 2:
+            return "Blogas";
+          case 3:
+            return "Vidutinis";
+          case 4:
+            return "Geras";
+          case 5:
+            return "Puikus";
+        }
+        throw ArgumentError.value(
+          appetite,
+          "appetite",
+          "Invalid wellBeing value",
+        );
+      case HealthIndicator.shortnessOfBreath:
+        return "TODO: $shortnessOfBreath";
+      default:
+        throw ArgumentError.value(
+          this,
+          "healthIndicator",
+          "Unable to map indicator to formatted indicator",
+        );
+    }
+  }
+
+  String _numberToFeelingScale(int amount) {}
+
+  String _getFormattedHealthIndicatorWithAmount(
+      HealthIndicator indicator, int amount) {
+    switch (indicator) {
+      case HealthIndicator.bloodPressure:
+        // TODO: Handle this case.
+        break;
+      case HealthIndicator.weight:
+        // TODO: Handle this case.
+        break;
+      case HealthIndicator.urine:
+        // TODO: Handle this case.
+        break;
+      case HealthIndicator.severityOfSwelling:
+        // TODO: Handle this case.
+        break;
+      case HealthIndicator.numberOfSwellings:
+        // TODO: Handle this case.
+        break;
+      case HealthIndicator.wellBeing:
+        // TODO: Handle this case.
+        break;
+      case HealthIndicator.appetite:
+        // TODO: Handle this case.
+        break;
+      case HealthIndicator.shortnessOfBreath:
+        // TODO: Handle this case.
+        break;
+      default:
+        throw ArgumentError.value(
+          this,
+          "healthIndicator",
+          "Unable to map indicator to name",
+        );
+    }
+  }
+}
+
+extension HealthIndicatorExtensions on HealthIndicator {
+  String get name {
+    switch (this) {
+      case HealthIndicator.bloodPressure:
+        return "Kraujo spaudimas";
+      case HealthIndicator.weight:
+        return "Svoris";
+      case HealthIndicator.urine:
+        return "Šlapimo kiekis";
+      case HealthIndicator.severityOfSwelling:
+        return "Patinimų sunkumas";
+      case HealthIndicator.numberOfSwellings:
+        return "Patinimų kiekis";
+      case HealthIndicator.wellBeing:
+        return "Savijauta";
+      case HealthIndicator.appetite:
+        return "Apetitas";
+      case HealthIndicator.shortnessOfBreath:
+        return "Dusulys";
+      default:
+        throw ArgumentError.value(
+          this,
+          "healthIndicator",
+          "Unable to map indicator to name",
+        );
     }
   }
 }

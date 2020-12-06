@@ -3,73 +3,47 @@ import 'package:flutter/material.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/ui/general/components.dart';
+import 'package:nephrolog/extensions/contract_extensions.dart';
 
-class HealthIndicatorsSection extends StatelessWidget {
-  final DailyHealthStatus dailyHealthIndicators;
+class HealthIndicatorsList extends StatelessWidget {
+  final List<DailyHealthStatus> dailyHealthStatuses;
 
-  const HealthIndicatorsSection({Key key, this.dailyHealthIndicators})
+  const HealthIndicatorsList({Key key, this.dailyHealthStatuses})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: dailyHealthStatuses.length,
+      itemBuilder: (context, index) {
+        return DailyHealthStatusSection(
+          dailyHealthStatus: dailyHealthStatuses[index],
+        );
+      },
+    );
+  }
+}
+
+class DailyHealthStatusSection extends StatelessWidget {
+  final DailyHealthStatus dailyHealthStatus;
+
+  const DailyHealthStatusSection({Key key, this.dailyHealthStatus})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LargeSection(
       title: "Mano šiandienos rodikliai",
-      children: [
-        _DailyHealthIndicatorsColumn(
-          dailyHealthIndicators: dailyHealthIndicators,
-        ),
-      ],
-      leading: OutlineButton(
-        child: Text("REDAGUOTI"),
-        onPressed: () => Navigator.pushNamed(
-          context,
-          Routes.ROUTE_HEALTH_INDICATORS_CREATION,
-        ),
-      ),
-    );
-  }
-}
-
-class _HealthIndicatorColumnData {
-  final String title;
-  final String text;
-
-  _HealthIndicatorColumnData(this.title, this.text);
-}
-
-class _DailyHealthIndicatorsColumn extends StatelessWidget {
-  final DailyHealthStatus dailyHealthIndicators;
-
-  const _DailyHealthIndicatorsColumn({Key key, this.dailyHealthIndicators})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: generateIndicatorsDataArray()
-          .map(
-            (e) => ListTile(
-              title: Text(e.title),
-              trailing: Text(e.text),
-            ),
-          )
-          .toList(),
+      children: _buildHealthIndicatorsTiles(),
     );
   }
 
-  List<_HealthIndicatorColumnData> generateIndicatorsDataArray() {
-    List<_HealthIndicatorColumnData> data = [];
-
-    var bloodPressureText = "-";
-
-    if (dailyHealthIndicators.systolicBloodPressure != null &&
-        dailyHealthIndicators.diastolicBloodPressure != null) {
-      bloodPressureText = "${dailyHealthIndicators.diastolicBloodPressure} / "
-          "${dailyHealthIndicators.systolicBloodPressure} mmHG";
-    }
-
-    data.add(_HealthIndicatorColumnData("Kraujo spaudimas", bloodPressureText));
-
-    return data;
+  List<Widget> _buildHealthIndicatorsTiles() {
+    return HealthIndicator.values.map((h) {
+      return AppListTile(
+        title: Text(h.name),
+        trailing: Text(dailyHealthStatus.getHealthIndicatorFormatted(h) ?? "-"),
+      );
+    }).toList();
   }
 }

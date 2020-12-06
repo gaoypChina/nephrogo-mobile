@@ -43,18 +43,7 @@ class HealthIndicatorsTabBody extends StatelessWidget {
         if (snapshot.hasData) {
           final dailyHealthStatuses = snapshot.data.dailyHealthStatuses;
 
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 64),
-              child: Column(
-                children: [
-                  HealthIndicatorsSection(
-                    dailyHealthIndicators: dailyHealthStatuses.first,
-                  ),
-                ],
-              ),
-            ),
-          );
+          return HealthIndicatorsList(dailyHealthStatuses: dailyHealthStatuses);
         }
         if (snapshot.hasError) {
           return Center(child: Text(snapshot.error));

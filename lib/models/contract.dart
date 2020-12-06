@@ -3,7 +3,7 @@ import 'package:faker/faker.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:nephrolog/extensions/collection_extensions.dart';
 
-// Used Nutrient internally
+// Used internally
 enum Nutrient {
   potassium,
   proteins,
@@ -12,6 +12,19 @@ enum Nutrient {
   liquids,
   energy,
 }
+
+enum HealthIndicator {
+  bloodPressure,
+  weight,
+  urine,
+  severityOfSwelling,
+  numberOfSwellings,
+  wellBeing,
+  appetite,
+  shortnessOfBreath,
+}
+
+// End of used internally
 
 enum ProductKind {
   @JsonValue(0)
@@ -276,10 +289,10 @@ class DailyHealthStatus {
   final int numberOfSwellings;
 
   @JsonKey()
-  final int feelingAtEase;
+  final int wellBeing;
 
   @JsonKey()
-  final int apetite;
+  final int appetite;
 
   @JsonKey()
   final int shortnessOfBreath;
@@ -293,8 +306,8 @@ class DailyHealthStatus {
     this.urineMl,
     this.severityOfSwelling,
     this.numberOfSwellings,
-    this.feelingAtEase,
-    this.apetite,
+    this.wellBeing,
+    this.appetite,
     this.shortnessOfBreath,
   );
 
@@ -331,8 +344,6 @@ class UserHealthStatusResponse {
       dailyHealthStatuses.add(DailyHealthStatus.generateDummy(date));
     }
 
-    return UserHealthStatusResponse(
-      dailyHealthStatuses.sortedBy((e) => e.date, true).toList(),
-    );
+    return UserHealthStatusResponse(dailyHealthStatuses);
   }
 }
