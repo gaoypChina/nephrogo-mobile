@@ -88,7 +88,7 @@ class NutritionTabBody extends StatelessWidget {
   openIntakesScreen(BuildContext context, Nutrient indicator) {
     Navigator.pushNamed(
       context,
-      Routes.ROUTE_INTAKES,
+      Routes.DAILY_WEEKLY_NUTRIENTS_SCREEN,
       arguments: WeeklyNutrientsScreenArguments(indicator),
     );
   }

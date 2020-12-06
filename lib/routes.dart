@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nephrolog/ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
 
 import 'ui/home_screen.dart';
 import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
@@ -8,9 +9,14 @@ import 'ui/user_conditions.dart';
 
 class Routes {
   static const ROUTE_HOME = "home";
-  static const ROUTE_INTAKES = "intakes";
+
+  static const DAILY_WEEKLY_NUTRIENTS_SCREEN = "weekly_nutrients_screen";
   static const ROUTE_MEAL_CREATION = "meal_creation";
+
+  static const ROUTE_WEEKLY_HEALTH_INDICATORS_SCREEN =
+      "weekly_health_indicators_screen";
   static const ROUTE_HEALTH_INDICATORS_CREATION = "health_indicators_creation";
+
   static const ROUTE_USER_CONDITIONS = "user_conditions";
 
   static const ROUTE_FORM_SELECT = "form_select";
@@ -33,12 +39,20 @@ class Routes {
         return MaterialPageRoute(builder: (context) {
           return UserConditionsScreen();
         });
-      case ROUTE_INTAKES:
+      case DAILY_WEEKLY_NUTRIENTS_SCREEN:
         return MaterialPageRoute(builder: (context) {
           WeeklyNutrientsScreenArguments arguments = settings.arguments;
 
           return WeeklyNutrientsScreen(
             nutrient: arguments.nutrient,
+          );
+        });
+      case ROUTE_WEEKLY_HEALTH_INDICATORS_SCREEN:
+        return MaterialPageRoute(builder: (context) {
+          WeeklyHealthIndicatorsScreenArguments arguments = settings.arguments;
+
+          return WeeklyHealthIndicatorsScreen(
+            initialHealthIndicator: arguments.initialHealthIndicator,
           );
         });
       default:

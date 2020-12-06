@@ -3,8 +3,15 @@ import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/weekly_pager.dart';
+import 'package:nephrolog/extensions/contract_extensions.dart';
 
 import 'health_indicators_section.dart';
+
+class WeeklyHealthIndicatorsScreenArguments {
+  final HealthIndicator initialHealthIndicator;
+
+  const WeeklyHealthIndicatorsScreenArguments(this.initialHealthIndicator);
+}
 
 class WeeklyHealthIndicatorsScreen extends StatefulWidget {
   final HealthIndicator initialHealthIndicator;
@@ -35,12 +42,14 @@ class _WeeklyHealthIndicatorsScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(selectedHealthIndicator.name),
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => valueNotifier.value = HealthIndicator.appetite,
         label: Text("RODIKLIS"),
         icon: Icon(Icons.swap_horizontal_circle),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: WeeklyPager<HealthIndicator>(
         valueChangeNotifier: valueNotifier,
         bodyBuilder: (from, to, indicator) {

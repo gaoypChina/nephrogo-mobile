@@ -12,8 +12,8 @@ class HealthIndicatorsList extends StatelessWidget {
 
   const HealthIndicatorsList({
     Key key,
-    this.dailyHealthStatuses,
-    this.healthIndicator,
+    @required this.dailyHealthStatuses,
+    @required this.healthIndicator,
   }) : super(key: key);
 
   @override
@@ -32,15 +32,25 @@ class HealthIndicatorsList extends StatelessWidget {
 class DailyHealthStatusSection extends StatelessWidget {
   static final _dateFormat = DateFormat("EEEE, d");
 
+  final String title;
   final DailyHealthStatus dailyHealthStatus;
+  final Widget leading;
 
-  const DailyHealthStatusSection({Key key, this.dailyHealthStatus})
-      : super(key: key);
+  const DailyHealthStatusSection({
+    Key key,
+    @required this.dailyHealthStatus,
+    this.title,
+    this.leading,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final dateFormatted = _dateFormat.format(dailyHealthStatus.date);
+    final dateTitle = "$dateFormatted d.".capitalizeFirst();
+
     return LargeSection(
-      title: _dateFormat.format(dailyHealthStatus.date).capitalizeFirst() + " d.",
+      title: title ?? dateTitle,
+      leading: leading,
       children: _buildHealthIndicatorsTiles(),
     );
   }
