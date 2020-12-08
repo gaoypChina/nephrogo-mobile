@@ -272,7 +272,6 @@ class _HealthIndicatorsCreationScreenState
                       items: [
                         AppSelectFormFieldItem(
                           text: "Nėra",
-                          description: "TODO description",
                           icon: Icons.sentiment_very_satisfied,
                           value: 0,
                         ),
