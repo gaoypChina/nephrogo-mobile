@@ -15,7 +15,10 @@ class HealthIndicatorsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => valueNotifier.value = valueNotifier.value + 1,
+        onPressed: () => Navigator.pushNamed(
+          context,
+          Routes.ROUTE_HEALTH_INDICATORS_CREATION,
+        ),
         label: Text("PRIDĖTI RODIKLIUS"),
         icon: Icon(Icons.add),
       ),

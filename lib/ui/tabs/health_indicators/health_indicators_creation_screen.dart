@@ -112,34 +112,41 @@ class _HealthIndicatorsCreationScreenState
                   children: [
                     AppSelectFormField<int>(
                       labelText: "Patinimų sunkumas",
+                      helperText:
+                          "Patinimą tikrinkite švelniai pirštais paspausdami odą blauzdos priekyje ant kaulo.",
                       items: [
                         AppSelectFormFieldItem(
                           text: "0+",
-                          description: "TODO",
+                          description: "Nesusidaro duobutė",
                           icon: Icons.sentiment_very_satisfied,
                           value: 0,
                         ),
                         AppSelectFormFieldItem(
                           text: "1+",
-                          description: "TODO",
+                          description:
+                              "Susidaro negili apie 2 mm duobutė, kuri "
+                              "atkėlus pirštus tuoj pat išnyksta.",
                           icon: Icons.sentiment_satisfied,
                           value: 1,
                         ),
                         AppSelectFormFieldItem(
                           text: "2+",
-                          description: "TODO",
+                          description: "Susidaro apie 4 mm duobutė, kuri "
+                              "išnyksta po 10-15 sekundžių.",
                           icon: Icons.sentiment_dissatisfied,
                           value: 2,
                         ),
                         AppSelectFormFieldItem(
                           text: "3+",
-                          description: "TODO",
+                          description: "Susidaro apie 6 mm duobutė, kuri "
+                              "išnyksta po 1 minutės.",
                           icon: Icons.sentiment_very_dissatisfied,
                           value: 3,
                         ),
                         AppSelectFormFieldItem(
                           text: "4+",
-                          description: "TODO",
+                          description: "Susidaro apie 8 mm duobutė, kuri "
+                              "išnyksta po 2 minučių.",
                           icon: Icons.sick,
                           value: 4,
                         ),
@@ -271,25 +278,33 @@ class _HealthIndicatorsCreationScreenState
                         ),
                         AppSelectFormFieldItem(
                           text: "Lengvas",
-                          description: "TODO description",
+                          description: "Dūstama esant labai dideliam fiziniam "
+                              "krūviui, uždūstama nuėjus vidutiniu greičiu be "
+                              "sustojimo iki 500 m. arba užlipus į 5 aukštą.",
                           icon: Icons.sentiment_satisfied,
                           value: 1,
                         ),
                         AppSelectFormFieldItem(
                           text: "Vidutinis",
-                          description: "TODO description",
+                          description: "Dūstama esant vidutiniam fiziniam "
+                              "krūviui, uždūstama nuėjus vidutiniu greičiu be "
+                              "sustojimo iki 200 m. arba užlipus į 3-4 aukštą.",
                           icon: Icons.sentiment_dissatisfied,
                           value: 2,
                         ),
                         AppSelectFormFieldItem(
                           text: "Sunkus",
-                          description: "TODO description",
+                          description: "Dūstama esant mažam fiziniam krūviui, "
+                              "uždūstama nuėjus vidutiniu greičiu be sustojimo "
+                              "iki 100 m. arba užlipus į 2 aukštą.",
                           icon: Icons.sentiment_very_dissatisfied,
                           value: 3,
                         ),
                         AppSelectFormFieldItem(
                           text: "Labai sunkus",
-                          description: "TODO description",
+                          description: "Dūstama esant labai mažam fiziniam "
+                              "krūviui (atsikėlus iš lovos, apsirengus, "
+                              "nusiprausus, pavaikščiojus po kambarį) ir ramybėje.",
                           icon: Icons.sick,
                           value: 4,
                         ),
