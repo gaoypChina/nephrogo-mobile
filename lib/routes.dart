@@ -10,7 +10,7 @@ import 'ui/user_conditions.dart';
 class Routes {
   static const ROUTE_HOME = "home";
 
-  static const DAILY_WEEKLY_NUTRIENTS_SCREEN = "weekly_nutrients_screen";
+  static const ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN = "weekly_nutrients_screen";
   static const ROUTE_MEAL_CREATION = "meal_creation";
 
   static const ROUTE_WEEKLY_HEALTH_INDICATORS_SCREEN =
@@ -39,7 +39,7 @@ class Routes {
         return MaterialPageRoute(builder: (context) {
           return UserConditionsScreen();
         });
-      case DAILY_WEEKLY_NUTRIENTS_SCREEN:
+      case ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN:
         return MaterialPageRoute(builder: (context) {
           WeeklyNutrientsScreenArguments arguments = settings.arguments;
 
