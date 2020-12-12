@@ -5,7 +5,7 @@ import 'package:nephrolog/extensions/string_extensions.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog/services/api_service.dart';
-import 'package:nephrolog/ui/charts/indicator_bar_chart.dart';
+import 'package:nephrolog/ui/charts/nutrient_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/weekly_pager.dart';
@@ -167,32 +167,26 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dailyIntakes = userIntakesResponse.dailyIntakes;
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: BasicSection(
-            children: [
-              IndicatorBarChart(
-                dailyIntakes: dailyIntakes,
-                nutrient: nutrient,
-              ),
-            ],
-          ),
+
+    final dailyIntakesSections = userIntakesResponse.dailyIntakes
+        .map((di) => DailyIntakeSection(
+              nutrient: nutrient,
+              dailyIntake: di,
+            ))
+        .toList();
+
+    return ListView(
+      children: [
+        BasicSection(
+          children: [
+            NutrientBarChart(
+              dailyIntakes: dailyIntakes,
+              nutrient: nutrient,
+            ),
+          ],
         ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return DailyIntakeSection(
-                nutrient: nutrient,
-                dailyIntake: dailyIntakes[index],
-              );
-            },
-            childCount: dailyIntakes.length,
-          ),
-        ),
-        SliverPadding(
-          padding: EdgeInsets.only(bottom: 64),
-        )
+        ...dailyIntakesSections,
+        Container(height: 64),
       ],
     );
   }

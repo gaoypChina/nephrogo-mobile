@@ -6,7 +6,7 @@ import 'package:nephrolog/models/graph.dart';
 import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 
-import 'chart.dart';
+import 'bar_chart.dart';
 
 class TodayNutrientsConsumptionBarChart extends StatelessWidget {
   final DailyIntake dailyIntake;

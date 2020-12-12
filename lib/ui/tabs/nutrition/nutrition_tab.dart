@@ -4,8 +4,8 @@ import 'package:nephrolog/extensions/string_extensions.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/services/api_service.dart';
+import 'package:nephrolog/ui/charts/nutrient_bar_chart.dart';
 import 'package:nephrolog/ui/charts/today_nutrients_consumption_bar_chart.dart';
-import 'package:nephrolog/ui/charts/indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/progress_indicator.dart';
 import 'package:nephrolog/ui/tabs/nutrition/weekly_nutrients_screen.dart';
@@ -106,7 +106,7 @@ class NutritionTabBody extends StatelessWidget {
       title: nutrient.name,
       subTitle: "Šiandien: $todayConsumption iš $dailyNormFormatted",
       children: [
-        IndicatorBarChart(
+        NutrientBarChart(
           dailyIntakes: dailyIntakes,
           nutrient: nutrient,
         ),
