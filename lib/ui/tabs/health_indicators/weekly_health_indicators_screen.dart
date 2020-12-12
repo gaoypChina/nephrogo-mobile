@@ -29,7 +29,7 @@ class WeeklyHealthIndicatorsScreen extends StatefulWidget {
 
 class _WeeklyHealthIndicatorsScreenState
     extends State<WeeklyHealthIndicatorsScreen> {
-  ValueNotifier<HealthIndicator> valueNotifier;
+  ValueNotifier<HealthIndicator> healthIndicatorChangeNotifier;
   HealthIndicator selectedHealthIndicator;
 
   final ApiService _apiService = ApiService();
@@ -38,7 +38,8 @@ class _WeeklyHealthIndicatorsScreenState
   void initState() {
     super.initState();
 
-    valueNotifier = ValueNotifier(widget.initialHealthIndicator);
+    healthIndicatorChangeNotifier =
+        ValueNotifier(widget.initialHealthIndicator);
     selectedHealthIndicator = widget.initialHealthIndicator;
   }
 
@@ -49,12 +50,12 @@ class _WeeklyHealthIndicatorsScreenState
         title: Text(selectedHealthIndicator.name),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => valueNotifier.value = HealthIndicator.appetite,
+        onPressed: () => _showIndicatorSelectionPopupMenu(),
         label: Text("RODIKLIS"),
         icon: Icon(Icons.swap_horizontal_circle),
       ),
       body: WeeklyPager<HealthIndicator>(
-        valueChangeNotifier: valueNotifier,
+        valueChangeNotifier: healthIndicatorChangeNotifier,
         bodyBuilder: (from, to, indicator) {
           return AppFutureBuilder<UserHealthStatusResponse>(
             future: _apiService.getUserHealthStatus(from, to),
@@ -68,6 +69,37 @@ class _WeeklyHealthIndicatorsScreenState
         },
       ),
     );
+  }
+
+  _changeHealthIndicator(HealthIndicator healthIndicator) {
+    setState(() {
+      selectedHealthIndicator = healthIndicator;
+      healthIndicatorChangeNotifier.value = healthIndicator;
+    });
+  }
+
+  Future _showIndicatorSelectionPopupMenu() async {
+    final options = HealthIndicator.values.map((hi) {
+      return SimpleDialogOption(
+        child: Text(hi.name),
+        onPressed: () => Navigator.pop(context, hi),
+        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+      );
+    }).toList();
+
+    final selectedHealthIndicator = await showDialog<HealthIndicator>(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: const Text('Pasirinkite sveikatos indikatorių'),
+          children: options,
+        );
+      },
+    );
+
+    if (selectedHealthIndicator != null) {
+      _changeHealthIndicator(selectedHealthIndicator);
+    }
   }
 }
 
