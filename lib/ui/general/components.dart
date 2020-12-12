@@ -15,7 +15,7 @@ class BasicSection extends StatelessWidget {
 
   const BasicSection({
     Key key,
-    @required this.children,
+    this.children = const [],
     this.header,
     this.showDividers = true,
     this.padding = const EdgeInsets.only(bottom: 18.0),
@@ -49,6 +49,10 @@ class BasicSection extends StatelessWidget {
   }
 
   Iterable<Widget> _getPreparedChildren(BuildContext context) {
+    if (children.isEmpty) {
+      return [];
+    }
+
     Iterable<Widget> preparedChildren = children.map(
       (c) => Padding(
         padding: _defaultChildrenPadding,
@@ -166,21 +170,23 @@ class AppListTile extends StatelessWidget {
   final Widget trailing;
   final GestureTapCallback onTap;
   final bool selected;
+  final EdgeInsetsGeometry contentPadding;
 
   const AppListTile({
     Key key,
-    @required this.title,
+    this.title,
     this.subtitle,
     this.leading,
     this.trailing,
     this.onTap,
+    this.contentPadding,
     this.selected: false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.zero,
+      contentPadding: contentPadding ?? EdgeInsets.zero,
       leading: leading,
       title: title,
       subtitle: subtitle,

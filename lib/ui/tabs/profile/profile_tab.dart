@@ -12,88 +12,99 @@ class ProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
+    return ListView(
+      padding: EdgeInsets.only(bottom: 64),
+      children: [
+        BasicSection(
           children: [
-            BasicSection(
-              children: [
-                AppListTile(
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                      width: 64,
-                      height: 64,
-                      child: getUserProfilePhoto(),
-                    ),
-                  ),
-                  title: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+            AppListTile(
+              leading: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  width: 64,
+                  height: 64,
+                  child: getUserProfilePhoto(),
+                ),
+              ),
+              title: Padding(
+                padding: const EdgeInsets.only(left: 8.0, top: 8),
+                child: Text(
+                  "Karolis Vyčius",
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+              subtitle: Flex(
+                direction: Axis.horizontal,
+                children: [
+                  TextButton(
                     child: Text(
-                      "Karolis Vyčius",
-                      style: Theme.of(context).textTheme.headline6,
+                      "Atsijungti",
+                      style: TextStyle(color: Colors.redAccent),
+                      textAlign: TextAlign.start,
                     ),
+                    onPressed: () => print("Logout"),
                   ),
-                  subtitle: Flex(
-                    direction: Axis.horizontal,
-                    children: [
-                      TextButton(
-                        child: Text(
-                          "Atsijungti",
-                          style: TextStyle(color: Colors.redAccent),
-                          textAlign: TextAlign.start,
-                        ),
-                        onPressed: () => print("Logout"),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-            BasicSection(
-              children: [
-                AppListTile(
-                  title: Text("Mano būklė"),
-                  leading: Icon(Icons.medical_services),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      Routes.ROUTE_USER_CONDITIONS,
-                    );
-                  },
-                ),
-              ],
-            ),
-            BasicSection(
-              children: [
-                AppListTile(
-                  title: Text("Privatumo politika"),
-                  leading: Icon(Icons.lock),
-                  onTap: () {
-                    _launchURL(privacyPolicyUrl);
-                  },
-                ),
-                AppListTile(
-                  title: Text("Naudojimosi taisyklės"),
-                  leading: Icon(Icons.description),
-                  onTap: () {
-                    _launchURL(rulesUrl);
-                  },
-                ),
-              ],
-            ),
-            FutureBuilder(
-              future: _getVersionString(),
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                if (snapshot.hasData) {
-                  return Center(child: Text(snapshot.data));
-                }
-                return SizedBox.shrink();
-              },
-            )
           ],
         ),
-      ),
+        BasicSection(
+          children: [
+            AppListTile(
+              title: Text("Mano būklė"),
+              leading: Icon(Icons.medical_services),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  Routes.ROUTE_USER_CONDITIONS,
+                );
+              },
+            ),
+          ],
+        ),
+        BasicSection(
+          children: [
+            AppListTile(
+              title: Text("Dažniausiai užduodami klausimai"),
+              leading: Icon(Icons.help),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  Routes.ROUTE_FAQ,
+                );
+              },
+            ),
+          ],
+        ),
+        BasicSection(
+          children: [
+            AppListTile(
+              title: Text("Privatumo politika"),
+              leading: Icon(Icons.lock),
+              onTap: () {
+                _launchURL(privacyPolicyUrl);
+              },
+            ),
+            AppListTile(
+              title: Text("Naudojimosi taisyklės"),
+              leading: Icon(Icons.description),
+              onTap: () {
+                _launchURL(rulesUrl);
+              },
+            ),
+          ],
+        ),
+        FutureBuilder(
+          future: _getVersionString(),
+          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            if (snapshot.hasData) {
+              return Center(child: Text(snapshot.data));
+            }
+            return SizedBox.shrink();
+          },
+        )
+      ],
     );
   }
 

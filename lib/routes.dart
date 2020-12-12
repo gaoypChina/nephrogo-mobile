@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
 
+import 'ui/faq_screen.dart';
 import 'ui/home_screen.dart';
+import 'ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
 import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'ui/tabs/nutrition/meal_creation_screen.dart';
 import 'ui/tabs/health_indicators/health_indicators_creation_screen.dart';
@@ -18,6 +19,7 @@ class Routes {
   static const ROUTE_HEALTH_INDICATORS_CREATION = "health_indicators_creation";
 
   static const ROUTE_USER_CONDITIONS = "user_conditions";
+  static const ROUTE_FAQ = "frequently_asked_questions";
 
   static const ROUTE_FORM_SELECT = "form_select";
 
@@ -34,6 +36,10 @@ class Routes {
       case ROUTE_HEALTH_INDICATORS_CREATION:
         return MaterialPageRoute(builder: (context) {
           return HealthIndicatorsCreationScreen();
+        });
+      case ROUTE_FAQ:
+        return MaterialPageRoute(builder: (context) {
+          return FrequentlyAskedQuestionsScreen();
         });
       case ROUTE_USER_CONDITIONS:
         return MaterialPageRoute(builder: (context) {

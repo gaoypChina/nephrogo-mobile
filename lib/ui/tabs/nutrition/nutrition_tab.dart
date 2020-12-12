@@ -100,7 +100,8 @@ class NutritionTabBody extends StatelessWidget {
   ) {
     final dailyNormFormatted =
         dailyIntakes.first.userIntakeNorms.getNutrientAmountFormatted(nutrient);
-    final todayConsumption = dailyIntakes.first.getNutrientTotalAmountFormatted(nutrient);
+    final todayConsumption =
+        dailyIntakes.first.getNutrientTotalAmountFormatted(nutrient);
 
     return LargeSection(
       title: nutrient.name,
@@ -134,9 +135,9 @@ class DailyNormsSection extends StatelessWidget {
       subTitle: "TODO: mini paaiškinimas",
       leading: IconButton(
         icon: Icon(
-          Icons.help_outline_outlined,
+          Icons.help_outline,
         ),
-        onPressed: () => showInformationDialog(context),
+        onPressed: () => showInformationScreen(context),
       ),
       children: [
         Row(
@@ -151,23 +152,10 @@ class DailyNormsSection extends StatelessWidget {
     );
   }
 
-  showInformationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("TODO: Informacija"),
-          content: Text("O Giedre cia jau sugalvok :)"),
-          actions: [
-            FlatButton(
-              child: Text("GERAI"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
+  Future showInformationScreen(BuildContext context) {
+    return Navigator.pushNamed(
+      context,
+      Routes.ROUTE_FAQ,
     );
   }
 }

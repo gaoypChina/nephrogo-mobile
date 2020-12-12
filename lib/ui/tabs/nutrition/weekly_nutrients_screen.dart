@@ -27,7 +27,6 @@ class WeeklyNutrientsScreen extends StatefulWidget {
 }
 
 class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
-  static final dateFormatter = DateFormat.MMMMd();
 
   final _apiService = const ApiService();
 
