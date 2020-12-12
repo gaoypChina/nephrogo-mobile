@@ -257,7 +257,36 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     }
   }
 
+  double getHealthIndicatorValue(HealthIndicator indicator) {
+    if (!isIndicatorExists(indicator)) {
+      return null;
+    }
 
+    switch (indicator) {
+      case HealthIndicator.bloodPressure:
+        return this.systolicBloodPressure.toDouble();
+      case HealthIndicator.weight:
+        return this.weight.toDouble();
+      case HealthIndicator.urine:
+        return this.urineMl.toDouble();
+      case HealthIndicator.severityOfSwelling:
+        return this.severityOfSwelling.toDouble();
+      case HealthIndicator.numberOfSwellings:
+        return this.numberOfSwellings.toDouble();
+      case HealthIndicator.wellBeing:
+        return this.wellBeing.toDouble();
+      case HealthIndicator.appetite:
+        return this.appetite.toDouble();
+      case HealthIndicator.shortnessOfBreath:
+        return this.shortnessOfBreath.toDouble();
+      default:
+        throw ArgumentError.value(
+          this,
+          "healthIndicator",
+          "Unable to map indicator to formatted indicator",
+        );
+    }
+  }
 }
 
 extension HealthIndicatorExtensions on HealthIndicator {

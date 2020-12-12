@@ -176,6 +176,7 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
         .toList();
 
     return ListView(
+      padding: EdgeInsets.only(bottom: 64),
       children: [
         BasicSection(
           children: [
@@ -186,7 +187,6 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
           ],
         ),
         ...dailyIntakesSections,
-        Container(height: 64),
       ],
     );
   }

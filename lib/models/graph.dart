@@ -1,8 +1,9 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
-class AppBarChartData {
+class AppBarChartData extends Equatable {
   final List<AppBarChartGroup> groups;
   final double dashedHorizontalLine;
   final double barWidth;
@@ -12,7 +13,7 @@ class AppBarChartData {
   final fitInsideHorizontally;
   final fitInsideVertically;
 
-  AppBarChartData({
+  const AppBarChartData({
     @required this.groups,
     this.dashedHorizontalLine,
     this.barWidth: 22,
@@ -22,9 +23,21 @@ class AppBarChartData {
     this.fitInsideHorizontally: true,
     this.fitInsideVertically: true,
   });
+
+  @override
+  List<Object> get props => [
+        groups,
+        dashedHorizontalLine,
+        barWidth,
+        rodRadius,
+        interval,
+        maxY,
+        fitInsideHorizontally,
+        fitInsideVertically
+      ];
 }
 
-class AppBarChartGroup {
+class AppBarChartGroup extends Equatable {
   final String text;
   final int x;
   final bool isSelected;
@@ -36,18 +49,39 @@ class AppBarChartGroup {
     @required this.rods,
     this.isSelected: false,
   });
+
+  @override
+  List<Object> get props => [text, x, isSelected, rods];
 }
 
-class AppBarChartRod {
+class AppBarChartRod extends Equatable {
   final double y;
   final String tooltip;
   final Color barColor;
   final double backDrawRodY;
+  final List<AppBarChartRodStackItem> rodStackItems;
 
   const AppBarChartRod({
     @required this.y,
     @required this.tooltip,
     @required this.barColor,
     this.backDrawRodY,
+    this.rodStackItems,
   });
+
+  @override
+  List<Object> get props => [y, tooltip, barColor, backDrawRodY, rodStackItems];
+}
+
+class AppBarChartRodStackItem extends Equatable {
+  final double fromY;
+
+  final double toY;
+
+  final Color color;
+
+  const AppBarChartRodStackItem(this.fromY, this.toY, this.color);
+
+  @override
+  List<Object> get props => [fromY, toY, color];
 }

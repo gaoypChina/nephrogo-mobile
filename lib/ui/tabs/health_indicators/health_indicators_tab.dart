@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/services/api_service.dart';
+import 'package:nephrolog/ui/charts/health_indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
+import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
-
-import 'health_indicators_section.dart';
+import 'package:nephrolog/extensions/contract_extensions.dart';
 
 class HealthIndicatorsTab extends StatelessWidget {
   final ValueNotifier<int> valueNotifier = ValueNotifier(1);
@@ -42,16 +43,14 @@ class HealthIndicatorsTabBody extends StatelessWidget {
     return AppFutureBuilder<UserHealthStatusResponse>(
       future: apiService.getUserHealthStatus(from, to),
       builder: (BuildContext context, UserHealthStatusResponse response) {
-        return DailyHealthStatusSection(
-          title: "Šios dienos rodikliai",
-          dailyHealthStatus: response.dailyHealthStatuses.first,
-          leading: OutlineButton(
-            child: Text("DAUGIAU"),
-            onPressed: () => openWeeklyHealthIndicatorScreen(
-              context,
-              HealthIndicator.bloodPressure,
-            ),
-          ),
+        final sections = HealthIndicator.values
+            .map((i) => buildIndicatorChartSection(
+                context, response.dailyHealthStatuses, i))
+            .toList();
+
+        return ListView(
+          padding: EdgeInsets.only(bottom: 64),
+          children: sections,
         );
       },
     );
@@ -65,6 +64,31 @@ class HealthIndicatorsTabBody extends StatelessWidget {
       context,
       Routes.ROUTE_WEEKLY_HEALTH_INDICATORS_SCREEN,
       arguments: WeeklyHealthIndicatorsScreenArguments(indicator),
+    );
+  }
+
+  LargeSection buildIndicatorChartSection(
+    BuildContext context,
+    List<DailyHealthStatus> dailyHealthStatuses,
+    HealthIndicator indicator,
+  ) {
+    final todayConsumption =
+        dailyHealthStatuses.first.getHealthIndicatorFormatted(indicator) ??
+            "nėra informacijos";
+
+    return LargeSection(
+      title: indicator.name,
+      subTitle: "Šiandien: $todayConsumption",
+      children: [
+        HealthIndicatorBarChart(
+          dailyHealthStatuses: dailyHealthStatuses,
+          indicator: indicator,
+        ),
+      ],
+      leading: OutlineButton(
+        child: Text("DAUGIAU"),
+        onPressed: () => openWeeklyHealthIndicatorScreen(context, indicator),
+      ),
     );
   }
 }

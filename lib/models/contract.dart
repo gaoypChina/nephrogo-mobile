@@ -276,7 +276,7 @@ class DailyHealthStatus {
   final int diastolicBloodPressure;
 
   @JsonKey()
-  final int weight;
+  final double weight;
 
   @JsonKey()
   final int urineMl;
@@ -316,7 +316,7 @@ class DailyHealthStatus {
       date,
       random.integer(200, min: 130),
       random.integer(120, min: 60),
-      random.integer(110, min: 100),
+      random.integer(1100, min: 1000) / 10,
       random.integer(700, min: 400),
       random.integer(4, min: 0),
       random.integer(4, min: 0),

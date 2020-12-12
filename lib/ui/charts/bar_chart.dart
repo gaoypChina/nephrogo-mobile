@@ -100,17 +100,25 @@ class _AppBarChart extends State<AppBarChart> {
             (rod) {
               final y = rod.y.toDouble();
 
+              final rodStackItems = rod.rodStackItems
+                  ?.map(
+                    (rs) => BarChartRodStackItem(rs.fromY, rs.toY, rs.color),
+                  )
+                  ?.toList();
+
               return BarChartRodData(
-                  y: y,
-                  colors: isTouched ? [Colors.orange] : [rod.barColor],
-                  width: widget.data.barWidth,
-                  borderRadius:
-                      BorderRadius.all(Radius.circular(widget.data.rodRadius)),
-                  backDrawRodData: BackgroundBarChartRodData(
-                    show: rod.backDrawRodY != null,
-                    y: rod.backDrawRodY,
-                    colors: [Colors.grey],
-                  ));
+                y: y,
+                colors: isTouched ? [Colors.orange] : [rod.barColor],
+                width: widget.data.barWidth,
+                borderRadius:
+                    BorderRadius.all(Radius.circular(widget.data.rodRadius)),
+                backDrawRodData: BackgroundBarChartRodData(
+                  show: rod.backDrawRodY != null,
+                  y: rod.backDrawRodY,
+                  colors: [Colors.grey],
+                ),
+                rodStackItems: rodStackItems,
+              );
             },
           ).toList(),
         );
