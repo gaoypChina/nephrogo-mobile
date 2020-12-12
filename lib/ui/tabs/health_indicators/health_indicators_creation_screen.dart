@@ -80,7 +80,7 @@ class _HealthIndicatorsCreationScreenState
                   setLeftPadding: true,
                   showDividers: false,
                   children: [
-                    AppFloatInputField(
+                    AppDoubleInputField(
                       labelText: "Kūno svoris",
                       suffixText: "kg",
                       helperText:
@@ -98,7 +98,7 @@ class _HealthIndicatorsCreationScreenState
                     ),
                     // TODO rodyti tik cukraligei
                     // mmol/l  - milimoliais litre, norma 3,33 - 5,55
-                    AppFloatInputField(
+                    AppDoubleInputField(
                       labelText: "Gliukozės koncentracija kraujyje",
                       suffixText: "mmol/l",
                       onSaved: (value) {},

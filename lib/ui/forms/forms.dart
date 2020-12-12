@@ -34,7 +34,7 @@ class AppTextFormField extends StatelessWidget {
   final EdgeInsets padding;
   final bool disabled;
   final bool autoFocus;
-  final suffixIconData;
+  final IconData suffixIconData;
 
   const AppTextFormField({
     Key key,
@@ -107,6 +107,7 @@ class AppSelectionScreenFormField<T> extends StatefulWidget {
   final IconData iconData;
   final FormFieldItemSetter<T> onChanged;
   final FormFieldItemSetter<T> onSaved;
+  final FormFieldValidator<T> validator;
 
   const AppSelectionScreenFormField({
     Key key,
@@ -118,6 +119,7 @@ class AppSelectionScreenFormField<T> extends StatefulWidget {
     this.iconData,
     this.onChanged,
     this.onSaved,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -150,7 +152,15 @@ class _AppSelectionScreenFormFieldState<T>
       onTap: () => _onTap(context),
       suffixIconData: Icons.chevron_right,
       onSaved: _onSaved,
+      validator: _validator,
     );
+  }
+
+  String _validator(String value) {
+    if (widget.validator != null) {
+      return widget.validator(_selectedItem);
+    }
+    return null;
   }
 
   _onSaved(String s) {
@@ -189,6 +199,7 @@ class AppSelectFormField<T> extends StatefulWidget {
   final String labelText;
   final String helperText;
   final IconData iconData;
+  final FormFieldValidator<AppSelectFormFieldItem<T>> validator;
   final FormFieldSetter<AppSelectFormFieldItem<T>> onChanged;
   final FormFieldSetter<AppSelectFormFieldItem<T>> onSaved;
   final T initialValue;
@@ -202,6 +213,7 @@ class AppSelectFormField<T> extends StatefulWidget {
     this.initialValue,
     this.onChanged,
     this.onSaved,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -223,6 +235,7 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
       iconData: widget.iconData,
       onChanged: widget.onChanged,
       onSaved: widget.onSaved,
+      validator: widget.validator,
       initialSelection: selectedItem,
     );
   }
@@ -335,7 +348,7 @@ class AppDatePickerFormField extends StatefulWidget {
   final String labelText;
   final String helperText;
   final IconData iconData;
-  final FormFieldValidator<String> validator;
+  final FormFieldValidator<DateTime> validator;
   final FormFieldSetter<DateTime> onDateSaved;
   final FormFieldSetter<DateTime> onDateChanged;
   final DateFormat dateFormat;
@@ -372,9 +385,14 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
   DateTime selectedDateTime;
 
   @override
-  Widget build(BuildContext context) {
-    selectedDateTime = widget.selectedDate;
+  void initState() {
+    super.initState();
 
+    selectedDateTime = widget.selectedDate;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AppSelectionScreenFormField<DateTime>(
       onTap: _onTap,
       itemToStringConverter: (date) {
@@ -386,6 +404,7 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
       onSaved: widget.onDateSaved,
       onChanged: widget.onDateChanged,
       initialSelection: selectedDateTime,
+      validator: widget.validator,
     );
   }
 
@@ -470,7 +489,7 @@ class AppIntegerFormField extends StatelessWidget {
   final String helperText;
   final String hintText;
   final IconData iconData;
-  final FormFieldValidator<String> validator;
+  final FormFieldValidator<int> validator;
   final FormFieldSetter<int> onSaved;
   final String suffixText;
 
@@ -492,12 +511,20 @@ class AppIntegerFormField extends StatelessWidget {
       helperText: helperText,
       hintText: hintText,
       iconData: iconData,
-      validator: validator,
+      validator: _validator,
       onSaved: onSaved != null ? _onSaved : null,
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       suffixText: suffixText,
     );
+  }
+
+  String _validator(String text) {
+    if (validator == null) {
+      return null;
+    }
+
+    return validator(int.tryParse(text));
   }
 
   _onSaved(String v) {
@@ -507,16 +534,19 @@ class AppIntegerFormField extends StatelessWidget {
   }
 }
 
-class AppFloatInputField extends StatelessWidget {
+class AppDoubleInputField extends StatelessWidget {
+  static final floatRegexPattern =
+      RegExp(r'^((0|([1-9][0-9]{0,3}))(\.|,)?\d*)$');
+
   final String labelText;
   final String helperText;
   final String hintText;
   final IconData iconData;
-  final FormFieldValidator<String> validator;
+  final FormFieldValidator<double> validator;
   final FormFieldSetter<double> onSaved;
   final String suffixText;
 
-  const AppFloatInputField({
+  const AppDoubleInputField({
     Key key,
     @required this.onSaved,
     @required this.labelText,
@@ -533,15 +563,21 @@ class AppFloatInputField extends StatelessWidget {
       labelText: labelText,
       helperText: helperText,
       iconData: iconData,
-      validator: validator,
+      validator: _validator,
       hintText: hintText,
       onSaved: onSaved != null ? _onSaved : null,
       keyboardType: TextInputType.numberWithOptions(decimal: true),
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'(\d+\.?\d*)|(\.\d+)'))
-      ],
+      inputFormatters: [FilteringTextInputFormatter.allow(floatRegexPattern)],
       suffixText: suffixText,
     );
+  }
+
+  String _validator(String text) {
+    if (validator == null) {
+      return null;
+    }
+
+    return validator(double.tryParse(text));
   }
 
   _onSaved(String v) {

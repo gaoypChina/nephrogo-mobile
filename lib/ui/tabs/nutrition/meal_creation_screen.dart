@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/models/contract.dart';
+import 'package:nephrolog/ui/forms/form_validators.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/search.dart';
 
@@ -33,59 +34,58 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
         label: Text("IŠSAUGOTI"),
         icon: Icon(Icons.save),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 80),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                SmallSection(
-                  title: "Valgis arba gėrimas",
-                  showDividers: false,
-                  children: [
-                    AppSelectionScreenFormField<Product>(
-                      labelText: "Produktas",
-                      iconData: Icons.restaurant_outlined,
-                      itemToStringConverter: (p) => p.name,
-                      onTap: showProductSearch,
-                      onSaved: (p) => _selectedProduct = p,
-                    ),
-                    AppIntegerFormField(
-                      labelText: "Kiekis",
-                      suffixText: "g",
-                      iconData: Icons.kitchen,
-                      onSaved: (value) {
-                        _quantityInGrams = value;
-                      },
-                    ),
-                  ],
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.only(bottom: 64),
+          children: <Widget>[
+            SmallSection(
+              title: "Valgis arba gėrimas",
+              showDividers: false,
+              children: [
+                AppSelectionScreenFormField<Product>(
+                  labelText: "Produktas",
+                  iconData: Icons.restaurant_outlined,
+                  itemToStringConverter: (p) => p.name,
+                  onTap: showProductSearch,
+                  validator: FormValidators.nonNull(),
+                  onSaved: (p) => _selectedProduct = p,
                 ),
-                SmallSection(
-                  title: "Data ir laikas",
-                  showDividers: false,
-                  children: [
-                    AppDatePickerFormField(
-                      initialDate: _mealDate,
-                      selectedDate: _mealDate,
-                      firstDate: DateTime(2020),
-                      lastDate: DateTime.now(),
-                      dateFormat: _dateFormat,
-                      iconData: Icons.calendar_today,
-                      onDateSaved: (dt) => print(dt),
-                      labelText: "Data",
-                    ),
-                    AppTimePickerFormField(
-                      labelText: "Laikas",
-                      iconData: Icons.access_time,
-                      initialTime: _mealTimeOfDay,
-                      onTimeSaved: (t) => print(t),
-                    ),
-                  ],
+                AppIntegerFormField(
+                  labelText: "Kiekis",
+                  suffixText: "g",
+                  validator: FormValidators.numRangeValidator(1, 10000),
+                  iconData: Icons.kitchen,
+                  onSaved: (value) {
+                    _quantityInGrams = value;
+                  },
                 ),
               ],
             ),
-          ),
+            SmallSection(
+              title: "Data ir laikas",
+              showDividers: false,
+              children: [
+                AppDatePickerFormField(
+                  initialDate: _mealDate,
+                  selectedDate: _mealDate,
+                  firstDate: DateTime(2020),
+                  lastDate: DateTime.now(),
+                  validator: FormValidators.nonNull(),
+                  dateFormat: _dateFormat,
+                  iconData: Icons.calendar_today,
+                  onDateSaved: (dt) => print(dt),
+                  labelText: "Data",
+                ),
+                AppTimePickerFormField(
+                  labelText: "Laikas",
+                  iconData: Icons.access_time,
+                  initialTime: _mealTimeOfDay,
+                  onTimeSaved: (t) => print(t),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

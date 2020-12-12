@@ -21,8 +21,9 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.redAccent,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         inputDecorationTheme: InputDecorationTheme(
-          focusedBorder: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
+          helperMaxLines: 5,
+          errorMaxLines: 5,
         ),
       ),
       localizationsDelegates: [

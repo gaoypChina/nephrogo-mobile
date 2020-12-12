@@ -6,7 +6,7 @@ import 'ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
 import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'ui/tabs/nutrition/meal_creation_screen.dart';
 import 'ui/tabs/health_indicators/health_indicators_creation_screen.dart';
-import 'ui/user_conditions.dart';
+import 'ui/user_conditions_screen.dart';
 
 class Routes {
   static const ROUTE_HOME = "home";
