@@ -247,7 +247,23 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
           "Invalid wellBeing value",
         );
       case HealthIndicator.shortnessOfBreath:
-        return "TODO: $shortnessOfBreath";
+        switch (shortnessOfBreath) {
+          case 1:
+            return "Nėra";
+          case 2:
+            return "Lengvas";
+          case 3:
+            return "Vidutinis";
+          case 4:
+            return "Sunkus";
+          case 5:
+            return "Labai sunkus";
+        }
+        throw ArgumentError.value(
+          shortnessOfBreath,
+          "shortnessOfBreath",
+          "Invalid shortnessOfBreath value",
+        );
       default:
         throw ArgumentError.value(
           this,

@@ -322,7 +322,7 @@ class DailyHealthStatus {
       random.integer(4, min: 0),
       random.integer(5, min: 1),
       random.integer(5, min: 1),
-      random.integer(4, min: 0),
+      random.integer(5, min: 1),
     );
   }
 }
