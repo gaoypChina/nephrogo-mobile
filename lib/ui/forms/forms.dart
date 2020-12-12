@@ -197,6 +197,7 @@ class _AppSelectionScreenFormFieldState<T>
 class AppSelectFormField<T> extends StatefulWidget {
   final List<AppSelectFormFieldItem<T>> items;
   final String labelText;
+  final String dialogHelpText;
   final String helperText;
   final IconData iconData;
   final FormFieldValidator<AppSelectFormFieldItem<T>> validator;
@@ -214,6 +215,7 @@ class AppSelectFormField<T> extends StatefulWidget {
     this.onChanged,
     this.onSaved,
     this.validator,
+    this.dialogHelpText,
   }) : super(key: key);
 
   @override
@@ -265,6 +267,7 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
               title: widget.labelText,
               items: widget.items,
               selectedValue: selectedItem?.value,
+              helpText: widget.dialogHelpText,
             ),
           );
         },

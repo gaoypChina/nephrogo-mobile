@@ -6,11 +6,13 @@ class AppFormSelectScreenData<T> {
   final String title;
   final List<AppSelectFormFieldItem> items;
   final T selectedValue;
+  final String helpText;
 
   const AppFormSelectScreenData({
     this.title,
     @required this.items,
     this.selectedValue,
+    this.helpText,
   });
 }
 
@@ -26,13 +28,31 @@ class AppFormSelectScreen<T> extends StatelessWidget {
         title: Text(data.title),
         leading: CloseButton(),
       ),
-      body: SingleChildScrollView(
-        child: BasicSection(
-          padding: EdgeInsets.zero,
-          children: data.items
-              .map((item) => _generateItemCell(context, item))
-              .toList(),
-        ),
+      body: ListView(
+        children: [
+          if (data.helpText != null)
+            BasicSection(
+              header: AppListTile(
+                leading: IconButton(
+                  icon: Icon(Icons.info),
+                  onPressed: null,
+                ),
+                title: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text(
+                    data.helpText,
+                    textAlign: TextAlign.justify,
+                  ),
+                ),
+              ),
+            ),
+          BasicSection(
+            padding: EdgeInsets.zero,
+            children: data.items
+                .map((item) => _generateItemCell(context, item))
+                .toList(),
+          ),
+        ],
       ),
     );
   }

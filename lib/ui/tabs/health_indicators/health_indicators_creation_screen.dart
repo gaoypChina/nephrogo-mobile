@@ -112,7 +112,7 @@ class _HealthIndicatorsCreationScreenState
                   children: [
                     AppSelectFormField<int>(
                       labelText: "Patinimų sunkumas",
-                      helperText:
+                      dialogHelpText:
                           "Patinimą tikrinkite švelniai pirštais paspausdami odą blauzdos priekyje ant kaulo.",
                       items: [
                         AppSelectFormFieldItem(
