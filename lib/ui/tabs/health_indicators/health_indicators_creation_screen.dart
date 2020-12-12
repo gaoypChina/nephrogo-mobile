@@ -12,10 +12,11 @@ class _HealthIndicatorsCreationScreenState
     extends State<HealthIndicatorsCreationScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  int _systolicBloodPressure;
-  int _diastolicBloodPressure;
-  double _weight;
-  int _urineMl;
+  int _systolicBloodPressure; // ignore: unused_field
+  int _diastolicBloodPressure; // ignore: unused_field
+
+  double _weight; // ignore: unused_field
+  int _urineMl; // ignore: unused_field
 
   @override
   Widget build(BuildContext context) {
