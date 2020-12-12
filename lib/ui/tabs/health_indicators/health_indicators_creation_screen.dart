@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/forms/forms.dart';
 
@@ -11,8 +10,6 @@ class HealthIndicatorsCreationScreen extends StatefulWidget {
 
 class _HealthIndicatorsCreationScreenState
     extends State<HealthIndicatorsCreationScreen> {
-  final _dateFormat = DateFormat.yMMMMEEEEd();
-
   final _formKey = GlobalKey<FormState>();
 
   int _systolicBloodPressure;
