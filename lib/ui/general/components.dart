@@ -5,6 +5,9 @@ class BasicSection extends StatelessWidget {
   static const _defaultHeaderPadding =
       const EdgeInsets.only(bottom: 4, top: 16, left: 16, right: 16);
 
+  static const _defaultChildrenPadding =
+      const EdgeInsets.symmetric(vertical: 4, horizontal: 16);
+
   final Widget header;
   final List<Widget> children;
   final EdgeInsetsGeometry padding;
@@ -16,8 +19,7 @@ class BasicSection extends StatelessWidget {
     this.children = const [],
     this.header,
     this.showDividers = true,
-    this.childrenPadding =
-        const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+    this.childrenPadding,
     this.padding = const EdgeInsets.only(bottom: 18.0),
   }) : super(key: key);
 
@@ -55,7 +57,7 @@ class BasicSection extends StatelessWidget {
 
     Iterable<Widget> preparedChildren = children.map(
       (c) => Padding(
-        padding: childrenPadding,
+        padding: childrenPadding ?? _defaultChildrenPadding,
         child: c,
       ),
     );
