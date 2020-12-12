@@ -202,31 +202,26 @@ class _HealthIndicatorsCreationScreenState
                       items: [
                         AppSelectFormFieldItem(
                           text: "Puiki",
-                          description: "TODO description",
                           icon: Icons.sentiment_very_satisfied,
                           value: 0,
                         ),
                         AppSelectFormFieldItem(
                           text: "Gera",
-                          description: "TODO description",
                           icon: Icons.sentiment_satisfied,
                           value: 1,
                         ),
                         AppSelectFormFieldItem(
                           text: "Vidutinė",
-                          description: "TODO description",
                           icon: Icons.sentiment_dissatisfied,
                           value: 2,
                         ),
                         AppSelectFormFieldItem(
                           text: "Bloga",
-                          description: "TODO description",
                           icon: Icons.sentiment_very_dissatisfied,
                           value: 3,
                         ),
                         AppSelectFormFieldItem(
                           text: "Labai bloga",
-                          description: "TODO description",
                           icon: Icons.sick,
                           value: 4,
                         ),
@@ -237,31 +232,26 @@ class _HealthIndicatorsCreationScreenState
                       items: [
                         AppSelectFormFieldItem(
                           text: "Puikus",
-                          description: "TODO description",
                           icon: Icons.sentiment_very_satisfied,
                           value: 0,
                         ),
                         AppSelectFormFieldItem(
                           text: "Geras",
-                          description: "TODO description",
                           icon: Icons.sentiment_satisfied,
                           value: 1,
                         ),
                         AppSelectFormFieldItem(
                           text: "Vidutinis",
-                          description: "TODO description",
                           icon: Icons.sentiment_dissatisfied,
                           value: 2,
                         ),
                         AppSelectFormFieldItem(
                           text: "Blogas",
-                          description: "TODO description",
                           icon: Icons.sentiment_very_dissatisfied,
                           value: 3,
                         ),
                         AppSelectFormFieldItem(
                           text: "Labai blogas",
-                          description: "TODO description",
                           icon: Icons.sick,
                           value: 4,
                         ),
