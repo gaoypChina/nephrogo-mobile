@@ -10,6 +10,7 @@ class AppBarChartData extends Equatable {
   final double rodRadius;
   final double interval;
   final double maxY;
+  final double minY;
   final fitInsideHorizontally;
   final fitInsideVertically;
 
@@ -19,6 +20,7 @@ class AppBarChartData extends Equatable {
     this.barWidth: 22,
     this.rodRadius: 6,
     this.maxY,
+    this.minY,
     this.interval,
     this.fitInsideHorizontally: true,
     this.fitInsideVertically: true,

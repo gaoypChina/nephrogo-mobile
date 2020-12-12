@@ -80,6 +80,53 @@ class HealthIndicatorBarChart extends StatelessWidget {
 
     return AppBarChartData(
       groups: groups,
+      interval: _getInterval(),
+      maxY: _getMaxY(),
+      minY: _getMinY(),
     );
+  }
+
+  double _getMinY() {
+    if (indicator == HealthIndicator.bloodPressure) {
+      return 40;
+    }
+
+    return null;
+  }
+
+  double _getMaxY() {
+    switch (indicator) {
+      case HealthIndicator.severityOfSwelling:
+      case HealthIndicator.wellBeing:
+      case HealthIndicator.appetite:
+      case HealthIndicator.shortnessOfBreath:
+        return 5;
+      default:
+        return null;
+    }
+  }
+
+  double _getInterval() {
+    switch (indicator) {
+      case HealthIndicator.bloodPressure:
+        return 30;
+      case HealthIndicator.weight:
+        return 25;
+      case HealthIndicator.urine:
+        return 200;
+      case HealthIndicator.numberOfSwellings:
+        return 1;
+      case HealthIndicator.severityOfSwelling:
+      case HealthIndicator.wellBeing:
+      case HealthIndicator.appetite:
+      case HealthIndicator.shortnessOfBreath:
+        return 1;
+      default:
+        throw ArgumentError.value(
+          this,
+          "healthIndicator",
+          "Unable to map indicator to interval",
+        );
+    }
   }
 }

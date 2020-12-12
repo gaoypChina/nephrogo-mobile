@@ -20,6 +20,7 @@ class _AppBarChart extends State<AppBarChart> {
     return BarChart(
       BarChartData(
         maxY: widget.data.maxY,
+        minY: widget.data.minY,
         barTouchData: BarTouchData(
           touchTooltipData: BarTouchTooltipData(
               tooltipBgColor: Colors.grey,
@@ -61,6 +62,7 @@ class _AppBarChart extends State<AppBarChart> {
             },
           ),
           leftTitles: SideTitles(
+            margin: 16,
             showTitles: widget.data.interval != null,
             interval: widget.data.interval,
           ),
@@ -69,6 +71,9 @@ class _AppBarChart extends State<AppBarChart> {
           show: widget.data.interval != null,
           horizontalInterval: widget.data.interval,
           checkToShowHorizontalLine: (value) {
+            if (widget.data.dashedHorizontalLine == null) {
+              return false;
+            }
             return (value - widget.data.dashedHorizontalLine).abs() < 1e-6;
           },
           getDrawingHorizontalLine: (value) {
