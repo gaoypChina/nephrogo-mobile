@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:nephrolog/models/contract.dart';
 
 class BasicSection extends StatelessWidget {
-  static const _defaultChildrenPadding =
-      const EdgeInsets.symmetric(vertical: 4, horizontal: 16);
-
   static const _defaultHeaderPadding =
       const EdgeInsets.only(bottom: 4, top: 16, left: 16, right: 16);
 
   final Widget header;
   final List<Widget> children;
   final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry childrenPadding;
   final bool showDividers;
 
   const BasicSection({
@@ -18,6 +16,8 @@ class BasicSection extends StatelessWidget {
     this.children = const [],
     this.header,
     this.showDividers = true,
+    this.childrenPadding =
+        const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
     this.padding = const EdgeInsets.only(bottom: 18.0),
   }) : super(key: key);
 
@@ -55,7 +55,7 @@ class BasicSection extends StatelessWidget {
 
     Iterable<Widget> preparedChildren = children.map(
       (c) => Padding(
-        padding: _defaultChildrenPadding,
+        padding: childrenPadding,
         child: c,
       ),
     );
@@ -127,7 +127,8 @@ class LargeSection extends StatelessWidget {
 class SmallSection extends StatelessWidget {
   final String title;
   final List<Widget> children;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry headerPadding;
+  final EdgeInsetsGeometry childrenPadding;
   final bool setLeftPadding;
   final bool showDividers;
 
@@ -136,21 +137,24 @@ class SmallSection extends StatelessWidget {
     @required this.children,
     @required this.title,
     this.setLeftPadding: false,
-    this.padding,
+    this.childrenPadding,
+    this.headerPadding,
     this.showDividers: true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var headerPadding = padding ?? const EdgeInsets.symmetric(vertical: 8);
-    if (padding == null && setLeftPadding) {
-      headerPadding = EdgeInsets.all(8);
+    var headerPaddingAdjusted =
+        headerPadding ?? const EdgeInsets.symmetric(vertical: 8);
+    if (headerPadding == null && setLeftPadding) {
+      headerPaddingAdjusted = EdgeInsets.all(8);
     }
 
     return BasicSection(
       showDividers: showDividers,
+      childrenPadding: childrenPadding,
       header: Padding(
-        padding: headerPadding,
+        padding: headerPaddingAdjusted,
         child: Text(
           this.title,
           style: Theme.of(context).textTheme.subtitle1.copyWith(

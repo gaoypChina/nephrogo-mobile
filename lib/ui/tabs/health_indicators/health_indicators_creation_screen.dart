@@ -42,7 +42,7 @@ class _HealthIndicatorsCreationScreenState
                   title: "Kraujo spaudimas",
                   setLeftPadding: true,
                   showDividers: false,
-                  padding: EdgeInsets.all(8),
+                  headerPadding: EdgeInsets.all(8),
                   children: [
                     Row(
                       children: [

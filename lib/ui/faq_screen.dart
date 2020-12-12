@@ -1,6 +1,6 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrolog/ui/general/components.dart';
-import 'package:nephrolog/extensions/collection_extensions.dart';
 
 class FrequentlyAskedQuestionsScreen extends StatelessWidget {
   @override
@@ -14,83 +14,90 @@ class FrequentlyAskedQuestionsScreen extends StatelessWidget {
   }
 }
 
-class _FAQItem {
+class _FAQItemsGroup extends Equatable {
+  final String name;
+  final List<_FAQItem> items;
+
+  _FAQItemsGroup(this.name, this.items);
+
+  @override
+  List<Object> get props => [name, items];
+}
+
+class _FAQItem extends Equatable {
   final String question;
   final String answer;
 
   const _FAQItem(this.question, this.answer);
-}
 
-class FrequentlyAskedQuestionsScreenBody extends StatefulWidget {
   @override
-  _FrequentlyAskedQuestionsScreenBodyState createState() =>
-      _FrequentlyAskedQuestionsScreenBodyState();
+  List<Object> get props => [question, answer];
 }
 
-class _FrequentlyAskedQuestionsScreenBodyState
-    extends State<FrequentlyAskedQuestionsScreenBody> {
+class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
   final items = [
-    _FAQItem(
-        "Kaip atpažinti kalio perteklių?",
-        "Retėja pulsas, tinsta liežuvis, veidas, lūpos, jaučiamas raumenų "
-            "silpnumas, metalo skonis burnoje, nerimas spazminiai pilvo "
-            "skausmai."),
-    _FAQItem("Kaip atpažinti kalio trūkumą?",
-        "Jaučiamas nuovargis, silpnumas, širdies ritmo sutrikimas."),
-    _FAQItem(
-        "Kaip sumažinti kalio kiekį maiste?",
-        "- Smulkiai supjaustytus produktus virkite dideliame kiekyje (santykis 1:5-10) vandens.\n"
-            "- Prieš gaminant, mirkykite daržoves 2-4 val. vanenyje arba bent gerai perplaukite po tekančiu šiltu vandeniu."),
+    _FAQItemsGroup(
+      "KALIS",
+      [
+        _FAQItem(
+            "Kaip atpažinti kalio perteklių?",
+            "Retėja pulsas, tinsta liežuvis, veidas, lūpos, jaučiamas raumenų "
+                "silpnumas, metalo skonis burnoje, nerimas spazminiai pilvo "
+                "skausmai."),
+        _FAQItem("Kaip atpažinti kalio trūkumą?",
+            "Jaučiamas nuovargis, silpnumas, širdies ritmo sutrikimas."),
+        _FAQItem(
+            "Kaip sumažinti kalio kiekį maiste?",
+            "- Smulkiai supjaustytus produktus virkite dideliame kiekyje (santykis 1:5-10) vandens.\n"
+                "- Prieš gaminant, mirkykite daržoves 2-4 val. vanenyje arba bent gerai perplaukite po tekančiu šiltu vandeniu."),
+      ],
+    ),
+    _FAQItemsGroup(
+      "BALTYMAI",
+      [
+        _FAQItem("Kaip atpažinti baltymų perteklių?",
+            "Pykinimas, apetito netekimas, silpnumas, skonio pokyčiai."),
+        _FAQItem("Kaip atpažinti kalio trūkumą?",
+            "Jaučiamas nuovargis, silpnumas, širdies ritmo sutrikimas."),
+        _FAQItem(
+            "Kaip sumažinti kalio kiekį maiste?",
+            "- Smulkiai supjaustytus produktus virkite dideliame kiekyje (santykis 1:5-10) vandens.\n"
+                "- Prieš gaminant, mirkykite daržoves 2-4 val. vanenyje arba bent gerai perplaukite po tekančiu šiltu vandeniu."),
+      ],
+    ),
   ];
-
-  int expandedIndex;
 
   @override
   Widget build(BuildContext context) {
+    return ListView(
+      padding: EdgeInsets.only(bottom: 64),
+      children: items.map((g) => _buildSection(context, g)).toList(),
+    );
+  }
+
+  Widget _buildSection(BuildContext context, _FAQItemsGroup group) {
     final textTheme = Theme.of(context).textTheme;
 
-    return SingleChildScrollView(
-      child: ExpansionPanelList(
-        elevation: 0,
-        expandedHeaderPadding: EdgeInsets.symmetric(vertical: 6),
-        expansionCallback: (int index, bool isExpanded) {
-          setState(() {
-            expandedIndex = isExpanded ? null : index;
-          });
-        },
-        children: items.mapIndexed((i, item) {
-          return ExpansionPanel(
-            headerBuilder: (BuildContext context, bool isExpanded) {
-              return AppListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                title: Text(
-                  item.question,
-                  style: textTheme.subtitle1.copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              );
-            },
-            body: Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: AppListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                subtitle: Text(
-                  item.answer,
-                  style: textTheme.subtitle1,
-                  textAlign: TextAlign.justify,
-                ),
+    return SmallSection(
+      title: group.name,
+      headerPadding: EdgeInsets.zero,
+      childrenPadding: EdgeInsets.zero,
+      showDividers: false,
+      children: group.items.map((item) {
+        return ExpansionTile(
+          title: Text(item.question),
+          children: [
+            AppListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 16),
+              subtitle: Text(
+                item.answer,
+                style: textTheme.subtitle1,
+                textAlign: TextAlign.justify,
               ),
             ),
-            canTapOnHeader: true,
-            isExpanded: i == expandedIndex,
-          );
-        }).toList(),
-      ),
+          ],
+        );
+      }).toList(),
     );
-    // throw BasicSection(
-    //   header:
-    // );
   }
 }
