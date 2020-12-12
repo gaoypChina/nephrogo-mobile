@@ -207,7 +207,23 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       case HealthIndicator.urine:
         return _formatAmount(urineMl, "ml", "l");
       case HealthIndicator.severityOfSwelling:
-        return "TODO $severityOfSwelling";
+        switch (severityOfSwelling) {
+          case 1:
+            return "0+";
+          case 2:
+            return "1+";
+          case 3:
+            return "2+";
+          case 4:
+            return "3+";
+          case 5:
+            return "4+";
+        }
+        throw ArgumentError.value(
+          severityOfSwelling,
+          "severityOfSwelling",
+          "Invalid severityOfSwelling value",
+        );
       case HealthIndicator.numberOfSwellings:
         return numberOfSwellings.toString();
       case HealthIndicator.wellBeing:
