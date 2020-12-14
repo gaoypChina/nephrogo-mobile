@@ -6,14 +6,32 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:crypto/crypto.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'dart:developer' as developer;
+
+enum SocialAuthenticationProvider {
+  facebook,
+  google,
+  apple,
+}
 
 class AuthenticationProvider {
-  User get currentUser {
-    return FirebaseAuth.instance.currentUser;
+  static final AuthenticationProvider _singleton =
+      AuthenticationProvider._internal();
+
+  factory AuthenticationProvider() {
+    return _singleton;
   }
 
-  String get currentUserPhotoURL {
-    final photoURL = FirebaseAuth.instance.currentUser?.photoURL;
+  AuthenticationProvider._internal();
+
+  final _auth = FirebaseAuth.instance;
+
+  User get currentUser => _auth.currentUser;
+
+  bool get isUserLoggedIn => currentUser != null;
+
+  get currentUserPhotoURL {
+    final photoURL = _auth.currentUser?.photoURL;
     if (photoURL == null) {
       return null;
     }
@@ -22,33 +40,110 @@ class AuthenticationProvider {
   }
 
   Future signOut() {
-    return FirebaseAuth.instance.signOut();
+    return _auth.signOut();
+  }
+
+  // TODO add Handling for password
+  // Adapted from https://firebase.flutter.dev/docs/auth/error-handling
+  Future<UserCredential> _linkDifferentProviders(
+      FirebaseAuthException authException) async {
+    if (authException.code != 'account-exists-with-different-credential') {
+      throw ArgumentError.value(
+        authException,
+        "authException",
+        "Can not link different providers, because exception code ${authException.code} is invalid",
+      );
+    }
+    print("Linking ${authException.credential} provider to different provider");
+
+    String email = authException.email;
+    AuthCredential pendingCredential = authException.credential;
+
+    // Fetch a list of what sign-in methods exist for the conflicting user
+    var userSignInMethods = await _auth.fetchSignInMethodsForEmail(email);
+    userSignInMethods =
+        userSignInMethods.where((e) => e != 'password').toList();
+
+    OAuthCredential oAuthCredential;
+    final method = userSignInMethods.first;
+    switch (method) {
+      case 'facebook.com':
+        oAuthCredential = await _triggerFacebookLogin();
+        break;
+      case 'google.com':
+        oAuthCredential = await _triggerGoogleLogin();
+        break;
+      case 'apple.com':
+        oAuthCredential = await _triggerAppleLogin();
+        break;
+      default:
+        developer.log(
+          "Unable to match $method in method for signing",
+        );
+        throw authException;
+    }
+
+    final userCredential = await _auth.signInWithCredential(oAuthCredential);
+
+    // Link the pending credential with the existing account
+    return await userCredential.user.linkWithCredential(pendingCredential);
+  }
+
+  Future<UserCredential> _signInWithCredential(
+      AuthCredential authCredential) async {
+    try {
+      return await _auth.signInWithCredential(authCredential);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        return await _linkDifferentProviders(e);
+      }
+      rethrow;
+    }
+  }
+
+  Future<OAuthCredential> _triggerGoogleLogin() async {
+    final googleUser = await GoogleSignIn().signIn();
+
+    final googleAuth = await googleUser.authentication;
+
+    return GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+  }
+
+  Future<UserCredential> signIn(SocialAuthenticationProvider provider) async {
+    switch (provider) {
+      case SocialAuthenticationProvider.facebook:
+        return signInWithFacebook();
+      case SocialAuthenticationProvider.google:
+        return signInWithGoogle();
+      case SocialAuthenticationProvider.apple:
+        return signInWithApple();
+      default:
+        throw ArgumentError.value(provider, "provider",
+            "Unable to find specified provider for sign in.");
+    }
   }
 
   // https://firebase.flutter.dev/docs/auth/social
   Future<UserCredential> signInWithGoogle() async {
-    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+    final credential = await _triggerGoogleLogin();
 
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
+    return await _signInWithCredential(credential);
+  }
 
-    final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+  Future<FacebookAuthCredential> _triggerFacebookLogin() async {
+    final result = await FacebookAuth.instance.login();
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    return FacebookAuthProvider.credential(result.token);
   }
 
   // https://firebase.flutter.dev/docs/auth/social
   Future<UserCredential> signInWithFacebook() async {
-    final result = await FacebookAuth.instance.login();
+    final facebookAuthCredential = await _triggerFacebookLogin();
 
-    final FacebookAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(result.token);
-
-    return await FirebaseAuth.instance
-        .signInWithCredential(facebookAuthCredential);
+    return await _signInWithCredential(facebookAuthCredential);
   }
 
   /// Generates a cryptographically secure random nonce, to be included in a
@@ -68,8 +163,7 @@ class AuthenticationProvider {
     return digest.toString();
   }
 
-  // https://firebase.flutter.dev/docs/auth/social#apple
-  Future<UserCredential> signInWithApple() async {
+  Future<OAuthCredential> _triggerAppleLogin() async {
     // To prevent replay attacks with the credential returned from Apple, we
     // include a nonce in the credential request. When signing in in with
     // Firebase, the nonce in the id token returned by Apple, is expected to
@@ -87,13 +181,18 @@ class AuthenticationProvider {
     );
 
     // Create an `OAuthCredential` from the credential returned by Apple.
-    final oauthCredential = OAuthProvider("apple.com").credential(
+    return OAuthProvider("apple.com").credential(
       idToken: appleCredential.identityToken,
       rawNonce: rawNonce,
     );
+  }
+
+  // https://firebase.flutter.dev/docs/auth/social#apple
+  Future<UserCredential> signInWithApple() async {
+    final oauthCredential = await _triggerAppleLogin();
 
     // Sign in the user with Firebase. If the nonce we generated earlier does
     // not match the nonce in `appleCredential.identityToken`, sign in will fail.
-    return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+    return await _signInWithCredential(oauthCredential);
   }
 }

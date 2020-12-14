@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
+import 'package:nephrolog/constants.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/ui/general/app_network_image.dart';
 import 'package:nephrolog/ui/general/components.dart';
@@ -7,10 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info/package_info.dart';
 
 class ProfileTab extends StatelessWidget {
-  static const privacyPolicyUrl =
-      "https://www.nephrolog.lt/privatumo-politika/";
-  static const rulesUrl = "https://www.nephrolog.lt/privatumo-politika/";
-
   static const anonymousPhotoPath = "assets/anonymous_avatar.jpg";
 
   final _authenticationProvider = AuthenticationProvider();
@@ -57,14 +54,14 @@ class ProfileTab extends StatelessWidget {
               title: Text("Privatumo politika"),
               leading: Icon(Icons.lock),
               onTap: () {
-                _launchURL(privacyPolicyUrl);
+                _launchURL(Constants.privacyPolicyUrl);
               },
             ),
             AppListTile(
               title: Text("Naudojimosi taisyklės"),
               leading: Icon(Icons.description),
               onTap: () {
-                _launchURL(rulesUrl);
+                _launchURL(Constants.rulesUrl);
               },
             ),
           ],
