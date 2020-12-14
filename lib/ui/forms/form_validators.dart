@@ -49,6 +49,17 @@ class FormValidators {
     };
   }
 
+  static FormFieldValidator<String> lengthValidator(int min) {
+    final _lengthValidator = (String value) {
+      if (value.length < min) {
+        return "Minimalus ilgis $min simboliai.";
+      }
+      return null;
+    };
+
+    return and(nonNull<String>(), _lengthValidator);
+  }
+
   static FormFieldValidator<T> numRangeValidator<T extends num>(T min, T max) {
     final _nonNullNumValidator = (T value) {
       if (min > value) {

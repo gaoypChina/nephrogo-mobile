@@ -35,6 +35,9 @@ class AppTextFormField extends StatelessWidget {
   final bool disabled;
   final bool autoFocus;
   final IconData suffixIconData;
+  final bool obscureText;
+  final Iterable<String> autofillHints;
+  final TextInputAction textInputAction;
 
   const AppTextFormField({
     Key key,
@@ -54,6 +57,9 @@ class AppTextFormField extends StatelessWidget {
     this.padding = _defaultFieldPadding,
     this.autoFocus = false,
     this.disabled = false,
+    this.obscureText = false,
+    this.autofillHints,
+    this.textInputAction,
   }) : super(key: key);
 
   @override
@@ -78,7 +84,10 @@ class AppTextFormField extends StatelessWidget {
         readOnly: disabled,
         autofocus: autoFocus,
         enableInteractiveSelection: !disabled,
+        autofillHints: autofillHints,
+        obscureText: obscureText,
         onTap: onTap,
+        textInputAction: textInputAction,
       ),
     );
   }

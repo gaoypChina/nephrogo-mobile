@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nephrolog/ui/authentication/email_password_login_screen.dart';
 
 import 'ui/authentication/login_screen.dart';
+import 'ui/authentication/registration_screen.dart';
 import 'ui/faq_screen.dart';
 import 'ui/home_screen.dart';
 import 'ui/start_screen.dart';
@@ -14,6 +17,8 @@ class Routes {
   static const ROUTE_START = "start";
 
   static const ROUTE_LOGIN = "login";
+  static const ROUTE_LOGIN_EMAIL_PASSWORD = "login_email_password";
+  static const ROUTE_REGISTRATION = "registration";
 
   static const ROUTE_HOME = "home";
 
@@ -38,6 +43,14 @@ class Routes {
       case ROUTE_LOGIN:
         return MaterialPageRoute(builder: (context) {
           return LoginScreen();
+        });
+      case ROUTE_REGISTRATION:
+        return MaterialPageRoute<UserCredential>(builder: (context) {
+          return RegistrationScreen();
+        });
+      case ROUTE_LOGIN_EMAIL_PASSWORD:
+        return MaterialPageRoute<UserCredential>(builder: (context) {
+          return EmailPasswordLoginScreen();
         });
       case ROUTE_HOME:
         return MaterialPageRoute(builder: (context) {

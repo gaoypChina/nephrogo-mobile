@@ -14,6 +14,20 @@ enum SocialAuthenticationProvider {
   apple,
 }
 
+abstract class EmailPasswordLoginException implements Exception {}
+
+class InvalidPasswordException extends EmailPasswordLoginException {}
+
+class UserNotFoundException extends EmailPasswordLoginException {}
+
+abstract class RegistrationException implements Exception {}
+
+class EmailAlreadyInUseException extends EmailPasswordLoginException {}
+
+class InvalidEmailException extends EmailPasswordLoginException {}
+
+class WeakPasswordException extends EmailPasswordLoginException {}
+
 class AuthenticationProvider {
   static final AuthenticationProvider _singleton =
       AuthenticationProvider._internal();
@@ -41,6 +55,46 @@ class AuthenticationProvider {
 
   Future signOut() {
     return _auth.signOut();
+  }
+
+  Future<UserCredential> signInWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      return await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'user-not-found':
+          throw UserNotFoundException();
+        case 'wrong-password':
+          throw InvalidPasswordException();
+        default:
+          rethrow;
+      }
+    }
+  }
+
+  Future<UserCredential> createUserWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      return await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'email-already-in-use':
+          throw EmailAlreadyInUseException();
+        case 'invalid-email':
+          throw InvalidEmailException();
+        case 'weak-password':
+          throw WeakPasswordException();
+        default:
+          rethrow;
+      }
+    }
   }
 
   // TODO add Handling for password

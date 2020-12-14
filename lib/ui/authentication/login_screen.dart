@@ -1,19 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
-import 'package:nephrolog/constants.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer' as developer;
+
+import 'login_conditions.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: LoginScreenBody(),
+      body: SafeArea(child: LoginScreenBody()),
     );
   }
 }
@@ -23,61 +22,62 @@ class LoginScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return ListView(
       padding: EdgeInsets.fromLTRB(32, 32, 32, 64),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 36),
-                child: FractionallySizedBox(
-                  child: Image.asset("assets/logo/logo-with-title.png"),
-                  widthFactor: 0.7,
-                ),
-              ),
-            ),
-            SignInButton(
-              Buttons.Google,
-              text: "Prisijungti su Google",
-              onPressed: () => _loginWithSocial(
-                context,
-                SocialAuthenticationProvider.google,
-              ),
-            ),
-            SignInButton(
-              Buttons.Facebook,
-              text: "Prisijungti su Facebook",
-              onPressed: () => _loginWithSocial(
-                context,
-                SocialAuthenticationProvider.facebook,
-              ),
-            ),
-            SignInButton(
-              Buttons.AppleDark,
-              text: "Prisijungti su Apple",
-              onPressed: () => _loginWithSocial(
-                context,
-                SocialAuthenticationProvider.apple,
-              ),
-            ),
-            SignInButton(
-              Buttons.Email,
-              text: "Prisijungti su el. paštu",
-              onPressed: () => _loginWithSocial(
-                context,
-                SocialAuthenticationProvider.google,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 32),
-              child: LoginConditionsRichText(),
-            ),
-          ],
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 36),
+          child: FractionallySizedBox(
+            child: Image.asset("assets/logo/logo-with-title.png"),
+            widthFactor: 0.6,
+          ),
         ),
-      ),
+        SignInButton(
+          Buttons.Google,
+          text: "Prisijunkit su Google",
+          onPressed: () => _loginWithSocial(
+            context,
+            SocialAuthenticationProvider.google,
+          ),
+        ),
+        SignInButton(
+          Buttons.Facebook,
+          text: "Prisijungti su Facebook",
+          onPressed: () => _loginWithSocial(
+            context,
+            SocialAuthenticationProvider.facebook,
+          ),
+        ),
+        SignInButton(
+          Buttons.AppleDark,
+          text: "Prisijungti su Apple",
+          onPressed: () => _loginWithSocial(
+            context,
+            SocialAuthenticationProvider.apple,
+          ),
+        ),
+        SignInButton(
+          Buttons.Email,
+          text: "Prisijungti su el. paštu",
+          onPressed: () => _loginUsingEmail(context),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 32),
+          child: LoginConditionsRichText(),
+        ),
+      ],
     );
+  }
+
+  Future _loginUsingEmail(BuildContext context) async {
+    final userCredential = await Navigator.pushNamed<UserCredential>(
+      context,
+      Routes.ROUTE_LOGIN_EMAIL_PASSWORD,
+    );
+
+    if (userCredential != null) {
+      await openHomeScreen(context, userCredential);
+    }
   }
 
   Future _loginWithSocial(
@@ -107,44 +107,5 @@ class LoginScreenBody extends StatelessWidget {
       context,
       Routes.ROUTE_HOME,
     );
-  }
-}
-
-class LoginConditionsRichText extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(children: [
-        TextSpan(
-          text: "Prisijungdami Jūs patvirtinate, kad sutinkate su\n",
-        ),
-        TextSpan(
-          style: TextStyle(
-            decoration: TextDecoration.underline,
-            fontWeight: FontWeight.bold,
-          ),
-          text: "Privatumo poltika",
-          recognizer: TapGestureRecognizer()
-            ..onTap = () => launchUrl(Constants.privacyPolicyUrl),
-        ),
-        TextSpan(text: " ir "),
-        TextSpan(
-          style: TextStyle(
-            decoration: TextDecoration.underline,
-            fontWeight: FontWeight.bold,
-          ),
-          text: "Naudojimosi taisyklėmis",
-          recognizer: TapGestureRecognizer()
-            ..onTap = () => launchUrl(Constants.rulesUrl),
-        ),
-      ]),
-    );
-  }
-
-  Future launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    }
   }
 }

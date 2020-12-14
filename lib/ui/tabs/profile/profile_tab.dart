@@ -170,20 +170,23 @@ class ProfileTab extends StatelessWidget {
   Widget _buildUserProfileTile(BuildContext context) {
     final user = _authenticationProvider.currentUser;
 
-    return AppListTile(
-      leading: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          width: 64,
-          height: 64,
-          child: getUserProfilePhoto(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: AppListTile(
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            width: 64,
+            height: 64,
+            child: getUserProfilePhoto(),
+          ),
         ),
+        title: Text(
+          user.displayName ?? user.email,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        subtitle: user.displayName != null ? Text(user.email) : null,
       ),
-      title: Text(
-        user.displayName,
-        style: Theme.of(context).textTheme.headline6,
-      ),
-      subtitle: Text(user.email),
     );
   }
 }
