@@ -111,7 +111,7 @@ class LoginScreenBody extends StatelessWidget {
         stackTrace: stacktrace,
       );
 
-      await showErrorDialog(context: context, message: e.toString());
+      await showAppDialog(context: context, message: e.toString());
     }
 
     if (userCredential != null) {

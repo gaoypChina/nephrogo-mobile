@@ -98,17 +98,17 @@ class _RegistrationFormState extends State<_RegistrationForm> {
         userCredential =
             await _authProvider.createUserWithEmailAndPassword(email, password);
       } on EmailAlreadyInUseException catch (_) {
-        showErrorDialog(
+        showAppDialog(
           context: context,
           message: "Toks vartotojas jau registruotas.",
         );
       } on InvalidEmailException catch (_) {
-        showErrorDialog(
+        showAppDialog(
           context: context,
           message: "Blogas elektroninio pašto adresas.",
         );
       } on WeakPasswordException catch (_) {
-        showErrorDialog(
+        showAppDialog(
           context: context,
           message: "Per silpnas slaptažodis.",
         );
@@ -117,7 +117,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
           "Unable to to to register",
           stackTrace: stacktrace,
         );
-        showErrorDialog(context: context, message: e.toString());
+        showAppDialog(context: context, message: e.toString());
       }
 
       if (userCredential != null) {

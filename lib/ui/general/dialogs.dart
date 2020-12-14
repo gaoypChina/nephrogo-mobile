@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
-Future showErrorDialog({
+Future showAppDialog({
   @required BuildContext context,
   @required String message,
+  String title,
 }) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text("Klaida"),
+        title: title != null ? Text(title) : null,
         content: Text(
           message,
         ),

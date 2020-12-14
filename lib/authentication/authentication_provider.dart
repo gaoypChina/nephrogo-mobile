@@ -57,6 +57,12 @@ class AuthenticationProvider {
     return _auth.signOut();
   }
 
+  Future<void> sendPasswordResetEmail(String email) async {
+    return await _auth.sendPasswordResetEmail(
+      email: email,
+    );
+  }
+
   Future<UserCredential> signInWithEmailAndPassword(
       String email, String password) async {
     try {

@@ -35,8 +35,18 @@ class EmailPasswordLoginScreen extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextButton(
+                  child: Text("PAMIRŠOTE SLAPTAŽODĮ?"),
+                  onPressed: () => _openRemindPassword(context),
+                ),
+              ),
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 32),
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: Center(
                   child: LoginConditionsRichText(textColor: Colors.black)),
             ),
@@ -44,6 +54,10 @@ class EmailPasswordLoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future _openRemindPassword(BuildContext context) {
+    return Navigator.of(context).pushNamed(Routes.ROUTE_REMIND_PASSWORD);
   }
 
   Future _openRegistration(BuildContext context) async {
@@ -120,13 +134,15 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
         userCredential =
             await _authProvider.signInWithEmailAndPassword(email, password);
       } on UserNotFoundException catch (_) {
-        showErrorDialog(
+        await showAppDialog(
           context: context,
+          title: "Klaida",
           message: "Toks vartotojas neegzistuoja.",
         );
       } on InvalidPasswordException catch (_) {
-        showErrorDialog(
+        await showAppDialog(
           context: context,
+          title: "Klaida",
           message: "Neteisingas slaptažodis.",
         );
       } catch (e, stacktrace) {
@@ -134,7 +150,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
           "Unable to to to login using regular login",
           stackTrace: stacktrace,
         );
-        showErrorDialog(context: context, message: e.toString());
+        await showAppDialog(context: context, message: e.toString());
       }
 
       if (userCredential != null) {
