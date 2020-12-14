@@ -33,7 +33,7 @@ class LoginScreenBody extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 36),
                 child: FractionallySizedBox(
-                  child: Image.asset("assets/logo/square-logo.png"),
+                  child: Image.asset("assets/logo/logo-with-title.png"),
                   widthFactor: 0.7,
                 ),
               ),
