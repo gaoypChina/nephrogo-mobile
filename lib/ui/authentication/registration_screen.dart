@@ -56,6 +56,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
           children: [
             AppTextFormField(
               labelText: "El. paštas",
+              autoFocus: true,
               keyboardType: TextInputType.emailAddress,
               validator: FormValidators.nonEmptyValidator,
               autofillHints: [AutofillHints.email],

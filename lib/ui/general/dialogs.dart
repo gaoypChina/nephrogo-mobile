@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'buttons.dart';
-
 Future showErrorDialog({
   @required BuildContext context,
   @required String message,

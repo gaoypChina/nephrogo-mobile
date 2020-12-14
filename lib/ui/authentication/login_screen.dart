@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:nephrolog/ui/general/dialogs.dart';
 import 'dart:developer' as developer;
 
 import 'login_conditions.dart';
@@ -32,34 +33,50 @@ class LoginScreenBody extends StatelessWidget {
             widthFactor: 0.6,
           ),
         ),
-        SignInButton(
-          Buttons.Google,
-          text: "Prisijunkit su Google",
-          onPressed: () => _loginWithSocial(
-            context,
-            SocialAuthenticationProvider.google,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SignInButton(
+            Buttons.Google,
+            padding: const EdgeInsets.all(8),
+            text: "Prisijungti su Google",
+            onPressed: () => _loginWithSocial(
+              context,
+              SocialAuthenticationProvider.google,
+            ),
           ),
         ),
-        SignInButton(
-          Buttons.Facebook,
-          text: "Prisijungti su Facebook",
-          onPressed: () => _loginWithSocial(
-            context,
-            SocialAuthenticationProvider.facebook,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SignInButton(
+            Buttons.Facebook,
+            padding: const EdgeInsets.all(16),
+            text: "Prisijungti su Facebook",
+            onPressed: () => _loginWithSocial(
+              context,
+              SocialAuthenticationProvider.facebook,
+            ),
           ),
         ),
-        SignInButton(
-          Buttons.AppleDark,
-          text: "Prisijungti su Apple",
-          onPressed: () => _loginWithSocial(
-            context,
-            SocialAuthenticationProvider.apple,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SignInButton(
+            Buttons.AppleDark,
+            padding: const EdgeInsets.all(16),
+            text: "Prisijungti su Apple",
+            onPressed: () => _loginWithSocial(
+              context,
+              SocialAuthenticationProvider.apple,
+            ),
           ),
         ),
-        SignInButton(
-          Buttons.Email,
-          text: "Prisijungti su el. paštu",
-          onPressed: () => _loginUsingEmail(context),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SignInButton(
+            Buttons.Email,
+            padding: const EdgeInsets.all(16),
+            text: "Prisijungti su el. paštu",
+            onPressed: () => _loginUsingEmail(context),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 32),
@@ -94,7 +111,7 @@ class LoginScreenBody extends StatelessWidget {
         stackTrace: stacktrace,
       );
 
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+      await showErrorDialog(context: context, message: e.toString());
     }
 
     if (userCredential != null) {

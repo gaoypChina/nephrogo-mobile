@@ -78,6 +78,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
           children: [
             AppTextFormField(
               labelText: "El. paštas",
+              autoFocus: true,
               keyboardType: TextInputType.emailAddress,
               validator: FormValidators.nonEmptyValidator,
               autofillHints: [AutofillHints.email],
