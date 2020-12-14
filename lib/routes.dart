@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'ui/authentication/login_screen.dart';
 import 'ui/faq_screen.dart';
 import 'ui/home_screen.dart';
+import 'ui/start_screen.dart';
 import 'ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
 import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'ui/tabs/nutrition/meal_creation_screen.dart';
@@ -9,6 +11,10 @@ import 'ui/tabs/health_indicators/health_indicators_creation_screen.dart';
 import 'ui/user_conditions_screen.dart';
 
 class Routes {
+  static const ROUTE_START = "start";
+
+  static const ROUTE_LOGIN = "login";
+
   static const ROUTE_HOME = "home";
 
   static const ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN = "weekly_nutrients_screen";
@@ -25,6 +31,14 @@ class Routes {
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case ROUTE_START:
+        return MaterialPageRoute(builder: (context) {
+          return StartScreen();
+        });
+      case ROUTE_LOGIN:
+        return MaterialPageRoute(builder: (context) {
+          return LoginScreen();
+        });
       case ROUTE_HOME:
         return MaterialPageRoute(builder: (context) {
           return HomeScreen();

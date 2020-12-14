@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       ],
       locale: _defaultLocale,
       supportedLocales: [_defaultLocale],
-      initialRoute: Routes.ROUTE_HOME,
+      initialRoute: Routes.ROUTE_START,
       onGenerateRoute: Routes.onGenerateRoute,
     );
   }
