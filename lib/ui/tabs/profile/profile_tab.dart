@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nephrolog/authentication/authentication_provider.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/ui/general/app_network_image.dart';
 import 'package:nephrolog/ui/general/components.dart';
@@ -10,44 +11,17 @@ class ProfileTab extends StatelessWidget {
       "https://www.nephrolog.lt/privatumo-politika/";
   static const rulesUrl = "https://www.nephrolog.lt/privatumo-politika/";
 
+  static const anonymousPhotoPath = "assets/anonymous_avatar.jpg";
+
+  final _authenticationProvider = AuthenticationProvider();
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       padding: EdgeInsets.only(bottom: 64),
       children: [
         BasicSection(
-          children: [
-            AppListTile(
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: 64,
-                  height: 64,
-                  child: getUserProfilePhoto(),
-                ),
-              ),
-              title: Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                child: Text(
-                  "Karolis Vyčius",
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-              subtitle: Flex(
-                direction: Axis.horizontal,
-                children: [
-                  TextButton(
-                    child: Text(
-                      "Atsijungti",
-                      style: TextStyle(color: Colors.redAccent),
-                      textAlign: TextAlign.start,
-                    ),
-                    onPressed: () => print("Logout"),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          children: [_buildUserProfileTile(context)],
         ),
         BasicSection(
           children: [
@@ -95,6 +69,15 @@ class ProfileTab extends StatelessWidget {
             ),
           ],
         ),
+        BasicSection(
+          children: [
+            AppListTile(
+              title: Text("Atsijungti"),
+              leading: Icon(Icons.logout),
+              onTap: () => _signOut(context),
+            ),
+          ],
+        ),
         FutureBuilder(
           future: _getVersionString(),
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -116,11 +99,24 @@ class ProfileTab extends StatelessWidget {
     }
   }
 
+  Future _signOut(BuildContext context) async {
+    await _authenticationProvider.signOut();
+
+    await Navigator.pushReplacementNamed(
+      context,
+      Routes.ROUTE_LOGIN,
+    );
+  }
+
   Widget getUserProfilePhoto() {
+    final photoURL = _authenticationProvider.currentUserPhotoURL;
+    if (photoURL == null) {
+      return Image.asset(anonymousPhotoPath);
+    }
+
     return AppNetworkImage(
-      url:
-          "https://avatars2.githubusercontent.com/u/3719141?s=460&u=93b7989bcf06fcc23144917944203f315c3d4134&v=4",
-      fallbackAssetImage: "assets/anonymous_avatar.jpg",
+      url: photoURL,
+      fallbackAssetImage: anonymousPhotoPath,
     );
   }
 
@@ -128,5 +124,25 @@ class ProfileTab extends StatelessWidget {
     final packageInfo = await PackageInfo.fromPlatform();
 
     return "${packageInfo.version} (${packageInfo.buildNumber})";
+  }
+
+  Widget _buildUserProfileTile(BuildContext context) {
+    final user = _authenticationProvider.currentUser;
+
+    return AppListTile(
+      leading: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          width: 64,
+          height: 64,
+          child: getUserProfilePhoto(),
+        ),
+      ),
+      title: Text(
+        user.displayName,
+        style: Theme.of(context).textTheme.headline6,
+      ),
+      subtitle: Text(user.email),
+    );
   }
 }

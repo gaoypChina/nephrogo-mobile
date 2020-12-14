@@ -8,6 +8,23 @@ import 'package:crypto/crypto.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthenticationProvider {
+  User get currentUser {
+    return FirebaseAuth.instance.currentUser;
+  }
+
+  String get currentUserPhotoURL {
+    final photoURL = FirebaseAuth.instance.currentUser?.photoURL;
+    if (photoURL == null) {
+      return null;
+    }
+
+    return photoURL.replaceFirst("/s96-c/", "/s300-c/") + "?height=300";
+  }
+
+  Future signOut() {
+    return FirebaseAuth.instance.signOut();
+  }
+
   // https://firebase.flutter.dev/docs/auth/social
   Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();

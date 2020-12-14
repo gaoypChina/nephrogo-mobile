@@ -1,13 +1,34 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/routes.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-void main() {
-  runApp(MyApp());
+import 'dart:async';
+
+import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
+
+Future<Null> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
+  if (kDebugMode) {
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  }
+
+  runZonedGuarded<Future<void>>(() async {
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+    runApp(new AppComponent());
+  }, FirebaseCrashlytics.instance.recordError);
 }
 
-class MyApp extends StatelessWidget {
+class AppComponent extends StatelessWidget {
   final _defaultLocale = Locale("lt", "LT");
 
   @override

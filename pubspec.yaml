@@ -36,9 +36,13 @@ dependencies:
   tuple: ^1.0.3
   equatable: ^1.2.5
 
+  firebase_core: 0.5.3
+  firebase_crashlytics: ^0.2.4
+  firebase_performance: ^0.4.3
+
   firebase_auth: ^0.18.4+1
   flutter_signin_button: ^1.1.0
-  google_sign_in: "^4.5.1"
+  google_sign_in: ^4.5.1
   flutter_facebook_auth: ^1.0.2+2
   sign_in_with_apple: ^2.5.4
   crypto: ^2.1.5
