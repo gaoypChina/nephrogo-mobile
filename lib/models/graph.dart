@@ -45,12 +45,12 @@ class AppBarChartGroup extends Equatable {
   final bool isSelected;
   final List<AppBarChartRod> rods;
 
-  const AppBarChartGroup({
+  AppBarChartGroup({
     @required this.text,
     @required this.x,
     @required this.rods,
     this.isSelected: false,
-  });
+  }) : assert(rods.isNotEmpty, "Rods can not be empty");
 
   @override
   List<Object> get props => [text, x, isSelected, rods];

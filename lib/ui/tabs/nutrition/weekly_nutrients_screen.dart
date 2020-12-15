@@ -27,7 +27,6 @@ class WeeklyNutrientsScreen extends StatefulWidget {
 }
 
 class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
-
   final _apiService = const ApiService();
 
   // It's hacky, but let's load pages nearby
@@ -168,6 +167,7 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
     final dailyIntakes = userIntakesResponse.dailyIntakes;
 
     final dailyIntakesSections = userIntakesResponse.dailyIntakes
+        .where((di) => di.intakes.isNotEmpty)
         .map((di) => DailyIntakeSection(
               nutrient: nutrient,
               dailyIntake: di,

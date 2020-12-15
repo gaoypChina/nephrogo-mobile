@@ -36,10 +36,8 @@ class NutritionTabBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final weekStartEnd = now.startAndEndOfWeek();
-
-    final from = weekStartEnd.item1;
-    final to = weekStartEnd.item2;
+    final from = now.startOfDay().subtract(Duration(days: 6));
+    final to = now.endOfDay();
 
     return FutureBuilder<UserIntakesResponse>(
       future: apiService.getUserIntakes(from, to),

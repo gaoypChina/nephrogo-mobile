@@ -46,35 +46,28 @@ class HealthIndicatorBarChart extends StatelessWidget {
       final dateFormatted = _dateFormatter.format(dhs.date);
       final dailyTotalFormatted = dhs.getHealthIndicatorFormatted(indicator);
 
-      List<AppBarChartRod> entries = [];
-
-      if (y != null) {
-        List<AppBarChartRodStackItem> rodStackItems;
-
-        if (indicator == HealthIndicator.bloodPressure) {
-          rodStackItems = [
-            AppBarChartRodStackItem(
-                0, dhs.diastolicBloodPressure.toDouble(), Colors.orange),
-            AppBarChartRodStackItem(dhs.diastolicBloodPressure.toDouble(),
-                dhs.systolicBloodPressure.toDouble() - 1, Colors.teal),
-          ];
-        }
-
-        entries.add(
-          AppBarChartRod(
-            tooltip: "$dateFormatted\n$dailyTotalFormatted",
-            y: y,
-            barColor: Colors.teal,
-            rodStackItems: rodStackItems,
-          ),
-        );
+      List<AppBarChartRodStackItem> rodStackItems;
+      if (y != null && indicator == HealthIndicator.bloodPressure) {
+        rodStackItems = [
+          AppBarChartRodStackItem(
+              0, dhs.diastolicBloodPressure.toDouble(), Colors.orange),
+          AppBarChartRodStackItem(dhs.diastolicBloodPressure.toDouble(),
+              dhs.systolicBloodPressure.toDouble() - 1, Colors.teal),
+        ];
       }
+
+      final rod = AppBarChartRod(
+        tooltip: "$dateFormatted\n$dailyTotalFormatted",
+        y: y ?? 0,
+        barColor: Colors.teal,
+        rodStackItems: rodStackItems,
+      );
 
       return AppBarChartGroup(
         text: _dayFormatter.format(dhs.date).capitalizeFirst(),
         x: i,
         isSelected: dhs.date.startOfDay().compareTo(startOfToday) == 0,
-        rods: entries,
+        rods: [rod],
       );
     }).toList();
 

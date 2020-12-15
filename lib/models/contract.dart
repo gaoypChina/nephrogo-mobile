@@ -226,12 +226,14 @@ class DailyIntake {
   );
 
   static DailyIntake generateDummy(DateTime dateTime) {
+    final intakes = Intake.generateDummies(
+      n: faker.randomGenerator.integer(10, min: 1),
+      dateTime: dateTime,
+    );
+
     return DailyIntake(
       dateTime,
-      Intake.generateDummies(
-        n: faker.randomGenerator.integer(10, min: 1),
-        dateTime: dateTime,
-      ),
+      DateTime.now().isAfter(dateTime) ? intakes : [],
       DailyIntakeNorms.generateDummy(),
     );
   }
@@ -311,6 +313,22 @@ class DailyHealthStatus {
   );
 
   static DailyHealthStatus generateDummy(DateTime date) {
+    if (DateTime.now().isBefore(date)) {
+      return DailyHealthStatus(
+        random.integer(10000000),
+        date,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+      );
+    }
+
     return DailyHealthStatus(
       random.integer(10000000),
       date,

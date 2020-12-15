@@ -49,6 +49,10 @@ extension DailyIntakesExtensions on DailyIntake {
   int get totalLiquidsMl => intakes.map((e) => e.liquidsMl).sum;
 
   int getNutrientTotalAmount(Nutrient nutrient) {
+    if (this.intakes.isEmpty) {
+      return 0;
+    }
+
     switch (nutrient) {
       case Nutrient.energy:
         return this.totalEnergyKC;
@@ -69,6 +73,10 @@ extension DailyIntakesExtensions on DailyIntake {
   }
 
   double getNutrientConsumptionRatio(Nutrient nutrient) {
+    if (this.intakes.isEmpty) {
+      return 0;
+    }
+
     final consumption =
         this.intakes.map((e) => e.getNutrientAmount(nutrient)).sum;
     final recommendation = this.userIntakeNorms.getNutrientAmount(nutrient);
