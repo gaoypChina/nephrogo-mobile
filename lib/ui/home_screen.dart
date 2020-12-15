@@ -4,6 +4,7 @@ import 'general/app_logo.dart';
 import 'tabs/health_indicators/health_indicators_tab.dart';
 import 'tabs/profile/profile_tab.dart';
 import 'tabs/nutrition/nutrition_tab.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -27,16 +28,15 @@ class _HomeScreenState extends State<HomeScreen> {
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.restaurant_outlined),
-            label: "Mityba",
+            label: AppLocalizations.of(context).tabNutrition,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.analytics_outlined),
-            label: "Rodikliai",
-            // label: AppLocalizations.of(context).tabIndicators,
+            label: AppLocalizations.of(context).tabHealthIndicators,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.person),
-            label: "Paskyra",
+            label: AppLocalizations.of(context).tabProfile,
           ),
         ],
       ),

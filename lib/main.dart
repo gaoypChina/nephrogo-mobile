@@ -4,7 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
@@ -48,6 +48,7 @@ class AppComponent extends StatelessWidget {
         ),
       ),
       localizationsDelegates: [
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

@@ -1,0 +1,14 @@
+{
+  "tabNutrition": "Mityba",
+  "@tabNutrition": {
+    "context": "HomeScreen"
+  },
+  "tabHealthIndicators": "Rodikliai",
+  "@tabHealthIndicators": {
+    "context": "HomeScreen"
+  },
+  "tabProfile": "Paskyra",
+  "@tabProfile": {
+    "context": "HomeScreen"
+  }
+}
