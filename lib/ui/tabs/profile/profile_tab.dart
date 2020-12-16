@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
 import 'package:nephrolog/constants.dart';
 import 'package:nephrolog/routes.dart';
+import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/app_network_image.dart';
 import 'package:nephrolog/ui/general/components.dart';
@@ -14,6 +15,7 @@ class ProfileTab extends StatelessWidget {
   static const anonymousPhotoPath = "assets/anonymous_avatar.jpg";
 
   final _authenticationProvider = AuthenticationProvider();
+  final _apiService = ApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +83,18 @@ class ProfileTab extends StatelessWidget {
               title: Text("Atsijungti"),
               leading: Icon(Icons.logout),
               onTap: () => _signOut(context),
+            ),
+          ],
+        ),
+        BasicSection(
+          children: [
+            AppFutureBuilder<String>(
+              future: _apiService.profile(),
+              builder: (context, data) {
+                return AppListTile(
+                  title: Text(data),
+                );
+              },
             ),
           ],
         ),

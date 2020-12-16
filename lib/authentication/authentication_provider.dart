@@ -53,6 +53,9 @@ class AuthenticationProvider {
     return photoURL.replaceFirst("/s96-c/", "/s300-c/") + "?height=300";
   }
 
+  Future<String> idToken([bool forceRefresh = false]) =>
+      currentUser.getIdToken(forceRefresh);
+
   Future signOut() {
     return _auth.signOut();
   }

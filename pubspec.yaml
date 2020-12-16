@@ -27,6 +27,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  logging: ^0.11.4
   url_launcher: ^5.7.10
   json_annotation: ^3.1.1
   intl: ^0.16.1
@@ -36,6 +37,10 @@ dependencies:
   tuple: ^1.0.3
   equatable: ^1.2.5
   share: ^0.6.5+4
+  async: ^2.4.2
+
+  dio: ^3.0.10
+  dio_http2_adapter: ^1.0.1
 
   firebase_core: 0.5.3
   firebase_crashlytics: ^0.2.4

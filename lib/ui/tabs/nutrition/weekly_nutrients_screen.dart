@@ -27,7 +27,7 @@ class WeeklyNutrientsScreen extends StatefulWidget {
 }
 
 class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
-  final _apiService = const ApiService();
+  final _apiService = ApiService();
 
   // It's hacky, but let's load pages nearby
   final pageController = PageController(viewportFraction: 0.9999999);

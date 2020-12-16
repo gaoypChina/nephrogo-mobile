@@ -17,7 +17,7 @@ class AppFutureBuilder<T> extends StatelessWidget {
           return builder(context, snapshot.data);
         }
         if (snapshot.hasError) {
-          return Center(child: Text(snapshot.error));
+          return Center(child: Text(snapshot.error.toString()));
         }
 
         return Center(child: AppProgressIndicator());
