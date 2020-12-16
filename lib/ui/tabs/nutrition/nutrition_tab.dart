@@ -11,6 +11,7 @@ import 'package:nephrolog/ui/general/progress_indicator.dart';
 import 'package:nephrolog/ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NutritionTab extends StatelessWidget {
   @override
@@ -21,7 +22,7 @@ class NutritionTab extends StatelessWidget {
           context,
           Routes.ROUTE_MEAL_CREATION,
         ),
-        label: Text("PRIDĖTI VALGĮ"),
+        label: Text(AppLocalizations.of(context).createMeal.toUpperCase()),
         icon: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -56,7 +57,7 @@ class NutritionTabBody extends StatelessWidget {
                 children: [
                   DailyNormsSection(dailyIntake: dailyIntakes.first),
                   DailyIntakesCard(
-                    title: "Valgiai",
+                    title: AppLocalizations.of(context).lastMealsSectionTitle,
                     intakes: latestIntakes,
                   ),
                   ..._buildIndicatorChartSections(context, dailyIntakes),
@@ -103,7 +104,8 @@ class NutritionTabBody extends StatelessWidget {
 
     return LargeSection(
       title: nutrient.name,
-      subTitle: "Šiandien: $todayConsumption iš $dailyNormFormatted",
+      subTitle: AppLocalizations.of(context)
+          .todayConsumptionWithNorm(todayConsumption, dailyNormFormatted),
       children: [
         NutrientBarChart(
           dailyIntakes: dailyIntakes,
@@ -111,7 +113,7 @@ class NutritionTabBody extends StatelessWidget {
         ),
       ],
       leading: OutlineButton(
-        child: Text("DAUGIAU"),
+        child: Text(AppLocalizations.of(context).more.toUpperCase()),
         onPressed: () => openIntakesScreen(context, nutrient),
       ),
     );
@@ -129,8 +131,8 @@ class DailyNormsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LargeSection(
-      title: "Paros normos",
-      subTitle: "TODO: mini paaiškinimas",
+      title: AppLocalizations.of(context).dailyNormsSectionTitle,
+      subTitle: AppLocalizations.of(context).dailyNormsSectionSubtitle,
       leading: IconButton(
         icon: Icon(
           Icons.help_outline,
@@ -206,7 +208,9 @@ class IntakeTile extends StatelessWidget {
         dateFormat.format(intake.dateTime).capitalizeFirst(),
       ),
       leading: ProductKindIcon(productKind: product.kind),
-      trailing: Text("${intake.amountG} g"),
+      trailing: Text(
+        AppLocalizations.of(context).intakeAmountInGrams(intake.amountG),
+      ),
     );
   }
 }

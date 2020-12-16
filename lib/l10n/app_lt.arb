@@ -1,14 +1,39 @@
 {
   "tabNutrition": "Mityba",
-  "@tabNutrition": {
-    "context": "HomeScreen"
-  },
+  "@tabNutrition": {},
   "tabHealthIndicators": "Rodikliai",
-  "@tabHealthIndicators": {
-    "context": "HomeScreen"
-  },
+  "@tabHealthIndicators": {},
   "tabProfile": "Paskyra",
-  "@tabProfile": {
-    "context": "HomeScreen"
-  }
+  "@tabProfile": {},
+  "more": "Daugiau",
+  "@more": {},
+  "dailyNormsSectionTitle": "Dienos norma",
+  "@dailyNormsSectionTitle": {},
+  "dailyNormsSectionSubtitle": "Šios dienos medžiagų kiekiai",
+  "@dailyNormsSectionSubtitle": {},
+  "intakeAmountInGrams": "{amount} g",
+  "@intakeAmountInGrams": {
+    "placeholders": {
+      "amount": {
+        "example": "120"
+      }
+    }
+  },
+  "todayConsumptionWithNorm": "Šiandien: {amount} iš {norm}",
+  "@todayConsumptionWithNorm": {
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "120 g"
+      },
+      "norm": {
+        "type": "String",
+        "example": "150 g"
+      }
+    }
+  },
+  "lastMealsSectionTitle": "Paskutiniai valgiai",
+  "@lastMealsSectionTitle": {},
+  "createMeal": "Pridėti valgį",
+  "@createMeal": {}
 }
