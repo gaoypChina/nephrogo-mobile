@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
-import 'package:nephrolog/models/contract.dart';
+import 'package:nephrolog/models/contract.dart'
+    show Nutrient, DailyIntake, Intake, DailyIntakeNorms, HealthIndicator;
+import 'package:nephrolog_api_client/model/daily_health_status.dart';
 import 'collection_extensions.dart';
 
 String _formatAmount(int amount, String baseDim, String kDim) {
@@ -226,6 +228,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
             return "3+";
           case 5:
             return "4+";
+          default:
+            return "TODO";
         }
         throw ArgumentError.value(
           severityOfSwelling,
@@ -246,6 +250,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
             return "Gera";
           case 5:
             return "Puiki";
+          default:
+            return "TODO";
         }
         throw ArgumentError.value(
           wellBeing,
@@ -264,6 +270,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
             return "Geras";
           case 5:
             return "Puikus";
+          default:
+            return "TODO";
         }
         throw ArgumentError.value(
           appetite,
@@ -282,6 +290,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
             return "Sunkus";
           case 5:
             return "Labai sunkus";
+          default:
+            return "TODO";
         }
         throw ArgumentError.value(
           shortnessOfBreath,

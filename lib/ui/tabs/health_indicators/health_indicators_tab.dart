@@ -8,6 +8,7 @@ import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
+import 'package:nephrolog_api_client/model/user_health_status_report.dart';
 
 class HealthIndicatorsTab extends StatelessWidget {
   final ValueNotifier<int> valueNotifier = ValueNotifier(1);
@@ -38,12 +39,11 @@ class HealthIndicatorsTabBody extends StatelessWidget {
     final from = now.startOfDay().subtract(Duration(days: 6));
     final to = now.endOfDay();
 
-    return AppFutureBuilder<UserHealthStatusResponse>(
-      future: apiService.getUserHealthStatus(from, to),
-      builder: (BuildContext context, UserHealthStatusResponse response) {
+    return AppFutureBuilder<UserHealthStatusReport>(
+      future: apiService.getUserHealthStatusReport(from, to),
+      builder: (BuildContext context, UserHealthStatusReport response) {
         final sections = HealthIndicator.values
-            .map((i) => buildIndicatorChartSection(
-                context, response.dailyHealthStatuses, i))
+            .map((i) => buildIndicatorChartSection(context, response, i))
             .toList();
 
         return ListView(
@@ -67,11 +67,13 @@ class HealthIndicatorsTabBody extends StatelessWidget {
 
   LargeSection buildIndicatorChartSection(
     BuildContext context,
-    List<DailyHealthStatus> dailyHealthStatuses,
+    UserHealthStatusReport userHealthStatusReport,
     HealthIndicator indicator,
   ) {
+    final todayDailyHealthStatus =
+        userHealthStatusReport.dailyHealthStatuses.last.status;
     final todayConsumption =
-        dailyHealthStatuses.first.getHealthIndicatorFormatted(indicator) ??
+        todayDailyHealthStatus.getHealthIndicatorFormatted(indicator) ??
             "nėra informacijos";
 
     return LargeSection(
@@ -79,7 +81,7 @@ class HealthIndicatorsTabBody extends StatelessWidget {
       subTitle: "Šiandien: $todayConsumption",
       children: [
         HealthIndicatorBarChart(
-          dailyHealthStatuses: dailyHealthStatuses,
+          userHealthStatusReport: userHealthStatusReport,
           indicator: indicator,
         ),
       ],

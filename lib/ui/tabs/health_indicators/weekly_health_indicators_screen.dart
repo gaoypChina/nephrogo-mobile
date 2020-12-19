@@ -9,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/extensions/string_extensions.dart';
+import 'package:nephrolog_api_client/model/daily_health_status.dart';
+import 'package:nephrolog_api_client/model/user_health_status_report.dart';
 
 class WeeklyHealthIndicatorsScreenArguments {
   final HealthIndicator initialHealthIndicator;
@@ -57,11 +59,11 @@ class _WeeklyHealthIndicatorsScreenState
       body: WeeklyPager<HealthIndicator>(
         valueChangeNotifier: healthIndicatorChangeNotifier,
         bodyBuilder: (from, to, indicator) {
-          return AppFutureBuilder<UserHealthStatusResponse>(
-            future: _apiService.getUserHealthStatus(from, to),
+          return AppFutureBuilder<UserHealthStatusReport>(
+            future: _apiService.getUserHealthStatusReport(from, to),
             builder: (context, data) {
               return HealthIndicatorsListWithChart(
-                dailyHealthStatuses: data.dailyHealthStatuses,
+                userHealthStatusReport: data,
                 healthIndicator: selectedHealthIndicator,
               );
             },
@@ -105,11 +107,11 @@ class _WeeklyHealthIndicatorsScreenState
 
 class HealthIndicatorsListWithChart extends StatelessWidget {
   final HealthIndicator healthIndicator;
-  final List<DailyHealthStatus> dailyHealthStatuses;
+  final UserHealthStatusReport userHealthStatusReport;
 
   const HealthIndicatorsListWithChart({
     Key key,
-    @required this.dailyHealthStatuses,
+    @required this.userHealthStatusReport,
     @required this.healthIndicator,
   }) : super(key: key);
 
@@ -121,7 +123,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
         BasicSection(
           children: [
             HealthIndicatorBarChart(
-              dailyHealthStatuses: dailyHealthStatuses,
+              userHealthStatusReport: userHealthStatusReport,
               indicator: healthIndicator,
             ),
           ],
@@ -132,10 +134,11 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
   }
 
   List<Widget> _buildIndicatorTiles() {
-    return dailyHealthStatuses
-        .where((dhs) => dhs.getHealthIndicatorValue(healthIndicator) != null)
+    return userHealthStatusReport.dailyHealthStatuses
+        .where((dhs) =>
+            dhs.status.getHealthIndicatorValue(healthIndicator) != null)
         .map((dhs) => DailyHealthStatusIndicatorTile(
-              dailyHealthStatus: dhs,
+              dailyHealthStatus: dhs.status,
               indicator: healthIndicator,
             ))
         .toList();

@@ -2,8 +2,10 @@ import 'package:async/async.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
-import 'package:nephrolog/models/contract.dart';
 import 'package:logging/logging.dart';
+import 'package:nephrolog/models/contract.dart';
+import 'package:nephrolog_api_client/api.dart';
+import 'package:nephrolog_api_client/model/user_health_status_report.dart';
 
 class ApiService {
   final logger = Logger('ApiService');
@@ -17,7 +19,7 @@ class ApiService {
 
   final _authenticationProvider = AuthenticationProvider();
 
-  final dio = Dio(BaseOptions(baseUrl: _baseApiUrl));
+  NephrologApiClient _apiClient;
 
   var _firebaseTokenMemoizer = AsyncMemoizer<String>();
 
@@ -26,54 +28,14 @@ class ApiService {
   }
 
   ApiService._internal() {
+    final dio = Dio(BaseOptions(baseUrl: _baseApiUrl));
     dio.httpClientAdapter = Http2Adapter(
         ConnectionManager(idleTimeout: _connectionIdleTimeout.inMilliseconds));
 
-    dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (RequestOptions options) async {
-          try {
-            dio.interceptors.requestLock.lock();
-            final forceRegenerateToken =
-                options.extra.containsKey(_tokenRegeneratedKey);
-
-            await _addHeaders(options.headers, forceRegenerateToken);
-          } finally {
-            dio.interceptors.requestLock.unlock();
-          }
-
-          return options;
-        },
-        onError: (DioError err) async {
-          final statusCode = err.response?.statusCode;
-          if (statusCode == 403 || statusCode == 401) {
-            if (err.request.extra.containsKey(_tokenRegeneratedKey)) {
-              logger.severe("Authentication error after regenerating token.");
-            } else {
-              logger
-                  .warning("Authentication error. Regenerating user id token.");
-
-              err.request.extra.addAll({_tokenRegeneratedKey: true});
-
-              try {
-                // We retry with the updated options
-                return await this.dio.request(
-                      err.request.path,
-                      cancelToken: err.request.cancelToken,
-                      data: err.request.data,
-                      onReceiveProgress: err.request.onReceiveProgress,
-                      onSendProgress: err.request.onSendProgress,
-                      queryParameters: err.request.queryParameters,
-                      options: err.request,
-                    );
-              } catch (e) {
-                return e;
-              }
-            }
-          }
-          return err;
-        },
-      ),
+    _apiClient = NephrologApiClient(
+      dio: dio,
+      basePathOverride: _baseApiUrl,
+      interceptors: [_apiHeadersInterceptor(dio)],
     );
   }
 
@@ -85,6 +47,52 @@ class ApiService {
     return _firebaseTokenMemoizer.runOnce(() async {
       return await _authenticationProvider.idToken(forceRefresh);
     });
+  }
+
+  InterceptorsWrapper _apiHeadersInterceptor(Dio dio) {
+    return InterceptorsWrapper(
+      onRequest: (RequestOptions options) async {
+        try {
+          dio.interceptors.requestLock.lock();
+          final forceRegenerateToken =
+              options.extra.containsKey(_tokenRegeneratedKey);
+
+          await _addHeaders(options.headers, forceRegenerateToken);
+        } finally {
+          dio.interceptors.requestLock.unlock();
+        }
+
+        return options;
+      },
+      onError: (DioError err) async {
+        final statusCode = err.response?.statusCode;
+        if (statusCode == 403 || statusCode == 401) {
+          if (err.request.extra.containsKey(_tokenRegeneratedKey)) {
+            logger.severe("Authentication error after regenerating token.");
+          } else {
+            logger.warning("Authentication error. Regenerating user id token.");
+
+            err.request.extra.addAll({_tokenRegeneratedKey: true});
+
+            try {
+              // We retry with the updated options
+              return await dio.request(
+                err.request.path,
+                cancelToken: err.request.cancelToken,
+                data: err.request.data,
+                onReceiveProgress: err.request.onReceiveProgress,
+                onSendProgress: err.request.onSendProgress,
+                queryParameters: err.request.queryParameters,
+                options: err.request,
+              );
+            } catch (e) {
+              return e;
+            }
+          }
+        }
+        return err;
+      },
+    );
   }
 
   // https://github.com/dart-lang/http2/issues/49
@@ -110,24 +118,14 @@ class ApiService {
     });
   }
 
-  Future<UserHealthStatusResponse> getUserHealthStatus(
+  Future<UserHealthStatusReport> getUserHealthStatusReport(
     DateTime from,
     DateTime to,
-  ) {
-    return Future.delayed(const Duration(milliseconds: 500), () {
-      final response = UserHealthStatusResponse.generateDummy(from, to);
+  ) async {
+    final r = await _apiClient
+        .getScreensApi()
+        .v1ScreensHealthStatusGet(from: from, to: to);
 
-      response.dailyHealthStatuses.sort((a, b) => b.date.compareTo(a.date));
-
-      return response;
-    });
-  }
-
-  Future<String> profile() async {
-    final response = await dio.get(
-      '/v1/user/profile',
-    );
-
-    return response.toString();
+    return r.data;
   }
 }

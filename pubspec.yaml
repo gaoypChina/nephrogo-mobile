@@ -42,6 +42,11 @@ dependencies:
   dio: ^3.0.10
   dio_http2_adapter: ^1.0.1
 
+  nephrolog_api_client:
+    git:
+      url: https://github.com/nephrolog-lt/nephrolog-application-api-client.git
+      ref: e384b8fda0effa2b3e58b47bf0e8f1df4aa97de1
+
   firebase_core: 0.5.3
   firebase_crashlytics: ^0.2.4
   firebase_performance: ^0.4.3

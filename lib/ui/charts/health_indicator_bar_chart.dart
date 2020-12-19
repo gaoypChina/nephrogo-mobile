@@ -3,9 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/models/graph.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
-import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
+import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/string_extensions.dart';
+import 'package:nephrolog_api_client/model/user_health_status_report.dart';
 import 'bar_chart.dart';
 
 class HealthIndicatorBarChart extends StatelessWidget {
@@ -13,11 +14,11 @@ class HealthIndicatorBarChart extends StatelessWidget {
   static final _dateFormatter = DateFormat.MMMd();
 
   final HealthIndicator indicator;
-  final List<DailyHealthStatus> dailyHealthStatuses;
+  final UserHealthStatusReport userHealthStatusReport;
 
   HealthIndicatorBarChart({
     Key key,
-    @required this.dailyHealthStatuses,
+    @required this.userHealthStatusReport,
     @required this.indicator,
   }) : super(key: key);
 
@@ -37,10 +38,12 @@ class HealthIndicatorBarChart extends StatelessWidget {
   AppBarChartData _getChartData() {
     final startOfToday = DateTime.now().startOfDay();
 
-    final dailyHealthStatusesSorted =
-        dailyHealthStatuses.sortedBy((e) => e.date);
+    final dailyHealthStatusesSorted = userHealthStatusReport.dailyHealthStatuses
+        .toList()
+        .sortedBy((e) => e.date);
 
-    final groups = dailyHealthStatusesSorted.mapIndexed((i, dhs) {
+    final groups = dailyHealthStatusesSorted.mapIndexed((i, report) {
+      final dhs = report.status;
       final y = dhs.getHealthIndicatorValue(indicator);
 
       final dateFormatted = _dateFormatter.format(dhs.date);
@@ -88,6 +91,8 @@ class HealthIndicatorBarChart extends StatelessWidget {
   }
 
   double _getMaxY() {
+    // TODO remove return after API is fixed
+    return null;
     switch (indicator) {
       case HealthIndicator.severityOfSwelling:
       case HealthIndicator.wellBeing:
@@ -108,12 +113,12 @@ class HealthIndicatorBarChart extends StatelessWidget {
       case HealthIndicator.urine:
         return 200;
       case HealthIndicator.numberOfSwellings:
-        return 1;
       case HealthIndicator.severityOfSwelling:
       case HealthIndicator.wellBeing:
       case HealthIndicator.appetite:
       case HealthIndicator.shortnessOfBreath:
-        return 1;
+        // TODO Change to 1 after API is fixed
+        return 50;
       default:
         throw ArgumentError.value(
           this,
