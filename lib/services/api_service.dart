@@ -38,7 +38,7 @@ class ApiService {
       connectTimeout: 5000,
       receiveTimeout: 3000,
       headers: {
-        "time-zone": timeZoneName,
+        "time-zone-name": timeZoneName,
       },
     ));
     dio.httpClientAdapter = Http2Adapter(
