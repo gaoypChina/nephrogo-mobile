@@ -58,12 +58,8 @@ class ApiService {
     if (kDebugMode) {
       interceptors.add(
         PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
-          responseHeader: true,
+          request: false,
           responseBody: false,
-          error: true,
-          compact: true,
         ),
       );
     }
