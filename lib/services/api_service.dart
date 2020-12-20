@@ -1,11 +1,15 @@
 import 'package:async/async.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
 import 'package:logging/logging.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog_api_client/api.dart';
 import 'package:nephrolog_api_client/model/user_health_status_report.dart';
+import 'package:nephrolog_api_client/serializers.dart';
+import 'package:built_value/iso_8601_date_time_serializer.dart';
+import 'package:built_value/serializer.dart';
 
 class ApiService {
   final logger = Logger('ApiService');
@@ -32,8 +36,12 @@ class ApiService {
     dio.httpClientAdapter = Http2Adapter(
         ConnectionManager(idleTimeout: _connectionIdleTimeout.inMilliseconds));
 
+    final apiSerializersBuilder = standardSerializers.toBuilder()
+      ..add(DateAndDateTimeUtcSerializer());
+
     _apiClient = NephrologApiClient(
       dio: dio,
+      serializers: apiSerializersBuilder.build(),
       basePathOverride: _baseApiUrl,
       interceptors: [_apiHeadersInterceptor(dio)],
     );
@@ -124,8 +132,41 @@ class ApiService {
   ) async {
     final r = await _apiClient
         .getScreensApi()
-        .v1ScreensHealthStatusGet(from: from, to: to);
+        .v1ScreensHealthStatusGet(from: _Date(from), to: _Date(to));
 
     return r.data;
   }
 }
+
+// Hack start
+// Dart doesn't have separate Date class so parsing yyyy-MM-dd format leads to
+// local Date Time which is incorrect :(
+// Related https://github.com/protocolbuffers/protobuf/issues/7411
+class _Date extends DateTime {
+  static final _dateFormat = DateFormat('yyyy-MM-dd');
+
+  _Date(DateTime dateTime) : super(dateTime.year, dateTime.month, dateTime.day);
+
+  @override
+  String toString() {
+    return _dateFormat.format(this);
+  }
+}
+
+class DateAndDateTimeUtcSerializer extends Iso8601DateTimeSerializer {
+  static final _dateFormat = DateFormat('yyyy-MM-dd');
+
+  @override
+  DateTime deserialize(Serializers serializers, Object serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final s = serialized as String;
+
+    try {
+      return _dateFormat.parseStrict(s, true);
+    } on FormatException {}
+
+    return super.deserialize(serializers, serialized);
+  }
+}
+
+// hack end
