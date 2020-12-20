@@ -1,5 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:nephrolog/models/contract.dart';
+import 'package:nephrolog/services/api_service.dart';
+import 'package:nephrolog/ui/general/app_future_builder.dart';
+import 'package:nephrolog_api_client/model/product.dart';
+import 'package:nephrolog_api_client/model/products_response.dart';
 
 import 'general/components.dart';
 
@@ -39,6 +43,9 @@ class ProductSearchDelegate extends SearchDelegate<Product> {
     String hintText,
   }) : super(searchFieldLabel: hintText);
 
+  final _apiService = ApiService();
+  final _queryCancelToken = CancelToken();
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -72,16 +79,21 @@ class ProductSearchDelegate extends SearchDelegate<Product> {
   }
 
   Widget _searchForProduct(BuildContext context, String query) {
-    final results = Product.generateDummies();
+    return AppFutureBuilder<ProductsResponse>(
+      future: _apiService.getProducts(query, _queryCancelToken),
+      builder: (context, data) {
+        final products = data.products;
 
-    return ListView.builder(
-      itemCount: results.length,
-      itemBuilder: (context, index) {
-        final product = results[index];
+        return ListView.builder(
+          itemCount: products.length,
+          itemBuilder: (context, index) {
+            final product = products[index];
 
-        return ProductTile(
-          product: product,
-          onTap: () => close(context, product),
+            return ProductTile(
+              product: product,
+              onTap: () => close(context, product),
+            );
+          },
         );
       },
     );

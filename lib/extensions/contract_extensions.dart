@@ -1,7 +1,9 @@
 import 'package:intl/intl.dart';
-import 'package:nephrolog/models/contract.dart'
-    show Nutrient, DailyIntake, Intake, DailyIntakeNorms, HealthIndicator;
+import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog_api_client/model/daily_health_status.dart';
+import 'package:nephrolog_api_client/model/daily_intake.dart';
+import 'package:nephrolog_api_client/model/daily_intake_norm.dart';
+import 'package:nephrolog_api_client/model/intake.dart';
 import 'collection_extensions.dart';
 
 String _formatAmount(int amount, String baseDim, String kDim) {
@@ -46,7 +48,7 @@ extension DailyIntakesExtensions on DailyIntake {
 
   int get totalPhosphorusMg => intakes.map((e) => e.phosphorusMg).sum;
 
-  int get totalEnergyKC => intakes.map((e) => e.energyKC).sum;
+  int get totalEnergyKC => intakes.map((e) => e.energyKcal).sum;
 
   int get totalLiquidsMl => intakes.map((e) => e.liquidsMl).sum;
 
@@ -97,7 +99,7 @@ extension IntakeExtension on Intake {
   int getNutrientAmount(Nutrient nutrient) {
     switch (nutrient) {
       case Nutrient.energy:
-        return this.energyKC;
+        return this.energyKcal;
       case Nutrient.liquids:
         return this.liquidsMl;
       case Nutrient.proteins:
@@ -125,11 +127,11 @@ extension IntakeExtension on Intake {
   }
 }
 
-extension DailyIntakeNormsExtensions on DailyIntakeNorms {
+extension DailyIntakeNormsExtensions on DailyIntakeNorm {
   int getNutrientAmount(Nutrient nutrient) {
     switch (nutrient) {
       case Nutrient.energy:
-        return this.energyKC;
+        return this.energyKcal;
       case Nutrient.liquids:
         return this.liquidsMl;
       case Nutrient.proteins:

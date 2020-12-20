@@ -9,6 +9,9 @@ import 'package:nephrolog/ui/charts/nutrient_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/weekly_pager.dart';
+import 'package:nephrolog_api_client/model/daily_intake.dart';
+import 'package:nephrolog_api_client/model/daily_intakes_screen.dart';
+import 'package:nephrolog_api_client/model/intake.dart';
 
 class WeeklyNutrientsScreenArguments {
   final Nutrient nutrient;
@@ -71,14 +74,14 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
       body: WeeklyPager<Nutrient>(
         valueChangeNotifier: nutrientChangeNotifier,
         bodyBuilder: (from, to, nutrient) {
-          return AppFutureBuilder<UserIntakesResponse>(
+          return AppFutureBuilder<DailyIntakesScreen>(
             future: _apiService.getUserIntakes(from, to),
             builder: (context, data) {
               return _WeeklyNutrientsComponent(
                 nutrient: nutrient,
                 weekStart: from,
                 weekEnd: to,
-                userIntakesResponse: data,
+                dailyIntakesScreen: data,
               );
             },
           );
@@ -148,7 +151,7 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
 }
 
 class _WeeklyNutrientsComponent extends StatelessWidget {
-  final UserIntakesResponse userIntakesResponse;
+  final DailyIntakesScreen dailyIntakesScreen;
   final Nutrient nutrient;
 
   final DateTime weekStart;
@@ -159,14 +162,14 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
     @required this.nutrient,
     @required this.weekStart,
     @required this.weekEnd,
-    @required this.userIntakesResponse,
+    @required this.dailyIntakesScreen,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final dailyIntakes = userIntakesResponse.dailyIntakes;
+    final dailyIntakes = dailyIntakesScreen.dailyIntakes;
 
-    final dailyIntakesSections = userIntakesResponse.dailyIntakes
+    final dailyIntakesSections = dailyIntakesScreen.dailyIntakes
         .where((di) => di.intakes.isNotEmpty)
         .map((di) => DailyIntakeSection(
               nutrient: nutrient,
@@ -180,7 +183,7 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
         BasicSection(
           children: [
             NutrientBarChart(
-              dailyIntakes: dailyIntakes,
+              dailyIntakes: dailyIntakes.toList(),
               nutrient: nutrient,
             ),
           ],

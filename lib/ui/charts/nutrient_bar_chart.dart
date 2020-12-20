@@ -8,6 +8,7 @@ import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog/extensions/string_extensions.dart';
+import 'package:nephrolog_api_client/model/daily_intake.dart';
 import 'bar_chart.dart';
 
 class NutrientBarChart extends StatelessWidget {
@@ -46,8 +47,10 @@ class NutrientBarChart extends StatelessWidget {
         .max
         .toDouble();
 
-    final maximumAmount =
-        dailyIntakes.map((e) => e.getNutrientTotalAmount(nutrient)).max.toDouble();
+    final maximumAmount = dailyIntakes
+        .map((e) => e.getNutrientTotalAmount(nutrient))
+        .max
+        .toDouble();
 
     var interval = maximumNorm / 2;
     if (maximumAmount ~/ maximumNorm > 3) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/models/contract.dart';
+import 'package:nephrolog_api_client/model/product_kind.dart';
 
 class BasicSection extends StatelessWidget {
   static const _defaultHeaderPadding =

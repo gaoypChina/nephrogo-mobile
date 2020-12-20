@@ -5,6 +5,7 @@ import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/models/graph.dart';
 import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
+import 'package:nephrolog_api_client/model/daily_intake.dart';
 
 import 'bar_chart.dart';
 
@@ -66,8 +67,7 @@ class TodayNutrientsConsumptionBarChart extends StatelessWidget {
 
   List<AppBarChartGroup> _buildChartGroups(List<Nutrient> types) {
     return types.mapIndexed((i, type) {
-      final dailyNorm =
-          dailyIntake.userIntakeNorms.getNutrientAmount(type);
+      final dailyNorm = dailyIntake.userIntakeNorms.getNutrientAmount(type);
 
       final y = dailyIntake.getNutrientTotalAmount(type) ?? 0;
       final yPercent = min(y.toDouble() / dailyNorm, 1.0);

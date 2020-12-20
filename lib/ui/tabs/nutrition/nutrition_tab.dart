@@ -12,6 +12,9 @@ import 'package:nephrolog/ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:nephrolog_api_client/model/daily_intake.dart';
+import 'package:nephrolog_api_client/model/daily_intakes_screen.dart';
+import 'package:nephrolog_api_client/model/intake.dart';
 
 class NutritionTab extends StatelessWidget {
   @override
@@ -40,10 +43,10 @@ class NutritionTabBody extends StatelessWidget {
     final from = now.startOfDay().subtract(Duration(days: 6));
     final to = now.endOfDay();
 
-    return FutureBuilder<UserIntakesResponse>(
+    return FutureBuilder<DailyIntakesScreen>(
       future: apiService.getUserIntakes(from, to),
       builder:
-          (BuildContext context, AsyncSnapshot<UserIntakesResponse> snapshot) {
+          (BuildContext context, AsyncSnapshot<DailyIntakesScreen> snapshot) {
         if (snapshot.hasData) {
           final dailyIntakes = snapshot.data.dailyIntakes;
           final intakes = dailyIntakes.expand((e) => e.intakes).toList();
@@ -60,7 +63,8 @@ class NutritionTabBody extends StatelessWidget {
                     title: AppLocalizations.of(context).lastMealsSectionTitle,
                     intakes: latestIntakes,
                   ),
-                  ..._buildIndicatorChartSections(context, dailyIntakes),
+                  ..._buildIndicatorChartSections(
+                      context, dailyIntakes.toList()),
                 ],
               ),
             ),

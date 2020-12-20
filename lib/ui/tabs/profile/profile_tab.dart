@@ -84,25 +84,10 @@ class ProfileTab extends StatelessWidget {
             ),
           ],
         ),
-        BasicSection(
-          children: [
-            AppFutureBuilder<String>(
-              // future: _apiService.profile(),
-              builder: (context, data) {
-                return AppListTile(
-                  title: Text(data),
-                );
-              },
-            ),
-          ],
-        ),
-        FutureBuilder(
+        AppFutureBuilder<String>(
           future: _getVersionString(),
-          builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-            if (snapshot.hasData) {
-              return Center(child: Text(snapshot.data));
-            }
-            return SizedBox.shrink();
+          builder: (context, version) {
+            return Center(child: Text(version));
           },
         )
       ],

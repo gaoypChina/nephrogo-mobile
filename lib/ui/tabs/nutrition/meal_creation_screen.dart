@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/ui/forms/form_validators.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/search.dart';
 
 import 'package:nephrolog/ui/forms/forms.dart';
+import 'package:nephrolog_api_client/model/product.dart';
 
 class MealCreationScreen extends StatefulWidget {
   @override

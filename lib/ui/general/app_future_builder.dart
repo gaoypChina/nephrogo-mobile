@@ -6,7 +6,8 @@ class AppFutureBuilder<T> extends StatelessWidget {
   final Widget Function(BuildContext context, T data) builder;
 
   const AppFutureBuilder({Key key, this.future, this.builder})
-      : super(key: key);
+      : assert(future != null, "Future can not be null"),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
