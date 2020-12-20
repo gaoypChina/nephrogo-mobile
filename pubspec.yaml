@@ -30,7 +30,6 @@ dependencies:
   logging: ^0.11.4
   url_launcher: ^5.7.10
   json_annotation: ^3.1.1
-  intl: ^0.16.1
   fl_chart: ^0.12.0
   package_info: ^0.4.3+2
   tuple: ^1.0.3
