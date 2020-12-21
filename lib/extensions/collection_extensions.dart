@@ -15,7 +15,7 @@ extension IndexedIterable<E> on Iterable<E> {
   }
 
   //https://stackoverflow.com/questions/53547997/sort-a-list-of-objects-in-flutter-dart-by-property-value
-  Iterable<E> sortedBy(Comparable key(E e), [bool reverse = false]) {
+  Iterable<E> sortedBy(Comparable key(E e), {bool reverse = false}) {
     if (reverse) {
       return toList()..sort((a, b) => key(b).compareTo(key(a)));
     }

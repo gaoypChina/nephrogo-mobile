@@ -6,8 +6,8 @@ import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/charts/nutrient_bar_chart.dart';
 import 'package:nephrolog/ui/charts/today_nutrients_consumption_bar_chart.dart';
+import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
-import 'package:nephrolog/ui/general/progress_indicator.dart';
 import 'package:nephrolog/ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog/extensions/collection_extensions.dart';
@@ -44,39 +44,32 @@ class NutritionTabBody extends StatelessWidget {
     final from = now.startOfDay().subtract(Duration(days: 6));
     final to = now.endOfDay();
 
-    return FutureBuilder<DailyIntakesScreen>(
+    return AppFutureBuilder<DailyIntakesScreen>(
       future: apiService.getUserIntakes(from, to),
-      builder:
-          (BuildContext context, AsyncSnapshot<DailyIntakesScreen> snapshot) {
-        if (snapshot.hasData) {
-          final dailyIntakes = snapshot.data.dailyIntakes;
-          final intakes = dailyIntakes.expand((e) => e.intakes).toList();
-          intakes.sort((a, b) => b.dateTime.compareTo(a.dateTime));
-          final latestIntakes = intakes.take(3).toList();
-          final latestDailyIntake = dailyIntakes.maxBy((e) => e.date);
+      builder: (BuildContext context, DailyIntakesScreen data) {
+        final dailyIntakes = data.dailyIntakes.toList();
+        final intakes = dailyIntakes
+            .expand((e) => e.intakes)
+            .sortedBy((e) => e.dateTime, reverse: true)
+            .toList();
+        final latestIntakes = intakes.take(3).toList();
+        final latestDailyIntake = dailyIntakes.maxBy((e) => e.date);
 
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 64),
-              child: Column(
-                children: [
-                  DailyNormsSection(dailyIntake: latestDailyIntake),
-                  DailyIntakesCard(
-                    title: AppLocalizations.of(context).lastMealsSectionTitle,
-                    intakes: latestIntakes,
-                  ),
-                  ..._buildIndicatorChartSections(
-                      context, dailyIntakes.toList()),
-                ],
-              ),
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 64),
+            child: Column(
+              children: [
+                DailyNormsSection(dailyIntake: latestDailyIntake),
+                DailyIntakesCard(
+                  title: AppLocalizations.of(context).lastMealsSectionTitle,
+                  intakes: latestIntakes,
+                ),
+                ..._buildIndicatorChartSections(context, dailyIntakes),
+              ],
             ),
-          );
-        }
-        if (snapshot.hasError) {
-          return Center(child: Text(snapshot.error));
-        }
-
-        return Center(child: AppProgressIndicator());
+          ),
+        );
       },
     );
   }

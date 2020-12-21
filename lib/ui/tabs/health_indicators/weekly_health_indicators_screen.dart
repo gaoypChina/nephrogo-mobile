@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/services/api_service.dart';
@@ -139,7 +138,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
     return userHealthStatusReport.dailyHealthStatuses
         .where((dhs) =>
             dhs.status.getHealthIndicatorValue(healthIndicator) != null)
-        .sortedBy((e) => e.date, true)
+        .sortedBy((e) => e.date, reverse: true)
         .map((dhs) => DailyHealthStatusIndicatorTile(
               dailyHealthStatus: dhs.status,
               indicator: healthIndicator,
