@@ -8,8 +8,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
+        with:
+          - fetch-depth: 0
 
-      - run: echo $(git rev-list --count HEAD)
+      - name: Set build number
+        run: echo "BUILD_NUMBER=$(git rev-list --count HEAD)" >> $GITHUB_ENV
 
       - uses: actions/setup-java@v1
         with:
@@ -32,7 +35,7 @@ jobs:
 
       - run: flutter test
 
-      - run: flutter build appbundle --build-number $(git rev-list --count HEAD)
+      - run: flutter build appbundle --build-number ${{ env.BUILD_NUMBER }}
         env:
           KEY_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
@@ -57,7 +60,7 @@ jobs:
           name: pubspec.lock
           path: pubspec.lock
 
-      - run: flutter build apk --build-number $(git rev-list --count HEAD)
+      - run: flutter build apk --build-number ${{ env.BUILD_NUMBER }}
         env:
           KEY_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
@@ -91,7 +94,7 @@ jobs:
 
       - run: flutter build web
 
-  deploy_android_internal_testing:
+  deploy_android_firebase_distribution:
     name: Deploys Android ABB to Google play for Internal Testing
     runs-on: ubuntu-20.04
     needs: build_android
@@ -111,3 +114,28 @@ jobs:
           token: ${{secrets.FIREBASE_TOKEN}}
           groups: internal
           file: app-release.apk
+
+  deploy_google_play_internal_testing:
+    name: Deploys Android ABB to Google play for Internal Testing
+    runs-on: ubuntu-20.04
+    needs: build_android
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Download AAB
+        uses: actions/download-artifact@v2
+        with:
+          name: app-release.aab
+
+      - name: Download mapping.txt
+        uses: actions/download-artifact@v2
+        with:
+          name: mapping.txt
+
+      - uses: r0adkll/upload-google-play@v1
+        name: Upload to Google play for Internal testing
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
+          packageName: lt.nephrolog
+          releaseFiles: app-release.aab
+          mappingFile: mapping.txt
+          track: internal
