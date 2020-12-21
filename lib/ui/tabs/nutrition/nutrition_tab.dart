@@ -10,6 +10,7 @@ import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/progress_indicator.dart';
 import 'package:nephrolog/ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
+import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:nephrolog_api_client/model/daily_intake.dart';
@@ -52,13 +53,14 @@ class NutritionTabBody extends StatelessWidget {
           final intakes = dailyIntakes.expand((e) => e.intakes).toList();
           intakes.sort((a, b) => b.dateTime.compareTo(a.dateTime));
           final latestIntakes = intakes.take(3).toList();
+          final latestDailyIntake = dailyIntakes.maxBy((e) => e.date);
 
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 64),
               child: Column(
                 children: [
-                  DailyNormsSection(dailyIntake: dailyIntakes.first),
+                  DailyNormsSection(dailyIntake: latestDailyIntake),
                   DailyIntakesCard(
                     title: AppLocalizations.of(context).lastMealsSectionTitle,
                     intakes: latestIntakes,
@@ -101,10 +103,12 @@ class NutritionTabBody extends StatelessWidget {
     List<DailyIntake> dailyIntakes,
     Nutrient nutrient,
   ) {
+    final newestDailyIntake = dailyIntakes.maxBy((e) => e.date);
+
     final dailyNormFormatted =
-        dailyIntakes.first.userIntakeNorms.getNutrientAmountFormatted(nutrient);
+        newestDailyIntake.userIntakeNorms.getNutrientAmountFormatted(nutrient);
     final todayConsumption =
-        dailyIntakes.first.getNutrientTotalAmountFormatted(nutrient);
+        newestDailyIntake.getNutrientTotalAmountFormatted(nutrient);
 
     return LargeSection(
       title: nutrient.name,

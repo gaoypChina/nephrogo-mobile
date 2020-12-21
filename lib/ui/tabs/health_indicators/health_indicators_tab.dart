@@ -5,6 +5,7 @@ import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/charts/health_indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
+import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
@@ -70,10 +71,10 @@ class HealthIndicatorsTabBody extends StatelessWidget {
     UserHealthStatusReport userHealthStatusReport,
     HealthIndicator indicator,
   ) {
-    final todayDailyHealthStatus =
-        userHealthStatusReport.dailyHealthStatuses.last.status;
+    final latestHealthStatus =
+        userHealthStatusReport.dailyHealthStatuses.maxBy((e) => e.date);
     final todayConsumption =
-        todayDailyHealthStatus.getHealthIndicatorFormatted(indicator) ??
+        latestHealthStatus.status.getHealthIndicatorFormatted(indicator) ??
             "nėra informacijos";
 
     return LargeSection(

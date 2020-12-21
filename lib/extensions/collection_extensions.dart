@@ -1,7 +1,13 @@
 import 'dart:core';
+import 'package:collection/collection.dart' as collection;
+
 import 'dart:math' as math;
 
 extension IndexedIterable<E> on Iterable<E> {
+  E maxBy<T>(T Function(E) orderBy, {int Function(T, T) compare}) {
+    return collection.maxBy<E, T>(this, orderBy, compare: compare);
+  }
+
   // https://stackoverflow.com/questions/54990716/flutter-get-iteration-index-from-list-map
   Iterable<T> mapIndexed<T>(T Function(int i, E e) f) {
     var i = 0;
