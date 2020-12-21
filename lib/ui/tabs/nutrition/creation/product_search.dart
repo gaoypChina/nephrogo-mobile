@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:nephrolog/routes.dart';
@@ -59,6 +60,9 @@ class ProductSearchDelegate extends SearchDelegate<Product> {
   final _apiService = ApiService();
   final _queryCancelToken = CancelToken();
 
+  var _queryMemoizer = AsyncMemoizer<ProductsResponse>();
+  String currentQuery;
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [];
@@ -99,14 +103,29 @@ class ProductSearchDelegate extends SearchDelegate<Product> {
     return _searchForProduct(context, query);
   }
 
+  void changeQuery(String query) {
+    if (currentQuery != query) {
+      currentQuery = query;
+
+      _queryMemoizer = AsyncMemoizer<ProductsResponse>();
+
+      _queryMemoizer.runOnce(() async {
+        return await _apiService.getProducts(query, _queryCancelToken);
+      });
+    }
+  }
+
   Widget _searchForProduct(BuildContext context, String query) {
+    changeQuery(query);
+
     return Container(
       color: Colors.white,
       child: AppFutureBuilder<ProductsResponse>(
-        future: _apiService.getProducts(query, _queryCancelToken),
+        future: _queryMemoizer.future,
         builder: (context, data) {
           final products = data.products;
           return ListView.separated(
+            key: Key("product-list-$query"),
             itemCount: products.length,
             separatorBuilder: (BuildContext context, int index) =>
                 Divider(height: 1),
