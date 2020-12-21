@@ -80,7 +80,7 @@ jobs:
           path: build/apk-code-size-analysis_01.json
 
   deploy_android_firebase_distribution:
-    name: Deploys Android ABB to Google play for Internal Testing
+    name: Firebase App Distribution publish for testing
     runs-on: ubuntu-20.04
     needs: build_android
     if: github.ref == 'refs/heads/main'
@@ -101,7 +101,7 @@ jobs:
           file: app-release.apk
 
   deploy_google_play_internal_testing:
-    name: Deploys Android ABB to Google play for Internal Testing
+    name: Google play Internal Testing deploy AAB 
     runs-on: ubuntu-20.04
     needs: build_android
     if: github.ref == 'refs/heads/main'
