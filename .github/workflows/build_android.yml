@@ -73,27 +73,6 @@ jobs:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
-  build_web:
-    name: Build Nephrolog WEB version
-    runs-on: ubuntu-20.04
-    if: false
-
-    steps:
-      - uses: actions/checkout@master
-
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: beta
-
-      - run: flutter config --enable-web
-
-      - run: dart --version
-      - run: flutter --version
-
-      - run: flutter pub get
-
-      - run: flutter build web
-
   deploy_android_firebase_distribution:
     name: Deploys Android ABB to Google play for Internal Testing
     runs-on: ubuntu-20.04
