@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
         with:
-          - fetch-depth: 0
+          fetch-depth: 0
 
       - name: Set build number
         run: echo "BUILD_NUMBER=$(git rev-list --count HEAD)" >> $GITHUB_ENV
