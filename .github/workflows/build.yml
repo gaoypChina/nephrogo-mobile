@@ -71,6 +71,7 @@ jobs:
   build_web:
     name: Build Nephrolog WEB version
     runs-on: ubuntu-20.04
+    if: false
 
     steps:
       - uses: actions/checkout@master
