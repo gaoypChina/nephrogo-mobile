@@ -10,7 +10,7 @@ import 'ui/home_screen.dart';
 import 'ui/start_screen.dart';
 import 'ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
 import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
-import 'ui/tabs/nutrition/meal_creation_screen.dart';
+import 'ui/tabs/nutrition/creation/meal_creation_screen.dart';
 import 'ui/tabs/health_indicators/health_indicators_creation_screen.dart';
 import 'ui/user_conditions_screen.dart';
 
@@ -64,7 +64,9 @@ class Routes {
         });
       case ROUTE_MEAL_CREATION:
         return MaterialPageRoute(builder: (context) {
-          return MealCreationScreen();
+          MealCreationScreenArguments arguments = settings.arguments;
+
+          return MealCreationScreen(initialProduct: arguments?.product);
         });
       case ROUTE_HEALTH_INDICATORS_CREATION:
         return MaterialPageRoute(builder: (context) {

@@ -35,5 +35,7 @@
   "lastMealsSectionTitle": "Paskutiniai valgiai",
   "@lastMealsSectionTitle": {},
   "createMeal": "Pridėti valgį",
-  "@createMeal": {}
+  "@createMeal": {},
+  "productSearchTitle": "Valgis arba gėrimas",
+  "@productSearchTitle": {}
 }

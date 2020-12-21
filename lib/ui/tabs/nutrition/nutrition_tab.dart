@@ -17,15 +17,14 @@ import 'package:nephrolog_api_client/model/daily_intake.dart';
 import 'package:nephrolog_api_client/model/daily_intakes_screen.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
 
+import 'creation/product_search.dart';
+
 class NutritionTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.pushNamed(
-          context,
-          Routes.ROUTE_MEAL_CREATION,
-        ),
+        onPressed: () => showProductSearch(context, ProductSearchType.choose),
         label: Text(AppLocalizations.of(context).createMeal.toUpperCase()),
         icon: Icon(Icons.add),
       ),

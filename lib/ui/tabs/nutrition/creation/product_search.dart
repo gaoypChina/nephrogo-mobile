@@ -1,0 +1,126 @@
+import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:nephrolog/routes.dart';
+import 'package:nephrolog/services/api_service.dart';
+import 'package:nephrolog/ui/general/app_future_builder.dart';
+import 'package:nephrolog/ui/general/components.dart';
+import 'package:nephrolog/ui/tabs/nutrition/creation/meal_creation_screen.dart';
+import 'package:nephrolog_api_client/model/product.dart';
+import 'package:nephrolog_api_client/model/products_response.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+enum ProductSearchType {
+  choose,
+  change,
+}
+
+Future<Product> showProductSearch(
+    BuildContext context, ProductSearchType searchType) async {
+  final product = await showSearch(
+      context: context,
+      delegate: ProductSearchDelegate(
+        searchType: searchType,
+        hintText: AppLocalizations.of(context).productSearchTitle,
+      ));
+  return product;
+}
+
+class ProductTile extends StatelessWidget {
+  final Product product;
+  final GestureTapCallback onTap;
+
+  const ProductTile({
+    Key key,
+    @required this.product,
+    @required this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppListTile(
+      contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      title: Text(product.name),
+      leading: ProductKindIcon(
+        productKind: product.kind,
+      ),
+      onTap: onTap,
+    );
+  }
+}
+
+class ProductSearchDelegate extends SearchDelegate<Product> {
+  final ProductSearchType searchType;
+
+  ProductSearchDelegate({
+    @required this.searchType,
+    String hintText,
+  }) : super(searchFieldLabel: hintText);
+
+  final _apiService = ApiService();
+  final _queryCancelToken = CancelToken();
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    final icon =
+        searchType == ProductSearchType.choose ? Icons.arrow_back : Icons.close;
+
+    return IconButton(
+      icon: Icon(icon),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  void close(BuildContext context, Product result) {
+    super.close(context, result);
+
+    if (searchType == ProductSearchType.choose && result != null) {
+      Navigator.of(context).pushNamed(
+        Routes.ROUTE_MEAL_CREATION,
+        arguments: MealCreationScreenArguments(result),
+      );
+    }
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return _searchForProduct(context, query);
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return _searchForProduct(context, query);
+  }
+
+  Widget _searchForProduct(BuildContext context, String query) {
+    return Container(
+      color: Colors.white,
+      child: AppFutureBuilder<ProductsResponse>(
+        future: _apiService.getProducts(query, _queryCancelToken),
+        builder: (context, data) {
+          final products = data.products;
+          return ListView.separated(
+            itemCount: products.length,
+            separatorBuilder: (BuildContext context, int index) =>
+                Divider(height: 1),
+            itemBuilder: (context, index) {
+              final product = products[index];
+
+              return ProductTile(
+                product: product,
+                onTap: () => close(context, product),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}

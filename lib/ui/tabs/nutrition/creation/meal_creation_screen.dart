@@ -1,13 +1,27 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/ui/forms/form_validators.dart';
 import 'package:nephrolog/ui/general/components.dart';
-import 'package:nephrolog/ui/search.dart';
 
 import 'package:nephrolog/ui/forms/forms.dart';
+import 'package:nephrolog/ui/tabs/nutrition/creation/product_search.dart';
 import 'package:nephrolog_api_client/model/product.dart';
 
+class MealCreationScreenArguments extends Equatable {
+  final Product product;
+
+  MealCreationScreenArguments(this.product);
+
+  @override
+  List<Object> get props => [product];
+}
+
 class MealCreationScreen extends StatefulWidget {
+  final Product initialProduct;
+
+  const MealCreationScreen({Key key, this.initialProduct}) : super(key: key);
+
   @override
   _MealCreationScreenState createState() => _MealCreationScreenState();
 }
@@ -45,9 +59,13 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
               children: [
                 AppSelectionScreenFormField<Product>(
                   labelText: "Produktas",
+                  initialSelection: widget.initialProduct,
                   iconData: Icons.restaurant_outlined,
                   itemToStringConverter: (p) => p.name,
-                  onTap: showProductSearch,
+                  onTap: (context) => showProductSearch(
+                    context,
+                    ProductSearchType.change,
+                  ),
                   validator: FormValidators.nonNull(),
                   onSaved: (p) => _selectedProduct = p,
                 ),
