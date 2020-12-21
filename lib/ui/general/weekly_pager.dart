@@ -23,8 +23,7 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
   static const _animationDuration = const Duration(milliseconds: 400);
   static final dateFormatter = DateFormat.MMMMd();
 
-  // It's hacky, but let's load pages nearby
-  final _pageController = PageController(viewportFraction: 0.9999999);
+  final _pageController = PageController();
 
   final DateTime now = DateTime.now();
 
