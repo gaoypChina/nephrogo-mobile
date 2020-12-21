@@ -18,7 +18,6 @@ class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.only(bottom: 64),
       children: [
         BasicSection(
           children: [_buildUserProfileTile(context)],
