@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
 
-import 'app_form_multi_select_screen.dart';
-import 'app_form_select_screen.dart';
+import 'app_form_multi_select_dialog.dart';
+import 'app_form_select_dialog.dart';
 
 typedef FormFieldItemSetter<T> = void Function(T newItem);
 
@@ -267,21 +267,16 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
   }
 
   Future<AppSelectFormFieldItem<T>> onTap(BuildContext context) async {
-    final item = await Navigator.push(
-      context,
-      MaterialPageRoute<AppSelectFormFieldItem<T>>(
+    final item = await showDialog<AppSelectFormFieldItem<T>>(
+        context: context,
         builder: (BuildContext context) {
-          return AppFormSelectScreen<T>(
-            data: AppFormSelectScreenData<T>(
-              title: widget.labelText,
-              items: widget.items,
-              selectedValue: selectedItem?.value,
-              helpText: widget.dialogHelpText,
-            ),
+          return AppFormSelectDialog<T>(
+            items: widget.items,
+            selectedValue: selectedItem?.value,
+            title: widget.labelText,
+            helpText: widget.dialogHelpText,
           );
-        },
-      ),
-    );
+        });
 
     selectedItem = item ?? selectedItem;
 
@@ -330,20 +325,15 @@ class _AppMultipleSelectFormFieldState<T>
   }
 
   Future<List<AppSelectFormFieldItem<T>>> onTap(BuildContext context) async {
-    final items = await Navigator.push(
-      context,
-      MaterialPageRoute<List<AppSelectFormFieldItem<T>>>(
+    final items = await showDialog<List<AppSelectFormFieldItem<T>>>(
+        context: context,
         builder: (BuildContext context) {
-          return AppFormMultipleSelectScreen<T>(
-            data: AppFormMultipleSelectScreenData<T>(
-              title: widget.labelText,
-              items: widget.items,
-              selectedItems: _selectedItems,
-            ),
+          return AppFormMultipleSelectDialog<T>(
+            title: widget.labelText,
+            items: widget.items,
+            selectedItems: _selectedItems,
           );
-        },
-      ),
-    );
+        });
 
     _selectedItems = items ?? _selectedItems;
 

@@ -1,36 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/forms/forms.dart';
+import 'package:nephrolog/ui/general/components.dart';
 
-class AppFormSelectScreenData<T> {
-  final String title;
+class AppFormSelectDialog<T> extends StatelessWidget {
   final List<AppSelectFormFieldItem> items;
   final T selectedValue;
+  final String title;
   final String helpText;
 
-  const AppFormSelectScreenData({
-    this.title,
+  const AppFormSelectDialog({
+    Key key,
     @required this.items,
+    this.title,
     this.selectedValue,
     this.helpText,
-  });
-}
-
-class AppFormSelectScreen<T> extends StatelessWidget {
-  final AppFormSelectScreenData<T> data;
-
-  const AppFormSelectScreen({Key key, @required this.data}) : super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(data.title),
-        leading: CloseButton(),
-      ),
-      body: ListView(
+    return AlertDialog(
+      title: Text(title),
+      scrollable: true,
+      contentPadding: EdgeInsets.only(top: 20),
+      content: Column(
         children: [
-          if (data.helpText != null)
+          if (helpText != null)
             BasicSection(
               header: AppListTile(
                 leading: IconButton(
@@ -40,7 +34,7 @@ class AppFormSelectScreen<T> extends StatelessWidget {
                 title: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Text(
-                    data.helpText,
+                    helpText,
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -48,9 +42,8 @@ class AppFormSelectScreen<T> extends StatelessWidget {
             ),
           BasicSection(
             padding: EdgeInsets.zero,
-            children: data.items
-                .map((item) => _generateItemCell(context, item))
-                .toList(),
+            children:
+                items.map((item) => _generateItemCell(context, item)).toList(),
           ),
         ],
       ),
@@ -59,12 +52,13 @@ class AppFormSelectScreen<T> extends StatelessWidget {
 
   AppListTile _generateItemCell(
       BuildContext context, AppSelectFormFieldItem item) {
-    final selected =
-        data.selectedValue != null && item.value == data.selectedValue;
-    final primaryColor = Theme.of(context).primaryColor;
+    final selected = selectedValue != null && item.value == selectedValue;
+    final primaryColor = Theme
+        .of(context)
+        .primaryColor;
 
     final radioIconData =
-        selected ? Icons.radio_button_on : Icons.radio_button_off;
+    selected ? Icons.radio_button_on : Icons.radio_button_off;
 
     return AppListTile(
       title: Text(item.text),

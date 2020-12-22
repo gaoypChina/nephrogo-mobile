@@ -1,42 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/ui/general/components.dart';
-import 'package:nephrolog/ui/forms/forms.dart';
 import 'package:nephrolog/extensions/collection_extensions.dart';
+import 'package:nephrolog/l10n/localizations.dart';
+import 'package:nephrolog/ui/forms/forms.dart';
+import 'package:nephrolog/ui/general/components.dart';
 
-class AppFormMultipleSelectScreenData<T> {
+class AppFormMultipleSelectDialog<T> extends StatefulWidget {
   final String title;
   final List<AppSelectFormFieldItem<T>> items;
   final List<AppSelectFormFieldItem<T>> selectedItems;
 
-  const AppFormMultipleSelectScreenData({
-    this.title,
+  const AppFormMultipleSelectDialog({
+    Key key,
     @required this.items,
+    this.title,
     this.selectedItems,
-  });
-}
-
-class AppFormMultipleSelectScreen<T> extends StatefulWidget {
-  final AppFormMultipleSelectScreenData<T> data;
-
-  const AppFormMultipleSelectScreen({Key key, @required this.data})
-      : super(key: key);
+  }) : super(key: key);
 
   @override
-  _AppFormMultipleSelectScreenState<T> createState() =>
-      _AppFormMultipleSelectScreenState<T>();
+  _AppFormMultipleSelectDialogState<T> createState() =>
+      _AppFormMultipleSelectDialogState<T>();
 }
 
-class _AppFormMultipleSelectScreenState<T>
-    extends State<AppFormMultipleSelectScreen<T>> {
+class _AppFormMultipleSelectDialogState<T>
+    extends State<AppFormMultipleSelectDialog<T>> {
   List<bool> _itemsSelection;
 
   @override
   void initState() {
     super.initState();
 
-    _itemsSelection = widget.data.items
+    _itemsSelection = widget.items
         .map((e) =>
-            widget.data.selectedItems
+            widget.selectedItems
                 .firstWhere((s) => e.value == s.value, orElse: () => null) !=
             null)
         .toList();
@@ -44,24 +39,29 @@ class _AppFormMultipleSelectScreenState<T>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.data.title),
-        leading: CloseButton(),
+    return AlertDialog(
+      title: Text(widget.title),
+      scrollable: true,
+      contentPadding: EdgeInsets.only(top: 20),
+      content: BasicSection(
+        padding: EdgeInsets.zero,
+        children: widget.items
+            .mapIndexed((i, item) => _generateItemCell(context, item, i))
+            .toList(),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.pop(context, _getSelectedItems()),
-        label: Text("PASIRINKTI"),
-        icon: Icon(Icons.save),
-      ),
-      body: SingleChildScrollView(
-        child: BasicSection(
-          padding: EdgeInsets.zero,
-          children: widget.data.items
-              .mapIndexed((i, item) => _generateItemCell(context, item, i))
-              .toList(),
+      actions: [
+        TextButton(
+          child: Text(
+            AppLocalizations
+                .of(context)
+                .formMultiSelectDialogActionChoose
+                .toUpperCase(),
+          ),
+          onPressed: () {
+            Navigator.pop(context, _getSelectedItems());
+          },
         ),
-      ),
+      ],
     );
   }
 
@@ -102,7 +102,7 @@ class _AppFormMultipleSelectScreenState<T>
     List<AppSelectFormFieldItem<T>> selectedItems = [];
     for (int i = 0; i < _itemsSelection.length; ++i) {
       if (_itemsSelection[i]) {
-        selectedItems.add(widget.data.items[i]);
+        selectedItems.add(widget.items[i]);
       }
     }
 
