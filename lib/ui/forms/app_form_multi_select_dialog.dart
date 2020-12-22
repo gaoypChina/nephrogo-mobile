@@ -39,6 +39,8 @@ class _AppFormMultipleSelectDialogState<T>
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
     return AlertDialog(
       title: Text(widget.title),
       scrollable: true,
@@ -51,10 +53,14 @@ class _AppFormMultipleSelectDialogState<T>
       ),
       actions: [
         TextButton(
+          child: Text(appLocalizations.dialogCancel.toUpperCase()),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        TextButton(
           child: Text(
-            AppLocalizations.of(context)
-                .formMultiSelectDialogActionChoose
-                .toUpperCase(),
+            appLocalizations.formMultiSelectDialogActionChoose.toUpperCase(),
           ),
           onPressed: () {
             Navigator.pop(context, _getSelectedItems());

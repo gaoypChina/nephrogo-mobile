@@ -10,6 +10,8 @@
   "@more": {},
   "formMultiSelectDialogActionChoose": "Pasirinkti",
   "@formMultiSelectDialogActionChoose": {},
+  "dialogCancel": "Atšaukti",
+  "@dialogCancel": {},
   "dailyNormsSectionTitle": "Dienos norma",
   "@dailyNormsSectionTitle": {},
   "dailyNormsSectionSubtitle": "Šios dienos medžiagų kiekiai",
