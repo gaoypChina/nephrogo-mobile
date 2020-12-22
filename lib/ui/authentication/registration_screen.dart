@@ -1,3 +1,5 @@
+import 'dart:developer' as developer;
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
@@ -6,7 +8,6 @@ import 'package:nephrolog/ui/forms/forms.dart';
 import 'package:nephrolog/ui/general/buttons.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/dialogs.dart';
-import 'dart:developer' as developer;
 
 import 'login_conditions.dart';
 
@@ -49,6 +50,8 @@ class _RegistrationFormState extends State<_RegistrationForm> {
 
   @override
   Widget build(BuildContext context) {
+    final formValidators = FormValidators(context);
+
     return Form(
       key: _formKey,
       child: AutofillGroup(
@@ -58,7 +61,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
               labelText: "El. paštas",
               autoFocus: true,
               keyboardType: TextInputType.emailAddress,
-              validator: FormValidators.nonEmptyValidator,
+              validator: formValidators.nonEmptyValidator,
               autofillHints: [AutofillHints.email],
               iconData: Icons.alternate_email,
               textInputAction: TextInputAction.next,
@@ -67,7 +70,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
             AppTextFormField(
               labelText: "Slaptažodis",
               obscureText: true,
-              validator: FormValidators.lengthValidator(6),
+              validator: formValidators.lengthValidator(6),
               autofillHints: [AutofillHints.password],
               iconData: Icons.lock,
               onSaved: (s) => password = s,
@@ -96,7 +99,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
 
       try {
         userCredential =
-            await _authProvider.createUserWithEmailAndPassword(email, password);
+        await _authProvider.createUserWithEmailAndPassword(email, password);
       } on EmailAlreadyInUseException catch (_) {
         showAppDialog(
           context: context,

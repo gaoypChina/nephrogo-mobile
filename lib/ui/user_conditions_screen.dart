@@ -19,6 +19,8 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final formValidators = FormValidators(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Mano būklė"),
@@ -41,7 +43,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
               children: [
                 AppSelectFormField<int>(
                   labelText: "Lytis",
-                  validator: FormValidators.nonNull(),
+                  validator: formValidators.nonNull(),
                   onChanged: (v) {},
                   items: [
                     AppSelectFormFieldItem(
@@ -62,18 +64,18 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   initialDatePickerMode: DatePickerMode.year,
                   initialEntryMode: DatePickerEntryMode.input,
                   dateFormat: _birthdayFormat,
-                  validator: FormValidators.nonNull(),
+                  validator: formValidators.nonNull(),
                   onDateSaved: (v) => print(v),
                 ),
                 AppIntegerFormField(
                   labelText: "Ūgis",
-                  validator: FormValidators.numRangeValidator(100, 250),
+                  validator: formValidators.numRangeValidator(100, 250),
                   suffixText: "cm",
                   onSaved: (v) => print(v),
                 ),
                 AppDoubleInputField(
                   labelText: "Svoris",
-                  validator: FormValidators.numRangeValidator(25, 250),
+                  validator: formValidators.numRangeValidator(25, 250),
                   helperText:
                       "Jeigu atliekate dializes, įrašykite savo sausąjį svorį",
                   suffixText: "kg",
@@ -88,14 +90,14 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
               children: [
                 AppIntegerFormField(
                   labelText: "Kiek metų sergate lėtine inkstų liga",
-                  validator: FormValidators.numRangeValidator(0, 100),
+                  validator: formValidators.numRangeValidator(0, 100),
                   onSaved: (v) => print(v),
                 ),
                 AppSelectFormField<String>(
                   labelText: "Lėtinės inkstų ligos stadija",
                   helperText: "GFG – glomerulų filtracijos greitis",
                   onChanged: (value) {},
-                  validator: FormValidators.nonNull(),
+                  validator: formValidators.nonNull(),
                   items: [
                     AppSelectFormFieldItem(
                       text: "I – GFG > 90 ml/min./1,73 m²",
@@ -122,7 +124,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                 ),
                 AppSelectFormField<String>(
                   labelText: "Atliekamos dializės tipas",
-                  validator: FormValidators.nonNull(),
+                  validator: formValidators.nonNull(),
                   onChanged: (value) {},
                   items: [
                     AppSelectFormFieldItem(
@@ -153,7 +155,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
               children: [
                 AppSelectFormField<String>(
                   labelText: "Cukriniu diabeto tipas",
-                  validator: FormValidators.nonNull(),
+                  validator: formValidators.nonNull(),
                   initialValue: "3",
                   onChanged: (item) {
                     setState(() {
@@ -182,16 +184,16 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                       AppIntegerFormField(
                         labelText: "Kiek metų sergate cukriniu diabetu",
                         validator: isDiabetic
-                            ? FormValidators.numRangeValidator(0, 100)
+                            ? formValidators.numRangeValidator(0, 100)
                             : null,
                         suffixText: "m.",
                         onSaved: (v) => print(v),
                       ),
                       AppSelectFormField<String>(
                         labelText:
-                            "Ar jums pasireiškė cukrinio diabeto komplikacijos?",
+                        "Ar jums pasireiškė cukrinio diabeto komplikacijos?",
                         onChanged: (value) {},
-                        validator: isDiabetic ? FormValidators.nonNull() : null,
+                        validator: isDiabetic ? formValidators.nonNull() : null,
                         items: [
                           AppSelectFormFieldItem(
                             text: "Taip",

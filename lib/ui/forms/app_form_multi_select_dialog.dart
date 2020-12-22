@@ -52,8 +52,7 @@ class _AppFormMultipleSelectDialogState<T>
       actions: [
         TextButton(
           child: Text(
-            AppLocalizations
-                .of(context)
+            AppLocalizations.of(context)
                 .formMultiSelectDialogActionChoose
                 .toUpperCase(),
           ),

@@ -2,9 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/ui/forms/form_validators.dart';
-import 'package:nephrolog/ui/general/components.dart';
-
 import 'package:nephrolog/ui/forms/forms.dart';
+import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/tabs/nutrition/creation/product_search.dart';
 import 'package:nephrolog_api_client/model/product.dart';
 
@@ -39,6 +38,8 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final formValidators = FormValidators(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Pridėti valgį"),
@@ -66,13 +67,13 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                     context,
                     ProductSearchType.change,
                   ),
-                  validator: FormValidators.nonNull(),
+                  validator: formValidators.nonNull(),
                   onSaved: (p) => _selectedProduct = p,
                 ),
                 AppIntegerFormField(
                   labelText: "Kiekis",
                   suffixText: "g",
-                  validator: FormValidators.numRangeValidator(1, 10000),
+                  validator: formValidators.numRangeValidator(1, 10000),
                   iconData: Icons.kitchen,
                   onSaved: (value) {
                     _quantityInGrams = value;
@@ -89,7 +90,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                   selectedDate: _mealDate,
                   firstDate: DateTime(2020),
                   lastDate: DateTime.now(),
-                  validator: FormValidators.nonNull(),
+                  validator: formValidators.nonNull(),
                   dateFormat: _dateFormat,
                   iconData: Icons.calendar_today,
                   onDateSaved: (dt) => print(dt),

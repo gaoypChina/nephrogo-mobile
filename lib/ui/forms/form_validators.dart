@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 
 class FormValidators {
-  static final _nonEmptyText = "Laukelis yra privalomas.";
+  final AppLocalizations appLocalizations;
 
-  static FormFieldValidator<T> and<T>(
+  FormValidators(BuildContext context)
+      : appLocalizations = AppLocalizations.of(context);
+
+  FormFieldValidator<T> and<T>(
     FormFieldValidator<T> validator1,
     FormFieldValidator<T> validator2,
   ) {
@@ -12,7 +16,7 @@ class FormValidators {
     };
   }
 
-  static FormFieldValidator<T> or<T>(
+  FormFieldValidator<T> or<T>(
     FormFieldValidator<T> validator1,
     FormFieldValidator<T> validator2,
   ) {
@@ -31,28 +35,28 @@ class FormValidators {
     };
   }
 
-  static FormFieldValidator<T> nonNull<T>() {
+  FormFieldValidator<T> nonNull<T>() {
     return (value) {
       if (value == null) {
-        return _nonEmptyText;
+        return appLocalizations.formValidatorNonEmptyText;
       }
       return null;
     };
   }
 
-  static FormFieldValidator<String> get nonEmptyValidator {
+  FormFieldValidator<String> get nonEmptyValidator {
     return (value) {
       if (value == null || value.isEmpty) {
-        return _nonEmptyText;
+        return appLocalizations.formValidatorNonEmptyText;
       }
       return null;
     };
   }
 
-  static FormFieldValidator<String> lengthValidator(int min) {
+  FormFieldValidator<String> lengthValidator(int min) {
     final _lengthValidator = (String value) {
       if (value.length < min) {
-        return "Minimalus ilgis $min simboliai.";
+        return appLocalizations.formValidatorMinLength(min.toString());
       }
       return null;
     };
@@ -60,13 +64,13 @@ class FormValidators {
     return and(nonNull<String>(), _lengthValidator);
   }
 
-  static FormFieldValidator<T> numRangeValidator<T extends num>(T min, T max) {
+  FormFieldValidator<T> numRangeValidator<T extends num>(T min, T max) {
     final _nonNullNumValidator = (T value) {
       if (min > value) {
-        return "Reikšmė negali būti mažesnė nei $min";
+        return appLocalizations.formValidatorMinValue(min.toString());
       }
       if (max < value) {
-        return "Reikšmė negali būti didesnė nei $max";
+        return appLocalizations.formValidatorMaxValue(max.toString());
       }
       return null;
     };

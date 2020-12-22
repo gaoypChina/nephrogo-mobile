@@ -1,3 +1,5 @@
+import 'dart:developer' as developer;
+
 import 'package:flutter/material.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
 import 'package:nephrolog/ui/forms/form_validators.dart';
@@ -5,8 +7,6 @@ import 'package:nephrolog/ui/forms/forms.dart';
 import 'package:nephrolog/ui/general/buttons.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/dialogs.dart';
-import 'dart:developer' as developer;
-
 
 class RemindPasswordScreen extends StatefulWidget {
   @override
@@ -22,6 +22,8 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final formValidators = FormValidators(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Slaptažodžio atkūrimas"),
@@ -38,7 +40,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Text(
                   "Įveskite savo elektroninio pašto adresą ir atsiūsime "
-                  "Jums laišką su instrukcijomis, kaip pakeisti slaptažodį.",
+                      "Jums laišką su instrukcijomis, kaip pakeisti slaptažodį.",
                   textAlign: TextAlign.justify,
                 ),
               ),
@@ -56,7 +58,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
                         labelText: "El. paštas",
                         autoFocus: true,
                         keyboardType: TextInputType.emailAddress,
-                        validator: FormValidators.nonEmptyValidator,
+                        validator: formValidators.nonEmptyValidator,
                         autofillHints: [AutofillHints.email],
                         iconData: Icons.alternate_email,
                         textInputAction: TextInputAction.next,

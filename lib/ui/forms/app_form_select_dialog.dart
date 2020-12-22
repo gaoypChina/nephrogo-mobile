@@ -53,12 +53,10 @@ class AppFormSelectDialog<T> extends StatelessWidget {
   AppListTile _generateItemCell(
       BuildContext context, AppSelectFormFieldItem item) {
     final selected = selectedValue != null && item.value == selectedValue;
-    final primaryColor = Theme
-        .of(context)
-        .primaryColor;
+    final primaryColor = Theme.of(context).primaryColor;
 
     final radioIconData =
-    selected ? Icons.radio_button_on : Icons.radio_button_off;
+        selected ? Icons.radio_button_on : Icons.radio_button_off;
 
     return AppListTile(
       title: Text(item.text),

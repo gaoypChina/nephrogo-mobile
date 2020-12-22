@@ -1,4 +1,5 @@
 {
+  "@@locale": "lt",
   "tabNutrition": "Mityba",
   "@tabNutrition": {},
   "tabHealthIndicators": "Rodikliai",
@@ -199,5 +200,39 @@
   "faq_energy_question_1_answer": "Kalorijų kiekį iš maisto pasistenkite gauti tokiomis proporcijomis:\n - 45-65% iš angliavandenių\n - 20-35% iš riebalų\n - 10-35% iš baltymų",
   "@faq_energy_question_1_answer": {
     "context": "faq:energy"
+  },
+  "formValidatorNonEmptyText": "Laukelis yra privalomas.",
+  "@formValidatorNonEmptyText": {
+    "context": "form:validator"
+  },
+  "formValidatorMinLength": "Minimalus ilgis {min} simboliai.",
+  "@formValidatorMinLength": {
+    "context": "form:validator",
+    "placeholders": {
+      "min": {
+        "type": "String",
+        "example": "10"
+      }
+    }
+  },
+  "formValidatorMinValue": "Reikšmė negali būti mažesnė nei {min}.",
+  "@formValidatorMinValue": {
+    "context": "form:validator",
+    "placeholders": {
+      "min": {
+        "type": "String",
+        "example": "10"
+      }
+    }
+  },
+  "formValidatorMaxValue": "Reikšmė negali būti didesnė nei {max}.",
+  "@formValidatorMaxValue": {
+    "context": "form:validator",
+    "placeholders": {
+      "max": {
+        "type": "String",
+        "example": "10"
+      }
+    }
   }
 }
