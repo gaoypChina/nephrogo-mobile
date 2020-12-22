@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:nephrolog/ui/forms/forms.dart';
 import 'package:nephrolog/ui/general/components.dart';
 
-class AppFormSelectDialog<T> extends StatelessWidget {
+class AppFormSingleSelectDialog<T> extends StatelessWidget {
   final List<AppSelectFormFieldItem> items;
   final T selectedValue;
   final String title;
   final String helpText;
 
-  const AppFormSelectDialog({
+  const AppFormSingleSelectDialog({
     Key key,
     @required this.items,
     this.title,

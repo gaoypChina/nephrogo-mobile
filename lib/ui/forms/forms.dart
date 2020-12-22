@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
 
 import 'app_form_multi_select_dialog.dart';
-import 'app_form_select_dialog.dart';
+import 'app_form_single_select_dialog.dart';
 
 typedef FormFieldItemSetter<T> = void Function(T newItem);
 
@@ -270,7 +270,7 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
     final item = await showDialog<AppSelectFormFieldItem<T>>(
         context: context,
         builder: (BuildContext context) {
-          return AppFormSelectDialog<T>(
+          return AppFormSingleSelectDialog<T>(
             items: widget.items,
             selectedValue: selectedItem?.value,
             title: widget.labelText,
