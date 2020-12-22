@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrolog/ui/general/components.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FrequentlyAskedQuestionsScreen extends StatelessWidget {
   @override
@@ -35,43 +36,141 @@ class _FAQItem extends Equatable {
 }
 
 class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
-  final items = [
-    _FAQItemsGroup(
-      "KALIS",
-      [
-        _FAQItem(
-            "Kaip atpažinti kalio perteklių?",
-            "Retėja pulsas, tinsta liežuvis, veidas, lūpos, jaučiamas raumenų "
-                "silpnumas, metalo skonis burnoje, nerimas spazminiai pilvo "
-                "skausmai."),
-        _FAQItem("Kaip atpažinti kalio trūkumą?",
-            "Jaučiamas nuovargis, silpnumas, širdies ritmo sutrikimas."),
-        _FAQItem(
-            "Kaip sumažinti kalio kiekį maiste?",
-            "- Smulkiai supjaustytus produktus virkite dideliame kiekyje (santykis 1:5-10) vandens.\n"
-                "- Prieš gaminant, mirkykite daržoves 2-4 val. vanenyje arba bent gerai perplaukite po tekančiu šiltu vandeniu."),
-      ],
-    ),
-    _FAQItemsGroup(
-      "BALTYMAI",
-      [
-        _FAQItem("Kaip atpažinti baltymų perteklių?",
-            "Pykinimas, apetito netekimas, silpnumas, skonio pokyčiai."),
-        _FAQItem("Kaip atpažinti kalio trūkumą?",
-            "Jaučiamas nuovargis, silpnumas, širdies ritmo sutrikimas."),
-        _FAQItem(
-            "Kaip sumažinti kalio kiekį maiste?",
-            "- Smulkiai supjaustytus produktus virkite dideliame kiekyje (santykis 1:5-10) vandens.\n"
-                "- Prieš gaminant, mirkykite daržoves 2-4 val. vanenyje arba bent gerai perplaukite po tekančiu šiltu vandeniu."),
-      ],
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.only(bottom: 64),
-      children: items.map((g) => _buildSection(context, g)).toList(),
+    final localizations = AppLocalizations.of(context);
+
+    final items = [
+      _FAQItemsGroup(
+        localizations.potassium,
+        [
+          _FAQItem(
+            localizations.faq_potassium_question_1,
+            localizations.faq_potassium_question_1_answer,
+          ),
+          _FAQItem(
+            localizations.faq_potassium_question_2,
+            localizations.faq_potassium_question_2_answer,
+          ),
+          _FAQItem(
+            localizations.faq_potassium_question_3,
+            localizations.faq_potassium_question_3_answer,
+          ),
+          _FAQItem(
+            localizations.faq_potassium_question_4,
+            localizations.faq_potassium_question_4_answer,
+          ),
+        ],
+      ),
+      _FAQItemsGroup(
+        localizations.proteins,
+        [
+          _FAQItem(
+            localizations.faq_proteins_question_1,
+            localizations.faq_proteins_question_1_answer,
+          ),
+          _FAQItem(
+            localizations.faq_proteins_question_2,
+            localizations.faq_proteins_question_2_answer,
+          ),
+          _FAQItem(
+            localizations.faq_proteins_question_3,
+            localizations.faq_proteins_question_3_answer,
+          ),
+          _FAQItem(
+            localizations.faq_proteins_question_4,
+            localizations.faq_proteins_question_4_answer,
+          ),
+        ],
+      ),
+      _FAQItemsGroup(
+        localizations.sodium,
+        [
+          _FAQItem(
+            localizations.faq_sodium_question_1,
+            localizations.faq_sodium_question_1_answer,
+          ),
+          _FAQItem(
+            localizations.faq_sodium_question_2,
+            localizations.faq_sodium_question_2_answer,
+          ),
+          _FAQItem(
+            localizations.faq_sodium_question_3,
+            localizations.faq_sodium_question_3_answer,
+          ),
+          _FAQItem(
+            localizations.faq_sodium_question_4,
+            localizations.faq_sodium_question_4_answer,
+          ),
+        ],
+      ),
+      _FAQItemsGroup(
+        localizations.sodium,
+        [
+          _FAQItem(
+            localizations.faq_sodium_question_1,
+            localizations.faq_sodium_question_1_answer,
+          ),
+          _FAQItem(
+            localizations.faq_sodium_question_2,
+            localizations.faq_sodium_question_2_answer,
+          ),
+          _FAQItem(
+            localizations.faq_sodium_question_3,
+            localizations.faq_sodium_question_3_answer,
+          ),
+          _FAQItem(
+            localizations.faq_sodium_question_4,
+            localizations.faq_sodium_question_4_answer,
+          ),
+        ],
+      ),
+      _FAQItemsGroup(
+        localizations.phosphorus,
+        [
+          _FAQItem(
+            localizations.faq_phosphorus_question_1,
+            localizations.faq_phosphorus_question_1_answer,
+          ),
+          _FAQItem(
+            localizations.faq_phosphorus_question_2,
+            localizations.faq_phosphorus_question_2_answer,
+          ),
+          _FAQItem(
+            localizations.faq_phosphorus_question_3,
+            localizations.faq_phosphorus_question_3_answer,
+          ),
+          _FAQItem(
+            localizations.faq_phosphorus_question_4,
+            localizations.faq_phosphorus_question_4_answer,
+          ),
+        ],
+      ),
+      _FAQItemsGroup(
+        localizations.liquids,
+        [
+          _FAQItem(
+            localizations.faq_liquids_question_1,
+            localizations.faq_liquids_question_1_answer,
+          ),
+        ],
+      ),
+      _FAQItemsGroup(
+        localizations.energy,
+        [
+          _FAQItem(
+            localizations.faq_energy_question_1,
+            localizations.faq_energy_question_1_answer,
+          ),
+        ],
+      ),
+    ];
+
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return _buildSection(context, items[index]);
+      },
     );
   }
 
@@ -79,12 +178,13 @@ class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return SmallSection(
-      title: group.name,
+      title: group.name.toUpperCase(),
       headerPadding: EdgeInsets.zero,
       childrenPadding: EdgeInsets.zero,
       showDividers: false,
       children: group.items.map((item) {
         return ExpansionTile(
+          key: ObjectKey(item),
           title: Text(item.question),
           children: [
             AppListTile(

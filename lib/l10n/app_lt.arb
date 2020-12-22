@@ -37,5 +37,173 @@
   "createMeal": "Pridėti valgį",
   "@createMeal": {},
   "productSearchTitle": "Valgis arba gėrimas",
-  "@productSearchTitle": {}
+  "@productSearchTitle": {},
+  "potassium": "Kalis",
+  "@potassium": {
+    "context": "nutrient"
+  },
+  "proteins": "Baltymai",
+  "@proteins": {
+    "context": "nutrient"
+  },
+  "sodium": "Natris",
+  "@sodium": {
+    "context": "nutrient"
+  },
+  "phosphorus": "Fosforas",
+  "@phosphorus": {
+    "context": "nutrient"
+  },
+  "liquids": "Skysčiai",
+  "@liquids": {
+    "context": "nutrient"
+  },
+  "energy": "Energija",
+  "@energy": {
+    "context": "nutrient"
+  },
+  "faq_potassium_question_1": "Kaip atpažinti kalio perteklių?",
+  "@faq_potassium_question_1": {
+    "context": "faq:potassium"
+  },
+  "faq_potassium_question_1_answer": "Retėja pulsas,  tinsta liežuvis, veidas, lūpos, jaučiamas raumenų silpnumas, metalo skonis burnoje, nerimas, spazminiai pilvo skausmai.",
+  "@faq_potassium_question_1_answer": {
+    "context": "faq:potassium"
+  },
+  "faq_potassium_question_2": "Kaip atpažinti kalio trūkumą?",
+  "@faq_potassium_question_2": {
+    "context": "faq:potassium"
+  },
+  "faq_potassium_question_2_answer": "Jaučiamas nuovargis, silpnumas, širdies ritmo sutrikimas.",
+  "@faq_potassium_question_2_answer": {
+    "context": "faq:potassium"
+  },
+  "faq_potassium_question_3": "Kokiuose maisto produktuose yra daug kalio?",
+  "@faq_potassium_question_3": {
+    "context": "faq:potassium"
+  },
+  "faq_potassium_question_3_answer": "Vaisiai ir uogos (visi džiovinti vaisiai, bananai, kaulavaisiai, braškės, kiviai, avokadai, kriaušės), daržovės (bulvės, pomidorai, burokeliai, cukinijos, morkos, ankštiniai, brokoliai, Briuselio kopūstai, salierai), pieno produktai (jogurtas, ledai, pienas), riešutai, šokoladas, kava, arbata.",
+  "@faq_potassium_question_3_answer": {
+    "context": "faq:potassium"
+  },
+  "faq_potassium_question_4": "Kaip sumažinti kalio kiekį maiste?",
+  "@faq_potassium_question_4": {
+    "context": "faq:potassium"
+  },
+  "faq_potassium_question_4_answer": " - Smulkiai supjaustytus produktus virkite dideliame kiekyje (santykis 1:5-10) vandens.\n - Prieš gaminant, mirkykite daržoves 2-4 val. vanenyje arba bent gerai perplaukite po tekančiu šiltu vandeniu.\n - Ankštines daržoves prieš verdant vandenyje mirkykite 24 val. (vandenį pakeiskite kas 4 val.) \n - Naudokite konservuotas daržoves ir vaisius – jie turi mažiau kalio nei švieži.\n - Naudojant konservuotas ankštines daržoves, prieš gaminant skystį nupilkite ir gerai perplaukite.\n - Negaminkite maisto garuose, geriau virkite.",
+  "@faq_potassium_question_4_answer": {
+    "context": "faq:potassium"
+  },
+  "faq_proteins_question_1": "Kaip atpažinti baltymų perteklių?",
+  "@faq_proteins_question_1": {
+    "context": "faq:proteins"
+  },
+  "faq_proteins_question_1_answer": "Pykinimas, apetito netekimas, silpnumas, skonio pokyčiai.",
+  "@faq_proteins_question_1_answer": {
+    "context": "faq:proteins"
+  },
+  "faq_proteins_question_2": "Kaip atpažinti baltymų trūkumą?",
+  "@faq_proteins_question_2": {
+    "context": "faq:proteins"
+  },
+  "faq_proteins_question_2_answer": "Nuovargis, dėmesio, koncentracijos sutrikimai, dažnėja infekcijos, blogai gyja žaizdos, mažėja svoris.",
+  "@faq_proteins_question_2_answer": {
+    "context": "faq:proteins"
+  },
+  "faq_proteins_question_3": "Kokiuose maisto produktuose yra daug baltymų?",
+  "@faq_proteins_question_3": {
+    "context": "faq:proteins"
+  },
+  "faq_proteins_question_3_answer": "Žuvis, jautiena, veršiena, viščiukai broileriai, įvairūs sūriai, lęšiai, žirniai, pupelės, želatina.",
+  "@faq_proteins_question_3_answer": {
+    "context": "faq:proteins"
+  },
+  "faq_proteins_question_4": "Kaip sumažinti baltymų kiekį mityboje?",
+  "@faq_proteins_question_4": {
+    "context": "faq:proteins"
+  },
+  "faq_proteins_question_4_answer": " - Mėsą valgykite ne dažniau kaip kartą per dieną, porcija – iki 90 g.\n - Vietoj raudonos mėsos rinkitės paukštieną, žuvį, mėsą keiskite varškės, kiaušinių patiekalais\n - Mažinkite suvartojamos mėsos porcijas dalį jos pakeisdami daržovėmis, augalinės kilmės baltymais (pvz. dalį faršo – sojų faršu).\n - Skoniui suintensyvinti naudokite daugiau žolinių prieskonių, naudokite daugiau riebalų (aliejaus, alyvuogių).",
+  "@faq_proteins_question_4_answer": {
+    "context": "faq:proteins"
+  },
+  "faq_sodium_question_1": "Kaip atpažinti natrio perteklių?",
+  "@faq_sodium_question_1": {
+    "context": "faq:sodium"
+  },
+  "faq_sodium_question_1_answer": "Stiprus troškulys, suintensyvėjęs tinimas, padidėjęs kraujo spaudimas, galvos skausmas.",
+  "@faq_sodium_question_1_answer": {
+    "context": "faq:sodium"
+  },
+  "faq_sodium_question_2": "Kaip atpažinti natrio trūkumą?",
+  "@faq_sodium_question_2": {
+    "context": "faq:sodium"
+  },
+  "faq_sodium_question_2_answer": "Silpnumas, pykinimas ir vėmimas, galvos skausmas, raumenų spazmai, padidėjęs dirglumas.",
+  "@faq_sodium_question_2_answer": {
+    "context": "faq:sodium"
+  },
+  "faq_sodium_question_3": "Kokiuose maisto produktuose yra daug natrio?",
+  "@faq_sodium_question_3": {
+    "context": "faq:sodium"
+  },
+  "faq_sodium_question_3_answer": "Paruošti ir perdirbti maisto produktai: dešros, kumpeliai ir kiti mėsos gaminiai, sūriai, sūdyta ar rūkyta žuvis, padažai.",
+  "@faq_sodium_question_3_answer": {
+    "context": "faq:sodium"
+  },
+  "faq_sodium_question_4": "Kaip sumažinti druskos kiekį mityboje?",
+  "@faq_sodium_question_4": {
+    "context": "faq:sodium"
+  },
+  "faq_sodium_question_4_answer": " - Vietoje druskos skoniui pagyvinti naudot prieskonines žoleles ir užpilus, neturinčius druskos: bazilikus, krapus, rozmarinus, kitas žoleles, skaninkite citrinos sultimis, garstyčiomis, obuolių ar vyno actu. \n - Venkite perdirbto maisto, stenkitės kuo daugiau gaminti patys, naudoti natūralius, neperdirbtus produktus: mėsą, žuvį, kruopas, kiaušinius, pupeles ir pan. \n - Prieš valgant gerai nuplaukite konservuotas daržoves.",
+  "@faq_sodium_question_4_answer": {
+    "context": "faq:sodium"
+  },
+  "faq_phosphorus_question_1": "Kaip atpažinti fosforo perteklių?",
+  "@faq_phosphorus_question_1": {
+    "context": "faq:phosphorus"
+  },
+  "faq_phosphorus_question_1_answer": "Stirpus odos ar akių niežulys, raumenų silpnumas ir skausmas, sąnarių skausmas, virškinimo sutrikimai (viduriavimas arba vidurių užkietėjimas). Fosforo perteklius žalingai veikia širdies ir kraujagyslių sistemos ir kaulų būklę, sukelia audinių ir organų kalcifikaciją.",
+  "@faq_phosphorus_question_1_answer": {
+    "context": "faq:phosphorus"
+  },
+  "faq_phosphorus_question_2": "Kaip atpažinti fosforo trūkumą?",
+  "@faq_phosphorus_question_2": {
+    "context": "faq:phosphorus"
+  },
+  "faq_phosphorus_question_2_answer": "Silpnumas, pykinimas, nerimas, sąnarių sustingimo pojūtis, dirglumas.",
+  "@faq_phosphorus_question_2_answer": {
+    "context": "faq:phosphorus"
+  },
+  "faq_phosphorus_question_3": "Kokiuose maisto produktuose yra daug fosforo?",
+  "@faq_phosphorus_question_3": {
+    "context": "faq:phosphorus"
+  },
+  "faq_phosphorus_question_3_answer": "Fosforas randamas tuose pačiuose maisto produktuose, kuriuose yra daug baltymų. \nMaisto priedai, turintys daugiausiai fosforo, yra žymimi šiais kodais: E338-343, E450-458, E540-544. Jei etiketėje esančioje sudėties eilutėje matote žodžius su šaknimi “fosf” (fosfatas, difosfatas, ortofosfato rūgštis ir kt.) venkite šių gaminių arba juos valgykite labai retai.",
+  "@faq_phosphorus_question_3_answer": {
+    "context": "faq:phosphorus"
+  },
+  "faq_phosphorus_question_4": "Kaip sumažinti fosforo kiekį maiste?",
+  "@faq_phosphorus_question_4": {
+    "context": "faq:phosphorus"
+  },
+  "faq_phosphorus_question_4_answer": " - Kuo ilgiau virkite, naudokite greitpuodį, bet ne garų puodą.\n - Venkite kepimo, geriau virkite. Idealus maisto produkto ir vandens santykis 1:10, tai yra, 100 g mėsos virti 1000 ml vandens.\n - Prieš verdant supjaustykite ruošiamą maistą kuo mažesniais gabaliukais.",
+  "@faq_phosphorus_question_4_answer": {
+    "context": "faq:phosphorus"
+  },
+  "faq_liquids_question_1": "Kokį vandenį gerti?",
+  "@faq_liquids_question_1": {
+    "context": "faq:liquids"
+  },
+  "faq_liquids_question_1_answer": "Gerkite nemineralizuotą vandenį, kurio sudėtyje yra sumažintas valgomiosios druskos bei kalio kiekis. Venkite mineralinių vandenų ir sintetinių gėrimų su angliarūgšte.",
+  "@faq_liquids_question_1_answer": {
+    "context": "faq:liquids"
+  },
+  "faq_energy_question_1": "Kokiomis proporcijomis gauti kalorijas iš maisto?",
+  "@faq_energy_question_1": {
+    "context": "faq:energy"
+  },
+  "faq_energy_question_1_answer": "Kalorijų kiekį iš maisto pasistenkite gauti tokiomis proporcijomis:\n - 45-65% iš angliavandenių\n - 20-35% iš riebalų\n - 10-35% iš baltymų",
+  "@faq_energy_question_1_answer": {
+    "context": "faq:energy"
+  }
 }
