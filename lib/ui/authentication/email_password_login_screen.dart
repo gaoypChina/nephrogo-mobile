@@ -135,7 +135,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
 
       try {
         userCredential =
-        await _authProvider.signInWithEmailAndPassword(email, password);
+            await _authProvider.signInWithEmailAndPassword(email, password);
       } on UserNotFoundException catch (_) {
         await showAppDialog(
           context: context,
