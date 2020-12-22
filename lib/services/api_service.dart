@@ -1,8 +1,6 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:async/async.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_brotli_transformer/dio_brotli_transformer.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
@@ -42,11 +40,11 @@ class ApiService {
       receiveTimeout: 3000,
       headers: {
         "time-zone-name": timeZoneName,
-        'accept-encoding': 'gzip',
+        'accept-encoding': 'br',
       },
     ));
 
-    dio.transformer = _DioGzipTransformer();
+    dio.transformer = DioBrotliTransformer();
     dio.httpClientAdapter = Http2Adapter(
         ConnectionManager(idleTimeout: _connectionIdleTimeout.inMilliseconds));
 
@@ -179,39 +177,6 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
       }
     }
     return err;
-  }
-}
-
-class _DioGzipTransformer extends Transformer {
-  Transformer transformer;
-
-  _DioGzipTransformer({Transformer transformer})
-      : this.transformer = transformer ?? DefaultTransformer();
-
-  @override
-  Future<String> transformRequest(RequestOptions options) {
-    return transformer.transformRequest(options);
-  }
-
-  @override
-  Future transformResponse(
-      RequestOptions options, ResponseBody response) async {
-    final contentEncodingHeaders =
-        response.headers[HttpHeaders.contentEncodingHeader] ?? [];
-
-    final gzipHeader = contentEncodingHeaders.firstWhere(
-      (h) => h.toLowerCase() == 'gzip',
-      orElse: () => null,
-    );
-
-    if (gzipHeader != null) {
-      response.stream = response.stream
-          .cast<List<int>>()
-          .transform(gzip.decoder)
-          .map((b) => Uint8List.fromList(b));
-    }
-
-    return transformer.transformResponse(options, response);
   }
 }
 
