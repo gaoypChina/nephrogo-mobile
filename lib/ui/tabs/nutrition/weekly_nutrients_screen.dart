@@ -12,6 +12,7 @@ import 'package:nephrolog/ui/general/weekly_pager.dart';
 import 'package:nephrolog_api_client/model/daily_intake.dart';
 import 'package:nephrolog_api_client/model/daily_intakes_screen.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 
 class WeeklyNutrientsScreenArguments {
   final Nutrient nutrient;
@@ -67,7 +68,7 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
         title: Text(_getTitle()),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: _showIndicatorSelectionPopupMenu,
+        onPressed: () => _showIndicatorSelectionPopupMenu(context),
         label: Text("MEDŽIAGA"),
         icon: Icon(Icons.swap_horizontal_circle),
       ),
@@ -117,10 +118,12 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
     });
   }
 
-  Future _showIndicatorSelectionPopupMenu() async {
+  Future _showIndicatorSelectionPopupMenu(BuildContext context) async {
+    final appLocalizations = AppLocalizations.of(context);
+
     final options = Nutrient.values.map((t) {
       return SimpleDialogOption(
-        child: Text(t.name),
+        child: Text(t.name(appLocalizations)),
         onPressed: () => Navigator.pop(context, t),
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
       );

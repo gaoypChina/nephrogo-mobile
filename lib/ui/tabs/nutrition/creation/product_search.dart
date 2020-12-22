@@ -8,7 +8,7 @@ import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/tabs/nutrition/creation/meal_creation_screen.dart';
 import 'package:nephrolog_api_client/model/product.dart';
 import 'package:nephrolog_api_client/model/products_response.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 
 enum ProductSearchType {
   choose,

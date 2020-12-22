@@ -12,7 +12,7 @@ import 'package:nephrolog/ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog_api_client/model/daily_intake.dart';
 import 'package:nephrolog_api_client/model/daily_intakes_screen.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
@@ -95,6 +95,7 @@ class NutritionTabBody extends StatelessWidget {
     List<DailyIntake> dailyIntakes,
     Nutrient nutrient,
   ) {
+    final localizations = AppLocalizations.of(context);
     final newestDailyIntake = dailyIntakes.maxBy((e) => e.date);
 
     final dailyNormFormatted =
@@ -103,9 +104,9 @@ class NutritionTabBody extends StatelessWidget {
         newestDailyIntake.getNutrientTotalAmountFormatted(nutrient);
 
     return LargeSection(
-      title: nutrient.name,
-      subTitle: AppLocalizations.of(context)
-          .todayConsumptionWithNorm(todayConsumption, dailyNormFormatted),
+      title: nutrient.name(localizations),
+      subTitle: localizations.todayConsumptionWithNorm(
+          todayConsumption, dailyNormFormatted),
       children: [
         NutrientBarChart(
           dailyIntakes: dailyIntakes,
@@ -113,7 +114,7 @@ class NutritionTabBody extends StatelessWidget {
         ),
       ],
       leading: OutlineButton(
-        child: Text(AppLocalizations.of(context).more.toUpperCase()),
+        child: Text(localizations.more.toUpperCase()),
         onPressed: () => openIntakesScreen(context, nutrient),
       ),
     );
@@ -202,15 +203,14 @@ class IntakeTile extends StatelessWidget {
     final product = intake.product;
 
     return ListTile(
+      key: ObjectKey(intake),
       title: Text(product.name),
       contentPadding: EdgeInsets.zero,
       subtitle: Text(
         dateFormat.format(intake.dateTime).capitalizeFirst(),
       ),
       leading: ProductKindIcon(productKind: product.kind),
-      trailing: Text(
-        AppLocalizations.of(context).intakeAmountInGrams(intake.amountG),
-      ),
+      trailing: Text(intake.getAmountFormatted()),
     );
   }
 }

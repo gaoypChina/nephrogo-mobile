@@ -11,14 +11,6 @@
   "@dailyNormsSectionTitle": {},
   "dailyNormsSectionSubtitle": "Šios dienos medžiagų kiekiai",
   "@dailyNormsSectionSubtitle": {},
-  "intakeAmountInGrams": "{amount} g",
-  "@intakeAmountInGrams": {
-    "placeholders": {
-      "amount": {
-        "example": "120"
-      }
-    }
-  },
   "todayConsumptionWithNorm": "Šiandien: {amount} iš {norm}",
   "@todayConsumptionWithNorm": {
     "placeholders": {

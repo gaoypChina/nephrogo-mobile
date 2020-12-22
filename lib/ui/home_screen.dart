@@ -4,7 +4,7 @@ import 'general/app_logo.dart';
 import 'tabs/health_indicators/health_indicators_tab.dart';
 import 'tabs/profile/profile_tab.dart';
 import 'tabs/nutrition/nutrition_tab.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

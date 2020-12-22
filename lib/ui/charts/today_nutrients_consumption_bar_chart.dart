@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/models/graph.dart';
 import 'package:nephrolog/extensions/collection_extensions.dart';
@@ -19,6 +20,8 @@ class TodayNutrientsConsumptionBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _appLocalizations = AppLocalizations.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -29,6 +32,7 @@ class TodayNutrientsConsumptionBarChart extends StatelessWidget {
               height: 100,
               constraints: BoxConstraints(maxWidth: 250),
               child: _buildGraph(
+                _appLocalizations,
                 [
                   Nutrient.potassium,
                   Nutrient.proteins,
@@ -43,6 +47,7 @@ class TodayNutrientsConsumptionBarChart extends StatelessWidget {
               height: 100,
               constraints: BoxConstraints(maxWidth: 250),
               child: _buildGraph(
+                _appLocalizations,
                 [
                   Nutrient.phosphorus,
                   Nutrient.energy,
@@ -56,16 +61,17 @@ class TodayNutrientsConsumptionBarChart extends StatelessWidget {
     );
   }
 
-  Widget _buildGraph(List<Nutrient> types) {
+  Widget _buildGraph(AppLocalizations appLocalizations, List<Nutrient> types) {
     return AppBarChart(
       data: AppBarChartData(
         fitInsideHorizontally: false,
-        groups: _buildChartGroups(types),
+        groups: _buildChartGroups(appLocalizations, types),
       ),
     );
   }
 
-  List<AppBarChartGroup> _buildChartGroups(List<Nutrient> types) {
+  List<AppBarChartGroup> _buildChartGroups(
+      AppLocalizations appLocalizations, List<Nutrient> types) {
     return types.mapIndexed((i, type) {
       final dailyNorm = dailyIntake.userIntakeNorms.getNutrientAmount(type);
 
@@ -85,7 +91,7 @@ class TodayNutrientsConsumptionBarChart extends StatelessWidget {
       );
 
       return AppBarChartGroup(
-        text: type.name,
+        text: type.name(appLocalizations),
         x: i,
         rods: [entry],
       );

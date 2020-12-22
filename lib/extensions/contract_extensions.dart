@@ -5,6 +5,7 @@ import 'package:nephrolog_api_client/model/daily_intake.dart';
 import 'package:nephrolog_api_client/model/daily_intake_norm.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
 import 'collection_extensions.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 
 String _formatAmount(int amount, String baseDim, String kDim) {
   if (kDim != null && amount > 1000) {
@@ -156,20 +157,20 @@ extension DailyIntakeNormsExtensions on DailyIntakeNorm {
 }
 
 extension NutrientExtensions on Nutrient {
-  String get name {
+  String name(AppLocalizations appLocalizations) {
     switch (this) {
       case Nutrient.energy:
-        return "Energija";
+        return appLocalizations.energy;
       case Nutrient.liquids:
-        return "Skysčiai";
+        return appLocalizations.liquids;
       case Nutrient.proteins:
-        return "Baltymai";
+        return appLocalizations.proteins;
       case Nutrient.sodium:
-        return "Natris";
+        return appLocalizations.sodium;
       case Nutrient.potassium:
-        return "Kalis";
+        return appLocalizations.potassium;
       case Nutrient.phosphorus:
-        return "Fosforas";
+        return appLocalizations.phosphorus;
       default:
         throw ArgumentError.value(
             this, "nutrient", "Unable to map nutrient to name");
