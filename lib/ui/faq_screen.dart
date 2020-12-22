@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/l10n/localizations.dart';
+import 'package:nephrolog/ui/general/components.dart';
 
 class FrequentlyAskedQuestionsScreen extends StatelessWidget {
   @override
@@ -45,20 +45,20 @@ class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
         localizations.potassium,
         [
           _FAQItem(
-            localizations.faq_potassium_question_1,
-            localizations.faq_potassium_question_1_answer,
+            localizations.faqPotassiumQuestion1,
+            localizations.faqPotassiumQuestion1Answer,
           ),
           _FAQItem(
-            localizations.faq_potassium_question_2,
-            localizations.faq_potassium_question_2_answer,
+            localizations.faqPotassiumQuestion2,
+            localizations.faqPotassiumQuestion2Answer,
           ),
           _FAQItem(
-            localizations.faq_potassium_question_3,
-            localizations.faq_potassium_question_3_answer,
+            localizations.faqPotassiumQuestion3,
+            localizations.faqPotassiumQuestion3Answer,
           ),
           _FAQItem(
-            localizations.faq_potassium_question_4,
-            localizations.faq_potassium_question_4_answer,
+            localizations.faqPotassiumQuestion4,
+            localizations.faqPotassiumQuestion4Answer,
           ),
         ],
       ),
@@ -66,41 +66,20 @@ class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
         localizations.proteins,
         [
           _FAQItem(
-            localizations.faq_proteins_question_1,
-            localizations.faq_proteins_question_1_answer,
+            localizations.faqProteinsQuestion1,
+            localizations.faqProteinsQuestion1Answer,
           ),
           _FAQItem(
-            localizations.faq_proteins_question_2,
-            localizations.faq_proteins_question_2_answer,
+            localizations.faqProteinsQuestion2,
+            localizations.faqProteinsQuestion2Answer,
           ),
           _FAQItem(
-            localizations.faq_proteins_question_3,
-            localizations.faq_proteins_question_3_answer,
+            localizations.faqProteinsQuestion3,
+            localizations.faqProteinsQuestion3Answer,
           ),
           _FAQItem(
-            localizations.faq_proteins_question_4,
-            localizations.faq_proteins_question_4_answer,
-          ),
-        ],
-      ),
-      _FAQItemsGroup(
-        localizations.sodium,
-        [
-          _FAQItem(
-            localizations.faq_sodium_question_1,
-            localizations.faq_sodium_question_1_answer,
-          ),
-          _FAQItem(
-            localizations.faq_sodium_question_2,
-            localizations.faq_sodium_question_2_answer,
-          ),
-          _FAQItem(
-            localizations.faq_sodium_question_3,
-            localizations.faq_sodium_question_3_answer,
-          ),
-          _FAQItem(
-            localizations.faq_sodium_question_4,
-            localizations.faq_sodium_question_4_answer,
+            localizations.faqProteinsQuestion4,
+            localizations.faqProteinsQuestion4Answer,
           ),
         ],
       ),
@@ -108,20 +87,41 @@ class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
         localizations.sodium,
         [
           _FAQItem(
-            localizations.faq_sodium_question_1,
-            localizations.faq_sodium_question_1_answer,
+            localizations.faqSodiumQuestion1,
+            localizations.faqSodiumQuestion1Answer,
           ),
           _FAQItem(
-            localizations.faq_sodium_question_2,
-            localizations.faq_sodium_question_2_answer,
+            localizations.faqSodiumQuestion2,
+            localizations.faqSodiumQuestion2Answer,
           ),
           _FAQItem(
-            localizations.faq_sodium_question_3,
-            localizations.faq_sodium_question_3_answer,
+            localizations.faqSodiumQuestion3,
+            localizations.faqSodiumQuestion3Answer,
           ),
           _FAQItem(
-            localizations.faq_sodium_question_4,
-            localizations.faq_sodium_question_4_answer,
+            localizations.faqSodiumQuestion4,
+            localizations.faqSodiumQuestion4Answer,
+          ),
+        ],
+      ),
+      _FAQItemsGroup(
+        localizations.sodium,
+        [
+          _FAQItem(
+            localizations.faqSodiumQuestion1,
+            localizations.faqSodiumQuestion1Answer,
+          ),
+          _FAQItem(
+            localizations.faqSodiumQuestion2,
+            localizations.faqSodiumQuestion2Answer,
+          ),
+          _FAQItem(
+            localizations.faqSodiumQuestion3,
+            localizations.faqSodiumQuestion3Answer,
+          ),
+          _FAQItem(
+            localizations.faqSodiumQuestion4,
+            localizations.faqSodiumQuestion4Answer,
           ),
         ],
       ),
@@ -129,20 +129,20 @@ class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
         localizations.phosphorus,
         [
           _FAQItem(
-            localizations.faq_phosphorus_question_1,
-            localizations.faq_phosphorus_question_1_answer,
+            localizations.faqPhosphorusQuestion1,
+            localizations.faqPhosphorusQuestion1Answer,
           ),
           _FAQItem(
-            localizations.faq_phosphorus_question_2,
-            localizations.faq_phosphorus_question_2_answer,
+            localizations.faqPhosphorusQuestion2,
+            localizations.faqPhosphorusQuestion2Answer,
           ),
           _FAQItem(
-            localizations.faq_phosphorus_question_3,
-            localizations.faq_phosphorus_question_3_answer,
+            localizations.faqPhosphorusQuestion3,
+            localizations.faqPhosphorusQuestion3Answer,
           ),
           _FAQItem(
-            localizations.faq_phosphorus_question_4,
-            localizations.faq_phosphorus_question_4_answer,
+            localizations.faqPhosphorusQuestion4,
+            localizations.faqPhosphorusQuestion4Answer,
           ),
         ],
       ),
@@ -150,8 +150,8 @@ class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
         localizations.liquids,
         [
           _FAQItem(
-            localizations.faq_liquids_question_1,
-            localizations.faq_liquids_question_1_answer,
+            localizations.faqLiquidsQuestion1,
+            localizations.faqLiquidsQuestion1Answer,
           ),
         ],
       ),
@@ -159,8 +159,8 @@ class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
         localizations.energy,
         [
           _FAQItem(
-            localizations.faq_energy_question_1,
-            localizations.faq_energy_question_1_answer,
+            localizations.faqEnergyQuestion1,
+            localizations.faqEnergyQuestion1Answer,
           ),
         ],
       ),

@@ -191,7 +191,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                       ),
                       AppSelectFormField<String>(
                         labelText:
-                        "Ar jums pasireiškė cukrinio diabeto komplikacijos?",
+                            "Ar jums pasireiškė cukrinio diabeto komplikacijos?",
                         onChanged: (value) {},
                         validator: isDiabetic ? formValidators.nonNull() : null,
                         items: [

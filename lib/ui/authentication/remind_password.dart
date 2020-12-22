@@ -40,7 +40,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Text(
                   "Įveskite savo elektroninio pašto adresą ir atsiūsime "
-                      "Jums laišką su instrukcijomis, kaip pakeisti slaptažodį.",
+                  "Jums laišką su instrukcijomis, kaip pakeisti slaptažodį.",
                   textAlign: TextAlign.justify,
                 ),
               ),

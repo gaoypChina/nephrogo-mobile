@@ -99,7 +99,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
 
       try {
         userCredential =
-        await _authProvider.createUserWithEmailAndPassword(email, password);
+            await _authProvider.createUserWithEmailAndPassword(email, password);
       } on EmailAlreadyInUseException catch (_) {
         showAppDialog(
           context: context,

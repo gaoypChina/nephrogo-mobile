@@ -63,7 +63,7 @@ class EmailPasswordLoginScreen extends StatelessWidget {
 
   Future _openRegistration(BuildContext context) async {
     UserCredential userCredential =
-    await Navigator.of(context).pushNamed(Routes.ROUTE_REGISTRATION);
+        await Navigator.of(context).pushNamed(Routes.ROUTE_REGISTRATION);
 
     if (userCredential != null) {
       Navigator.of(context).pop(userCredential);
