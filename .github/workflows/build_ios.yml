@@ -40,7 +40,6 @@ jobs:
           bundle-install-path: 'vendor/bundle'
         env:
           MATCH_PASSWORD: ${{ secrets.IOS_MATCH_PASSWORD }}
-          FASTLANE_PASSWORD: ${{ secrets.IOS_FASTLANE_PASSWORD }}
           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.IOS_FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.IOS_MATCH_GIT_BASIC_AUTHORIZATION_BASE_64 }}
