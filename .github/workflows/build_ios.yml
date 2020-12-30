@@ -4,7 +4,7 @@ on: [push, pull_request]
 jobs:
   build_ios:
     name: Build iOS Nephrolog
-    runs-on: macos-11.0
+    runs-on: macos-10.15
 
     steps:
       - uses: actions/checkout@master
