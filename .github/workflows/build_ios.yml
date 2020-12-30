@@ -7,6 +7,10 @@ jobs:
     runs-on: macos-11.0
 
     steps:
+      - uses: fusion-engineering/setup-git-credentials@v2
+        with:
+          credentials: ${{ secrets.OWNER_GIT_CREDENTIALS }}
+
       - uses: actions/checkout@master
         with:
           fetch-depth: 0
@@ -28,3 +32,16 @@ jobs:
       - run: flutter test
 
       - run: flutter build ios --release --no-codesign --build-number ${{ env.BUILD_NUMBER }}
+
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '>= 2.6'
+
+      - uses: maierj/fastlane-action@v2.0.0
+        with:
+          lane: 'beta'
+          subdirectory: 'ios'
+          bundle-install-path: 'vendor/bundle'
+        env:
+          git_url: ${{ secrets.IOS_CERTIFICATES_GIT_REPO }}
+          MATCH_PASSWORD: ${{ secrets.IOS_MATCH_PASSWORD }}
