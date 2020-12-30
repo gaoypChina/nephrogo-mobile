@@ -14,21 +14,6 @@ jobs:
       - name: Set build number
         run: echo "BUILD_NUMBER=$(git rev-list --count HEAD)" >> $GITHUB_ENV
 
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: 'stable'
-
-      - run: dart --version
-      - run: flutter --version
-
-      - run: flutter pub get
-
-      - run: flutter analyze || true
-
-      - run: flutter test
-
-      - run: flutter build ios --release --no-codesign --build-number ${{ env.BUILD_NUMBER }}
-
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: '>= 2.6'
@@ -43,3 +28,18 @@ jobs:
           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.IOS_FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.IOS_MATCH_GIT_BASIC_AUTHORIZATION_BASE_64 }}
+
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+
+      - run: dart --version
+      - run: flutter --version
+
+      - run: flutter pub get
+
+      - run: flutter analyze || true
+
+      - run: flutter test
+
+      - run: flutter build ios --release --build-number ${{ env.BUILD_NUMBER }}
