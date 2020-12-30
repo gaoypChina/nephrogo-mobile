@@ -28,9 +28,3 @@ jobs:
       - run: flutter test
 
       - run: flutter build ios --release --no-codesign --build-number ${{ env.BUILD_NUMBER }}
-
-      - uses: actions/upload-artifact@v2
-        name: Upload Runner.app
-        with:
-          name: Runner.app
-          path: build/ios/iphoneos/Runner.app
