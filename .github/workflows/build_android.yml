@@ -1,9 +1,9 @@
-name: Build Nephrolog Mobile Application
+name: Android NephroLog
 on: [push, pull_request]
 
 jobs:
   build_android:
-    name: Build Nephrolog Android version
+    name: Build iOS Nephrolog
     runs-on: ubuntu-20.04
 
     steps:
