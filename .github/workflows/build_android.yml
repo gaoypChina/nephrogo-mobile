@@ -1,9 +1,9 @@
-name: Android NephroLog
+name: NephroLog Android CI
 on: [push, pull_request]
 
 jobs:
   build_android:
-    name: Build iOS Nephrolog
+    name: Build Android Nephrolog
     runs-on: ubuntu-20.04
 
     steps:
