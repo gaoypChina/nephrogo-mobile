@@ -18,17 +18,6 @@ jobs:
         with:
           ruby-version: '>= 2.6'
 
-      - uses: maierj/fastlane-action@v2.0.0
-        with:
-          lane: 'prep'
-          subdirectory: 'ios'
-          bundle-install-path: 'vendor/bundle'
-        env:
-          MATCH_PASSWORD: ${{ secrets.IOS_MATCH_PASSWORD }}
-          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.IOS_FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.IOS_MATCH_GIT_BASIC_AUTHORIZATION_BASE_64 }}
-
       - uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
@@ -42,4 +31,15 @@ jobs:
 
       - run: flutter test
 
-      - run: flutter build ios --release --build-number ${{ env.BUILD_NUMBER }}
+      - run: flutter build ios --release --no-codesign --build-number ${{ env.BUILD_NUMBER }}
+
+      - uses: maierj/fastlane-action@v2.0.0
+        with:
+          lane: 'beta'
+          subdirectory: 'ios'
+          bundle-install-path: 'vendor/bundle'
+        env:
+          MATCH_PASSWORD: ${{ secrets.IOS_MATCH_PASSWORD }}
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.IOS_FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.IOS_MATCH_GIT_BASIC_AUTHORIZATION_BASE_64 }}
