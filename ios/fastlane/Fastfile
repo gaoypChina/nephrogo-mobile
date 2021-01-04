@@ -20,6 +20,7 @@ platform :ios do
   lane :beta do
     # get_certificates           # invokes cert
     # get_provisioning_profile   # invokes sigh
+    setup_ci(provider: "travis")
     sync_code_signing(type: "appstore", app_identifier: "lt.nephrolog", git_url: "https://github.com/vycius/apple-ios-certficates.git", readonly: true)
     disable_automatic_code_signing
     build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
