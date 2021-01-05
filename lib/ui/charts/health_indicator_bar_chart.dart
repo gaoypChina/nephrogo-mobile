@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nephrolog/extensions/collection_extensions.dart';
+import 'package:nephrolog/extensions/contract_extensions.dart';
+import 'package:nephrolog/extensions/date_extensions.dart';
+import 'package:nephrolog/extensions/string_extensions.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/models/graph.dart';
-import 'package:nephrolog/extensions/date_extensions.dart';
-import 'package:nephrolog/extensions/contract_extensions.dart';
-import 'package:nephrolog/extensions/collection_extensions.dart';
-import 'package:nephrolog/extensions/string_extensions.dart';
 import 'package:nephrolog_api_client/model/user_health_status_report.dart';
+
 import 'bar_chart.dart';
 
 class HealthIndicatorBarChart extends StatelessWidget {
@@ -44,10 +45,10 @@ class HealthIndicatorBarChart extends StatelessWidget {
 
     final groups = dailyHealthStatusesSorted.mapIndexed((i, report) {
       final dhs = report.status;
-      final y = dhs.getHealthIndicatorValue(indicator);
+      final dateFormatted = _dateFormatter.format(report.date);
 
-      final dateFormatted = _dateFormatter.format(dhs.date);
-      final dailyTotalFormatted = dhs.getHealthIndicatorFormatted(indicator);
+      final y = dhs?.getHealthIndicatorValue(indicator);
+      final dailyTotalFormatted = dhs?.getHealthIndicatorFormatted(indicator);
 
       List<AppBarChartRodStackItem> rodStackItems;
       if (y != null && indicator == HealthIndicator.bloodPressure) {
@@ -67,9 +68,9 @@ class HealthIndicatorBarChart extends StatelessWidget {
       );
 
       return AppBarChartGroup(
-        text: _dayFormatter.format(dhs.date).capitalizeFirst(),
+        text: _dayFormatter.format(report.date).capitalizeFirst(),
         x: i,
-        isSelected: dhs.date.startOfDay().compareTo(startOfToday) == 0,
+        isSelected: report.date.startOfDay().compareTo(startOfToday) == 0,
         rods: [rod],
       );
     }).toList();

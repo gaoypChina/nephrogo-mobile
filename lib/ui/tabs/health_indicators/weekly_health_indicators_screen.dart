@@ -1,15 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:nephrolog/extensions/collection_extensions.dart';
+import 'package:nephrolog/extensions/contract_extensions.dart';
+import 'package:nephrolog/extensions/string_extensions.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/charts/health_indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
-import 'package:nephrolog/ui/general/weekly_pager.dart';
-import 'package:nephrolog/extensions/contract_extensions.dart';
-import 'package:nephrolog/extensions/collection_extensions.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:nephrolog/ui/general/components.dart';
-import 'package:nephrolog/extensions/string_extensions.dart';
+import 'package:nephrolog/ui/general/weekly_pager.dart';
 import 'package:nephrolog_api_client/model/daily_health_status.dart';
 import 'package:nephrolog_api_client/model/user_health_status_report.dart';
 
@@ -30,8 +30,7 @@ class WeeklyHealthIndicatorsScreen extends StatefulWidget {
       _WeeklyHealthIndicatorsScreenState();
 }
 
-class _WeeklyHealthIndicatorsScreenState
-    extends State<WeeklyHealthIndicatorsScreen> {
+class _WeeklyHealthIndicatorsScreenState extends State<WeeklyHealthIndicatorsScreen> {
   ValueNotifier<HealthIndicator> healthIndicatorChangeNotifier;
   HealthIndicator selectedHealthIndicator;
 
@@ -137,12 +136,12 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
   List<Widget> _buildIndicatorTiles() {
     return userHealthStatusReport.dailyHealthStatuses
         .where((dhs) =>
-            dhs.status.getHealthIndicatorValue(healthIndicator) != null)
+            dhs.status?.getHealthIndicatorValue(healthIndicator) != null)
         .sortedBy((e) => e.date, reverse: true)
         .map((dhs) => DailyHealthStatusIndicatorTile(
-              dailyHealthStatus: dhs.status,
-              indicator: healthIndicator,
-            ))
+      dailyHealthStatus: dhs.status,
+      indicator: healthIndicator,
+    ))
         .toList();
   }
 }
@@ -162,7 +161,7 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dateTitle =
-        _dateFormat.format(dailyHealthStatus.date).capitalizeFirst();
+    _dateFormat.format(dailyHealthStatus.date).capitalizeFirst();
 
     return AppListTile(
       title: Text(dateTitle),

@@ -10,6 +10,8 @@
   "@more": {},
   "save": "Išsaugoti",
   "@save": {},
+  "noInfo": "Nėra informacijos",
+  "@noInfo": {},
   "noMealsBanner": "Nėra pridėta jokių valgių ar gėrimų.",
   "@noMealsBanner": {},
   "noMealsBannerCreateAction": "Pridėti naują valgį arba gėrimą",
@@ -295,8 +297,22 @@
       }
     }
   },
+  "healthIndicatorSubtitle": "Šiandien: {value}.",
+  "@healthIndicatorSubtitle": {
+    "context": "healthIndicators",
+    "placeholders": {
+      "value": {
+        "type": "String",
+        "example": "10 kcal"
+      }
+    }
+  },
   "weeklyNutrientsNoMeal": "Pasirinktame laikotarpyje nėra įvesta nė vieno valgio ar gėrimo!",
   "@weeklyNutrientsNoMeal": {
+    "context": "weeklyNutrients"
+  },
+  "weeklyNutrientsCreateHealthIndicators": "Pridėti rodiklius",
+  "@weeklyNutrientsCreateHealthIndicators": {
     "context": "weeklyNutrients"
   },
   "mealCreationTitle": "Valgio ar gėrimo sukūrimas",

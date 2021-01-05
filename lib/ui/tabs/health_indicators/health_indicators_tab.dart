@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:nephrolog/extensions/collection_extensions.dart';
+import 'package:nephrolog/extensions/contract_extensions.dart';
+import 'package:nephrolog/extensions/date_extensions.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/charts/health_indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
-import 'package:nephrolog/extensions/date_extensions.dart';
-import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
-import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog_api_client/model/user_health_status_report.dart';
 
 class HealthIndicatorsTab extends StatelessWidget {
@@ -22,7 +23,11 @@ class HealthIndicatorsTab extends StatelessWidget {
           context,
           Routes.ROUTE_HEALTH_INDICATORS_CREATION,
         ),
-        label: Text("PRIDĖTI RODIKLIUS"),
+        label: Text(
+          AppLocalizations.of(context)
+              .weeklyNutrientsCreateHealthIndicators
+              .toUpperCase(),
+        ),
         icon: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -71,23 +76,30 @@ class HealthIndicatorsTabBody extends StatelessWidget {
     UserHealthStatusReport userHealthStatusReport,
     HealthIndicator indicator,
   ) {
+    final appLocalizations = AppLocalizations.of(context);
     final latestHealthStatus =
         userHealthStatusReport.dailyHealthStatuses.maxBy((e) => e.date);
     final todayConsumption =
-        latestHealthStatus.status.getHealthIndicatorFormatted(indicator) ??
-            "nėra informacijos";
+        latestHealthStatus?.status?.getHealthIndicatorFormatted(indicator) ??
+            appLocalizations.noInfo.toLowerCase();
+
+    final hasReports = userHealthStatusReport.dailyHealthStatuses
+        .map((s) => s.status?.isIndicatorExists(indicator) ?? false)
+        .where((e) => e)
+        .isNotEmpty;
 
     return LargeSection(
       title: indicator.name,
-      subTitle: "Šiandien: $todayConsumption",
+      subTitle: appLocalizations.healthIndicatorSubtitle(todayConsumption),
       children: [
-        HealthIndicatorBarChart(
-          userHealthStatusReport: userHealthStatusReport,
-          indicator: indicator,
-        ),
+        if (hasReports)
+          HealthIndicatorBarChart(
+            userHealthStatusReport: userHealthStatusReport,
+            indicator: indicator,
+          ),
       ],
       leading: OutlineButton(
-        child: Text("DAUGIAU"),
+        child: Text(appLocalizations.more.toUpperCase()),
         onPressed: () => openWeeklyHealthIndicatorScreen(context, indicator),
       ),
     );
