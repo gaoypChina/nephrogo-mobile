@@ -30,7 +30,8 @@ class WeeklyHealthIndicatorsScreen extends StatefulWidget {
       _WeeklyHealthIndicatorsScreenState();
 }
 
-class _WeeklyHealthIndicatorsScreenState extends State<WeeklyHealthIndicatorsScreen> {
+class _WeeklyHealthIndicatorsScreenState
+    extends State<WeeklyHealthIndicatorsScreen> {
   ValueNotifier<HealthIndicator> healthIndicatorChangeNotifier;
   HealthIndicator selectedHealthIndicator;
 
@@ -139,9 +140,9 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
             dhs.status?.getHealthIndicatorValue(healthIndicator) != null)
         .sortedBy((e) => e.date, reverse: true)
         .map((dhs) => DailyHealthStatusIndicatorTile(
-      dailyHealthStatus: dhs.status,
-      indicator: healthIndicator,
-    ))
+              dailyHealthStatus: dhs.status,
+              indicator: healthIndicator,
+            ))
         .toList();
   }
 }
@@ -161,7 +162,7 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dateTitle =
-    _dateFormat.format(dailyHealthStatus.date).capitalizeFirst();
+        _dateFormat.format(dailyHealthStatus.date).capitalizeFirst();
 
     return AppListTile(
       title: Text(dateTitle),

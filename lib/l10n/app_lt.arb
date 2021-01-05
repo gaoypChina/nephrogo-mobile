@@ -375,7 +375,7 @@
   "@height": {
     "context": "userConditions"
   },
-  "weight": "Svoris",
+  "weight": "Kūno svoris",
   "@weight": {
     "context": "userConditions"
   },
@@ -486,5 +486,193 @@
   "ageSuffix": "m.",
   "@ageSuffix": {
     "context": "userConditions"
+  },
+  "healthStatusCreationTodayTitle": "Šiandienos sveikatos rodikliai",
+  "@healthStatusCreationTodayTitle": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationBloodPressure": "Kraujo spaudimas",
+  "@healthStatusCreationBloodPressure": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationBloodPressureHelper": "Jei vartojate kraujo spaudimą reguliuojančius vaistus, kraujo spaudimą matuokite tik po vaistų suvartojimo!",
+  "@healthStatusCreationBloodPressureHelper": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSystolic": "Sistolinis",
+  "@healthStatusCreationSystolic": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationDiastolic": "Diastolinis",
+  "@healthStatusCreationDiastolic": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSectionGeneralInfo": "Bendra informacija",
+  "@healthStatusCreationSectionGeneralInfo": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationUrine": "Šlapimo kiekis",
+  "@healthStatusCreationUrine": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationGlucose": "Gliukozės koncentracija kraujyje",
+  "@healthStatusCreationGlucose": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellings": "Patinimai",
+  "@healthStatusCreationSwellings": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficulty": "Patinimų sunkumas",
+  "@healthStatusCreationSwellingDifficulty": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficultyHelper": "Patinimą tikrinkite švelniai pirštais paspausdami odą blauzdos priekyje ant kaulo.",
+  "@healthStatusCreationSwellingDifficultyHelper": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficulty0": "Nesusidaro duobutė",
+  "@healthStatusCreationSwellingDifficulty0": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficulty1": "Susidaro negili apie 2 mm duobutė, kuri atkėlus pirštus tuoj pat išnyksta.",
+  "@healthStatusCreationSwellingDifficulty1": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficulty2": "Susidaro apie 4 mm duobutė, kuri išnyksta po 10-15 sekundžių.",
+  "@healthStatusCreationSwellingDifficulty2": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficulty3": "Susidaro apie 6 mm duobutė, kuri išnyksta po 1 minutės.",
+  "@healthStatusCreationSwellingDifficulty3": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficulty4": "Susidaro apie 8 mm duobutė, kuri išnyksta po 2 minučių.",
+  "@healthStatusCreationSwellingDifficulty4": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalization": "Patinimų lokalizacija",
+  "@healthStatusCreationSwellingsLocalization": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationEyes": "Paakiai",
+  "@healthStatusCreationSwellingsLocalizationEyes": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationWholeFace": "Visas veidas",
+  "@healthStatusCreationSwellingsLocalizationWholeFace": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationHandBreadth": "Plaštakos",
+  "@healthStatusCreationSwellingsLocalizationHandBreadth": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationHands": "Visos rankos",
+  "@healthStatusCreationSwellingsLocalizationHands": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationBelly": "Pilvas",
+  "@healthStatusCreationSwellingsLocalizationBelly": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationKnees": "Keliai",
+  "@healthStatusCreationSwellingsLocalizationKnees": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationFoot": "Pėdos",
+  "@healthStatusCreationSwellingsLocalizationFoot": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationWholeLegs": "Visos kojos",
+  "@healthStatusCreationSwellingsLocalizationWholeLegs": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationWellFeeling": "Savijauta",
+  "@healthStatusCreationWellFeeling": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationWellFeelingPerfect": "Puiki",
+  "@healthStatusCreationWellFeelingPerfect": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationWellFeelingGood": "Gera",
+  "@healthStatusCreationWellFeelingGood": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationWellFeelingAverage": "Vidutinė",
+  "@healthStatusCreationWellFeelingAverage": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationWellFeelingBad": "Bloga",
+  "@healthStatusCreationWellFeelingBad": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationWellFeelingVeryBad": "Labai bloga",
+  "@healthStatusCreationWellFeelingVeryBad": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationAppetite": "Apetitas",
+  "@healthStatusCreationAppetite": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationAppetitePerfect": "Puikus",
+  "@healthStatusCreationAppetitePerfect": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationAppetiteGood": "Geras",
+  "@healthStatusCreationAppetiteGood": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationAppetiteAverage": "Vidutinis",
+  "@healthStatusCreationAppetiteAverage": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationAppetiteBad": "Blogas",
+  "@healthStatusCreationAppetiteBad": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationAppetiteVeryBad": "Labas blogas",
+  "@healthStatusCreationAppetiteVeryBad": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreath": "Dusulys",
+  "@healthStatusCreationShortnessOfBreath": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathNo": "Nėra",
+  "@healthStatusCreationShortnessOfBreathNo": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathLight": "Lengvas",
+  "@healthStatusCreationShortnessOfBreathLight": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathLightHelper": "Dūstama esant labai dideliam fiziniam krūviui, uždūstama nuėjus vidutiniu greičiu be sustojimo iki 500 m. arba užlipus į 5 aukštą.",
+  "@healthStatusCreationShortnessOfBreathLightHelper": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathAverage": "Vidutinis",
+  "@healthStatusCreationShortnessOfBreathAverage": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathAverageHelper": "Dūstama esant vidutiniam fiziniam krūviui, uždūstama nuėjus vidutiniu greičiu be sustojimo iki 200 m. arba užlipus į 3-4 aukštą.",
+  "@healthStatusCreationShortnessOfBreathAverageHelper": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathSevere": "Sunkus",
+  "@healthStatusCreationShortnessOfBreathSevere": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathSevereHelper": "Dūstama esant mažam fiziniam krūviui, uždūstama nuėjus vidutiniu greičiu be sustojimo iki 100 m. arba užlipus į 2 aukštą.",
+  "@healthStatusCreationShortnessOfBreathSevereHelper": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathBackbreaking": "Labai sunkus",
+  "@healthStatusCreationShortnessOfBreathBackbreaking": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathBackbreakingHelper": "Dūstama esant labai mažam fiziniam krūviui (atsikėlus iš lovos, apsirengus, nusiprausus, pavaikščiojus po kambarį) ir ramybėje.",
+  "@healthStatusCreationShortnessOfBreathBackbreakingHelper": {
+    "context": "healthStatusCreation"
   }
 }

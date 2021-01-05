@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/ui/general/components.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/ui/forms/forms.dart';
+import 'package:nephrolog/ui/general/components.dart';
+import 'package:nephrolog_api_client/model/daily_health_status.dart';
 
 class HealthIndicatorsCreationScreen extends StatefulWidget {
   @override
@@ -12,21 +14,27 @@ class _HealthIndicatorsCreationScreenState
     extends State<HealthIndicatorsCreationScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  int _systolicBloodPressure; // ignore: unused_field
-  int _diastolicBloodPressure; // ignore: unused_field
+  DailyHealthStatusBuilder _statusBuilder;
+  AppLocalizations _appLocalizations;
 
-  double _weight; // ignore: unused_field
-  int _urineMl; // ignore: unused_field
+  @override
+  void initState() {
+    super.initState();
+
+    _statusBuilder = DailyHealthStatusBuilder();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _appLocalizations = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Šiandienos sveikatos rodikliai"),
+        title: Text(_appLocalizations.healthStatusCreationTodayTitle),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => validateAndSaveHealthIndicators(context),
-        label: Text("IŠSAUGOTI"),
+        label: Text(_appLocalizations.save.toUpperCase()),
         icon: Icon(Icons.save),
       ),
       body: Form(
@@ -35,7 +43,7 @@ class _HealthIndicatorsCreationScreenState
           padding: const EdgeInsets.only(bottom: 64),
           children: <Widget>[
             SmallSection(
-              title: "Kraujo spaudimas",
+              title: _appLocalizations.healthStatusCreationBloodPressure,
               setLeftPadding: true,
               showDividers: false,
               headerPadding: EdgeInsets.all(8),
@@ -44,19 +52,21 @@ class _HealthIndicatorsCreationScreenState
                   children: [
                     Flexible(
                       child: AppIntegerFormField(
-                        labelText: "Sistolinis",
+                        labelText:
+                            _appLocalizations.healthStatusCreationSystolic,
                         suffixText: "mmHg",
                         onSaved: (value) {
-                          _systolicBloodPressure = value;
+                          _statusBuilder.systolicBloodPressure = value;
                         },
                       ),
                     ),
                     Flexible(
                       child: AppIntegerFormField(
-                        labelText: "Diastolinis",
+                        labelText:
+                            _appLocalizations.healthStatusCreationDiastolic,
                         suffixText: "mmHg",
                         onSaved: (value) {
-                          _diastolicBloodPressure = value;
+                          _statusBuilder.diastolicBloodPressure = value;
                         },
                       ),
                     ),
@@ -64,123 +74,131 @@ class _HealthIndicatorsCreationScreenState
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Text(
-                    "Jei vartojate kraujo spaudimą reguliuojančius vaistus, "
-                    "kraujo spaudimą matuokite tik po vaistų suvartojimo!",
-                  ),
+                  child: Text(_appLocalizations
+                      .healthStatusCreationBloodPressureHelper),
                 ),
               ],
             ),
             SmallSection(
-              title: "Bendra informacija",
+              title: _appLocalizations.healthStatusCreationSectionGeneralInfo,
               setLeftPadding: true,
               showDividers: false,
               children: [
                 AppDoubleInputField(
-                  labelText: "Kūno svoris",
+                  labelText: _appLocalizations.weight,
                   suffixText: "kg",
-                  helperText:
-                      "Jeigu atliekate dializes, įrašykite savo sausąjį svorį",
+                  helperText: _appLocalizations.userConditionsWeightHelper,
                   onSaved: (value) {
-                    _weight = value.toDouble();
+                    _statusBuilder.weight = value;
                   },
                 ),
                 AppIntegerFormField(
-                  labelText: "Šlapimo kiekis",
+                  labelText: _appLocalizations.healthStatusCreationUrine,
                   suffixText: "ml",
                   onSaved: (value) {
-                    _urineMl = value;
+                    _statusBuilder.urineMl = value;
                   },
                 ),
                 // TODO rodyti tik cukraligei
                 // mmol/l  - milimoliais litre, norma 3,33 - 5,55
                 AppDoubleInputField(
-                  labelText: "Gliukozės koncentracija kraujyje",
+                  labelText: _appLocalizations.healthStatusCreationGlucose,
                   suffixText: "mmol/l",
                   onSaved: (value) {},
                 ),
               ],
             ),
             SmallSection(
-              title: "Patinimai",
+              title: _appLocalizations.healthStatusCreationSwellings,
               setLeftPadding: true,
               showDividers: false,
               children: [
                 AppSelectFormField<int>(
-                  labelText: "Patinimų sunkumas",
-                  dialogHelpText:
-                      "Patinimą tikrinkite švelniai pirštais paspausdami odą blauzdos priekyje ant kaulo.",
+                  labelText:
+                      _appLocalizations.healthStatusCreationSwellingDifficulty,
+                  dialogHelpText: _appLocalizations
+                      .healthStatusCreationSwellingDifficultyHelper,
+                  onSaved: (v) => _statusBuilder.severityOfSwelling = v.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: "0+",
-                      description: "Nesusidaro duobutė",
+                      description: _appLocalizations
+                          .healthStatusCreationSwellingDifficulty0,
                       icon: Icons.sentiment_very_satisfied,
                       value: 0,
                     ),
                     AppSelectFormFieldItem(
                       text: "1+",
-                      description: "Susidaro negili apie 2 mm duobutė, kuri "
-                          "atkėlus pirštus tuoj pat išnyksta.",
+                      description: _appLocalizations
+                          .healthStatusCreationSwellingDifficulty1,
                       icon: Icons.sentiment_satisfied,
                       value: 1,
                     ),
                     AppSelectFormFieldItem(
                       text: "2+",
-                      description: "Susidaro apie 4 mm duobutė, kuri "
-                          "išnyksta po 10-15 sekundžių.",
+                      description: _appLocalizations
+                          .healthStatusCreationSwellingDifficulty2,
                       icon: Icons.sentiment_dissatisfied,
                       value: 2,
                     ),
                     AppSelectFormFieldItem(
                       text: "3+",
-                      description: "Susidaro apie 6 mm duobutė, kuri "
-                          "išnyksta po 1 minutės.",
+                      description: _appLocalizations
+                          .healthStatusCreationSwellingDifficulty3,
                       icon: Icons.sentiment_very_dissatisfied,
                       value: 3,
                     ),
                     AppSelectFormFieldItem(
                       text: "4+",
-                      description: "Susidaro apie 8 mm duobutė, kuri "
-                          "išnyksta po 2 minučių.",
+                      description: _appLocalizations
+                          .healthStatusCreationSwellingDifficulty4,
                       icon: Icons.sick,
                       value: 4,
                     ),
                   ],
                 ),
                 AppMultipleSelectFormField<String>(
-                  labelText: "Patinimų lokalizacija",
-                  onChanged: (value) {},
+                  labelText:
+                      _appLocalizations.healthStatusCreationSwellingDifficulty,
                   items: [
                     AppSelectFormFieldItem(
-                      text: "Paakiai",
+                      text: _appLocalizations
+                          .healthStatusCreationSwellingsLocalizationEyes,
                       value: "1",
                     ),
                     AppSelectFormFieldItem(
-                      text: "Visas veidas",
+                      text: _appLocalizations
+                          .healthStatusCreationSwellingsLocalizationWholeFace,
                       value: "2",
                     ),
                     AppSelectFormFieldItem(
-                      text: "Plaštakos",
+                      text: _appLocalizations
+                          .healthStatusCreationSwellingsLocalizationHandBreadth,
                       value: "3",
                     ),
                     AppSelectFormFieldItem(
-                      text: "Visos rankos",
+                      text: _appLocalizations
+                          .healthStatusCreationSwellingsLocalizationHands,
                       value: "4",
                     ),
                     AppSelectFormFieldItem(
-                      text: "Pilvas",
+                      text: _appLocalizations
+                          .healthStatusCreationSwellingsLocalizationBelly,
                       value: "5",
                     ),
                     AppSelectFormFieldItem(
-                      text: "Keliai",
+                      text: _appLocalizations
+                          .healthStatusCreationSwellingsLocalizationKnees,
                       value: "6",
                     ),
                     AppSelectFormFieldItem(
-                      text: "Pėdos",
+                      text: _appLocalizations
+                          .healthStatusCreationSwellingsLocalizationFoot,
                       value: "7",
                     ),
                     AppSelectFormFieldItem(
-                      text: "Visos kojos",
+                      text: _appLocalizations
+                          .healthStatusCreationSwellingsLocalizationWholeLegs,
                       value: "8",
                     ),
                   ],
@@ -188,107 +206,117 @@ class _HealthIndicatorsCreationScreenState
               ],
             ),
             SmallSection(
-              title: "Savijauta",
+              title: _appLocalizations.healthStatusCreationWellFeeling,
               showDividers: false,
               setLeftPadding: true,
               children: [
                 AppSelectFormField<int>(
-                  labelText: "Savijauta",
+                  labelText: _appLocalizations.healthStatusCreationWellFeeling,
                   items: [
                     AppSelectFormFieldItem(
-                      text: "Puiki",
+                      text: _appLocalizations
+                          .healthStatusCreationWellFeelingPerfect,
                       icon: Icons.sentiment_very_satisfied,
                       value: 0,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Gera",
+                      text:
+                          _appLocalizations.healthStatusCreationWellFeelingGood,
                       icon: Icons.sentiment_satisfied,
                       value: 1,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Vidutinė",
+                      text: _appLocalizations
+                          .healthStatusCreationWellFeelingAverage,
                       icon: Icons.sentiment_dissatisfied,
                       value: 2,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Bloga",
+                      text:
+                          _appLocalizations.healthStatusCreationWellFeelingBad,
                       icon: Icons.sentiment_very_dissatisfied,
                       value: 3,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Labai bloga",
+                      text: _appLocalizations
+                          .healthStatusCreationWellFeelingVeryBad,
                       icon: Icons.sick,
                       value: 4,
                     ),
                   ],
                 ),
                 AppSelectFormField<int>(
-                  labelText: "Apetitas",
+                  labelText: _appLocalizations.healthStatusCreationAppetite,
                   items: [
                     AppSelectFormFieldItem(
-                      text: "Puikus",
+                      text:
+                          _appLocalizations.healthStatusCreationAppetitePerfect,
                       icon: Icons.sentiment_very_satisfied,
                       value: 0,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Geras",
+                      text: _appLocalizations.healthStatusCreationAppetiteGood,
                       icon: Icons.sentiment_satisfied,
                       value: 1,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Vidutinis",
+                      text:
+                          _appLocalizations.healthStatusCreationAppetiteAverage,
                       icon: Icons.sentiment_dissatisfied,
                       value: 2,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Blogas",
+                      text: _appLocalizations.healthStatusCreationAppetiteBad,
                       icon: Icons.sentiment_very_dissatisfied,
                       value: 3,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Labai blogas",
+                      text:
+                          _appLocalizations.healthStatusCreationAppetiteVeryBad,
                       icon: Icons.sick,
                       value: 4,
                     ),
                   ],
                 ),
                 AppSelectFormField<int>(
-                  labelText: "Dusulys",
+                  labelText:
+                      _appLocalizations.healthStatusCreationShortnessOfBreath,
                   items: [
                     AppSelectFormFieldItem(
-                      text: "Nėra",
+                      text: _appLocalizations
+                          .healthStatusCreationShortnessOfBreathNo,
                       icon: Icons.sentiment_very_satisfied,
                       value: 0,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Lengvas",
-                      description: "Dūstama esant labai dideliam fiziniam "
-                          "krūviui, uždūstama nuėjus vidutiniu greičiu be "
-                          "sustojimo iki 500 m. arba užlipus į 5 aukštą.",
+                      text: _appLocalizations
+                          .healthStatusCreationShortnessOfBreathLight,
+                      description: _appLocalizations
+                          .healthStatusCreationShortnessOfBreathLightHelper,
                       icon: Icons.sentiment_satisfied,
                       value: 1,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Vidutinis",
-                      description: "Dūstama esant vidutiniam fiziniam "
-                          "krūviui, uždūstama nuėjus vidutiniu greičiu be "
-                          "sustojimo iki 200 m. arba užlipus į 3-4 aukštą.",
+                      text: _appLocalizations
+                          .healthStatusCreationShortnessOfBreathAverage,
+                      description: _appLocalizations
+                          .healthStatusCreationShortnessOfBreathAverageHelper,
                       icon: Icons.sentiment_dissatisfied,
                       value: 2,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Sunkus",
-                      description: "Dūstama esant mažam fiziniam krūviui, "
-                          "uždūstama nuėjus vidutiniu greičiu be sustojimo "
-                          "iki 100 m. arba užlipus į 2 aukštą.",
+                      text: _appLocalizations
+                          .healthStatusCreationShortnessOfBreathSevere,
+                      description: _appLocalizations
+                          .healthStatusCreationShortnessOfBreathSevereHelper,
                       icon: Icons.sentiment_very_dissatisfied,
                       value: 3,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Labai sunkus",
-                      description: "Dūstama esant labai mažam fiziniam "
-                          "krūviui (atsikėlus iš lovos, apsirengus, "
-                          "nusiprausus, pavaikščiojus po kambarį) ir ramybėje.",
+                      text: _appLocalizations
+                          .healthStatusCreationShortnessOfBreathBackbreaking,
+                      description: _appLocalizations
+                          .healthStatusCreationShortnessOfBreathBackbreakingHelper,
                       icon: Icons.sick,
                       value: 4,
                     ),
