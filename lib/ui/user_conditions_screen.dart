@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nephrolog/extensions/date_extensions.dart';
+import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/forms/form_validators.dart';
 import 'package:nephrolog/ui/general/components.dart';
+import 'package:nephrolog_api_client/model/chronic_kidney_disease.dart';
+import 'package:nephrolog_api_client/model/chronic_kidney_disease_stage.dart';
+import 'package:nephrolog_api_client/model/diabetes.dart';
+import 'package:nephrolog_api_client/model/diabetes_type.dart';
+import 'package:nephrolog_api_client/model/dialysis_type.dart';
+import 'package:nephrolog_api_client/model/gender.dart';
+import 'package:nephrolog_api_client/model/user_profile.dart';
 
 import 'forms/forms.dart';
+import 'general/progress_indicator.dart';
 
 class UserConditionsScreen extends StatefulWidget {
   @override
@@ -15,7 +25,23 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  final _apiService = ApiService();
+
+  UserProfileBuilder _userProfileBuilder;
+  ChronicKidneyDiseaseBuilder _chronicKidneyDiseaseBuilder;
+  DiabetesBuilder _diabetesBuilder;
+
   bool isDiabetic = false;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _userProfileBuilder = UserProfileBuilder();
+    _chronicKidneyDiseaseBuilder = _userProfileBuilder.chronicKidneyDisease;
+    _diabetesBuilder = _userProfileBuilder.diabetes;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +51,25 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
       appBar: AppBar(
         title: Text("Mano būklė"),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => validateAndSaveMeal(context),
-        label: Text("IŠSAUGOTI"),
-        icon: Icon(Icons.save),
+      floatingActionButton: Builder(builder: (context) {
+        return FloatingActionButton.extended(
+          onPressed: () => validateAndSaveUserProfile(context),
+          label: Text("IŠSAUGOTI"),
+          icon: Icon(Icons.save),
+        );
+      }),
+      body: _buildBody(formValidators),
+    );
+  }
+
+  Widget _buildBody(FormValidators formValidators) {
+    return Visibility(
+      visible: !isLoading,
+      replacement: Center(
+        child: AppProgressIndicator(),
       ),
-      body: Form(
+      maintainState: true,
+      child: Form(
         key: _formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: ListView(
@@ -41,18 +80,18 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
               setLeftPadding: true,
               showDividers: false,
               children: [
-                AppSelectFormField<int>(
+                AppSelectFormField<Gender>(
                   labelText: "Lytis",
                   validator: formValidators.nonNull(),
-                  onChanged: (v) {},
+                  onSaved: (v) => _userProfileBuilder.gender = v.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: "Vyras",
-                      value: 0,
+                      value: Gender.male,
                     ),
                     AppSelectFormFieldItem(
                       text: "Moteris",
-                      value: 1,
+                      value: Gender.female,
                     ),
                   ],
                 ),
@@ -65,13 +104,14 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   initialEntryMode: DatePickerEntryMode.input,
                   dateFormat: _birthdayFormat,
                   validator: formValidators.nonNull(),
-                  onDateSaved: (v) => print(v),
+                  onDateSaved: (date) =>
+                      _userProfileBuilder.birthday = date.toDate(),
                 ),
                 AppIntegerFormField(
                   labelText: "Ūgis",
                   validator: formValidators.numRangeValidator(100, 250),
                   suffixText: "cm",
-                  onSaved: (v) => print(v),
+                  onSaved: (v) => _userProfileBuilder.heightCm = v,
                 ),
                 AppDoubleInputField(
                   labelText: "Svoris",
@@ -79,7 +119,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   helperText:
                       "Jeigu atliekate dializes, įrašykite savo sausąjį svorį",
                   suffixText: "kg",
-                  onSaved: (v) => print(v),
+                  onSaved: (v) => _userProfileBuilder.weightKg = v.toInt(),
                 ),
               ],
             ),
@@ -91,58 +131,62 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                 AppIntegerFormField(
                   labelText: "Kiek metų sergate lėtine inkstų liga",
                   validator: formValidators.numRangeValidator(0, 100),
-                  onSaved: (v) => print(v),
+                  onSaved: (v) => _chronicKidneyDiseaseBuilder.age = v,
                 ),
-                AppSelectFormField<String>(
+                AppSelectFormField<ChronicKidneyDiseaseStage>(
                   labelText: "Lėtinės inkstų ligos stadija",
                   helperText: "GFG – glomerulų filtracijos greitis",
-                  onChanged: (value) {},
+                  onSaved: (v) => _chronicKidneyDiseaseBuilder.stage = v.value,
                   validator: formValidators.nonNull(),
                   items: [
                     AppSelectFormFieldItem(
                       text: "I – GFG > 90 ml/min./1,73 m²",
-                      value: "1",
+                      value: ChronicKidneyDiseaseStage.stage1,
                     ),
                     AppSelectFormFieldItem(
                       text: "II – GFG 89 – 60 ml/min./1,73 m²",
-                      value: "2",
+                      value: ChronicKidneyDiseaseStage.stage2,
                     ),
                     AppSelectFormFieldItem(
                       text: "III – GFG 59 – 30 ml/min./1,73 m²",
-                      value: "3",
+                      value: ChronicKidneyDiseaseStage.stage3,
                     ),
                     AppSelectFormFieldItem(
                       text: "IV – GFG 29 – 15 ml/min./1,73 m²",
-                      value: "4",
+                      value: ChronicKidneyDiseaseStage.stage4,
                     ),
                     AppSelectFormFieldItem(
                       text: "V – GFG < 15 ml/min./1,73 m²",
-                      value: "5",
+                      value: ChronicKidneyDiseaseStage.stage5,
                     ),
-                    AppSelectFormFieldItem(text: "Nežinau", value: "6"),
+                    AppSelectFormFieldItem(
+                      text: "Nežinau",
+                      value: ChronicKidneyDiseaseStage.unknown,
+                    ),
                   ],
                 ),
-                AppSelectFormField<String>(
+                AppSelectFormField<DialysisType>(
                   labelText: "Atliekamos dializės tipas",
                   validator: formValidators.nonNull(),
-                  onChanged: (value) {},
+                  onSaved: (v) =>
+                      _chronicKidneyDiseaseBuilder.dialysisType = v.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: "Peritoninė dializė",
-                      value: "1",
+                      value: DialysisType.periotonicDialysis,
                     ),
                     AppSelectFormFieldItem(
                       text: "Hemodializė",
-                      value: "2",
+                      value: DialysisType.hemodialysis,
                     ),
                     AppSelectFormFieldItem(
                       text: "Neatlieku, esu po inksto transplantacijos",
                       description: "Praėjo daugiau 6 savaitės",
-                      value: "3",
+                      value: DialysisType.postTransplant,
                     ),
                     AppSelectFormFieldItem(
                       text: "Neatlieku",
-                      value: "4",
+                      value: DialysisType.notPerformed,
                     ),
                   ],
                 ),
@@ -153,27 +197,28 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
               setLeftPadding: true,
               showDividers: false,
               children: [
-                AppSelectFormField<String>(
+                AppSelectFormField<DiabetesType>(
                   labelText: "Cukriniu diabeto tipas",
                   validator: formValidators.nonNull(),
-                  initialValue: "3",
+                  initialValue: DiabetesType.unknown,
                   onChanged: (item) {
                     setState(() {
-                      isDiabetic = item.value != "3";
+                      isDiabetic = item.value != DiabetesType.unknown;
                     });
                   },
+                  onSaved: (v) => _diabetesBuilder.type = v.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: "1 tipo",
-                      value: "1",
+                      value: DiabetesType.type1,
                     ),
                     AppSelectFormFieldItem(
                       text: "2 tipo",
-                      value: "2",
+                      value: DiabetesType.type1,
                     ),
                     AppSelectFormFieldItem(
                       text: "Nesergu",
-                      value: "3",
+                      value: DiabetesType.unknown,
                     ),
                   ],
                 ),
@@ -220,13 +265,37 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
     );
   }
 
-  validateAndSaveMeal(BuildContext context) {
-    if (!_formKey.currentState.validate()) {
-      return false;
-    }
-
+  Future<UserProfile> _saveUserProfile() async {
     _formKey.currentState.save();
 
-    Navigator.pop(context);
+    final userProfile = _userProfileBuilder.build();
+
+    return await _apiService.setUserProfile(userProfile);
+  }
+
+  Future validateAndSaveUserProfile(BuildContext context) async {
+    if (!_formKey.currentState.validate()) {
+      return null;
+    }
+
+    UserProfile userProfile;
+
+    try {
+      setState(() {
+        isLoading = true;
+      });
+
+      userProfile = await _saveUserProfile();
+    } catch (ex) {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(ex.toString())));
+
+      return null;
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+
+    Navigator.pop(context, userProfile);
   }
 }

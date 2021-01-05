@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nephrolog/models/date.dart';
 import 'package:tuple/tuple.dart';
 
 extension DateTimeExtension on DateTime {
@@ -13,6 +14,10 @@ extension DateTimeExtension on DateTime {
 
   DateTime endOfDay() {
     return DateTime(year, month, day, 23, 59, 59);
+  }
+
+  Date toDate() {
+    return Date(this);
   }
 
   Tuple2<DateTime, DateTime> startAndEndOfWeek() {
