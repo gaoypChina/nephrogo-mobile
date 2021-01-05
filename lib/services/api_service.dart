@@ -111,6 +111,12 @@ class ApiService {
     return r.data;
   }
 
+  Future<UserProfile> userProfile() async {
+    final r = await _apiClient.getUserProfileApi().v1UserProfileGet();
+
+    return r.data;
+  }
+
   Future<UserHealthStatusReport> getUserHealthStatusReport(
     DateTime from,
     DateTime to,

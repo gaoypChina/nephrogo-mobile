@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
@@ -14,6 +15,7 @@ import 'package:nephrolog_api_client/model/gender.dart';
 import 'package:nephrolog_api_client/model/user_profile.dart';
 
 import 'forms/forms.dart';
+import 'general/app_future_builder.dart';
 import 'general/progress_indicator.dart';
 
 class UserConditionsScreen extends StatefulWidget {
@@ -28,10 +30,14 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
 
   final _apiService = ApiService();
 
+  AppLocalizations _appLocalizations;
+  FormValidators _formValidators;
+
+  var _userProfileMemoizer = AsyncMemoizer<UserProfile>();
+
   UserProfileBuilder _userProfileBuilder;
   ChronicKidneyDiseaseBuilder _chronicKidneyDiseaseBuilder;
   DiabetesBuilder _diabetesBuilder;
-  AppLocalizations _appLocalizations;
 
   bool isDiabetic = false;
   bool isLoading = false;
@@ -43,11 +49,15 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
     _userProfileBuilder = UserProfileBuilder();
     _chronicKidneyDiseaseBuilder = _userProfileBuilder.chronicKidneyDisease;
     _diabetesBuilder = _userProfileBuilder.diabetes;
+
+    _userProfileMemoizer.runOnce(() async {
+      return await _apiService.userProfile();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final formValidators = FormValidators(context);
+    _formValidators = FormValidators(context);
     _appLocalizations = AppLocalizations.of(context);
 
     return Scaffold(
@@ -61,11 +71,16 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
           icon: Icon(Icons.save),
         );
       }),
-      body: _buildBody(formValidators),
+      body: AppFutureBuilder(
+        future: _userProfileMemoizer.future,
+        builder: (context, userProfile) {
+          return _buildBody(userProfile);
+        },
+      ),
     );
   }
 
-  Widget _buildBody(FormValidators formValidators) {
+  Widget _buildBody(UserProfile initialUserProfile) {
     return Visibility(
       visible: !isLoading,
       replacement: Center(
@@ -86,7 +101,8 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
               children: [
                 AppSelectFormField<Gender>(
                   labelText: _appLocalizations.gender,
-                  validator: formValidators.nonNull(),
+                  initialValue: initialUserProfile?.gender,
+                  validator: _formValidators.nonNull(),
                   onSaved: (v) => _userProfileBuilder.gender = v.value,
                   items: [
                     AppSelectFormFieldItem(
@@ -107,19 +123,19 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   initialDatePickerMode: DatePickerMode.year,
                   initialEntryMode: DatePickerEntryMode.input,
                   dateFormat: _birthdayFormat,
-                  validator: formValidators.nonNull(),
+                  validator: _formValidators.nonNull(),
                   onDateSaved: (date) =>
                       _userProfileBuilder.birthday = date.toDate(),
                 ),
                 AppIntegerFormField(
                   labelText: _appLocalizations.height,
-                  validator: formValidators.numRangeValidator(100, 250),
+                  validator: _formValidators.numRangeValidator(100, 250),
                   suffixText: "cm",
                   onSaved: (v) => _userProfileBuilder.heightCm = v,
                 ),
                 AppDoubleInputField(
                   labelText: _appLocalizations.weight,
-                  validator: formValidators.numRangeValidator(25, 250),
+                  validator: _formValidators.numRangeValidator(25, 250),
                   helperText: _appLocalizations.userConditionsWeightHelper,
                   suffixText: "kg",
                   onSaved: (v) => _userProfileBuilder.weightKg = v.toInt(),
@@ -135,7 +151,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                 AppIntegerFormField(
                   labelText: _appLocalizations
                       .userConditionsSectionChronicKidneyDiseaseAge,
-                  validator: formValidators.numRangeValidator(0, 100),
+                  validator: _formValidators.numRangeValidator(0, 100),
                   onSaved: (v) => _chronicKidneyDiseaseBuilder.age = v,
                 ),
                 AppSelectFormField<ChronicKidneyDiseaseStage>(
@@ -144,7 +160,8 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   helperText: _appLocalizations
                       .userConditionsSectionChronicKidneyDiseaseStageHelper,
                   onSaved: (v) => _chronicKidneyDiseaseBuilder.stage = v.value,
-                  validator: formValidators.nonNull(),
+                  initialValue: initialUserProfile?.chronicKidneyDisease?.stage,
+                  validator: _formValidators.nonNull(),
                   items: [
                     AppSelectFormFieldItem(
                       text: _appLocalizations
@@ -180,7 +197,9 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                 AppSelectFormField<DialysisType>(
                   labelText:
                       _appLocalizations.userConditionsSectionDialysisType,
-                  validator: formValidators.nonNull(),
+                  validator: _formValidators.nonNull(),
+                  initialValue:
+                      initialUserProfile?.chronicKidneyDisease?.dialysisType,
                   onSaved: (v) =>
                       _chronicKidneyDiseaseBuilder.dialysisType = v.value,
                   items: [
@@ -218,8 +237,8 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                 AppSelectFormField<DiabetesType>(
                   labelText:
                       _appLocalizations.userConditionsSectionDiabetesType,
-                  validator: formValidators.nonNull(),
-                  initialValue: DiabetesType.unknown,
+                  validator: _formValidators.nonNull(),
+                  initialValue: initialUserProfile?.diabetes?.type,
                   onChanged: (item) {
                     setState(() {
                       isDiabetic = item.value != DiabetesType.unknown;
@@ -234,12 +253,12 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                     ),
                     AppSelectFormFieldItem(
                       text:
-                          _appLocalizations.userConditionsSectionDiabetesType2,
+                      _appLocalizations.userConditionsSectionDiabetesType2,
                       value: DiabetesType.type1,
                     ),
                     AppSelectFormFieldItem(
                       text:
-                          _appLocalizations.userConditionsSectionDiabetesTypeNo,
+                      _appLocalizations.userConditionsSectionDiabetesTypeNo,
                       value: DiabetesType.unknown,
                     ),
                   ],
@@ -250,9 +269,9 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                     children: [
                       AppIntegerFormField(
                         labelText:
-                            _appLocalizations.userConditionsSectionDiabetesAge,
+                        _appLocalizations.userConditionsSectionDiabetesAge,
                         validator: isDiabetic
-                            ? formValidators.numRangeValidator(0, 100)
+                            ? _formValidators.numRangeValidator(0, 100)
                             : null,
                         suffixText: _appLocalizations.ageSuffix,
                         onSaved: (v) => print(v),
@@ -261,7 +280,8 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                         labelText: _appLocalizations
                             .userConditionsSectionDiabetesComplications,
                         onChanged: (value) {},
-                        validator: isDiabetic ? formValidators.nonNull() : null,
+                        validator:
+                            isDiabetic ? _formValidators.nonNull() : null,
                         items: [
                           AppSelectFormFieldItem(
                             text: _appLocalizations.yes,

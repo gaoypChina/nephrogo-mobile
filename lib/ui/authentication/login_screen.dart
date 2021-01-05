@@ -1,10 +1,11 @@
+import 'dart:developer' as developer;
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
 import 'package:nephrolog/routes.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:nephrolog/ui/general/dialogs.dart';
-import 'dart:developer' as developer;
 
 import 'login_conditions.dart';
 
@@ -93,14 +94,12 @@ class LoginScreenBody extends StatelessWidget {
     );
 
     if (userCredential != null) {
-      await openHomeScreen(context, userCredential);
+      await openUserConditionsScreen(context, userCredential);
     }
   }
 
-  Future _loginWithSocial(
-    BuildContext context,
-    SocialAuthenticationProvider provider,
-  ) async {
+  Future _loginWithSocial(BuildContext context,
+      SocialAuthenticationProvider provider,) async {
     UserCredential userCredential;
 
     try {
@@ -115,14 +114,15 @@ class LoginScreenBody extends StatelessWidget {
     }
 
     if (userCredential != null) {
-      await openHomeScreen(context, userCredential);
+      await openUserConditionsScreen(context, userCredential);
     }
   }
 
-  Future openHomeScreen(BuildContext context, UserCredential userCredential) {
+  Future openUserConditionsScreen(
+      BuildContext context, UserCredential userCredential) {
     return Navigator.pushReplacementNamed(
       context,
-      Routes.ROUTE_HOME,
+      Routes.ROUTE_USER_CONDITIONS,
     );
   }
 }
