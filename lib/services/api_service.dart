@@ -65,7 +65,7 @@ class ApiService {
       interceptors.add(
         PrettyDioLogger(
           request: false,
-          responseBody: false,
+          responseBody: true,
           requestHeader: true,
           requestBody: true,
         ),

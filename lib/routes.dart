@@ -8,10 +8,10 @@ import 'ui/authentication/remind_password.dart';
 import 'ui/faq_screen.dart';
 import 'ui/home_screen.dart';
 import 'ui/start_screen.dart';
-import 'ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
-import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
-import 'ui/tabs/nutrition/creation/meal_creation_screen.dart';
 import 'ui/tabs/health_indicators/health_indicators_creation_screen.dart';
+import 'ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
+import 'ui/tabs/nutrition/creation/meal_creation_screen.dart';
+import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'ui/user_conditions_screen.dart';
 
 class Routes {
@@ -78,7 +78,12 @@ class Routes {
         });
       case ROUTE_USER_CONDITIONS:
         return MaterialPageRoute(builder: (context) {
-          return UserConditionsScreen();
+          UserConditionsScreenNavigationType navigationType =
+              settings.arguments;
+
+          return UserConditionsScreen(
+            navigationType: navigationType,
+          );
         });
       case ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN:
         return MaterialPageRoute(builder: (context) {

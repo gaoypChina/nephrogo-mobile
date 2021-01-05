@@ -6,6 +6,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/ui/general/dialogs.dart';
+import 'package:nephrolog/ui/user_conditions_screen.dart';
 
 import 'login_conditions.dart';
 
@@ -98,8 +99,10 @@ class LoginScreenBody extends StatelessWidget {
     }
   }
 
-  Future _loginWithSocial(BuildContext context,
-      SocialAuthenticationProvider provider,) async {
+  Future _loginWithSocial(
+    BuildContext context,
+    SocialAuthenticationProvider provider,
+  ) async {
     UserCredential userCredential;
 
     try {
@@ -123,6 +126,7 @@ class LoginScreenBody extends StatelessWidget {
     return Navigator.pushReplacementNamed(
       context,
       Routes.ROUTE_USER_CONDITIONS,
+      arguments: UserConditionsScreenNavigationType.homeScreen,
     );
   }
 }

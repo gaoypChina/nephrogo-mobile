@@ -235,9 +235,14 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
   AppSelectFormFieldItem<T> selectedItem;
 
   @override
-  Widget build(BuildContext context) {
-    selectedItem = _getInitialSelection();
+  void initState() {
+    super.initState();
 
+    selectedItem = _getInitialSelection();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AppSelectionScreenFormField<AppSelectFormFieldItem<T>>(
       onTap: onTap,
       itemToStringConverter: (item) => item.text,
@@ -490,6 +495,7 @@ class AppIntegerFormField extends StatelessWidget {
   final String labelText;
   final String helperText;
   final String hintText;
+  final int initialValue;
   final IconData iconData;
   final FormFieldValidator<int> validator;
   final FormFieldSetter<int> onSaved;
@@ -500,6 +506,7 @@ class AppIntegerFormField extends StatelessWidget {
     @required this.onSaved,
     @required this.labelText,
     this.helperText,
+    this.initialValue,
     this.iconData,
     this.validator,
     this.suffixText,
@@ -514,6 +521,7 @@ class AppIntegerFormField extends StatelessWidget {
       hintText: hintText,
       iconData: iconData,
       validator: _validator,
+      initialValue: initialValue?.toString(),
       onSaved: onSaved != null ? _onSaved : null,
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -530,7 +538,7 @@ class AppIntegerFormField extends StatelessWidget {
   }
 
   _onSaved(String v) {
-    int n = v != null ? int.parse(v) : null;
+    int n = (v != null && v.isNotEmpty) ? int.parse(v) : null;
 
     this.onSaved(n);
   }
@@ -543,6 +551,7 @@ class AppDoubleInputField extends StatelessWidget {
   final String labelText;
   final String helperText;
   final String hintText;
+  final double initialValue;
   final IconData iconData;
   final FormFieldValidator<double> validator;
   final FormFieldSetter<double> onSaved;
@@ -554,6 +563,7 @@ class AppDoubleInputField extends StatelessWidget {
     @required this.labelText,
     this.hintText,
     this.helperText,
+    this.initialValue,
     this.iconData,
     this.validator,
     this.suffixText,
@@ -565,6 +575,7 @@ class AppDoubleInputField extends StatelessWidget {
       labelText: labelText,
       helperText: helperText,
       iconData: iconData,
+      initialValue: initialValue?.toString(),
       validator: _validator,
       hintText: hintText,
       onSaved: onSaved != null ? _onSaved : null,
@@ -583,7 +594,7 @@ class AppDoubleInputField extends StatelessWidget {
   }
 
   _onSaved(String v) {
-    final n = v != null ? double.parse(v) : null;
+    final n = (v != null && v.isNotEmpty) ? double.parse(v) : null;
 
     this.onSaved(n);
   }
