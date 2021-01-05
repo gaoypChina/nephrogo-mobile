@@ -19,27 +19,41 @@ import 'package:nephrolog_api_client/model/intake.dart';
 
 import 'creation/product_search.dart';
 
-class NutritionTab extends StatelessWidget {
+class NutritionTab extends StatefulWidget {
+  @override
+  _NutritionTabState createState() => _NutritionTabState();
+}
+
+class _NutritionTabState extends State<NutritionTab> {
+  final now = DateTime.now();
+
+  final apiService = ApiService();
+  AppLocalizations appLocalizations;
+
   @override
   Widget build(BuildContext context) {
+    appLocalizations = AppLocalizations.of(context);
+
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => showProductSearch(context, ProductSearchType.choose),
-        label: Text(AppLocalizations.of(context).createMeal.toUpperCase()),
+        onPressed: () async => await _createProduct(context),
+        label: Text(appLocalizations.createMeal.toUpperCase()),
         icon: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: NutritionTabBody(),
+      body: _buildBody(context),
     );
   }
-}
 
-class NutritionTabBody extends StatelessWidget {
-  final now = DateTime.now();
-  final apiService = ApiService();
+  Future _createProduct(BuildContext context) async {
+    final product = await showProductSearch(context, ProductSearchType.choose);
 
-  @override
-  Widget build(BuildContext context) {
+    if (product != null) {
+      setState(() {});
+    }
+  }
+
+  Widget _buildBody(BuildContext context) {
     final from = now.startOfDay().subtract(Duration(days: 6));
     final to = now.endOfDay();
 
@@ -59,17 +73,37 @@ class NutritionTabBody extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 64),
             child: Column(
               children: [
+                if (intakes.isEmpty) _buildNoMealsBanner(),
                 DailyNormsSection(dailyIntake: latestDailyIntake),
-                DailyIntakesCard(
-                  title: AppLocalizations.of(context).lastMealsSectionTitle,
-                  intakes: latestIntakes,
-                ),
+                if (intakes.isNotEmpty)
+                  DailyIntakesCard(
+                    title: appLocalizations.lastMealsSectionTitle,
+                    intakes: latestIntakes,
+                  ),
                 ..._buildIndicatorChartSections(context, dailyIntakes),
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildNoMealsBanner() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: MaterialBanner(
+        content: Text(appLocalizations.noMealsBanner),
+        leading: CircleAvatar(child: Icon(Icons.restaurant_outlined)),
+        forceActionsBelow: true,
+        actions: [
+          FlatButton(
+            child:
+                Text(appLocalizations.noMealsBannerCreateAction.toUpperCase()),
+            onPressed: () async => await _createProduct(context),
+          ),
+        ],
+      ),
     );
   }
 
