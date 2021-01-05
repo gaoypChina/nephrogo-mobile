@@ -295,6 +295,10 @@
       }
     }
   },
+  "weeklyNutrientsNoMeal": "Pasirinktame laikotarpyje nėra įvesta nė vieno valgio ar gėrimo!",
+  "@weeklyNutrientsNoMeal": {
+    "context": "userConditions"
+  },
   "userConditionsScreenTitle": "Mano būklė",
   "@userConditionsScreenTitle": {
     "context": "userConditions"

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/models/contract.dart';
-import 'package:nephrolog/extensions/string_extensions.dart';
-import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
+import 'package:nephrolog/extensions/date_extensions.dart';
+import 'package:nephrolog/extensions/string_extensions.dart';
+import 'package:nephrolog/l10n/localizations.dart';
+import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/charts/nutrient_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
@@ -12,7 +13,6 @@ import 'package:nephrolog/ui/general/weekly_pager.dart';
 import 'package:nephrolog_api_client/model/daily_intake.dart';
 import 'package:nephrolog_api_client/model/daily_intakes_screen.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
-import 'package:nephrolog/l10n/localizations.dart';
 
 class WeeklyNutrientsScreenArguments {
   final Nutrient nutrient;
@@ -179,6 +179,38 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
               dailyIntake: di,
             ))
         .toList();
+
+    final noIntakes = dailyIntakes.expand((di) => di.intakes).isEmpty;
+
+    if (noIntakes) {
+      return Column(
+        children: [
+          Expanded(
+            child: Container(
+              color: Colors.white,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.emoji_food_beverage,
+                        size: 64,
+                      ),
+                      Text(
+                        AppLocalizations.of(context).weeklyNutrientsNoMeal,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline6,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
 
     return ListView(
       padding: EdgeInsets.only(bottom: 64),
