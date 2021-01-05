@@ -8,6 +8,8 @@
   "@tabProfile": {},
   "more": "Daugiau",
   "@more": {},
+  "save": "Išsaugoti",
+  "@save": {},
   "formMultiSelectDialogActionChoose": "Pasirinkti",
   "@formMultiSelectDialogActionChoose": {},
   "dialogCancel": "Atšaukti",
@@ -236,5 +238,145 @@
         "example": "10"
       }
     }
+  },
+  "userConditionsScreenTitle": "Mano būklė",
+  "@userConditionsScreenTitle": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionGeneralInformationTitle": "Bendra informacija",
+  "@userConditionsSectionGeneralInformationTitle": {
+    "context": "userConditions"
+  },
+  "gender": "Lytis",
+  "@gender": {
+    "context": "userConditions"
+  },
+  "male": "Vyras",
+  "@male": {
+    "context": "userConditions"
+  },
+  "female": "Moteris",
+  "@female": {
+    "context": "userConditions"
+  },
+  "birthDate": "Gimimo data",
+  "@birthDate": {
+    "context": "userConditions"
+  },
+  "height": "Ūgis",
+  "@height": {
+    "context": "userConditions"
+  },
+  "weight": "Svoris",
+  "@weight": {
+    "context": "userConditions"
+  },
+  "userConditionsWeightHelper": "Jeigu atliekate dializes, įrašykite savo sausąjį svorį",
+  "@userConditionsWeightHelper": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionChronicKidneyDiseaseTitle": "Lėtinė inkstų liga",
+  "@userConditionsSectionChronicKidneyDiseaseTitle": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionChronicKidneyDiseaseAge": "Kiek metų sergate lėtine inkstų liga",
+  "@userConditionsSectionChronicKidneyDiseaseAge": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionChronicKidneyDiseaseStage": "Lėtinės inkstų ligos stadija",
+  "@userConditionsSectionChronicKidneyDiseaseStage": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionChronicKidneyDiseaseStageHelper": "GFG – glomerulų filtracijos greitis",
+  "@userConditionsSectionChronicKidneyDiseaseStageHelper": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionChronicKidneyDiseaseStage1": "I – GFG > 90 ml/min./1,73 m²",
+  "@userConditionsSectionChronicKidneyDiseaseStage1": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionChronicKidneyDiseaseStage2": "II – GFG 89 – 60 ml/min./1,73 m²",
+  "@userConditionsSectionChronicKidneyDiseaseStage2": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionChronicKidneyDiseaseStage3": "III – GFG 59 – 30 ml/min./1,73 m²",
+  "@userConditionsSectionChronicKidneyDiseaseStage3": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionChronicKidneyDiseaseStage4": "IV – GFG 29 – 15 ml/min./1,73 m²",
+  "@userConditionsSectionChronicKidneyDiseaseStage4": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionChronicKidneyDiseaseStage5": "V – GFG < 15 ml/min./1,73 m²",
+  "@userConditionsSectionChronicKidneyDiseaseStage5": {
+    "context": "userConditions"
+  },
+  "iDontKnown": "Nežinau",
+  "@iDontKnown": {
+    "context": "userConditions"
+  },
+  "yes": "Taip",
+  "@yes": {
+    "context": "userConditions"
+  },
+  "no": "Ne",
+  "@no": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionDialysisType": "Atliekamos dializės tipas",
+  "@userConditionsSectionDialysisType": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionDialysisTypePeriotonicDialysis": "Peritoninė dializė",
+  "@userConditionsSectionDialysisTypePeriotonicDialysis": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionDialysisTypeHemodialysis": "Hemodializė",
+  "@userConditionsSectionDialysisTypeHemodialysis": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionDialysisTypePostTransplant": "Neatlieku, esu po inksto transplantacijos",
+  "@userConditionsSectionDialysisTypePostTransplant": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionDialysisTypePostTransplantDescription": "Praėjo daugiau 6 savaitės",
+  "@userConditionsSectionDialysisTypePostTransplantDescription": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionDialysisTypeNotPerformed": "Neatlieku",
+  "@userConditionsSectionDialysisTypeNotPerformed": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionDiabetesTitle": "Cukrinis diabetas",
+  "@userConditionsSectionDiabetesTitle": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionDiabetesType": "Cukriniu diabeto tipas",
+  "@userConditionsSectionDiabetesType": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionDiabetesType1": "1 tipo",
+  "@userConditionsSectionDiabetesType1": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionDiabetesType2": "2 tipo",
+  "@userConditionsSectionDiabetesType2": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionDiabetesTypeNo": "Nesergu",
+  "@userConditionsSectionDiabetesTypeNo": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionDiabetesAge": "Kiek metų sergate cukriniu diabetu",
+  "@userConditionsSectionDiabetesAge": {
+    "context": "userConditions"
+  },
+  "userConditionsSectionDiabetesComplications": "Ar jums pasireiškė cukrinio diabeto komplikacijos",
+  "@userConditionsSectionDiabetesComplications": {
+    "context": "userConditions"
+  },
+  "ageSuffix": "m.",
+  "@ageSuffix": {
+    "context": "userConditions"
   }
 }

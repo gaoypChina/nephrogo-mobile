@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/forms/form_validators.dart';
 import 'package:nephrolog/ui/general/components.dart';
@@ -30,6 +31,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
   UserProfileBuilder _userProfileBuilder;
   ChronicKidneyDiseaseBuilder _chronicKidneyDiseaseBuilder;
   DiabetesBuilder _diabetesBuilder;
+  AppLocalizations _appLocalizations;
 
   bool isDiabetic = false;
   bool isLoading = false;
@@ -46,15 +48,16 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
   @override
   Widget build(BuildContext context) {
     final formValidators = FormValidators(context);
+    _appLocalizations = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Mano būklė"),
+        title: Text(_appLocalizations.userConditionsScreenTitle),
       ),
       floatingActionButton: Builder(builder: (context) {
         return FloatingActionButton.extended(
           onPressed: () => validateAndSaveUserProfile(context),
-          label: Text("IŠSAUGOTI"),
+          label: Text(_appLocalizations.save.toUpperCase()),
           icon: Icon(Icons.save),
         );
       }),
@@ -76,27 +79,28 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
           padding: const EdgeInsets.only(bottom: 80),
           children: <Widget>[
             SmallSection(
-              title: "Bendra informacija",
+              title: _appLocalizations
+                  .userConditionsSectionGeneralInformationTitle,
               setLeftPadding: true,
               showDividers: false,
               children: [
                 AppSelectFormField<Gender>(
-                  labelText: "Lytis",
+                  labelText: _appLocalizations.gender,
                   validator: formValidators.nonNull(),
                   onSaved: (v) => _userProfileBuilder.gender = v.value,
                   items: [
                     AppSelectFormFieldItem(
-                      text: "Vyras",
+                      text: _appLocalizations.male,
                       value: Gender.male,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Moteris",
+                      text: _appLocalizations.female,
                       value: Gender.female,
                     ),
                   ],
                 ),
                 AppDatePickerFormField(
-                  labelText: "Gimimo data",
+                  labelText: _appLocalizations.birthDate,
                   firstDate: DateTime(1920),
                   lastDate: DateTime.now().subtract(Duration(days: 365 * 18)),
                   initialDate: DateTime(1995, 6, 26),
@@ -108,84 +112,98 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                       _userProfileBuilder.birthday = date.toDate(),
                 ),
                 AppIntegerFormField(
-                  labelText: "Ūgis",
+                  labelText: _appLocalizations.height,
                   validator: formValidators.numRangeValidator(100, 250),
                   suffixText: "cm",
                   onSaved: (v) => _userProfileBuilder.heightCm = v,
                 ),
                 AppDoubleInputField(
-                  labelText: "Svoris",
+                  labelText: _appLocalizations.weight,
                   validator: formValidators.numRangeValidator(25, 250),
-                  helperText:
-                      "Jeigu atliekate dializes, įrašykite savo sausąjį svorį",
+                  helperText: _appLocalizations.userConditionsWeightHelper,
                   suffixText: "kg",
                   onSaved: (v) => _userProfileBuilder.weightKg = v.toInt(),
                 ),
               ],
             ),
             SmallSection(
-              title: "Lėtinė inkstų liga",
+              title: _appLocalizations
+                  .userConditionsSectionChronicKidneyDiseaseTitle,
               setLeftPadding: true,
               showDividers: false,
               children: [
                 AppIntegerFormField(
-                  labelText: "Kiek metų sergate lėtine inkstų liga",
+                  labelText: _appLocalizations
+                      .userConditionsSectionChronicKidneyDiseaseAge,
                   validator: formValidators.numRangeValidator(0, 100),
                   onSaved: (v) => _chronicKidneyDiseaseBuilder.age = v,
                 ),
                 AppSelectFormField<ChronicKidneyDiseaseStage>(
-                  labelText: "Lėtinės inkstų ligos stadija",
-                  helperText: "GFG – glomerulų filtracijos greitis",
+                  labelText: _appLocalizations
+                      .userConditionsSectionChronicKidneyDiseaseStage,
+                  helperText: _appLocalizations
+                      .userConditionsSectionChronicKidneyDiseaseStageHelper,
                   onSaved: (v) => _chronicKidneyDiseaseBuilder.stage = v.value,
                   validator: formValidators.nonNull(),
                   items: [
                     AppSelectFormFieldItem(
-                      text: "I – GFG > 90 ml/min./1,73 m²",
+                      text: _appLocalizations
+                          .userConditionsSectionChronicKidneyDiseaseStage1,
                       value: ChronicKidneyDiseaseStage.stage1,
                     ),
                     AppSelectFormFieldItem(
-                      text: "II – GFG 89 – 60 ml/min./1,73 m²",
+                      text: _appLocalizations
+                          .userConditionsSectionChronicKidneyDiseaseStage2,
                       value: ChronicKidneyDiseaseStage.stage2,
                     ),
                     AppSelectFormFieldItem(
-                      text: "III – GFG 59 – 30 ml/min./1,73 m²",
+                      text: _appLocalizations
+                          .userConditionsSectionChronicKidneyDiseaseStage3,
                       value: ChronicKidneyDiseaseStage.stage3,
                     ),
                     AppSelectFormFieldItem(
-                      text: "IV – GFG 29 – 15 ml/min./1,73 m²",
+                      text: _appLocalizations
+                          .userConditionsSectionChronicKidneyDiseaseStage4,
                       value: ChronicKidneyDiseaseStage.stage4,
                     ),
                     AppSelectFormFieldItem(
-                      text: "V – GFG < 15 ml/min./1,73 m²",
+                      text: _appLocalizations
+                          .userConditionsSectionChronicKidneyDiseaseStage5,
                       value: ChronicKidneyDiseaseStage.stage5,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Nežinau",
+                      text: _appLocalizations.iDontKnown,
                       value: ChronicKidneyDiseaseStage.unknown,
                     ),
                   ],
                 ),
                 AppSelectFormField<DialysisType>(
-                  labelText: "Atliekamos dializės tipas",
+                  labelText:
+                      _appLocalizations.userConditionsSectionDialysisType,
                   validator: formValidators.nonNull(),
                   onSaved: (v) =>
                       _chronicKidneyDiseaseBuilder.dialysisType = v.value,
                   items: [
                     AppSelectFormFieldItem(
-                      text: "Peritoninė dializė",
+                      text: _appLocalizations
+                          .userConditionsSectionDialysisTypePeriotonicDialysis,
                       value: DialysisType.periotonicDialysis,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Hemodializė",
+                      text: _appLocalizations
+                          .userConditionsSectionDialysisTypeHemodialysis,
                       value: DialysisType.hemodialysis,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Neatlieku, esu po inksto transplantacijos",
-                      description: "Praėjo daugiau 6 savaitės",
+                      text: _appLocalizations
+                          .userConditionsSectionDialysisTypePostTransplant,
+                      description: _appLocalizations
+                          .userConditionsSectionDialysisTypePostTransplantDescription,
                       value: DialysisType.postTransplant,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Neatlieku",
+                      text: _appLocalizations
+                          .userConditionsSectionDialysisTypeNotPerformed,
                       value: DialysisType.notPerformed,
                     ),
                   ],
@@ -193,12 +211,13 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
               ],
             ),
             SmallSection(
-              title: "Cukrinis diabetas",
+              title: _appLocalizations.userConditionsSectionDiabetesTitle,
               setLeftPadding: true,
               showDividers: false,
               children: [
                 AppSelectFormField<DiabetesType>(
-                  labelText: "Cukriniu diabeto tipas",
+                  labelText:
+                      _appLocalizations.userConditionsSectionDiabetesType,
                   validator: formValidators.nonNull(),
                   initialValue: DiabetesType.unknown,
                   onChanged: (item) {
@@ -209,15 +228,18 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   onSaved: (v) => _diabetesBuilder.type = v.value,
                   items: [
                     AppSelectFormFieldItem(
-                      text: "1 tipo",
+                      text:
+                          _appLocalizations.userConditionsSectionDiabetesType1,
                       value: DiabetesType.type1,
                     ),
                     AppSelectFormFieldItem(
-                      text: "2 tipo",
+                      text:
+                          _appLocalizations.userConditionsSectionDiabetesType2,
                       value: DiabetesType.type1,
                     ),
                     AppSelectFormFieldItem(
-                      text: "Nesergu",
+                      text:
+                          _appLocalizations.userConditionsSectionDiabetesTypeNo,
                       value: DiabetesType.unknown,
                     ),
                   ],
@@ -227,29 +249,30 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   child: Column(
                     children: [
                       AppIntegerFormField(
-                        labelText: "Kiek metų sergate cukriniu diabetu",
+                        labelText:
+                            _appLocalizations.userConditionsSectionDiabetesAge,
                         validator: isDiabetic
                             ? formValidators.numRangeValidator(0, 100)
                             : null,
-                        suffixText: "m.",
+                        suffixText: _appLocalizations.ageSuffix,
                         onSaved: (v) => print(v),
                       ),
                       AppSelectFormField<String>(
-                        labelText:
-                            "Ar jums pasireiškė cukrinio diabeto komplikacijos?",
+                        labelText: _appLocalizations
+                            .userConditionsSectionDiabetesComplications,
                         onChanged: (value) {},
                         validator: isDiabetic ? formValidators.nonNull() : null,
                         items: [
                           AppSelectFormFieldItem(
-                            text: "Taip",
+                            text: _appLocalizations.yes,
                             value: "1",
                           ),
                           AppSelectFormFieldItem(
-                            text: "Ne",
+                            text: _appLocalizations.no,
                             value: "2",
                           ),
                           AppSelectFormFieldItem(
-                            text: "Nežinau",
+                            text: _appLocalizations.iDontKnown,
                             value: "3",
                           ),
                         ],
