@@ -22,6 +22,13 @@ class TodayNutrientsConsumptionBarChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final _appLocalizations = AppLocalizations.of(context);
 
+    final nutrientsWithNorms = Nutrient.values
+        .where((n) => dailyIntake.userIntakeNorms.getNutrientAmount(n) != null)
+        .toList();
+
+    final firstNutrientGroup = nutrientsWithNorms.take(3).toList();
+    final secondNutrientGroup = nutrientsWithNorms.skip(3).toList();
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -31,31 +38,18 @@ class TodayNutrientsConsumptionBarChart extends StatelessWidget {
             child: Container(
               height: 100,
               constraints: BoxConstraints(maxWidth: 250),
-              child: _buildGraph(
-                _appLocalizations,
-                [
-                  Nutrient.potassium,
-                  Nutrient.proteins,
-                  Nutrient.sodium,
-                ],
-              ),
+              child: _buildGraph(_appLocalizations, firstNutrientGroup),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 100,
-              constraints: BoxConstraints(maxWidth: 250),
-              child: _buildGraph(
-                _appLocalizations,
-                [
-                  Nutrient.phosphorus,
-                  Nutrient.energy,
-                  Nutrient.liquids,
-                ],
+          if (secondNutrientGroup.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 100,
+                constraints: BoxConstraints(maxWidth: 250),
+                child: _buildGraph(_appLocalizations, secondNutrientGroup),
               ),
             ),
-          ),
         ],
       ),
     );
@@ -94,7 +88,10 @@ class TodayNutrientsConsumptionBarChart extends StatelessWidget {
           dailyIntake.userIntakeNorms.getNutrientAmountFormatted(type);
 
       final entry = AppBarChartRod(
-        tooltip: "$formattedTotal iš $formattedDailyNorm",
+        tooltip: appLocalizations.todayConsumptionWithNormTooltip(
+          formattedTotal,
+          formattedDailyNorm,
+        ),
         y: yPercent,
         barColor: barColor,
         backDrawRodY: 1.0,

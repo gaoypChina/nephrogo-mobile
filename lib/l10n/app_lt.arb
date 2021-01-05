@@ -14,12 +14,25 @@
   "@formMultiSelectDialogActionChoose": {},
   "dialogCancel": "Atšaukti",
   "@dialogCancel": {},
-  "dailyNormsSectionTitle": "Dienos normos",
+  "dailyNormsSectionTitle": "Paros normos",
   "@dailyNormsSectionTitle": {},
-  "dailyNormsSectionSubtitle": "Šios dienos suvartojimai",
+  "dailyNormsSectionSubtitle": "Šios paros suvartojimai",
   "@dailyNormsSectionSubtitle": {},
   "todayConsumptionWithNorm": "Šiandien: {amount} iš {norm}",
   "@todayConsumptionWithNorm": {
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "120 g"
+      },
+      "norm": {
+        "type": "String",
+        "example": "150 g"
+      }
+    }
+  },
+  "todayConsumptionWithNormTooltip": "Šiandien: {amount}\nParos norma: {norm}",
+  "@todayConsumptionWithNormTooltip": {
     "placeholders": {
       "amount": {
         "type": "String",
