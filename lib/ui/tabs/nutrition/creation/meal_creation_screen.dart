@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/ui/forms/form_validators.dart';
 import 'package:nephrolog/ui/forms/forms.dart';
 import 'package:nephrolog/ui/general/components.dart';
@@ -28,6 +29,8 @@ class MealCreationScreen extends StatefulWidget {
 class _MealCreationScreenState extends State<MealCreationScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  AppLocalizations _appLocalizations;
+
   final _dateFormat = DateFormat.yMEd();
 
   var _mealDate = DateTime.now();
@@ -38,15 +41,17 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _appLocalizations = AppLocalizations.of(context);
+
     final formValidators = FormValidators(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pridėti valgį"),
+        title: Text(_appLocalizations.mealCreationTitle),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => validateAndSaveMeal(context),
-        label: Text("IŠSAUGOTI"),
+        label: Text(_appLocalizations.save.toUpperCase()),
         icon: Icon(Icons.save),
       ),
       body: Form(
@@ -55,11 +60,11 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
           padding: const EdgeInsets.only(bottom: 64),
           children: <Widget>[
             SmallSection(
-              title: "Valgis arba gėrimas",
+              title: _appLocalizations.mealCreationMealSectionTitle,
               showDividers: false,
               children: [
                 AppSelectionScreenFormField<Product>(
-                  labelText: "Produktas",
+                  labelText: _appLocalizations.mealCreationProduct,
                   initialSelection: widget.initialProduct,
                   iconData: Icons.restaurant_outlined,
                   itemToStringConverter: (p) => p.name,
@@ -71,7 +76,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                   onSaved: (p) => _selectedProduct = p,
                 ),
                 AppIntegerFormField(
-                  labelText: "Kiekis",
+                  labelText: _appLocalizations.mealCreationQuantity,
                   suffixText: "g",
                   validator: formValidators.numRangeValidator(1, 10000),
                   iconData: Icons.kitchen,
@@ -82,7 +87,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
               ],
             ),
             SmallSection(
-              title: "Data ir laikas",
+              title: _appLocalizations.mealCreationDatetimeSectionTitle,
               showDividers: false,
               children: [
                 AppDatePickerFormField(
@@ -94,10 +99,10 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                   dateFormat: _dateFormat,
                   iconData: Icons.calendar_today,
                   onDateSaved: (dt) => print(dt),
-                  labelText: "Data",
+                  labelText: _appLocalizations.mealCreationDate,
                 ),
                 AppTimePickerFormField(
-                  labelText: "Laikas",
+                  labelText: _appLocalizations.mealCreationTime,
                   iconData: Icons.access_time,
                   initialTime: _mealTimeOfDay,
                   onTimeSaved: (t) => print(t),
@@ -115,8 +120,9 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
       return false;
     }
     if (_selectedProduct == null) {
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text('Nepasirinktas produktas!')));
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(_appLocalizations.mealCreationErrorNoProductSelected),
+      ));
 
       return false;
     }

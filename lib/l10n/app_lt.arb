@@ -297,7 +297,39 @@
   },
   "weeklyNutrientsNoMeal": "Pasirinktame laikotarpyje nėra įvesta nė vieno valgio ar gėrimo!",
   "@weeklyNutrientsNoMeal": {
-    "context": "userConditions"
+    "context": "weeklyNutrients"
+  },
+  "mealCreationTitle": "Valgio ar gėrimo sukūrimas",
+  "@mealCreationTitle": {
+    "context": "mealCreation"
+  },
+  "mealCreationMealSectionTitle": "Valgis arba gėrimas",
+  "@mealCreationMealSectionTitle": {
+    "context": "mealCreation"
+  },
+  "mealCreationProduct": "Produktas",
+  "@mealCreationProduct": {
+    "context": "mealCreation"
+  },
+  "mealCreationQuantity": "Kiekis",
+  "@mealCreationQuantity": {
+    "context": "mealCreation"
+  },
+  "mealCreationDatetimeSectionTitle": "Data ir laikas",
+  "@mealCreationDatetimeSectionTitle": {
+    "context": "mealCreation"
+  },
+  "mealCreationDate": "Data",
+  "@mealCreationDate": {
+    "context": "mealCreation"
+  },
+  "mealCreationTime": "Laikas",
+  "@mealCreationTime": {
+    "context": "mealCreation"
+  },
+  "mealCreationErrorNoProductSelected": "Nepasirinktas produktas!",
+  "@mealCreationErrorNoProductSelected": {
+    "context": "mealCreation"
   },
   "userConditionsScreenTitle": "Mano būklė",
   "@userConditionsScreenTitle": {
