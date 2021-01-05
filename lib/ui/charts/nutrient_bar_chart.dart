@@ -2,13 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/models/contract.dart';
-import 'package:nephrolog/models/graph.dart';
-import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
+import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:nephrolog/extensions/string_extensions.dart';
+import 'package:nephrolog/models/contract.dart';
+import 'package:nephrolog/models/graph.dart';
 import 'package:nephrolog_api_client/model/daily_intake.dart';
+
 import 'bar_chart.dart';
 
 class NutrientBarChart extends StatelessWidget {
@@ -44,23 +45,28 @@ class NutrientBarChart extends StatelessWidget {
 
     final maximumNorm = dailyIntakes
         .map((e) => e.userIntakeNorms.getNutrientAmount(nutrient))
+        .where((e) => e != null)
         .max
-        .toDouble();
+        ?.toDouble();
 
     final maximumAmount = dailyIntakes
         .map((e) => e.getNutrientTotalAmount(nutrient))
         .max
-        .toDouble();
+        ?.toDouble();
 
-    var interval = maximumNorm / 2;
-    if (maximumAmount ~/ maximumNorm > 3) {
-      interval = maximumNorm;
+    double interval;
+    if (maximumNorm != null) {
+      interval = maximumNorm / 2;
+
+      if (maximumAmount != null && maximumAmount ~/ maximumNorm > 3) {
+        interval = maximumNorm;
+      }
     }
 
     final scaleValue = (nutrient != Nutrient.energy) ? 1e-3 : 1.0;
 
     final groups = dailyIntakesSorted.mapIndexed((i, di) {
-      final y = di.getNutrientTotalAmount(nutrient).toDouble();
+      final y = di.getNutrientTotalAmount(nutrient)?.toDouble();
       final norm = di.userIntakeNorms.getNutrientAmount(nutrient);
 
       final dateFormatted = _dateFormatter.format(di.date);
@@ -68,8 +74,8 @@ class NutrientBarChart extends StatelessWidget {
 
       AppBarChartRod entry = AppBarChartRod(
         tooltip: "$dateFormatted\n$dailyTotalFormatted",
-        y: y * scaleValue,
-        barColor: y > norm ? Colors.redAccent : Colors.teal,
+        y: y != null ? y * scaleValue : null,
+        barColor: (y != null || y > norm) ? Colors.redAccent : Colors.teal,
       );
 
       return AppBarChartGroup(
@@ -82,9 +88,12 @@ class NutrientBarChart extends StatelessWidget {
 
     return AppBarChartData(
       groups: groups,
-      dashedHorizontalLine: maximumNorm * scaleValue,
-      interval: interval * scaleValue,
-      maxY: max(maximumNorm, maximumAmount) * scaleValue * 1.01,
+      dashedHorizontalLine:
+          maximumNorm != null ? maximumNorm * scaleValue : null,
+      interval: interval != null ? interval * scaleValue : null,
+      maxY: (maximumNorm != null && maximumAmount != null)
+          ? max(maximumNorm, maximumAmount) * scaleValue * 1.01
+          : null,
     );
   }
 }

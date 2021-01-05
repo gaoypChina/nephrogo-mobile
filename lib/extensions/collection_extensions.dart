@@ -1,7 +1,6 @@
 import 'dart:core';
-import 'package:collection/collection.dart' as collection;
 
-import 'dart:math' as math;
+import 'package:collection/collection.dart' as collection;
 
 extension IndexedIterable<E> on Iterable<E> {
   E maxBy<T>(T Function(E) orderBy, {int Function(T, T) compare}) {
@@ -43,7 +42,7 @@ extension ListExtensions<E> on List<E> {
 }
 
 extension NumericIterable<E extends num> on Iterable<E> {
-  E get sum => reduce((a, b) => a + b);
+  E get sum => fold<num>(0, (a, b) => a + b);
 
-  E get max => reduce(math.max);
+  E get max => maxBy((v) => v);
 }

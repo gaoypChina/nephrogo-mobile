@@ -1,11 +1,12 @@
 import 'package:intl/intl.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog_api_client/model/daily_health_status.dart';
 import 'package:nephrolog_api_client/model/daily_intake.dart';
 import 'package:nephrolog_api_client/model/daily_intake_norm.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
+
 import 'collection_extensions.dart';
-import 'package:nephrolog/l10n/localizations.dart';
 
 String _formatAmount(int amount, String baseDim, String kDim) {
   if (kDim != null && amount > 1000) {
@@ -91,6 +92,7 @@ extension DailyIntakesExtensions on DailyIntake {
 
   String getNutrientTotalAmountFormatted(Nutrient nutrient) {
     final amount = getNutrientTotalAmount(nutrient);
+    assert(amount != null);
 
     return _getFormattedNutrient(nutrient, amount);
   }
@@ -151,6 +153,10 @@ extension DailyIntakeNormsExtensions on DailyIntakeNorm {
 
   String getNutrientAmountFormatted(Nutrient nutrient) {
     final amount = getNutrientAmount(nutrient);
+
+    if (amount == null) {
+      return null;
+    }
 
     return _getFormattedNutrient(nutrient, amount);
   }

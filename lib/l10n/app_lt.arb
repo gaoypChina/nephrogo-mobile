@@ -14,9 +14,9 @@
   "@formMultiSelectDialogActionChoose": {},
   "dialogCancel": "Atšaukti",
   "@dialogCancel": {},
-  "dailyNormsSectionTitle": "Dienos norma",
+  "dailyNormsSectionTitle": "Dienos normos",
   "@dailyNormsSectionTitle": {},
-  "dailyNormsSectionSubtitle": "Šios dienos medžiagų kiekiai",
+  "dailyNormsSectionSubtitle": "Šios dienos suvartojimai",
   "@dailyNormsSectionSubtitle": {},
   "todayConsumptionWithNorm": "Šiandien: {amount} iš {norm}",
   "@todayConsumptionWithNorm": {
@@ -28,6 +28,45 @@
       "norm": {
         "type": "String",
         "example": "150 g"
+      }
+    }
+  },
+  "todayConsumptionWithoutNorm": "Šiandien: {amount}",
+  "@todayConsumptionWithoutNorm": {
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "120 g"
+      }
+    }
+  },
+  "consumptionTooltipWithNorm": "Suvartota: {amount}\nDienos norma: {norm}\n{date}",
+  "@consumptionTooltipWithNorm": {
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "120 g"
+      },
+      "norm": {
+        "type": "String",
+        "example": "150 g"
+      },
+      "date": {
+        "type": "String",
+        "example": "2020-12-10"
+      }
+    }
+  },
+  "consumptionTooltipWithoutNorm": "Suvartota: {amount}\n{date}",
+  "@consumptionTooltipWithoutNorm": {
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "120 g"
+      },
+      "date": {
+        "type": "String",
+        "example": "2020-12-10"
       }
     }
   },

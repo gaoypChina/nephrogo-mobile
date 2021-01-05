@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:nephrolog/extensions/collection_extensions.dart';
+import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/models/graph.dart';
-import 'package:nephrolog/extensions/collection_extensions.dart';
-import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog_api_client/model/daily_intake.dart';
 
 import 'bar_chart.dart';
@@ -71,13 +71,23 @@ class TodayNutrientsConsumptionBarChart extends StatelessWidget {
   }
 
   List<AppBarChartGroup> _buildChartGroups(
-      AppLocalizations appLocalizations, List<Nutrient> types) {
+    AppLocalizations appLocalizations,
+    List<Nutrient> types,
+  ) {
     return types.mapIndexed((i, type) {
-      final dailyNorm = dailyIntake.userIntakeNorms.getNutrientAmount(type);
+      var dailyNorm = dailyIntake.userIntakeNorms.getNutrientAmount(type);
+      var y = dailyIntake.getNutrientTotalAmount(type);
 
-      final y = dailyIntake.getNutrientTotalAmount(type) ?? 0;
-      final yPercent = min(y.toDouble() / dailyNorm, 1.0);
-      final barColor = y > dailyNorm ? Colors.redAccent : Colors.teal;
+      if (y == 0 && dailyNorm == null) {
+        dailyNorm = 1;
+      }
+
+      double yPercent = min(y.toDouble() / dailyNorm, 1.0);
+      Color barColor = y > dailyNorm ? Colors.redAccent : Colors.teal;
+      if (y == 0) {
+        barColor = Colors.transparent;
+        yPercent = 1;
+      }
 
       final formattedTotal = dailyIntake.getNutrientTotalAmountFormatted(type);
       final formattedDailyNorm =

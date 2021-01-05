@@ -221,12 +221,12 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                 ),
                 AppSelectFormField<DialysisType>(
                   labelText:
-                  _appLocalizations.userConditionsSectionDialysisType,
+                      _appLocalizations.userConditionsSectionDialysisType,
                   validator: _formValidators.nonNull(),
                   initialValue:
-                  initialUserProfile?.chronicKidneyDisease?.dialysisType,
+                      initialUserProfile?.chronicKidneyDisease?.dialysisType,
                   onSaved: (v) =>
-                  _chronicKidneyDiseaseBuilder.dialysisType = v.value,
+                      _chronicKidneyDiseaseBuilder.dialysisType = v.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: _appLocalizations
@@ -261,7 +261,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
               children: [
                 AppSelectFormField<DiabetesType>(
                   labelText:
-                  _appLocalizations.userConditionsSectionDiabetesType,
+                      _appLocalizations.userConditionsSectionDiabetesType,
                   validator: _formValidators.nonNull(),
                   initialValue: initialUserProfile?.diabetes?.type,
                   onChanged: (item) {
@@ -273,7 +273,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   items: [
                     AppSelectFormFieldItem(
                       text:
-                      _appLocalizations.userConditionsSectionDiabetesType1,
+                          _appLocalizations.userConditionsSectionDiabetesType1,
                       value: DiabetesType.type1,
                     ),
                     AppSelectFormFieldItem(
@@ -307,7 +307,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                             .userConditionsSectionDiabetesComplications,
                         onChanged: (value) {},
                         validator:
-                        isDiabetic ? _formValidators.nonNull() : null,
+                            isDiabetic ? _formValidators.nonNull() : null,
                         items: [
                           AppSelectFormFieldItem(
                             text: _appLocalizations.yes,

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nephrolog/extensions/collection_extensions.dart';
+import 'package:nephrolog/extensions/contract_extensions.dart';
+import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:nephrolog/extensions/string_extensions.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/services/api_service.dart';
@@ -9,10 +13,6 @@ import 'package:nephrolog/ui/charts/today_nutrients_consumption_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/tabs/nutrition/weekly_nutrients_screen.dart';
-import 'package:nephrolog/extensions/contract_extensions.dart';
-import 'package:nephrolog/extensions/collection_extensions.dart';
-import 'package:nephrolog/extensions/date_extensions.dart';
-import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog_api_client/model/daily_intake.dart';
 import 'package:nephrolog_api_client/model/daily_intakes_screen.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
@@ -103,15 +103,29 @@ class NutritionTabBody extends StatelessWidget {
     final todayConsumption =
         newestDailyIntake.getNutrientTotalAmountFormatted(nutrient);
 
+    final showGraph = dailyIntakes.expand((e) => e.intakes).isNotEmpty;
+
+    String subtitle;
+    if (dailyNormFormatted != null) {
+      subtitle = localizations.todayConsumptionWithNorm(
+        todayConsumption,
+        dailyNormFormatted,
+      );
+    } else {
+      subtitle = localizations.todayConsumptionWithoutNorm(
+        todayConsumption,
+      );
+    }
+
     return LargeSection(
       title: nutrient.name(localizations),
-      subTitle: localizations.todayConsumptionWithNorm(
-          todayConsumption, dailyNormFormatted),
+      subTitle: subtitle,
       children: [
-        NutrientBarChart(
-          dailyIntakes: dailyIntakes,
-          nutrient: nutrient,
-        ),
+        if (showGraph)
+          NutrientBarChart(
+            dailyIntakes: dailyIntakes,
+            nutrient: nutrient,
+          ),
       ],
       leading: OutlineButton(
         child: Text(localizations.more.toUpperCase()),
