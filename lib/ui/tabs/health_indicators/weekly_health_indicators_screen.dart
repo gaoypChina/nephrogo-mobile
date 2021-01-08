@@ -11,7 +11,7 @@ import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/weekly_pager.dart';
 import 'package:nephrolog_api_client/model/daily_health_status.dart';
-import 'package:nephrolog_api_client/model/user_health_status_report.dart';
+import 'package:nephrolog_api_client/model/health_status_weekly_screen_response.dart';
 
 class WeeklyHealthIndicatorsScreenArguments {
   final HealthIndicator initialHealthIndicator;
@@ -54,17 +54,18 @@ class _WeeklyHealthIndicatorsScreenState
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showIndicatorSelectionPopupMenu(),
+        // TODO translation
         label: Text("RODIKLIS"),
         icon: Icon(Icons.swap_horizontal_circle),
       ),
       body: WeeklyPager<HealthIndicator>(
         valueChangeNotifier: healthIndicatorChangeNotifier,
         bodyBuilder: (from, to, indicator) {
-          return AppFutureBuilder<UserHealthStatusReport>(
-            future: _apiService.getUserHealthStatusReport(from, to),
+          return AppFutureBuilder<HealthStatusWeeklyScreenResponse>(
+            future: _apiService.getWeeklyHealthStatusReport(from, to),
             builder: (context, data) {
               return HealthIndicatorsListWithChart(
-                userHealthStatusReport: data,
+                healthStatusWeeklyResponse: data,
                 healthIndicator: selectedHealthIndicator,
               );
             },
@@ -94,6 +95,7 @@ class _WeeklyHealthIndicatorsScreenState
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
+          // TODO translation
           title: const Text('Pasirinkite sveikatos indikatorių'),
           children: options,
         );
@@ -108,11 +110,11 @@ class _WeeklyHealthIndicatorsScreenState
 
 class HealthIndicatorsListWithChart extends StatelessWidget {
   final HealthIndicator healthIndicator;
-  final UserHealthStatusReport userHealthStatusReport;
+  final HealthStatusWeeklyScreenResponse healthStatusWeeklyResponse;
 
   const HealthIndicatorsListWithChart({
     Key key,
-    @required this.userHealthStatusReport,
+    @required this.healthStatusWeeklyResponse,
     @required this.healthIndicator,
   }) : super(key: key);
 
@@ -124,7 +126,8 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
         BasicSection(
           children: [
             HealthIndicatorBarChart(
-              userHealthStatusReport: userHealthStatusReport,
+              dailyHealthStatuses:
+                  healthStatusWeeklyResponse.dailyHealthStatuses.toList(),
               indicator: healthIndicator,
             ),
           ],
@@ -135,12 +138,11 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
   }
 
   List<Widget> _buildIndicatorTiles() {
-    return userHealthStatusReport.dailyHealthStatuses
-        .where((dhs) =>
-            dhs.status?.getHealthIndicatorValue(healthIndicator) != null)
+    return healthStatusWeeklyResponse.dailyHealthStatuses
+        .where((dhs) => dhs.isIndicatorExists(healthIndicator))
         .sortedBy((e) => e.date, reverse: true)
         .map((dhs) => DailyHealthStatusIndicatorTile(
-              dailyHealthStatus: dhs.status,
+              dailyHealthStatus: dhs,
               indicator: healthIndicator,
             ))
         .toList();

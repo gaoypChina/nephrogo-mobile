@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
-import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
@@ -10,7 +9,7 @@ import 'package:nephrolog/ui/charts/health_indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
-import 'package:nephrolog_api_client/model/user_health_status_report.dart';
+import 'package:nephrolog_api_client/model/health_status_screen_response.dart';
 
 class HealthIndicatorsTab extends StatelessWidget {
   final ValueNotifier<int> valueNotifier = ValueNotifier(1);
@@ -42,12 +41,9 @@ class HealthIndicatorsTabBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final from = now.startOfDay().subtract(Duration(days: 6));
-    final to = now.endOfDay();
-
-    return AppFutureBuilder<UserHealthStatusReport>(
-      future: apiService.getUserHealthStatusReport(from, to),
-      builder: (BuildContext context, UserHealthStatusReport response) {
+    return AppFutureBuilder<HealthStatusScreenResponse>(
+      future: apiService.getHealthStatusScreen(),
+      builder: (BuildContext context, HealthStatusScreenResponse response) {
         final sections = HealthIndicator.values
             .map((i) => buildIndicatorChartSection(context, response, i))
             .toList();
@@ -73,19 +69,18 @@ class HealthIndicatorsTabBody extends StatelessWidget {
 
   LargeSection buildIndicatorChartSection(
     BuildContext context,
-    UserHealthStatusReport userHealthStatusReport,
+    HealthStatusScreenResponse healthStatusScreenResponse,
     HealthIndicator indicator,
   ) {
     final appLocalizations = AppLocalizations.of(context);
     final latestHealthStatus =
-        userHealthStatusReport.dailyHealthStatuses.maxBy((e) => e.date);
+        healthStatusScreenResponse.dailyHealthStatuses.maxBy((e) => e.date);
     final todayConsumption =
-        latestHealthStatus?.status?.getHealthIndicatorFormatted(indicator) ??
+        latestHealthStatus?.getHealthIndicatorFormatted(indicator) ??
             appLocalizations.noInfo.toLowerCase();
 
-    final hasReports = userHealthStatusReport.dailyHealthStatuses
-        .map((s) => s.status?.isIndicatorExists(indicator) ?? false)
-        .where((e) => e)
+    final hasReports = healthStatusScreenResponse.dailyHealthStatuses
+        .where((s) => s.isIndicatorExists(indicator))
         .isNotEmpty;
 
     return LargeSection(
@@ -94,7 +89,8 @@ class HealthIndicatorsTabBody extends StatelessWidget {
       children: [
         if (hasReports)
           HealthIndicatorBarChart(
-            userHealthStatusReport: userHealthStatusReport,
+            dailyHealthStatuses:
+                healthStatusScreenResponse.dailyHealthStatuses.toList(),
             indicator: indicator,
           ),
       ],

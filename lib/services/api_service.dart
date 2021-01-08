@@ -10,10 +10,15 @@ import 'package:logging/logging.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
 import 'package:nephrolog/models/date.dart';
 import 'package:nephrolog_api_client/api.dart';
-import 'package:nephrolog_api_client/model/daily_intakes_screen.dart';
-import 'package:nephrolog_api_client/model/products_response.dart';
-import 'package:nephrolog_api_client/model/user_health_status_report.dart';
+import 'package:nephrolog_api_client/api/health_status_api.dart';
+import 'package:nephrolog_api_client/api/nutrition_api.dart';
+import 'package:nephrolog_api_client/api/user_api.dart';
+import 'package:nephrolog_api_client/model/health_status_screen_response.dart';
+import 'package:nephrolog_api_client/model/health_status_weekly_screen_response.dart';
+import 'package:nephrolog_api_client/model/nutrient_weekly_screen_response.dart';
+import 'package:nephrolog_api_client/model/product.dart';
 import 'package:nephrolog_api_client/model/user_profile.dart';
+import 'package:nephrolog_api_client/model/user_profile_request.dart';
 import 'package:nephrolog_api_client/serializers.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -24,6 +29,9 @@ class ApiService {
   static final ApiService _singleton = ApiService._internal();
 
   NephrologApiClient _apiClient;
+  NutritionApi _nutritionApi;
+  HealthStatusApi _healthStatusApi;
+  UserApi _userApi;
 
   factory ApiService() {
     return _singleton;
@@ -31,6 +39,10 @@ class ApiService {
 
   ApiService._internal() {
     _apiClient = _buildNephrologApiClient();
+
+    _nutritionApi = _apiClient.getNutritionApi();
+    _healthStatusApi = _apiClient.getHealthStatusApi();
+    _userApi = _apiClient.getUserApi();
   }
 
   NephrologApiClient _buildNephrologApiClient() {
@@ -82,48 +94,63 @@ class ApiService {
     return apiSerializersBuilder.build();
   }
 
-  Future<DailyIntakesScreen> getUserIntakes(
+  Future<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReport(
     DateTime from,
     DateTime to,
   ) async {
-    final r = await _apiClient
-        .getScreensApi()
-        .v1ScreensDailyIntakesGet(from: Date(from), to: Date(to));
+    final r = await _nutritionApi.nutritionWeeklyRetrieve(Date(from), Date(to));
 
     return r.data;
   }
 
-  Future<ProductsResponse> getProducts(String query,
+  Future<List<Product>> getProducts(String query,
       [CancelToken cancelToken]) async {
-    final r = await _apiClient
-        .getProductsApi()
-        .v1ProductsGet(query: query, cancelToken: cancelToken);
+    final r = await _nutritionApi.nutritionProductsList(
+        query: query, cancelToken: cancelToken);
 
-    return r.data;
+    return r.data.toList();
   }
 
-  Future<UserProfile> setUserProfile(UserProfile userProfile,
+  Future<UserProfile> createUserProfile(UserProfileRequest userProfile,
       [CancelToken cancelToken]) async {
-    final r = await _apiClient
-        .getUserProfileApi()
-        .v1UserProfilePut(userProfile: userProfile, cancelToken: cancelToken);
+    final r =
+        await _userApi.userProfileCreate(userProfile, cancelToken: cancelToken);
 
     return r.data;
   }
 
-  Future<UserProfile> userProfile() async {
-    final r = await _apiClient.getUserProfileApi().v1UserProfileGet();
+  Future<UserProfile> updateUserProfile(UserProfileRequest userProfile,
+      [CancelToken cancelToken]) async {
+    final r =
+        await _userApi.userProfileUpdate(userProfile, cancelToken: cancelToken);
 
     return r.data;
   }
 
-  Future<UserHealthStatusReport> getUserHealthStatusReport(
+  Future<UserProfile> getUserProfile([CancelToken cancelToken]) async {
+    final r = await _userApi.userProfileRetrieve(cancelToken: cancelToken);
+
+    if (r.statusCode == 404) {
+      return null;
+    }
+
+    return r.data;
+  }
+
+  Future<HealthStatusScreenResponse> getHealthStatusScreen(
+      [CancelToken cancelToken]) async {
+    final r = await _healthStatusApi.healthStatusScreenRetrieve(
+        cancelToken: cancelToken);
+
+    return r.data;
+  }
+
+  Future<HealthStatusWeeklyScreenResponse> getWeeklyHealthStatusReport(
     DateTime from,
     DateTime to,
   ) async {
-    final r = await _apiClient
-        .getScreensApi()
-        .v1ScreensHealthStatusGet(from: Date(from), to: Date(to));
+    final r = await _healthStatusApi.healthStatusWeeklyRetrieve(
+        Date(from), Date(from));
 
     return r.data;
   }

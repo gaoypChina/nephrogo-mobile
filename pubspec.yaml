@@ -45,7 +45,7 @@ dependencies:
   nephrolog_api_client:
     git:
       url: https://github.com/nephrolog-lt/nephrolog-application-api-client.git
-      ref: release/v0.0.7
+      ref: release/v0.1.0
 
   pretty_dio_logger: ^1.1.1
 

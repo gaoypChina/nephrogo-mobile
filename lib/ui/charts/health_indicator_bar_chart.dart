@@ -6,7 +6,7 @@ import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:nephrolog/extensions/string_extensions.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/models/graph.dart';
-import 'package:nephrolog_api_client/model/user_health_status_report.dart';
+import 'package:nephrolog_api_client/model/daily_health_status.dart';
 
 import 'bar_chart.dart';
 
@@ -15,11 +15,11 @@ class HealthIndicatorBarChart extends StatelessWidget {
   static final _dateFormatter = DateFormat.MMMd();
 
   final HealthIndicator indicator;
-  final UserHealthStatusReport userHealthStatusReport;
+  final List<DailyHealthStatus> dailyHealthStatuses;
 
   HealthIndicatorBarChart({
     Key key,
-    @required this.userHealthStatusReport,
+    @required this.dailyHealthStatuses,
     @required this.indicator,
   }) : super(key: key);
 
@@ -39,13 +39,11 @@ class HealthIndicatorBarChart extends StatelessWidget {
   AppBarChartData _getChartData() {
     final startOfToday = DateTime.now().startOfDay();
 
-    final dailyHealthStatusesSorted = userHealthStatusReport.dailyHealthStatuses
-        .toList()
-        .sortedBy((e) => e.date);
+    final dailyHealthStatusesSorted =
+        dailyHealthStatuses.sortedBy((e) => e.date);
 
-    final groups = dailyHealthStatusesSorted.mapIndexed((i, report) {
-      final dhs = report.status;
-      final dateFormatted = _dateFormatter.format(report.date);
+    final groups = dailyHealthStatusesSorted.mapIndexed((i, dhs) {
+      final dateFormatted = _dateFormatter.format(dhs.date);
 
       final y = dhs?.getHealthIndicatorValue(indicator);
       final dailyTotalFormatted = dhs?.getHealthIndicatorFormatted(indicator);
@@ -68,9 +66,9 @@ class HealthIndicatorBarChart extends StatelessWidget {
       );
 
       return AppBarChartGroup(
-        text: _dayFormatter.format(report.date).capitalizeFirst(),
+        text: _dayFormatter.format(dhs.date).capitalizeFirst(),
         x: i,
-        isSelected: report.date.startOfDay().compareTo(startOfToday) == 0,
+        isSelected: dhs.date.startOfDay().compareTo(startOfToday) == 0,
         rods: [rod],
       );
     }).toList();
@@ -92,8 +90,6 @@ class HealthIndicatorBarChart extends StatelessWidget {
   }
 
   double _getMaxY() {
-    // TODO remove return after API is fixed
-    return null;
     switch (indicator) {
       case HealthIndicator.severityOfSwelling:
       case HealthIndicator.wellBeing:

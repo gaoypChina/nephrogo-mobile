@@ -1,12 +1,11 @@
+import 'package:built_value/built_value.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog_api_client/model/daily_health_status.dart';
-import 'package:nephrolog_api_client/model/daily_intake.dart';
-import 'package:nephrolog_api_client/model/daily_intake_norm.dart';
+import 'package:nephrolog_api_client/model/daily_intake_report.dart';
+import 'package:nephrolog_api_client/model/daily_nutrient_consumption.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
-
-import 'collection_extensions.dart';
 
 String _formatAmount(int amount, String baseDim, String kDim) {
   if (kDim != null && amount > 1000) {
@@ -41,53 +40,33 @@ String _getFormattedNutrient(Nutrient nutrient, int amount) {
   }
 }
 
-extension DailyIntakesExtensions on DailyIntake {
-  int get totalPotassiumMg => intakes.map((e) => e.potassiumMg).sum;
-
-  int get totalProteinsMg => intakes.map((e) => e.proteinsMg).sum;
-
-  int get totalSodiumMg => intakes.map((e) => e.sodiumMg).sum;
-
-  int get totalPhosphorusMg => intakes.map((e) => e.phosphorusMg).sum;
-
-  int get totalEnergyKC => intakes.map((e) => e.energyKcal).sum;
-
-  int get totalLiquidsMl => intakes.map((e) => e.liquidsMl).sum;
-
-  int getNutrientTotalAmount(Nutrient nutrient) {
-    if (this.intakes.isEmpty) {
-      return 0;
-    }
-
+extension DailyIntakesExtensions on DailyIntakeReport {
+  DailyNutrientConsumption getNutrientConsumption(Nutrient nutrient) {
     switch (nutrient) {
       case Nutrient.energy:
-        return this.totalEnergyKC;
+        return this.energyKcal;
       case Nutrient.liquids:
-        return this.totalLiquidsMl;
+        return this.liquidsMl;
       case Nutrient.proteins:
-        return this.totalProteinsMg;
+        return this.proteinsMg;
       case Nutrient.sodium:
-        return this.totalSodiumMg;
+        return this.sodiumMg;
       case Nutrient.potassium:
-        return this.totalPotassiumMg;
+        return this.potassiumMg;
       case Nutrient.phosphorus:
-        return this.totalPhosphorusMg;
+        return this.phosphorusMg;
       default:
         throw ArgumentError.value(
             nutrient, "nutrient", "Unable to map indicator to total amount");
     }
   }
 
+  int getNutrientTotalAmount(Nutrient nutrient) {
+    return getNutrientConsumption(nutrient).total;
+  }
+
   double getNutrientConsumptionRatio(Nutrient nutrient) {
-    if (this.intakes.isEmpty) {
-      return 0;
-    }
-
-    final consumption =
-        this.intakes.map((e) => e.getNutrientAmount(nutrient)).sum;
-    final recommendation = this.userIntakeNorms.getNutrientAmount(nutrient);
-
-    return consumption.toDouble() / recommendation;
+    throw UnimplementedError();
   }
 
   String getNutrientTotalAmountFormatted(Nutrient nutrient) {
@@ -130,36 +109,36 @@ extension IntakeExtension on Intake {
   }
 }
 
-extension DailyIntakeNormsExtensions on DailyIntakeNorm {
-  int getNutrientAmount(Nutrient nutrient) {
-    switch (nutrient) {
-      case Nutrient.energy:
-        return this.energyKcal;
-      case Nutrient.liquids:
-        return this.liquidsMl;
-      case Nutrient.proteins:
-        return this.proteinsMg;
-      case Nutrient.sodium:
-        return this.sodiumMg;
-      case Nutrient.potassium:
-        return this.potassiumMg;
-      case Nutrient.phosphorus:
-        return this.phosphorusMg;
-      default:
-        throw ArgumentError.value(
-            nutrient, "nutrient", "Unable to map indicator to amount");
-    }
-  }
+extension DailyNutrientConsumptionExtensions on DailyNutrientConsumption {
+  // int getNutrientAmount(Nutrient nutrient) {
+  //   switch (nutrient) {
+  //     case Nutrient.energy:
+  //       return this.energyKcal;
+  //     case Nutrient.liquids:
+  //       return this.liquidsMl;
+  //     case Nutrient.proteins:
+  //       return this.proteinsMg;
+  //     case Nutrient.sodium:
+  //       return this.sodiumMg;
+  //     case Nutrient.potassium:
+  //       return this.potassiumMg;
+  //     case Nutrient.phosphorus:
+  //       return this.phosphorusMg;
+  //     default:
+  //       throw ArgumentError.value(
+  //           nutrient, "nutrient", "Unable to map indicator to amount");
+  //   }
+  // }
 
-  String getNutrientAmountFormatted(Nutrient nutrient) {
-    final amount = getNutrientAmount(nutrient);
-
-    if (amount == null) {
-      return null;
-    }
-
-    return _getFormattedNutrient(nutrient, amount);
-  }
+  // String getNutrientAmountFormatted(Nutrient nutrient) {
+  //   final amount = getNutrientAmount(nutrient);
+  //
+  //   if (amount == null) {
+  //     return null;
+  //   }
+  //
+  //   return _getFormattedNutrient(nutrient, amount);
+  // }
 }
 
 extension NutrientExtensions on Nutrient {
@@ -191,15 +170,16 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       case HealthIndicator.bloodPressure:
         return diastolicBloodPressure != null && systolicBloodPressure != null;
       case HealthIndicator.weight:
-        return weight != null;
+        return weightKg != null;
       case HealthIndicator.urine:
         return urineMl != null;
       case HealthIndicator.severityOfSwelling:
-        return severityOfSwelling != null;
+        return swellingDifficulty != null;
       case HealthIndicator.numberOfSwellings:
-        return numberOfSwellings != null;
+        // TODO numberOfSwellings implementation
+        return false;
       case HealthIndicator.wellBeing:
-        return wellBeing != null;
+        return wellFeeling != null;
       case HealthIndicator.appetite:
         return appetite != null;
       case HealthIndicator.shortnessOfBreath:
@@ -222,86 +202,77 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       case HealthIndicator.bloodPressure:
         return "$diastolicBloodPressure / $systolicBloodPressure mmHg";
       case HealthIndicator.weight:
-        return "$weight kg";
+        return "$weightKg kg";
       case HealthIndicator.urine:
         return _formatAmount(urineMl, "ml", "l");
       case HealthIndicator.severityOfSwelling:
-        switch (severityOfSwelling) {
-          case 1:
-            return "0+";
-          case 2:
-            return "1+";
-          case 3:
-            return "2+";
-          case 4:
-            return "3+";
-          case 5:
-            return "4+";
-          default:
-            return "TODO";
+        // TODO generate
+        switch (swellingDifficulty) {
         }
         throw ArgumentError.value(
-          severityOfSwelling,
-          "severityOfSwelling",
-          "Invalid severityOfSwelling value",
+          swellingDifficulty,
+          "swellingDifficulty",
+          "Invalid swellingDifficulty value",
         );
       case HealthIndicator.numberOfSwellings:
-        return numberOfSwellings.toString();
+        // TODO missing from API
+        return null;
       case HealthIndicator.wellBeing:
-        switch (wellBeing) {
-          case 1:
-            return "Labai bloga";
-          case 2:
-            return "Bloga";
-          case 3:
-            return "Vidutinė";
-          case 4:
-            return "Gera";
-          case 5:
-            return "Puiki";
-          default:
-            return "TODO";
+        // TODO generate
+        switch (wellFeeling) {
+          // case 1:
+          //   return "Labai bloga";
+          // case 2:
+          //   return "Bloga";
+          // case 3:
+          //   return "Vidutinė";
+          // case 4:
+          //   return "Gera";
+          // case 5:
+          //   return "Puiki";
+          // default:
+          //   return "TODO";
         }
         throw ArgumentError.value(
-          wellBeing,
-          "wellBeing",
-          "Invalid wellBeing value",
+          wellFeeling,
+          "wellFeeling",
+          "Invalid wellFeeling value",
         );
-      case HealthIndicator.appetite:
-        switch (appetite) {
-          case 1:
-            return "Labai blogas";
-          case 2:
-            return "Blogas";
-          case 3:
-            return "Vidutinis";
-          case 4:
-            return "Geras";
-          case 5:
-            return "Puikus";
-          default:
-            return "TODO";
-        }
-        throw ArgumentError.value(
-          appetite,
-          "appetite",
-          "Invalid wellBeing value",
-        );
-      case HealthIndicator.shortnessOfBreath:
-        switch (shortnessOfBreath) {
-          case 1:
-            return "Nėra";
-          case 2:
-            return "Lengvas";
-          case 3:
-            return "Vidutinis";
-          case 4:
-            return "Sunkus";
-          case 5:
-            return "Labai sunkus";
-          default:
-            return "TODO";
-        }
+        // case HealthIndicator.appetite:
+        //   switch (appetite) {
+        //     case 1:
+        //       return "Labai blogas";
+        //     case 2:
+        //       return "Blogas";
+        //     case 3:
+        //       return "Vidutinis";
+        //     case 4:
+        //       return "Geras";
+        //     case 5:
+        //       return "Puikus";
+        //     default:
+        //       return "TODO";
+        //   }
+        //   throw ArgumentError.value(
+        //     appetite,
+        //     "appetite",
+        //     "Invalid wellBeing value",
+        //   );
+        // case HealthIndicator.shortnessOfBreath:
+        //   switch (shortnessOfBreath) {
+        //     case 1:
+        //       return "Nėra";
+        //     case 2:
+        //       return "Lengvas";
+        //     case 3:
+        //       return "Vidutinis";
+        //     case 4:
+        //       return "Sunkus";
+        //     case 5:
+        //       return "Labai sunkus";
+        //     default:
+        //       return "TODO";
+        //   }
         throw ArgumentError.value(
           shortnessOfBreath,
           "shortnessOfBreath",
@@ -325,19 +296,20 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       case HealthIndicator.bloodPressure:
         return this.systolicBloodPressure.toDouble();
       case HealthIndicator.weight:
-        return this.weight.toDouble();
+        return this.weightKg.toDouble();
       case HealthIndicator.urine:
         return this.urineMl.toDouble();
       case HealthIndicator.severityOfSwelling:
-        return this.severityOfSwelling.toDouble();
-      case HealthIndicator.numberOfSwellings:
-        return this.numberOfSwellings.toDouble();
-      case HealthIndicator.wellBeing:
-        return this.wellBeing.toDouble();
-      case HealthIndicator.appetite:
-        return this.appetite.toDouble();
-      case HealthIndicator.shortnessOfBreath:
-        return this.shortnessOfBreath.toDouble();
+      // TODO correct mapping
+      //   return this.severityOfSwelling.toDouble();
+      // case HealthIndicator.numberOfSwellings:
+      //   return this.numberOfSwellings.toDouble();
+      // case HealthIndicator.wellBeing:
+      //   return this.wellBeing.toDouble();
+      // case HealthIndicator.appetite:
+      //   return this.appetite.toDouble();
+      // case HealthIndicator.shortnessOfBreath:
+      //   return this.shortnessOfBreath.toDouble();
       default:
         throw ArgumentError.value(
           this,
@@ -351,6 +323,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
 extension HealthIndicatorExtensions on HealthIndicator {
   String get name {
     switch (this) {
+    // TODO translations
       case HealthIndicator.bloodPressure:
         return "Kraujo spaudimas";
       case HealthIndicator.weight:
@@ -375,4 +348,8 @@ extension HealthIndicatorExtensions on HealthIndicator {
         );
     }
   }
+}
+
+extension EnumClassExtensions<E extends EnumClass> on E {
+  E enumWithoutDefault(E defaultValue) => (this == defaultValue) ? null : this;
 }

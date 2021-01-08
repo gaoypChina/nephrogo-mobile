@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/ui/forms/forms.dart';
 import 'package:nephrolog/ui/general/components.dart';
-import 'package:nephrolog_api_client/model/daily_health_status.dart';
+import 'package:nephrolog_api_client/model/appetite_enum.dart';
+import 'package:nephrolog_api_client/model/daily_health_status_request.dart';
+import 'package:nephrolog_api_client/model/shortness_of_breath_enum.dart';
+import 'package:nephrolog_api_client/model/swelling_difficulty_enum.dart';
+import 'package:nephrolog_api_client/model/well_feeling_enum.dart';
 
 class HealthIndicatorsCreationScreen extends StatefulWidget {
   @override
@@ -14,14 +18,14 @@ class _HealthIndicatorsCreationScreenState
     extends State<HealthIndicatorsCreationScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  DailyHealthStatusBuilder _statusBuilder;
+  DailyHealthStatusRequestBuilder _statusBuilder;
   AppLocalizations _appLocalizations;
 
   @override
   void initState() {
     super.initState();
 
-    _statusBuilder = DailyHealthStatusBuilder();
+    _statusBuilder = DailyHealthStatusRequestBuilder();
   }
 
   @override
@@ -89,7 +93,7 @@ class _HealthIndicatorsCreationScreenState
                   suffixText: "kg",
                   helperText: _appLocalizations.userConditionsWeightHelper,
                   onSaved: (value) {
-                    _statusBuilder.weight = value;
+                    _statusBuilder.weightKg = value;
                   },
                 ),
                 AppIntegerFormField(
@@ -104,7 +108,9 @@ class _HealthIndicatorsCreationScreenState
                 AppDoubleInputField(
                   labelText: _appLocalizations.healthStatusCreationGlucose,
                   suffixText: "mmol/l",
-                  onSaved: (value) {},
+                  onSaved: (value) {
+                    _statusBuilder.glucose = value;
+                  },
                 ),
               ],
             ),
@@ -113,50 +119,51 @@ class _HealthIndicatorsCreationScreenState
               setLeftPadding: true,
               showDividers: false,
               children: [
-                AppSelectFormField<int>(
+                AppSelectFormField<SwellingDifficultyEnum>(
                   labelText:
                       _appLocalizations.healthStatusCreationSwellingDifficulty,
                   dialogHelpText: _appLocalizations
                       .healthStatusCreationSwellingDifficultyHelper,
-                  onSaved: (v) => _statusBuilder.severityOfSwelling = v.value,
+                  onSaved: (v) => _statusBuilder.swellingDifficulty = v.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: "0+",
                       description: _appLocalizations
                           .healthStatusCreationSwellingDifficulty0,
                       icon: Icons.sentiment_very_satisfied,
-                      value: 0,
+                      value: SwellingDifficultyEnum.n0plus,
                     ),
                     AppSelectFormFieldItem(
                       text: "1+",
                       description: _appLocalizations
                           .healthStatusCreationSwellingDifficulty1,
                       icon: Icons.sentiment_satisfied,
-                      value: 1,
+                      value: SwellingDifficultyEnum.n1plus,
                     ),
                     AppSelectFormFieldItem(
                       text: "2+",
                       description: _appLocalizations
                           .healthStatusCreationSwellingDifficulty2,
                       icon: Icons.sentiment_dissatisfied,
-                      value: 2,
+                      value: SwellingDifficultyEnum.n2plus,
                     ),
                     AppSelectFormFieldItem(
                       text: "3+",
                       description: _appLocalizations
                           .healthStatusCreationSwellingDifficulty3,
                       icon: Icons.sentiment_very_dissatisfied,
-                      value: 3,
+                      value: SwellingDifficultyEnum.n3plus,
                     ),
                     AppSelectFormFieldItem(
                       text: "4+",
                       description: _appLocalizations
                           .healthStatusCreationSwellingDifficulty4,
                       icon: Icons.sick,
-                      value: 4,
+                      value: SwellingDifficultyEnum.n4plus,
                     ),
                   ],
                 ),
+                // TODO change to enums
                 AppMultipleSelectFormField<String>(
                   labelText:
                       _appLocalizations.healthStatusCreationSwellingDifficulty,
@@ -210,83 +217,86 @@ class _HealthIndicatorsCreationScreenState
               showDividers: false,
               setLeftPadding: true,
               children: [
-                AppSelectFormField<int>(
+                AppSelectFormField<WellFeelingEnum>(
                   labelText: _appLocalizations.healthStatusCreationWellFeeling,
+                  onSaved: (v) => _statusBuilder.wellFeeling = v.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: _appLocalizations
                           .healthStatusCreationWellFeelingPerfect,
                       icon: Icons.sentiment_very_satisfied,
-                      value: 0,
+                      value: WellFeelingEnum.perfect,
                     ),
                     AppSelectFormFieldItem(
                       text:
                           _appLocalizations.healthStatusCreationWellFeelingGood,
                       icon: Icons.sentiment_satisfied,
-                      value: 1,
+                      value: WellFeelingEnum.good,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
                           .healthStatusCreationWellFeelingAverage,
                       icon: Icons.sentiment_dissatisfied,
-                      value: 2,
+                      value: WellFeelingEnum.average,
                     ),
                     AppSelectFormFieldItem(
                       text:
                           _appLocalizations.healthStatusCreationWellFeelingBad,
                       icon: Icons.sentiment_very_dissatisfied,
-                      value: 3,
+                      value: WellFeelingEnum.bad,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
                           .healthStatusCreationWellFeelingVeryBad,
                       icon: Icons.sick,
-                      value: 4,
+                      value: WellFeelingEnum.veryBad,
                     ),
                   ],
                 ),
-                AppSelectFormField<int>(
+                AppSelectFormField<AppetiteEnum>(
                   labelText: _appLocalizations.healthStatusCreationAppetite,
+                  onSaved: (v) => _statusBuilder.appetite = v.value,
                   items: [
                     AppSelectFormFieldItem(
                       text:
                           _appLocalizations.healthStatusCreationAppetitePerfect,
                       icon: Icons.sentiment_very_satisfied,
-                      value: 0,
+                      value: AppetiteEnum.perfect,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations.healthStatusCreationAppetiteGood,
                       icon: Icons.sentiment_satisfied,
-                      value: 1,
+                      value: AppetiteEnum.good,
                     ),
                     AppSelectFormFieldItem(
                       text:
                           _appLocalizations.healthStatusCreationAppetiteAverage,
                       icon: Icons.sentiment_dissatisfied,
-                      value: 2,
+                      value: AppetiteEnum.average,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations.healthStatusCreationAppetiteBad,
                       icon: Icons.sentiment_very_dissatisfied,
-                      value: 3,
+                      value: AppetiteEnum.bad,
                     ),
                     AppSelectFormFieldItem(
                       text:
                           _appLocalizations.healthStatusCreationAppetiteVeryBad,
                       icon: Icons.sick,
-                      value: 4,
+                      value: AppetiteEnum.veryBad,
                     ),
                   ],
                 ),
-                AppSelectFormField<int>(
+                AppSelectFormField<ShortnessOfBreathEnum>(
                   labelText:
                       _appLocalizations.healthStatusCreationShortnessOfBreath,
+                  onSaved: (v) => _statusBuilder.shortnessOfBreath = v.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: _appLocalizations
                           .healthStatusCreationShortnessOfBreathNo,
                       icon: Icons.sentiment_very_satisfied,
-                      value: 0,
+                      value: ShortnessOfBreathEnum.no,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
@@ -294,7 +304,7 @@ class _HealthIndicatorsCreationScreenState
                       description: _appLocalizations
                           .healthStatusCreationShortnessOfBreathLightHelper,
                       icon: Icons.sentiment_satisfied,
-                      value: 1,
+                      value: ShortnessOfBreathEnum.light,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
@@ -302,7 +312,7 @@ class _HealthIndicatorsCreationScreenState
                       description: _appLocalizations
                           .healthStatusCreationShortnessOfBreathAverageHelper,
                       icon: Icons.sentiment_dissatisfied,
-                      value: 2,
+                      value: ShortnessOfBreathEnum.average,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
@@ -310,7 +320,7 @@ class _HealthIndicatorsCreationScreenState
                       description: _appLocalizations
                           .healthStatusCreationShortnessOfBreathSevereHelper,
                       icon: Icons.sentiment_very_dissatisfied,
-                      value: 3,
+                      value: ShortnessOfBreathEnum.severe,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
@@ -318,7 +328,7 @@ class _HealthIndicatorsCreationScreenState
                       description: _appLocalizations
                           .healthStatusCreationShortnessOfBreathBackbreakingHelper,
                       icon: Icons.sick,
-                      value: 4,
+                      value: ShortnessOfBreathEnum.backbreaking,
                     ),
                   ],
                 ),
@@ -330,5 +340,7 @@ class _HealthIndicatorsCreationScreenState
     );
   }
 
-  validateAndSaveHealthIndicators(BuildContext context) {}
+  validateAndSaveHealthIndicators(BuildContext context) {
+    // TODO implement
+  }
 }
