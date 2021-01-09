@@ -99,24 +99,24 @@ class _HealthIndicatorsCreationScreenState
                     Flexible(
                       child: AppIntegerFormField(
                         labelText:
-                            _appLocalizations.healthStatusCreationSystolic,
-                        suffixText: "mmHg",
-                        initialValue:
-                            _initialHealthStatus?.systolicBloodPressure,
-                        onSaved: (value) {
-                          _healthStatusBuilder.systolicBloodPressure = value;
-                        },
-                      ),
-                    ),
-                    Flexible(
-                      child: AppIntegerFormField(
-                        labelText:
                             _appLocalizations.healthStatusCreationDiastolic,
                         suffixText: "mmHg",
                         initialValue:
                             _initialHealthStatus?.diastolicBloodPressure,
                         onSaved: (value) {
                           _healthStatusBuilder.diastolicBloodPressure = value;
+                        },
+                      ),
+                    ),
+                    Flexible(
+                      child: AppIntegerFormField(
+                        labelText:
+                            _appLocalizations.healthStatusCreationSystolic,
+                        suffixText: "mmHg",
+                        initialValue:
+                            _initialHealthStatus?.systolicBloodPressure,
+                        onSaved: (value) {
+                          _healthStatusBuilder.systolicBloodPressure = value;
                         },
                       ),
                     ),

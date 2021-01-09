@@ -108,10 +108,23 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
 
     return AppBarChartData(
       groups: groups,
+      showLeftTitles: _showLeftTitles(),
       interval: _getInterval(),
       maxY: _getMaxY(),
       minY: _getMinY(),
     );
+  }
+
+  bool _showLeftTitles() {
+    switch (indicator) {
+      case HealthIndicator.severityOfSwelling:
+      case HealthIndicator.wellBeing:
+      case HealthIndicator.appetite:
+      case HealthIndicator.shortnessOfBreath:
+        return false;
+      default:
+        return true;
+    }
   }
 
   double _getMinY() {
@@ -156,7 +169,7 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
       case HealthIndicator.weight:
         return 25;
       case HealthIndicator.urine:
-        return 200;
+        return 50;
       case HealthIndicator.numberOfSwellings:
       case HealthIndicator.severityOfSwelling:
       case HealthIndicator.wellBeing:
