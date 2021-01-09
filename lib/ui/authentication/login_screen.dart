@@ -1,4 +1,5 @@
 import 'dart:developer' as developer;
+import 'dart:io' show Platform;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -59,18 +60,19 @@ class LoginScreenBody extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SignInButton(
-            Buttons.AppleDark,
-            padding: const EdgeInsets.all(16),
-            text: "Prisijungti su Apple",
-            onPressed: () => _loginWithSocial(
-              context,
-              SocialAuthenticationProvider.apple,
+        if (Platform.isIOS)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SignInButton(
+              Buttons.AppleDark,
+              padding: const EdgeInsets.all(16),
+              text: "Prisijungti su Apple",
+              onPressed: () => _loginWithSocial(
+                context,
+                SocialAuthenticationProvider.apple,
+              ),
             ),
           ),
-        ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: SignInButton(
