@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:built_value/iso_8601_date_time_serializer.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
@@ -55,8 +54,8 @@ class ApiService {
 
     final dio = Dio(BaseOptions(
       baseUrl: _baseApiUrl,
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
+      connectTimeout: 8000,
+      receiveTimeout: 5000,
       headers: {
         "time-zone-name": timeZoneName,
         'accept-encoding': 'br',
@@ -164,7 +163,7 @@ class ApiService {
         .userProfileUpdate(userProfile, cancelToken: cancelToken)
         .then((r) => r.data)
         .catchError(
-          (e) async => await _userApi
+          (e) => _userApi
               .userProfileCreate(userProfile, cancelToken: cancelToken)
               .then((r) => r.data),
           test: (e) => e is DioError && e.response?.statusCode == 404,
@@ -206,18 +205,10 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
 
   final Dio dio;
 
-  var _firebaseTokenMemoizer = AsyncMemoizer<String>();
-
   _FirebaseAuthenticationInterceptor(this.dio);
 
   Future<String> _getIdToken(bool forceRefresh) {
-    if (forceRefresh) {
-      _firebaseTokenMemoizer = AsyncMemoizer<String>();
-    }
-
-    return _firebaseTokenMemoizer.runOnce(() async {
-      return await _authenticationProvider.idToken(forceRefresh);
-    });
+    return _authenticationProvider.idToken(forceRefresh);
   }
 
   @override

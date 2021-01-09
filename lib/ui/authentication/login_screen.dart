@@ -1,5 +1,4 @@
 import 'dart:developer' as developer;
-import 'dart:io' show Platform;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +59,7 @@ class LoginScreenBody extends StatelessWidget {
             ),
           ),
         ),
-        if (Platform.isIOS)
+        if (Theme.of(context).platform == TargetPlatform.iOS)
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SignInButton(
