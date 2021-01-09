@@ -14,6 +14,7 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO maybe add check for user condition
     if (!_authenticationProvider.isUserLoggedIn) {
       return LoginScreen();
     }

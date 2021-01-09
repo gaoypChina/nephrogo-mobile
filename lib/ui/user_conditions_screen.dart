@@ -2,7 +2,7 @@ import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
-import 'package:nephrolog/extensions.dart';
+import 'package:nephrolog/extensions/extensions.dart';
 import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/services/api_service.dart';
@@ -268,7 +268,8 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                       _appLocalizations.userConditionsSectionDiabetesType,
                   validator: _formValidators.nonNull(),
                   initialValue: initialUserProfile?.diabetesType
-                      ?.enumWithoutDefault(DiabetesTypeEnum.unknown),
+                          ?.enumWithoutDefault(DiabetesTypeEnum.unknown) ??
+                      DiabetesTypeEnum.no,
                   onChanged: (dt) {
                     setState(() {
                       _diabetesType = dt.value;
@@ -311,8 +312,8 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                       AppSelectFormField<DiabetesComplicationsEnum>(
                         labelText: _appLocalizations
                             .userConditionsSectionDiabetesComplications,
-                        onSaved: (v) =>
-                            _userProfileBuilder.diabetesComplications = v.value,
+                        onSaved: (v) => _userProfileBuilder
+                            .diabetesComplications = v?.value,
                         initialValue: initialUserProfile?.diabetesComplications,
                         validator:
                             isDiabetic ? _formValidators.nonNull() : null,
@@ -345,11 +346,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
   Future<UserProfile> _saveUserProfileToApi() async {
     final userProfile = _userProfileBuilder.build();
 
-    if (initialUserProfile == null) {
-      return await _apiService.createUserProfile(userProfile);
-    }
-
-    return await _apiService.updateUserProfile(userProfile);
+    return await _apiService.createOrUpdateUserProfile(userProfile);
   }
 
   Future validateAndSaveUserProfile(BuildContext context) async {
@@ -361,7 +358,6 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
       isSubmitting = true;
     });
 
-    // TODO test if hidden field is called
     _formKey.currentState.save();
 
     try {

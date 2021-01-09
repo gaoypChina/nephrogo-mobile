@@ -119,6 +119,10 @@
   "@energy": {
     "context": "nutrient"
   },
+  "faqTitle": "Dažniausiai užduodami klausimai",
+  "@faqTitle": {
+    "context": "faq"
+  },
   "faqPotassiumQuestion1": "Kaip atpažinti kalio perteklių?",
   "@faqPotassiumQuestion1": {
     "context": "faq:potassium"

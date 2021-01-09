@@ -7,9 +7,7 @@ class FrequentlyAskedQuestionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Dažniausiai užduodami klausimai"),
-      ),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).faqTitle)),
       body: FrequentlyAskedQuestionsScreenBody(),
     );
   }

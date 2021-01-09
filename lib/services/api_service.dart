@@ -13,8 +13,12 @@ import 'package:nephrolog_api_client/api.dart';
 import 'package:nephrolog_api_client/api/health_status_api.dart';
 import 'package:nephrolog_api_client/api/nutrition_api.dart';
 import 'package:nephrolog_api_client/api/user_api.dart';
+import 'package:nephrolog_api_client/model/daily_health_status.dart';
+import 'package:nephrolog_api_client/model/daily_health_status_request.dart';
 import 'package:nephrolog_api_client/model/health_status_screen_response.dart';
 import 'package:nephrolog_api_client/model/health_status_weekly_screen_response.dart';
+import 'package:nephrolog_api_client/model/intake.dart';
+import 'package:nephrolog_api_client/model/intake_request.dart';
 import 'package:nephrolog_api_client/model/nutrient_weekly_screen_response.dart';
 import 'package:nephrolog_api_client/model/product.dart';
 import 'package:nephrolog_api_client/model/user_profile.dart';
@@ -111,30 +115,67 @@ class ApiService {
     return r.data.toList();
   }
 
-  Future<UserProfile> createUserProfile(UserProfileRequest userProfile,
+  Future<Intake> createIntake(IntakeRequest intakeRequest,
       [CancelToken cancelToken]) async {
-    final r =
-        await _userApi.userProfileCreate(userProfile, cancelToken: cancelToken);
+    final r = await _nutritionApi.nutritionIntakeCreate(intakeRequest,
+        cancelToken: cancelToken);
 
     return r.data;
   }
 
-  Future<UserProfile> updateUserProfile(UserProfileRequest userProfile,
-      [CancelToken cancelToken]) async {
-    final r =
-        await _userApi.userProfileUpdate(userProfile, cancelToken: cancelToken);
-
-    return r.data;
+  Future<DailyHealthStatus> createOrUpdateDailyHealthStatus(
+      DailyHealthStatusRequest dailyHealthStatusRequest,
+      [CancelToken cancelToken]) {
+    return _healthStatusApi
+        .healthStatusUpdate(
+          Date(dailyHealthStatusRequest.date),
+          dailyHealthStatusRequest,
+          cancelToken: cancelToken,
+        )
+        .then((r) => r.data)
+        .catchError(
+          (e) async => await _healthStatusApi
+              .healthStatusCreate(
+                dailyHealthStatusRequest,
+                cancelToken: cancelToken,
+              )
+              .then((r) => r.data),
+          test: (e) => e is DioError && e.response?.statusCode == 404,
+        );
   }
 
-  Future<UserProfile> getUserProfile([CancelToken cancelToken]) async {
-    final r = await _userApi.userProfileRetrieve(cancelToken: cancelToken);
+  Future<DailyHealthStatus> getDailyHealthStatus(DateTime date,
+      [CancelToken cancelToken]) {
+    return _healthStatusApi
+        .healthStatusRetrieve(Date(date), cancelToken: cancelToken)
+        .then((r) => r.data)
+        .catchError(
+          (e) => null,
+          test: (e) => e is DioError && e.response?.statusCode == 404,
+        );
+  }
 
-    if (r.statusCode == 404) {
-      return null;
-    }
+  Future<UserProfile> createOrUpdateUserProfile(UserProfileRequest userProfile,
+      [CancelToken cancelToken]) {
+    return _userApi
+        .userProfileUpdate(userProfile, cancelToken: cancelToken)
+        .then((r) => r.data)
+        .catchError(
+          (e) async => await _userApi
+              .userProfileCreate(userProfile, cancelToken: cancelToken)
+              .then((r) => r.data),
+          test: (e) => e is DioError && e.response?.statusCode == 404,
+        );
+  }
 
-    return r.data;
+  Future<UserProfile> getUserProfile([CancelToken cancelToken]) {
+    return _userApi
+        .userProfileRetrieve(cancelToken: cancelToken)
+        .then((r) => r.data)
+        .catchError(
+          (e) => null,
+          test: (e) => e is DioError && e.response?.statusCode == 404,
+        );
   }
 
   Future<HealthStatusScreenResponse> getHealthStatusScreen(

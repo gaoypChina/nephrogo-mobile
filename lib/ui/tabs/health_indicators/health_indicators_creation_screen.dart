@@ -1,8 +1,16 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
+import 'package:nephrolog/extensions/extensions.dart';
 import 'package:nephrolog/l10n/localizations.dart';
+import 'package:nephrolog/models/date.dart';
+import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/forms/forms.dart';
+import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
+import 'package:nephrolog/ui/general/progress_indicator.dart';
 import 'package:nephrolog_api_client/model/appetite_enum.dart';
+import 'package:nephrolog_api_client/model/daily_health_status.dart';
 import 'package:nephrolog_api_client/model/daily_health_status_request.dart';
 import 'package:nephrolog_api_client/model/shortness_of_breath_enum.dart';
 import 'package:nephrolog_api_client/model/swelling_difficulty_enum.dart';
@@ -16,16 +24,28 @@ class HealthIndicatorsCreationScreen extends StatefulWidget {
 
 class _HealthIndicatorsCreationScreenState
     extends State<HealthIndicatorsCreationScreen> {
+  final logger = Logger("HealthIndicatorsCreationScreen");
+
   final _formKey = GlobalKey<FormState>();
 
-  DailyHealthStatusRequestBuilder _statusBuilder;
+  final _apiService = ApiService();
+  DailyHealthStatusRequestBuilder _healthStatusBuilder;
   AppLocalizations _appLocalizations;
+  bool isSubmitting = false;
+
+  var _healthStatusMemoizer = AsyncMemoizer<DailyHealthStatus>();
+  DailyHealthStatus _initialHealthStatus;
 
   @override
   void initState() {
     super.initState();
 
-    _statusBuilder = DailyHealthStatusRequestBuilder();
+    _healthStatusBuilder = DailyHealthStatusRequestBuilder();
+    _healthStatusBuilder.date = Date(DateTime.now());
+
+    _healthStatusMemoizer.runOnce(
+      () => _apiService.getDailyHealthStatus(_healthStatusBuilder.date),
+    );
   }
 
   @override
@@ -36,12 +56,34 @@ class _HealthIndicatorsCreationScreenState
       appBar: AppBar(
         title: Text(_appLocalizations.healthStatusCreationTodayTitle),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => validateAndSaveHealthIndicators(context),
-        label: Text(_appLocalizations.save.toUpperCase()),
-        icon: Icon(Icons.save),
+      floatingActionButton: Builder(
+        builder: (context) => FloatingActionButton.extended(
+          onPressed: isSubmitting
+              ? null
+              : () => validateAndSaveHealthIndicators(context),
+          label: Text(_appLocalizations.save.toUpperCase()),
+          icon: Icon(Icons.save),
+        ),
       ),
-      body: Form(
+      body: AppFutureBuilder(
+        future: _healthStatusMemoizer.future,
+        builder: (context, healthStatus) {
+          _initialHealthStatus = healthStatus;
+
+          return _buildBody(context);
+        },
+      ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return Visibility(
+      visible: !isSubmitting,
+      replacement: Center(
+        child: AppProgressIndicator(),
+      ),
+      maintainState: true,
+      child: Form(
         key: _formKey,
         child: ListView(
           padding: const EdgeInsets.only(bottom: 64),
@@ -59,8 +101,10 @@ class _HealthIndicatorsCreationScreenState
                         labelText:
                             _appLocalizations.healthStatusCreationSystolic,
                         suffixText: "mmHg",
+                        initialValue:
+                            _initialHealthStatus?.systolicBloodPressure,
                         onSaved: (value) {
-                          _statusBuilder.systolicBloodPressure = value;
+                          _healthStatusBuilder.systolicBloodPressure = value;
                         },
                       ),
                     ),
@@ -69,8 +113,10 @@ class _HealthIndicatorsCreationScreenState
                         labelText:
                             _appLocalizations.healthStatusCreationDiastolic,
                         suffixText: "mmHg",
+                        initialValue:
+                            _initialHealthStatus?.diastolicBloodPressure,
                         onSaved: (value) {
-                          _statusBuilder.diastolicBloodPressure = value;
+                          _healthStatusBuilder.diastolicBloodPressure = value;
                         },
                       ),
                     ),
@@ -92,15 +138,17 @@ class _HealthIndicatorsCreationScreenState
                   labelText: _appLocalizations.weight,
                   suffixText: "kg",
                   helperText: _appLocalizations.userConditionsWeightHelper,
+                  initialValue: _initialHealthStatus?.weightKg,
                   onSaved: (value) {
-                    _statusBuilder.weightKg = value;
+                    _healthStatusBuilder.weightKg = value;
                   },
                 ),
                 AppIntegerFormField(
                   labelText: _appLocalizations.healthStatusCreationUrine,
                   suffixText: "ml",
+                  initialValue: _initialHealthStatus?.urineMl,
                   onSaved: (value) {
-                    _statusBuilder.urineMl = value;
+                    _healthStatusBuilder.urineMl = value;
                   },
                 ),
                 // TODO rodyti tik cukraligei
@@ -108,8 +156,9 @@ class _HealthIndicatorsCreationScreenState
                 AppDoubleInputField(
                   labelText: _appLocalizations.healthStatusCreationGlucose,
                   suffixText: "mmol/l",
+                  initialValue: _initialHealthStatus?.glucose,
                   onSaved: (value) {
-                    _statusBuilder.glucose = value;
+                    _healthStatusBuilder.glucose = value;
                   },
                 ),
               ],
@@ -124,7 +173,10 @@ class _HealthIndicatorsCreationScreenState
                       _appLocalizations.healthStatusCreationSwellingDifficulty,
                   dialogHelpText: _appLocalizations
                       .healthStatusCreationSwellingDifficultyHelper,
-                  onSaved: (v) => _statusBuilder.swellingDifficulty = v.value,
+                  initialValue: _initialHealthStatus?.swellingDifficulty
+                      ?.enumWithoutDefault(SwellingDifficultyEnum.unknown),
+                  onSaved: (v) =>
+                      _healthStatusBuilder.swellingDifficulty = v?.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: "0+",
@@ -166,7 +218,7 @@ class _HealthIndicatorsCreationScreenState
                 // TODO change to enums
                 AppMultipleSelectFormField<String>(
                   labelText:
-                      _appLocalizations.healthStatusCreationSwellingDifficulty,
+                  _appLocalizations.healthStatusCreationSwellingDifficulty,
                   items: [
                     AppSelectFormFieldItem(
                       text: _appLocalizations
@@ -219,7 +271,9 @@ class _HealthIndicatorsCreationScreenState
               children: [
                 AppSelectFormField<WellFeelingEnum>(
                   labelText: _appLocalizations.healthStatusCreationWellFeeling,
-                  onSaved: (v) => _statusBuilder.wellFeeling = v.value,
+                  initialValue: _initialHealthStatus?.wellFeeling
+                      ?.enumWithoutDefault(WellFeelingEnum.unknown),
+                  onSaved: (v) => _healthStatusBuilder.wellFeeling = v?.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: _appLocalizations
@@ -241,7 +295,7 @@ class _HealthIndicatorsCreationScreenState
                     ),
                     AppSelectFormFieldItem(
                       text:
-                          _appLocalizations.healthStatusCreationWellFeelingBad,
+                      _appLocalizations.healthStatusCreationWellFeelingBad,
                       icon: Icons.sentiment_very_dissatisfied,
                       value: WellFeelingEnum.bad,
                     ),
@@ -255,7 +309,9 @@ class _HealthIndicatorsCreationScreenState
                 ),
                 AppSelectFormField<AppetiteEnum>(
                   labelText: _appLocalizations.healthStatusCreationAppetite,
-                  onSaved: (v) => _statusBuilder.appetite = v.value,
+                  onSaved: (v) => _healthStatusBuilder.appetite = v?.value,
+                  initialValue: _initialHealthStatus?.appetite
+                      ?.enumWithoutDefault(AppetiteEnum.unknown),
                   items: [
                     AppSelectFormFieldItem(
                       text:
@@ -270,7 +326,7 @@ class _HealthIndicatorsCreationScreenState
                     ),
                     AppSelectFormFieldItem(
                       text:
-                          _appLocalizations.healthStatusCreationAppetiteAverage,
+                      _appLocalizations.healthStatusCreationAppetiteAverage,
                       icon: Icons.sentiment_dissatisfied,
                       value: AppetiteEnum.average,
                     ),
@@ -281,7 +337,7 @@ class _HealthIndicatorsCreationScreenState
                     ),
                     AppSelectFormFieldItem(
                       text:
-                          _appLocalizations.healthStatusCreationAppetiteVeryBad,
+                      _appLocalizations.healthStatusCreationAppetiteVeryBad,
                       icon: Icons.sick,
                       value: AppetiteEnum.veryBad,
                     ),
@@ -290,7 +346,10 @@ class _HealthIndicatorsCreationScreenState
                 AppSelectFormField<ShortnessOfBreathEnum>(
                   labelText:
                       _appLocalizations.healthStatusCreationShortnessOfBreath,
-                  onSaved: (v) => _statusBuilder.shortnessOfBreath = v.value,
+                  initialValue: _initialHealthStatus?.shortnessOfBreath
+                      ?.enumWithoutDefault(ShortnessOfBreathEnum.unknown),
+                  onSaved: (v) =>
+                      _healthStatusBuilder.shortnessOfBreath = v?.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: _appLocalizations
@@ -340,7 +399,36 @@ class _HealthIndicatorsCreationScreenState
     );
   }
 
-  validateAndSaveHealthIndicators(BuildContext context) {
-    // TODO implement
+  Future validateAndSaveHealthIndicators(BuildContext context) async {
+    if (!_formKey.currentState.validate()) {
+      return null;
+    }
+
+    setState(() {
+      isSubmitting = true;
+    });
+
+    _formKey.currentState.save();
+
+    DailyHealthStatus dailyHealthStatus;
+    try {
+      dailyHealthStatus = await _apiService
+          .createOrUpdateDailyHealthStatus(_healthStatusBuilder.build());
+    } catch (ex, st) {
+      logger.warning(
+        "Got error from API while submitting health status",
+        ex,
+        st,
+      );
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(ex.toString())));
+
+      return null;
+    } finally {
+      setState(() {
+        isSubmitting = false;
+      });
+    }
+
+    Navigator.of(context).pop(dailyHealthStatus);
   }
 }

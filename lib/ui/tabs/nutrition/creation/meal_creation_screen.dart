@@ -1,11 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nephrolog/extensions/extensions.dart';
 import 'package:nephrolog/l10n/localizations.dart';
+import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/forms/form_validators.dart';
 import 'package:nephrolog/ui/forms/forms.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/tabs/nutrition/creation/product_search.dart';
+import 'package:nephrolog_api_client/model/intake_request.dart';
 import 'package:nephrolog_api_client/model/product.dart';
 
 class MealCreationScreenArguments extends Equatable {
@@ -31,13 +34,12 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
 
   AppLocalizations _appLocalizations;
 
+  final _apiService = ApiService();
+
   final _dateFormat = DateFormat.yMEd();
 
-  var _mealDate = DateTime.now();
-  var _mealTimeOfDay = TimeOfDay.now();
-  int _quantityInGrams;
-
-  Product _selectedProduct;
+  var _intakeBuilder = IntakeRequestBuilder();
+  var _consumedAt = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -73,16 +75,14 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                     ProductSearchType.change,
                   ),
                   validator: formValidators.nonNull(),
-                  onSaved: (p) => _selectedProduct = p,
+                  onSaved: (p) => _intakeBuilder.productId = p.id,
                 ),
                 AppIntegerFormField(
                   labelText: _appLocalizations.mealCreationQuantity,
                   suffixText: "g",
                   validator: formValidators.numRangeValidator(1, 10000),
                   iconData: Icons.kitchen,
-                  onSaved: (value) {
-                    _quantityInGrams = value;
-                  },
+                  onSaved: (value) => _intakeBuilder.amountG = value,
                 ),
               ],
             ),
@@ -91,21 +91,36 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
               showDividers: false,
               children: [
                 AppDatePickerFormField(
-                  initialDate: _mealDate,
-                  selectedDate: _mealDate,
+                  initialDate: _consumedAt,
+                  selectedDate: _consumedAt,
                   firstDate: DateTime(2020),
                   lastDate: DateTime.now(),
                   validator: formValidators.nonNull(),
                   dateFormat: _dateFormat,
                   iconData: Icons.calendar_today,
-                  onDateSaved: (dt) => print(dt),
+                  onDateChanged: (dt) {
+                    _consumedAt = DateTime(
+                      dt.year,
+                      dt.month,
+                      dt.day,
+                      _consumedAt.hour,
+                      _consumedAt.minute,
+                    );
+                  },
+                  onDateSaved: (dt) =>
+                      _intakeBuilder.consumedAt = _consumedAt.toUtc(),
                   labelText: _appLocalizations.mealCreationDate,
                 ),
                 AppTimePickerFormField(
                   labelText: _appLocalizations.mealCreationTime,
                   iconData: Icons.access_time,
-                  initialTime: _mealTimeOfDay,
-                  onTimeSaved: (t) => print(t),
+                  initialTime: TimeOfDay(
+                    hour: _consumedAt.hour,
+                    minute: _consumedAt.minute,
+                  ),
+                  onTimeChanged: (t) => _consumedAt.applied(t),
+                  onTimeSaved: (t) =>
+                      _intakeBuilder.consumedAt = _consumedAt.toUtc(),
                 ),
               ],
             ),
@@ -115,11 +130,13 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
     );
   }
 
-  validateAndSaveMeal(BuildContext context) {
+  Future validateAndSaveMeal(BuildContext context) async {
     if (!_formKey.currentState.validate()) {
       return false;
     }
-    if (_selectedProduct == null) {
+    _formKey.currentState.save();
+
+    if (_intakeBuilder.productId == null) {
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text(_appLocalizations.mealCreationErrorNoProductSelected),
       ));
@@ -127,9 +144,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
       return false;
     }
 
-    _formKey.currentState.save();
-
-    print(_quantityInGrams);
+    await _apiService.createIntake(_intakeBuilder.build());
 
     Navigator.pop(context);
   }

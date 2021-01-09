@@ -323,7 +323,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
 extension HealthIndicatorExtensions on HealthIndicator {
   String get name {
     switch (this) {
-    // TODO translations
+      // TODO translations
       case HealthIndicator.bloodPressure:
         return "Kraujo spaudimas";
       case HealthIndicator.weight:
