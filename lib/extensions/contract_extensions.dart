@@ -2,10 +2,14 @@ import 'package:built_value/built_value.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/models/contract.dart';
+import 'package:nephrolog_api_client/model/appetite_enum.dart';
 import 'package:nephrolog_api_client/model/daily_health_status.dart';
 import 'package:nephrolog_api_client/model/daily_intake_report.dart';
 import 'package:nephrolog_api_client/model/daily_nutrient_consumption.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
+import 'package:nephrolog_api_client/model/shortness_of_breath_enum.dart';
+import 'package:nephrolog_api_client/model/swelling_difficulty_enum.dart';
+import 'package:nephrolog_api_client/model/well_feeling_enum.dart';
 
 String _formatAmount(int amount, String baseDim, String kDim) {
   if (kDim != null && amount > 1000) {
@@ -193,7 +197,10 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     }
   }
 
-  String getHealthIndicatorFormatted(HealthIndicator indicator) {
+  String getHealthIndicatorFormatted(
+    HealthIndicator indicator,
+    AppLocalizations appLocalizations,
+  ) {
     if (!isIndicatorExists(indicator)) {
       return null;
     }
@@ -206,8 +213,19 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       case HealthIndicator.urine:
         return _formatAmount(urineMl, "ml", "l");
       case HealthIndicator.severityOfSwelling:
-        // TODO generate
         switch (swellingDifficulty) {
+          case SwellingDifficultyEnum.n0plus:
+            return "0+";
+          case SwellingDifficultyEnum.n1plus:
+            return "1+";
+          case SwellingDifficultyEnum.n2plus:
+            return "2+";
+          case SwellingDifficultyEnum.n3plus:
+            return "3+";
+          case SwellingDifficultyEnum.n4plus:
+            return "4+";
+          case SwellingDifficultyEnum.unknown:
+            return null;
         }
         throw ArgumentError.value(
           swellingDifficulty,
@@ -218,61 +236,56 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         // TODO missing from API
         return null;
       case HealthIndicator.wellBeing:
-        // TODO generate
         switch (wellFeeling) {
-          // case 1:
-          //   return "Labai bloga";
-          // case 2:
-          //   return "Bloga";
-          // case 3:
-          //   return "Vidutinė";
-          // case 4:
-          //   return "Gera";
-          // case 5:
-          //   return "Puiki";
-          // default:
-          //   return "TODO";
+          case WellFeelingEnum.perfect:
+            return appLocalizations.healthStatusCreationWellFeelingPerfect;
+          case WellFeelingEnum.good:
+            return appLocalizations.healthStatusCreationWellFeelingGood;
+          case WellFeelingEnum.average:
+            return appLocalizations.healthStatusCreationWellFeelingAverage;
+          case WellFeelingEnum.bad:
+            return appLocalizations.healthStatusCreationWellFeelingBad;
+          case WellFeelingEnum.veryBad:
+            return appLocalizations.healthStatusCreationWellFeelingVeryBad;
         }
         throw ArgumentError.value(
           wellFeeling,
           "wellFeeling",
           "Invalid wellFeeling value",
         );
-        // case HealthIndicator.appetite:
-        //   switch (appetite) {
-        //     case 1:
-        //       return "Labai blogas";
-        //     case 2:
-        //       return "Blogas";
-        //     case 3:
-        //       return "Vidutinis";
-        //     case 4:
-        //       return "Geras";
-        //     case 5:
-        //       return "Puikus";
-        //     default:
-        //       return "TODO";
-        //   }
-        //   throw ArgumentError.value(
-        //     appetite,
-        //     "appetite",
-        //     "Invalid wellBeing value",
-        //   );
-        // case HealthIndicator.shortnessOfBreath:
-        //   switch (shortnessOfBreath) {
-        //     case 1:
-        //       return "Nėra";
-        //     case 2:
-        //       return "Lengvas";
-        //     case 3:
-        //       return "Vidutinis";
-        //     case 4:
-        //       return "Sunkus";
-        //     case 5:
-        //       return "Labai sunkus";
-        //     default:
-        //       return "TODO";
-        //   }
+      case HealthIndicator.appetite:
+        switch (appetite) {
+          case AppetiteEnum.perfect:
+            return appLocalizations.healthStatusCreationAppetitePerfect;
+          case AppetiteEnum.good:
+            return appLocalizations.healthStatusCreationAppetiteGood;
+          case AppetiteEnum.average:
+            return appLocalizations.healthStatusCreationAppetiteAverage;
+          case AppetiteEnum.bad:
+            return appLocalizations.healthStatusCreationAppetiteVeryBad;
+          case AppetiteEnum.veryBad:
+            return appLocalizations.healthStatusCreationAppetiteVeryBad;
+        }
+        throw ArgumentError.value(
+          appetite,
+          "appetite",
+          "Invalid appetite value",
+        );
+      case HealthIndicator.shortnessOfBreath:
+        switch (shortnessOfBreath) {
+          case ShortnessOfBreathEnum.no:
+            return appLocalizations.healthStatusCreationShortnessOfBreathNo;
+          case ShortnessOfBreathEnum.light:
+            return appLocalizations.healthStatusCreationShortnessOfBreathLight;
+          case ShortnessOfBreathEnum.average:
+            return appLocalizations
+                .healthStatusCreationShortnessOfBreathAverage;
+          case ShortnessOfBreathEnum.severe:
+            return appLocalizations.healthStatusCreationShortnessOfBreathSevere;
+          case ShortnessOfBreathEnum.backbreaking:
+            return appLocalizations
+                .healthStatusCreationShortnessOfBreathBackbreaking;
+        }
         throw ArgumentError.value(
           shortnessOfBreath,
           "shortnessOfBreath",
@@ -300,16 +313,82 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       case HealthIndicator.urine:
         return this.urineMl.toDouble();
       case HealthIndicator.severityOfSwelling:
-      // TODO correct mapping
-      //   return this.severityOfSwelling.toDouble();
-      // case HealthIndicator.numberOfSwellings:
-      //   return this.numberOfSwellings.toDouble();
-      // case HealthIndicator.wellBeing:
-      //   return this.wellBeing.toDouble();
-      // case HealthIndicator.appetite:
-      //   return this.appetite.toDouble();
-      // case HealthIndicator.shortnessOfBreath:
-      //   return this.shortnessOfBreath.toDouble();
+        switch (swellingDifficulty) {
+          case SwellingDifficultyEnum.n0plus:
+            return 1;
+          case SwellingDifficultyEnum.n1plus:
+            return 2;
+          case SwellingDifficultyEnum.n2plus:
+            return 3;
+          case SwellingDifficultyEnum.n3plus:
+            return 4;
+          case SwellingDifficultyEnum.n4plus:
+            return 5;
+          case SwellingDifficultyEnum.unknown:
+            return null;
+        }
+        throw ArgumentError.value(
+          swellingDifficulty,
+          "swellingDifficulty",
+          "Invalid swellingDifficulty value",
+        );
+      case HealthIndicator.numberOfSwellings:
+        // TODO missing from API
+        return null;
+      case HealthIndicator.wellBeing:
+        switch (wellFeeling) {
+          case WellFeelingEnum.perfect:
+            return 1;
+          case WellFeelingEnum.good:
+            return 2;
+          case WellFeelingEnum.average:
+            return 3;
+          case WellFeelingEnum.bad:
+            return 4;
+          case WellFeelingEnum.veryBad:
+            return 5;
+        }
+        throw ArgumentError.value(
+          wellFeeling,
+          "wellFeeling",
+          "Invalid wellFeeling value",
+        );
+      case HealthIndicator.appetite:
+        switch (appetite) {
+          case AppetiteEnum.perfect:
+            return 1;
+          case AppetiteEnum.good:
+            return 2;
+          case AppetiteEnum.average:
+            return 3;
+          case AppetiteEnum.bad:
+            return 4;
+          case AppetiteEnum.veryBad:
+            return 5;
+        }
+        throw ArgumentError.value(
+          appetite,
+          "appetite",
+          "Invalid appetite value",
+        );
+      case HealthIndicator.shortnessOfBreath:
+        switch (shortnessOfBreath) {
+          case ShortnessOfBreathEnum.no:
+            return 1;
+          case ShortnessOfBreathEnum.light:
+            return 2;
+          case ShortnessOfBreathEnum.average:
+            return 3;
+          case ShortnessOfBreathEnum.severe:
+            return 4;
+          case ShortnessOfBreathEnum.backbreaking:
+            return 5;
+        }
+        throw ArgumentError.value(
+          shortnessOfBreath,
+          "shortnessOfBreath",
+          "Invalid shortnessOfBreath value",
+        );
       default:
         throw ArgumentError.value(
           this,
@@ -321,25 +400,24 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
 }
 
 extension HealthIndicatorExtensions on HealthIndicator {
-  String get name {
+  String name(AppLocalizations appLocalizations) {
     switch (this) {
-      // TODO translations
       case HealthIndicator.bloodPressure:
-        return "Kraujo spaudimas";
+        return appLocalizations.healthStatusCreationBloodPressure;
       case HealthIndicator.weight:
-        return "Svoris";
+        return appLocalizations.weight;
       case HealthIndicator.urine:
-        return "Šlapimo kiekis";
+        return appLocalizations.healthStatusCreationUrine;
       case HealthIndicator.severityOfSwelling:
-        return "Patinimų sunkumas";
+        return appLocalizations.healthStatusCreationSwellingDifficulty;
       case HealthIndicator.numberOfSwellings:
-        return "Patinimų kiekis";
+        return appLocalizations.healthStatusNumberOfSwellings;
       case HealthIndicator.wellBeing:
-        return "Savijauta";
+        return appLocalizations.healthStatusCreationWellFeeling;
       case HealthIndicator.appetite:
-        return "Apetitas";
+        return appLocalizations.healthStatusCreationAppetite;
       case HealthIndicator.shortnessOfBreath:
-        return "Dusulys";
+        return appLocalizations.healthStatusCreationShortnessOfBreath;
       default:
         throw ArgumentError.value(
           this,

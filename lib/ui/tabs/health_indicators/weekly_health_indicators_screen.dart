@@ -4,9 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog/extensions/string_extensions.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/services/api_service.dart';
-import 'package:nephrolog/ui/charts/health_indicator_bar_chart.dart';
+import 'package:nephrolog/ui/charts/weekly_health_indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/weekly_pager.dart';
@@ -48,12 +49,13 @@ class _WeeklyHealthIndicatorsScreenState
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(selectedHealthIndicator.name),
+        title: Text(selectedHealthIndicator.name(appLocalizations)),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showIndicatorSelectionPopupMenu(),
+        onPressed: () => _showIndicatorSelectionPopupMenu(appLocalizations),
         // TODO translation
         label: Text("RODIKLIS"),
         icon: Icon(Icons.swap_horizontal_circle),
@@ -82,10 +84,11 @@ class _WeeklyHealthIndicatorsScreenState
     });
   }
 
-  Future _showIndicatorSelectionPopupMenu() async {
+  Future _showIndicatorSelectionPopupMenu(
+      AppLocalizations appLocalizations) async {
     final options = HealthIndicator.values.map((hi) {
       return SimpleDialogOption(
-        child: Text(hi.name),
+        child: Text(hi.name(appLocalizations)),
         onPressed: () => Navigator.pop(context, hi),
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
       );
@@ -125,7 +128,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
       children: [
         BasicSection(
           children: [
-            HealthIndicatorBarChart(
+            WeeklyHealthIndicatorBarChart(
               dailyHealthStatuses:
                   healthStatusWeeklyResponse.dailyHealthStatuses.toList(),
               indicator: healthIndicator,
@@ -163,12 +166,15 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
     final dateTitle =
         _dateFormat.format(dailyHealthStatus.date).capitalizeFirst();
 
     return AppListTile(
       title: Text(dateTitle),
-      trailing: Text(dailyHealthStatus.getHealthIndicatorFormatted(indicator)),
+      trailing: Text(dailyHealthStatus.getHealthIndicatorFormatted(
+          indicator, appLocalizations)),
     );
   }
 }

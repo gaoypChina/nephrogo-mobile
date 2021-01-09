@@ -301,7 +301,7 @@
       }
     }
   },
-  "healthIndicatorSubtitle": "Šiandien: {value}.",
+  "healthIndicatorSubtitle": "Šiandien: {value}",
   "@healthIndicatorSubtitle": {
     "context": "healthIndicators",
     "placeholders": {
@@ -490,6 +490,9 @@
   "ageSuffix": "m.",
   "@ageSuffix": {
     "context": "userConditions"
+  },
+  "healthStatusNumberOfSwellings": "Patinimų kiekis",
+  "@healthStatusNumberOfSwellings": {
   },
   "healthStatusCreationTodayTitle": "Šiandienos sveikatos rodikliai",
   "@healthStatusCreationTodayTitle": {

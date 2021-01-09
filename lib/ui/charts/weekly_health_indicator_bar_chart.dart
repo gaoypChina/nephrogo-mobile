@@ -4,23 +4,28 @@ import 'package:nephrolog/extensions/collection_extensions.dart';
 import 'package:nephrolog/extensions/contract_extensions.dart';
 import 'package:nephrolog/extensions/date_extensions.dart';
 import 'package:nephrolog/extensions/string_extensions.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/models/graph.dart';
 import 'package:nephrolog_api_client/model/daily_health_status.dart';
 
 import 'bar_chart.dart';
 
-class HealthIndicatorBarChart extends StatelessWidget {
+class WeeklyHealthIndicatorBarChart extends StatelessWidget {
   static final _dayFormatter = DateFormat.E();
   static final _dateFormatter = DateFormat.MMMd();
 
+  final DateTime maximumDate;
   final HealthIndicator indicator;
   final List<DailyHealthStatus> dailyHealthStatuses;
+  final AppLocalizations appLocalizations;
 
-  HealthIndicatorBarChart({
+  WeeklyHealthIndicatorBarChart({
     Key key,
     @required this.dailyHealthStatuses,
     @required this.indicator,
+    @required this.maximumDate,
+    @required this.appLocalizations,
   }) : super(key: key);
 
   @override
@@ -39,14 +44,42 @@ class HealthIndicatorBarChart extends StatelessWidget {
   AppBarChartData _getChartData() {
     final startOfToday = DateTime.now().startOfDay();
 
-    final dailyHealthStatusesSorted =
-        dailyHealthStatuses.sortedBy((e) => e.date);
+    final days = List.generate(7, (d) => maximumDate.add(Duration(days: -d)))
+        .sortedBy((d) => d);
 
-    final groups = dailyHealthStatusesSorted.mapIndexed((i, dhs) {
-      final dateFormatted = _dateFormatter.format(dhs.date);
+    final dailyHealthStatusesGrouped = dailyHealthStatuses
+        .groupBy((v) => _dateFormatter.format(v.date))
+        .map((key, values) {
+      if (values.length > 1) {
+        throw ArgumentError.value(values, "values",
+            "Multiple daily health statuses with same formatted date");
+      }
+      return MapEntry(key, values.firstOrNull());
+    });
 
-      final y = dhs?.getHealthIndicatorValue(indicator);
-      final dailyTotalFormatted = dhs?.getHealthIndicatorFormatted(indicator);
+    final groups = days.mapIndexed((i, day) {
+      final dhs = dailyHealthStatusesGrouped[_dateFormatter.format(day)];
+
+      final dateFormatted = _dateFormatter.format(day);
+      final dayFormatted = _dayFormatter.format(day).capitalizeFirst();
+
+      if (dhs == null) {
+        return AppBarChartGroup(
+          text: dayFormatted,
+          x: i,
+          rods: [
+            AppBarChartRod(
+              tooltip: dateFormatted,
+              y: 0,
+              barColor: _getColor(0),
+            )
+          ],
+        );
+      }
+
+      final y = dhs.getHealthIndicatorValue(indicator);
+      final dailyTotalFormatted =
+          dhs.getHealthIndicatorFormatted(indicator, appLocalizations);
 
       List<AppBarChartRodStackItem> rodStackItems;
       if (y != null && indicator == HealthIndicator.bloodPressure) {
@@ -60,13 +93,13 @@ class HealthIndicatorBarChart extends StatelessWidget {
 
       final rod = AppBarChartRod(
         tooltip: "$dateFormatted\n$dailyTotalFormatted",
-        y: y ?? 0,
-        barColor: Colors.teal,
+        y: y,
+        barColor: _getColor(y),
         rodStackItems: rodStackItems,
       );
 
       return AppBarChartGroup(
-        text: _dayFormatter.format(dhs.date).capitalizeFirst(),
+        text: dayFormatted,
         x: i,
         isSelected: dhs.date.startOfDay().compareTo(startOfToday) == 0,
         rods: [rod],
@@ -87,6 +120,21 @@ class HealthIndicatorBarChart extends StatelessWidget {
     }
 
     return null;
+  }
+
+  _getColor(double y) {
+    switch (indicator) {
+      case HealthIndicator.severityOfSwelling:
+      case HealthIndicator.wellBeing:
+      case HealthIndicator.appetite:
+      case HealthIndicator.shortnessOfBreath:
+        if (y > 3) {
+          return Colors.deepOrange;
+        }
+        return Colors.teal;
+      default:
+        return Colors.teal;
+    }
   }
 
   double _getMaxY() {
@@ -114,8 +162,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
       case HealthIndicator.wellBeing:
       case HealthIndicator.appetite:
       case HealthIndicator.shortnessOfBreath:
-        // TODO Change to 1 after API is fixed
-        return 50;
+      return 1;
       default:
         throw ArgumentError.value(
           this,

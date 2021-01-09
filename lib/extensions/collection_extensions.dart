@@ -21,11 +21,9 @@ extension IndexedIterable<E> on Iterable<E> {
     return toList()..sort((a, b) => key(a).compareTo(key(b)));
   }
 
-  // https://stackoverflow.com/questions/54029370/flutter-dart-how-to-groupby-list-of-maps
-  Map<K, List<E>> groupBy<K>(K Function(E) keyFunction) => fold(
-      <K, List<E>>{},
-      (Map<K, List<E>> map, E element) =>
-          map..putIfAbsent(keyFunction(element), () => <E>[]).add(element));
+  Map<T, List<E>> groupBy<T>(T Function(E) key) {
+    return collection.groupBy(this, key);
+  }
 
   // https://stackoverflow.com/questions/58446296/get-the-first-element-of-list-if-it-exists-in-dart
   E firstOrNull() {

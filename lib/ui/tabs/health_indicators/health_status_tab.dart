@@ -5,23 +5,23 @@ import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/services/api_service.dart';
-import 'package:nephrolog/ui/charts/health_indicator_bar_chart.dart';
+import 'package:nephrolog/ui/charts/weekly_health_indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
 import 'package:nephrolog_api_client/model/health_status_screen_response.dart';
 
-class HealthIndicatorsTab extends StatelessWidget {
-  final ValueNotifier<int> valueNotifier = ValueNotifier(1);
+class HealthStatusTab extends StatefulWidget {
+  @override
+  _HealthStatusTabState createState() => _HealthStatusTabState();
+}
 
+class _HealthStatusTabState extends State<HealthStatusTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.pushNamed(
-          context,
-          Routes.ROUTE_HEALTH_INDICATORS_CREATION,
-        ),
+        onPressed: _createHealthStatus,
         label: Text(
           AppLocalizations.of(context)
               .weeklyNutrientsCreateHealthIndicators
@@ -33,6 +33,17 @@ class HealthIndicatorsTab extends StatelessWidget {
       body: HealthIndicatorsTabBody(),
     );
   }
+
+  Future _createHealthStatus() async {
+    final healthIndicator = await Navigator.pushNamed(
+      context,
+      Routes.ROUTE_HEALTH_INDICATORS_CREATION,
+    );
+
+    if (healthIndicator != null) {
+      setState(() {});
+    }
+  }
 }
 
 class HealthIndicatorsTabBody extends StatelessWidget {
@@ -43,7 +54,7 @@ class HealthIndicatorsTabBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppFutureBuilder<HealthStatusScreenResponse>(
       future: apiService.getHealthStatusScreen(),
-      builder: (BuildContext context, HealthStatusScreenResponse response) {
+      builder: (context, response) {
         final sections = HealthIndicator.values
             .map((i) => buildIndicatorChartSection(context, response, i))
             .toList();
@@ -75,23 +86,24 @@ class HealthIndicatorsTabBody extends StatelessWidget {
     final appLocalizations = AppLocalizations.of(context);
     final latestHealthStatus =
         healthStatusScreenResponse.dailyHealthStatuses.maxBy((e) => e.date);
-    final todayConsumption =
-        latestHealthStatus?.getHealthIndicatorFormatted(indicator) ??
-            appLocalizations.noInfo.toLowerCase();
+    final todayConsumption = latestHealthStatus?.getHealthIndicatorFormatted(
+            indicator, appLocalizations) ??
+        appLocalizations.noInfo.toLowerCase();
 
-    final hasReports = healthStatusScreenResponse.dailyHealthStatuses
-        .where((s) => s.isIndicatorExists(indicator))
-        .isNotEmpty;
+    final hasReports =
+        latestHealthStatus?.isIndicatorExists(indicator) ?? false;
 
     return LargeSection(
-      title: indicator.name,
+      title: indicator.name(appLocalizations),
       subTitle: appLocalizations.healthIndicatorSubtitle(todayConsumption),
       children: [
         if (hasReports)
-          HealthIndicatorBarChart(
+          WeeklyHealthIndicatorBarChart(
             dailyHealthStatuses:
                 healthStatusScreenResponse.dailyHealthStatuses.toList(),
             indicator: indicator,
+            maximumDate: now,
+            appLocalizations: appLocalizations,
           ),
       ],
       leading: OutlineButton(
