@@ -136,7 +136,7 @@ class ApiService {
         )
         .then((r) => r.data)
         .catchError(
-          (e) async => await _healthStatusApi
+          (e) => _healthStatusApi
               .healthStatusCreate(
                 dailyHealthStatusRequest,
                 cancelToken: cancelToken,
