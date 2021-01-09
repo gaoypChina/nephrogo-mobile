@@ -218,7 +218,7 @@ class _HealthIndicatorsCreationScreenState
                 // TODO change to enums
                 AppMultipleSelectFormField<String>(
                   labelText:
-                  _appLocalizations.healthStatusCreationSwellingDifficulty,
+                      _appLocalizations.healthStatusCreationSwellingDifficulty,
                   items: [
                     AppSelectFormFieldItem(
                       text: _appLocalizations
@@ -295,7 +295,7 @@ class _HealthIndicatorsCreationScreenState
                     ),
                     AppSelectFormFieldItem(
                       text:
-                      _appLocalizations.healthStatusCreationWellFeelingBad,
+                          _appLocalizations.healthStatusCreationWellFeelingBad,
                       icon: Icons.sentiment_very_dissatisfied,
                       value: WellFeelingEnum.bad,
                     ),
@@ -326,7 +326,7 @@ class _HealthIndicatorsCreationScreenState
                     ),
                     AppSelectFormFieldItem(
                       text:
-                      _appLocalizations.healthStatusCreationAppetiteAverage,
+                          _appLocalizations.healthStatusCreationAppetiteAverage,
                       icon: Icons.sentiment_dissatisfied,
                       value: AppetiteEnum.average,
                     ),
@@ -337,7 +337,7 @@ class _HealthIndicatorsCreationScreenState
                     ),
                     AppSelectFormFieldItem(
                       text:
-                      _appLocalizations.healthStatusCreationAppetiteVeryBad,
+                          _appLocalizations.healthStatusCreationAppetiteVeryBad,
                       icon: Icons.sick,
                       value: AppetiteEnum.veryBad,
                     ),
