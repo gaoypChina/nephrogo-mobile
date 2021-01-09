@@ -22,6 +22,8 @@
   "@healthIndicator": {},
   "chooseHealthIndicator": "Pasirinkite sveikatos rodiklį",
   "@chooseHealthIndicator": {},
+  "chooseNutrient": "Pasirinkite maisto medžiagą",
+  "@chooseNutrient": {},
   "noMealsBanner": "Nėra pridėta jokių valgių ar gėrimų.",
   "@noMealsBanner": {},
   "noMealsBannerCreateAction": "Pridėti naują valgį arba gėrimą",

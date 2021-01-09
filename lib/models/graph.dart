@@ -8,6 +8,7 @@ class AppBarChartData extends Equatable {
   final double dashedHorizontalLine;
   final double barWidth;
   final double rodRadius;
+  final bool showLeftTitles;
   final double interval;
   final double maxY;
   final double minY;
@@ -17,6 +18,7 @@ class AppBarChartData extends Equatable {
   const AppBarChartData({
     @required this.groups,
     this.dashedHorizontalLine,
+    this.showLeftTitles,
     this.barWidth: 22,
     this.rodRadius: 6,
     this.maxY,

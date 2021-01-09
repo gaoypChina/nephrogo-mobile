@@ -98,7 +98,7 @@ class HealthIndicatorsTabBody extends StatelessWidget {
       subTitle: appLocalizations.healthIndicatorSubtitle(todayConsumption),
       children: [
         if (hasReports)
-          WeeklyHealthIndicatorBarChart(
+          HealthIndicatorWeeklyBarChart(
             dailyHealthStatuses:
                 healthStatusScreenResponse.dailyHealthStatuses.toList(),
             indicator: indicator,

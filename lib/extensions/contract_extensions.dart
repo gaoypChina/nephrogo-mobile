@@ -45,39 +45,40 @@ String _getFormattedNutrient(Nutrient nutrient, int amount) {
 }
 
 extension DailyIntakesExtensions on DailyIntakeReport {
-  DailyNutrientConsumption getNutrientConsumption(Nutrient nutrient) {
+  DailyNutrientConsumption getDailyNutrientConsumption(Nutrient nutrient) {
     switch (nutrient) {
-      case Nutrient.energy:
-        return this.energyKcal;
-      case Nutrient.liquids:
-        return this.liquidsMl;
+      case Nutrient.potassium:
+        return this.potassiumMg;
       case Nutrient.proteins:
         return this.proteinsMg;
       case Nutrient.sodium:
         return this.sodiumMg;
-      case Nutrient.potassium:
-        return this.potassiumMg;
       case Nutrient.phosphorus:
         return this.phosphorusMg;
+      case Nutrient.liquids:
+        return this.liquidsMl;
+      case Nutrient.energy:
+        return this.energyKcal;
       default:
         throw ArgumentError.value(
-            nutrient, "nutrient", "Unable to map indicator to total amount");
+            nutrient, "nutrient", "Unable to map indicator to amount");
     }
   }
 
-  int getNutrientTotalAmount(Nutrient nutrient) {
-    return getNutrientConsumption(nutrient).total;
-  }
-
-  double getNutrientConsumptionRatio(Nutrient nutrient) {
-    throw UnimplementedError();
-  }
-
   String getNutrientTotalAmountFormatted(Nutrient nutrient) {
-    final amount = getNutrientTotalAmount(nutrient);
+    final amount = getDailyNutrientConsumption(nutrient).total;
     assert(amount != null);
 
     return _getFormattedNutrient(nutrient, amount);
+  }
+
+  String getNutrientNormFormatted(Nutrient nutrient) {
+    final norm = getDailyNutrientConsumption(nutrient).norm;
+    if (norm == null) {
+      return null;
+    }
+
+    return _getFormattedNutrient(nutrient, norm);
   }
 }
 
@@ -111,38 +112,6 @@ extension IntakeExtension on Intake {
   String getAmountFormatted() {
     return _formatAmount(this.amountG, "g", "kg");
   }
-}
-
-extension DailyNutrientConsumptionExtensions on DailyNutrientConsumption {
-  // int getNutrientAmount(Nutrient nutrient) {
-  //   switch (nutrient) {
-  //     case Nutrient.energy:
-  //       return this.energyKcal;
-  //     case Nutrient.liquids:
-  //       return this.liquidsMl;
-  //     case Nutrient.proteins:
-  //       return this.proteinsMg;
-  //     case Nutrient.sodium:
-  //       return this.sodiumMg;
-  //     case Nutrient.potassium:
-  //       return this.potassiumMg;
-  //     case Nutrient.phosphorus:
-  //       return this.phosphorusMg;
-  //     default:
-  //       throw ArgumentError.value(
-  //           nutrient, "nutrient", "Unable to map indicator to amount");
-  //   }
-  // }
-
-  // String getNutrientAmountFormatted(Nutrient nutrient) {
-  //   final amount = getNutrientAmount(nutrient);
-  //
-  //   if (amount == null) {
-  //     return null;
-  //   }
-  //
-  //   return _getFormattedNutrient(nutrient, amount);
-  // }
 }
 
 extension NutrientExtensions on Nutrient {

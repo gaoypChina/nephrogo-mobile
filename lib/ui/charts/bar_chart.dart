@@ -63,7 +63,7 @@ class _AppBarChart extends State<AppBarChart> {
           ),
           leftTitles: SideTitles(
             margin: 16,
-            showTitles: widget.data.interval != null,
+            showTitles: widget.data.showLeftTitles,
             interval: widget.data.interval,
           ),
         ),

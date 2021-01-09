@@ -134,7 +134,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
       children: [
         BasicSection(
           children: [
-            WeeklyHealthIndicatorBarChart(
+            HealthIndicatorWeeklyBarChart(
               dailyHealthStatuses: dailyHealthStatuses,
               indicator: healthIndicator,
               appLocalizations: appLocalizations,

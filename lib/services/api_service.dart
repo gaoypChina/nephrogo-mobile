@@ -19,6 +19,7 @@ import 'package:nephrolog_api_client/model/health_status_screen_response.dart';
 import 'package:nephrolog_api_client/model/health_status_weekly_screen_response.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
 import 'package:nephrolog_api_client/model/intake_request.dart';
+import 'package:nephrolog_api_client/model/nutrient_screen_response.dart';
 import 'package:nephrolog_api_client/model/nutrient_weekly_screen_response.dart';
 import 'package:nephrolog_api_client/model/product.dart';
 import 'package:nephrolog_api_client/model/user_profile.dart';
@@ -98,29 +99,31 @@ class ApiService {
     return apiSerializersBuilder.build();
   }
 
-  Future<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReport(
-    DateTime from,
-    DateTime to,
-  ) async {
-    final r = await _nutritionApi.nutritionWeeklyRetrieve(Date(from), Date(to));
-
-    return r.data;
+  Future<NutrientScreenResponse> getNutritionScreen([CancelToken cancelToken]) {
+    return _nutritionApi
+        .nutritionScreenRetrieve(cancelToken: cancelToken)
+        .then((r) => r.data);
   }
 
-  Future<List<Product>> getProducts(String query,
-      [CancelToken cancelToken]) async {
-    final r = await _nutritionApi.nutritionProductsList(
-        query: query, cancelToken: cancelToken);
+  Future<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReport(
+      DateTime from, DateTime to,
+      [CancelToken cancelToken]) {
+    return _nutritionApi
+        .nutritionWeeklyRetrieve(Date(from), Date(to), cancelToken: cancelToken)
+        .then((r) => r.data);
+  }
 
-    return r.data.toList();
+  Future<List<Product>> getProducts(String query, [CancelToken cancelToken]) {
+    return _nutritionApi
+        .nutritionProductsList(query: query, cancelToken: cancelToken)
+        .then((r) => r.data.toList());
   }
 
   Future<Intake> createIntake(IntakeRequest intakeRequest,
-      [CancelToken cancelToken]) async {
-    final r = await _nutritionApi.nutritionIntakeCreate(intakeRequest,
-        cancelToken: cancelToken);
-
-    return r.data;
+      [CancelToken cancelToken]) {
+    return _nutritionApi
+        .nutritionIntakeCreate(intakeRequest, cancelToken: cancelToken)
+        .then((r) => r.data);
   }
 
   Future<DailyHealthStatus> createOrUpdateDailyHealthStatus(
@@ -179,11 +182,10 @@ class ApiService {
   }
 
   Future<HealthStatusScreenResponse> getHealthStatusScreen(
-      [CancelToken cancelToken]) async {
-    final r = await _healthStatusApi.healthStatusScreenRetrieve(
-        cancelToken: cancelToken);
-
-    return r.data;
+      [CancelToken cancelToken]) {
+    return _healthStatusApi
+        .healthStatusScreenRetrieve(cancelToken: cancelToken)
+        .then((r) => r.data);
   }
 
   Future<HealthStatusWeeklyScreenResponse> getWeeklyHealthStatusReport(

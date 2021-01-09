@@ -11,7 +11,7 @@ import 'package:nephrolog_api_client/model/daily_health_status.dart';
 
 import 'bar_chart.dart';
 
-class WeeklyHealthIndicatorBarChart extends StatelessWidget {
+class HealthIndicatorWeeklyBarChart extends StatelessWidget {
   static final _dayFormatter = DateFormat.E();
   static final _dateFormatter = DateFormat.MMMd();
 
@@ -20,7 +20,7 @@ class WeeklyHealthIndicatorBarChart extends StatelessWidget {
   final List<DailyHealthStatus> dailyHealthStatuses;
   final AppLocalizations appLocalizations;
 
-  WeeklyHealthIndicatorBarChart({
+  HealthIndicatorWeeklyBarChart({
     Key key,
     @required this.dailyHealthStatuses,
     @required this.indicator,
@@ -44,8 +44,8 @@ class WeeklyHealthIndicatorBarChart extends StatelessWidget {
   AppBarChartData _getChartData() {
     final startOfToday = DateTime.now().startOfDay();
 
-    final days = List.generate(7, (d) => maximumDate.add(Duration(days: -d)))
-        .sortedBy((d) => d);
+    final days =
+        List.generate(7, (d) => maximumDate.add(Duration(days: -d))).reversed;
 
     final dailyHealthStatusesGrouped = dailyHealthStatuses
         .groupBy((v) => _dateFormatter.format(v.date))
