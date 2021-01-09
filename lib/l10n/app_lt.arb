@@ -12,6 +12,12 @@
   "@save": {},
   "noInfo": "Nėra informacijos",
   "@noInfo": {},
+  "privacyPolicy": "Privatumo politika",
+  "@privacyPolicy": {},
+  "usageRules": "Naudojimosi taisyklės",
+  "@usageRules": {},
+  "logout": "Atsijungti",
+  "@logout": {},
   "healthIndicator": "Rodiklis",
   "@healthIndicator": {},
   "chooseHealthIndicator": "Pasirinkite sveikatos rodiklį",
@@ -355,145 +361,145 @@
   "@mealCreationErrorNoProductSelected": {
     "context": "mealCreation"
   },
-  "userConditionsScreenTitle": "Mano būklė",
-  "@userConditionsScreenTitle": {
-    "context": "userConditions"
+  "userProfileScreenTitle": "Mano profilis",
+  "@userProfileScreenTitle": {
+    "context": "userProfile"
   },
-  "userConditionsSectionGeneralInformationTitle": "Bendra informacija",
-  "@userConditionsSectionGeneralInformationTitle": {
-    "context": "userConditions"
+  "userProfileSectionGeneralInformationTitle": "Bendra informacija",
+  "@userProfileSectionGeneralInformationTitle": {
+    "context": "userProfile"
   },
   "gender": "Lytis",
   "@gender": {
-    "context": "userConditions"
+    "context": "userProfile"
   },
   "male": "Vyras",
   "@male": {
-    "context": "userConditions"
+    "context": "userProfile"
   },
   "female": "Moteris",
   "@female": {
-    "context": "userConditions"
+    "context": "userProfile"
   },
   "birthDate": "Gimimo data",
   "@birthDate": {
-    "context": "userConditions"
+    "context": "userProfile"
   },
   "height": "Ūgis",
   "@height": {
-    "context": "userConditions"
+    "context": "userProfile"
   },
   "weight": "Kūno svoris",
   "@weight": {
-    "context": "userConditions"
+    "context": "userProfile"
   },
-  "userConditionsWeightHelper": "Jeigu atliekate dializes, įrašykite savo sausąjį svorį",
-  "@userConditionsWeightHelper": {
-    "context": "userConditions"
+  "userProfileWeightHelper": "Jeigu atliekate dializes, įrašykite savo sausąjį svorį",
+  "@userProfileWeightHelper": {
+    "context": "userProfile"
   },
-  "userConditionsSectionChronicKidneyDiseaseTitle": "Lėtinė inkstų liga",
-  "@userConditionsSectionChronicKidneyDiseaseTitle": {
-    "context": "userConditions"
+  "userProfileSectionChronicKidneyDiseaseTitle": "Lėtinė inkstų liga",
+  "@userProfileSectionChronicKidneyDiseaseTitle": {
+    "context": "userProfile"
   },
-  "userConditionsSectionChronicKidneyDiseaseAge": "Kiek metų sergate lėtine inkstų liga",
-  "@userConditionsSectionChronicKidneyDiseaseAge": {
-    "context": "userConditions"
+  "userProfileSectionChronicKidneyDiseaseAge": "Kiek metų sergate lėtine inkstų liga",
+  "@userProfileSectionChronicKidneyDiseaseAge": {
+    "context": "userProfile"
   },
-  "userConditionsSectionChronicKidneyDiseaseStage": "Lėtinės inkstų ligos stadija",
-  "@userConditionsSectionChronicKidneyDiseaseStage": {
-    "context": "userConditions"
+  "userProfileSectionChronicKidneyDiseaseStage": "Lėtinės inkstų ligos stadija",
+  "@userProfileSectionChronicKidneyDiseaseStage": {
+    "context": "userProfile"
   },
-  "userConditionsSectionChronicKidneyDiseaseStageHelper": "GFG – glomerulų filtracijos greitis",
-  "@userConditionsSectionChronicKidneyDiseaseStageHelper": {
-    "context": "userConditions"
+  "userProfileSectionChronicKidneyDiseaseStageHelper": "GFG – glomerulų filtracijos greitis",
+  "@userProfileSectionChronicKidneyDiseaseStageHelper": {
+    "context": "userProfile"
   },
-  "userConditionsSectionChronicKidneyDiseaseStage1": "I – GFG > 90 ml/min./1,73 m²",
-  "@userConditionsSectionChronicKidneyDiseaseStage1": {
-    "context": "userConditions"
+  "userProfileSectionChronicKidneyDiseaseStage1": "I – GFG > 90 ml/min./1,73 m²",
+  "@userProfileSectionChronicKidneyDiseaseStage1": {
+    "context": "userProfile"
   },
-  "userConditionsSectionChronicKidneyDiseaseStage2": "II – GFG 89 – 60 ml/min./1,73 m²",
-  "@userConditionsSectionChronicKidneyDiseaseStage2": {
-    "context": "userConditions"
+  "userProfileSectionChronicKidneyDiseaseStage2": "II – GFG 89 – 60 ml/min./1,73 m²",
+  "@userProfileSectionChronicKidneyDiseaseStage2": {
+    "context": "userProfile"
   },
-  "userConditionsSectionChronicKidneyDiseaseStage3": "III – GFG 59 – 30 ml/min./1,73 m²",
-  "@userConditionsSectionChronicKidneyDiseaseStage3": {
-    "context": "userConditions"
+  "userProfileSectionChronicKidneyDiseaseStage3": "III – GFG 59 – 30 ml/min./1,73 m²",
+  "@userProfileSectionChronicKidneyDiseaseStage3": {
+    "context": "userProfile"
   },
-  "userConditionsSectionChronicKidneyDiseaseStage4": "IV – GFG 29 – 15 ml/min./1,73 m²",
-  "@userConditionsSectionChronicKidneyDiseaseStage4": {
-    "context": "userConditions"
+  "userProfileSectionChronicKidneyDiseaseStage4": "IV – GFG 29 – 15 ml/min./1,73 m²",
+  "@userProfileSectionChronicKidneyDiseaseStage4": {
+    "context": "userProfile"
   },
-  "userConditionsSectionChronicKidneyDiseaseStage5": "V – GFG < 15 ml/min./1,73 m²",
-  "@userConditionsSectionChronicKidneyDiseaseStage5": {
-    "context": "userConditions"
+  "userProfileSectionChronicKidneyDiseaseStage5": "V – GFG < 15 ml/min./1,73 m²",
+  "@userProfileSectionChronicKidneyDiseaseStage5": {
+    "context": "userProfile"
   },
   "iDontKnown": "Nežinau",
   "@iDontKnown": {
-    "context": "userConditions"
+    "context": "userProfile"
   },
   "yes": "Taip",
   "@yes": {
-    "context": "userConditions"
+    "context": "userProfile"
   },
   "no": "Ne",
   "@no": {
-    "context": "userConditions"
+    "context": "userProfile"
   },
-  "userConditionsSectionDialysisType": "Atliekamos dializės tipas",
-  "@userConditionsSectionDialysisType": {
-    "context": "userConditions"
+  "userProfileSectionDialysisType": "Atliekamos dializės tipas",
+  "@userProfileSectionDialysisType": {
+    "context": "userProfile"
   },
-  "userConditionsSectionDialysisTypePeriotonicDialysis": "Peritoninė dializė",
-  "@userConditionsSectionDialysisTypePeriotonicDialysis": {
-    "context": "userConditions"
+  "userProfileSectionDialysisTypePeriotonicDialysis": "Peritoninė dializė",
+  "@userProfileSectionDialysisTypePeriotonicDialysis": {
+    "context": "userProfile"
   },
-  "userConditionsSectionDialysisTypeHemodialysis": "Hemodializė",
-  "@userConditionsSectionDialysisTypeHemodialysis": {
-    "context": "userConditions"
+  "userProfileSectionDialysisTypeHemodialysis": "Hemodializė",
+  "@userProfileSectionDialysisTypeHemodialysis": {
+    "context": "userProfile"
   },
-  "userConditionsSectionDialysisTypePostTransplant": "Neatlieku, esu po inksto transplantacijos",
-  "@userConditionsSectionDialysisTypePostTransplant": {
-    "context": "userConditions"
+  "userProfileSectionDialysisTypePostTransplant": "Neatlieku, esu po inksto transplantacijos",
+  "@userProfileSectionDialysisTypePostTransplant": {
+    "context": "userProfile"
   },
-  "userConditionsSectionDialysisTypePostTransplantDescription": "Praėjo daugiau 6 savaitės",
-  "@userConditionsSectionDialysisTypePostTransplantDescription": {
-    "context": "userConditions"
+  "userProfileSectionDialysisTypePostTransplantDescription": "Praėjo daugiau 6 savaitės",
+  "@userProfileSectionDialysisTypePostTransplantDescription": {
+    "context": "userProfile"
   },
-  "userConditionsSectionDialysisTypeNotPerformed": "Neatlieku",
-  "@userConditionsSectionDialysisTypeNotPerformed": {
-    "context": "userConditions"
+  "userProfileSectionDialysisTypeNotPerformed": "Neatlieku",
+  "@userProfileSectionDialysisTypeNotPerformed": {
+    "context": "userProfile"
   },
-  "userConditionsSectionDiabetesTitle": "Cukrinis diabetas",
-  "@userConditionsSectionDiabetesTitle": {
-    "context": "userConditions"
+  "userProfileSectionDiabetesTitle": "Cukrinis diabetas",
+  "@userProfileSectionDiabetesTitle": {
+    "context": "userProfile"
   },
-  "userConditionsSectionDiabetesType": "Cukriniu diabeto tipas",
-  "@userConditionsSectionDiabetesType": {
-    "context": "userConditions"
+  "userProfileSectionDiabetesType": "Cukriniu diabeto tipas",
+  "@userProfileSectionDiabetesType": {
+    "context": "userProfile"
   },
-  "userConditionsSectionDiabetesType1": "1 tipo",
-  "@userConditionsSectionDiabetesType1": {
-    "context": "userConditions"
+  "userProfileSectionDiabetesType1": "1 tipo",
+  "@userProfileSectionDiabetesType1": {
+    "context": "userProfile"
   },
-  "userConditionsSectionDiabetesType2": "2 tipo",
-  "@userConditionsSectionDiabetesType2": {
-    "context": "userConditions"
+  "userProfileSectionDiabetesType2": "2 tipo",
+  "@userProfileSectionDiabetesType2": {
+    "context": "userProfile"
   },
-  "userConditionsSectionDiabetesTypeNo": "Nesergu",
-  "@userConditionsSectionDiabetesTypeNo": {
-    "context": "userConditions"
+  "userProfileSectionDiabetesTypeNo": "Nesergu",
+  "@userProfileSectionDiabetesTypeNo": {
+    "context": "userProfile"
   },
-  "userConditionsSectionDiabetesAge": "Kiek metų sergate cukriniu diabetu",
-  "@userConditionsSectionDiabetesAge": {
-    "context": "userConditions"
+  "userProfileSectionDiabetesAge": "Kiek metų sergate cukriniu diabetu",
+  "@userProfileSectionDiabetesAge": {
+    "context": "userProfile"
   },
-  "userConditionsSectionDiabetesComplications": "Ar jums pasireiškė cukrinio diabeto komplikacijos",
-  "@userConditionsSectionDiabetesComplications": {
-    "context": "userConditions"
+  "userProfileSectionDiabetesComplications": "Ar jums pasireiškė cukrinio diabeto komplikacijos",
+  "@userProfileSectionDiabetesComplications": {
+    "context": "userProfile"
   },
   "ageSuffix": "m.",
   "@ageSuffix": {
-    "context": "userConditions"
+    "context": "userProfile"
   },
   "healthStatusNumberOfSwellings": "Patinimų kiekis",
   "@healthStatusNumberOfSwellings": {

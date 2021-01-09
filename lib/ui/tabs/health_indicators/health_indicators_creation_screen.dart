@@ -137,7 +137,7 @@ class _HealthIndicatorsCreationScreenState
                 AppDoubleInputField(
                   labelText: _appLocalizations.weight,
                   suffixText: "kg",
-                  helperText: _appLocalizations.userConditionsWeightHelper,
+                  helperText: _appLocalizations.userProfileWeightHelper,
                   initialValue: _initialHealthStatus?.weightKg,
                   onSaved: (value) {
                     _healthStatusBuilder.weightKg = value;

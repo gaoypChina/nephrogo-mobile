@@ -2,11 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
 import 'package:nephrolog/constants.dart';
+import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/app_network_image.dart';
 import 'package:nephrolog/ui/general/components.dart';
-import 'package:nephrolog/ui/user_conditions_screen.dart';
+import 'package:nephrolog/ui/user_profile_screen.dart';
 import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,6 +19,8 @@ class ProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
     return ListView(
       children: [
         BasicSection(
@@ -26,13 +29,13 @@ class ProfileTab extends StatelessWidget {
         BasicSection(
           children: [
             AppListTile(
-              title: Text("Mano būklė"),
+              title: Text(appLocalizations.userProfileScreenTitle),
               leading: Icon(Icons.medical_services),
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  Routes.ROUTE_USER_CONDITIONS,
-                  arguments: UserConditionsScreenNavigationType.close,
+                  Routes.ROUTE_USER_PROFILE,
+                  arguments: UserProfileScreenNavigationType.close,
                 );
               },
             ),
@@ -47,7 +50,7 @@ class ProfileTab extends StatelessWidget {
         BasicSection(
           children: [
             AppListTile(
-              title: Text("Dažniausiai užduodami klausimai"),
+              title: Text(appLocalizations.faqTitle),
               leading: Icon(Icons.help),
               onTap: () {
                 Navigator.pushNamed(
@@ -61,14 +64,14 @@ class ProfileTab extends StatelessWidget {
         BasicSection(
           children: [
             AppListTile(
-              title: Text("Privatumo politika"),
+              title: Text(appLocalizations.privacyPolicy),
               leading: Icon(Icons.lock),
               onTap: () {
                 _launchURL(Constants.privacyPolicyUrl);
               },
             ),
             AppListTile(
-              title: Text("Naudojimosi taisyklės"),
+              title: Text(appLocalizations.usageRules),
               leading: Icon(Icons.description),
               onTap: () {
                 _launchURL(Constants.rulesUrl);
@@ -79,7 +82,7 @@ class ProfileTab extends StatelessWidget {
         BasicSection(
           children: [
             AppListTile(
-              title: Text("Atsijungti"),
+              title: Text(appLocalizations.logout),
               leading: Icon(Icons.logout),
               onTap: () => _signOut(context),
             ),

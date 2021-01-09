@@ -20,25 +20,25 @@ import 'forms/forms.dart';
 import 'general/app_future_builder.dart';
 import 'general/progress_indicator.dart';
 
-enum UserConditionsScreenNavigationType {
+enum UserProfileScreenNavigationType {
   close,
   homeScreen,
 }
 
-class UserConditionsScreen extends StatefulWidget {
-  final UserConditionsScreenNavigationType navigationType;
+class UserProfileScreen extends StatefulWidget {
+  final UserProfileScreenNavigationType navigationType;
 
-  const UserConditionsScreen({
+  const UserProfileScreen({
     Key key,
     @required this.navigationType,
   }) : super(key: key);
 
   @override
-  _UserConditionsScreenState createState() => _UserConditionsScreenState();
+  _UserProfileScreenState createState() => _UserProfileScreenState();
 }
 
-class _UserConditionsScreenState extends State<UserConditionsScreen> {
-  final logger = Logger("user_conditions_screen");
+class _UserProfileScreenState extends State<UserProfileScreen> {
+  final logger = Logger("user_profile");
 
   static final _birthdayFormat = DateFormat.yMd();
 
@@ -81,7 +81,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_appLocalizations.userConditionsScreenTitle),
+        title: Text(_appLocalizations.userProfileScreenTitle),
       ),
       floatingActionButton: Builder(builder: (context) {
         return FloatingActionButton.extended(
@@ -118,8 +118,8 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
           padding: const EdgeInsets.only(bottom: 80),
           children: <Widget>[
             SmallSection(
-              title: _appLocalizations
-                  .userConditionsSectionGeneralInformationTitle,
+              title:
+                  _appLocalizations.userProfileSectionGeneralInformationTitle,
               setLeftPadding: true,
               showDividers: false,
               children: [
@@ -162,7 +162,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                 AppDoubleInputField(
                   labelText: _appLocalizations.weight,
                   validator: _formValidators.numRangeValidator(25, 250),
-                  helperText: _appLocalizations.userConditionsWeightHelper,
+                  helperText: _appLocalizations.userProfileWeightHelper,
                   initialValue: initialUserProfile?.weightKg?.toDouble(),
                   suffixText: "kg",
                   onSaved: (v) => _userProfileBuilder.weightKg = v,
@@ -170,14 +170,14 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
               ],
             ),
             SmallSection(
-              title: _appLocalizations
-                  .userConditionsSectionChronicKidneyDiseaseTitle,
+              title:
+                  _appLocalizations.userProfileSectionChronicKidneyDiseaseTitle,
               setLeftPadding: true,
               showDividers: false,
               children: [
                 AppIntegerFormField(
                   labelText: _appLocalizations
-                      .userConditionsSectionChronicKidneyDiseaseAge,
+                      .userProfileSectionChronicKidneyDiseaseAge,
                   validator: _formValidators.numRangeValidator(0, 100),
                   initialValue: initialUserProfile?.chronicKidneyDiseaseYears,
                   onSaved: (v) =>
@@ -185,9 +185,9 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                 ),
                 AppSelectFormField<ChronicKidneyDiseaseStageEnum>(
                   labelText: _appLocalizations
-                      .userConditionsSectionChronicKidneyDiseaseStage,
+                      .userProfileSectionChronicKidneyDiseaseStage,
                   helperText: _appLocalizations
-                      .userConditionsSectionChronicKidneyDiseaseStageHelper,
+                      .userProfileSectionChronicKidneyDiseaseStageHelper,
                   onSaved: (v) =>
                       _userProfileBuilder.chronicKidneyDiseaseStage = v.value,
                   initialValue: initialUserProfile?.chronicKidneyDiseaseStage,
@@ -195,27 +195,27 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   items: [
                     AppSelectFormFieldItem(
                       text: _appLocalizations
-                          .userConditionsSectionChronicKidneyDiseaseStage1,
+                          .userProfileSectionChronicKidneyDiseaseStage1,
                       value: ChronicKidneyDiseaseStageEnum.stage1,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
-                          .userConditionsSectionChronicKidneyDiseaseStage2,
+                          .userProfileSectionChronicKidneyDiseaseStage2,
                       value: ChronicKidneyDiseaseStageEnum.stage2,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
-                          .userConditionsSectionChronicKidneyDiseaseStage3,
+                          .userProfileSectionChronicKidneyDiseaseStage3,
                       value: ChronicKidneyDiseaseStageEnum.stage3,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
-                          .userConditionsSectionChronicKidneyDiseaseStage4,
+                          .userProfileSectionChronicKidneyDiseaseStage4,
                       value: ChronicKidneyDiseaseStageEnum.stage4,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
-                          .userConditionsSectionChronicKidneyDiseaseStage5,
+                          .userProfileSectionChronicKidneyDiseaseStage5,
                       value: ChronicKidneyDiseaseStageEnum.stage5,
                     ),
                     AppSelectFormFieldItem(
@@ -225,8 +225,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   ],
                 ),
                 AppSelectFormField<DialysisTypeEnum>(
-                  labelText:
-                      _appLocalizations.userConditionsSectionDialysisType,
+                  labelText: _appLocalizations.userProfileSectionDialysisType,
                   validator: _formValidators.nonNull(),
                   initialValue: initialUserProfile?.dialysisType
                       ?.enumWithoutDefault(DialysisTypeEnum.unknown),
@@ -234,24 +233,24 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   items: [
                     AppSelectFormFieldItem(
                       text: _appLocalizations
-                          .userConditionsSectionDialysisTypePeriotonicDialysis,
+                          .userProfileSectionDialysisTypePeriotonicDialysis,
                       value: DialysisTypeEnum.periotonicDialysis,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
-                          .userConditionsSectionDialysisTypeHemodialysis,
+                          .userProfileSectionDialysisTypeHemodialysis,
                       value: DialysisTypeEnum.hemodialysis,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
-                          .userConditionsSectionDialysisTypePostTransplant,
+                          .userProfileSectionDialysisTypePostTransplant,
                       description: _appLocalizations
-                          .userConditionsSectionDialysisTypePostTransplantDescription,
+                          .userProfileSectionDialysisTypePostTransplantDescription,
                       value: DialysisTypeEnum.postTransplant,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
-                          .userConditionsSectionDialysisTypeNotPerformed,
+                          .userProfileSectionDialysisTypeNotPerformed,
                       value: DialysisTypeEnum.notPerformed,
                     ),
                   ],
@@ -259,13 +258,12 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
               ],
             ),
             SmallSection(
-              title: _appLocalizations.userConditionsSectionDiabetesTitle,
+              title: _appLocalizations.userProfileSectionDiabetesTitle,
               setLeftPadding: true,
               showDividers: false,
               children: [
                 AppSelectFormField<DiabetesTypeEnum>(
-                  labelText:
-                      _appLocalizations.userConditionsSectionDiabetesType,
+                  labelText: _appLocalizations.userProfileSectionDiabetesType,
                   validator: _formValidators.nonNull(),
                   initialValue: initialUserProfile?.diabetesType
                           ?.enumWithoutDefault(DiabetesTypeEnum.unknown) ??
@@ -278,18 +276,15 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                   onSaved: (v) => _userProfileBuilder.diabetesType = v.value,
                   items: [
                     AppSelectFormFieldItem(
-                      text:
-                          _appLocalizations.userConditionsSectionDiabetesType1,
+                      text: _appLocalizations.userProfileSectionDiabetesType1,
                       value: DiabetesTypeEnum.type1,
                     ),
                     AppSelectFormFieldItem(
-                      text:
-                          _appLocalizations.userConditionsSectionDiabetesType2,
+                      text: _appLocalizations.userProfileSectionDiabetesType2,
                       value: DiabetesTypeEnum.type2,
                     ),
                     AppSelectFormFieldItem(
-                      text:
-                          _appLocalizations.userConditionsSectionDiabetesTypeNo,
+                      text: _appLocalizations.userProfileSectionDiabetesTypeNo,
                       value: DiabetesTypeEnum.no,
                     ),
                   ],
@@ -301,7 +296,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                     children: [
                       AppIntegerFormField(
                         labelText:
-                            _appLocalizations.userConditionsSectionDiabetesAge,
+                            _appLocalizations.userProfileSectionDiabetesAge,
                         initialValue: initialUserProfile?.diabetesYears,
                         validator: isDiabetic
                             ? _formValidators.numRangeValidator(0, 100)
@@ -311,7 +306,7 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
                       ),
                       AppSelectFormField<DiabetesComplicationsEnum>(
                         labelText: _appLocalizations
-                            .userConditionsSectionDiabetesComplications,
+                            .userProfileSectionDiabetesComplications,
                         onSaved: (v) => _userProfileBuilder
                             .diabetesComplications = v?.value,
                         initialValue: initialUserProfile?.diabetesComplications,
@@ -382,10 +377,10 @@ class _UserConditionsScreenState extends State<UserConditionsScreen> {
 
   Future _navigateToAnotherScreen() async {
     switch (widget.navigationType) {
-      case UserConditionsScreenNavigationType.close:
+      case UserProfileScreenNavigationType.close:
         Navigator.pop(context);
         break;
-      case UserConditionsScreenNavigationType.homeScreen:
+      case UserProfileScreenNavigationType.homeScreen:
         return await Navigator.pushReplacementNamed(
           context,
           Routes.ROUTE_HOME,

@@ -12,7 +12,7 @@ import 'ui/tabs/health_indicators/health_indicators_creation_screen.dart';
 import 'ui/tabs/health_indicators/weekly_health_status_screen.dart';
 import 'ui/tabs/nutrition/creation/meal_creation_screen.dart';
 import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
-import 'ui/user_conditions_screen.dart';
+import 'ui/user_profile_screen.dart';
 
 class Routes {
   static const ROUTE_START = "start";
@@ -31,7 +31,7 @@ class Routes {
       "ROUTE_WEEKLY_HEALTH_STATUS_SCREEN";
   static const ROUTE_HEALTH_STATUS_CREATION = "ROUTE_HEALTH_STATUS_CREATION";
 
-  static const ROUTE_USER_CONDITIONS = "user_conditions";
+  static const ROUTE_USER_PROFILE = "ROUTE_USER_PROFILE";
   static const ROUTE_FAQ = "frequently_asked_questions";
 
   static const ROUTE_FORM_SELECT = "form_select";
@@ -76,12 +76,11 @@ class Routes {
         return MaterialPageRoute(builder: (context) {
           return FrequentlyAskedQuestionsScreen();
         });
-      case ROUTE_USER_CONDITIONS:
+      case ROUTE_USER_PROFILE:
         return MaterialPageRoute(builder: (context) {
-          UserConditionsScreenNavigationType navigationType =
-              settings.arguments;
+          UserProfileScreenNavigationType navigationType = settings.arguments;
 
-          return UserConditionsScreen(
+          return UserProfileScreen(
             navigationType: navigationType,
           );
         });
