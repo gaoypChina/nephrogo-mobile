@@ -1,15 +1,15 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
-import 'package:nephrolog/routes.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:nephrolog/l10n/localizations.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:nephrolog/routes.dart';
 
 Future<Null> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +18,10 @@ Future<Null> main() async {
 
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
-    print('${record.level.name}: ${record.time}: ${record.message}');
+    final message = '${record.level.name}: ${record.time}: ${record.message}';
+
+    FirebaseCrashlytics.instance.log(message);
+    print(message);
   });
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
