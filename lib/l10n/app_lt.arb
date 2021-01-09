@@ -24,10 +24,10 @@
   "@chooseHealthIndicator": {},
   "chooseNutrient": "Pasirinkite maisto medžiagą",
   "@chooseNutrient": {},
-  "noMealsBanner": "Nėra pridėta jokių valgių ar gėrimų.",
-  "@noMealsBanner": {},
-  "noMealsBannerCreateAction": "Pridėti naują valgį arba gėrimą",
-  "@noMealsBannerCreateAction": {},
+  "nutritionEmpty": "Pridėkite pirmąjį valgį arba gėrimą",
+  "@nutritionEmpty": {},
+  "healthStatusEmpty": "Pridėkite savo sveikatos rodiklius",
+  "@healthStatusEmpty": {},
   "formMultiSelectDialogActionChoose": "Pasirinkti",
   "@formMultiSelectDialogActionChoose": {},
   "dialogCancel": "Atšaukti",
@@ -323,8 +323,12 @@
       }
     }
   },
-  "weeklyNutrientsNoMeal": "Pasirinktame laikotarpyje nėra įvesta nė vieno valgio ar gėrimo!",
-  "@weeklyNutrientsNoMeal": {
+  "weeklyHealthStatusEmpty": "Pasirinktame laikotarpyje nėra įvesta nė vieno sveikatos rodiklio!",
+  "@weeklyHealthStatusEmpty": {
+    "context": "healthStatus"
+  },
+  "weeklyNutrientsEmpty": "Pasirinktame laikotarpyje nėra įvesta nė vieno valgio ar gėrimo!",
+  "@weeklyNutrientsEmpty": {
     "context": "weeklyNutrients"
   },
   "weeklyNutrientsCreateHealthIndicators": "Pridėti rodiklius",

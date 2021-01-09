@@ -171,57 +171,34 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
         .sortedBy((e) => e.date)
         .where((di) => di.intakes.isNotEmpty);
 
-    final noIntakes = dailyIntakesReports.expand((di) => di.intakes).isEmpty;
+    final hasIntakes =
+        dailyIntakesReports.expand((di) => di.intakes).isNotEmpty;
 
-    if (noIntakes) {
-      return Column(
+    return Visibility(
+      visible: hasIntakes,
+      replacement: EmptyStateContainer(
+        text: AppLocalizations.of(context).weeklyNutrientsEmpty,
+      ),
+      child: ListView(
+        padding: EdgeInsets.only(bottom: 64),
         children: [
-          Expanded(
-            child: Container(
-              color: Colors.white,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.emoji_food_beverage,
-                        size: 64,
-                      ),
-                      Text(
-                        AppLocalizations.of(context).weeklyNutrientsNoMeal,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline6,
-                      )
-                    ],
-                  ),
-                ),
+          BasicSection(
+            children: [
+              NutrientWeeklyBarChart(
+                dailyIntakeReports: dailyIntakesReports,
+                nutrient: nutrient,
+                maximumDate: weekEnd,
+                fitInsideVertically: true,
               ),
-            ),
+            ],
           ),
-        ],
-      );
-    }
-
-    return ListView(
-      padding: EdgeInsets.only(bottom: 64),
-      children: [
-        BasicSection(
-          children: [
-            NutrientWeeklyBarChart(
-              dailyIntakeReports: dailyIntakesReports,
+          for (final dailyIntakesReport in dailyIntakeReportsWithIntakesSorted)
+            DailyIntakeSection(
               nutrient: nutrient,
-              maximumDate: weekEnd,
-              fitInsideVertically: true,
-            ),
-          ],
-        ),
-        for (final dailyIntakesReport in dailyIntakeReportsWithIntakesSorted)
-          DailyIntakeSection(
-            nutrient: nutrient,
-            dailyIntakesReport: dailyIntakesReport,
-          )
-      ],
+              dailyIntakesReport: dailyIntakesReport,
+            )
+        ],
+      ),
     );
   }
 }

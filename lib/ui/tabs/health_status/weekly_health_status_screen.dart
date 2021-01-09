@@ -64,12 +64,18 @@ class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
           return AppFutureBuilder<HealthStatusWeeklyScreenResponse>(
             future: _apiService.getWeeklyHealthStatusReport(from, to),
             builder: (context, data) {
-              return HealthIndicatorsListWithChart(
-                dailyHealthStatuses: data.dailyHealthStatuses.toList(),
-                healthIndicator: selectedHealthIndicator,
-                from: from,
-                to: to,
-                appLocalizations: appLocalizations,
+              return Visibility(
+                visible: data.dailyHealthStatuses.isNotEmpty,
+                replacement: EmptyStateContainer(
+                  text: appLocalizations.weeklyHealthStatusEmpty,
+                ),
+                child: HealthIndicatorsListWithChart(
+                  dailyHealthStatuses: data.dailyHealthStatuses.toList(),
+                  healthIndicator: selectedHealthIndicator,
+                  from: from,
+                  to: to,
+                  appLocalizations: appLocalizations,
+                ),
               );
             },
           );

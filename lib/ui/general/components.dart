@@ -223,3 +223,30 @@ class ProductKindIcon extends StatelessWidget {
     );
   }
 }
+
+class EmptyStateContainer extends StatelessWidget {
+  final String text;
+
+  const EmptyStateContainer({Key key, @required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset("assets/empty.png"),
+          ),
+          Text(
+            text,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline6,
+          )
+        ],
+      ),
+    );
+  }
+}

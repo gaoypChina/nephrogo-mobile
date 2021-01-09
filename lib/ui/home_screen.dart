@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrolog/l10n/localizations.dart';
 
 import 'general/app_logo.dart';
-import 'tabs/health_indicators/health_status_tab.dart';
+import 'tabs/health_status/health_status_tab.dart';
 import 'tabs/nutrition/nutrition_tab.dart';
 import 'tabs/profile/profile_tab.dart';
 

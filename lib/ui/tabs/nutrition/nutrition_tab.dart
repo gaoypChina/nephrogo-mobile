@@ -51,6 +51,8 @@ class _NutritionTabState extends State<NutritionTab> {
   }
 
   Widget _buildBody(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
     return AppFutureBuilder<NutrientScreenResponse>(
       future: apiService.getNutritionScreen(),
       builder: (context, data) {
@@ -58,62 +60,37 @@ class _NutritionTabState extends State<NutritionTab> {
         final dailyIntakesReports = data.dailyIntakesReports.toList();
         final todayIntakesReport = data.todayIntakesReport;
 
-        // final dailyIntakes = data..toList();
-        // final intakes = dailyIntakes
-        //     .expand((e) => e.intakes)
-        //     .sortedBy((e) => e.dateTime, reverse: true)
-        //     .toList();
-        // final latestDailyIntake = dailyIntakes.maxBy((e) => e.date);
-
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 64),
-            child: Column(
-              children: [
-                // if (intakes.isEmpty) _buildNoMealsBanner(),
-                DailyNormsSection(dailyIntakeReport: todayIntakesReport),
-                // if (intakes.isNotEmpty)
-                DailyIntakesCard(
-                  title: appLocalizations.lastMealsSectionTitle,
-                  intakes: latestIntakes,
-                ),
-                ..._buildIndicatorChartSections(
-                    context, todayIntakesReport, dailyIntakesReports),
-              ],
+        return Visibility(
+          visible: latestIntakes.isNotEmpty,
+          replacement: EmptyStateContainer(
+            text: appLocalizations.nutritionEmpty,
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 64),
+              child: Column(
+                children: [
+                  // if (intakes.isEmpty) _buildNoMealsBanner(),
+                  DailyNormsSection(dailyIntakeReport: todayIntakesReport),
+                  // if (intakes.isNotEmpty)
+                  DailyIntakesCard(
+                    title: appLocalizations.lastMealsSectionTitle,
+                    intakes: latestIntakes,
+                  ),
+                  for (final nutrient in Nutrient.values)
+                    buildIndicatorChartSection(
+                      context,
+                      todayIntakesReport,
+                      dailyIntakesReports,
+                      nutrient,
+                    )
+                ],
+              ),
             ),
           ),
         );
       },
     );
-  }
-
-  Widget _buildNoMealsBanner() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: MaterialBanner(
-        content: Text(appLocalizations.noMealsBanner),
-        leading: CircleAvatar(child: Icon(Icons.restaurant_outlined)),
-        forceActionsBelow: true,
-        actions: [
-          FlatButton(
-            child:
-                Text(appLocalizations.noMealsBannerCreateAction.toUpperCase()),
-            onPressed: () async => await _createProduct(context),
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<Widget> _buildIndicatorChartSections(
-    BuildContext context,
-    DailyIntakeReport todayIntakesReport,
-    List<DailyIntakeReport> dailyIntakesReports,
-  ) {
-    return Nutrient.values
-        .map((t) => buildIndicatorChartSection(
-            context, todayIntakesReport, dailyIntakesReports, t))
-        .toList();
   }
 
   openIntakesScreen(BuildContext context, Nutrient indicator) {

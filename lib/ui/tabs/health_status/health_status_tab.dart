@@ -8,8 +8,9 @@ import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/charts/weekly_health_indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
-import 'package:nephrolog/ui/tabs/health_indicators/weekly_health_status_screen.dart';
 import 'package:nephrolog_api_client/model/health_status_screen_response.dart';
+
+import 'weekly_health_status_screen.dart';
 
 class HealthStatusTab extends StatefulWidget {
   @override
@@ -52,16 +53,24 @@ class HealthIndicatorsTabBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
     return AppFutureBuilder<HealthStatusScreenResponse>(
       future: apiService.getHealthStatusScreen(),
       builder: (context, response) {
-        final sections = HealthIndicator.values
-            .map((i) => buildIndicatorChartSection(context, response, i))
-            .toList();
-
-        return ListView(
-          padding: EdgeInsets.only(bottom: 64),
-          children: sections,
+        // TODO handle visible falsel
+        return Visibility(
+          visible: true,
+          child: ListView(
+            padding: EdgeInsets.only(bottom: 64),
+            children: [
+              for (final indicator in HealthIndicator.values)
+                buildIndicatorChartSection(context, response, indicator)
+            ],
+          ),
+          replacement: EmptyStateContainer(
+            text: appLocalizations.weeklyHealthStatusEmpty,
+          ),
         );
       },
     );
