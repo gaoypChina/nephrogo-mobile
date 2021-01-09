@@ -63,7 +63,7 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
       final dateFormatted = _dateFormatter.format(day);
       final dayFormatted = _dayFormatter.format(day).capitalizeFirst();
 
-      if (dhs == null) {
+      if (dhs == null || !dhs.isIndicatorExists(indicator)) {
         return AppBarChartGroup(
           text: dayFormatted,
           x: i,

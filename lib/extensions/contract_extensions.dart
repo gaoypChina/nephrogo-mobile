@@ -147,16 +147,18 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       case HealthIndicator.urine:
         return urineMl != null;
       case HealthIndicator.severityOfSwelling:
-        return swellingDifficulty != null;
+        return swellingDifficulty != null &&
+            swellingDifficulty != SwellingDifficultyEnum.unknown;
       case HealthIndicator.numberOfSwellings:
         // TODO numberOfSwellings implementation
         return false;
       case HealthIndicator.wellBeing:
-        return wellFeeling != null;
+        return wellFeeling != null && wellFeeling != WellFeelingEnum.unknown;
       case HealthIndicator.appetite:
-        return appetite != null;
+        return appetite != null && appetite != AppetiteEnum.unknown;
       case HealthIndicator.shortnessOfBreath:
-        return shortnessOfBreath != null;
+        return shortnessOfBreath != null &&
+            shortnessOfBreath != ShortnessOfBreathEnum.unknown;
       default:
         throw ArgumentError.value(
           this,
@@ -193,8 +195,6 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
             return "3+";
           case SwellingDifficultyEnum.n4plus:
             return "4+";
-          case SwellingDifficultyEnum.unknown:
-            return null;
         }
         throw ArgumentError.value(
           swellingDifficulty,
@@ -293,8 +293,6 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
             return 4;
           case SwellingDifficultyEnum.n4plus:
             return 5;
-          case SwellingDifficultyEnum.unknown:
-            return null;
         }
         throw ArgumentError.value(
           swellingDifficulty,
