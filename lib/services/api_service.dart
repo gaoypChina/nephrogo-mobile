@@ -189,11 +189,10 @@ class ApiService {
   Future<HealthStatusWeeklyScreenResponse> getWeeklyHealthStatusReport(
     DateTime from,
     DateTime to,
-  ) async {
-    final r = await _healthStatusApi.healthStatusWeeklyRetrieve(
-        Date(from), Date(from));
-
-    return r.data;
+  ) {
+    return _healthStatusApi
+        .healthStatusWeeklyRetrieve(Date(from), Date(to))
+        .then((r) => r.data);
   }
 }
 

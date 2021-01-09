@@ -8,7 +8,7 @@ import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/charts/weekly_health_indicator_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
-import 'package:nephrolog/ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
+import 'package:nephrolog/ui/tabs/health_indicators/weekly_health_status_screen.dart';
 import 'package:nephrolog_api_client/model/health_status_screen_response.dart';
 
 class HealthStatusTab extends StatefulWidget {
@@ -37,7 +37,7 @@ class _HealthStatusTabState extends State<HealthStatusTab> {
   Future _createHealthStatus() async {
     final healthIndicator = await Navigator.pushNamed(
       context,
-      Routes.ROUTE_HEALTH_INDICATORS_CREATION,
+      Routes.ROUTE_HEALTH_STATUS_CREATION,
     );
 
     if (healthIndicator != null) {
@@ -73,8 +73,8 @@ class HealthIndicatorsTabBody extends StatelessWidget {
   ) {
     Navigator.pushNamed(
       context,
-      Routes.ROUTE_WEEKLY_HEALTH_INDICATORS_SCREEN,
-      arguments: WeeklyHealthIndicatorsScreenArguments(indicator),
+      Routes.ROUTE_WEEKLY_HEALTH_STATUS_SCREEN,
+      arguments: WeeklyHealthStatusScreenArguments(indicator),
     );
   }
 

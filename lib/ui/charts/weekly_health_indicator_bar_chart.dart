@@ -162,7 +162,7 @@ class WeeklyHealthIndicatorBarChart extends StatelessWidget {
       case HealthIndicator.wellBeing:
       case HealthIndicator.appetite:
       case HealthIndicator.shortnessOfBreath:
-      return 1;
+        return 1;
       default:
         throw ArgumentError.value(
           this,

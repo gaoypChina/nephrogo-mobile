@@ -9,7 +9,7 @@ import 'ui/faq_screen.dart';
 import 'ui/home_screen.dart';
 import 'ui/start_screen.dart';
 import 'ui/tabs/health_indicators/health_indicators_creation_screen.dart';
-import 'ui/tabs/health_indicators/weekly_health_indicators_screen.dart';
+import 'ui/tabs/health_indicators/weekly_health_status_screen.dart';
 import 'ui/tabs/nutrition/creation/meal_creation_screen.dart';
 import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'ui/user_conditions_screen.dart';
@@ -27,9 +27,9 @@ class Routes {
   static const ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN = "weekly_nutrients_screen";
   static const ROUTE_MEAL_CREATION = "meal_creation";
 
-  static const ROUTE_WEEKLY_HEALTH_INDICATORS_SCREEN =
-      "weekly_health_indicators_screen";
-  static const ROUTE_HEALTH_INDICATORS_CREATION = "health_indicators_creation";
+  static const ROUTE_WEEKLY_HEALTH_STATUS_SCREEN =
+      "ROUTE_WEEKLY_HEALTH_STATUS_SCREEN";
+  static const ROUTE_HEALTH_STATUS_CREATION = "ROUTE_HEALTH_STATUS_CREATION";
 
   static const ROUTE_USER_CONDITIONS = "user_conditions";
   static const ROUTE_FAQ = "frequently_asked_questions";
@@ -68,7 +68,7 @@ class Routes {
 
           return MealCreationScreen(initialProduct: arguments?.product);
         });
-      case ROUTE_HEALTH_INDICATORS_CREATION:
+      case ROUTE_HEALTH_STATUS_CREATION:
         return MaterialPageRoute(builder: (context) {
           return HealthIndicatorsCreationScreen();
         });
@@ -93,11 +93,11 @@ class Routes {
             nutrient: arguments.nutrient,
           );
         });
-      case ROUTE_WEEKLY_HEALTH_INDICATORS_SCREEN:
+      case ROUTE_WEEKLY_HEALTH_STATUS_SCREEN:
         return MaterialPageRoute(builder: (context) {
-          WeeklyHealthIndicatorsScreenArguments arguments = settings.arguments;
+          WeeklyHealthStatusScreenArguments arguments = settings.arguments;
 
-          return WeeklyHealthIndicatorsScreen(
+          return WeeklyHealthStatusScreen(
             initialHealthIndicator: arguments.initialHealthIndicator,
           );
         });

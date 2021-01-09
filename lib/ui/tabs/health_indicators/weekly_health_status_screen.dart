@@ -14,25 +14,24 @@ import 'package:nephrolog/ui/general/weekly_pager.dart';
 import 'package:nephrolog_api_client/model/daily_health_status.dart';
 import 'package:nephrolog_api_client/model/health_status_weekly_screen_response.dart';
 
-class WeeklyHealthIndicatorsScreenArguments {
+class WeeklyHealthStatusScreenArguments {
   final HealthIndicator initialHealthIndicator;
 
-  const WeeklyHealthIndicatorsScreenArguments(this.initialHealthIndicator);
+  const WeeklyHealthStatusScreenArguments(this.initialHealthIndicator);
 }
 
-class WeeklyHealthIndicatorsScreen extends StatefulWidget {
+class WeeklyHealthStatusScreen extends StatefulWidget {
   final HealthIndicator initialHealthIndicator;
 
-  const WeeklyHealthIndicatorsScreen({Key key, this.initialHealthIndicator})
+  const WeeklyHealthStatusScreen({Key key, this.initialHealthIndicator})
       : super(key: key);
 
   @override
-  _WeeklyHealthIndicatorsScreenState createState() =>
-      _WeeklyHealthIndicatorsScreenState();
+  _WeeklyHealthStatusScreenState createState() =>
+      _WeeklyHealthStatusScreenState();
 }
 
-class _WeeklyHealthIndicatorsScreenState
-    extends State<WeeklyHealthIndicatorsScreen> {
+class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
   ValueNotifier<HealthIndicator> healthIndicatorChangeNotifier;
   HealthIndicator selectedHealthIndicator;
 
@@ -56,8 +55,7 @@ class _WeeklyHealthIndicatorsScreenState
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showIndicatorSelectionPopupMenu(appLocalizations),
-        // TODO translation
-        label: Text("RODIKLIS"),
+        label: Text(appLocalizations.healthIndicator),
         icon: Icon(Icons.swap_horizontal_circle),
       ),
       body: WeeklyPager<HealthIndicator>(
@@ -67,8 +65,11 @@ class _WeeklyHealthIndicatorsScreenState
             future: _apiService.getWeeklyHealthStatusReport(from, to),
             builder: (context, data) {
               return HealthIndicatorsListWithChart(
-                healthStatusWeeklyResponse: data,
+                dailyHealthStatuses: data.dailyHealthStatuses.toList(),
                 healthIndicator: selectedHealthIndicator,
+                from: from,
+                to: to,
+                appLocalizations: appLocalizations,
               );
             },
           );
@@ -98,8 +99,7 @@ class _WeeklyHealthIndicatorsScreenState
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
-          // TODO translation
-          title: const Text('Pasirinkite sveikatos indikatorių'),
+          title: Text(appLocalizations.chooseHealthIndicator),
           children: options,
         );
       },
@@ -113,12 +113,18 @@ class _WeeklyHealthIndicatorsScreenState
 
 class HealthIndicatorsListWithChart extends StatelessWidget {
   final HealthIndicator healthIndicator;
-  final HealthStatusWeeklyScreenResponse healthStatusWeeklyResponse;
+  final List<DailyHealthStatus> dailyHealthStatuses;
+  final AppLocalizations appLocalizations;
+  final DateTime from;
+  final DateTime to;
 
   const HealthIndicatorsListWithChart({
     Key key,
-    @required this.healthStatusWeeklyResponse,
+    @required this.dailyHealthStatuses,
     @required this.healthIndicator,
+    @required this.appLocalizations,
+    @required this.from,
+    @required this.to,
   }) : super(key: key);
 
   @override
@@ -129,9 +135,10 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
         BasicSection(
           children: [
             WeeklyHealthIndicatorBarChart(
-              dailyHealthStatuses:
-                  healthStatusWeeklyResponse.dailyHealthStatuses.toList(),
+              dailyHealthStatuses: dailyHealthStatuses,
               indicator: healthIndicator,
+              appLocalizations: appLocalizations,
+              maximumDate: to,
             ),
           ],
         ),
@@ -141,7 +148,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
   }
 
   List<Widget> _buildIndicatorTiles() {
-    return healthStatusWeeklyResponse.dailyHealthStatuses
+    return dailyHealthStatuses
         .where((dhs) => dhs.isIndicatorExists(healthIndicator))
         .sortedBy((e) => e.date, reverse: true)
         .map((dhs) => DailyHealthStatusIndicatorTile(
