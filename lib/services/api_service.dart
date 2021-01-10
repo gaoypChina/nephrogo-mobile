@@ -129,11 +129,7 @@ class ApiService {
       DailyHealthStatusRequest dailyHealthStatusRequest,
       [CancelToken cancelToken]) {
     return _healthStatusApi
-        .healthStatusUpdate(
-          Date(dailyHealthStatusRequest.date),
-          dailyHealthStatusRequest,
-          cancelToken: cancelToken,
-        )
+        .healthStatusUpdate(dailyHealthStatusRequest, cancelToken: cancelToken)
         .then((r) => r.data)
         .catchError(
           (e) => _healthStatusApi
@@ -269,9 +265,9 @@ class DateAndDateTimeUtcSerializer extends Iso8601DateTimeSerializer {
     final s = serialized as String;
 
     try {
+      // TODO create Date
       return _dateFormat.parseStrict(s, true);
     } on FormatException {}
-
     return super.deserialize(serializers, serialized);
   }
 }

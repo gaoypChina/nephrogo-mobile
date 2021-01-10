@@ -41,7 +41,7 @@ class ProductTile extends StatelessWidget {
       contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       title: Text(product.name),
       leading: ProductKindIcon(
-        productKind: product.kind,
+        productKind: product.productKind,
       ),
       onTap: onTap,
     );

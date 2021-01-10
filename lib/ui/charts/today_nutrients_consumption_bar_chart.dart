@@ -5,12 +5,12 @@ import 'package:nephrolog/extensions/extensions.dart';
 import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog/models/graph.dart';
-import 'package:nephrolog_api_client/model/daily_intake_report.dart';
+import 'package:nephrolog_api_client/model/daily_intakes_report.dart';
 
 import 'bar_chart.dart';
 
 class TodayNutrientsConsumptionBarChart extends StatelessWidget {
-  final DailyIntakeReport dailyIntakeReport;
+  final DailyIntakesReport dailyIntakeReport;
 
   const TodayNutrientsConsumptionBarChart({
     Key key,

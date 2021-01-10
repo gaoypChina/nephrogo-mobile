@@ -9,7 +9,7 @@ import 'package:nephrolog/ui/charts/nutrient_weekly_bar_chart.dart';
 import 'package:nephrolog/ui/charts/today_nutrients_consumption_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
-import 'package:nephrolog_api_client/model/daily_intake_report.dart';
+import 'package:nephrolog_api_client/model/daily_intakes_report.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
 import 'package:nephrolog_api_client/model/nutrient_screen_response.dart';
 
@@ -103,8 +103,8 @@ class _NutritionTabState extends State<NutritionTab> {
 
   LargeSection buildIndicatorChartSection(
     BuildContext context,
-    DailyIntakeReport todayIntakesReport,
-    List<DailyIntakeReport> dailyIntakesReports,
+    DailyIntakesReport todayIntakesReport,
+    List<DailyIntakesReport> dailyIntakesReports,
     Nutrient nutrient,
   ) {
     final localizations = AppLocalizations.of(context);
@@ -149,7 +149,7 @@ class _NutritionTabState extends State<NutritionTab> {
 }
 
 class DailyNormsSection extends StatelessWidget {
-  final DailyIntakeReport dailyIntakeReport;
+  final DailyIntakesReport dailyIntakeReport;
 
   const DailyNormsSection({
     Key key,
@@ -232,7 +232,7 @@ class IntakeTile extends StatelessWidget {
       subtitle: Text(
         dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst(),
       ),
-      leading: ProductKindIcon(productKind: intake.product.kind),
+      leading: ProductKindIcon(productKind: intake.product.productKind),
       trailing: Text(intake.getAmountFormatted()),
     );
   }

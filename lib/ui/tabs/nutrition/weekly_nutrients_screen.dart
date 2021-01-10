@@ -8,7 +8,7 @@ import 'package:nephrolog/ui/charts/nutrient_weekly_bar_chart.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/general/weekly_pager.dart';
-import 'package:nephrolog_api_client/model/daily_intake_report.dart';
+import 'package:nephrolog_api_client/model/daily_intakes_report.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
 import 'package:nephrolog_api_client/model/nutrient_weekly_screen_response.dart';
 
@@ -151,7 +151,7 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
 }
 
 class _WeeklyNutrientsComponent extends StatelessWidget {
-  final List<DailyIntakeReport> dailyIntakesReports;
+  final List<DailyIntakesReport> dailyIntakesReports;
   final Nutrient nutrient;
 
   final DateTime weekStart;
@@ -207,7 +207,7 @@ class DailyIntakeSection extends StatelessWidget {
   static final _dateFormat = DateFormat("EEEE, d");
 
   final Nutrient nutrient;
-  final DailyIntakeReport dailyIntakesReport;
+  final DailyIntakesReport dailyIntakesReport;
 
   DailyIntakeSection({
     Key key,
@@ -318,7 +318,7 @@ class IndicatorIntakeTile extends StatelessWidget {
       subtitle: Text(
         "${intake.getAmountFormatted()} | $dateFormatted",
       ),
-      leading: ProductKindIcon(productKind: product.kind),
+      leading: ProductKindIcon(productKind: product.productKind),
       trailing: Text(intake.getNutrientAmountFormatted(nutrient)),
     );
   }

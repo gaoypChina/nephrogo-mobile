@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog_api_client/model/kind_enum.dart';
+import 'package:nephrolog_api_client/model/product_kind_enum.dart';
 
 class BasicSection extends StatelessWidget {
   static const _defaultHeaderPadding =
@@ -204,15 +204,16 @@ class AppListTile extends StatelessWidget {
 }
 
 class ProductKindIcon extends StatelessWidget {
-  final KindEnum productKind;
+  final ProductKindEnum productKind;
 
   const ProductKindIcon({Key key, @required this.productKind})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final icon =
-        (productKind == KindEnum.drink) ? Icons.local_cafe : Icons.local_dining;
+    final icon = (productKind == ProductKindEnum.drink)
+        ? Icons.local_cafe
+        : Icons.local_dining;
 
     return IconButton(
       icon: Icon(

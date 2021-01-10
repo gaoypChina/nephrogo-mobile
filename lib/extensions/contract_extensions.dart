@@ -4,7 +4,7 @@ import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/models/contract.dart';
 import 'package:nephrolog_api_client/model/appetite_enum.dart';
 import 'package:nephrolog_api_client/model/daily_health_status.dart';
-import 'package:nephrolog_api_client/model/daily_intake_report.dart';
+import 'package:nephrolog_api_client/model/daily_intakes_report.dart';
 import 'package:nephrolog_api_client/model/daily_nutrient_consumption.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
 import 'package:nephrolog_api_client/model/shortness_of_breath_enum.dart';
@@ -44,7 +44,7 @@ String _getFormattedNutrient(Nutrient nutrient, int amount) {
   }
 }
 
-extension DailyIntakesExtensions on DailyIntakeReport {
+extension DailyIntakesExtensions on DailyIntakesReport {
   DailyNutrientConsumption getDailyNutrientConsumption(Nutrient nutrient) {
     switch (nutrient) {
       case Nutrient.potassium:
