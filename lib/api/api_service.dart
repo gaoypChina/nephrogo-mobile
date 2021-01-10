@@ -175,8 +175,8 @@ class ApiService {
         .then((r) => r.data)
         .catchError(
           (e) => null,
-      test: (e) => e is DioError && e.response?.statusCode == 404,
-    );
+          test: (e) => e is DioError && e.response?.statusCode == 404,
+        );
   }
 
   Future<UserProfile> createOrUpdateUserProfile(UserProfileRequest userProfile,
@@ -211,10 +211,11 @@ class ApiService {
         .then((r) => r.data)
         .catchError(
           (e) => null,
-    );
+        );
   }
 
-  Future<HealthStatusScreenResponse> getHealthStatusScreen([CancelToken cancelToken]) {
+  Future<HealthStatusScreenResponse> getHealthStatusScreen(
+      [CancelToken cancelToken]) {
     return _healthStatusApi
         .healthStatusScreenRetrieve(cancelToken: cancelToken)
         .then((r) => r.data);
@@ -253,7 +254,7 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
     try {
       dio.interceptors.requestLock.lock();
       final forceRegenerateToken =
-      options.extra.containsKey(_tokenRegeneratedKey);
+          options.extra.containsKey(_tokenRegeneratedKey);
 
       final idToken = await _getIdToken(forceRegenerateToken);
 
