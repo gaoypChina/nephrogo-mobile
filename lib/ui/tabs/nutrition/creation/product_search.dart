@@ -1,9 +1,9 @@
 import 'package:async/async.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:nephrolog/api/api_service.dart';
 import 'package:nephrolog/l10n/localizations.dart';
 import 'package:nephrolog/routes.dart';
-import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/general/app_future_builder.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/tabs/nutrition/creation/meal_creation_screen.dart';
