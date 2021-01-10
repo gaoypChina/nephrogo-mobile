@@ -37,6 +37,8 @@ class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
 
   final ApiService _apiService = ApiService();
 
+  DateTime earliestDate;
+
   @override
   void initState() {
     super.initState();
@@ -60,10 +62,13 @@ class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
       ),
       body: WeeklyPager<HealthIndicator>(
         valueChangeNotifier: healthIndicatorChangeNotifier,
+        earliestDate: () => earliestDate,
         bodyBuilder: (from, to, indicator) {
           return AppFutureBuilder<HealthStatusWeeklyScreenResponse>(
             future: _apiService.getWeeklyHealthStatusReport(from, to),
             builder: (context, data) {
+              earliestDate = data.earliestHealthStatusDate;
+
               return Visibility(
                 visible: data.dailyHealthStatuses.isNotEmpty,
                 replacement: EmptyStateContainer(

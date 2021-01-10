@@ -8,11 +8,13 @@ import 'components.dart';
 class WeeklyPager<T> extends StatefulWidget {
   final ValueNotifier<T> valueChangeNotifier;
   final Widget Function(DateTime from, DateTime to, T value) bodyBuilder;
+  final DateTime Function() earliestDate;
 
   const WeeklyPager({
     Key key,
     @required this.valueChangeNotifier,
     @required this.bodyBuilder,
+    @required this.earliestDate,
   }) : super(key: key);
 
   @override
@@ -62,6 +64,7 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
         Expanded(
           child: PageView.builder(
             controller: _pageController,
+            physics: NeverScrollableScrollPhysics(),
             onPageChanged: changeWeek,
             reverse: true,
             itemBuilder: (context, index) {
@@ -100,7 +103,17 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
     return initialWeekEnd.subtract(changeDuration);
   }
 
-  bool hasNextDateRange() => currentWeekEnd.isBefore(DateTime.now());
+  bool hasNextDateRange() => currentWeekEnd.isBefore(now);
+
+  bool hasPreviousDateRange() {
+    final earliestDate = widget.earliestDate();
+
+    if (earliestDate == null) {
+      return true;
+    }
+
+    return !earliestDate.add(Duration(days: 7)).isAfter(currentWeekEnd);
+  }
 
   advanceToNextDateRange() {
     _pageController.previousPage(
@@ -124,7 +137,8 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
           children: [
             IconButton(
               icon: Icon(Icons.chevron_left),
-              onPressed: advanceToPreviousDateRange,
+              onPressed:
+                  hasPreviousDateRange() ? advanceToPreviousDateRange : null,
             ),
             Expanded(
               child: Center(

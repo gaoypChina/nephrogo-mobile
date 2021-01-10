@@ -58,9 +58,8 @@ class HealthIndicatorsTabBody extends StatelessWidget {
     return AppFutureBuilder<HealthStatusScreenResponse>(
       future: apiService.getHealthStatusScreen(),
       builder: (context, response) {
-        // TODO handle visible falsel
         return Visibility(
-          visible: true,
+          visible: response.hasAnyStatuses,
           child: ListView(
             padding: EdgeInsets.only(bottom: 64),
             children: [

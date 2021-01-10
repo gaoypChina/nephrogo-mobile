@@ -38,6 +38,8 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
 
   final DateTime now = DateTime.now();
 
+  DateTime earliestDate;
+
   DateTime initialWeekStart;
   DateTime initialWeekEnd;
 
@@ -72,10 +74,13 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
       ),
       body: WeeklyPager<Nutrient>(
         valueChangeNotifier: nutrientChangeNotifier,
+        earliestDate: () => earliestDate,
         bodyBuilder: (from, to, nutrient) {
           return AppFutureBuilder<NutrientWeeklyScreenResponse>(
             future: _apiService.getWeeklyDailyIntakesReport(from, to),
             builder: (context, data) {
+              earliestDate = data.earliestReportDate;
+
               return _WeeklyNutrientsComponent(
                 nutrient: nutrient,
                 weekStart: from,
