@@ -31,55 +31,39 @@ class WeeklyNutrientsScreen extends StatefulWidget {
 class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
   final _apiService = ApiService();
 
-  // It's hacky, but let's load pages nearby
-  final pageController = PageController(viewportFraction: 0.9999999);
+  AppLocalizations _appLocalizations;
 
-  ValueNotifier<Nutrient> nutrientChangeNotifier;
-
-  final DateTime now = DateTime.now();
-
-  DateTime earliestDate;
-
-  DateTime initialWeekStart;
-  DateTime initialWeekEnd;
-
-  DateTime weekStart;
-  DateTime weekEnd;
-  Nutrient nutrient;
+  ValueNotifier<Nutrient> _nutrientChangeNotifier;
+  DateTime _earliestDate;
 
   @override
   void initState() {
     super.initState();
 
-    nutrient = widget.nutrient;
-
-    final weekStartEnd = now.startAndEndOfWeek();
-
-    weekStart = initialWeekStart = weekStartEnd.item1;
-    weekEnd = initialWeekEnd = weekStartEnd.item2;
-
-    nutrientChangeNotifier = ValueNotifier<Nutrient>(nutrient);
+    _nutrientChangeNotifier = ValueNotifier<Nutrient>(widget.nutrient);
   }
 
   @override
   Widget build(BuildContext context) {
+    _appLocalizations = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_getTitle()),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showIndicatorSelectionPopupMenu(context),
-        label: Text("MEDŽIAGA"),
+        label: Text(_appLocalizations.nutrientShort.toUpperCase()),
         icon: Icon(Icons.swap_horizontal_circle),
       ),
       body: WeeklyPager<Nutrient>(
-        valueChangeNotifier: nutrientChangeNotifier,
-        earliestDate: () => earliestDate,
+        valueChangeNotifier: _nutrientChangeNotifier,
+        earliestDate: () => _earliestDate,
         bodyBuilder: (from, to, nutrient) {
           return AppFutureBuilder<NutrientWeeklyScreenResponse>(
             future: _apiService.getWeeklyDailyIntakesReport(from, to),
             builder: (context, data) {
-              earliestDate = data.earliestReportDate;
+              _earliestDate = data.earliestReportDate;
 
               return _WeeklyNutrientsComponent(
                 nutrient: nutrient,
@@ -95,19 +79,19 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
   }
 
   String _getTitle() {
-    switch (nutrient) {
+    switch (_nutrientChangeNotifier.value) {
       case Nutrient.energy:
-        return "Energijos suvartojimas";
+        return _appLocalizations.consumptionEnergy;
       case Nutrient.liquids:
-        return "Skysčių suvartojimas";
+        return _appLocalizations.consumptionLiquids;
       case Nutrient.proteins:
-        return "Baltymų suvartojimas";
+        return _appLocalizations.consumptionLiquids;
       case Nutrient.sodium:
-        return "Natrio suvartojimas";
+        return _appLocalizations.consumptionSodium;
       case Nutrient.potassium:
-        return "Kalio suvartojimas";
+        return _appLocalizations.consumptionPotassium;
       case Nutrient.phosphorus:
-        return "Fosforo suvartojimas";
+        return _appLocalizations.consumptionPhosphorus;
       default:
         throw ArgumentError.value(
             this, "type", "Unable to map indicator to name");
@@ -116,8 +100,7 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
 
   _changeNutrient(Nutrient nutrient) {
     setState(() {
-      nutrient = nutrient;
-      nutrientChangeNotifier.value = nutrient;
+      _nutrientChangeNotifier.value = nutrient;
     });
   }
 
@@ -149,7 +132,7 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
 
   @override
   void dispose() {
-    nutrientChangeNotifier.dispose();
+    _nutrientChangeNotifier.dispose();
 
     super.dispose();
   }
@@ -297,9 +280,7 @@ class DailyIntakeSection extends StatelessWidget {
 }
 
 class IndicatorIntakeTile extends StatelessWidget {
-  static final dateFormat = DateFormat(
-    "MMMM d HH:mm",
-  );
+  static final dateFormat = DateFormat("MMMM d HH:mm");
 
   final Intake intake;
   final Nutrient nutrient;
@@ -315,9 +296,10 @@ class IndicatorIntakeTile extends StatelessWidget {
     final product = intake.product;
 
     final dateFormatted =
-        dateFormat.format(intake.consumedAt).capitalizeFirst();
+        dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
 
     return ListTile(
+      key: Key("IndicatorIntakeTile-$nutrient-${intake.id}"),
       title: Text(product.name),
       contentPadding: EdgeInsets.zero,
       subtitle: Text(

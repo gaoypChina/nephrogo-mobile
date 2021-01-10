@@ -24,6 +24,8 @@
   "@chooseHealthIndicator": {},
   "chooseNutrient": "Pasirinkite maisto medžiagą",
   "@chooseNutrient": {},
+  "nutrientShort": "Medžiaga",
+  "@nutrientShort": {},
   "nutritionEmpty": "Pridėkite pirmąjį valgį arba gėrimą",
   "@nutritionEmpty": {},
   "healthStatusEmpty": "Pridėkite savo sveikatos rodiklius",
@@ -48,6 +50,30 @@
         "example": "150 g"
       }
     }
+  },
+  "consumptionEnergy": "Energijos suvartojimas",
+  "@consumptionEnergy": {
+    "context": "nutrient:weekly"
+  },
+  "consumptionLiquids": "Skysčių suvartojimas",
+  "@consumptionLiquids": {
+    "context": "nutrient:weekly"
+  },
+  "consumptionProteins": "Baltymų suvartojimas",
+  "@consumptionProteins": {
+    "context": "nutrient:weekly"
+  },
+  "consumptionSodium": "Natrio suvartojimas",
+  "@consumptionSodium": {
+    "context": "nutrient:weekly"
+  },
+  "consumptionPotassium": "Kalio suvartojimas",
+  "@consumptionPotassium": {
+    "context": "nutrient:weekly"
+  },
+  "consumptionPhosphorus": "Fosforo suvartojimas",
+  "@consumptionPhosphorus": {
+    "context": "nutrient:weekly"
   },
   "todayConsumptionWithNormTooltip": "Šiandien: {amount}\nParos norma: {norm}",
   "@todayConsumptionWithNormTooltip": {
