@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 // local Date Time which is incorrect :(
 // Related https://github.com/protocolbuffers/protobuf/issues/7411
 class Date extends DateTime {
-  static final _dateFormat = DateFormat('yyyy-MM-dd');
+  static final dateFormat = DateFormat('yyyy-MM-dd');
 
   Date(DateTime dateTime)
       : super(
@@ -15,7 +15,7 @@ class Date extends DateTime {
 
   @override
   String toString() {
-    return _dateFormat.format(this.toLocal());
+    return dateFormat.format(this.toLocal());
   }
 
   @override

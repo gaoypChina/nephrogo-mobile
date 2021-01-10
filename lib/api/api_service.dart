@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:dio_brotli_transformer/dio_brotli_transformer.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
-import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
 import 'package:nephrolog/models/date.dart';
@@ -257,8 +256,6 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
 
 // Hack start
 class DateAndDateTimeUtcSerializer extends Iso8601DateTimeSerializer {
-  static final _dateFormat = DateFormat('yyyy-MM-dd');
-
   @override
   DateTime deserialize(Serializers serializers, Object serialized,
       {FullType specifiedType = FullType.unspecified}) {
@@ -269,7 +266,7 @@ class DateAndDateTimeUtcSerializer extends Iso8601DateTimeSerializer {
     }
 
     try {
-      return Date(_dateFormat.parseStrict(s));
+      return Date(Date.dateFormat.parseStrict(s));
     } on FormatException {
       return super.deserialize(serializers, serialized);
     }
