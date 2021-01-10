@@ -7,10 +7,10 @@ class Date extends DateTime {
   static final _dateFormat = DateFormat('yyyy-MM-dd');
 
   Date(DateTime dateTime)
-      : super.utc(
-          dateTime.toUtc().year,
-          dateTime.toUtc().month,
-          dateTime.toUtc().day,
+      : super(
+          dateTime.toLocal().year,
+          dateTime.toLocal().month,
+          dateTime.toLocal().day,
         );
 
   @override
