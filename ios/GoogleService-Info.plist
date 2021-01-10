@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1094475099023-uqnk3bhar13jnb6lmktde50alut2lm5i.apps.googleusercontent.com</string>
+	<string>59243708382-i7vp7hs924nq5oc44pjtr95ioa2391on.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1094475099023-uqnk3bhar13jnb6lmktde50alut2lm5i</string>
+	<string>com.googleusercontent.apps.59243708382-i7vp7hs924nq5oc44pjtr95ioa2391on</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>1094475099023-a6psnjhi366i2fnpkl9jtc223kc40lvo.apps.googleusercontent.com</string>
+	<string>59243708382-e4rsjiahrs7ng55vqhif9udee38up2l4.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBvyledQcUYd4JNmlI0INwoOUGWpkhXkAM</string>
+	<string>AIzaSyAyiX6VgxJ8FtQ-rCJtS7blaLjWyAbHZUM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1094475099023</string>
+	<string>59243708382</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.nephrogo</string>
 	<key>PROJECT_ID</key>
-	<string>nephrogo</string>
+	<string>nephrogo-f06fe</string>
 	<key>STORAGE_BUCKET</key>
-	<string>nephrogo.appspot.com</string>
+	<string>nephrogo-f06fe.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1094475099023:ios:655d428cb3a9477807b9fa</string>
-	<key>DATABASE_URL</key>
-	<string>https://nephrogo.firebaseio.com</string>
+	<string>1:59243708382:ios:118cbcbc535335b57ce74f</string>
 </dict>
 </plist>

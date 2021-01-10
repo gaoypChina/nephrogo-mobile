@@ -1,51 +1,49 @@
 {
   "project_info": {
-    "project_number": "1094475099023",
-    "firebase_url": "https://nephrogo.firebaseio.com",
-    "project_id": "nephrogo",
-    "storage_bucket": "nephrogo.appspot.com"
+    "project_number": "59243708382",
+    "project_id": "nephrogo-f06fe",
+    "storage_bucket": "nephrogo-f06fe.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1094475099023:android:921319afc7b606b507b9fa",
+        "mobilesdk_app_id": "1:59243708382:android:3e014623deca31de7ce74f",
         "android_client_info": {
           "package_name": "com.nephrogo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1094475099023-d3aaiqfnva0vtseurs6fn1ckksjl7cfb.apps.googleusercontent.com",
+          "client_id": "59243708382-ia7g122bursb1ukhbjfd41r8jkc6grgv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.nephrogo",
-            "certificate_hash": "97fbd04e6bff3be10afbcd1b04a743700f7df591"
+            "certificate_hash": "cbb427b3c31c02666b4b120898f9b5534b2a2982"
           }
         },
         {
-          "client_id": "1094475099023-grj1hl2hbhfhardobuvf8dfae8ci2t45.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.nephrogo",
-            "certificate_hash": "deed58c078c63d66ebbe59a6e9a0b7859fe103b7"
-          }
-        },
-        {
-          "client_id": "1094475099023-6134vpb802snl4m07d6u9qu6kip2kps9.apps.googleusercontent.com",
+          "client_id": "59243708382-jp8m6imsfbk8vivv6r7ikbgi07guq0o4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDymch6mW-zQrfUdkCWE6NIw_3GbtTKofU"
+          "current_key": "AIzaSyAmccum6c83OmtgOsHCfBcDIX3zgFK3xKo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1094475099023-6134vpb802snl4m07d6u9qu6kip2kps9.apps.googleusercontent.com",
+              "client_id": "59243708382-jp8m6imsfbk8vivv6r7ikbgi07guq0o4.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "59243708382-i7vp7hs924nq5oc44pjtr95ioa2391on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nephrogo"
+              }
             }
           ]
         }
@@ -53,14 +51,14 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1094475099023:android:f71b760e2ff045ce07b9fa",
+        "mobilesdk_app_id": "1:59243708382:android:1180f4831a3db4d07ce74f",
         "android_client_info": {
           "package_name": "com.nephrogo.debug"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1094475099023-a6psnjhi366i2fnpkl9jtc223kc40lvo.apps.googleusercontent.com",
+          "client_id": "59243708382-e4rsjiahrs7ng55vqhif9udee38up2l4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.nephrogo.debug",
@@ -68,21 +66,28 @@
           }
         },
         {
-          "client_id": "1094475099023-6134vpb802snl4m07d6u9qu6kip2kps9.apps.googleusercontent.com",
+          "client_id": "59243708382-jp8m6imsfbk8vivv6r7ikbgi07guq0o4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDymch6mW-zQrfUdkCWE6NIw_3GbtTKofU"
+          "current_key": "AIzaSyAmccum6c83OmtgOsHCfBcDIX3zgFK3xKo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1094475099023-6134vpb802snl4m07d6u9qu6kip2kps9.apps.googleusercontent.com",
+              "client_id": "59243708382-jp8m6imsfbk8vivv6r7ikbgi07guq0o4.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "59243708382-i7vp7hs924nq5oc44pjtr95ioa2391on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nephrogo"
+              }
             }
           ]
         }
