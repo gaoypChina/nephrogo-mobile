@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:built_value/iso_8601_date_time_serializer.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:logging/logging.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
 import 'package:nephrolog/models/date.dart';
+import 'package:nephrolog/ui/general/app_state_change_stream_builder.dart';
 import 'package:nephrolog_api_client/api.dart';
 import 'package:nephrolog_api_client/api/health_status_api.dart';
 import 'package:nephrolog_api_client/api/nutrition_api.dart';
@@ -31,10 +34,16 @@ class ApiService {
 
   static final ApiService _singleton = ApiService._internal();
 
+  final _appEventsStreamController =
+      StreamController<AppStateChangeEvent>.broadcast();
+
   NephrologApiClient _apiClient;
   NutritionApi _nutritionApi;
   HealthStatusApi _healthStatusApi;
   UserApi _userApi;
+
+  Stream<AppStateChangeEvent> get appEventsStream =>
+      _appEventsStreamController.stream;
 
   factory ApiService() {
     return _singleton;
@@ -97,6 +106,10 @@ class ApiService {
     return apiSerializersBuilder.build();
   }
 
+  void _postAppStateChangeEvent(AppStateChangeEvent event) {
+    _appEventsStreamController.add(event);
+  }
+
   Future<NutrientScreenResponse> getNutritionScreen([CancelToken cancelToken]) {
     return _nutritionApi
         .nutritionScreenRetrieve(cancelToken: cancelToken)
@@ -121,7 +134,12 @@ class ApiService {
       [CancelToken cancelToken]) {
     return _nutritionApi
         .nutritionIntakeCreate(intakeRequest, cancelToken: cancelToken)
-        .then((r) => r.data);
+        .then(
+      (r) {
+        _postAppStateChangeEvent(AppStateChangeEvent.nutrition);
+        return r.data;
+      },
+    );
   }
 
   Future<DailyHealthStatus> createOrUpdateDailyHealthStatus(
@@ -129,16 +147,25 @@ class ApiService {
       [CancelToken cancelToken]) {
     return _healthStatusApi
         .healthStatusUpdate(dailyHealthStatusRequest, cancelToken: cancelToken)
-        .then((r) => r.data)
-        .catchError(
-          (e) => _healthStatusApi
-              .healthStatusCreate(
-                dailyHealthStatusRequest,
-                cancelToken: cancelToken,
-              )
-              .then((r) => r.data),
-          test: (e) => e is DioError && e.response?.statusCode == 404,
-        );
+        .then(
+      (r) {
+        _postAppStateChangeEvent(AppStateChangeEvent.healthStatus);
+        return r.data;
+      },
+    ).catchError(
+      (e) => _healthStatusApi
+          .healthStatusCreate(
+        dailyHealthStatusRequest,
+        cancelToken: cancelToken,
+      )
+          .then(
+        (r) {
+          _postAppStateChangeEvent(AppStateChangeEvent.healthStatus);
+          return r.data;
+        },
+      ),
+      test: (e) => e is DioError && e.response?.statusCode == 404,
+    );
   }
 
   Future<DailyHealthStatus> getDailyHealthStatus(DateTime date,
@@ -148,21 +175,34 @@ class ApiService {
         .then((r) => r.data)
         .catchError(
           (e) => null,
-          test: (e) => e is DioError && e.response?.statusCode == 404,
-        );
+      test: (e) => e is DioError && e.response?.statusCode == 404,
+    );
   }
 
   Future<UserProfile> createOrUpdateUserProfile(UserProfileRequest userProfile,
       [CancelToken cancelToken]) {
     return _userApi
         .userProfileUpdate(userProfile, cancelToken: cancelToken)
-        .then((r) => r.data)
-        .catchError(
-          (e) => _userApi
-              .userProfileCreate(userProfile, cancelToken: cancelToken)
-              .then((r) => r.data),
-          test: (e) => e is DioError && e.response?.statusCode == 404,
-        );
+        .then(
+      (r) {
+        _postAppStateChangeEvent(AppStateChangeEvent.healthStatus);
+        _postAppStateChangeEvent(AppStateChangeEvent.nutrition);
+
+        return r.data;
+      },
+    ).catchError(
+      (e) => _userApi
+          .userProfileCreate(userProfile, cancelToken: cancelToken)
+          .then(
+        (r) {
+          _postAppStateChangeEvent(AppStateChangeEvent.healthStatus);
+          _postAppStateChangeEvent(AppStateChangeEvent.nutrition);
+
+          return r.data;
+        },
+      ),
+      test: (e) => e is DioError && e.response?.statusCode == 404,
+    );
   }
 
   Future<UserProfile> getUserProfile([CancelToken cancelToken]) {
@@ -171,11 +211,10 @@ class ApiService {
         .then((r) => r.data)
         .catchError(
           (e) => null,
-        );
+    );
   }
 
-  Future<HealthStatusScreenResponse> getHealthStatusScreen(
-      [CancelToken cancelToken]) {
+  Future<HealthStatusScreenResponse> getHealthStatusScreen([CancelToken cancelToken]) {
     return _healthStatusApi
         .healthStatusScreenRetrieve(cancelToken: cancelToken)
         .then((r) => r.data);
@@ -188,6 +227,10 @@ class ApiService {
     return _healthStatusApi
         .healthStatusWeeklyRetrieve(Date(from), Date(to))
         .then((r) => r.data);
+  }
+
+  Future dispose() async {
+    await _appEventsStreamController.close();
   }
 }
 
@@ -210,7 +253,7 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
     try {
       dio.interceptors.requestLock.lock();
       final forceRegenerateToken =
-          options.extra.containsKey(_tokenRegeneratedKey);
+      options.extra.containsKey(_tokenRegeneratedKey);
 
       final idToken = await _getIdToken(forceRegenerateToken);
 

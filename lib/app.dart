@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:nephrolog/api/api_service.dart';
 import 'package:nephrolog/routes.dart';
 
 import 'l10n/localizations.dart';
 
-class AppComponent extends StatelessWidget {
-  final _defaultLocale = Locale("lt", "LT");
+class AppComponent extends StatefulWidget {
+  @override
+  _AppComponentState createState() => _AppComponentState();
+}
+
+class _AppComponentState extends State<AppComponent> {
+  static final _defaultLocale = Locale("lt", "LT");
+
+  final _apiService = ApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -35,5 +43,12 @@ class AppComponent extends StatelessWidget {
       initialRoute: Routes.ROUTE_START,
       onGenerateRoute: Routes.onGenerateRoute,
     );
+  }
+
+  @override
+  Future dispose() async {
+    await _apiService.dispose();
+
+    super.dispose();
   }
 }
