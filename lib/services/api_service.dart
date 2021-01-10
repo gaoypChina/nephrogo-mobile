@@ -264,11 +264,25 @@ class DateAndDateTimeUtcSerializer extends Iso8601DateTimeSerializer {
       {FullType specifiedType = FullType.unspecified}) {
     final s = serialized as String;
 
+    if (s.contains('T')) {
+      return super.deserialize(serializers, serialized);
+    }
+
     try {
-      // TODO create Date
-      return _dateFormat.parseStrict(s, true);
-    } on FormatException {}
-    return super.deserialize(serializers, serialized);
+      return Date(_dateFormat.parseStrict(s));
+    } on FormatException {
+      return super.deserialize(serializers, serialized);
+    }
+  }
+
+  @override
+  Object serialize(Serializers serializers, DateTime dateTime,
+      {FullType specifiedType = FullType.unspecified}) {
+    if (dateTime is Date) {
+      return dateTime.toString();
+    }
+
+    return super.serialize(serializers, dateTime, specifiedType: specifiedType);
   }
 }
 // hack end

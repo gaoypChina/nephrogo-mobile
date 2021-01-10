@@ -15,7 +15,7 @@ class Date extends DateTime {
 
   @override
   String toString() {
-    return _dateFormat.format(this);
+    return _dateFormat.format(this.toLocal());
   }
 
   @override
