@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
 import 'package:nephrolog/constants.dart';
@@ -9,7 +8,6 @@ import 'package:nephrolog/ui/general/app_network_image.dart';
 import 'package:nephrolog/ui/general/components.dart';
 import 'package:nephrolog/ui/user_profile_screen.dart';
 import 'package:package_info/package_info.dart';
-import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfileTab extends StatelessWidget {
@@ -30,19 +28,13 @@ class ProfileTab extends StatelessWidget {
           children: [
             AppListTile(
               title: Text(appLocalizations.userProfileScreenTitle),
-              leading: Icon(Icons.medical_services),
+              leading: Icon(Icons.person),
               onTap: () {
                 Navigator.pushNamed(
                   context,
                   Routes.ROUTE_USER_PROFILE,
                   arguments: UserProfileScreenNavigationType.close,
                 );
-              },
-            ),
-            AppListTile(
-              title: Text("DEBUG: AuthInfo"),
-              onTap: () {
-                _showDebugAuthDialog(context);
               },
             ),
           ],
@@ -104,41 +96,6 @@ class ProfileTab extends StatelessWidget {
     } else {
       throw 'Could not launch $url';
     }
-  }
-
-  Future<void> _showDebugAuthDialog(BuildContext context) async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Container(
-            child: AppFutureBuilder<IdTokenResult>(
-              future: _authenticationProvider.currentUser.getIdTokenResult(),
-              builder: (context, data) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ElevatedButton(
-                          onPressed: () => Share.share(data.token),
-                          child: Text("SHARE Token")),
-                      SelectableText(
-                        "SignInProvider: ${data.signInProvider}\n\n"
-                        "issuedAtTime: ${data.issuedAtTime}\n\n"
-                        "authTime: ${data.authTime}\n\n"
-                        "expirationTime: ${data.expirationTime}\n\n"
-                        "signInProvider: ${data.signInProvider}\n\n"
-                        "claims: ${data.claims}\n\n"
-                        "Token: ${data.token}\n\n",
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        );
-      },
-    );
   }
 
   Future _signOut(BuildContext context) async {
