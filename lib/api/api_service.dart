@@ -171,7 +171,6 @@ class ApiService {
         .then((r) => r.data)
         .catchError(
           (e) => null,
-          test: (e) => e is DioError && e.response?.statusCode == 404,
         );
   }
 
