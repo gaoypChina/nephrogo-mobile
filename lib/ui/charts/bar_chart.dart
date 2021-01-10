@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:nephrolog/models/graph.dart';
+import 'package:nephrogo/models/graph.dart';
 
 class AppBarChart extends StatefulWidget {
   final AppBarChartData data;

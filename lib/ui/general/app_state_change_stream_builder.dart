@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/api/api_service.dart';
+import 'package:nephrogo/api/api_service.dart';
 
 enum AppStateChangeEvent { healthStatus, nutrition }
 

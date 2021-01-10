@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:nephrolog/extensions/extensions.dart';
-import 'package:nephrolog/l10n/localizations.dart';
-import 'package:nephrolog/models/contract.dart';
-import 'package:nephrolog/models/graph.dart';
+import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/models/contract.dart';
+import 'package:nephrogo/models/graph.dart';
 import 'package:nephrolog_api_client/model/daily_intakes_report.dart';
 
 import 'bar_chart.dart';

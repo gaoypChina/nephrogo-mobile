@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/api/api_service.dart';
-import 'package:nephrolog/routes.dart';
+import 'package:nephrogo/api/api_service.dart';
+import 'package:nephrogo/routes.dart';
 
 import 'l10n/localizations.dart';
 
@@ -21,7 +21,7 @@ class _AppComponentState extends State<AppComponent> {
     Intl.defaultLocale = 'lt';
 
     return MaterialApp(
-      title: 'NephroLog',
+      title: 'NephroGo',
       theme: ThemeData(
         primarySwatch: Colors.teal,
         accentColor: Colors.redAccent,

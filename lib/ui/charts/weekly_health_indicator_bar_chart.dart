@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/extensions/collection_extensions.dart';
-import 'package:nephrolog/extensions/contract_extensions.dart';
-import 'package:nephrolog/extensions/date_extensions.dart';
-import 'package:nephrolog/extensions/string_extensions.dart';
-import 'package:nephrolog/l10n/localizations.dart';
-import 'package:nephrolog/models/contract.dart';
-import 'package:nephrolog/models/graph.dart';
+import 'package:nephrogo/extensions/collection_extensions.dart';
+import 'package:nephrogo/extensions/contract_extensions.dart';
+import 'package:nephrogo/extensions/date_extensions.dart';
+import 'package:nephrogo/extensions/string_extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/models/contract.dart';
+import 'package:nephrogo/models/graph.dart';
 import 'package:nephrolog_api_client/model/daily_health_status.dart';
 
 import 'bar_chart.dart';

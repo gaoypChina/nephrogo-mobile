@@ -21,7 +21,7 @@ platform :ios do
     # get_certificates           # invokes cert
     # get_provisioning_profile   # invokes sigh
     setup_ci(provider: "travis")
-    sync_code_signing(type: "appstore", app_identifier: "lt.nephrolog", git_url: "https://github.com/vycius/apple-ios-certficates.git", readonly: true)
+    sync_code_signing(type: "appstore", app_identifier: "com.nephrogo", git_url: "https://github.com/vycius/apple-ios-certficates.git", readonly: true)
     build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     firebase_app_distribution(
         app: "1:1094475099023:ios:655d428cb3a9477807b9fa",

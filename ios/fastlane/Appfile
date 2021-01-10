@@ -1,4 +1,4 @@
-app_identifier("lt.nephrolog") # The bundle identifier of your app
+app_identifier("com.nephrogo") # The bundle identifier of your app
 apple_id("k.vycius@gmail.com") # Your Apple email address
 
 itc_team_id("119679361") # App Store Connect Team ID

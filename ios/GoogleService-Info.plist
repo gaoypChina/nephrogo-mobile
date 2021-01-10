@@ -15,11 +15,11 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>lt.nephrolog</string>
+	<string>com.nephrogo</string>
 	<key>PROJECT_ID</key>
-	<string>nephrolog</string>
+	<string>nephrogo</string>
 	<key>STORAGE_BUCKET</key>
-	<string>nephrolog.appspot.com</string>
+	<string>nephrogo.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,6 +33,6 @@
 	<key>GOOGLE_APP_ID</key>
 	<string>1:1094475099023:ios:655d428cb3a9477807b9fa</string>
 	<key>DATABASE_URL</key>
-	<string>https://nephrolog.firebaseio.com</string>
+	<string>https://nephrogo.firebaseio.com</string>
 </dict>
 </plist>

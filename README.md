@@ -1,6 +1,6 @@
-# nephrolog
+# nephrogo
 
-Nephrolog.lt
+NephroGo.lt
 
 ## Getting Started
 

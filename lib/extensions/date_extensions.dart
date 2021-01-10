@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/models/date.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:tuple/tuple.dart';
 
 extension DateTimeExtension on DateTime {

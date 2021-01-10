@@ -1,12 +1,12 @@
 import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
-import 'package:nephrolog/authentication/authentication_provider.dart';
-import 'package:nephrolog/ui/forms/form_validators.dart';
-import 'package:nephrolog/ui/forms/forms.dart';
-import 'package:nephrolog/ui/general/buttons.dart';
-import 'package:nephrolog/ui/general/components.dart';
-import 'package:nephrolog/ui/general/dialogs.dart';
+import 'package:nephrogo/authentication/authentication_provider.dart';
+import 'package:nephrogo/ui/forms/form_validators.dart';
+import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/buttons.dart';
+import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/general/dialogs.dart';
 
 class RemindPasswordScreen extends StatefulWidget {
   @override

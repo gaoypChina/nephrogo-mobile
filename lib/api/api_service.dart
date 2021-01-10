@@ -7,9 +7,9 @@ import 'package:dio_brotli_transformer/dio_brotli_transformer.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:logging/logging.dart';
-import 'package:nephrolog/authentication/authentication_provider.dart';
-import 'package:nephrolog/models/date.dart';
-import 'package:nephrolog/ui/general/app_state_change_stream_builder.dart';
+import 'package:nephrogo/authentication/authentication_provider.dart';
+import 'package:nephrogo/models/date.dart';
+import 'package:nephrogo/ui/general/app_state_change_stream_builder.dart';
 import 'package:nephrolog_api_client/api.dart';
 import 'package:nephrolog_api_client/api/health_status_api.dart';
 import 'package:nephrolog_api_client/api/nutrition_api.dart';
@@ -29,7 +29,7 @@ import 'package:nephrolog_api_client/serializers.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class ApiService {
-  static const _baseApiUrl = "https://api.nephrolog.lt/";
+  static const _baseApiUrl = "https://api.nephrogo.com/";
   static const _connectionIdleTimeout = Duration(minutes: 1);
 
   static final ApiService _singleton = ApiService._internal();
@@ -50,14 +50,14 @@ class ApiService {
   }
 
   ApiService._internal() {
-    _apiClient = _buildNephrologApiClient();
+    _apiClient = _buildNephroGoApiClient();
 
     _nutritionApi = _apiClient.getNutritionApi();
     _healthStatusApi = _apiClient.getHealthStatusApi();
     _userApi = _apiClient.getUserApi();
   }
 
-  NephrologApiClient _buildNephrologApiClient() {
+  NephrologApiClient _buildNephroGoApiClient() {
     final timeZoneName = DateTime.now().timeZoneName;
 
     final dio = Dio(BaseOptions(

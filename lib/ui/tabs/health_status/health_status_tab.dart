@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/api/api_service.dart';
-import 'package:nephrolog/extensions/collection_extensions.dart';
-import 'package:nephrolog/extensions/contract_extensions.dart';
-import 'package:nephrolog/l10n/localizations.dart';
-import 'package:nephrolog/models/contract.dart';
-import 'package:nephrolog/routes.dart';
-import 'package:nephrolog/ui/charts/weekly_health_indicator_bar_chart.dart';
-import 'package:nephrolog/ui/general/app_future_builder.dart';
-import 'package:nephrolog/ui/general/components.dart';
+import 'package:nephrogo/api/api_service.dart';
+import 'package:nephrogo/extensions/collection_extensions.dart';
+import 'package:nephrogo/extensions/contract_extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/models/contract.dart';
+import 'package:nephrogo/routes.dart';
+import 'package:nephrogo/ui/charts/weekly_health_indicator_bar_chart.dart';
+import 'package:nephrogo/ui/general/app_future_builder.dart';
+import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrolog_api_client/model/health_status_screen_response.dart';
 
 import 'weekly_health_status_screen.dart';

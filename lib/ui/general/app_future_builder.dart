@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/ui/general/progress_indicator.dart';
+import 'package:nephrogo/ui/general/progress_indicator.dart';
 
 class AppFutureBuilder<T> extends StatelessWidget {
   final Future<T> future;

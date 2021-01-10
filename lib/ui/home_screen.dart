@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/l10n/localizations.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 
 import 'general/app_logo.dart';
 import 'tabs/health_status/health_status_tab.dart';

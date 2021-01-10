@@ -1,5 +1,5 @@
+import 'package:nephrogo/extensions/date_extensions.dart';
 import 'package:test/test.dart';
-import 'package:nephrolog/extensions/date_extensions.dart';
 
 void main() {
   group('startAndEndOfWeek', () {

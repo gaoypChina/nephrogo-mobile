@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/l10n/localizations.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 
 class FormValidators {
   final AppLocalizations appLocalizations;

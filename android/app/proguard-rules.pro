@@ -4,7 +4,7 @@
 -optimizations !code/allocation/variable
 -keepattributes *Annotation*
 
--keep class lt.nephrolog.** { *; }
+-keep class com.nephrogo.** { *; }
 
 # Flutter Wrapper
 -keep class io.flutter.app.** { *; }

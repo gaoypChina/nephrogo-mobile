@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="lt.nephrolog">
+    package="com.nephrogo">
     <!-- The INTERNET permission is required for development. Specifically,
      flutter needs it to communicate with the running application
      to allow setting breakpoints, to provide hot reload, etc.
@@ -16,7 +16,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:icon="@mipmap/ic_launcher"
-        android:label="NephroLog"
+        android:label="NephroGo"
         android:roundIcon="@mipmap/ic_launcher_round">
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"

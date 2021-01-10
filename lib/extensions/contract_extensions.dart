@@ -1,7 +1,7 @@
 import 'package:built_value/built_value.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/l10n/localizations.dart';
-import 'package:nephrolog/models/contract.dart';
+import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/models/contract.dart';
 import 'package:nephrolog_api_client/model/appetite_enum.dart';
 import 'package:nephrolog_api_client/model/daily_health_status.dart';
 import 'package:nephrolog_api_client/model/daily_intakes_report.dart';

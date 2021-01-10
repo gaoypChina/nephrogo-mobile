@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/extensions/collection_extensions.dart';
-import 'package:nephrolog/l10n/localizations.dart';
-import 'package:nephrolog/ui/forms/forms.dart';
-import 'package:nephrolog/ui/general/components.dart';
+import 'package:nephrogo/extensions/collection_extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/components.dart';
 
 class AppFormMultipleSelectDialog<T> extends StatefulWidget {
   final String title;

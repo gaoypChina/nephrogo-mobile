@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/authentication/authentication_provider.dart';
-import 'package:nephrolog/constants.dart';
-import 'package:nephrolog/l10n/localizations.dart';
-import 'package:nephrolog/routes.dart';
-import 'package:nephrolog/ui/general/app_future_builder.dart';
-import 'package:nephrolog/ui/general/app_network_image.dart';
-import 'package:nephrolog/ui/general/components.dart';
-import 'package:nephrolog/ui/user_profile_screen.dart';
+import 'package:nephrogo/authentication/authentication_provider.dart';
+import 'package:nephrogo/constants.dart';
+import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/routes.dart';
+import 'package:nephrogo/ui/general/app_future_builder.dart';
+import 'package:nephrogo/ui/general/app_network_image.dart';
+import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/user_profile_screen.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 

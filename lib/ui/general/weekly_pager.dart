@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/extensions/date_extensions.dart';
-import 'package:nephrolog/extensions/string_extensions.dart';
+import 'package:nephrogo/extensions/date_extensions.dart';
+import 'package:nephrogo/extensions/string_extensions.dart';
 
 import 'components.dart';
 

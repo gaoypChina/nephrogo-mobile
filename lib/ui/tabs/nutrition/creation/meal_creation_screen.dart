@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/api/api_service.dart';
-import 'package:nephrolog/extensions/extensions.dart';
-import 'package:nephrolog/l10n/localizations.dart';
-import 'package:nephrolog/ui/forms/form_validators.dart';
-import 'package:nephrolog/ui/forms/forms.dart';
-import 'package:nephrolog/ui/general/components.dart';
-import 'package:nephrolog/ui/tabs/nutrition/creation/product_search.dart';
+import 'package:nephrogo/api/api_service.dart';
+import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/ui/forms/form_validators.dart';
+import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/tabs/nutrition/creation/product_search.dart';
 import 'package:nephrolog_api_client/model/intake_request.dart';
 import 'package:nephrolog_api_client/model/product.dart';
 

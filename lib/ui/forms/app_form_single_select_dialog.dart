@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/ui/forms/forms.dart';
-import 'package:nephrolog/ui/general/components.dart';
+import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/components.dart';
 
 class AppFormSingleSelectDialog<T> extends StatelessWidget {
   final List<AppSelectFormFieldItem> items;

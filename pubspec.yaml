@@ -1,5 +1,5 @@
-name: nephrolog
-description: Nephrolog.lt
+name: nephrogo
+description: NephroGo.lt
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -43,7 +43,7 @@ dependencies:
 
   nephrolog_api_client:
     git:
-      url: https://github.com/nephrolog-lt/nephrolog-application-api-client.git
+      url: https://github.com/nephrogo/nephrogo-api-dart-client.git
       ref: release/v0.1.2
 
   pretty_dio_logger: ^1.1.1
@@ -62,7 +62,7 @@ dependencies:
   crypto: ^2.1.5
 
 dependency_overrides:
-  # https://github.com/nephrolog-lt/nephrolog-application/runs/1584697225
+  # https://github.com/nephrogo-lt/nephrogo-application/runs/1584697225
   intl: ^0.16.1
 
 dev_dependencies:

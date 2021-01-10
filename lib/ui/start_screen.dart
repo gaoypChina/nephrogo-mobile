@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog/authentication/authentication_provider.dart';
-import 'package:nephrolog/preferences/app_preferences.dart';
-import 'package:nephrolog/ui/user_profile_screen.dart';
+import 'package:nephrogo/authentication/authentication_provider.dart';
+import 'package:nephrogo/preferences/app_preferences.dart';
+import 'package:nephrogo/ui/user_profile_screen.dart';
 
 import 'authentication/login_screen.dart';
 import 'general/app_future_builder.dart';

@@ -1,9 +1,9 @@
-name: NephroLog iOS CI
+name: NephroGo iOS CI
 on: [push, pull_request]
 
 jobs:
   build_ios:
-    name: Build iOS Nephrolog
+    name: Build iOS NephroGo
     runs-on: macos-10.15
 
     steps:
