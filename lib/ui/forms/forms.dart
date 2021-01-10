@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrolog/extensions/date_extensions.dart';
 
 import 'app_form_multi_select_dialog.dart';
 import 'app_form_single_select_dialog.dart';
@@ -455,8 +454,6 @@ class AppTimePickerFormField extends StatefulWidget {
 }
 
 class _AppTimePickerFormFieldState extends State<AppTimePickerFormField> {
-  static final DateFormat _defaultDateFormat = DateFormat.Hm();
-
   TimeOfDay _selectedTimeOfDay;
 
   @override
@@ -466,9 +463,7 @@ class _AppTimePickerFormFieldState extends State<AppTimePickerFormField> {
     return AppSelectionScreenFormField<TimeOfDay>(
       onTap: _onTap,
       itemToStringConverter: (newlySelectedTimeOfDay) {
-        final newDateTime = DateTime.now().applied(newlySelectedTimeOfDay);
-
-        return _defaultDateFormat.format(newDateTime);
+        return newlySelectedTimeOfDay.format(context);
       },
       labelText: widget.labelText,
       helperText: widget.helperText,
@@ -482,7 +477,7 @@ class _AppTimePickerFormFieldState extends State<AppTimePickerFormField> {
   Future<TimeOfDay> _onTap(BuildContext _) async {
     final timeOfDay = await showTimePicker(
       context: context,
-      initialTime: widget.initialTime ?? TimeOfDay.now(),
+      initialTime: _selectedTimeOfDay ?? TimeOfDay.now(),
     );
 
     _selectedTimeOfDay = timeOfDay ?? _selectedTimeOfDay;

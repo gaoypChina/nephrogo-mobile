@@ -39,7 +39,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
   final _dateFormat = DateFormat.yMEd();
 
   var _intakeBuilder = IntakeRequestBuilder();
-  var _consumedAt = DateTime.now();
+  var _consumedAt = DateTime.now().toLocal();
 
   @override
   Widget build(BuildContext context) {
@@ -99,10 +99,11 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                   dateFormat: _dateFormat,
                   iconData: Icons.calendar_today,
                   onDateChanged: (dt) {
+                    final ldt = dt.toLocal();
                     _consumedAt = DateTime(
-                      dt.year,
-                      dt.month,
-                      dt.day,
+                      ldt.year,
+                      ldt.month,
+                      ldt.day,
                       _consumedAt.hour,
                       _consumedAt.minute,
                     );
@@ -118,7 +119,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                     hour: _consumedAt.hour,
                     minute: _consumedAt.minute,
                   ),
-                  onTimeChanged: (t) => _consumedAt.applied(t),
+                  onTimeChanged: (t) => _consumedAt = _consumedAt.applied(t),
                   onTimeSaved: (t) =>
                       _intakeBuilder.consumedAt = _consumedAt.toUtc(),
                 ),

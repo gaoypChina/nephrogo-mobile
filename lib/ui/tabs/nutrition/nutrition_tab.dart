@@ -230,7 +230,7 @@ class IntakeTile extends StatelessWidget {
       title: Text(intake.product.name),
       contentPadding: EdgeInsets.zero,
       subtitle: Text(
-        dateFormat.format(intake.consumedAt).capitalizeFirst(),
+        dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst(),
       ),
       leading: ProductKindIcon(productKind: intake.product.kind),
       trailing: Text(intake.getAmountFormatted()),
