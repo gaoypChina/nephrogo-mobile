@@ -4,7 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:nephrolog/authentication/authentication_provider.dart';
+import 'package:nephrolog/preferences/app_preferences.dart';
 import 'package:nephrolog/routes.dart';
+import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/general/dialogs.dart';
 import 'package:nephrolog/ui/user_profile_screen.dart';
 
@@ -22,6 +24,8 @@ class LoginScreen extends StatelessWidget {
 
 class LoginScreenBody extends StatelessWidget {
   final _authenticationProvider = AuthenticationProvider();
+  final _apiService = ApiService();
+  final _appPreferences = AppPreferences();
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +100,7 @@ class LoginScreenBody extends StatelessWidget {
     );
 
     if (userCredential != null) {
-      await openUserConditionsScreen(context, userCredential);
+      await navigateToNextScreen(context, userCredential);
     }
   }
 
@@ -118,16 +122,26 @@ class LoginScreenBody extends StatelessWidget {
     }
 
     if (userCredential != null) {
-      await openUserConditionsScreen(context, userCredential);
+      await navigateToNextScreen(context, userCredential);
     }
   }
 
-  Future openUserConditionsScreen(
-      BuildContext context, UserCredential userCredential) {
-    return Navigator.pushReplacementNamed(
+  Future navigateToNextScreen(
+      BuildContext context, UserCredential userCredential) async {
+    final userProfile = await _apiService.getUserProfile();
+    if (userProfile != null) {
+      await _appPreferences.setProfileCreated();
+
+      return await Navigator.pushReplacementNamed(
+        context,
+        Routes.ROUTE_HOME,
+      );
+    }
+
+    return await Navigator.pushReplacementNamed(
       context,
       Routes.ROUTE_USER_PROFILE,
-      arguments: UserProfileScreenNavigationType.homeScreen,
+      arguments: UserProfileNextScreenType.homeScreen,
     );
   }
 }

@@ -1,12 +1,13 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'dart:math';
 
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:crypto/crypto.dart';
+import 'package:nephrolog/preferences/app_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'dart:developer' as developer;
 
 enum SocialAuthenticationProvider {
   facebook,
@@ -39,6 +40,7 @@ class AuthenticationProvider {
   AuthenticationProvider._internal();
 
   final _auth = FirebaseAuth.instance;
+  final _appPreferences = AppPreferences();
 
   User get currentUser => _auth.currentUser;
 
@@ -56,8 +58,9 @@ class AuthenticationProvider {
   Future<String> idToken([bool forceRefresh = false]) =>
       currentUser.getIdToken(forceRefresh);
 
-  Future signOut() {
-    return _auth.signOut();
+  Future signOut() async {
+    await _appPreferences.deleteProfileCreated();
+    await _auth.signOut();
   }
 
   Future<void> sendPasswordResetEmail(String email) async {

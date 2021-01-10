@@ -33,7 +33,7 @@ class ProfileTab extends StatelessWidget {
                 Navigator.pushNamed(
                   context,
                   Routes.ROUTE_USER_PROFILE,
-                  arguments: UserProfileScreenNavigationType.close,
+                  arguments: UserProfileNextScreenType.close,
                 );
               },
             ),

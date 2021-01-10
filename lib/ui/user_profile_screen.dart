@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:nephrolog/extensions/extensions.dart';
 import 'package:nephrolog/l10n/localizations.dart';
+import 'package:nephrolog/preferences/app_preferences.dart';
 import 'package:nephrolog/routes.dart';
 import 'package:nephrolog/services/api_service.dart';
 import 'package:nephrolog/ui/forms/form_validators.dart';
@@ -20,17 +21,17 @@ import 'forms/forms.dart';
 import 'general/app_future_builder.dart';
 import 'general/progress_indicator.dart';
 
-enum UserProfileScreenNavigationType {
+enum UserProfileNextScreenType {
   close,
   homeScreen,
 }
 
 class UserProfileScreen extends StatefulWidget {
-  final UserProfileScreenNavigationType navigationType;
+  final UserProfileNextScreenType nextScreenType;
 
   const UserProfileScreen({
     Key key,
-    @required this.navigationType,
+    @required this.nextScreenType,
   }) : super(key: key);
 
   @override
@@ -45,6 +46,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _apiService = ApiService();
+  final _appPreferences = AppPreferences();
 
   AppLocalizations _appLocalizations;
   FormValidators _formValidators;
@@ -372,15 +374,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       });
     }
 
+    await _appPreferences.setProfileCreated();
+
     await _navigateToAnotherScreen();
   }
 
   Future _navigateToAnotherScreen() async {
-    switch (widget.navigationType) {
-      case UserProfileScreenNavigationType.close:
+    switch (widget.nextScreenType) {
+      case UserProfileNextScreenType.close:
         Navigator.pop(context);
         break;
-      case UserProfileScreenNavigationType.homeScreen:
+      case UserProfileNextScreenType.homeScreen:
         return await Navigator.pushReplacementNamed(
           context,
           Routes.ROUTE_HOME,

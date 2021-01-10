@@ -78,10 +78,10 @@ class Routes {
         });
       case ROUTE_USER_PROFILE:
         return MaterialPageRoute(builder: (context) {
-          UserProfileScreenNavigationType navigationType = settings.arguments;
+          UserProfileNextScreenType nextScreenType = settings.arguments;
 
           return UserProfileScreen(
-            navigationType: navigationType,
+            nextScreenType: nextScreenType,
           );
         });
       case ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN:
