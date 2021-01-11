@@ -35,15 +35,11 @@ class _HealthStatusTabState extends State<HealthStatusTab> {
     );
   }
 
-  Future _createHealthStatus() async {
-    final healthIndicator = await Navigator.pushNamed(
+  Future _createHealthStatus() {
+    return Navigator.pushNamed(
       context,
       Routes.ROUTE_HEALTH_STATUS_CREATION,
     );
-
-    if (healthIndicator != null) {
-      setState(() {});
-    }
   }
 }
 

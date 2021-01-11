@@ -16,20 +16,13 @@ import 'package:nephrolog_api_client/model/nutrient_screen_response.dart';
 import 'creation/product_search.dart';
 import 'weekly_nutrients_screen.dart';
 
-class NutritionTab extends StatefulWidget {
-  @override
-  _NutritionTabState createState() => _NutritionTabState();
-}
-
-class _NutritionTabState extends State<NutritionTab> {
+class NutritionTab extends StatelessWidget {
   final now = DateTime.now();
-
   final apiService = ApiService();
-  AppLocalizations appLocalizations;
 
   @override
   Widget build(BuildContext context) {
-    appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = AppLocalizations.of(context);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
@@ -42,12 +35,8 @@ class _NutritionTabState extends State<NutritionTab> {
     );
   }
 
-  Future _createProduct(BuildContext context) async {
-    final product = await showProductSearch(context, ProductSearchType.choose);
-
-    if (product != null) {
-      setState(() {});
-    }
+  Future _createProduct(BuildContext context) {
+    return showProductSearch(context, ProductSearchType.choose);
   }
 
   Widget _buildBody(BuildContext context) {
@@ -204,14 +193,13 @@ class DailyIntakesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final intakeTiles =
-        intakes.map((intake) => IntakeTile(intake: intake)).toList();
-
     return LargeSection(
       title: title,
       subTitle: subTitle,
       leading: leading,
-      children: intakeTiles,
+      children: [
+        for (final intake in intakes) IntakeTile(intake: intake),
+      ],
     );
   }
 }
