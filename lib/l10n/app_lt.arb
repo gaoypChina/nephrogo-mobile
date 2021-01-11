@@ -26,6 +26,15 @@
   "@chooseNutrient": {},
   "nutrientShort": "Medžiaga",
   "@nutrientShort": {},
+  "productSearchEmpty": "Pagal \"{query}\" paieškos kriterijų nebuvo rasta jokių produktų!",
+  "@productSearchEmpty": {
+    "placeholders": {
+      "query": {
+        "type": "String",
+        "example": "Meat"
+      }
+    }
+  },
   "nutritionEmpty": "Pridėkite pirmąjį valgį arba gėrimą",
   "@nutritionEmpty": {},
   "healthStatusEmpty": "Pridėkite savo sveikatos rodiklius",

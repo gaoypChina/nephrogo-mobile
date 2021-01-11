@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/ui/authentication/email_password_login_screen.dart';
+import 'package:nephrolog_api_client/model/product.dart';
 
 import 'ui/authentication/login_screen.dart';
 import 'ui/authentication/registration_screen.dart';
@@ -11,6 +12,7 @@ import 'ui/start_screen.dart';
 import 'ui/tabs/health_status/health_indicators_creation_screen.dart';
 import 'ui/tabs/health_status/weekly_health_status_screen.dart';
 import 'ui/tabs/nutrition/creation/meal_creation_screen.dart';
+import 'ui/tabs/nutrition/creation/product_search.dart';
 import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'ui/user_profile_screen.dart';
 
@@ -26,6 +28,7 @@ class Routes {
 
   static const ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN = "weekly_nutrients_screen";
   static const ROUTE_MEAL_CREATION = "meal_creation";
+  static const ROUTE_PRODUCT_SEARCH = "ROUTE_PRODUCT_SEARCH";
 
   static const ROUTE_WEEKLY_HEALTH_STATUS_SCREEN =
       "ROUTE_WEEKLY_HEALTH_STATUS_SCREEN";
@@ -67,6 +70,12 @@ class Routes {
           MealCreationScreenArguments arguments = settings.arguments;
 
           return MealCreationScreen(initialProduct: arguments?.product);
+        });
+      case ROUTE_PRODUCT_SEARCH:
+        return MaterialPageRoute<Product>(builder: (context) {
+          ProductSearchType searchType = settings.arguments;
+
+          return ProductSearchScreen(searchType: searchType);
         });
       case ROUTE_HEALTH_STATUS_CREATION:
         return MaterialPageRoute(builder: (context) {

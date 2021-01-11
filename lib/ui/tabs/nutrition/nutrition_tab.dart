@@ -36,7 +36,11 @@ class NutritionTab extends StatelessWidget {
   }
 
   Future _createProduct(BuildContext context) {
-    return showProductSearch(context, ProductSearchType.choose);
+    return Navigator.pushNamed(
+      context,
+      Routes.ROUTE_PRODUCT_SEARCH,
+      arguments: ProductSearchType.choose,
+    );
   }
 
   Widget _buildBody(BuildContext context) {

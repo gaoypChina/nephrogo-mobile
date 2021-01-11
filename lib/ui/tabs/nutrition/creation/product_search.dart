@@ -1,28 +1,153 @@
-import 'package:async/async.dart';
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/routes.dart';
-import 'package:nephrogo/ui/general/app_future_builder.dart';
+import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
-import 'package:nephrogo/ui/tabs/nutrition/creation/meal_creation_screen.dart';
 import 'package:nephrolog_api_client/model/product.dart';
+import 'package:stream_transform/stream_transform.dart';
+
+import 'meal_creation_screen.dart';
 
 enum ProductSearchType {
   choose,
   change,
 }
 
-Future<Product> showProductSearch(
-    BuildContext context, ProductSearchType searchType) async {
-  final product = await showSearch(
-      context: context,
-      delegate: ProductSearchDelegate(
-        searchType: searchType,
-        hintText: AppLocalizations.of(context).productSearchTitle,
-      ));
-  return product;
+class _Query {
+  final String query;
+  final bool wait;
+
+  _Query(this.query, this.wait);
+}
+
+class ProductSearchScreen extends StatefulWidget {
+  final ProductSearchType searchType;
+
+  const ProductSearchScreen({
+    Key key,
+    @required this.searchType,
+  }) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _ProductSearchScreenState();
+}
+
+class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
+  final _apiService = ApiService();
+  final _queryCancelToken = CancelToken();
+
+  final _searchDispatchDuration = Duration(milliseconds: 200);
+
+  String currentQuery = "";
+  final focusNode = FocusNode();
+
+  final _queryStreamController = StreamController<_Query>.broadcast();
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    focusNode.dispose();
+    _queryStreamController.close();
+  }
+
+  Stream<List<Product>> _buildStream() {
+    return _queryStreamController.stream
+        .startWith(_Query("", false))
+        .asyncMap((q) async {
+          if (q.wait) {
+            await Future.delayed(_searchDispatchDuration);
+          }
+          return q.query;
+        })
+        .where((q) => q == currentQuery)
+        .asyncMap((q) => _apiService.getProducts(q, _queryCancelToken));
+  }
+
+  void _changeQuery(String query) {
+    currentQuery = query = query.trim();
+
+    if (query.isEmpty || query.length >= 3) {
+      _queryStreamController.add(_Query(query, true));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+    final baseTheme = Theme.of(context);
+    final theme = baseTheme.copyWith(
+      primaryColor: Colors.white,
+      primaryIconTheme: baseTheme.primaryIconTheme.copyWith(color: Colors.grey),
+      primaryColorBrightness: Brightness.dark,
+      primaryTextTheme: baseTheme.textTheme,
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: theme.primaryColor,
+        iconTheme: theme.primaryIconTheme,
+        textTheme: theme.primaryTextTheme,
+        brightness: theme.primaryColorBrightness,
+        title: TextField(
+          onChanged: _changeQuery,
+          focusNode: focusNode,
+          style: theme.textTheme.headline6,
+          textInputAction: TextInputAction.search,
+          keyboardType: TextInputType.text,
+          autofocus: true,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: appLocalizations.productSearchTitle,
+          ),
+        ),
+      ),
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: AppStreamBuilder<List<Product>>(
+          stream: _buildStream(),
+          builder: (context, products) {
+            return Visibility(
+              visible: products.isNotEmpty,
+              replacement: SingleChildScrollView(
+                child: EmptyStateContainer(
+                  text: appLocalizations.productSearchEmpty(currentQuery),
+                ),
+              ),
+              child: ListView.separated(
+                itemCount: products.length,
+                separatorBuilder: (BuildContext context, int index) =>
+                    Divider(height: 1),
+                itemBuilder: (context, index) {
+                  final product = products[index];
+
+                  return ProductTile(
+                    product: product,
+                    onTap: () => close(context, product),
+                  );
+                },
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Future close(BuildContext context, Product product) async {
+    if (widget.searchType == ProductSearchType.choose) {
+      return await Navigator.of(context).pushReplacementNamed(
+        Routes.ROUTE_MEAL_CREATION,
+        arguments: MealCreationScreenArguments(product),
+      );
+    }
+
+    Navigator.pop(context, product);
+  }
 }
 
 class ProductTile extends StatelessWidget {
@@ -38,106 +163,13 @@ class ProductTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppListTile(
+      key: ObjectKey(product),
       contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       title: Text(product.name),
       leading: ProductKindIcon(
         productKind: product.productKind,
       ),
       onTap: onTap,
-    );
-  }
-}
-
-class ProductSearchDelegate extends SearchDelegate<Product> {
-  final ProductSearchType searchType;
-
-  ProductSearchDelegate({
-    @required this.searchType,
-    String hintText,
-  }) : super(searchFieldLabel: hintText);
-
-  final _apiService = ApiService();
-  final _queryCancelToken = CancelToken();
-
-  var _queryMemoizer = AsyncMemoizer<List<Product>>();
-  String currentQuery;
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    final icon =
-        searchType == ProductSearchType.choose ? Icons.arrow_back : Icons.close;
-
-    return IconButton(
-      icon: Icon(icon),
-      onPressed: () {
-        close(context, null);
-      },
-    );
-  }
-
-  @override
-  void close(BuildContext context, Product result) {
-    super.close(context, result);
-
-    if (searchType == ProductSearchType.choose && result != null) {
-      Navigator.of(context).pushNamed(
-        Routes.ROUTE_MEAL_CREATION,
-        arguments: MealCreationScreenArguments(result),
-      );
-    }
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return _searchForProduct(context, query);
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return _searchForProduct(context, query);
-  }
-
-  void changeQuery(String query) {
-    if (currentQuery != query) {
-      currentQuery = query;
-
-      _queryMemoizer = AsyncMemoizer<List<Product>>();
-
-      _queryMemoizer.runOnce(() async {
-        return await _apiService.getProducts(query, _queryCancelToken);
-      });
-    }
-  }
-
-  Widget _searchForProduct(BuildContext context, String query) {
-    changeQuery(query);
-
-    return Container(
-      color: Colors.white,
-      child: AppFutureBuilder<List<Product>>(
-        future: _queryMemoizer.future,
-        builder: (context, products) {
-          return ListView.separated(
-            key: Key("product-list-$query"),
-            itemCount: products.length,
-            separatorBuilder: (BuildContext context, int index) =>
-                Divider(height: 1),
-            itemBuilder: (context, index) {
-              final product = products[index];
-
-              return ProductTile(
-                product: product,
-                onTap: () => close(context, product),
-              );
-            },
-          );
-        },
-      ),
     );
   }
 }

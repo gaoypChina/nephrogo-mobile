@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
@@ -39,7 +40,16 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
   final _dateFormat = DateFormat.yMEd();
 
   var _intakeBuilder = IntakeRequestBuilder();
+
   var _consumedAt = DateTime.now().toLocal();
+
+  Future<Product> _showProductSearch() {
+    return Navigator.pushNamed<Product>(
+      context,
+      Routes.ROUTE_PRODUCT_SEARCH,
+      arguments: ProductSearchType.change,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +80,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                   initialSelection: widget.initialProduct,
                   iconData: Icons.restaurant_outlined,
                   itemToStringConverter: (p) => p.name,
-                  onTap: (context) => showProductSearch(
-                    context,
-                    ProductSearchType.change,
-                  ),
+                  onTap: (context) => _showProductSearch(),
                   validator: formValidators.nonNull(),
                   onSaved: (p) => _intakeBuilder.productId = p.id,
                 ),
@@ -140,16 +147,8 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
     }
     _formKey.currentState.save();
 
-    if (_intakeBuilder.productId == null) {
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text(_appLocalizations.mealCreationErrorNoProductSelected),
-      ));
+    final intake = await _apiService.createIntake(_intakeBuilder.build());
 
-      return false;
-    }
-
-    await _apiService.createIntake(_intakeBuilder.build());
-
-    Navigator.pop(context);
+    Navigator.pop(context, intake);
   }
 }
