@@ -26,7 +26,7 @@ class NutritionTab extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async => await _createProduct(context),
+        onPressed: () => _createProduct(context),
         label: Text(appLocalizations.createMeal.toUpperCase()),
         icon: Icon(Icons.add),
       ),

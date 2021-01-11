@@ -311,7 +311,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             .userProfileSectionDiabetesComplications,
                         onSaved: (v) => _userProfileBuilder
                             .diabetesComplications = v?.value,
-                        initialValue: initialUserProfile?.diabetesComplications,
+                        initialValue:
+                            initialUserProfile?.diabetesComplications ??
+                                DiabetesComplicationsEnum.unknown,
                         validator:
                             isDiabetic ? _formValidators.nonNull() : null,
                         items: [
