@@ -1,5 +1,4 @@
 import 'package:built_value/built_value.dart';
-import 'package:intl/intl.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrolog_api_client/model/appetite_enum.dart';
@@ -11,33 +10,26 @@ import 'package:nephrolog_api_client/model/shortness_of_breath_enum.dart';
 import 'package:nephrolog_api_client/model/swelling_difficulty_enum.dart';
 import 'package:nephrolog_api_client/model/well_feeling_enum.dart';
 
-String _formatAmount(int amount, String baseDim, String kDim) {
-  if (kDim != null && amount > 1000) {
-    final fractionDigits = amount > 10000 ? 1 : 2;
-
-    final formatter = NumberFormat.currency(
-      decimalDigits: fractionDigits,
-      symbol: kDim,
-    );
-
-    return formatter.format(amount / 1000);
+String _formatAmount<T extends num>(T amount, String dim) {
+  var precision = 0;
+  if (amount is double && amount < 1000) {
+    precision = 2;
   }
 
-  return NumberFormat.currency(decimalDigits: 0, symbol: baseDim)
-      .format(amount);
+  return amount.toStringAsFixed(precision) + " $dim";
 }
 
 String _getFormattedNutrient(Nutrient nutrient, int amount) {
   switch (nutrient) {
     case Nutrient.energy:
-      return _formatAmount(amount, "kcal", null);
+      return _formatAmount(amount, "kcal");
     case Nutrient.liquids:
-      return _formatAmount(amount, "ml", "l");
+      return _formatAmount(amount / 1000, "l");
     case Nutrient.proteins:
     case Nutrient.sodium:
     case Nutrient.potassium:
     case Nutrient.phosphorus:
-      return _formatAmount(amount, "mg", "g");
+    return _formatAmount(amount / 1000, "g");
     default:
       throw ArgumentError.value(
           nutrient, "nutrient", "Unable to map nutrient to amount");
@@ -110,7 +102,7 @@ extension IntakeExtension on Intake {
   }
 
   String getAmountFormatted() {
-    return _formatAmount(this.amountG, "g", "kg");
+    return _formatAmount(this.amountG, "g");
   }
 }
 
@@ -182,7 +174,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       case HealthIndicator.weight:
         return "$weightKg kg";
       case HealthIndicator.urine:
-        return _formatAmount(urineMl, "ml", "l");
+        return _formatAmount(urineMl, "ml");
       case HealthIndicator.severityOfSwelling:
         switch (swellingDifficulty) {
           case SwellingDifficultyEnum.n0plus:
