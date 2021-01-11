@@ -17,9 +17,11 @@ Future<Null> main() async {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
     final message = '${record.level.name}: ${record.time}: ${record.message}';
-
-    FirebaseCrashlytics.instance.log(message);
-    print(message);
+    if (kDebugMode) {
+      print(message);
+    } else {
+      FirebaseCrashlytics.instance.log(message);
+    }
   });
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
