@@ -8,7 +8,7 @@ import 'package:nephrogo/extensions/string_extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/ui/charts/weekly_health_indicator_bar_chart.dart';
-import 'package:nephrogo/ui/general/app_future_builder.dart';
+import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/weekly_pager.dart';
 import 'package:nephrolog_api_client/model/daily_health_status.dart';
@@ -64,8 +64,8 @@ class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
         valueChangeNotifier: healthIndicatorChangeNotifier,
         earliestDate: () => earliestDate,
         bodyBuilder: (from, to, indicator) {
-          return AppFutureBuilder<HealthStatusWeeklyScreenResponse>(
-            future: _apiService.getWeeklyHealthStatusReport(from, to),
+          return AppStreamBuilder<HealthStatusWeeklyScreenResponse>(
+            stream: _apiService.getWeeklyHealthStatusReportsStream(from, to),
             builder: (context, data) {
               earliestDate = data.earliestHealthStatusDate;
 

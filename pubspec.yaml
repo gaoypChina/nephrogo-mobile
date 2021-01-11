@@ -33,8 +33,11 @@ dependencies:
   package_info: ^0.4.3+2
   tuple: ^1.0.3
   equatable: ^1.2.5
+
   async: ^2.4.2
+  stream_transform: ^1.2.0
   collection: ^1.14.13
+
   shared_preferences: 0.5.12+4
 
   dio: ^3.0.10

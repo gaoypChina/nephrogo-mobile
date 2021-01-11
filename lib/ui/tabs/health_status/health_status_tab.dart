@@ -6,7 +6,7 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/weekly_health_indicator_bar_chart.dart';
-import 'package:nephrogo/ui/general/app_future_builder.dart';
+import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrolog_api_client/model/health_status_screen_response.dart';
 
@@ -55,8 +55,8 @@ class HealthIndicatorsTabBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
 
-    return AppFutureBuilder<HealthStatusScreenResponse>(
-      future: apiService.getHealthStatusScreen(),
+    return AppStreamBuilder<HealthStatusScreenResponse>(
+      stream: apiService.getHealthStatusScreenStream(),
       builder: (context, response) {
         return Visibility(
           visible: response.hasAnyStatuses,

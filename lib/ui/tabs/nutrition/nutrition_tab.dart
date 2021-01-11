@@ -7,7 +7,7 @@ import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
 import 'package:nephrogo/ui/charts/nutrient_weekly_bar_chart.dart';
-import 'package:nephrogo/ui/general/app_future_builder.dart';
+import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrolog_api_client/model/daily_intakes_report.dart';
 import 'package:nephrolog_api_client/model/intake.dart';
@@ -53,8 +53,8 @@ class _NutritionTabState extends State<NutritionTab> {
   Widget _buildBody(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
 
-    return AppFutureBuilder<NutrientScreenResponse>(
-      future: apiService.getNutritionScreen(),
+    return AppStreamBuilder<NutrientScreenResponse>(
+      stream: apiService.getNutritionScreenStream(),
       builder: (context, data) {
         final latestIntakes = data.latestIntakes.toList();
         final dailyIntakesReports = data.dailyIntakesReports.toList();

@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:logging/logging.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/models/date.dart';
-import 'package:nephrogo/ui/general/app_state_change_stream_builder.dart';
 import 'package:nephrolog_api_client/api.dart';
 import 'package:nephrolog_api_client/api/health_status_api.dart';
 import 'package:nephrolog_api_client/api/nutrition_api.dart';
@@ -27,6 +26,9 @@ import 'package:nephrolog_api_client/model/user_profile.dart';
 import 'package:nephrolog_api_client/model/user_profile_request.dart';
 import 'package:nephrolog_api_client/serializers.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:stream_transform/stream_transform.dart';
+
+enum _AppStateChangeEvent { healthStatus, nutrition }
 
 class ApiService {
   static const _baseApiUrl = "https://api.nephrogo.com/";
@@ -35,14 +37,14 @@ class ApiService {
   static final ApiService _singleton = ApiService._internal();
 
   final _appEventsStreamController =
-      StreamController<AppStateChangeEvent>.broadcast();
+      StreamController<_AppStateChangeEvent>.broadcast();
 
   NephrologApiClient _apiClient;
   NutritionApi _nutritionApi;
   HealthStatusApi _healthStatusApi;
   UserApi _userApi;
 
-  Stream<AppStateChangeEvent> get appEventsStream =>
+  Stream<_AppStateChangeEvent> get appEventsStreamRemove =>
       _appEventsStreamController.stream;
 
   factory ApiService() {
@@ -88,10 +90,10 @@ class ApiService {
     if (kDebugMode) {
       interceptors.add(
         PrettyDioLogger(
-          request: false,
-          responseBody: true,
-          requestHeader: true,
-          requestBody: true,
+          request: true,
+          responseBody: false,
+          requestHeader: false,
+          requestBody: false,
         ),
       );
     }
@@ -106,8 +108,15 @@ class ApiService {
     return apiSerializersBuilder.build();
   }
 
-  void _postAppStateChangeEvent(AppStateChangeEvent event) {
+  void _postAppStateChangeEvent(_AppStateChangeEvent event) {
     _appEventsStreamController.add(event);
+  }
+
+  Stream<_AppStateChangeEvent> _buildAppEventsStreamWithInitialEmit(
+      _AppStateChangeEvent event) {
+    return _appEventsStreamController.stream
+        .startWith(event)
+        .where((e) => e == event);
   }
 
   Future<NutrientScreenResponse> getNutritionScreen([CancelToken cancelToken]) {
@@ -116,12 +125,23 @@ class ApiService {
         .then((r) => r.data);
   }
 
-  Future<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReport(
-      DateTime from, DateTime to,
+  Stream<NutrientScreenResponse> getNutritionScreenStream(
       [CancelToken cancelToken]) {
+    return _buildAppEventsStreamWithInitialEmit(_AppStateChangeEvent.nutrition)
+        .asyncMap((_) => getNutritionScreen(cancelToken));
+  }
+
+  Future<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReport(
+      DateTime from, DateTime to) {
     return _nutritionApi
-        .nutritionWeeklyRetrieve(Date(from), Date(to), cancelToken: cancelToken)
+        .nutritionWeeklyRetrieve(Date(from), Date(to))
         .then((r) => r.data);
+  }
+
+  Stream<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReportStream(
+      DateTime from, DateTime to) {
+    return _buildAppEventsStreamWithInitialEmit(_AppStateChangeEvent.nutrition)
+        .asyncMap((_) => getWeeklyDailyIntakesReport(from, to));
   }
 
   Future<List<Product>> getProducts(String query, [CancelToken cancelToken]) {
@@ -136,7 +156,7 @@ class ApiService {
         .nutritionIntakeCreate(intakeRequest, cancelToken: cancelToken)
         .then(
       (r) {
-        _postAppStateChangeEvent(AppStateChangeEvent.nutrition);
+        _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
         return r.data;
       },
     );
@@ -149,7 +169,7 @@ class ApiService {
         .healthStatusUpdate(dailyHealthStatusRequest, cancelToken: cancelToken)
         .then(
       (r) {
-        _postAppStateChangeEvent(AppStateChangeEvent.healthStatus);
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
         return r.data;
       },
     ).catchError(
@@ -160,7 +180,7 @@ class ApiService {
       )
           .then(
         (r) {
-          _postAppStateChangeEvent(AppStateChangeEvent.healthStatus);
+          _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
           return r.data;
         },
       ),
@@ -185,8 +205,8 @@ class ApiService {
         .userProfileUpdate(userProfile, cancelToken: cancelToken)
         .then(
       (r) {
-        _postAppStateChangeEvent(AppStateChangeEvent.healthStatus);
-        _postAppStateChangeEvent(AppStateChangeEvent.nutrition);
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+        _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
 
         return r.data;
       },
@@ -195,8 +215,8 @@ class ApiService {
           .userProfileCreate(userProfile, cancelToken: cancelToken)
           .then(
         (r) {
-          _postAppStateChangeEvent(AppStateChangeEvent.healthStatus);
-          _postAppStateChangeEvent(AppStateChangeEvent.nutrition);
+          _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+          _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
 
           return r.data;
         },
@@ -221,13 +241,24 @@ class ApiService {
         .then((r) => r.data);
   }
 
+  Stream<HealthStatusScreenResponse> getHealthStatusScreenStream() {
+    return _buildAppEventsStreamWithInitialEmit(
+            _AppStateChangeEvent.healthStatus)
+        .asyncMap((_) => getHealthStatusScreen());
+  }
+
   Future<HealthStatusWeeklyScreenResponse> getWeeklyHealthStatusReport(
-    DateTime from,
-    DateTime to,
-  ) {
+      DateTime from, DateTime to) {
     return _healthStatusApi
         .healthStatusWeeklyRetrieve(Date(from), Date(to))
         .then((r) => r.data);
+  }
+
+  Stream<HealthStatusWeeklyScreenResponse> getWeeklyHealthStatusReportsStream(
+      DateTime from, DateTime to) {
+    return _buildAppEventsStreamWithInitialEmit(
+            _AppStateChangeEvent.healthStatus)
+        .asyncMap((_) => getWeeklyHealthStatusReport(from, to));
   }
 
   Future dispose() async {
