@@ -69,8 +69,12 @@ class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
             builder: (context, data) {
               earliestDate = data.earliestHealthStatusDate;
 
+              final showChart = data.dailyHealthStatuses
+                  .where((s) => s.isIndicatorExists(indicator))
+                  .isNotEmpty;
+
               return Visibility(
-                visible: data.dailyHealthStatuses.isNotEmpty,
+                visible: showChart,
                 replacement: EmptyStateContainer(
                   text: appLocalizations.weeklyHealthStatusEmpty,
                 ),
