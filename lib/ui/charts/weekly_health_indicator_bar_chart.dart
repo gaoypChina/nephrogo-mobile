@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nephrogo/extensions/collection_extensions.dart';
-import 'package:nephrogo/extensions/contract_extensions.dart';
-import 'package:nephrogo/extensions/date_extensions.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/extensions/string_extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/models/graph.dart';
 import 'package:nephrolog_api_client/model/daily_health_status.dart';
 
@@ -15,6 +14,7 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
   static final _dayFormatter = DateFormat.E();
   static final _dateFormatter = DateFormat.MMMd();
 
+  final Date today = Date(DateTime.now());
   final DateTime maximumDate;
   final HealthIndicator indicator;
   final List<DailyHealthStatus> dailyHealthStatuses;
@@ -42,14 +42,12 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
   }
 
   AppBarChartData _getChartData() {
-    final startOfToday = DateTime.now().startOfDay();
-
     final days =
-        List.generate(7, (d) => maximumDate.add(Duration(days: -d))).reversed;
+        List.generate(7, (d) => Date(maximumDate.add(Duration(days: -d))))
+            .reversed;
 
-    final dailyHealthStatusesGrouped = dailyHealthStatuses
-        .groupBy((v) => _dateFormatter.format(v.date))
-        .map((key, values) {
+    final dailyHealthStatusesGrouped =
+        dailyHealthStatuses.groupBy((v) => Date(v.date)).map((key, values) {
       if (values.length > 1) {
         throw ArgumentError.value(values, "values",
             "Multiple daily health statuses with same formatted date");
@@ -58,14 +56,15 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
     });
 
     final groups = days.mapIndexed((i, day) {
-      final dhs = dailyHealthStatusesGrouped[_dateFormatter.format(day)];
+      final dhs = dailyHealthStatusesGrouped[Date(day)];
 
-      final dateFormatted = _dateFormatter.format(day);
       final dayFormatted = _dayFormatter.format(day).capitalizeFirst();
+      final dateFormatted = _dateFormatter.format(day);
 
       if (dhs == null || !dhs.isIndicatorExists(indicator)) {
         return AppBarChartGroup(
           text: dayFormatted,
+          isSelected: day.compareTo(today) == 0,
           x: i,
           rods: [
             AppBarChartRod(
@@ -101,7 +100,7 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
       return AppBarChartGroup(
         text: dayFormatted,
         x: i,
-        isSelected: dhs.date.startOfDay().compareTo(startOfToday) == 0,
+        isSelected: day.compareTo(today) == 0,
         rods: [rod],
       );
     }).toList();
