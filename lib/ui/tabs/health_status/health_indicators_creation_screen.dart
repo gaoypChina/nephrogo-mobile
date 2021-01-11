@@ -5,6 +5,7 @@ import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/date.dart';
+import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_future_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
@@ -77,6 +78,8 @@ class _HealthIndicatorsCreationScreenState
   }
 
   Widget _buildBody(BuildContext context) {
+    final formValidators = FormValidators(context);
+
     return Visibility(
       visible: !isSubmitting,
       replacement: Center(
@@ -99,24 +102,26 @@ class _HealthIndicatorsCreationScreenState
                     Flexible(
                       child: AppIntegerFormField(
                         labelText:
-                            _appLocalizations.healthStatusCreationDiastolic,
+                            _appLocalizations.healthStatusCreationSystolic,
                         suffixText: "mmHg",
+                        validator: formValidators.numRangeValidator(0, 200),
                         initialValue:
-                            _initialHealthStatus?.diastolicBloodPressure,
+                            _initialHealthStatus?.systolicBloodPressure,
                         onSaved: (value) {
-                          _healthStatusBuilder.diastolicBloodPressure = value;
+                          _healthStatusBuilder.systolicBloodPressure = value;
                         },
                       ),
                     ),
                     Flexible(
                       child: AppIntegerFormField(
                         labelText:
-                            _appLocalizations.healthStatusCreationSystolic,
+                            _appLocalizations.healthStatusCreationDiastolic,
                         suffixText: "mmHg",
+                        validator: formValidators.numRangeValidator(0, 350),
                         initialValue:
-                            _initialHealthStatus?.systolicBloodPressure,
+                            _initialHealthStatus?.diastolicBloodPressure,
                         onSaved: (value) {
-                          _healthStatusBuilder.systolicBloodPressure = value;
+                          _healthStatusBuilder.diastolicBloodPressure = value;
                         },
                       ),
                     ),
@@ -139,6 +144,7 @@ class _HealthIndicatorsCreationScreenState
                   suffixText: "kg",
                   helperText: _appLocalizations.userProfileWeightHelper,
                   initialValue: _initialHealthStatus?.weightKg,
+                  validator: formValidators.numRangeValidator(30.0, 300.0),
                   onSaved: (value) {
                     _healthStatusBuilder.weightKg = value;
                   },
@@ -147,15 +153,15 @@ class _HealthIndicatorsCreationScreenState
                   labelText: _appLocalizations.healthStatusCreationUrine,
                   suffixText: "ml",
                   initialValue: _initialHealthStatus?.urineMl,
+                  validator: formValidators.numRangeValidator(0, 10000),
                   onSaved: (value) {
                     _healthStatusBuilder.urineMl = value;
                   },
                 ),
-                // TODO rodyti tik cukraligei
-                // mmol/l  - milimoliais litre, norma 3,33 - 5,55
                 AppDoubleInputField(
                   labelText: _appLocalizations.healthStatusCreationGlucose,
                   suffixText: "mmol/l",
+                  validator: formValidators.numRangeValidator(0.0, 100.0),
                   initialValue: _initialHealthStatus?.glucose,
                   onSaved: (value) {
                     _healthStatusBuilder.glucose = value;
@@ -170,13 +176,13 @@ class _HealthIndicatorsCreationScreenState
               children: [
                 AppSelectFormField<SwellingDifficultyEnum>(
                   labelText:
-                      _appLocalizations.healthStatusCreationSwellingDifficulty,
+                  _appLocalizations.healthStatusCreationSwellingDifficulty,
                   dialogHelpText: _appLocalizations
                       .healthStatusCreationSwellingDifficultyHelper,
                   initialValue: _initialHealthStatus?.swellingDifficulty
                       ?.enumWithoutDefault(SwellingDifficultyEnum.unknown),
                   onSaved: (v) =>
-                      _healthStatusBuilder.swellingDifficulty = v?.value,
+                  _healthStatusBuilder.swellingDifficulty = v?.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: "0+",
@@ -218,7 +224,7 @@ class _HealthIndicatorsCreationScreenState
                 // TODO change to enums
                 AppMultipleSelectFormField<String>(
                   labelText:
-                      _appLocalizations.healthStatusCreationSwellingDifficulty,
+                  _appLocalizations.healthStatusCreationSwellingDifficulty,
                   items: [
                     AppSelectFormFieldItem(
                       text: _appLocalizations
@@ -283,7 +289,7 @@ class _HealthIndicatorsCreationScreenState
                     ),
                     AppSelectFormFieldItem(
                       text:
-                          _appLocalizations.healthStatusCreationWellFeelingGood,
+                      _appLocalizations.healthStatusCreationWellFeelingGood,
                       icon: Icons.sentiment_satisfied,
                       value: WellFeelingEnum.good,
                     ),
@@ -295,7 +301,7 @@ class _HealthIndicatorsCreationScreenState
                     ),
                     AppSelectFormFieldItem(
                       text:
-                          _appLocalizations.healthStatusCreationWellFeelingBad,
+                      _appLocalizations.healthStatusCreationWellFeelingBad,
                       icon: Icons.sentiment_very_dissatisfied,
                       value: WellFeelingEnum.bad,
                     ),
@@ -315,7 +321,7 @@ class _HealthIndicatorsCreationScreenState
                   items: [
                     AppSelectFormFieldItem(
                       text:
-                          _appLocalizations.healthStatusCreationAppetitePerfect,
+                      _appLocalizations.healthStatusCreationAppetitePerfect,
                       icon: Icons.sentiment_very_satisfied,
                       value: AppetiteEnum.perfect,
                     ),
@@ -326,7 +332,7 @@ class _HealthIndicatorsCreationScreenState
                     ),
                     AppSelectFormFieldItem(
                       text:
-                          _appLocalizations.healthStatusCreationAppetiteAverage,
+                      _appLocalizations.healthStatusCreationAppetiteAverage,
                       icon: Icons.sentiment_dissatisfied,
                       value: AppetiteEnum.average,
                     ),
@@ -337,7 +343,7 @@ class _HealthIndicatorsCreationScreenState
                     ),
                     AppSelectFormFieldItem(
                       text:
-                          _appLocalizations.healthStatusCreationAppetiteVeryBad,
+                      _appLocalizations.healthStatusCreationAppetiteVeryBad,
                       icon: Icons.sick,
                       value: AppetiteEnum.veryBad,
                     ),
@@ -345,11 +351,11 @@ class _HealthIndicatorsCreationScreenState
                 ),
                 AppSelectFormField<ShortnessOfBreathEnum>(
                   labelText:
-                      _appLocalizations.healthStatusCreationShortnessOfBreath,
+                  _appLocalizations.healthStatusCreationShortnessOfBreath,
                   initialValue: _initialHealthStatus?.shortnessOfBreath
                       ?.enumWithoutDefault(ShortnessOfBreathEnum.unknown),
                   onSaved: (v) =>
-                      _healthStatusBuilder.shortnessOfBreath = v?.value,
+                  _healthStatusBuilder.shortnessOfBreath = v?.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: _appLocalizations

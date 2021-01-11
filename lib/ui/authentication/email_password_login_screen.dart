@@ -106,7 +106,10 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
             AppTextFormField(
               labelText: "Slaptažodis",
               obscureText: true,
-              validator: formValidators.lengthValidator(6),
+              validator: formValidators.and(
+                formValidators.nonNull(),
+                formValidators.lengthValidator(6),
+              ),
               autofillHints: [AutofillHints.password],
               iconData: Icons.lock,
               onSaved: (s) => password = s,

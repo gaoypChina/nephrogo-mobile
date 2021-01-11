@@ -115,7 +115,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       maintainState: true,
       child: Form(
         key: _formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: ListView(
           padding: const EdgeInsets.only(bottom: 80),
           children: <Widget>[
@@ -156,14 +155,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
                 AppIntegerFormField(
                   labelText: _appLocalizations.height,
-                  validator: _formValidators.numRangeValidator(100, 250),
+                  validator: _formValidators.and(
+                    _formValidators.nonNull(),
+                    _formValidators.numRangeValidator(100, 250),
+                  ),
                   initialValue: initialUserProfile?.heightCm,
                   suffixText: "cm",
                   onSaved: (v) => _userProfileBuilder.heightCm = v,
                 ),
                 AppDoubleInputField(
                   labelText: _appLocalizations.weight,
-                  validator: _formValidators.numRangeValidator(25, 250),
+                  validator: _formValidators.and(
+                    _formValidators.nonNull(),
+                    _formValidators.numRangeValidator(30.0, 300.0),
+                  ),
                   helperText: _appLocalizations.userProfileWeightHelper,
                   initialValue: initialUserProfile?.weightKg?.toDouble(),
                   suffixText: "kg",
@@ -180,7 +185,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 AppIntegerFormField(
                   labelText: _appLocalizations
                       .userProfileSectionChronicKidneyDiseaseAge,
-                  validator: _formValidators.numRangeValidator(0, 100),
+                  validator: _formValidators.and(
+                    _formValidators.nonNull(),
+                    _formValidators.numRangeValidator(0, 100),
+                  ),
                   initialValue: initialUserProfile?.chronicKidneyDiseaseYears,
                   onSaved: (v) =>
                       _userProfileBuilder.chronicKidneyDiseaseYears = v,
@@ -300,9 +308,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         labelText:
                             _appLocalizations.userProfileSectionDiabetesAge,
                         initialValue: initialUserProfile?.diabetesYears,
-                        validator: isDiabetic
-                            ? _formValidators.numRangeValidator(0, 100)
-                            : null,
+                        validator: _formValidators.or(
+                          _formValidators.and(
+                            _formValidators.nonNull(),
+                            _formValidators.numRangeValidator(0, 100),
+                          ),
+                          (_) => !isDiabetic ? null : "",
+                        ),
                         suffixText: _appLocalizations.ageSuffix,
                         onSaved: (v) => _userProfileBuilder.diabetesYears = v,
                       ),
@@ -314,8 +326,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         initialValue:
                             initialUserProfile?.diabetesComplications ??
                                 DiabetesComplicationsEnum.unknown,
-                        validator:
-                            isDiabetic ? _formValidators.nonNull() : null,
+                        validator: _formValidators.or(
+                          _formValidators.nonNull(),
+                          (_) => !isDiabetic ? null : "",
+                        ),
                         items: [
                           AppSelectFormFieldItem(
                             text: _appLocalizations.yes,

@@ -70,7 +70,10 @@ class _RegistrationFormState extends State<_RegistrationForm> {
             AppTextFormField(
               labelText: "Slaptažodis",
               obscureText: true,
-              validator: formValidators.lengthValidator(6),
+              validator: formValidators.and(
+                formValidators.nonNull(),
+                formValidators.lengthValidator(6),
+              ),
               autofillHints: [AutofillHints.password],
               iconData: Icons.lock,
               onSaved: (s) => password = s,

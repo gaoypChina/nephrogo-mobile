@@ -80,7 +80,10 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                 AppIntegerFormField(
                   labelText: _appLocalizations.mealCreationQuantity,
                   suffixText: "g",
-                  validator: formValidators.numRangeValidator(1, 10000),
+                  validator: formValidators.and(
+                    formValidators.nonNull(),
+                    formValidators.numRangeValidator(1, 10000),
+                  ),
                   iconData: Icons.kitchen,
                   onSaved: (value) => _intakeBuilder.amountG = value,
                 ),

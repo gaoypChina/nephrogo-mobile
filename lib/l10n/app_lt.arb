@@ -521,7 +521,7 @@
   "@userProfileSectionDiabetesTypeNo": {
     "context": "userProfile"
   },
-  "userProfileSectionDiabetesAge": "Kiek metų sergate cukriniu diabetu",
+  "userProfileSectionDiabetesAge": "Kelintus metus sergate cukriniu diabetu",
   "@userProfileSectionDiabetesAge": {
     "context": "userProfile"
   },

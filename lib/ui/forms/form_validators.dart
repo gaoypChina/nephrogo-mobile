@@ -54,18 +54,22 @@ class FormValidators {
   }
 
   FormFieldValidator<String> lengthValidator(int min) {
-    final _lengthValidator = (String value) {
+    return (String value) {
+      if (value == null) {
+        return null;
+      }
       if (value.length < min) {
         return appLocalizations.formValidatorMinLength(min.toString());
       }
       return null;
     };
-
-    return and(nonNull<String>(), _lengthValidator);
   }
 
   FormFieldValidator<T> numRangeValidator<T extends num>(T min, T max) {
-    final _nonNullNumValidator = (T value) {
+    return (T value) {
+      if (value == null) {
+        return null;
+      }
       if (min > value) {
         return appLocalizations.formValidatorMinValue(min.toString());
       }
@@ -74,7 +78,5 @@ class FormValidators {
       }
       return null;
     };
-
-    return and(nonNull<T>(), _nonNullNumValidator);
   }
 }
