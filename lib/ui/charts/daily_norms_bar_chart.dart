@@ -9,10 +9,10 @@ import 'package:nephrolog_api_client/model/daily_intakes_report.dart';
 
 import 'bar_chart.dart';
 
-class TodayNutrientsConsumptionBarChart extends StatelessWidget {
+class DailyNormsBarChart extends StatelessWidget {
   final DailyIntakesReport dailyIntakeReport;
 
-  const TodayNutrientsConsumptionBarChart({
+  const DailyNormsBarChart({
     Key key,
     this.dailyIntakeReport,
   }) : super(key: key);
@@ -84,7 +84,7 @@ class TodayNutrientsConsumptionBarChart extends StatelessWidget {
           formattedTotal,
           formattedNorm,
         ),
-        y: max(yPercent, 1.0),
+        y: min(yPercent, 1.0),
         barColor: barColor,
         backDrawRodY: 1.0,
       );
