@@ -29,7 +29,7 @@ String _getFormattedNutrient(Nutrient nutrient, int amount) {
     case Nutrient.sodium:
     case Nutrient.potassium:
     case Nutrient.phosphorus:
-    return _formatAmount(amount / 1000, "g");
+      return _formatAmount(amount / 1000, "g");
     default:
       throw ArgumentError.value(
           nutrient, "nutrient", "Unable to map nutrient to amount");
