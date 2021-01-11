@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "59243708382-67s7i406v1rrv3orh5u8tqvu6thclqc7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nephrogo",
+            "certificate_hash": "d888990e12dc452071418ec0c7b70f729e3296ab"
+          }
+        },
+        {
           "client_id": "59243708382-ia7g122bursb1ukhbjfd41r8jkc6grgv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
