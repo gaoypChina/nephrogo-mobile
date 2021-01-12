@@ -10,7 +10,7 @@ import 'ui/authentication/remind_password.dart';
 import 'ui/faq_screen.dart';
 import 'ui/home_screen.dart';
 import 'ui/start_screen.dart';
-import 'ui/tabs/health_status/health_indicators_creation_screen.dart';
+import 'ui/tabs/health_status/health_status_creation_screen.dart';
 import 'ui/tabs/health_status/weekly_health_status_screen.dart';
 import 'ui/tabs/nutrition/intake_create.dart';
 import 'ui/tabs/nutrition/product_search.dart';
@@ -83,7 +83,7 @@ class Routes {
         });
       case ROUTE_HEALTH_STATUS_CREATION:
         return MaterialPageRoute(builder: (context) {
-          return HealthIndicatorsCreationScreen();
+          return HealthStatusCreationScreen();
         });
       case ROUTE_FAQ:
         return MaterialPageRoute(builder: (context) {
