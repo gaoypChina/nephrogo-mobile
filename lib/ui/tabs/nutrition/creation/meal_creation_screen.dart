@@ -8,40 +8,49 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo/ui/tabs/nutrition/creation/product_search.dart';
+import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/intake_request.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 
 class MealCreationScreenArguments extends Equatable {
   final Product product;
+  final Intake intake;
 
-  MealCreationScreenArguments(this.product);
+  MealCreationScreenArguments({this.product, this.intake})
+      : assert(product != null || intake != null, "Pass intake or product");
 
   @override
   List<Object> get props => [product];
 }
 
 class MealCreationScreen extends StatefulWidget {
+  final Intake intake;
   final Product initialProduct;
 
-  const MealCreationScreen({Key key, this.initialProduct}) : super(key: key);
+  const MealCreationScreen({Key key, this.initialProduct, this.intake})
+      : super(key: key);
 
   @override
   _MealCreationScreenState createState() => _MealCreationScreenState();
 }
 
 class _MealCreationScreenState extends State<MealCreationScreen> {
+  static final _dateFormat = DateFormat.yMEd();
+
   final _formKey = GlobalKey<FormState>();
-
-  AppLocalizations _appLocalizations;
-
   final _apiService = ApiService();
+  final _intakeBuilder = IntakeRequestBuilder();
 
-  final _dateFormat = DateFormat.yMEd();
+  DateTime _consumedAt;
 
-  var _intakeBuilder = IntakeRequestBuilder();
+  @override
+  void initState() {
+    super.initState();
 
-  var _consumedAt = DateTime.now().toLocal();
+    _consumedAt = widget.intake?.consumedAt ?? DateTime.now().toLocal();
+  }
 
   Future<Product> _showProductSearch() {
     return Navigator.pushNamed<Product>(
@@ -53,7 +62,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _appLocalizations = AppLocalizations.of(context);
+    final _appLocalizations = AppLocalizations.of(context);
 
     final formValidators = FormValidators(context);
 
@@ -77,7 +86,8 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
               children: [
                 AppSelectionScreenFormField<Product>(
                   labelText: _appLocalizations.mealCreationProduct,
-                  initialSelection: widget.initialProduct,
+                  initialSelection:
+                      widget.intake?.product ?? widget.initialProduct,
                   iconData: Icons.restaurant_outlined,
                   itemToStringConverter: (p) => p.name,
                   onTap: (context) => _showProductSearch(),
@@ -86,6 +96,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                 ),
                 AppIntegerFormField(
                   labelText: _appLocalizations.mealCreationQuantity,
+                  initialValue: widget.intake?.amountG,
                   suffixText: "g",
                   validator: formValidators.and(
                     formValidators.nonNull(),
@@ -119,7 +130,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                     );
                   },
                   onDateSaved: (dt) =>
-                      _intakeBuilder.consumedAt = _consumedAt.toUtc(),
+                  _intakeBuilder.consumedAt = _consumedAt.toUtc(),
                   labelText: _appLocalizations.mealCreationDate,
                 ),
                 AppTimePickerFormField(
@@ -141,13 +152,25 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
     );
   }
 
+  Future<Intake> saveIntake(int id, IntakeRequest intakeRequest) {
+    if (id != null) {
+      return _apiService.updateIntake(id, intakeRequest);
+    } else {
+      return _apiService.createIntake(intakeRequest);
+    }
+  }
+
   Future validateAndSaveMeal(BuildContext context) async {
+    FocusScope.of(context).unfocus();
+
     if (!_formKey.currentState.validate()) {
       return false;
     }
     _formKey.currentState.save();
 
-    final intake = await _apiService.createIntake(_intakeBuilder.build());
+    final savingFuture = saveIntake(widget.intake?.id, _intakeBuilder.build());
+
+    final intake = await ProgressDialog(context).showForFuture(savingFuture);
 
     Navigator.pop(context, intake);
   }

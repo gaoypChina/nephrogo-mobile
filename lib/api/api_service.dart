@@ -156,6 +156,15 @@ class ApiService {
     );
   }
 
+  Future<Intake> updateIntake(int intakeId, IntakeRequest intakeRequest) {
+    return _nutritionApi.nutritionIntakeUpdate(intakeId, intakeRequest).then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
+        return r.data;
+      },
+    );
+  }
+
   Future<DailyHealthStatus> createOrUpdateDailyHealthStatus(
       DailyHealthStatusRequest dailyHealthStatusRequest) {
     return _healthStatusApi.healthStatusUpdate(dailyHealthStatusRequest).then(

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/ui/authentication/email_password_login_screen.dart';
+import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 
 import 'ui/authentication/login_screen.dart';
@@ -66,10 +67,13 @@ class Routes {
           return HomeScreen();
         });
       case ROUTE_MEAL_CREATION:
-        return MaterialPageRoute(builder: (context) {
+        return MaterialPageRoute<Intake>(builder: (context) {
           MealCreationScreenArguments arguments = settings.arguments;
 
-          return MealCreationScreen(initialProduct: arguments?.product);
+          return MealCreationScreen(
+            initialProduct: arguments.product ?? arguments.product,
+            intake: arguments.intake,
+          );
         });
       case ROUTE_PRODUCT_SEARCH:
         return MaterialPageRoute<Product>(builder: (context) {

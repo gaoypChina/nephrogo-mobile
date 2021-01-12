@@ -13,6 +13,7 @@ import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/nutrient_screen_response.dart';
 
+import 'creation/meal_creation_screen.dart';
 import 'creation/product_search.dart';
 import 'weekly_nutrients_screen.dart';
 
@@ -217,15 +218,21 @@ class IntakeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+    return AppListTile(
       key: ObjectKey(intake),
       title: Text(intake.product.name),
-      contentPadding: EdgeInsets.zero,
       subtitle: Text(
         dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst(),
       ),
       leading: ProductKindIcon(productKind: intake.product.productKind),
-      trailing: Text(intake.getAmountFormatted()),
+      trailing: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(intake.getAmountFormatted()),
+      ),
+      onTap: () => Navigator.of(context).pushNamed(
+        Routes.ROUTE_MEAL_CREATION,
+        arguments: MealCreationScreenArguments(intake: intake),
+      ),
     );
   }
 }

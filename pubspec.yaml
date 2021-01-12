@@ -49,6 +49,8 @@ dependencies:
       url: https://github.com/nephrogo/nephrogo-api-dart-client.git
       ref: release/v0.2.5
 
+  ars_progress_dialog: 0.0.1
+
   pretty_dio_logger: ^1.1.1
 
   firebase_core: 0.5.3

@@ -140,7 +140,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
     if (widget.searchType == ProductSearchType.choose) {
       return await Navigator.of(context).pushReplacementNamed(
         Routes.ROUTE_MEAL_CREATION,
-        arguments: MealCreationScreenArguments(product),
+        arguments: MealCreationScreenArguments(product: product),
       );
     }
 
