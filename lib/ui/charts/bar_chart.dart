@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/graph.dart';
 
 class AppBarChart extends StatefulWidget {
@@ -64,7 +67,9 @@ class _AppBarChart extends State<AppBarChart> {
           leftTitles: SideTitles(
             margin: 16,
             showTitles: widget.data.showLeftTitles,
-            interval: widget.data.interval,
+            interval: widget.data.showLeftTitles
+                ? widget.data.interval ?? _calculateInterval()
+                : null,
           ),
         ),
         gridData: FlGridData(
@@ -93,6 +98,21 @@ class _AppBarChart extends State<AppBarChart> {
     );
   }
 
+  double _calculateInterval() {
+    var range = widget.data.maxY;
+    range ??= widget.data.groups.expand((e) => e.rods.map((e) => e.y)).max;
+
+    if (range == null) {
+      return null;
+    }
+
+    if (widget.data.minY != null) {
+      range -= widget.data.minY;
+    }
+
+    return max(1.0, (range / 5).ceilToDouble());
+  }
+
   List<BarChartGroupData> showingGroups() {
     return widget.data.groups.map(
       (group) {
@@ -108,7 +128,7 @@ class _AppBarChart extends State<AppBarChart> {
               final rodStackItems = rod.rodStackItems
                   ?.map(
                     (rs) => BarChartRodStackItem(rs.fromY, rs.toY, rs.color),
-                  )
+              )
                   ?.toList();
 
               return BarChartRodData(

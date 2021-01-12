@@ -3,7 +3,7 @@ import 'dart:core';
 import 'package:collection/collection.dart' as collection;
 
 extension IndexedIterable<E> on Iterable<E> {
-  E maxBy<T>(T Function(E) orderBy, {int Function(T, T) compare}) {
+  E maxBy<T>(T Function(E e) orderBy, {int Function(T, T) compare}) {
     return collection.maxBy<E, T>(this, orderBy, compare: compare);
   }
 

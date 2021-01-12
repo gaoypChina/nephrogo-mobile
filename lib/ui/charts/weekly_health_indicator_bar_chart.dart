@@ -110,7 +110,6 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
       showLeftTitles: _showLeftTitles(),
       interval: _getInterval(),
       maxY: _getMaxY(),
-      minY: _getMinY(),
     );
   }
 
@@ -124,14 +123,6 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
       default:
         return true;
     }
-  }
-
-  double _getMinY() {
-    if (indicator == HealthIndicator.bloodPressure) {
-      return 40;
-    }
-
-    return null;
   }
 
   _getColor(double y) {
@@ -163,12 +154,6 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
 
   double _getInterval() {
     switch (indicator) {
-      case HealthIndicator.bloodPressure:
-        return 30;
-      case HealthIndicator.weight:
-        return 25;
-      case HealthIndicator.urine:
-        return 50;
       case HealthIndicator.numberOfSwellings:
       case HealthIndicator.severityOfSwelling:
       case HealthIndicator.wellBeing:
@@ -176,11 +161,7 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
       case HealthIndicator.shortnessOfBreath:
         return 1;
       default:
-        throw ArgumentError.value(
-          this,
-          "healthIndicator",
-          "Unable to map indicator to interval",
-        );
+        return null;
     }
   }
 }
