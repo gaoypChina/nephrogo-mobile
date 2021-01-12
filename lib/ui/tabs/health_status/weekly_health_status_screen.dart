@@ -11,8 +11,8 @@ import 'package:nephrogo/ui/charts/weekly_health_indicator_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/weekly_pager.dart';
-import 'package:nephrolog_api_client/model/daily_health_status.dart';
-import 'package:nephrolog_api_client/model/health_status_weekly_screen_response.dart';
+import 'package:nephrogo_api_client/model/daily_health_status.dart';
+import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
 
 class WeeklyHealthStatusScreenArguments {
   final HealthIndicator initialHealthIndicator;

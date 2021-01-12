@@ -8,9 +8,9 @@ import 'package:nephrogo/ui/charts/nutrient_weekly_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/weekly_pager.dart';
-import 'package:nephrolog_api_client/model/daily_intakes_report.dart';
-import 'package:nephrolog_api_client/model/intake.dart';
-import 'package:nephrolog_api_client/model/nutrient_weekly_screen_response.dart';
+import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
+import 'package:nephrogo_api_client/model/intake.dart';
+import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
 
 class WeeklyNutrientsScreenArguments {
   final Nutrient nutrient;

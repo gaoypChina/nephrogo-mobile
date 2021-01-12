@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/ui/authentication/email_password_login_screen.dart';
-import 'package:nephrolog_api_client/model/product.dart';
+import 'package:nephrogo_api_client/model/product.dart';
 
 import 'ui/authentication/login_screen.dart';
 import 'ui/authentication/registration_screen.dart';

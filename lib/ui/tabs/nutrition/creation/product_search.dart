@@ -7,7 +7,7 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
-import 'package:nephrolog_api_client/model/product.dart';
+import 'package:nephrogo_api_client/model/product.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 import 'meal_creation_screen.dart';

@@ -9,8 +9,8 @@ import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/creation/product_search.dart';
-import 'package:nephrolog_api_client/model/intake_request.dart';
-import 'package:nephrolog_api_client/model/product.dart';
+import 'package:nephrogo_api_client/model/intake_request.dart';
+import 'package:nephrogo_api_client/model/product.dart';
 
 class MealCreationScreenArguments extends Equatable {
   final Product product;

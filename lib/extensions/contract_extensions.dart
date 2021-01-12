@@ -1,14 +1,14 @@
 import 'package:built_value/built_value.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrolog_api_client/model/appetite_enum.dart';
-import 'package:nephrolog_api_client/model/daily_health_status.dart';
-import 'package:nephrolog_api_client/model/daily_intakes_report.dart';
-import 'package:nephrolog_api_client/model/daily_nutrient_consumption.dart';
-import 'package:nephrolog_api_client/model/intake.dart';
-import 'package:nephrolog_api_client/model/shortness_of_breath_enum.dart';
-import 'package:nephrolog_api_client/model/swelling_difficulty_enum.dart';
-import 'package:nephrolog_api_client/model/well_feeling_enum.dart';
+import 'package:nephrogo_api_client/model/appetite_enum.dart';
+import 'package:nephrogo_api_client/model/daily_health_status.dart';
+import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
+import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
+import 'package:nephrogo_api_client/model/intake.dart';
+import 'package:nephrogo_api_client/model/shortness_of_breath_enum.dart';
+import 'package:nephrogo_api_client/model/swelling_difficulty_enum.dart';
+import 'package:nephrogo_api_client/model/well_feeling_enum.dart';
 
 String _formatAmount<T extends num>(T amount, String dim) {
   var precision = 0;

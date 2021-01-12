@@ -9,22 +9,22 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:logging/logging.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/models/date.dart';
-import 'package:nephrolog_api_client/api.dart';
-import 'package:nephrolog_api_client/api/health_status_api.dart';
-import 'package:nephrolog_api_client/api/nutrition_api.dart';
-import 'package:nephrolog_api_client/api/user_api.dart';
-import 'package:nephrolog_api_client/model/daily_health_status.dart';
-import 'package:nephrolog_api_client/model/daily_health_status_request.dart';
-import 'package:nephrolog_api_client/model/health_status_screen_response.dart';
-import 'package:nephrolog_api_client/model/health_status_weekly_screen_response.dart';
-import 'package:nephrolog_api_client/model/intake.dart';
-import 'package:nephrolog_api_client/model/intake_request.dart';
-import 'package:nephrolog_api_client/model/nutrient_screen_response.dart';
-import 'package:nephrolog_api_client/model/nutrient_weekly_screen_response.dart';
-import 'package:nephrolog_api_client/model/product.dart';
-import 'package:nephrolog_api_client/model/user_profile.dart';
-import 'package:nephrolog_api_client/model/user_profile_request.dart';
-import 'package:nephrolog_api_client/serializers.dart';
+import 'package:nephrogo_api_client/api.dart';
+import 'package:nephrogo_api_client/api/health_status_api.dart';
+import 'package:nephrogo_api_client/api/nutrition_api.dart';
+import 'package:nephrogo_api_client/api/user_api.dart';
+import 'package:nephrogo_api_client/model/daily_health_status.dart';
+import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
+import 'package:nephrogo_api_client/model/health_status_screen_response.dart';
+import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
+import 'package:nephrogo_api_client/model/intake.dart';
+import 'package:nephrogo_api_client/model/intake_request.dart';
+import 'package:nephrogo_api_client/model/nutrient_screen_response.dart';
+import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
+import 'package:nephrogo_api_client/model/product.dart';
+import 'package:nephrogo_api_client/model/user_profile.dart';
+import 'package:nephrogo_api_client/model/user_profile_request.dart';
+import 'package:nephrogo_api_client/serializers.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -39,7 +39,7 @@ class ApiService {
   final _appEventsStreamController =
       StreamController<_AppStateChangeEvent>.broadcast();
 
-  NephrologApiClient _apiClient;
+  NephrogoApiClient _apiClient;
   NutritionApi _nutritionApi;
   HealthStatusApi _healthStatusApi;
   UserApi _userApi;
@@ -59,7 +59,7 @@ class ApiService {
     _userApi = _apiClient.getUserApi();
   }
 
-  NephrologApiClient _buildNephroGoApiClient() {
+  NephrogoApiClient _buildNephroGoApiClient() {
     final timeZoneName = DateTime.now().timeZoneName;
 
     final dio = Dio(BaseOptions(
@@ -76,7 +76,7 @@ class ApiService {
     dio.httpClientAdapter = Http2Adapter(
         ConnectionManager(idleTimeout: _connectionIdleTimeout.inMilliseconds));
 
-    return NephrologApiClient(
+    return NephrogoApiClient(
       dio: dio,
       basePathOverride: _baseApiUrl,
       serializers: _buildDioSerializers(),
@@ -146,7 +146,7 @@ class ApiService {
 
   Future<List<Product>> getProducts(String query, [CancelToken cancelToken]) {
     return _nutritionApi
-        .nutritionProductsList(query: query, cancelToken: cancelToken)
+        .nutritionProductsList(query, cancelToken: cancelToken)
         .then((r) => r.data.toList());
   }
 

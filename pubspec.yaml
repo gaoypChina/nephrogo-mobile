@@ -44,10 +44,10 @@ dependencies:
   dio_http2_adapter: ^1.0.1
   dio_brotli_transformer: ^0.2.0
 
-  nephrolog_api_client:
+  nephrogo_api_client:
     git:
       url: https://github.com/nephrogo/nephrogo-api-dart-client.git
-      ref: release/v0.1.2
+      ref: release/v0.2.0
 
   pretty_dio_logger: ^1.1.1
 

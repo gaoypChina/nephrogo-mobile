@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nephrolog_api_client/model/product_kind_enum.dart';
+import 'package:nephrogo_api_client/model/product_kind_enum.dart';
 
 class BasicSection extends StatelessWidget {
   static const _defaultHeaderPadding =

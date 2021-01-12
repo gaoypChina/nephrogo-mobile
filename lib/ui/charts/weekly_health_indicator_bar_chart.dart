@@ -6,7 +6,7 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/models/graph.dart';
-import 'package:nephrolog_api_client/model/daily_health_status.dart';
+import 'package:nephrogo_api_client/model/daily_health_status.dart';
 
 import 'bar_chart.dart';
 
