@@ -173,7 +173,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
 
     switch (indicator) {
       case HealthIndicator.bloodPressure:
-        return "$diastolicBloodPressure / $systolicBloodPressure mmHg";
+        return "$systolicBloodPressure / $diastolicBloodPressure mmHg";
       case HealthIndicator.weight:
         return "$weightKg kg";
       case HealthIndicator.urine:
