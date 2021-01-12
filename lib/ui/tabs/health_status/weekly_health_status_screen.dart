@@ -57,7 +57,7 @@ class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showIndicatorSelectionPopupMenu(appLocalizations),
-        label: Text(appLocalizations.healthIndicator),
+        label: Text(appLocalizations.healthIndicator.toUpperCase()),
         icon: Icon(Icons.swap_horizontal_circle),
       ),
       body: WeeklyPager<HealthIndicator>(
