@@ -12,8 +12,8 @@ import 'ui/home_screen.dart';
 import 'ui/start_screen.dart';
 import 'ui/tabs/health_status/health_indicators_creation_screen.dart';
 import 'ui/tabs/health_status/weekly_health_status_screen.dart';
-import 'ui/tabs/nutrition/creation/meal_creation_screen.dart';
-import 'ui/tabs/nutrition/creation/product_search.dart';
+import 'ui/tabs/nutrition/intake_create.dart';
+import 'ui/tabs/nutrition/product_search.dart';
 import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'ui/user_profile_screen.dart';
 
@@ -28,7 +28,7 @@ class Routes {
   static const ROUTE_HOME = "home";
 
   static const ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN = "weekly_nutrients_screen";
-  static const ROUTE_MEAL_CREATION = "meal_creation";
+  static const ROUTE_INTAKE_CREATE = "ROUTE_INTAKE_CREATE";
   static const ROUTE_PRODUCT_SEARCH = "ROUTE_PRODUCT_SEARCH";
 
   static const ROUTE_WEEKLY_HEALTH_STATUS_SCREEN =
@@ -66,11 +66,11 @@ class Routes {
         return MaterialPageRoute(builder: (context) {
           return HomeScreen();
         });
-      case ROUTE_MEAL_CREATION:
+      case ROUTE_INTAKE_CREATE:
         return MaterialPageRoute<Intake>(builder: (context) {
-          MealCreationScreenArguments arguments = settings.arguments;
+          IntakeCreateScreenArguments arguments = settings.arguments;
 
-          return MealCreationScreen(
+          return IntakeCreateScreen(
             initialProduct: arguments.product ?? arguments.product,
             intake: arguments.intake,
           );

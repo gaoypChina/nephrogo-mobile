@@ -9,34 +9,34 @@ import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
-import 'package:nephrogo/ui/tabs/nutrition/creation/product_search.dart';
+import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/intake_request.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 
-class MealCreationScreenArguments extends Equatable {
+class IntakeCreateScreenArguments extends Equatable {
   final Product product;
   final Intake intake;
 
-  MealCreationScreenArguments({this.product, this.intake})
+  IntakeCreateScreenArguments({this.product, this.intake})
       : assert(product != null || intake != null, "Pass intake or product");
 
   @override
   List<Object> get props => [product];
 }
 
-class MealCreationScreen extends StatefulWidget {
+class IntakeCreateScreen extends StatefulWidget {
   final Intake intake;
   final Product initialProduct;
 
-  const MealCreationScreen({Key key, this.initialProduct, this.intake})
+  const IntakeCreateScreen({Key key, this.initialProduct, this.intake})
       : super(key: key);
 
   @override
-  _MealCreationScreenState createState() => _MealCreationScreenState();
+  _IntakeCreateScreenState createState() => _IntakeCreateScreenState();
 }
 
-class _MealCreationScreenState extends State<MealCreationScreen> {
+class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
   static final _dateFormat = DateFormat.yMEd();
 
   final _formKey = GlobalKey<FormState>();
@@ -71,7 +71,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
         title: Text(_appLocalizations.mealCreationTitle),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => validateAndSaveMeal(context),
+        onPressed: () => validateAndSaveIntake(context),
         label: Text(_appLocalizations.save.toUpperCase()),
         icon: Icon(Icons.save),
       ),
@@ -130,7 +130,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
                     );
                   },
                   onDateSaved: (dt) =>
-                  _intakeBuilder.consumedAt = _consumedAt.toUtc(),
+                      _intakeBuilder.consumedAt = _consumedAt.toUtc(),
                   labelText: _appLocalizations.mealCreationDate,
                 ),
                 AppTimePickerFormField(
@@ -160,7 +160,7 @@ class _MealCreationScreenState extends State<MealCreationScreen> {
     }
   }
 
-  Future validateAndSaveMeal(BuildContext context) async {
+  Future validateAndSaveIntake(BuildContext context) async {
     FocusScope.of(context).unfocus();
 
     if (!_formKey.currentState.validate()) {

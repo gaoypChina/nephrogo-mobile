@@ -9,7 +9,7 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 import 'package:stream_transform/stream_transform.dart';
 
-import 'meal_creation_screen.dart';
+import 'intake_create.dart';
 
 enum ProductSearchType {
   choose,
@@ -139,8 +139,8 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
   Future close(BuildContext context, Product product) async {
     if (widget.searchType == ProductSearchType.choose) {
       return await Navigator.of(context).pushReplacementNamed(
-        Routes.ROUTE_MEAL_CREATION,
-        arguments: MealCreationScreenArguments(product: product),
+        Routes.ROUTE_INTAKE_CREATE,
+        arguments: IntakeCreateScreenArguments(product: product),
       );
     }
 
