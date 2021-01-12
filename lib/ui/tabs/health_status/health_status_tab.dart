@@ -94,8 +94,9 @@ class HealthIndicatorsTabBody extends StatelessWidget {
             indicator, appLocalizations) ??
         appLocalizations.noInfo.toLowerCase();
 
-    final hasReports =
-        latestHealthStatus?.isIndicatorExists(indicator) ?? false;
+    final hasReports = healthStatusScreenResponse.dailyHealthStatuses
+        .where((s) => s.isIndicatorExists(indicator))
+        .isNotEmpty;
 
     return LargeSection(
       title: indicator.name(appLocalizations),
