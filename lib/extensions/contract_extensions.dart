@@ -8,6 +8,7 @@ import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/shortness_of_breath_enum.dart';
 import 'package:nephrogo_api_client/model/swelling_difficulty_enum.dart';
+import 'package:nephrogo_api_client/model/swelling_enum.dart';
 import 'package:nephrogo_api_client/model/well_feeling_enum.dart';
 
 String _formatAmount<T extends num>(T amount, String dim) {
@@ -142,8 +143,10 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         return swellingDifficulty != null &&
             swellingDifficulty != SwellingDifficultyEnum.unknown;
       case HealthIndicator.numberOfSwellings:
-        // TODO numberOfSwellings implementation
-        return false;
+        return swellings != null &&
+            swellings
+                .where((e) => e.swelling != SwellingEnum.unknown)
+                .isNotEmpty;
       case HealthIndicator.wellBeing:
         return wellFeeling != null && wellFeeling != WellFeelingEnum.unknown;
       case HealthIndicator.appetite:
@@ -194,8 +197,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
           "Invalid swellingDifficulty value",
         );
       case HealthIndicator.numberOfSwellings:
-        // TODO missing from API
-        return null;
+        return getHealthIndicatorValue(indicator)?.toString();
       case HealthIndicator.wellBeing:
         switch (wellFeeling) {
           case WellFeelingEnum.perfect:
@@ -261,18 +263,18 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     }
   }
 
-  double getHealthIndicatorValue(HealthIndicator indicator) {
+  num getHealthIndicatorValue(HealthIndicator indicator) {
     if (!isIndicatorExists(indicator)) {
       return null;
     }
 
     switch (indicator) {
       case HealthIndicator.bloodPressure:
-        return this.systolicBloodPressure.toDouble();
+        return this.systolicBloodPressure;
       case HealthIndicator.weight:
-        return this.weightKg.toDouble();
+        return this.weightKg;
       case HealthIndicator.urine:
-        return this.urineMl.toDouble();
+        return this.urineMl;
       case HealthIndicator.severityOfSwelling:
         switch (swellingDifficulty) {
           case SwellingDifficultyEnum.n0plus:
@@ -292,8 +294,9 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
           "Invalid swellingDifficulty value",
         );
       case HealthIndicator.numberOfSwellings:
-        // TODO missing from API
-        return null;
+        return swellings
+            .where((e) => e.swelling != SwellingEnum.unknown)
+            .length;
       case HealthIndicator.wellBeing:
         switch (wellFeeling) {
           case WellFeelingEnum.perfect:

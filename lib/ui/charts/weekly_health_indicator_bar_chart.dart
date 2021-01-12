@@ -76,7 +76,7 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
         );
       }
 
-      final y = dhs.getHealthIndicatorValue(indicator);
+      final y = dhs.getHealthIndicatorValue(indicator)?.toDouble();
       final dailyTotalFormatted =
           dhs.getHealthIndicatorFormatted(indicator, appLocalizations);
 

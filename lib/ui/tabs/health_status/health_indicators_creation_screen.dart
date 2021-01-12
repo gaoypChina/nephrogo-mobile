@@ -1,4 +1,5 @@
 import 'package:async/async.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:nephrogo/api/api_service.dart';
@@ -15,6 +16,8 @@ import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
 import 'package:nephrogo_api_client/model/shortness_of_breath_enum.dart';
 import 'package:nephrogo_api_client/model/swelling_difficulty_enum.dart';
+import 'package:nephrogo_api_client/model/swelling_enum.dart';
+import 'package:nephrogo_api_client/model/swelling_request.dart';
 import 'package:nephrogo_api_client/model/well_feeling_enum.dart';
 
 class HealthIndicatorsCreationScreen extends StatefulWidget {
@@ -221,50 +224,62 @@ class _HealthIndicatorsCreationScreenState
                     ),
                   ],
                 ),
-                // TODO change to enums
-                AppMultipleSelectFormField<String>(
-                  labelText:
-                      _appLocalizations.healthStatusCreationSwellingDifficulty,
+                AppMultipleSelectFormField<SwellingEnum>(
+                  initialValues: _initialHealthStatus?.swellings
+                          ?.map((s) => s.swelling)
+                          ?.where((s) => s != SwellingEnum.unknown)
+                          ?.toList() ??
+                      [],
+                  labelText: _appLocalizations.healthStatusCreationSwellings,
+                  onSaved: (v) {
+                    final swellings = v.map((e) {
+                      final swellingBuilder = SwellingRequestBuilder();
+                      swellingBuilder.swelling = e.value;
+
+                      return swellingBuilder.build();
+                    });
+                    _healthStatusBuilder.swellings = ListBuilder(swellings);
+                  },
                   items: [
                     AppSelectFormFieldItem(
                       text: _appLocalizations
                           .healthStatusCreationSwellingsLocalizationEyes,
-                      value: "1",
+                      value: SwellingEnum.eyes,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
                           .healthStatusCreationSwellingsLocalizationWholeFace,
-                      value: "2",
+                      value: SwellingEnum.wholeFace,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
                           .healthStatusCreationSwellingsLocalizationHandBreadth,
-                      value: "3",
+                      value: SwellingEnum.handBreadth,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
                           .healthStatusCreationSwellingsLocalizationHands,
-                      value: "4",
+                      value: SwellingEnum.hands,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
                           .healthStatusCreationSwellingsLocalizationBelly,
-                      value: "5",
+                      value: SwellingEnum.belly,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
                           .healthStatusCreationSwellingsLocalizationKnees,
-                      value: "6",
+                      value: SwellingEnum.knees,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
                           .healthStatusCreationSwellingsLocalizationFoot,
-                      value: "7",
+                      value: SwellingEnum.foot,
                     ),
                     AppSelectFormFieldItem(
                       text: _appLocalizations
                           .healthStatusCreationSwellingsLocalizationWholeLegs,
-                      value: "8",
+                      value: SwellingEnum.wholeLegs,
                     ),
                   ],
                 ),

@@ -47,7 +47,7 @@ dependencies:
   nephrogo_api_client:
     git:
       url: https://github.com/nephrogo/nephrogo-api-dart-client.git
-      ref: release/v0.2.0
+      ref: release/v0.2.5
 
   pretty_dio_logger: ^1.1.1
 

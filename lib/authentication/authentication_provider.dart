@@ -109,7 +109,6 @@ class AuthenticationProvider {
     }
   }
 
-  // TODO add Handling for password
   // Adapted from https://firebase.flutter.dev/docs/auth/error-handling
   Future<UserCredential> _linkDifferentProviders(
       FirebaseAuthException authException) async {

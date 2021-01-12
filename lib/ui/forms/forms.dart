@@ -290,6 +290,7 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
 
 class AppMultipleSelectFormField<T> extends StatefulWidget {
   final List<AppSelectFormFieldItem<T>> items;
+  final List<T> initialValues;
   final String labelText;
   final String helperText;
   final IconData iconData;
@@ -299,6 +300,7 @@ class AppMultipleSelectFormField<T> extends StatefulWidget {
   const AppMultipleSelectFormField({
     Key key,
     @required this.items,
+    this.initialValues,
     this.labelText,
     this.helperText,
     this.iconData,
@@ -313,7 +315,24 @@ class AppMultipleSelectFormField<T> extends StatefulWidget {
 
 class _AppMultipleSelectFormFieldState<T>
     extends State<AppMultipleSelectFormField<T>> {
-  List<AppSelectFormFieldItem<T>> _selectedItems = [];
+  List<AppSelectFormFieldItem<T>> _selectedItems;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _selectedItems = _getInitialSelections();
+  }
+
+  List<AppSelectFormFieldItem<T>> _getInitialSelections() {
+    if (widget.initialValues == null) {
+      return null;
+    }
+
+    return widget.items
+        .where((e) => widget.initialValues.contains(e.value))
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -385,7 +404,7 @@ class AppDatePickerFormField extends StatefulWidget {
 class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
   static final DateFormat _defaultDateFormat = DateFormat.yMd();
 
-  // TODO this is a bug with platform translation. Incorrect format is shown. Set to correct one.
+  // This is a bug with platform translation. Incorrect format is shown. Set to correct one.
   static const _fieldHintText = "yyyy-mm-dd";
 
   DateTime selectedDateTime;
