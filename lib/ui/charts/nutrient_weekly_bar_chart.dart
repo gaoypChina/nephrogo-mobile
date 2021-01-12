@@ -113,7 +113,7 @@ class NutrientWeeklyBarChart extends StatelessWidget {
       AppBarChartRod entry = AppBarChartRod(
         tooltip: "$dateFormatted\n$dailyTotalFormatted",
         y: y != null ? y * scaleValue : null,
-        barColor: (y != null || y > norm) ? Colors.redAccent : Colors.teal,
+        barColor: (norm != null && y > norm) ? Colors.redAccent : Colors.teal,
       );
 
       return AppBarChartGroup(
