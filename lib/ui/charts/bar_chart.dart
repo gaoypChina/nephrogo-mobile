@@ -128,7 +128,7 @@ class _AppBarChart extends State<AppBarChart> {
               final rodStackItems = rod.rodStackItems
                   ?.map(
                     (rs) => BarChartRodStackItem(rs.fromY, rs.toY, rs.color),
-              )
+                  )
                   ?.toList();
 
               return BarChartRodData(

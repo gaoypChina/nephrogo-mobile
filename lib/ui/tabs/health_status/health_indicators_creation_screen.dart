@@ -104,7 +104,7 @@ class _HealthIndicatorsCreationScreenState
                         labelText:
                             _appLocalizations.healthStatusCreationSystolic,
                         suffixText: "mmHg",
-                        validator: formValidators.numRangeValidator(0, 200),
+                        validator: formValidators.numRangeValidator(0, 350),
                         initialValue:
                             _initialHealthStatus?.systolicBloodPressure,
                         onSaved: (value) {
@@ -117,7 +117,7 @@ class _HealthIndicatorsCreationScreenState
                         labelText:
                             _appLocalizations.healthStatusCreationDiastolic,
                         suffixText: "mmHg",
-                        validator: formValidators.numRangeValidator(0, 350),
+                        validator: formValidators.numRangeValidator(0, 200),
                         initialValue:
                             _initialHealthStatus?.diastolicBloodPressure,
                         onSaved: (value) {
