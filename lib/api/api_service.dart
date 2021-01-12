@@ -52,14 +52,14 @@ class ApiService {
   }
 
   ApiService._internal() {
-    _apiClient = _buildNephroGoApiClient();
+    _apiClient = _buildNephrogoApiClient();
 
     _nutritionApi = _apiClient.getNutritionApi();
     _healthStatusApi = _apiClient.getHealthStatusApi();
     _userApi = _apiClient.getUserApi();
   }
 
-  NephrogoApiClient _buildNephroGoApiClient() {
+  NephrogoApiClient _buildNephrogoApiClient() {
     final timeZoneName = DateTime.now().timeZoneName;
 
     final dio = Dio(BaseOptions(
