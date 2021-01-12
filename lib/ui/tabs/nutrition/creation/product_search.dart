@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/l10n/localizations.dart';
@@ -38,7 +37,6 @@ class ProductSearchScreen extends StatefulWidget {
 
 class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
   final _apiService = ApiService();
-  final _queryCancelToken = CancelToken();
 
   final _searchDispatchDuration = Duration(milliseconds: 200);
 
@@ -65,7 +63,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
           return q.query;
         })
         .where((q) => q == currentQuery)
-        .asyncMap((q) => _apiService.getProducts(q, _queryCancelToken));
+        .asyncMap((q) => _apiService.getProducts(q));
   }
 
   void _changeQuery(String query) {

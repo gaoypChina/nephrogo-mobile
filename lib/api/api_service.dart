@@ -119,16 +119,13 @@ class ApiService {
         .where((e) => e == event);
   }
 
-  Future<NutrientScreenResponse> getNutritionScreen([CancelToken cancelToken]) {
-    return _nutritionApi
-        .nutritionScreenRetrieve(cancelToken: cancelToken)
-        .then((r) => r.data);
+  Future<NutrientScreenResponse> getNutritionScreen() {
+    return _nutritionApi.nutritionScreenRetrieve().then((r) => r.data);
   }
 
-  Stream<NutrientScreenResponse> getNutritionScreenStream(
-      [CancelToken cancelToken]) {
+  Stream<NutrientScreenResponse> getNutritionScreenStream() {
     return _buildAppEventsStreamWithInitialEmit(_AppStateChangeEvent.nutrition)
-        .asyncMap((_) => getNutritionScreen(cancelToken));
+        .asyncMap((_) => getNutritionScreen());
   }
 
   Future<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReport(
@@ -144,17 +141,14 @@ class ApiService {
         .asyncMap((_) => getWeeklyDailyIntakesReport(from, to));
   }
 
-  Future<List<Product>> getProducts(String query, [CancelToken cancelToken]) {
+  Future<List<Product>> getProducts(String query) {
     return _nutritionApi
-        .nutritionProductsList(query, cancelToken: cancelToken)
+        .nutritionProductsList(query)
         .then((r) => r.data.toList());
   }
 
-  Future<Intake> createIntake(IntakeRequest intakeRequest,
-      [CancelToken cancelToken]) {
-    return _nutritionApi
-        .nutritionIntakeCreate(intakeRequest, cancelToken: cancelToken)
-        .then(
+  Future<Intake> createIntake(IntakeRequest intakeRequest) {
+    return _nutritionApi.nutritionIntakeCreate(intakeRequest).then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
         return r.data;
@@ -163,22 +157,14 @@ class ApiService {
   }
 
   Future<DailyHealthStatus> createOrUpdateDailyHealthStatus(
-      DailyHealthStatusRequest dailyHealthStatusRequest,
-      [CancelToken cancelToken]) {
-    return _healthStatusApi
-        .healthStatusUpdate(dailyHealthStatusRequest, cancelToken: cancelToken)
-        .then(
+      DailyHealthStatusRequest dailyHealthStatusRequest) {
+    return _healthStatusApi.healthStatusUpdate(dailyHealthStatusRequest).then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
         return r.data;
       },
     ).catchError(
-      (e) => _healthStatusApi
-          .healthStatusCreate(
-        dailyHealthStatusRequest,
-        cancelToken: cancelToken,
-      )
-          .then(
+      (e) => _healthStatusApi.healthStatusCreate(dailyHealthStatusRequest).then(
         (r) {
           _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
           return r.data;
@@ -188,10 +174,11 @@ class ApiService {
     );
   }
 
-  Future<DailyHealthStatus> getDailyHealthStatus(DateTime date,
-      [CancelToken cancelToken]) {
+  Future<DailyHealthStatus> getDailyHealthStatus(
+    DateTime date,
+  ) {
     return _healthStatusApi
-        .healthStatusRetrieve(Date(date), cancelToken: cancelToken)
+        .healthStatusRetrieve(Date(date))
         .then((r) => r.data)
         .catchError(
           (e) => null,
@@ -199,11 +186,10 @@ class ApiService {
         );
   }
 
-  Future<UserProfile> createOrUpdateUserProfile(UserProfileRequest userProfile,
-      [CancelToken cancelToken]) {
-    return _userApi
-        .userProfileUpdate(userProfile, cancelToken: cancelToken)
-        .then(
+  Future<UserProfile> createOrUpdateUserProfile(
+    UserProfileRequest userProfile,
+  ) {
+    return _userApi.userProfileUpdate(userProfile).then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
         _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
@@ -212,7 +198,9 @@ class ApiService {
       },
     ).catchError(
       (e) => _userApi
-          .userProfileCreate(userProfile, cancelToken: cancelToken)
+          .userProfileCreate(
+        userProfile,
+      )
           .then(
         (r) {
           _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
@@ -225,20 +213,14 @@ class ApiService {
     );
   }
 
-  Future<UserProfile> getUserProfile([CancelToken cancelToken]) {
-    return _userApi
-        .userProfileRetrieve(cancelToken: cancelToken)
-        .then((r) => r.data)
-        .catchError(
+  Future<UserProfile> getUserProfile() {
+    return _userApi.userProfileRetrieve().then((r) => r.data).catchError(
           (e) => null,
         );
   }
 
-  Future<HealthStatusScreenResponse> getHealthStatusScreen(
-      [CancelToken cancelToken]) {
-    return _healthStatusApi
-        .healthStatusScreenRetrieve(cancelToken: cancelToken)
-        .then((r) => r.data);
+  Future<HealthStatusScreenResponse> getHealthStatusScreen() {
+    return _healthStatusApi.healthStatusScreenRetrieve().then((r) => r.data);
   }
 
   Stream<HealthStatusScreenResponse> getHealthStatusScreenStream() {
