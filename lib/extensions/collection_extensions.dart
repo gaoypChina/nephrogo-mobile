@@ -29,6 +29,10 @@ extension IndexedIterable<E> on Iterable<E> {
   E firstOrNull() {
     return this == null || this.isEmpty ? null : this.first;
   }
+
+  E lastOrNull() {
+    return this == null || this.isEmpty ? null : this.last;
+  }
 }
 
 extension ListExtensions<E> on List<E> {

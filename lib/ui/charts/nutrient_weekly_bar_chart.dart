@@ -44,14 +44,17 @@ class NutrientWeeklyBarChart extends StatelessWidget {
   }
 
   AppBarChartData _getChartData(AppLocalizations appLocalizations) {
+    final sortedDailyIntakeReports =
+        dailyIntakeReports.sortedBy((e) => e.date).toList();
+
     final dailyNutrientConsumptions = dailyIntakeReports
         .map((e) => e.getDailyNutrientConsumption(nutrient))
         .toList();
 
-    final maximumNorm = dailyNutrientConsumptions
-        .map((c) => c.norm)
-        .where((e) => e != null)
-        .max
+    final lastNorm = sortedDailyIntakeReports
+        .lastOrNull()
+        ?.getDailyNutrientConsumption(nutrient)
+        ?.norm
         ?.toDouble();
 
     final maximumAmount =
@@ -60,11 +63,11 @@ class NutrientWeeklyBarChart extends StatelessWidget {
     assert(maximumAmount != null, "Maximum amount can not be null");
 
     double interval;
-    if (maximumNorm != null) {
-      interval = maximumNorm / 2;
+    if (lastNorm != null) {
+      interval = lastNorm / 2;
 
-      if (maximumAmount ~/ maximumNorm > 3) {
-        interval = maximumNorm;
+      if (maximumAmount ~/ lastNorm > 3) {
+        interval = lastNorm;
       }
     }
 
@@ -75,7 +78,7 @@ class NutrientWeeklyBarChart extends StatelessWidget {
             .reversed;
 
     final dailyIntakeReportsGrouped =
-        dailyIntakeReports.groupBy((v) => Date(v.date)).map((key, values) {
+    dailyIntakeReports.groupBy((v) => Date(v.date)).map((key, values) {
       if (values.length > 1) {
         throw ArgumentError.value(values, "values",
             "Multiple daily intakes with same formatted date");
@@ -137,11 +140,10 @@ class NutrientWeeklyBarChart extends StatelessWidget {
       groups: groups,
       showLeftTitles: true,
       fitInsideVertically: fitInsideVertically,
-      dashedHorizontalLine:
-          maximumNorm != null ? maximumNorm * scaleValue : null,
+      dashedHorizontalLine: lastNorm != null ? lastNorm * scaleValue : null,
       interval: interval != null ? interval * scaleValue : null,
-      maxY: (maximumNorm != null && maximumAmount != null)
-          ? max(maximumNorm, maximumAmount) * scaleValue * 1.01
+      maxY: (lastNorm != null && maximumAmount != null)
+          ? max(lastNorm, maximumAmount) * scaleValue * 1.01
           : null,
     );
   }
