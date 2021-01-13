@@ -71,14 +71,17 @@ class NutrientWeeklyBarChart extends StatelessWidget {
       }
     }
 
-    final scaleValue = (nutrient != Nutrient.energy) ? 1e-3 : 1.0;
+    final scaleValue =
+        (nutrient != Nutrient.energy || nutrient != Nutrient.liquids)
+            ? 1e-3
+            : 1.0;
 
     final days =
         List.generate(7, (d) => Date(maximumDate.add(Duration(days: -d))))
             .reversed;
 
     final dailyIntakeReportsGrouped =
-    dailyIntakeReports.groupBy((v) => Date(v.date)).map((key, values) {
+        dailyIntakeReports.groupBy((v) => Date(v.date)).map((key, values) {
       if (values.length > 1) {
         throw ArgumentError.value(values, "values",
             "Multiple daily intakes with same formatted date");

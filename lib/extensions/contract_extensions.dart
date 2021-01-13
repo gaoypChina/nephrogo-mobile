@@ -25,7 +25,7 @@ String _getFormattedNutrient(Nutrient nutrient, int amount) {
     case Nutrient.energy:
       return _formatAmount(amount, "kcal");
     case Nutrient.liquids:
-      return _formatAmount(amount / 1000, "l");
+      return _formatAmount(amount, "ml");
     case Nutrient.proteins:
     case Nutrient.sodium:
     case Nutrient.potassium:
