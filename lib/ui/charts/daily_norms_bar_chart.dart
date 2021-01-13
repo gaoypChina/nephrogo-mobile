@@ -66,8 +66,10 @@ class DailyNormsBarChart extends StatelessWidget {
       var dailyNutrientConsumption =
           dailyIntakeReport.getDailyNutrientConsumption(nutrient);
 
-      double yPercent = dailyNutrientConsumption.total.toDouble() /
+      final rawYPercent = dailyNutrientConsumption.total.toDouble() /
           dailyNutrientConsumption.norm;
+
+      var yPercent = rawYPercent;
       Color barColor = yPercent > 1.0 ? Colors.redAccent : Colors.teal;
       if (dailyNutrientConsumption.total == 0) {
         barColor = Colors.transparent;
@@ -81,6 +83,7 @@ class DailyNormsBarChart extends StatelessWidget {
 
       final entry = AppBarChartRod(
         tooltip: appLocalizations.todayConsumptionWithNormTooltip(
+          (rawYPercent * 100).round().toString(),
           formattedTotal,
           formattedNorm,
         ),

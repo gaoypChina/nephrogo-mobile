@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/models/graph.dart';
@@ -36,13 +37,13 @@ class NutrientWeeklyBarChart extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 2,
         child: AppBarChart(
-          data: _getChartData(),
+          data: _getChartData(AppLocalizations.of(context)),
         ),
       ),
     );
   }
 
-  AppBarChartData _getChartData() {
+  AppBarChartData _getChartData(AppLocalizations appLocalizations) {
     final dailyNutrientConsumptions = dailyIntakeReports
         .map((e) => e.getDailyNutrientConsumption(nutrient))
         .toList();
@@ -109,9 +110,17 @@ class NutrientWeeklyBarChart extends StatelessWidget {
       final norm = consumption.norm;
 
       final dailyTotalFormatted = di.getNutrientTotalAmountFormatted(nutrient);
+      var tooltip = "$dateFormatted\n$dailyTotalFormatted";
+
+      final normFormatted = di.getNutrientNormFormatted(nutrient);
+      if (normFormatted != null) {
+        final percent = (y / norm).round().toString();
+        tooltip = appLocalizations.consumptionTooltipWithNorm(
+            dateFormatted, percent, dailyTotalFormatted, normFormatted);
+      }
 
       AppBarChartRod entry = AppBarChartRod(
-        tooltip: "$dateFormatted\n$dailyTotalFormatted",
+        tooltip: tooltip,
         y: y != null ? y * scaleValue : null,
         barColor: (norm != null && y > norm) ? Colors.redAccent : Colors.teal,
       );
