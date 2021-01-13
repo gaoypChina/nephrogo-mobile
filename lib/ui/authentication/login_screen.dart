@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
@@ -22,10 +23,21 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class LoginScreenBody extends StatelessWidget {
+class LoginScreenBody extends StatefulWidget {
+  @override
+  _LoginScreenBodyState createState() => _LoginScreenBodyState();
+}
+
+class _LoginScreenBodyState extends State<LoginScreenBody> {
   final _authenticationProvider = AuthenticationProvider();
+
   final _apiService = ApiService();
+
   final _appPreferences = AppPreferences();
+
+  AppLocalizations get _appLocalizations => AppLocalizations.of(context);
+
+  bool agreedToConditions = false;
 
   @override
   Widget build(BuildContext context) {
@@ -93,14 +105,49 @@ class LoginScreenBody extends StatelessWidget {
     );
   }
 
-  Future _loginUsingEmail(BuildContext context) async {
-    final userCredential = await Navigator.pushNamed<UserCredential>(
-      context,
-      Routes.ROUTE_LOGIN_EMAIL_PASSWORD,
-    );
+  Future<bool> _agreeToConditions() async {
+    if (agreedToConditions) {
+      return true;
+    }
 
-    if (userCredential != null) {
-      await navigateToNextScreen(context, userCredential);
+    return agreedToConditions = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Container(
+            child: LoginConditionsRichText(
+              textColor: Colors.black,
+              baseText: _appLocalizations.loginConditionsIAgree,
+              textAlign: TextAlign.start,
+            ),
+          ),
+          actions: [
+            FlatButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(_appLocalizations.disagree.toUpperCase()),
+            ),
+            FlatButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(_appLocalizations.agree.toUpperCase()),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future _loginUsingEmail(BuildContext context) async {
+    final agreed = await _agreeToConditions();
+
+    if (agreed) {
+      final userCredential = await Navigator.pushNamed<UserCredential>(
+        context,
+        Routes.ROUTE_LOGIN_EMAIL_PASSWORD,
+      );
+
+      if (userCredential != null) {
+        await navigateToNextScreen(context, userCredential);
+      }
     }
   }
 
@@ -108,21 +155,25 @@ class LoginScreenBody extends StatelessWidget {
     BuildContext context,
     SocialAuthenticationProvider provider,
   ) async {
-    UserCredential userCredential;
+    final agreed = await _agreeToConditions();
 
-    try {
-      userCredential = await _authenticationProvider.signIn(provider);
-    } catch (e, stacktrace) {
-      developer.log(
-        "Unable to to to login with social",
-        stackTrace: stacktrace,
-      );
+    if (agreed) {
+      UserCredential userCredential;
 
-      await showAppDialog(context: context, message: e.toString());
-    }
+      try {
+        userCredential = await _authenticationProvider.signIn(provider);
+      } catch (e, stacktrace) {
+        developer.log(
+          "Unable to to to login with social",
+          stackTrace: stacktrace,
+        );
 
-    if (userCredential != null) {
-      await navigateToNextScreen(context, userCredential);
+        await showAppDialog(context: context, message: e.toString());
+      }
+
+      if (userCredential != null) {
+        await navigateToNextScreen(context, userCredential);
+      }
     }
   }
 

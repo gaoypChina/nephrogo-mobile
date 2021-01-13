@@ -1,20 +1,31 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/utils/utils.dart';
 
 class LoginConditionsRichText extends StatelessWidget {
   final Color textColor;
+  final TextAlign textAlign;
+  final String baseText;
 
-  const LoginConditionsRichText({Key key, this.textColor}) : super(key: key);
+  const LoginConditionsRichText({
+    Key key,
+    this.textColor,
+    this.baseText,
+    this.textAlign = TextAlign.center,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+    final text = baseText ?? appLocalizations.loginConditionsAgree;
+
     return RichText(
-      textAlign: TextAlign.center,
+      textAlign: textAlign,
       text: TextSpan(children: [
         TextSpan(
-          text: "Prisijungdami Jūs patvirtinate, kad sutinkate su\n",
+          text: text,
           style: TextStyle(color: textColor),
         ),
         TextSpan(
@@ -23,9 +34,9 @@ class LoginConditionsRichText extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: textColor,
           ),
-          text: "Privatumo poltika",
+          text: appLocalizations.privacyPolicy,
           recognizer: TapGestureRecognizer()
-            ..onTap = () => launchUrl(Constants.privacyPolicyUrl),
+            ..onTap = () => launchURL(Constants.privacyPolicyUrl),
         ),
         TextSpan(
             text: " ir ",
@@ -38,17 +49,11 @@ class LoginConditionsRichText extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: textColor,
           ),
-          text: "Naudojimosi taisyklėmis",
+          text: appLocalizations.usageRules,
           recognizer: TapGestureRecognizer()
-            ..onTap = () => launchUrl(Constants.rulesUrl),
+            ..onTap = () => launchURL(Constants.rulesUrl),
         ),
       ]),
     );
-  }
-
-  Future launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    }
   }
 }
