@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/routes.dart';
+import 'package:nephrogo/ui/analytics.dart';
 
 import 'l10n/localizations.dart';
 
@@ -20,6 +21,8 @@ class _AppComponentState extends State<AppComponent> {
   Widget build(BuildContext context) {
     Intl.defaultLocale = 'lt';
 
+    final analytics = Analytics();
+
     return MaterialApp(
       title: 'NephroGo',
       theme: ThemeData(
@@ -32,6 +35,7 @@ class _AppComponentState extends State<AppComponent> {
           errorMaxLines: 5,
         ),
       ),
+      navigatorObservers: [analytics.observer],
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
