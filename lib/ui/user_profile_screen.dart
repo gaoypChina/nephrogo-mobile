@@ -21,6 +21,7 @@ import 'package:nephrogo_api_client/model/user_profile_request.dart';
 
 import 'forms/forms.dart';
 import 'general/app_future_builder.dart';
+import 'general/dialogs.dart';
 import 'general/progress_dialog.dart';
 
 enum UserProfileNextScreenType {
@@ -50,7 +51,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final _apiService = ApiService();
   final _appPreferences = AppPreferences();
 
-  AppLocalizations _appLocalizations;
   FormValidators _formValidators;
 
   var _userProfileMemoizer = AsyncMemoizer<UserProfile>();
@@ -61,9 +61,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   DiabetesTypeEnum _diabetesType;
 
-  get isDiabetic =>
+  bool get isDiabetic =>
       _diabetesType == DiabetesTypeEnum.type1 ||
       _diabetesType == DiabetesTypeEnum.type2;
+
+  AppLocalizations get _appLocalizations => AppLocalizations.of(context);
 
   @override
   void initState() {
@@ -79,7 +81,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     _formValidators = FormValidators(context);
-    _appLocalizations = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -360,13 +361,29 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   Future validateAndSaveUserProfile(BuildContext context) async {
     FocusScope.of(context).unfocus();
-
     if (!_formKey.currentState.validate()) {
+      await showAppDialog(
+        context: context,
+        title: _appLocalizations.error,
+        message: _appLocalizations.formErrorDescription,
+      );
+
       return false;
     }
     _formKey.currentState.save();
 
-    await ProgressDialog(context).showForFuture(_saveUserProfileToApi());
+    await ProgressDialog(context)
+        .showForFuture(_saveUserProfileToApi())
+        .catchError(
+      (e, stackTrace) async {
+        await showAppDialog(
+          context: context,
+          title: _appLocalizations.error,
+          message: _appLocalizations.serverErrorDescription,
+        );
+        return Future.error(e, stackTrace);
+      },
+    );
 
     await _appPreferences.setProfileCreated();
 

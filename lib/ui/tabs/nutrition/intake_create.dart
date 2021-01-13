@@ -8,6 +8,7 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
@@ -43,6 +44,8 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
   final _apiService = ApiService();
   final _intakeBuilder = IntakeRequestBuilder();
 
+  AppLocalizations get _appLocalizations => AppLocalizations.of(context);
+
   DateTime _consumedAt;
 
   @override
@@ -63,8 +66,6 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _appLocalizations = AppLocalizations.of(context);
-
     final formValidators = FormValidators(context);
 
     return Scaffold(
@@ -200,11 +201,27 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     FocusScope.of(context).unfocus();
 
     if (!_formKey.currentState.validate()) {
+      await showAppDialog(
+        context: context,
+        title: _appLocalizations.error,
+        message: _appLocalizations.formErrorDescription,
+      );
+
       return false;
     }
     _formKey.currentState.save();
 
-    final savingFuture = saveIntake(widget.intake?.id, _intakeBuilder.build());
+    final savingFuture =
+        saveIntake(widget.intake?.id, _intakeBuilder.build()).catchError(
+      (e, stackTrace) async {
+        await showAppDialog(
+          context: context,
+          title: _appLocalizations.error,
+          message: _appLocalizations.serverErrorDescription,
+        );
+        return Future.error(e, stackTrace);
+      },
+    );
 
     final intake = await ProgressDialog(context).showForFuture(savingFuture);
 

@@ -10,6 +10,7 @@ import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_future_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo_api_client/model/appetite_enum.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
@@ -407,13 +408,29 @@ class _HealthStatusCreationScreenState
     FocusScope.of(context).unfocus();
 
     if (!_formKey.currentState.validate()) {
+      await showAppDialog(
+        context: context,
+        title: _appLocalizations.error,
+        message: _appLocalizations.formErrorDescription,
+      );
+
       return false;
     }
 
     _formKey.currentState.save();
 
     final savingFuture = _apiService
-        .createOrUpdateDailyHealthStatus(_healthStatusBuilder.build());
+        .createOrUpdateDailyHealthStatus(_healthStatusBuilder.build())
+        .catchError(
+      (e, stackTrace) async {
+        await showAppDialog(
+          context: context,
+          title: _appLocalizations.error,
+          message: _appLocalizations.serverErrorDescription,
+        );
+        return Future.error(e, stackTrace);
+      },
+    );
 
     final dailyHealthStatus =
         await ProgressDialog(context).showForFuture(savingFuture);

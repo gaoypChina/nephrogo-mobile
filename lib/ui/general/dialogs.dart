@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 
-Future showAppDialog({
+Future<void> showAppDialog({
   @required BuildContext context,
   @required String message,
   String title,
