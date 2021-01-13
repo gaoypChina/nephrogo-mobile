@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 
 Future showAppDialog({
   @required BuildContext context,
@@ -15,7 +16,7 @@ Future showAppDialog({
         ),
         actions: [
           TextButton(
-            child: Text('Gerai'),
+            child: Text(AppLocalizations.of(context).ok.toUpperCase()),
             onPressed: () {
               Navigator.of(context).pop();
             },

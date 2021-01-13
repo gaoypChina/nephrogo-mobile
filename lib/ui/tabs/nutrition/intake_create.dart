@@ -70,6 +70,13 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_appLocalizations.mealCreationTitle),
+        actions: <Widget>[
+          if (widget.intake != null)
+            IconButton(
+              icon: Icon(Icons.delete_forever),
+              onPressed: () => deleteIntake(widget.intake.id),
+            ),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => validateAndSaveIntake(context),
@@ -151,6 +158,34 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
         ),
       ),
     );
+  }
+
+  Future deleteIntake(int id) async {
+    final appLocalizations = AppLocalizations.of(context);
+
+    final delete = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(appLocalizations.delete),
+          content: Text(appLocalizations.deleteConfirmation),
+          actions: [
+            TextButton(
+                child: Text(appLocalizations.dialogCancel.toUpperCase()),
+                onPressed: () => Navigator.of(context).pop(false)),
+            TextButton(
+                child: Text(appLocalizations.delete.toUpperCase()),
+                onPressed: () => Navigator.of(context).pop(true)),
+          ],
+        );
+      },
+    );
+
+    if (delete) {
+      final deletingFuture = _apiService.deleteIntake(id);
+      await ProgressDialog(context).showForFuture(deletingFuture);
+      Navigator.pop(context);
+    }
   }
 
   Future<Intake> saveIntake(int id, IntakeRequest intakeRequest) {

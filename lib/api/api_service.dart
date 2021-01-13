@@ -165,6 +165,14 @@ class ApiService {
     );
   }
 
+  Future<void> deleteIntake(int intakeId) {
+    return _nutritionApi.nutritionIntakeDestroy(intakeId).then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
+      },
+    );
+  }
+
   Future<DailyHealthStatus> createOrUpdateDailyHealthStatus(
       DailyHealthStatusRequest dailyHealthStatusRequest) {
     return _healthStatusApi.healthStatusUpdate(dailyHealthStatusRequest).then(
