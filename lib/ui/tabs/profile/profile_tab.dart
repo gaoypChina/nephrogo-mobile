@@ -70,6 +70,20 @@ class ProfileTab extends StatelessWidget {
         BasicSection(
           children: [
             AppListTile(
+              title: Text(appLocalizations.supportPhone),
+              leading: Icon(Icons.call),
+              onTap: () => launchPhone(Constants.supportPhone),
+            ),
+            AppListTile(
+              title: Text(appLocalizations.supportEmail),
+              leading: Icon(Icons.email),
+              onTap: () => launchEmail(Constants.supportEmail),
+            ),
+          ],
+        ),
+        BasicSection(
+          children: [
+            AppListTile(
               title: Text(appLocalizations.logout),
               leading: Icon(Icons.logout),
               onTap: () => _signOut(context),
