@@ -49,7 +49,8 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
   void initState() {
     super.initState();
 
-    _consumedAt = widget.intake?.consumedAt ?? DateTime.now().toLocal();
+    _consumedAt =
+        widget.intake?.consumedAt?.toLocal() ?? DateTime.now().toLocal();
   }
 
   Future<Product> _showProductSearch() {
