@@ -7,8 +7,8 @@ import 'package:nephrogo/ui/general/app_future_builder.dart';
 import 'package:nephrogo/ui/general/app_network_image.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/user_profile_screen.dart';
+import 'package:nephrogo/utils/utils.dart';
 import 'package:package_info/package_info.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ProfileTab extends StatelessWidget {
   static const anonymousPhotoPath = "assets/anonymous_avatar.jpg";
@@ -58,16 +58,12 @@ class ProfileTab extends StatelessWidget {
             AppListTile(
               title: Text(appLocalizations.privacyPolicy),
               leading: Icon(Icons.lock),
-              onTap: () {
-                _launchURL(Constants.privacyPolicyUrl);
-              },
+              onTap: () => launchURL(Constants.privacyPolicyUrl),
             ),
             AppListTile(
               title: Text(appLocalizations.usageRules),
               leading: Icon(Icons.description),
-              onTap: () {
-                _launchURL(Constants.rulesUrl);
-              },
+              onTap: () => launchURL(Constants.rulesUrl),
             ),
           ],
         ),
@@ -88,14 +84,6 @@ class ProfileTab extends StatelessWidget {
         )
       ],
     );
-  }
-
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 
   Future _signOut(BuildContext context) async {

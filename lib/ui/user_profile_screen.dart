@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:nephrogo/api/api_service.dart';
+import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/utils/utils.dart';
 import 'package:nephrogo_api_client/model/chronic_kidney_disease_stage_enum.dart';
 import 'package:nephrogo_api_client/model/diabetes_complications_enum.dart';
 import 'package:nephrogo_api_client/model/diabetes_type_enum.dart';
@@ -82,6 +84,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_appLocalizations.userProfileScreenTitle),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.lock),
+            onPressed: () => launchURL(Constants.privacyPolicyUrl),
+          ),
+        ],
       ),
       floatingActionButton: Builder(builder: (context) {
         return FloatingActionButton.extended(
