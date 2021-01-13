@@ -522,7 +522,7 @@
   "@userProfileSectionDialysisTypePostTransplant": {
     "context": "userProfile"
   },
-  "userProfileSectionDialysisTypePostTransplantDescription": "Praėjo daugiau 6 savaitės",
+  "userProfileSectionDialysisTypePostTransplantDescription": "Praėjo 6 ir daugiau savaičių",
   "@userProfileSectionDialysisTypePostTransplantDescription": {
     "context": "userProfile"
   },
