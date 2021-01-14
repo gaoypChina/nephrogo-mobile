@@ -4,6 +4,7 @@ import 'package:nephrogo/extensions/collection_extensions.dart';
 import 'package:nephrogo/extensions/contract_extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/weekly_health_indicator_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
@@ -88,9 +89,11 @@ class HealthIndicatorsTabBody extends StatelessWidget {
     HealthIndicator indicator,
   ) {
     final appLocalizations = AppLocalizations.of(context);
-    final latestHealthStatus =
-        healthStatusScreenResponse.dailyHealthStatuses.maxBy((e) => e.date);
-    final todayConsumption = latestHealthStatus?.getHealthIndicatorFormatted(
+    final todayHealthStatus = healthStatusScreenResponse.dailyHealthStatuses
+        .where((e) => Date(e.date) == Date(now))
+        .firstOrNull();
+
+    final todayConsumption = todayHealthStatus?.getHealthIndicatorFormatted(
             indicator, appLocalizations) ??
         appLocalizations.noInfo.toLowerCase();
 
