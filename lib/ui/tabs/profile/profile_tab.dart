@@ -93,7 +93,10 @@ class ProfileTab extends StatelessWidget {
         AppFutureBuilder<String>(
           future: _getVersionString(),
           builder: (context, version) {
-            return Center(child: Text(version));
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
+              child: Center(child: Text(version)),
+            );
           },
         )
       ],
