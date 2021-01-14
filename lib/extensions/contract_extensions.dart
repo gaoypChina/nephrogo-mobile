@@ -25,7 +25,7 @@ String _getFormattedNutrient(Nutrient nutrient, int amount) {
     case Nutrient.energy:
       return _formatAmount(amount, "kcal");
     case Nutrient.liquids:
-      return _formatAmount(amount, "ml");
+      return _formatAmount(amount, "g");
     case Nutrient.proteins:
     case Nutrient.sodium:
     case Nutrient.potassium:
@@ -49,7 +49,7 @@ extension DailyIntakesExtensions on DailyIntakesReport {
       case Nutrient.phosphorus:
         return this.phosphorusMg;
       case Nutrient.liquids:
-        return this.liquidsMl;
+        return this.liquidsG;
       case Nutrient.energy:
         return this.energyKcal;
       default:
@@ -81,7 +81,7 @@ extension IntakeExtension on Intake {
       case Nutrient.energy:
         return this.energyKcal;
       case Nutrient.liquids:
-        return this.liquidsMl;
+        return this.liquidsG;
       case Nutrient.proteins:
         return this.proteinsMg;
       case Nutrient.sodium:
