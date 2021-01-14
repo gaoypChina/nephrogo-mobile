@@ -16,7 +16,6 @@ class AppFutureBuilder<T> extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
-            print(snapshot.error);
             return Center(child: Text(snapshot.error.toString()));
           }
 
