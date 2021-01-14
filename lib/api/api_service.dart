@@ -8,6 +8,7 @@ import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:logging/logging.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo_api_client/api.dart';
 import 'package:nephrogo_api_client/api/health_status_api.dart';
@@ -120,7 +121,10 @@ class ApiService {
   }
 
   Future<NutrientScreenResponse> getNutritionScreen() {
-    return _nutritionApi.nutritionScreenRetrieve().then((r) => r.data);
+    return _nutritionApi
+        .nutritionScreenRetrieve()
+        .then((r) => r.data)
+        .reportOnError();
   }
 
   Stream<NutrientScreenResponse> getNutritionScreenStream() {
@@ -132,7 +136,8 @@ class ApiService {
       DateTime from, DateTime to) {
     return _nutritionApi
         .nutritionWeeklyRetrieve(Date(from), Date(to))
-        .then((r) => r.data);
+        .then((r) => r.data)
+        .reportOnError();
   }
 
   Stream<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReportStream(
@@ -144,7 +149,8 @@ class ApiService {
   Future<List<Product>> getProducts(String query) {
     return _nutritionApi
         .nutritionProductsList(query)
-        .then((r) => r.data.toList());
+        .then((r) => r.data.toList())
+        .reportOnError();
   }
 
   Future<Intake> createIntake(IntakeRequest intakeRequest) {
@@ -153,7 +159,7 @@ class ApiService {
         _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
         return r.data;
       },
-    );
+    ).reportOnError();
   }
 
   Future<Intake> updateIntake(int intakeId, IntakeRequest intakeRequest) {
@@ -162,7 +168,7 @@ class ApiService {
         _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
         return r.data;
       },
-    );
+    ).reportOnError();
   }
 
   Future<void> deleteIntake(int intakeId) {
@@ -170,25 +176,31 @@ class ApiService {
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
       },
-    );
+    ).reportOnError();
   }
 
   Future<DailyHealthStatus> createOrUpdateDailyHealthStatus(
       DailyHealthStatusRequest dailyHealthStatusRequest) {
-    return _healthStatusApi.healthStatusUpdate(dailyHealthStatusRequest).then(
-      (r) {
-        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
-        return r.data;
-      },
-    ).catchError(
-      (e) => _healthStatusApi.healthStatusCreate(dailyHealthStatusRequest).then(
-        (r) {
-          _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
-          return r.data;
-        },
-      ),
-      test: (e) => e is DioError && e.response?.statusCode == 404,
-    );
+    return _healthStatusApi
+        .healthStatusUpdate(dailyHealthStatusRequest)
+        .then(
+          (r) {
+            _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+            return r.data;
+          },
+        )
+        .catchError(
+          (e) => _healthStatusApi
+              .healthStatusCreate(dailyHealthStatusRequest)
+              .then(
+            (r) {
+              _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+              return r.data;
+            },
+          ),
+          test: (e) => e is DioError && e.response?.statusCode == 404,
+        )
+        .reportOnError();
   }
 
   Future<DailyHealthStatus> getDailyHealthStatus(
@@ -200,44 +212,56 @@ class ApiService {
         .catchError(
           (e) => null,
           test: (e) => e is DioError && e.response?.statusCode == 404,
-        );
+        )
+        .reportOnError();
   }
 
   Future<UserProfile> createOrUpdateUserProfile(
     UserProfileRequest userProfile,
   ) {
-    return _userApi.userProfileUpdate(userProfile).then(
-      (r) {
-        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
-        _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
+    return _userApi
+        .userProfileUpdate(userProfile)
+        .then(
+          (r) {
+            _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+            _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
 
-        return r.data;
-      },
-    ).catchError(
-      (e) => _userApi
-          .userProfileCreate(
-        userProfile,
-      )
-          .then(
-        (r) {
-          _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
-          _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
+            return r.data;
+          },
+        )
+        .catchError(
+          (e) => _userApi
+              .userProfileCreate(
+            userProfile,
+          )
+              .then(
+            (r) {
+              _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+              _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
 
-          return r.data;
-        },
-      ),
-      test: (e) => e is DioError && e.response?.statusCode == 404,
-    );
+              return r.data;
+            },
+          ),
+          test: (e) => e is DioError && e.response?.statusCode == 404,
+        )
+        .reportOnError();
   }
 
   Future<UserProfile> getUserProfile() {
-    return _userApi.userProfileRetrieve().then((r) => r.data).catchError(
+    return _userApi
+        .userProfileRetrieve()
+        .then((r) => r.data)
+        .catchError(
           (e) => null,
-        );
+        )
+        .reportOnError();
   }
 
   Future<HealthStatusScreenResponse> getHealthStatusScreen() {
-    return _healthStatusApi.healthStatusScreenRetrieve().then((r) => r.data);
+    return _healthStatusApi
+        .healthStatusScreenRetrieve()
+        .then((r) => r.data)
+        .reportOnError();
   }
 
   Stream<HealthStatusScreenResponse> getHealthStatusScreenStream() {
@@ -250,7 +274,8 @@ class ApiService {
       DateTime from, DateTime to) {
     return _healthStatusApi
         .healthStatusWeeklyRetrieve(Date(from), Date(to))
-        .then((r) => r.data);
+        .then((r) => r.data)
+        .reportOnError();
   }
 
   Stream<HealthStatusWeeklyScreenResponse> getWeeklyHealthStatusReportsStream(
