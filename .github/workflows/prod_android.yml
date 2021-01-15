@@ -2,7 +2,7 @@ name: NephroGo Android Production
 on:
   push:
     tags:
-      - *
+      - '*'
 
 jobs:
   build_android:
