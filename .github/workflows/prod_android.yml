@@ -2,7 +2,7 @@ name: NephroGo Android Production
 on:
   push:
     tags:
-      - v*
+      - *
 
 jobs:
   build_android:
@@ -47,7 +47,7 @@ jobs:
 
       - run: flutter test
 
-      - run: flutter build appbundle --build-number ${{ env.BUILD_NUMBER }} --build-name=${{ env.RELEASE_VERSION:1 }}
+      - run: flutter build appbundle --build-number ${{ env.BUILD_NUMBER }} --build-name=${{ env.RELEASE_VERSION }}
         env:
           KEY_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
