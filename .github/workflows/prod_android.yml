@@ -1,0 +1,98 @@
+name: NephroGo Android Production
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build_android:
+    name: Build Android NephroGo
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+
+      - name: Set build number
+        run: echo "BUILD_NUMBER=$(git rev-list --count HEAD)" >> $GITHUB_ENV
+
+      - name: Set env from tag
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/:1}" >> $GITHUB_ENV
+
+      - name: Version
+        run: echo ${{ env.RELEASE_VERSION }}
+
+      - name: Build number
+        run: echo ${{ env.BUILD_NUMBER }}
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '15.x'
+
+      - run: echo $ANDROID_SIGNING_KEY_BASE64 | base64 -d > android/app/key.jks
+        env:
+          ANDROID_SIGNING_KEY_BASE64: ${{ secrets.ANDROID_SIGNING_KEY_BASE64 }}
+
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+
+      - run: dart --version
+      - run: flutter --version
+
+      - run: flutter pub get
+
+      - run: flutter analyze
+
+      - run: flutter test
+
+      - run: flutter build appbundle --build-number ${{ env.BUILD_NUMBER }} --build-name=${{ env.RELEASE_VERSION }}
+        env:
+          KEY_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_SIGNING_KEY_ALIAS }}
+          KEY_PATH: key.jks
+
+      - uses: actions/upload-artifact@v2
+        name: Upload Android AAB
+        with:
+          name: app-release.aab
+          path: build/app/outputs/bundle/release/app-release.aab
+
+      - uses: actions/upload-artifact@v2
+        name: Upload Proguard mapping.txt
+        with:
+          name: mapping.txt
+          path: build/app/outputs/mapping/release/mapping.txt
+
+      - uses: actions/upload-artifact@v2
+        name: Upload pubspec.lock
+        with:
+          name: pubspec.lock
+          path: pubspec.lock
+
+
+  deploy_google_play:
+    name: Google play deploy production
+    runs-on: ubuntu-20.04
+    needs: build_android
+    steps:
+      - name: Download AAB
+        uses: actions/download-artifact@v2
+        with:
+          name: app-release.aab
+
+      - name: Download mapping.txt
+        uses: actions/download-artifact@v2
+        with:
+          name: mapping.txt
+
+      - uses: r0adkll/upload-google-play@v1
+        name: Upload to Google play
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
+          packageName: com.nephrogo
+          releaseFiles: app-release.aab
+          mappingFile: mapping.txt
+          track: beta
