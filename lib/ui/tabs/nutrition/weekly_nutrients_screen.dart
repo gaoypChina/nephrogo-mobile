@@ -4,6 +4,7 @@ import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
+import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/nutrient_weekly_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
@@ -11,6 +12,8 @@ import 'package:nephrogo/ui/general/weekly_pager.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
+
+import 'intake_create.dart';
 
 class WeeklyNutrientsScreenArguments {
   final Nutrient nutrient;
@@ -305,6 +308,10 @@ class IndicatorIntakeTile extends StatelessWidget {
       ),
       leading: ProductKindIcon(productKind: product.productKind),
       trailing: Text(intake.getNutrientAmountFormatted(nutrient)),
+      onTap: () => Navigator.of(context).pushNamed(
+        Routes.ROUTE_INTAKE_CREATE,
+        arguments: IntakeCreateScreenArguments(intake: intake),
+      ),
     );
   }
 }
