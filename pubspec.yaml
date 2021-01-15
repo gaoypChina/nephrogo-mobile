@@ -56,7 +56,6 @@ dependencies:
   firebase_core: 0.5.3
   firebase_analytics: ^6.3.0
   firebase_crashlytics: ^0.2.4
-  firebase_performance: ^0.4.3
   firebase_messaging: ^7.0.3
 
   firebase_auth: ^0.18.4+1
