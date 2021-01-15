@@ -155,12 +155,12 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dailyIntakeReportsWithIntakesSorted = dailyIntakesReports
-        .sortedBy((e) => e.date)
-        .where((di) => di.intakes.isNotEmpty);
-
     final hasIntakes =
         dailyIntakesReports.expand((di) => di.intakes).isNotEmpty;
+
+    final dailyIntakeReportsWithIntakesSorted = dailyIntakesReports
+        .where((di) => di.intakes.isNotEmpty)
+        .sortedBy((e) => e.date, reverse: true);
 
     return Visibility(
       visible: hasIntakes,
@@ -212,6 +212,8 @@ class DailyIntakeSection extends StatelessWidget {
         dailyIntakesReport.getNutrientNormFormatted(nutrient);
     final totalFormatted =
         dailyIntakesReport.getNutrientTotalAmountFormatted(nutrient);
+    final intakesSorted =
+        dailyIntakesReport.intakes.sortedBy((e) => e.consumedAt, reverse: true);
 
     double ratio;
 
@@ -225,14 +227,10 @@ class DailyIntakeSection extends StatelessWidget {
       leading: ratio != null ? _getVisualIndicator(ratio) : null,
       subTitle:
           getSubtitle(appLocalizations, totalFormatted, dailyNormFormatted),
-      children: dailyIntakesReport.intakes
-          .map(
-            (intake) => IndicatorIntakeTile(
-              intake: intake,
-              nutrient: nutrient,
-            ),
-          )
-          .toList(),
+      children: [
+        for (final intake in intakesSorted)
+          IndicatorIntakeTile(intake: intake, nutrient: nutrient)
+      ],
     );
   }
 
