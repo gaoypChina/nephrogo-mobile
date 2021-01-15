@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
+import 'package:nephrogo/ui/analytics.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 enum SocialAuthenticationProvider {
@@ -33,14 +34,17 @@ class AuthenticationProvider {
   static final AuthenticationProvider _singleton =
       AuthenticationProvider._internal();
 
+  final _auth = FirebaseAuth.instance;
+  final _appPreferences = AppPreferences();
+  final _analytics = Analytics();
+
   factory AuthenticationProvider() {
     return _singleton;
   }
 
-  AuthenticationProvider._internal();
-
-  final _auth = FirebaseAuth.instance;
-  final _appPreferences = AppPreferences();
+  AuthenticationProvider._internal() {
+    _auth.authStateChanges().forEach(_onAuthStateChange);
+  }
 
   User get currentUser => _auth.currentUser;
 
@@ -53,6 +57,14 @@ class AuthenticationProvider {
     }
 
     return photoURL.replaceFirst("/s96-c/", "/s300-c/") + "?height=300";
+  }
+
+  Future<void> _onAuthStateChange(User user) async {
+    await _analytics.setUserId(user?.uid);
+
+    if (user != null) {
+      await _analytics.logUserLogin();
+    }
   }
 
   Future<String> idToken([bool forceRefresh = false]) =>
