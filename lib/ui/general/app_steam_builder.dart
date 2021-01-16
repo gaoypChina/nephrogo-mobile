@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/ui/general/progress_indicator.dart';
 
+import 'error_state.dart';
+
 class AppStreamBuilder<T> extends StatelessWidget {
   final Stream<T> stream;
   final Widget Function(BuildContext context, T data) builder;
@@ -17,7 +19,7 @@ class AppStreamBuilder<T> extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active ||
             snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
+            return ErrorStateWidget(errorText: snapshot.error.toString());
           }
 
           return builder(context, snapshot.data);

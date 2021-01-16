@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/ui/general/progress_indicator.dart';
 
+import 'error_state.dart';
+
 class AppFutureBuilder<T> extends StatelessWidget {
   final Future<T> future;
   final Widget Function(BuildContext context, T data) builder;
@@ -16,7 +18,7 @@ class AppFutureBuilder<T> extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
+            return ErrorStateWidget(errorText: snapshot.error.toString());
           }
 
           return builder(context, snapshot.data);
