@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
-import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
@@ -35,8 +35,6 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
   final _appPreferences = AppPreferences();
 
-  AppLocalizations get _appLocalizations => AppLocalizations.of(context);
-
   bool agreedToConditions = false;
 
   @override
@@ -56,7 +54,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           child: SignInButton(
             Buttons.Google,
             padding: const EdgeInsets.all(8),
-            text: "Prisijungti su Google",
+            text: appLocalizations.loginGoogle,
             onPressed: () => _loginWithSocial(
               context,
               SocialAuthenticationProvider.google,
@@ -68,7 +66,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           child: SignInButton(
             Buttons.Facebook,
             padding: const EdgeInsets.all(16),
-            text: "Prisijungti su Facebook",
+            text: appLocalizations.loginFacebook,
             onPressed: () => _loginWithSocial(
               context,
               SocialAuthenticationProvider.facebook,
@@ -81,7 +79,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
             child: SignInButton(
               Buttons.AppleDark,
               padding: const EdgeInsets.all(16),
-              text: "Prisijungti su Apple",
+              text: appLocalizations.loginApple,
               onPressed: () => _loginWithSocial(
                 context,
                 SocialAuthenticationProvider.apple,
@@ -93,7 +91,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           child: SignInButton(
             Buttons.Email,
             padding: const EdgeInsets.all(16),
-            text: "Prisijungti su el. paštu",
+            text: appLocalizations.loginEmail,
             onPressed: () => _loginUsingEmail(context),
           ),
         ),
@@ -117,18 +115,18 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           content: Container(
             child: LoginConditionsRichText(
               textColor: Colors.black,
-              baseText: _appLocalizations.loginConditionsIAgree,
+              baseText: appLocalizations.loginConditionsIAgree,
               textAlign: TextAlign.start,
             ),
           ),
           actions: [
             FlatButton(
               onPressed: () => Navigator.pop(context, false),
-              child: Text(_appLocalizations.disagree.toUpperCase()),
+              child: Text(appLocalizations.disagree.toUpperCase()),
             ),
             FlatButton(
               onPressed: () => Navigator.pop(context, true),
-              child: Text(_appLocalizations.agree.toUpperCase()),
+              child: Text(appLocalizations.agree.toUpperCase()),
             ),
           ],
         );

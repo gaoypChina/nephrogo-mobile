@@ -16,6 +16,8 @@
   "@save": {},
   "ok": "Gerai",
   "@ok": {},
+  "and": "Ir",
+  "@and": {},
   "agree": "Sutinku",
   "@agree": {},
   "disagree": "Nesutinku",
@@ -774,5 +776,21 @@
   "healthStatusCreationShortnessOfBreathBackbreakingHelper": "Dūstama esant labai mažam fiziniam krūviui (atsikėlus iš lovos, apsirengus, nusiprausus, pavaikščiojus po kambarį) ir ramybėje.",
   "@healthStatusCreationShortnessOfBreathBackbreakingHelper": {
     "context": "healthStatusCreation"
+  },
+  "loginGoogle": "Prisijungti su Google",
+  "@loginGoogle": {
+    "context": "authentication:login"
+  },
+  "loginFacebook": "Prisijungti su Facebook",
+  "@loginFacebook": {
+    "context": "authentication:login"
+  },
+  "loginApple": "Prisijungti su Apple",
+  "@loginApple": {
+    "context": "authentication:login"
+  },
+  "loginEmail": "Prisijungti su el. paštu",
+  "@loginEmail": {
+    "context": "authentication:login"
   }
 }
