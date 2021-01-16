@@ -6,6 +6,7 @@ import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
+import 'package:nephrogo_api_client/model/product.dart';
 import 'package:nephrogo_api_client/model/shortness_of_breath_enum.dart';
 import 'package:nephrogo_api_client/model/swelling_difficulty_enum.dart';
 import 'package:nephrogo_api_client/model/swelling_enum.dart';
@@ -34,6 +35,40 @@ String _getFormattedNutrient(Nutrient nutrient, int amount) {
     default:
       throw ArgumentError.value(
           nutrient, "nutrient", "Unable to map nutrient to amount");
+  }
+}
+
+extension ProductExtensions on Product {
+  num _getNutrientAmount(Nutrient nutrient) {
+    switch (nutrient) {
+      case Nutrient.potassium:
+        return this.potassiumMg;
+      case Nutrient.proteins:
+        return this.proteinsMg;
+      case Nutrient.sodium:
+        return this.sodiumMg;
+      case Nutrient.phosphorus:
+        return this.phosphorusMg;
+      case Nutrient.liquids:
+        return this.liquidsG;
+      case Nutrient.energy:
+        return this.energyKcal;
+      default:
+        throw ArgumentError.value(
+            nutrient, "nutrient", "Unable to map indicator to amount");
+    }
+  }
+
+  int _calculateTotalAmount(Nutrient nutrient, int amountG) {
+    final nutrientAmount = _getNutrientAmount(nutrient);
+    final nutrientAmountRatio = (amountG / 100);
+
+    return (nutrientAmount * nutrientAmountRatio).round();
+  }
+
+  String getFormattedTotalAmount(Nutrient nutrient, int amountG) {
+    return _getFormattedNutrient(
+        nutrient, _calculateTotalAmount(nutrient, amountG));
   }
 }
 

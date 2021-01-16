@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
@@ -44,6 +45,9 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
   final _apiService = ApiService();
   final _intakeBuilder = IntakeRequestBuilder();
 
+  Product selectedProduct;
+  int amountG;
+
   AppLocalizations get _appLocalizations => AppLocalizations.of(context);
 
   DateTime _consumedAt;
@@ -51,6 +55,9 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
   @override
   void initState() {
     super.initState();
+
+    selectedProduct = widget.intake?.product ?? widget.initialProduct;
+    amountG = widget.intake?.amountG;
 
     _consumedAt =
         widget.intake?.consumedAt?.toLocal() ?? DateTime.now().toLocal();
@@ -67,10 +74,13 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
   @override
   Widget build(BuildContext context) {
     final formValidators = FormValidators(context);
+    final title = widget.intake == null
+        ? _appLocalizations.mealCreationTitle
+        : _appLocalizations.mealUpdateTitle;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_appLocalizations.mealCreationTitle),
+        title: Text(title),
         actions: <Widget>[
           if (widget.intake != null)
             IconButton(
@@ -95,12 +105,16 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
               children: [
                 AppSelectionScreenFormField<Product>(
                   labelText: _appLocalizations.mealCreationProduct,
-                  initialSelection:
-                      widget.intake?.product ?? widget.initialProduct,
+                  initialSelection: selectedProduct,
                   iconData: Icons.restaurant_outlined,
                   itemToStringConverter: (p) => p.name,
                   onTap: (context) => _showProductSearch(),
                   validator: formValidators.nonNull(),
+                  onChanged: (p) {
+                    setState(() {
+                      selectedProduct = p;
+                    });
+                  },
                   onSaved: (p) => _intakeBuilder.productId = p.id,
                 ),
                 AppIntegerFormField(
@@ -112,10 +126,16 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                     formValidators.numRangeValidator(1, 10000),
                   ),
                   iconData: Icons.kitchen,
+                  onChanged: (g) {
+                    setState(() {
+                      amountG = g;
+                    });
+                  },
                   onSaved: (value) => _intakeBuilder.amountG = value,
                 ),
               ],
             ),
+            _buildNutrientsSection(),
             SmallSection(
               title: _appLocalizations.mealCreationDatetimeSectionTitle,
               showDividers: false,
@@ -226,5 +246,71 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     final intake = await ProgressDialog(context).showForFuture(savingFuture);
 
     Navigator.pop(context, intake);
+  }
+
+  Widget _buildNutrientTile(Nutrient nutrient) {
+    String amountText = "-";
+    if (selectedProduct != null && amountG != null && amountG > 0) {
+      amountText = selectedProduct.getFormattedTotalAmount(nutrient, amountG);
+    }
+
+    return AppListTile(
+      title: Text(nutrient.name(_appLocalizations)),
+      trailing: Text(amountText),
+      dense: true,
+    );
+  }
+
+  Widget _buildNutrientsSection() {
+    return SmallSection(
+      title: _appLocalizations.total,
+      children: [
+        for (final nutrient in Nutrient.values) _buildNutrientTile(nutrient)
+      ],
+    );
+
+    return Table(
+      children: [
+        TableRow(children: [
+          TableCell(child: Text('Natris')),
+          TableCell(child: Text('2.63 g')),
+        ]),
+        TableRow(children: [
+          TableCell(child: Text('Natris')),
+          TableCell(child: Text('2.63 g')),
+        ]),
+      ],
+    );
+
+    return Container(
+      color: Colors.white,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Icon(Icons.liquor, size: 48, color: Colors.deepOrange),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "MAGNIS",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontWeight: FontWeight.w300),
+                ),
+                Text(
+                  "2.63 g",
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

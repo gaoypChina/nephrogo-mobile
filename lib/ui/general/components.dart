@@ -176,6 +176,7 @@ class AppListTile extends StatelessWidget {
   final Widget trailing;
   final GestureTapCallback onTap;
   final bool selected;
+  final bool dense;
   final EdgeInsetsGeometry contentPadding;
 
   const AppListTile({
@@ -187,6 +188,7 @@ class AppListTile extends StatelessWidget {
     this.onTap,
     this.contentPadding,
     this.selected: false,
+    this.dense: false,
   }) : super(key: key);
 
   @override
@@ -196,6 +198,7 @@ class AppListTile extends StatelessWidget {
       leading: leading,
       title: title,
       subtitle: subtitle,
+      dense: dense,
       trailing: trailing ?? (onTap != null ? Icon(Icons.chevron_right) : null),
       onTap: onTap,
       selected: selected,

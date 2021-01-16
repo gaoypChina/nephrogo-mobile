@@ -26,6 +26,8 @@
   "@loginConditionsIAgree": {},
   "error": "Klaida",
   "@error": {},
+  "total": "Iš viso",
+  "@total": {},
   "betaDisclaimer": "Tai NephroGo bandomoji versija. Apie visas pastebėtas klaidas ar netikslumus prašome pranešti kūrėjams",
   "@betaDisclaimer": {},
   "supportEmail": "Pagalba elektroniniu paštu",
@@ -408,6 +410,10 @@
   },
   "mealCreationTitle": "Valgio ar gėrimo sukūrimas",
   "@mealCreationTitle": {
+    "context": "mealCreation"
+  },
+  "mealUpdateTitle": "Valgio ar gėrimo atnaujinimas",
+  "@mealUpdateTitle": {
     "context": "mealCreation"
   },
   "mealCreationMealSectionTitle": "Valgis arba gėrimas",

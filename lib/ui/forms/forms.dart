@@ -26,6 +26,7 @@ class AppTextFormField extends StatelessWidget {
   final IconData iconData;
   final FormFieldValidator<String> validator;
   final FormFieldSetter<String> onSaved;
+  final FormFieldSetter<String> onChanged;
   final TextInputType keyboardType;
   final List<TextInputFormatter> inputFormatters;
   final String suffixText;
@@ -42,6 +43,7 @@ class AppTextFormField extends StatelessWidget {
     Key key,
     @required this.labelText,
     this.onSaved,
+    this.onChanged,
     this.helperText,
     this.hintText,
     this.iconData,
@@ -76,6 +78,7 @@ class AppTextFormField extends StatelessWidget {
         ),
         validator: validator,
         onSaved: onSaved,
+        onChanged: onChanged,
         keyboardType: keyboardType,
         inputFormatters: inputFormatters,
         controller: controller,
@@ -513,6 +516,7 @@ class AppIntegerFormField extends StatelessWidget {
   final IconData iconData;
   final FormFieldValidator<int> validator;
   final FormFieldSetter<int> onSaved;
+  final FormFieldSetter<int> onChanged;
   final String suffixText;
 
   const AppIntegerFormField({
@@ -525,6 +529,7 @@ class AppIntegerFormField extends StatelessWidget {
     this.validator,
     this.suffixText,
     this.hintText,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -537,6 +542,7 @@ class AppIntegerFormField extends StatelessWidget {
       validator: _validator,
       initialValue: initialValue?.toString(),
       onSaved: onSaved != null ? _onSaved : null,
+      onChanged: onChanged != null ? _onChanged : null,
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       suffixText: suffixText,
@@ -551,10 +557,20 @@ class AppIntegerFormField extends StatelessWidget {
     return validator(int.tryParse(text));
   }
 
+  int _parseToInt(String v) {
+    return (v != null && v.isNotEmpty) ? int.parse(v) : null;
+  }
+
   _onSaved(String v) {
-    int n = (v != null && v.isNotEmpty) ? int.parse(v) : null;
+    final n = _parseToInt(v);
 
     this.onSaved(n);
+  }
+
+  _onChanged(String v) {
+    final n = _parseToInt(v);
+
+    this.onChanged(n);
   }
 }
 
