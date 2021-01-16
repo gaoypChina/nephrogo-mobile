@@ -268,49 +268,5 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
         for (final nutrient in Nutrient.values) _buildNutrientTile(nutrient)
       ],
     );
-
-    return Table(
-      children: [
-        TableRow(children: [
-          TableCell(child: Text('Natris')),
-          TableCell(child: Text('2.63 g')),
-        ]),
-        TableRow(children: [
-          TableCell(child: Text('Natris')),
-          TableCell(child: Text('2.63 g')),
-        ]),
-      ],
-    );
-
-    return Container(
-      color: Colors.white,
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Icon(Icons.liquor, size: 48, color: Colors.deepOrange),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "MAGNIS",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6
-                      .copyWith(fontWeight: FontWeight.w300),
-                ),
-                Text(
-                  "2.63 g",
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
   }
 }
