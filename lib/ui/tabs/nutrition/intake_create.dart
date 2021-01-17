@@ -135,7 +135,6 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                 ),
               ],
             ),
-            _buildNutrientsSection(),
             SmallSection(
               title: _appLocalizations.mealCreationDatetimeSectionTitle,
               showDividers: false,
@@ -175,6 +174,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                 ),
               ],
             ),
+            _buildNutrientsSection(),
           ],
         ),
       ),
