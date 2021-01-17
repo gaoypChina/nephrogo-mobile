@@ -95,4 +95,4 @@ jobs:
           packageName: com.nephrogo
           releaseFiles: app-release.aab
           mappingFile: mapping.txt
-          track: beta
+          track: production
