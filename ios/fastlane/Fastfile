@@ -16,12 +16,17 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Push a new beta build to Firebase Beta"
-  lane :beta do
+  desc "Prepares environment for CI"
+  lane :prepare_ci do
+    setup_ci(provider: "travis")
     # get_certificates           # invokes cert
     # get_provisioning_profile   # invokes sigh
-    setup_ci(provider: "travis")
     sync_code_signing(type: "appstore", app_identifier: "com.nephrogo", git_url: "https://github.com/vycius/apple-ios-certficates.git", readonly: true)
+  end
+
+  desc "Push a new beta build to Firebase Beta"
+  lane :beta do
+    prepare_ci
     build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     firebase_app_distribution(
         app: "1:59243708382:ios:118cbcbc535335b57ce74f",
@@ -31,8 +36,7 @@ platform :ios do
 
   desc "Push a new release build to the App Store"
   lane :release do
-    setup_ci(provider: "travis")
-    sync_code_signing(type: "appstore", app_identifier: "com.nephrogo", git_url: "https://github.com/vycius/apple-ios-certficates.git", readonly: true)
+    prepare_ci
     build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     upload_to_app_store
   end
