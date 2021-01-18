@@ -42,3 +42,7 @@ app.*.map.json
 /.gradle/
 /local.properties
 /pubspec.lock
+
+# iOS
+/ios/build
+/ios/Podfile.lock
