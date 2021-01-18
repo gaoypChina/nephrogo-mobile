@@ -47,7 +47,7 @@ jobs:
 
       - run: flutter test
 
-      - run: flutter build appbundle --build-number ${{ env.BUILD_NUMBER }} --build-name=${{ env.RELEASE_VERSION }}
+      - run: flutter build appbundle --build-number ${{ env.BUILD_NUMBER }} --build-name ${{ env.RELEASE_VERSION }}
         env:
           KEY_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
