@@ -1,5 +1,8 @@
 name: NephroGo iOS Production
-on: [push]
+on:
+  push:
+    tags:
+      - '*'
 
 jobs:
   release_ios:
@@ -12,14 +15,22 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set build number
+        run: echo "BUILD_NUMBER=$(git rev-list --count HEAD)" >> $GITHUB_ENV
+
+      - name: Set env from tag
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Version
+        run: echo ${{ env.RELEASE_VERSION }}
+
+      - name: Build number
+        run: echo ${{ env.BUILD_NUMBER }}
+
       - run: echo $IOS_APPSTORE_API_KEY_JSON > ios/fastlane/app-store-key.json
         name: Create AppStore connect API key json for Fastlane
         env:
           IOS_APPSTORE_API_KEY_JSON: ${{ secrets.IOS_APPSTORE_API_KEY_JSON }}
-
-
-      - name: Set build number
-        run: echo "BUILD_NUMBER=$(git rev-list --count HEAD)" >> $GITHUB_ENV
 
       - uses: actions/setup-ruby@v1
         with:
@@ -38,7 +49,7 @@ jobs:
 
       - run: flutter test
 
-      - run: flutter build ios --release --no-codesign --build-number ${{ env.BUILD_NUMBER }}
+      - run: flutter build ios --release --no-codesign --build-number ${{ env.BUILD_NUMBER }} --build-name ${{ env.RELEASE_VERSION }}
 
       - uses: maierj/fastlane-action@v2.0.0
         with:
