@@ -8,6 +8,7 @@ jobs:
   build_android:
     name: Build Android NephroGo
     runs-on: ubuntu-20.04
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@master
@@ -77,6 +78,7 @@ jobs:
     name: Google play deploy production
     runs-on: ubuntu-20.04
     needs: build_android
+    timeout-minutes: 10
     steps:
       - name: Download AAB
         uses: actions/download-artifact@v2
