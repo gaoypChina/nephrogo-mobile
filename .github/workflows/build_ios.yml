@@ -15,6 +15,11 @@ jobs:
       - name: Set build number
         run: echo "BUILD_NUMBER=$(git rev-list --count HEAD)" >> $GITHUB_ENV
 
+      - run: echo $IOS_APPSTORE_API_KEY_JSON > ios/fastlane/app-store-key.json
+        name: Create AppStore connect API key json for Fastlane
+        env:
+          IOS_APPSTORE_API_KEY_JSON: ${{ secrets.IOS_APPSTORE_API_KEY_JSON }}
+
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: '2.7'
