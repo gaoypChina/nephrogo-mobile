@@ -39,7 +39,7 @@ platform :ios do
     prepare_ci
     build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     upload_to_app_store(
-        api_key_path: "fastlane/app-store-key.json"
+        api_key_path: "fastlane/app-store-key.json",
         force: true,
         skip_metadata: true,
         skip_screenshots: true,
