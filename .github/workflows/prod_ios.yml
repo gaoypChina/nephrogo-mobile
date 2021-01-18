@@ -9,7 +9,6 @@ jobs:
     name: Release iOS NephroGo
     runs-on: macos-10.15
     timeout-minutes: 45
-
     steps:
       - uses: actions/checkout@master
         with:
