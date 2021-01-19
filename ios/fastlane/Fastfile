@@ -28,7 +28,7 @@ platform :ios do
   lane :beta do
     prepare_ci
     build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
-    upload_to_testflight(api_key_path: "fastlane/app-store-key.json")
+    # upload_to_testflight(api_key_path: "fastlane/app-store-key.json")
     firebase_app_distribution(
         app: "1:59243708382:ios:118cbcbc535335b57ce74f",
         groups: "internal"
