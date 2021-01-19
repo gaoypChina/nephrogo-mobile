@@ -120,7 +120,7 @@ class NutrientWeeklyBarChart extends StatelessWidget {
 
       final normFormatted = di.getNutrientNormFormatted(nutrient);
       if (normFormatted != null) {
-        final percent = (y / norm).round().toString();
+        final percent = (y / norm * 100).round().toString();
         tooltip = appLocalizations.consumptionTooltipWithNorm(
             dateFormatted, percent, dailyTotalFormatted, normFormatted);
       }
