@@ -508,7 +508,7 @@ class _AppTimePickerFormFieldState extends State<AppTimePickerFormField> {
   }
 }
 
-class AppIntegerFormField extends StatelessWidget {
+class AppIntegerFormField extends StatefulWidget {
   final String labelText;
   final String helperText;
   final String hintText;
@@ -533,28 +533,42 @@ class AppIntegerFormField extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _AppIntegerFormFieldState createState() => _AppIntegerFormFieldState();
+}
+
+class _AppIntegerFormFieldState extends State<AppIntegerFormField> {
+  int selectedInteger;
+
+  @override
+  void initState() {
+    super.initState();
+
+    selectedInteger = widget.initialValue;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AppTextFormField(
-      labelText: labelText,
-      helperText: helperText,
-      hintText: hintText,
-      iconData: iconData,
+      labelText: widget.labelText,
+      helperText: widget.helperText,
+      hintText: widget.hintText,
+      iconData: widget.iconData,
       validator: _validator,
-      initialValue: initialValue?.toString(),
-      onSaved: onSaved != null ? _onSaved : null,
-      onChanged: onChanged != null ? _onChanged : null,
+      initialValue: selectedInteger?.toString(),
+      onSaved: widget.onSaved != null ? _onSaved : null,
+      onChanged: widget.onChanged != null ? _onChanged : null,
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      suffixText: suffixText,
+      suffixText: widget.suffixText,
     );
   }
 
   String _validator(String text) {
-    if (validator == null) {
+    if (widget.validator == null) {
       return null;
     }
 
-    return validator(int.tryParse(text));
+    return widget.validator(selectedInteger);
   }
 
   int _parseToInt(String v) {
@@ -562,15 +576,15 @@ class AppIntegerFormField extends StatelessWidget {
   }
 
   _onSaved(String v) {
-    final n = _parseToInt(v);
+    selectedInteger = _parseToInt(v);
 
-    this.onSaved(n);
+    this.widget.onSaved(selectedInteger);
   }
 
   _onChanged(String v) {
-    final n = _parseToInt(v);
+    selectedInteger = _parseToInt(v);
 
-    this.onChanged(n);
+    this.widget.onChanged(selectedInteger);
   }
 }
 
