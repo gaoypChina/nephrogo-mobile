@@ -1,5 +1,11 @@
 name: NephroGo iOS CI
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
 
 jobs:
   build_ios:
