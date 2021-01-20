@@ -225,9 +225,15 @@ class IntakeTile extends StatelessWidget {
         dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst(),
       ),
       leading: ProductKindIcon(productKind: intake.product.productKind),
-      trailing: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(intake.getAmountFormatted()),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(intake.getAmountFormatted()),
+          ),
+          Icon(Icons.chevron_right),
+        ],
       ),
       onTap: () => Navigator.of(context).pushNamed(
         Routes.ROUTE_INTAKE_CREATE,

@@ -299,15 +299,22 @@ class IndicatorIntakeTile extends StatelessWidget {
     final dateFormatted =
         dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
 
-    return ListTile(
+    return AppListTile(
       key: Key("IndicatorIntakeTile-$nutrient-${intake.id}"),
       title: Text(product.name),
       contentPadding: EdgeInsets.zero,
-      subtitle: Text(
-        "${intake.getAmountFormatted()} | $dateFormatted",
-      ),
+      subtitle: Text("${intake.getAmountFormatted()} | $dateFormatted"),
       leading: ProductKindIcon(productKind: product.productKind),
-      trailing: Text(intake.getNutrientAmountFormatted(nutrient)),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(intake.getNutrientAmountFormatted(nutrient)),
+          ),
+          Icon(Icons.chevron_right),
+        ],
+      ),
       onTap: () => Navigator.of(context).pushNamed(
         Routes.ROUTE_INTAKE_CREATE,
         arguments: IntakeCreateScreenArguments(intake: intake),
