@@ -96,86 +96,88 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
       ),
       body: Form(
         key: _formKey,
-        child: ListView(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.only(bottom: 64),
-          children: <Widget>[
-            SmallSection(
-              title: _appLocalizations.mealCreationMealSectionTitle,
-              showDividers: false,
-              children: [
-                AppSelectionScreenFormField<Product>(
-                  labelText: _appLocalizations.mealCreationProduct,
-                  initialSelection: selectedProduct,
-                  iconData: Icons.restaurant_outlined,
-                  itemToStringConverter: (p) => p.name,
-                  onTap: (context) => _showProductSearch(),
-                  validator: formValidators.nonNull(),
-                  onChanged: (p) {
-                    setState(() {
-                      selectedProduct = p;
-                    });
-                  },
-                  onSaved: (p) => _intakeBuilder.productId = p.id,
-                ),
-                AppIntegerFormField(
-                  labelText: _appLocalizations.mealCreationQuantity,
-                  initialValue: widget.intake?.amountG,
-                  suffixText: "g",
-                  validator: formValidators.and(
-                    formValidators.nonNull(),
-                    formValidators.numRangeValidator(1, 10000),
+          child: Column(
+            children: <Widget>[
+              SmallSection(
+                title: _appLocalizations.mealCreationMealSectionTitle,
+                showDividers: false,
+                children: [
+                  AppSelectionScreenFormField<Product>(
+                    labelText: _appLocalizations.mealCreationProduct,
+                    initialSelection: selectedProduct,
+                    iconData: Icons.restaurant_outlined,
+                    itemToStringConverter: (p) => p.name,
+                    onTap: (context) => _showProductSearch(),
+                    validator: formValidators.nonNull(),
+                    onChanged: (p) {
+                      setState(() {
+                        selectedProduct = p;
+                      });
+                    },
+                    onSaved: (p) => _intakeBuilder.productId = p.id,
                   ),
-                  iconData: Icons.kitchen,
-                  onChanged: (g) {
-                    setState(() {
-                      amountG = g;
-                    });
-                  },
-                  onSaved: (value) => _intakeBuilder.amountG = value,
-                ),
-              ],
-            ),
-            SmallSection(
-              title: _appLocalizations.mealCreationDatetimeSectionTitle,
-              showDividers: false,
-              children: [
-                AppDatePickerFormField(
-                  initialDate: _consumedAt,
-                  selectedDate: _consumedAt,
-                  firstDate: DateTime(2020),
-                  lastDate: DateTime.now(),
-                  validator: formValidators.nonNull(),
-                  dateFormat: _dateFormat,
-                  iconData: Icons.calendar_today,
-                  onDateChanged: (dt) {
-                    final ldt = dt.toLocal();
-                    _consumedAt = DateTime(
-                      ldt.year,
-                      ldt.month,
-                      ldt.day,
-                      _consumedAt.hour,
-                      _consumedAt.minute,
-                    );
-                  },
-                  onDateSaved: (dt) =>
-                      _intakeBuilder.consumedAt = _consumedAt.toUtc(),
-                  labelText: _appLocalizations.mealCreationDate,
-                ),
-                AppTimePickerFormField(
-                  labelText: _appLocalizations.mealCreationTime,
-                  iconData: Icons.access_time,
-                  initialTime: TimeOfDay(
-                    hour: _consumedAt.hour,
-                    minute: _consumedAt.minute,
+                  AppIntegerFormField(
+                    labelText: _appLocalizations.mealCreationQuantity,
+                    initialValue: widget.intake?.amountG,
+                    suffixText: "g",
+                    validator: formValidators.and(
+                      formValidators.nonNull(),
+                      formValidators.numRangeValidator(1, 10000),
+                    ),
+                    iconData: Icons.kitchen,
+                    onChanged: (g) {
+                      setState(() {
+                        amountG = g;
+                      });
+                    },
+                    onSaved: (value) => _intakeBuilder.amountG = value,
                   ),
-                  onTimeChanged: (t) => _consumedAt = _consumedAt.applied(t),
-                  onTimeSaved: (t) =>
-                      _intakeBuilder.consumedAt = _consumedAt.toUtc(),
-                ),
-              ],
-            ),
-            _buildNutrientsSection(),
-          ],
+                ],
+              ),
+              SmallSection(
+                title: _appLocalizations.mealCreationDatetimeSectionTitle,
+                showDividers: false,
+                children: [
+                  AppDatePickerFormField(
+                    initialDate: _consumedAt,
+                    selectedDate: _consumedAt,
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime.now(),
+                    validator: formValidators.nonNull(),
+                    dateFormat: _dateFormat,
+                    iconData: Icons.calendar_today,
+                    onDateChanged: (dt) {
+                      final ldt = dt.toLocal();
+                      _consumedAt = DateTime(
+                        ldt.year,
+                        ldt.month,
+                        ldt.day,
+                        _consumedAt.hour,
+                        _consumedAt.minute,
+                      );
+                    },
+                    onDateSaved: (dt) =>
+                        _intakeBuilder.consumedAt = _consumedAt.toUtc(),
+                    labelText: _appLocalizations.mealCreationDate,
+                  ),
+                  AppTimePickerFormField(
+                    labelText: _appLocalizations.mealCreationTime,
+                    iconData: Icons.access_time,
+                    initialTime: TimeOfDay(
+                      hour: _consumedAt.hour,
+                      minute: _consumedAt.minute,
+                    ),
+                    onTimeChanged: (t) => _consumedAt = _consumedAt.applied(t),
+                    onTimeSaved: (t) =>
+                        _intakeBuilder.consumedAt = _consumedAt.toUtc(),
+                  ),
+                ],
+              ),
+              _buildNutrientsSection(),
+            ],
+          ),
         ),
       ),
     );

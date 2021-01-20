@@ -144,21 +144,23 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return SingleChildScrollView(
       padding: EdgeInsets.only(bottom: 64),
-      children: [
-        BasicSection(
-          children: [
-            HealthIndicatorWeeklyBarChart(
-              dailyHealthStatuses: dailyHealthStatuses,
-              indicator: healthIndicator,
-              appLocalizations: appLocalizations,
-              maximumDate: to,
-            ),
-          ],
-        ),
-        BasicSection(children: _buildIndicatorTiles()),
-      ],
+      child: Column(
+        children: [
+          BasicSection(
+            children: [
+              HealthIndicatorWeeklyBarChart(
+                dailyHealthStatuses: dailyHealthStatuses,
+                indicator: healthIndicator,
+                appLocalizations: appLocalizations,
+                maximumDate: to,
+              ),
+            ],
+          ),
+          BasicSection(children: _buildIndicatorTiles()),
+        ],
+      ),
     );
   }
 

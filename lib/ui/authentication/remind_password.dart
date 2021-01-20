@@ -28,59 +28,61 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
       appBar: AppBar(
         title: Text("Slaptažodžio atkūrimas"),
       ),
-      body: ListView(
-        children: [
-          BasicSection(
-            header: AppListTile(
-              leading: IconButton(
-                icon: Icon(Icons.info),
-                onPressed: null,
-              ),
-              title: Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Text(
-                  "Įveskite savo elektroninio pašto adresą ir atsiūsime "
-                  "Jums laišką su instrukcijomis, kaip pakeisti slaptažodį.",
-                  textAlign: TextAlign.justify,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            BasicSection(
+              header: AppListTile(
+                leading: IconButton(
+                  icon: Icon(Icons.info),
+                  onPressed: null,
                 ),
-              ),
-            ),
-          ),
-          BasicSection(
-            showDividers: false,
-            children: [
-              Form(
-                key: _formKey,
-                child: AutofillGroup(
-                  child: Column(
-                    children: [
-                      AppTextFormField(
-                        labelText: "El. paštas",
-                        autoFocus: true,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: formValidators.nonEmptyValidator,
-                        autofillHints: [AutofillHints.email],
-                        iconData: Icons.alternate_email,
-                        textInputAction: TextInputAction.next,
-                        onSaved: (s) => email = s,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
-                          child: AppElevatedButton(
-                            text: "Patvirtinti",
-                            onPressed: () => _remindPassword(context),
-                          ),
-                        ),
-                      ),
-                    ],
+                title: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text(
+                    "Įveskite savo elektroninio pašto adresą ir atsiūsime "
+                    "Jums laišką su instrukcijomis, kaip pakeisti slaptažodį.",
+                    textAlign: TextAlign.justify,
                   ),
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+            BasicSection(
+              showDividers: false,
+              children: [
+                Form(
+                  key: _formKey,
+                  child: AutofillGroup(
+                    child: Column(
+                      children: [
+                        AppTextFormField(
+                          labelText: "El. paštas",
+                          autoFocus: true,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: formValidators.nonEmptyValidator,
+                          autofillHints: [AutofillHints.email],
+                          iconData: Icons.alternate_email,
+                          textInputAction: TextInputAction.next,
+                          onSaved: (s) => email = s,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+                            child: AppElevatedButton(
+                              text: "Patvirtinti",
+                              onPressed: () => _remindPassword(context),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
