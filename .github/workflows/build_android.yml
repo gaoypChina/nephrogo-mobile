@@ -1,12 +1,11 @@
 name: NephroGo Android CI
 on:
+  pull_request:
   push:
     branches:
       - '**'
     tags-ignore:
       - '**'
-  pull_request:
-    - '**'
 
 jobs:
   build_android:
