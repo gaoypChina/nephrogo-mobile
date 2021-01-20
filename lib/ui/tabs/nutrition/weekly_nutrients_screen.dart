@@ -268,7 +268,7 @@ class DailyIntakeSection extends StatelessWidget {
           ),
         ),
         Text(
-          "${(percent * 100).toInt()}%",
+          "${(percent * 100).round()}%",
           style: TextStyle(
             fontSize: 13.0,
             color: Colors.white,
