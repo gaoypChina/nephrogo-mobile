@@ -1,5 +1,12 @@
 name: NephroGo Android CI
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
+  pull_request:
+    - '**'
 
 jobs:
   build_android:
@@ -103,7 +110,7 @@ jobs:
           file: app-release.apk
 
   deploy_google_play_internal_testing:
-    name: Google play Internal Testing deploy AAB 
+    name: Google play Internal Testing deploy AAB
     runs-on: ubuntu-20.04
     needs: build_android
     if: github.ref == 'refs/heads/main'
