@@ -165,6 +165,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
         developer.log(
           "Unable to to to login with social",
           stackTrace: stacktrace,
+          error: e,
         );
 
         await showAppDialog(context: context, message: e.toString());
