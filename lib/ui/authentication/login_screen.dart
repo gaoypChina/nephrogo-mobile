@@ -9,6 +9,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
+import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo/ui/user_profile_screen.dart';
 
 import 'login_conditions.dart';
@@ -177,7 +178,9 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
   Future navigateToNextScreen(
       BuildContext context, UserCredential userCredential) async {
-    final userProfile = await _apiService.getUserProfile();
+    final userProfile = await ProgressDialog(context)
+        .showForFuture(_apiService.getUserProfile());
+
     if (userProfile != null) {
       await _appPreferences.setProfileCreated();
 
