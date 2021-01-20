@@ -72,9 +72,9 @@ class NutrientWeeklyBarChart extends StatelessWidget {
     }
 
     final scaleValue =
-        (nutrient != Nutrient.energy || nutrient != Nutrient.liquids)
-            ? 1e-3
-            : 1.0;
+        (nutrient == Nutrient.energy || nutrient == Nutrient.liquids)
+            ? 1.0
+            : 1e-3;
 
     final days =
         List.generate(7, (d) => Date(maximumDate.add(Duration(days: -d))))
