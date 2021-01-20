@@ -71,6 +71,11 @@ class NutrientWeeklyBarChart extends StatelessWidget {
       }
     }
 
+    final scaleValue =
+        (nutrient != Nutrient.energy || nutrient != Nutrient.liquids)
+            ? 1e-3
+            : 1.0;
+
     final days =
         List.generate(7, (d) => Date(maximumDate.add(Duration(days: -d))))
             .reversed;
@@ -122,7 +127,7 @@ class NutrientWeeklyBarChart extends StatelessWidget {
 
       AppBarChartRod entry = AppBarChartRod(
         tooltip: tooltip,
-        y: y,
+        y: y != null ? y * scaleValue : null,
         barColor: (norm != null && y > norm) ? Colors.redAccent : Colors.teal,
       );
 
@@ -138,10 +143,10 @@ class NutrientWeeklyBarChart extends StatelessWidget {
       groups: groups,
       showLeftTitles: true,
       fitInsideVertically: fitInsideVertically,
-      dashedHorizontalLine: lastNorm != null ? lastNorm : null,
-      interval: interval != null ? interval : null,
+      dashedHorizontalLine: lastNorm != null ? lastNorm * scaleValue : null,
+      interval: interval != null ? interval * scaleValue : null,
       maxY: (lastNorm != null && maximumAmount != null)
-          ? max(lastNorm, maximumAmount) * 1.01
+          ? max(lastNorm, maximumAmount) * scaleValue * 1.01
           : null,
     );
   }
