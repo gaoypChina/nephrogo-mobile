@@ -21,14 +21,20 @@ jobs:
       - name: Set build number
         run: echo "BUILD_NUMBER=$(git rev-list --count HEAD)" >> $GITHUB_ENV
 
-      - run: echo $IOS_APPSTORE_API_KEY_JSON > ios/fastlane/app-store-key.json
-        name: Create AppStore connect API key json for Fastlane
-        env:
-          IOS_APPSTORE_API_KEY_JSON: ${{ secrets.IOS_APPSTORE_API_KEY_JSON }}
-
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: '2.7'
+
+      - uses: maierj/fastlane-action@v2.0.0
+        with:
+          lane: 'prepare_ci'
+          subdirectory: 'ios'
+          bundle-install-path: 'vendor/bundle'
+        env:
+          MATCH_PASSWORD: ${{ secrets.IOS_MATCH_PASSWORD }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.IOS_MATCH_GIT_BASIC_AUTHORIZATION_BASE_64 }}
+
 
       - uses: subosito/flutter-action@v1
         with:
@@ -43,14 +49,5 @@ jobs:
 
       - run: flutter test
 
-      - run: flutter build ios --release --no-codesign --build-number ${{ env.BUILD_NUMBER }}
+      - run: flutter build ios --release --build-number ${{ env.BUILD_NUMBER }}
 
-      - uses: maierj/fastlane-action@v2.0.0
-        with:
-          lane: 'beta'
-          subdirectory: 'ios'
-          bundle-install-path: 'vendor/bundle'
-        env:
-          MATCH_PASSWORD: ${{ secrets.IOS_MATCH_PASSWORD }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.IOS_MATCH_GIT_BASIC_AUTHORIZATION_BASE_64 }}
