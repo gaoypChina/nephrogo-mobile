@@ -92,6 +92,36 @@
       }
     }
   },
+  "consumptionWithNutrient": "{nutrient}: {amount} iš {norm}",
+  "@consumptionWithNutrient": {
+    "placeholders": {
+      "nutrient": {
+        "type": "String",
+        "example": "Kalis"
+      },
+      "amount": {
+        "type": "String",
+        "example": "120 g"
+      },
+      "norm": {
+        "type": "String",
+        "example": "150 g"
+      }
+    }
+  },
+  "consumptionWithNutrientWithoutNorm": "{nutrient}: {amount}",
+  "@consumptionWithNutrientWithoutNorm": {
+    "placeholders": {
+      "nutrient": {
+        "type": "String",
+        "example": "Kalis"
+      },
+      "amount": {
+        "type": "String",
+        "example": "120 g"
+      }
+    }
+  },
   "consumptionEnergy": "Energijos suvartojimas",
   "@consumptionEnergy": {
     "context": "nutrient:weekly"

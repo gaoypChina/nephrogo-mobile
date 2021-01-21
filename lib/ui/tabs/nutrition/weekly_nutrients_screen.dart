@@ -239,13 +239,17 @@ class DailyIntakeSection extends StatelessWidget {
 
   String getSubtitle(AppLocalizations appLocalizations, String totalFormatted,
       String dailyNormFormatted) {
+    final nutrientName = nutrient.name(appLocalizations);
+
     if (dailyNormFormatted == null) {
-      return appLocalizations.todayConsumptionWithoutNorm(
+      return appLocalizations.consumptionWithNutrientWithoutNorm(
+        nutrientName,
         totalFormatted,
       );
     }
 
-    return appLocalizations.todayConsumptionWithNorm(
+    return appLocalizations.consumptionWithNutrient(
+      nutrientName,
       totalFormatted,
       dailyNormFormatted,
     );
