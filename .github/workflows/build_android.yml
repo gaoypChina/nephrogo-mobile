@@ -42,31 +42,6 @@ jobs:
 
       - run: flutter test
 
-      - run: flutter build appbundle --build-number ${{ env.BUILD_NUMBER }}
-        env:
-          KEY_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_STORE_PASSWORD }}
-          KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.ANDROID_SIGNING_KEY_ALIAS }}
-          KEY_PATH: key.jks
-
-      - uses: actions/upload-artifact@v2
-        name: Upload Android AAB
-        with:
-          name: app-release.aab
-          path: build/app/outputs/bundle/release/app-release.aab
-
-      - uses: actions/upload-artifact@v2
-        name: Upload Proguard mapping.txt
-        with:
-          name: mapping.txt
-          path: build/app/outputs/mapping/release/mapping.txt
-
-      - uses: actions/upload-artifact@v2
-        name: Upload pubspec.lock
-        with:
-          name: pubspec.lock
-          path: pubspec.lock
-
       - run: flutter build apk --target-platform android-arm64 --analyze-size --build-number ${{ env.BUILD_NUMBER }}
         env:
           KEY_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_STORE_PASSWORD }}
@@ -79,6 +54,12 @@ jobs:
         with:
           name: app-release.apk
           path: build/app/outputs/flutter-apk/app-release.apk
+
+      - uses: actions/upload-artifact@v2
+        name: Upload pubspec.lock
+        with:
+          name: pubspec.lock
+          path: pubspec.lock
 
       - uses: actions/upload-artifact@v2
         name: Upload Size artifact
@@ -107,29 +88,3 @@ jobs:
           token: ${{secrets.FIREBASE_TOKEN}}
           groups: internal
           file: app-release.apk
-
-  deploy_google_play_internal_testing:
-    name: Google play Internal Testing deploy AAB
-    runs-on: ubuntu-20.04
-    needs: build_android
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - name: Download AAB
-        uses: actions/download-artifact@v2
-        with:
-          name: app-release.aab
-
-      - name: Download mapping.txt
-        uses: actions/download-artifact@v2
-        with:
-          name: mapping.txt
-
-      - uses: r0adkll/upload-google-play@v1
-        continue-on-error: true
-        name: Upload to Google play for Internal testing
-        with:
-          serviceAccountJsonPlainText: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
-          packageName: com.nephrogo
-          releaseFiles: app-release.aab
-          mappingFile: mapping.txt
-          track: internal
