@@ -214,7 +214,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       case HealthIndicator.weight:
         return "$weightKg kg";
       case HealthIndicator.glucose:
-        return "$glucose mmol/l";
+        return "${glucose.toStringAsFixed(2)} mmol/l";
       case HealthIndicator.urine:
         return _formatAmount(urineMl, "ml");
       case HealthIndicator.severityOfSwelling:
