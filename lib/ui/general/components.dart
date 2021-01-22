@@ -108,11 +108,14 @@ class LargeSection extends StatelessWidget {
                   ),
                 ),
                 if (this.subTitle != null)
-                  Text(
-                    this.subTitle,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2.0),
+                    child: Text(
+                      this.subTitle,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
               ],
