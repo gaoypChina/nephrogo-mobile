@@ -14,6 +14,7 @@ import 'ui/tabs/health_status/health_status_creation_screen.dart';
 import 'ui/tabs/health_status/weekly_health_status_screen.dart';
 import 'ui/tabs/nutrition/intake_create.dart';
 import 'ui/tabs/nutrition/product_search.dart';
+import 'ui/tabs/nutrition/weekly_intakes_screen.dart';
 import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'ui/user_profile_screen.dart';
 
@@ -28,6 +29,8 @@ class Routes {
   static const ROUTE_HOME = "home";
 
   static const ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN = "weekly_nutrients_screen";
+  static const ROUTE_DAILY_WEEKLY_INTAKES_SCREEN =
+      "ROUTE_DAILY_WEEKLY_INTAKES_SCREEN";
   static const ROUTE_INTAKE_CREATE = "ROUTE_INTAKE_CREATE";
   static const ROUTE_PRODUCT_SEARCH = "ROUTE_PRODUCT_SEARCH";
 
@@ -96,6 +99,10 @@ class Routes {
           return UserProfileScreen(
             nextScreenType: nextScreenType,
           );
+        });
+      case ROUTE_DAILY_WEEKLY_INTAKES_SCREEN:
+        return MaterialPageRoute(builder: (context) {
+          return WeeklyIntakesScreen();
         });
       case ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN:
         return MaterialPageRoute(builder: (context) {

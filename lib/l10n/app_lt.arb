@@ -208,6 +208,8 @@
   },
   "lastMealsSectionTitle": "Paskutiniai valgiai",
   "@lastMealsSectionTitle": {},
+  "myMeals": "Mano valgiai",
+  "@myMeals": {},
   "createMeal": "Pridėti valgį",
   "@createMeal": {},
   "productSearchTitle": "Valgis arba gėrimas",

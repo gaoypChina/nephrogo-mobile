@@ -70,6 +70,10 @@ class NutritionTab extends StatelessWidget {
                   DailyIntakesCard(
                     title: appLocalizations.lastMealsSectionTitle,
                     intakes: latestIntakes,
+                    leading: OutlineButton(
+                      child: Text(appLocalizations.more.toUpperCase()),
+                      onPressed: () => openWeeklyIntakesScreen(context),
+                    ),
                   ),
                   for (final nutrient in Nutrient.values)
                     buildIndicatorChartSection(
@@ -87,12 +91,17 @@ class NutritionTab extends StatelessWidget {
     );
   }
 
-  openIntakesScreen(BuildContext context, Nutrient indicator) {
-    Navigator.pushNamed(
+  Future openWeeklyNutritionScreen(BuildContext context, Nutrient indicator) {
+    return Navigator.pushNamed(
       context,
       Routes.ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN,
       arguments: WeeklyNutrientsScreenArguments(indicator),
     );
+  }
+
+  Future openWeeklyIntakesScreen(BuildContext context) {
+    return Navigator.pushNamed(
+        context, Routes.ROUTE_DAILY_WEEKLY_INTAKES_SCREEN);
   }
 
   LargeSection buildIndicatorChartSection(
@@ -136,7 +145,7 @@ class NutritionTab extends StatelessWidget {
       ],
       leading: OutlineButton(
         child: Text(localizations.more.toUpperCase()),
-        onPressed: () => openIntakesScreen(context, nutrient),
+        onPressed: () => openWeeklyNutritionScreen(context, nutrient),
       ),
     );
   }
@@ -203,7 +212,7 @@ class DailyIntakesCard extends StatelessWidget {
       subTitle: subTitle,
       leading: leading,
       children: [
-        for (final intake in intakes) IntakeTile(intake: intake),
+        for (final intake in intakes) IntakeTile(intake),
       ],
     );
   }
@@ -214,12 +223,11 @@ class IntakeTile extends StatelessWidget {
 
   final Intake intake;
 
-  const IntakeTile({Key key, @required this.intake}) : super(key: key);
+  IntakeTile(this.intake) : super(key: ObjectKey(intake));
 
   @override
   Widget build(BuildContext context) {
     return AppListTile(
-      key: ObjectKey(intake),
       title: Text(intake.product.name),
       subtitle: Text(
         dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst(),
