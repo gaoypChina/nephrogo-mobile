@@ -438,13 +438,14 @@ class _HealthStatusCreationScreenState
           title: _appLocalizations.error,
           message: _appLocalizations.serverErrorDescription,
         );
-        return Future.error(e, stackTrace);
       },
     );
 
     final dailyHealthStatus =
         await ProgressDialog(context).showForFuture(savingFuture);
 
-    Navigator.of(context).pop(dailyHealthStatus);
+    if (dailyHealthStatus != null) {
+      Navigator.of(context).pop(dailyHealthStatus);
+    }
   }
 }

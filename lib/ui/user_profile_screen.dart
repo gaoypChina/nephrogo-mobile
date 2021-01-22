@@ -377,7 +377,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     }
     _formKey.currentState.save();
 
-    await ProgressDialog(context)
+    final profile = await ProgressDialog(context)
         .showForFuture(_saveUserProfileToApi())
         .catchError(
       (e, stackTrace) async {
@@ -386,13 +386,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           title: _appLocalizations.error,
           message: _appLocalizations.serverErrorDescription,
         );
-        return Future.error(e, stackTrace);
       },
     );
 
-    await _appPreferences.setProfileCreated();
+    if (profile != null) {
+      await _appPreferences.setProfileCreated();
 
-    await _navigateToAnotherScreen();
+      await _navigateToAnotherScreen();
+    }
   }
 
   Future _navigateToAnotherScreen() async {

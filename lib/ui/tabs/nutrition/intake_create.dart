@@ -241,13 +241,14 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
           title: _appLocalizations.error,
           message: _appLocalizations.serverErrorDescription,
         );
-        return Future.error(e, stackTrace);
       },
     );
 
     final intake = await ProgressDialog(context).showForFuture(savingFuture);
 
-    Navigator.pop(context, intake);
+    if (intake != null) {
+      Navigator.pop(context, intake);
+    }
   }
 
   Widget _buildNutrientTile(Nutrient nutrient) {
