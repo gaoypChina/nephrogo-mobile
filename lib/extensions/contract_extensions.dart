@@ -172,6 +172,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         return diastolicBloodPressure != null && systolicBloodPressure != null;
       case HealthIndicator.weight:
         return weightKg != null;
+      case HealthIndicator.glucose:
+        return glucose != null;
       case HealthIndicator.urine:
         return urineMl != null;
       case HealthIndicator.severityOfSwelling:
@@ -211,6 +213,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         return "$systolicBloodPressure / $diastolicBloodPressure mmHg";
       case HealthIndicator.weight:
         return "$weightKg kg";
+      case HealthIndicator.glucose:
+        return "$glucose mmol/l";
       case HealthIndicator.urine:
         return _formatAmount(urineMl, "ml");
       case HealthIndicator.severityOfSwelling:
@@ -308,6 +312,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         return this.systolicBloodPressure;
       case HealthIndicator.weight:
         return this.weightKg;
+      case HealthIndicator.glucose:
+        return this.glucose;
       case HealthIndicator.urine:
         return this.urineMl;
       case HealthIndicator.severityOfSwelling:
@@ -403,6 +409,8 @@ extension HealthIndicatorExtensions on HealthIndicator {
         return appLocalizations.healthStatusCreationBloodPressure;
       case HealthIndicator.weight:
         return appLocalizations.weight;
+      case HealthIndicator.glucose:
+        return appLocalizations.healthStatusCreationGlucose;
       case HealthIndicator.urine:
         return appLocalizations.healthStatusCreationUrine;
       case HealthIndicator.severityOfSwelling:

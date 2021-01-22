@@ -11,6 +11,7 @@ enum HealthIndicator {
   bloodPressure,
   weight,
   urine,
+  glucose,
   severityOfSwelling,
   numberOfSwellings,
   wellBeing,
