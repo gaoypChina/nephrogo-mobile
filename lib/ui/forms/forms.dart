@@ -344,6 +344,7 @@ class _AppMultipleSelectFormFieldState<T>
       itemToStringConverter: (items) => items.map((e) => e.text).join(", "),
       labelText: widget.labelText,
       helperText: widget.helperText,
+      initialSelection: _selectedItems,
       iconData: widget.iconData,
       onChanged: widget.onChanged,
       onSaved: widget.onSaved,
