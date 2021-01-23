@@ -167,6 +167,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
                 AppDoubleInputField(
                   labelText: _appLocalizations.weight,
+                  fractionDigits: 1,
                   validator: _formValidators.and(
                     _formValidators.nonNull(),
                     _formValidators.numRangeValidator(30.0, 300.0),

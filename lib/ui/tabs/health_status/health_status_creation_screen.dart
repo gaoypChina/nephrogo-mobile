@@ -137,6 +137,7 @@ class _HealthStatusCreationScreenState
               children: [
                 AppDoubleInputField(
                   labelText: _appLocalizations.weight,
+                  fractionDigits: 1,
                   suffixText: "kg",
                   helperText: _appLocalizations.userProfileWeightHelper,
                   initialValue: _initialHealthStatus?.weightKg,
@@ -157,7 +158,8 @@ class _HealthStatusCreationScreenState
                 AppDoubleInputField(
                   labelText: _appLocalizations.healthStatusCreationGlucose,
                   suffixText: "mmol/l",
-                  validator: formValidators.numRangeValidator(0.0, 100.0),
+                  fractionDigits: 2,
+                  validator: formValidators.numRangeValidator(0.01, 100.0),
                   initialValue: _initialHealthStatus?.glucose,
                   onSaved: (value) {
                     _healthStatusBuilder.glucose = value;

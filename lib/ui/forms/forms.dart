@@ -587,11 +587,13 @@ class AppDoubleInputField extends StatelessWidget {
   final FormFieldValidator<double> validator;
   final FormFieldSetter<double> onSaved;
   final String suffixText;
+  final int fractionDigits;
 
   const AppDoubleInputField({
     Key key,
     @required this.onSaved,
     @required this.labelText,
+    @required this.fractionDigits,
     this.hintText,
     this.helperText,
     this.initialValue,
@@ -606,7 +608,7 @@ class AppDoubleInputField extends StatelessWidget {
       labelText: labelText,
       helperText: helperText,
       iconData: iconData,
-      initialValue: initialValue?.toString(),
+      initialValue: initialValue?.toStringAsFixed(fractionDigits),
       validator: _validator,
       hintText: hintText,
       onSaved: onSaved != null ? _onSaved : null,
@@ -625,7 +627,9 @@ class AppDoubleInputField extends StatelessWidget {
   }
 
   _onSaved(String v) {
-    final n = (v != null && v.isNotEmpty) ? double.parse(v) : null;
+    final n = (v != null && v.isNotEmpty)
+        ? double.parse(double.parse(v).toStringAsFixed(fractionDigits))
+        : null;
 
     this.onSaved(n);
   }
