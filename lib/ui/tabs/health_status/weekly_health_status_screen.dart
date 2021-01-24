@@ -193,7 +193,9 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
       return dailyHealthStatus.swellings
           .map((s) => s.getLocalizedName(appLocalizations))
           .where((s) => s != null)
-          .join(", ");
+          .join(", ")
+          .toLowerCase()
+          .capitalizeFirst();
     }
 
     return null;
