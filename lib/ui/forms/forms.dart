@@ -623,12 +623,13 @@ class AppDoubleInputField extends StatelessWidget {
       return null;
     }
 
-    return validator(double.tryParse(text));
+    return validator(double.tryParse(text.replaceFirst(',', '.')));
   }
 
   _onSaved(String v) {
     final n = (v != null && v.isNotEmpty)
-        ? double.parse(double.parse(v).toStringAsFixed(fractionDigits))
+        ? double.parse(double.parse(v.replaceFirst(',', '.'))
+            .toStringAsFixed(fractionDigits))
         : null;
 
     this.onSaved(n);
