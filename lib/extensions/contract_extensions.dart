@@ -8,6 +8,7 @@ import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 import 'package:nephrogo_api_client/model/shortness_of_breath_enum.dart';
+import 'package:nephrogo_api_client/model/swelling.dart';
 import 'package:nephrogo_api_client/model/swelling_difficulty_enum.dart';
 import 'package:nephrogo_api_client/model/swelling_enum.dart';
 import 'package:nephrogo_api_client/model/well_feeling_enum.dart';
@@ -164,6 +165,40 @@ extension NutrientExtensions on Nutrient {
   }
 }
 
+extension SwellingExtension on Swelling {
+  String getLocalizedName(AppLocalizations appLocalizations) {
+    switch (this.swelling) {
+      case SwellingEnum.eyes:
+        return appLocalizations.healthStatusCreationSwellingsLocalizationEyes;
+      case SwellingEnum.wholeFace:
+        return appLocalizations
+            .healthStatusCreationSwellingsLocalizationWholeFace;
+      case SwellingEnum.handBreadth:
+        return appLocalizations
+            .healthStatusCreationSwellingsLocalizationHandBreadth;
+      case SwellingEnum.hands:
+        return appLocalizations.healthStatusCreationSwellingsLocalizationHands;
+      case SwellingEnum.belly:
+        return appLocalizations.healthStatusCreationSwellingsLocalizationBelly;
+      case SwellingEnum.knees:
+        return appLocalizations.healthStatusCreationSwellingsLocalizationKnees;
+      case SwellingEnum.foot:
+        return appLocalizations.healthStatusCreationSwellingsLocalizationFoot;
+      case SwellingEnum.wholeLegs:
+        return appLocalizations
+            .healthStatusCreationSwellingsLocalizationWholeLegs;
+      case SwellingEnum.unknown:
+        return null;
+      default:
+        throw ArgumentError.value(
+          swelling,
+          "swelling",
+          "Invalid swelling value",
+        );
+    }
+  }
+}
+
 // Health indicators
 extension DailyHealthStatusExtensions on DailyHealthStatus {
   bool isIndicatorExists(HealthIndicator indicator) {
@@ -201,9 +236,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
   }
 
   String getHealthIndicatorFormatted(
-    HealthIndicator indicator,
-    AppLocalizations appLocalizations,
-  ) {
+      HealthIndicator indicator, AppLocalizations appLocalizations) {
     if (!isIndicatorExists(indicator)) {
       return null;
     }

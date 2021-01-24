@@ -188,15 +188,28 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
     @required this.indicator,
   }) : super(key: key);
 
+  String getSubtitle(AppLocalizations appLocalizations) {
+    if (indicator == HealthIndicator.numberOfSwellings) {
+      return dailyHealthStatus.swellings
+          .map((s) => s.getLocalizedName(appLocalizations))
+          .where((s) => s != null)
+          .join(", ");
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
 
     final dateTitle =
         _dateFormat.format(dailyHealthStatus.date).capitalizeFirst();
+    final subtitle = getSubtitle(appLocalizations);
 
     return AppListTile(
       title: Text(dateTitle),
+      subtitle: subtitle != null ? Text(subtitle) : null,
       trailing: Text(dailyHealthStatus.getHealthIndicatorFormatted(
           indicator, appLocalizations)),
     );
