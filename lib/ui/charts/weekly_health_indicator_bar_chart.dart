@@ -154,7 +154,7 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
 
   double _getInterval() {
     switch (indicator) {
-      case HealthIndicator.numberOfSwellings:
+      case HealthIndicator.swellings:
       case HealthIndicator.severityOfSwelling:
       case HealthIndicator.wellBeing:
       case HealthIndicator.appetite:

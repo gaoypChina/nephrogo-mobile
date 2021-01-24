@@ -618,9 +618,6 @@
   "@ageSuffix": {
     "context": "userProfile"
   },
-  "healthStatusNumberOfSwellings": "Patinimų kiekis",
-  "@healthStatusNumberOfSwellings": {
-  },
   "healthStatusCreationTodayTitle": "Šiandienos sveikatos rodikliai",
   "@healthStatusCreationTodayTitle": {
     "context": "healthStatusCreation"

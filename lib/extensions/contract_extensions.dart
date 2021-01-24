@@ -214,7 +214,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       case HealthIndicator.severityOfSwelling:
         return swellingDifficulty != null &&
             swellingDifficulty != SwellingDifficultyEnum.unknown;
-      case HealthIndicator.numberOfSwellings:
+      case HealthIndicator.swellings:
         return swellings != null &&
             swellings
                 .where((e) => e.swelling != SwellingEnum.unknown)
@@ -268,7 +268,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
           "swellingDifficulty",
           "Invalid swellingDifficulty value",
         );
-      case HealthIndicator.numberOfSwellings:
+      case HealthIndicator.swellings:
         return getHealthIndicatorValue(indicator)?.toString();
       case HealthIndicator.wellBeing:
         switch (wellFeeling) {
@@ -367,7 +367,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
           "swellingDifficulty",
           "Invalid swellingDifficulty value",
         );
-      case HealthIndicator.numberOfSwellings:
+      case HealthIndicator.swellings:
         return swellings
             .where((e) => e.swelling != SwellingEnum.unknown)
             .length;
@@ -448,8 +448,8 @@ extension HealthIndicatorExtensions on HealthIndicator {
         return appLocalizations.healthStatusCreationUrine;
       case HealthIndicator.severityOfSwelling:
         return appLocalizations.healthStatusCreationSwellingDifficulty;
-      case HealthIndicator.numberOfSwellings:
-        return appLocalizations.healthStatusNumberOfSwellings;
+      case HealthIndicator.swellings:
+        return appLocalizations.healthStatusCreationSwellings;
       case HealthIndicator.wellBeing:
         return appLocalizations.healthStatusCreationWellFeeling;
       case HealthIndicator.appetite:

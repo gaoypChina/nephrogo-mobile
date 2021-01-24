@@ -189,7 +189,7 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
   }) : super(key: key);
 
   String getSubtitle(AppLocalizations appLocalizations) {
-    if (indicator == HealthIndicator.numberOfSwellings) {
+    if (indicator == HealthIndicator.swellings) {
       return dailyHealthStatus.swellings
           .map((s) => s.getLocalizedName(appLocalizations))
           .where((s) => s != null)
