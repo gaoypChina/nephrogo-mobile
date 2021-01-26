@@ -47,6 +47,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
 
   Product selectedProduct;
   int amountG;
+  int amountMl;
 
   AppLocalizations get _appLocalizations => AppLocalizations.of(context);
 
@@ -58,6 +59,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
 
     selectedProduct = widget.intake?.product ?? widget.initialProduct;
     amountG = widget.intake?.amountG;
+    amountMl = widget.intake?.amountMl;
 
     _consumedAt =
         widget.intake?.consumedAt?.toLocal() ?? DateTime.now().toLocal();
@@ -69,6 +71,17 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
       Routes.ROUTE_PRODUCT_SEARCH,
       arguments: ProductSearchType.change,
     );
+  }
+
+  bool isAmountInMilliliters() {
+    // For backward capability
+    if (widget.intake != null &&
+        widget.intake.product.id == selectedProduct.id &&
+        selectedProduct.densityGMl != null) {
+      return widget.intake.amountMl != null;
+    }
+
+    return selectedProduct.densityGMl != null;
   }
 
   @override
@@ -120,19 +133,30 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                   ),
                   AppIntegerFormField(
                     labelText: _appLocalizations.mealCreationQuantity,
-                    initialValue: widget.intake?.amountG,
-                    suffixText: "g",
+                    initialValue: isAmountInMilliliters()
+                        ? widget.intake?.amountMl
+                        : widget.intake?.amountG,
+                    suffixText: isAmountInMilliliters() ? "ml" : "g",
                     validator: formValidators.and(
                       formValidators.nonNull(),
                       formValidators.numRangeValidator(1, 10000),
                     ),
                     iconData: Icons.kitchen,
-                    onChanged: (g) {
+                    onChanged: (v) {
                       setState(() {
-                        amountG = g;
+                        if (v != null && isAmountInMilliliters()) {
+                          amountMl = v;
+                          amountG = (v * selectedProduct.densityGMl).round();
+                        } else {
+                          amountG = v;
+                          amountMl = null;
+                        }
                       });
                     },
-                    onSaved: (value) => _intakeBuilder.amountG = value,
+                    onSaved: (_) {
+                      _intakeBuilder.amountG = amountG;
+                      _intakeBuilder.amountMl = amountMl;
+                    },
                   ),
                 ],
               ),

@@ -139,6 +139,10 @@ extension IntakeExtension on Intake {
   }
 
   String getAmountFormatted() {
+    if (this.amountMl != null) {
+      return _formatAmount(this.amountMl, "ml");
+    }
+
     return _formatAmount(this.amountG, "g");
   }
 }
