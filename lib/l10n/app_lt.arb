@@ -442,11 +442,11 @@
   "@weeklyNutrientsCreateHealthIndicators": {
     "context": "weeklyNutrients"
   },
-  "mealCreationTitle": "Valgio ar gėrimo sukūrimas",
+  "mealCreationTitle": "Valgio sukūrimas",
   "@mealCreationTitle": {
     "context": "mealCreation"
   },
-  "mealUpdateTitle": "Valgio ar gėrimo atnaujinimas",
+  "mealUpdateTitle": "Valgio redagavimas",
   "@mealUpdateTitle": {
     "context": "mealCreation"
   },
