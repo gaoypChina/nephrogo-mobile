@@ -51,6 +51,16 @@ class ProfileTab extends StatelessWidget {
                 );
               },
             ),
+            AppListTile(
+              title: Text(appLocalizations.onboarding),
+              leading: Icon(Icons.directions),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  Routes.ROUTE_ONBOARDING,
+                );
+              },
+            ),
           ],
         ),
         BasicSection(

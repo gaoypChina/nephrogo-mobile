@@ -38,6 +38,8 @@ dependencies:
   stream_transform: ^1.2.0
   collection: ^1.14.13
 
+  smooth_page_indicator: ^0.2.0
+
   shared_preferences: 0.5.12+4
 
   dio: ^3.0.10
@@ -95,6 +97,7 @@ flutter:
     - assets/logo/logo-with-title.png
     - assets/anonymous_avatar.jpg
     - assets/empty.png
+    - assets/onboarding/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

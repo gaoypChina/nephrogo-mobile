@@ -9,6 +9,7 @@ import 'ui/authentication/registration_screen.dart';
 import 'ui/authentication/remind_password.dart';
 import 'ui/faq_screen.dart';
 import 'ui/home_screen.dart';
+import 'ui/onboarding/onboarding_screen.dart';
 import 'ui/start_screen.dart';
 import 'ui/tabs/health_status/health_status_creation_screen.dart';
 import 'ui/tabs/health_status/weekly_health_status_screen.dart';
@@ -27,6 +28,8 @@ class Routes {
   static const ROUTE_REMIND_PASSWORD = "remind_password";
 
   static const ROUTE_HOME = "home";
+
+  static const ROUTE_ONBOARDING = "onboarding";
 
   static const ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN = "weekly_nutrients_screen";
   static const ROUTE_DAILY_WEEKLY_INTAKES_SCREEN =
@@ -48,6 +51,10 @@ class Routes {
       case ROUTE_START:
         return MaterialPageRoute(builder: (context) {
           return StartScreen();
+        });
+      case ROUTE_ONBOARDING:
+        return MaterialPageRoute(builder: (context) {
+          return OnboardingScreen();
         });
       case ROUTE_LOGIN:
         return MaterialPageRoute(builder: (context) {
