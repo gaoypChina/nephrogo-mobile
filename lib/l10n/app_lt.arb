@@ -842,11 +842,11 @@
   "@onboardingStep1Description": {
     "context": "onboarding"
   },
-  "onboardingStep2Title": "Pridėkite valgį",
+  "onboardingStep2Title": "Sekite savo mitybą",
   "@onboardingStep2Title": {
     "context": "onboarding"
   },
-  "onboardingStep2Description": "Pasirinkite valgį iš NephroGo duomenų bazės ir sužinosite, kiek sudėtyje yra kalio, natrio, fosforo, baltymų, skysčių ir kilokalorijų.",
+  "onboardingStep2Description": "Pridėkite valgius iš NephroGo duomenų bazės ir sužinosite, kiek sudėtyje yra kalio, natrio, fosforo, baltymų, skysčių ir kilokalorijų.",
   "@onboardingStep2Description": {
     "context": "onboarding"
   },
@@ -854,11 +854,11 @@
   "@onboardingStep3Title": {
     "context": "onboarding"
   },
-  "onboardingStep3Description": "NephroGo apskaičiuos, kiek ir kokių medžiagų suvartojote ir dar galite šiandien suvartoti.",
+  "onboardingStep3Description": "NephroGo apskaičiuos, kiek ir kokių medžiagų suvartojote ir dar galite suvartoti šiandien.",
   "@onboardingStep3Description": {
     "context": "onboarding"
   },
-  "onboardingStep4Title": "Asmeninės savaitės suvestinės",
+  "onboardingStep4Title": "Asmeninės mitybos suvestinės",
   "@onboardingStep4Title": {
     "context": "onboarding"
   },
@@ -866,19 +866,19 @@
   "@onboardingStep4Description": {
     "context": "onboarding"
   },
-  "onboardingStep5Title": "Pridėkite sveikatos rodiklius",
+  "onboardingStep5Title": "Sekite sveikatos rodiklius",
   "@onboardingStep5Title": {
     "context": "onboarding"
   },
-  "onboardingStep5Description": "Kasdien patogiai išsaugokite duomenis apie savo sveikatos būklę ir sekite savaitės rodiklių dinamiką.",
+  "onboardingStep5Description": "Kasdien patogiai pridėkite ir išsaugokite duomenis apie savo sveikatos būklę ir sekite savaitės rodiklių dinamiką.",
   "@onboardingStep5Description": {
     "context": "onboarding"
   },
-  "onboardingStep6Title": "Dažniausiai užduodami klausimai",
+  "onboardingStep6Title": "Gydytojų rekomendacijos",
   "@onboardingStep6Title": {
     "context": "onboarding"
   },
-  "onboardingStep6Description": "Gaukite inkstams palankios mitybos gydytojų rekomendacijas.",
+  "onboardingStep6Description": "Gaukite inkstams palankios mitybos gydytojų rekomendacijas Dažniausiai užduodamuose klausimuose",
   "@onboardingStep6Description": {
     "context": "onboarding"
   }
