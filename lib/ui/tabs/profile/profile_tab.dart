@@ -6,6 +6,7 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_future_builder.dart';
 import 'package:nephrogo/ui/general/app_network_image.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/onboarding/onboarding_screen.dart';
 import 'package:nephrogo/ui/user_profile_screen.dart';
 import 'package:nephrogo/utils/utils.dart';
 import 'package:package_info/package_info.dart';
@@ -51,29 +52,21 @@ class ProfileTab extends StatelessWidget {
                 );
               },
             ),
-            AppListTile(
-              title: Text(appLocalizations.onboarding),
-              leading: Icon(Icons.directions),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  Routes.ROUTE_ONBOARDING,
-                );
-              },
-            ),
           ],
         ),
         BasicSection(
           children: [
             AppListTile(
-              title: Text(appLocalizations.privacyPolicy),
-              leading: Icon(Icons.lock),
-              onTap: () => launchURL(Constants.privacyPolicyUrl),
-            ),
-            AppListTile(
-              title: Text(appLocalizations.usageRules),
-              leading: Icon(Icons.description),
-              onTap: () => launchURL(Constants.rulesUrl),
+              title: Text(appLocalizations.onboarding),
+              leading: Icon(Icons.explore),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  Routes.ROUTE_ONBOARDING,
+                  arguments:
+                      OnboardingScreenArguments(OnboardingScreenExitType.close),
+                );
+              },
             ),
           ],
         ),
@@ -88,6 +81,20 @@ class ProfileTab extends StatelessWidget {
               title: Text(appLocalizations.supportEmail),
               leading: Icon(Icons.email),
               onTap: () => launchEmail(Constants.supportEmail),
+            ),
+          ],
+        ),
+        BasicSection(
+          children: [
+            AppListTile(
+              title: Text(appLocalizations.privacyPolicy),
+              leading: Icon(Icons.lock),
+              onTap: () => launchURL(Constants.privacyPolicyUrl),
+            ),
+            AppListTile(
+              title: Text(appLocalizations.usageRules),
+              leading: Icon(Icons.description),
+              onTap: () => launchURL(Constants.rulesUrl),
             ),
           ],
         ),

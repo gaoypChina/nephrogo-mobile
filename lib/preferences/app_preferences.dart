@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppPreferences {
   static const _KEY_PROFILE_CREATED = "PROFILE_CREATED";
+  static const _KEY_ONBOARDING_PASSED = "ONBOARDING_PASSED";
 
   static final AppPreferences _singleton = new AppPreferences._internal();
 
@@ -42,5 +43,15 @@ class AppPreferences {
 
       return false;
     });
+  }
+
+  Future<bool> isOnboardingPassed() {
+    return _sharedPreferences.then(
+        (preferences) => preferences.getBool(_KEY_ONBOARDING_PASSED) ?? false);
+  }
+
+  Future<bool> setOnboardingPassed() {
+    return _sharedPreferences.then(
+        (preferences) => preferences.setBool(_KEY_ONBOARDING_PASSED, true));
   }
 }

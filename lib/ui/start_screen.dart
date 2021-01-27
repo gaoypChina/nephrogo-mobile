@@ -6,6 +6,7 @@ import 'package:nephrogo/ui/user_profile_screen.dart';
 import 'authentication/login_screen.dart';
 import 'general/app_future_builder.dart';
 import 'home_screen.dart';
+import 'onboarding/onboarding_screen.dart';
 
 class StartScreen extends StatefulWidget {
   @override
@@ -19,7 +20,15 @@ class _StartScreenState extends State<StartScreen> {
   @override
   Widget build(BuildContext context) {
     if (!_authenticationProvider.isUserLoggedIn) {
-      return LoginScreen();
+      return AppFutureBuilder(
+        future: _appPreferences.isOnboardingPassed(),
+        builder: (context, isOnboardingPassed) {
+          if (isOnboardingPassed) {
+            return LoginScreen();
+          }
+          return OnboardingScreen(exitType: OnboardingScreenExitType.login);
+        },
+      );
     }
 
     return AppFutureBuilder(

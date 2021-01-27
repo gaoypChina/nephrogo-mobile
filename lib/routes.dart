@@ -54,7 +54,9 @@ class Routes {
         });
       case ROUTE_ONBOARDING:
         return MaterialPageRoute(builder: (context) {
-          return OnboardingScreen();
+          OnboardingScreenArguments arguments = settings.arguments;
+
+          return OnboardingScreen(exitType: arguments.exitType);
         });
       case ROUTE_LOGIN:
         return MaterialPageRoute(builder: (context) {

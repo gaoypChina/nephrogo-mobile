@@ -826,11 +826,11 @@
   "@finish": {
     "context": "onboarding"
   },
-  "next": "Kitas",
-  "@next": {
+  "further": "Toliau",
+  "@further": {
     "context": "onboarding"
   },
-  "onboarding": "Įžanga",
+  "onboarding": "Funkcionalumo apžvalga",
   "@onboarding": {
     "context": "onboarding"
   },
@@ -842,7 +842,7 @@
   "@onboardingStep1Description": {
     "context": "onboarding"
   },
-  "onboardingStep2Title": "Sekite savo mitybą",
+  "onboardingStep2Title": "Pridėkite valgį",
   "@onboardingStep2Title": {
     "context": "onboarding"
   },

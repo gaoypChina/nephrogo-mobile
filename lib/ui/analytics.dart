@@ -36,8 +36,6 @@ class Analytics {
   }
 
   Future logOnboardingSkipped() async {
-    return _analytics.logEvent(
-      name: EVENT_ONBOARDING_SKIPPED,
-    );
+    return _analytics.logEvent(name: EVENT_ONBOARDING_SKIPPED);
   }
 }
