@@ -17,7 +17,7 @@ class _FAQItemsGroup extends Equatable {
   final String name;
   final List<_FAQItem> items;
 
-  _FAQItemsGroup(this.name, this.items);
+  const _FAQItemsGroup(this.name, this.items);
 
   @override
   List<Object> get props => [name, items];

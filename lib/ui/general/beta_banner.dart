@@ -10,7 +10,7 @@ class BetaBanner extends StatefulWidget {
 }
 
 class _BetaBannerState extends State<BetaBanner> {
-  var showBanner = true;
+  bool showBanner = true;
 
   Future<void> _showHelpDialog(AppLocalizations appLocalizations) async {
     await showDialog<void>(
@@ -49,16 +49,16 @@ class _BetaBannerState extends State<BetaBanner> {
         content: Text(appLocalizations.betaDisclaimer),
         actions: <Widget>[
           FlatButton(
+            onPressed: () => _showHelpDialog(appLocalizations),
             child: Text(
               appLocalizations.help.toUpperCase(),
             ),
-            onPressed: () => _showHelpDialog(appLocalizations),
           ),
           FlatButton(
-            child: Text(appLocalizations.ok.toUpperCase()),
             onPressed: () => setState(() {
               showBanner = false;
             }),
+            child: Text(appLocalizations.ok.toUpperCase()),
           ),
         ],
       ),

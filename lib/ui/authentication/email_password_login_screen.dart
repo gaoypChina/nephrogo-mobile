@@ -41,8 +41,8 @@ class EmailPasswordLoginScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextButton(
-                  child: Text('PAMIRŠOTE SLAPTAŽODĮ?'),
                   onPressed: () => _openRemindPassword(context),
+                  child: Text('PAMIRŠOTE SLAPTAŽODĮ?'),
                 ),
               ),
             ),
@@ -58,12 +58,12 @@ class EmailPasswordLoginScreen extends StatelessWidget {
   }
 
   Future _openRemindPassword(BuildContext context) {
-    return Navigator.of(context).pushNamed(Routes.ROUTE_REMIND_PASSWORD);
+    return Navigator.of(context).pushNamed(Routes.routeRemindPassword);
   }
 
   Future _openRegistration(BuildContext context) async {
-    var userCredential =
-        await Navigator.of(context).pushNamed(Routes.ROUTE_REGISTRATION);
+    final userCredential =
+        await Navigator.of(context).pushNamed(Routes.routeRegistration);
 
     if (userCredential != null) {
       Navigator.of(context).pop(userCredential);

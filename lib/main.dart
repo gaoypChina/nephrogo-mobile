@@ -10,7 +10,7 @@ import 'package:logging/logging.dart';
 
 import 'app.dart';
 
-Future<Null> main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
@@ -19,6 +19,7 @@ Future<Null> main() async {
   Logger.root.onRecord.listen((record) {
     final message = '${record.level.name}: ${record.time}: ${record.message}';
     if (kDebugMode) {
+      // ignore: avoid_print
       print(message);
     } else {
       FirebaseCrashlytics.instance.log(message);
@@ -32,10 +33,10 @@ Future<Null> main() async {
   }
 
   Isolate.current.addErrorListener(RawReceivePort((pair) async {
-    final List<dynamic> errorAndStacktrace = pair;
+    final List<dynamic> errorAndStacktrace = pair as List<dynamic>;
     await FirebaseCrashlytics.instance.recordError(
       errorAndStacktrace.first,
-      errorAndStacktrace.last,
+      errorAndStacktrace.last as StackTrace,
     );
   }).sendPort);
 

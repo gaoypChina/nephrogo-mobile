@@ -188,7 +188,7 @@ class _AppSelectionScreenFormFieldState<T>
     }
   }
 
-  void _setItem(T item, {initial = false}) {
+  void _setItem(T item, {bool initial = false}) {
     _selectedItem = item;
     _textEditingController.text = widget.itemToStringConverter(_selectedItem);
 

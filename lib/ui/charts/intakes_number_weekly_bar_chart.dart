@@ -75,7 +75,6 @@ class IntakesNumberWeeklyBarChart extends StatelessWidget {
     return AppBarChartData(
       groups: groups,
       showLeftTitles: true,
-      fitInsideVertically: true,
     );
   }
 }

@@ -67,7 +67,7 @@ class _HealthStatusCreationScreenState
           icon: Icon(Icons.save),
         ),
       ),
-      body: AppFutureBuilder(
+      body: AppFutureBuilder<DailyHealthStatus>(
         future: _healthStatusMemoizer.future,
         builder: (context, healthStatus) {
           _initialHealthStatus = healthStatus;
@@ -227,12 +227,12 @@ class _HealthStatusCreationScreenState
                       [],
                   labelText: _appLocalizations.healthStatusCreationSwellings,
                   onSaved: (v) {
-                    final swellings = v?.map((e) {
+                    final swellings = v?.map<SwellingRequest>((e) {
                       final swellingBuilder = SwellingRequestBuilder();
                       swellingBuilder.swelling = e.value;
 
                       return swellingBuilder.build();
-                    });
+                    })?.toList();
                     _healthStatusBuilder.swellings =
                         ListBuilder(swellings ?? []);
                   },

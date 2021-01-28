@@ -20,7 +20,7 @@ class IntakeCreateScreenArguments extends Equatable {
   final Product product;
   final Intake intake;
 
-  IntakeCreateScreenArguments({this.product, this.intake})
+  const IntakeCreateScreenArguments({this.product, this.intake})
       : assert(product != null || intake != null, 'Pass intake or product');
 
   @override
@@ -68,7 +68,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
   Future<Product> _showProductSearch() {
     return Navigator.pushNamed<Product>(
       context,
-      Routes.ROUTE_PRODUCT_SEARCH,
+      Routes.routeProductSearch,
       arguments: ProductSearchType.change,
     );
   }
@@ -218,11 +218,13 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
           content: Text(appLocalizations.deleteConfirmation),
           actions: [
             TextButton(
-                child: Text(appLocalizations.dialogCancel.toUpperCase()),
-                onPressed: () => Navigator.of(context).pop(false)),
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(appLocalizations.dialogCancel.toUpperCase()),
+            ),
             TextButton(
-                child: Text(appLocalizations.delete.toUpperCase()),
-                onPressed: () => Navigator.of(context).pop(true)),
+              onPressed: () => Navigator.of(context).pop(true),
+              child: Text(appLocalizations.delete.toUpperCase()),
+            ),
           ],
         );
       },

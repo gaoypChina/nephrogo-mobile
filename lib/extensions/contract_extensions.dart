@@ -19,7 +19,7 @@ String _formatAmount<T extends num>(T amount, String dim) {
     precision = 2;
   }
 
-  return amount.toStringAsFixed(precision) + ' $dim';
+  return '${amount.toStringAsFixed(precision)} $dim';
 }
 
 String _getFormattedNutrient(Nutrient nutrient, int amount) {
@@ -62,7 +62,7 @@ extension ProductExtensions on Product {
 
   int _calculateTotalAmount(Nutrient nutrient, int amountG) {
     final nutrientAmount = _getNutrientAmount(nutrient);
-    final nutrientAmountRatio = (amountG / 100);
+    final nutrientAmountRatio = amountG / 100;
 
     return (nutrientAmount * nutrientAmountRatio).round();
   }
@@ -266,6 +266,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
             return '3+';
           case SwellingDifficultyEnum.n4plus:
             return '4+';
+          case SwellingDifficultyEnum.unknown:
+            return null;
         }
         throw ArgumentError.value(
           swellingDifficulty,
@@ -286,6 +288,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
             return appLocalizations.healthStatusCreationWellFeelingBad;
           case WellFeelingEnum.veryBad:
             return appLocalizations.healthStatusCreationWellFeelingVeryBad;
+          case WellFeelingEnum.unknown:
+            return null;
         }
         throw ArgumentError.value(
           wellFeeling,
@@ -304,6 +308,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
             return appLocalizations.healthStatusCreationAppetiteVeryBad;
           case AppetiteEnum.veryBad:
             return appLocalizations.healthStatusCreationAppetiteVeryBad;
+          case AppetiteEnum.unknown:
+            return null;
         }
         throw ArgumentError.value(
           appetite,
@@ -324,6 +330,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
           case ShortnessOfBreathEnum.backbreaking:
             return appLocalizations
                 .healthStatusCreationShortnessOfBreathBackbreaking;
+          case ShortnessOfBreathEnum.unknown:
+            return null;
         }
         throw ArgumentError.value(
           shortnessOfBreath,
@@ -365,6 +373,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
             return 4;
           case SwellingDifficultyEnum.n4plus:
             return 5;
+          case SwellingDifficultyEnum.unknown:
+            return null;
         }
         throw ArgumentError.value(
           swellingDifficulty,
@@ -387,6 +397,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
             return 4;
           case WellFeelingEnum.veryBad:
             return 5;
+          case WellFeelingEnum.unknown:
+            return null;
         }
         throw ArgumentError.value(
           wellFeeling,
@@ -405,6 +417,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
             return 4;
           case AppetiteEnum.veryBad:
             return 5;
+          case AppetiteEnum.unknown:
+            return null;
         }
         throw ArgumentError.value(
           appetite,
@@ -423,6 +437,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
             return 4;
           case ShortnessOfBreathEnum.backbreaking:
             return 5;
+          case ShortnessOfBreathEnum.unknown:
+            return null;
         }
         throw ArgumentError.value(
           shortnessOfBreath,

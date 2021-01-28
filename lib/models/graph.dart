@@ -12,8 +12,8 @@ class AppBarChartData extends Equatable {
   final double interval;
   final double maxY;
   final double minY;
-  final fitInsideHorizontally;
-  final fitInsideVertically;
+  final bool fitInsideHorizontally;
+  final bool fitInsideVertically;
 
   const AppBarChartData({
     @required this.groups,

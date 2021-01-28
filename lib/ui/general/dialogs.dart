@@ -16,10 +16,10 @@ Future<void> showAppDialog({
         ),
         actions: [
           TextButton(
-            child: Text(AppLocalizations.of(context).ok.toUpperCase()),
             onPressed: () {
               Navigator.of(context).pop();
             },
+            child: Text(AppLocalizations.of(context).ok.toUpperCase()),
           ),
         ],
       );

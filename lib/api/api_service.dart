@@ -90,10 +90,7 @@ class ApiService {
     if (kDebugMode) {
       interceptors.add(
         PrettyDioLogger(
-          request: true,
           responseBody: false,
-          requestHeader: false,
-          requestBody: false,
         ),
       );
     }
@@ -276,7 +273,7 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
   _FirebaseAuthenticationInterceptor(this.dio);
 
   Future<String> _getIdToken(bool forceRefresh) {
-    return _authenticationProvider.idToken(forceRefresh);
+    return _authenticationProvider.idToken(forceRefresh: forceRefresh);
   }
 
   @override

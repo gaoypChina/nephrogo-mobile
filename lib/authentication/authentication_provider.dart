@@ -6,6 +6,7 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:logging/logging.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/ui/analytics.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -34,6 +35,11 @@ class AuthenticationProvider {
   static final AuthenticationProvider _singleton =
       AuthenticationProvider._internal();
 
+  final logger = Logger('AuthenticationProvider');
+
+  static const charset =
+      '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+
   final _auth = FirebaseAuth.instance;
   final _appPreferences = AppPreferences();
   final _analytics = Analytics();
@@ -51,12 +57,13 @@ class AuthenticationProvider {
   bool get isUserLoggedIn => currentUser != null;
 
   String get currentUserPhotoURL {
-    final photoURL = _auth.currentUser?.photoURL;
+    final photoURL =
+        _auth.currentUser?.photoURL?.replaceFirst('/s96-c/', '/s300-c/');
     if (photoURL == null) {
       return null;
     }
 
-    return photoURL.replaceFirst('/s96-c/', '/s300-c/') + '?height=300';
+    return '$photoURL?height=300';
   }
 
   Future<void> _onAuthStateChange(User user) async {
@@ -67,7 +74,7 @@ class AuthenticationProvider {
     }
   }
 
-  Future<String> idToken([bool forceRefresh = false]) =>
+  Future<String> idToken({bool forceRefresh = false}) =>
       currentUser.getIdToken(forceRefresh);
 
   Future signOut() async {
@@ -76,7 +83,7 @@ class AuthenticationProvider {
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
-    return await _auth.sendPasswordResetEmail(
+    return _auth.sendPasswordResetEmail(
       email: email,
     );
   }
@@ -131,10 +138,12 @@ class AuthenticationProvider {
         'Can not link different providers, because exception code ${authException.code} is invalid',
       );
     }
-    print('Linking ${authException.credential} provider to different provider');
 
-    var email = authException.email;
-    var pendingCredential = authException.credential;
+    logger.info(
+        'Linking ${authException.credential} provider to different provider');
+
+    final email = authException.email;
+    final pendingCredential = authException.credential;
 
     // Fetch a list of what sign-in methods exist for the conflicting user
     var userSignInMethods = await _auth.fetchSignInMethodsForEmail(email);
@@ -163,7 +172,7 @@ class AuthenticationProvider {
     final userCredential = await _auth.signInWithCredential(oAuthCredential);
 
     // Link the pending credential with the existing account
-    return await userCredential.user.linkWithCredential(pendingCredential);
+    return userCredential.user.linkWithCredential(pendingCredential);
   }
 
   Future<UserCredential> _signInWithCredential(
@@ -172,7 +181,7 @@ class AuthenticationProvider {
       return await _auth.signInWithCredential(authCredential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
-        return await _linkDifferentProviders(e);
+        return _linkDifferentProviders(e);
       }
       rethrow;
     }
@@ -207,10 +216,10 @@ class AuthenticationProvider {
   Future<UserCredential> signInWithGoogle() async {
     final credential = await _triggerGoogleLogin();
 
-    return await _signInWithCredential(credential);
+    return _signInWithCredential(credential);
   }
 
-  Future<FacebookAuthCredential> _triggerFacebookLogin() async {
+  Future<OAuthCredential> _triggerFacebookLogin() async {
     final result = await FacebookAuth.instance.login();
 
     return FacebookAuthProvider.credential(result.token);
@@ -220,14 +229,12 @@ class AuthenticationProvider {
   Future<UserCredential> signInWithFacebook() async {
     final facebookAuthCredential = await _triggerFacebookLogin();
 
-    return await _signInWithCredential(facebookAuthCredential);
+    return _signInWithCredential(facebookAuthCredential);
   }
 
   /// Generates a cryptographically secure random nonce, to be included in a
   /// credential request.
   String _generateNonce([int length = 32]) {
-    final charset =
-        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
     final random = Random.secure();
     return List.generate(length, (_) => charset[random.nextInt(charset.length)])
         .join();
@@ -270,6 +277,6 @@ class AuthenticationProvider {
 
     // Sign in the user with Firebase. If the nonce we generated earlier does
     // not match the nonce in `appleCredential.identityToken`, sign in will fail.
-    return await _signInWithCredential(oauthCredential);
+    return _signInWithCredential(oauthCredential);
   }
 }

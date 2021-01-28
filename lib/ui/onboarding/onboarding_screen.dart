@@ -30,11 +30,11 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  static const STEPS_COUNT = 6;
+  static const stepsCount = 6;
   final _controller = PageController(viewportFraction: 0.9999999);
   int page = 0;
 
-  bool get isDone => page == (STEPS_COUNT - 1);
+  bool get isDone => page == (stepsCount - 1);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Expanded(
               child: PageView.builder(
                 controller: _controller,
-                itemCount: STEPS_COUNT,
+                itemCount: stepsCount,
                 itemBuilder: (BuildContext context, int index) {
                   switch (index) {
                     case 0:
@@ -112,7 +112,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               padding: const EdgeInsets.all(8),
               child: SmoothPageIndicator(
                 controller: _controller,
-                count: STEPS_COUNT,
+                count: stepsCount,
                 effect: ScaleEffect(
                   dotColor: Colors.white,
                   activeDotColor: Colors.white,
@@ -128,6 +128,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    primary: Colors.black,
+                    shape: StadiumBorder(),
+                    side: BorderSide(width: 2, color: Colors.white),
+                  ),
+                  onPressed: () => advancePageOrFinish(isDone: isDone),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
@@ -140,12 +146,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           .copyWith(fontSize: 18, color: Colors.white),
                     ),
                   ),
-                  style: OutlinedButton.styleFrom(
-                    primary: Colors.black,
-                    shape: StadiumBorder(),
-                    side: BorderSide(width: 2, color: Colors.white),
-                  ),
-                  onPressed: () => advancePageOrFinish(isDone),
                 ),
               ),
             ),
@@ -155,7 +155,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Future advancePageOrFinish(bool isDone, {skippedOnboarding = false}) async {
+  Future advancePageOrFinish(
+      {@required bool isDone, bool skippedOnboarding = false}) async {
     if (isDone) {
       await AppPreferences().setOnboardingPassed();
 
@@ -170,7 +171,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Navigator.of(context).pop();
           break;
         case OnboardingScreenExitType.login:
-          await Navigator.pushReplacementNamed(context, Routes.ROUTE_LOGIN);
+          await Navigator.pushReplacementNamed(context, Routes.routeLogin);
           break;
       }
     } else {
@@ -180,7 +181,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Future<bool> close() {
-    return advancePageOrFinish(true, skippedOnboarding: true)
+    return advancePageOrFinish(isDone: true, skippedOnboarding: true)
         .then((value) => true);
   }
 

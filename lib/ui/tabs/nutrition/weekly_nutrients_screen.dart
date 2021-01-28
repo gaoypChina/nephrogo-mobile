@@ -112,9 +112,9 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
 
     final options = Nutrient.values.map((t) {
       return SimpleDialogOption(
-        child: Text(t.name(appLocalizations)),
         onPressed: () => Navigator.pop(context, t),
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        child: Text(t.name(appLocalizations)),
       );
     }).toList();
 
@@ -179,7 +179,6 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
                 dailyIntakeReports: dailyIntakesReports,
                 nutrient: nutrient,
                 maximumDate: weekEnd,
-                fitInsideVertically: true,
               ),
             ],
           ),
@@ -200,7 +199,7 @@ class DailyIntakeSection extends StatelessWidget {
   final Nutrient nutrient;
   final DailyIntakesReport dailyIntakesReport;
 
-  DailyIntakeSection({
+  const DailyIntakeSection({
     Key key,
     @required this.nutrient,
     @required this.dailyIntakesReport,
@@ -226,7 +225,7 @@ class DailyIntakeSection extends StatelessWidget {
 
     return LargeSection(
       title:
-          _dateFormat.format(dailyIntakesReport.date).capitalizeFirst() + ' d.',
+          '${_dateFormat.format(dailyIntakesReport.date).capitalizeFirst()} d.',
       leading: ratio != null ? _getVisualIndicator(ratio) : null,
       subTitle:
           getSubtitle(appLocalizations, totalFormatted, dailyNormFormatted),
@@ -267,7 +266,6 @@ class DailyIntakeSection extends StatelessWidget {
         Positioned.fill(
           child: CircularProgressIndicator(
             value: percent,
-            strokeWidth: 4.0,
             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
           ),
         ),
@@ -320,7 +318,7 @@ class IndicatorIntakeTile extends StatelessWidget {
         ],
       ),
       onTap: () => Navigator.of(context).pushNamed(
-        Routes.ROUTE_INTAKE_CREATE,
+        Routes.routeIntakeCreate,
         arguments: IntakeCreateScreenArguments(intake: intake),
       ),
     );

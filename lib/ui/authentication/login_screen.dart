@@ -41,13 +41,13 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.fromLTRB(32, 32, 32, 64),
+      padding: const EdgeInsets.fromLTRB(32, 32, 32, 64),
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 36),
           child: FractionallySizedBox(
-            child: Image.asset('assets/logo/logo-with-title.png'),
             widthFactor: 0.6,
+            child: Image.asset('assets/logo/logo-with-title.png'),
           ),
         ),
         Padding(
@@ -113,12 +113,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Container(
-            child: LoginConditionsRichText(
-              textColor: Colors.black,
-              baseText: appLocalizations.loginConditionsIAgree,
-              textAlign: TextAlign.start,
-            ),
+          content: LoginConditionsRichText(
+            textColor: Colors.black,
+            baseText: appLocalizations.loginConditionsIAgree,
+            textAlign: TextAlign.start,
           ),
           actions: [
             FlatButton(
@@ -141,7 +139,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
     if (agreed) {
       final userCredential = await Navigator.pushNamed<UserCredential>(
         context,
-        Routes.ROUTE_LOGIN_EMAIL_PASSWORD,
+        Routes.routeLoginEmailPassword,
       );
 
       if (userCredential != null) {
@@ -185,15 +183,15 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
     if (userProfile != null) {
       await _appPreferences.setProfileCreated();
 
-      return await Navigator.pushReplacementNamed(
+      return Navigator.pushReplacementNamed(
         context,
-        Routes.ROUTE_HOME,
+        Routes.routeHome,
       );
     }
 
-    return await Navigator.pushReplacementNamed(
+    return Navigator.pushReplacementNamed(
       context,
-      Routes.ROUTE_USER_PROFILE,
+      Routes.routeUserProfile,
       arguments: UserProfileNextScreenType.homeScreen,
     );
   }

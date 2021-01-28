@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppPreferences {
-  static const _KEY_PROFILE_CREATED = 'PROFILE_CREATED';
-  static const _KEY_ONBOARDING_PASSED = 'ONBOARDING_PASSED';
+  static const keyProfileCreated = 'PROFILE_CREATED';
+  static const keyOnboardingPassed = 'ONBOARDING_PASSED';
 
   static final AppPreferences _singleton = AppPreferences._internal();
 
@@ -20,25 +20,23 @@ class AppPreferences {
     if (_sharedPreferencesInternal != null) {
       return _sharedPreferencesInternal;
     }
-    _sharedPreferencesInternal = await SharedPreferences.getInstance();
-
-    return _sharedPreferencesInternal;
+    return _sharedPreferencesInternal = await SharedPreferences.getInstance();
   }
 
   Future<bool> setProfileCreated() {
     return _sharedPreferences
-        .then((preferences) => preferences.setBool(_KEY_PROFILE_CREATED, true));
+        .then((preferences) => preferences.setBool(keyProfileCreated, true));
   }
 
   Future<bool> deleteProfileCreated() {
     return _sharedPreferences
-        .then((preferences) => preferences.remove(_KEY_PROFILE_CREATED));
+        .then((preferences) => preferences.remove(keyProfileCreated));
   }
 
   Future<bool> isProfileCreated() {
     return _sharedPreferences.then((preferences) {
-      if (preferences.containsKey(_KEY_PROFILE_CREATED)) {
-        return preferences.getBool(_KEY_PROFILE_CREATED);
+      if (preferences.containsKey(keyProfileCreated)) {
+        return preferences.getBool(keyProfileCreated);
       }
 
       return false;
@@ -47,11 +45,11 @@ class AppPreferences {
 
   Future<bool> isOnboardingPassed() {
     return _sharedPreferences.then(
-        (preferences) => preferences.getBool(_KEY_ONBOARDING_PASSED) ?? false);
+        (preferences) => preferences.getBool(keyOnboardingPassed) ?? false);
   }
 
   Future<bool> setOnboardingPassed() {
-    return _sharedPreferences.then(
-        (preferences) => preferences.setBool(_KEY_ONBOARDING_PASSED, true));
+    return _sharedPreferences
+        .then((preferences) => preferences.setBool(keyOnboardingPassed, true));
   }
 }

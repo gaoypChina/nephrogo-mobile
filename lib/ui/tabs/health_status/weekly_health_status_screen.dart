@@ -104,9 +104,9 @@ class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
       AppLocalizations appLocalizations) async {
     final options = HealthIndicator.values.map((hi) {
       return SimpleDialogOption(
-        child: Text(hi.name(appLocalizations)),
         onPressed: () => Navigator.pop(context, hi),
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        child: Text(hi.name(appLocalizations)),
       );
     }).toList();
 

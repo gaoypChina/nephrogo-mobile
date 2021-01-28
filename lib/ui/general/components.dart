@@ -55,12 +55,14 @@ class BasicSection extends StatelessWidget {
       return [];
     }
 
-    var preparedChildren = children.map(
-      (c) => Padding(
-        padding: childrenPadding ?? _defaultChildrenPadding,
-        child: c,
-      ),
-    );
+    var preparedChildren = children
+        .map(
+          (c) => Padding(
+            padding: childrenPadding ?? _defaultChildrenPadding,
+            child: c,
+          ),
+        )
+        .cast<Widget>();
 
     if (showDividers) {
       preparedChildren = ListTile.divideTiles(

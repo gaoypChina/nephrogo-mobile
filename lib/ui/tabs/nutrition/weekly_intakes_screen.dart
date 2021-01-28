@@ -60,7 +60,7 @@ class _WeeklyIntakesScreenState extends State<WeeklyIntakesScreen> {
   Future _createProduct(BuildContext context) {
     return Navigator.pushNamed(
       context,
-      Routes.ROUTE_PRODUCT_SEARCH,
+      Routes.routeProductSearch,
       arguments: ProductSearchType.choose,
     );
   }

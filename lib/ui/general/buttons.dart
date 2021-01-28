@@ -21,6 +21,7 @@ class AppElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RaisedButton(
       color: color ?? Theme.of(context).primaryColor,
+      onPressed: onPressed,
       child: Padding(
         padding: innerPadding,
         child: Text(
@@ -31,7 +32,6 @@ class AppElevatedButton extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: onPressed,
     );
   }
 }

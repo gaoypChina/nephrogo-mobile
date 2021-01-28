@@ -53,18 +53,18 @@ class _AppFormMultipleSelectDialogState<T>
       ),
       actions: [
         TextButton(
-          child: Text(appLocalizations.dialogCancel.toUpperCase()),
           onPressed: () {
             Navigator.pop(context);
           },
+          child: Text(appLocalizations.dialogCancel.toUpperCase()),
         ),
         TextButton(
-          child: Text(
-            appLocalizations.formMultiSelectDialogActionChoose.toUpperCase(),
-          ),
           onPressed: () {
             Navigator.pop(context, _getSelectedItems());
           },
+          child: Text(
+            appLocalizations.formMultiSelectDialogActionChoose.toUpperCase(),
+          ),
         ),
       ],
     );
@@ -104,7 +104,7 @@ class _AppFormMultipleSelectDialogState<T>
   }
 
   List<AppSelectFormFieldItem<T>> _getSelectedItems() {
-    var selectedItems = <AppSelectFormFieldItem<T>>[];
+    final selectedItems = <AppSelectFormFieldItem<T>>[];
     for (var i = 0; i < _itemsSelection.length; ++i) {
       if (_itemsSelection[i]) {
         selectedItems.add(widget.items[i]);

@@ -33,7 +33,7 @@ class ProfileTab extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  Routes.ROUTE_USER_PROFILE,
+                  Routes.routeUserProfile,
                   arguments: UserProfileNextScreenType.close,
                 );
               },
@@ -48,7 +48,7 @@ class ProfileTab extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  Routes.ROUTE_FAQ,
+                  Routes.routeFAQ,
                 );
               },
             ),
@@ -62,7 +62,7 @@ class ProfileTab extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  Routes.ROUTE_ONBOARDING,
+                  Routes.routeOnboarding,
                   arguments:
                       OnboardingScreenArguments(OnboardingScreenExitType.close),
                 );
@@ -125,7 +125,7 @@ class ProfileTab extends StatelessWidget {
 
     await Navigator.pushReplacementNamed(
       context,
-      Routes.ROUTE_LOGIN,
+      Routes.routeLogin,
     );
   }
 
@@ -155,7 +155,7 @@ class ProfileTab extends StatelessWidget {
       child: AppListTile(
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(12),
-          child: Container(
+          child: SizedBox(
             width: 64,
             height: 64,
             child: getUserProfilePhoto(),

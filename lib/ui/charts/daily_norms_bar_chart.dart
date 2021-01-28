@@ -63,7 +63,7 @@ class DailyNormsBarChart extends StatelessWidget {
     List<Nutrient> nutrients,
   ) {
     return nutrients.mapIndexed((i, nutrient) {
-      var dailyNutrientConsumption =
+      final dailyNutrientConsumption =
           dailyIntakeReport.getDailyNutrientConsumption(nutrient);
 
       final rawYPercent = dailyNutrientConsumption.total.toDouble() /

@@ -20,7 +20,7 @@ class _Query {
   final String query;
   final bool wait;
 
-  _Query(this.query, this.wait);
+  _Query(this.query, {@required this.wait});
 }
 
 class ProductSearchScreen extends StatefulWidget {
@@ -55,7 +55,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
 
   Stream<List<Product>> _buildStream() {
     return _queryStreamController.stream
-        .startWith(_Query('', false))
+        .startWith(_Query('', wait: false))
         .asyncMap((q) async {
           if (q.wait) {
             await Future.delayed(_searchDispatchDuration);
@@ -67,10 +67,10 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
   }
 
   void _changeQuery(String query) {
-    currentQuery = query = query.trim();
+    currentQuery = query.trim();
 
-    if (query.isEmpty || query.length >= 3) {
-      _queryStreamController.add(_Query(query, true));
+    if (currentQuery.isEmpty || currentQuery.length >= 3) {
+      _queryStreamController.add(_Query(currentQuery, wait: true));
     }
   }
 
@@ -138,8 +138,8 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
 
   Future close(BuildContext context, Product product) async {
     if (widget.searchType == ProductSearchType.choose) {
-      return await Navigator.of(context).pushReplacementNamed(
-        Routes.ROUTE_INTAKE_CREATE,
+      return Navigator.of(context).pushReplacementNamed(
+        Routes.routeIntakeCreate,
         arguments: IntakeCreateScreenArguments(product: product),
       );
     }

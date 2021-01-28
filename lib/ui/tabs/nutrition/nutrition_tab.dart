@@ -39,7 +39,7 @@ class NutritionTab extends StatelessWidget {
   Future _createProduct(BuildContext context) {
     return Navigator.pushNamed(
       context,
-      Routes.ROUTE_PRODUCT_SEARCH,
+      Routes.routeProductSearch,
       arguments: ProductSearchType.choose,
     );
   }
@@ -71,8 +71,8 @@ class NutritionTab extends StatelessWidget {
                     title: appLocalizations.lastMealsSectionTitle,
                     intakes: latestIntakes,
                     leading: OutlineButton(
-                      child: Text(appLocalizations.more.toUpperCase()),
                       onPressed: () => openWeeklyIntakesScreen(context),
+                      child: Text(appLocalizations.more.toUpperCase()),
                     ),
                   ),
                   for (final nutrient in Nutrient.values)
@@ -94,14 +94,13 @@ class NutritionTab extends StatelessWidget {
   Future openWeeklyNutritionScreen(BuildContext context, Nutrient indicator) {
     return Navigator.pushNamed(
       context,
-      Routes.ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN,
+      Routes.routeDailyWeeklyNutrientsScreen,
       arguments: WeeklyNutrientsScreenArguments(indicator),
     );
   }
 
   Future openWeeklyIntakesScreen(BuildContext context) {
-    return Navigator.pushNamed(
-        context, Routes.ROUTE_DAILY_WEEKLY_INTAKES_SCREEN);
+    return Navigator.pushNamed(context, Routes.routeDailyWeeklyIntakesScreen);
   }
 
   LargeSection buildIndicatorChartSection(
@@ -134,6 +133,10 @@ class NutritionTab extends StatelessWidget {
     return LargeSection(
       title: nutrient.name(localizations),
       subTitle: subtitle,
+      leading: OutlineButton(
+        onPressed: () => openWeeklyNutritionScreen(context, nutrient),
+        child: Text(localizations.more.toUpperCase()),
+      ),
       children: [
         if (showGraph)
           NutrientWeeklyBarChart(
@@ -143,10 +146,6 @@ class NutritionTab extends StatelessWidget {
             fitInsideVertically: false,
           )
       ],
-      leading: OutlineButton(
-        child: Text(localizations.more.toUpperCase()),
-        onPressed: () => openWeeklyNutritionScreen(context, nutrient),
-      ),
     );
   }
 }
@@ -186,7 +185,7 @@ class DailyNormsSection extends StatelessWidget {
   Future showInformationScreen(BuildContext context) {
     return Navigator.pushNamed(
       context,
-      Routes.ROUTE_FAQ,
+      Routes.routeFAQ,
     );
   }
 }
@@ -244,7 +243,7 @@ class IntakeTile extends StatelessWidget {
         ],
       ),
       onTap: () => Navigator.of(context).pushNamed(
-        Routes.ROUTE_INTAKE_CREATE,
+        Routes.routeIntakeCreate,
         arguments: IntakeCreateScreenArguments(intake: intake),
       ),
     );

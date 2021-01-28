@@ -13,7 +13,7 @@ class AppComponent extends StatefulWidget {
 }
 
 class _AppComponentState extends State<AppComponent> {
-  static final _defaultLocale = Locale('lt', 'LT');
+  static const _defaultLocale = Locale('lt', 'LT');
 
   final _apiService = ApiService();
 
@@ -43,8 +43,8 @@ class _AppComponentState extends State<AppComponent> {
         GlobalCupertinoLocalizations.delegate,
       ],
       locale: _defaultLocale,
-      supportedLocales: [_defaultLocale],
-      initialRoute: Routes.ROUTE_START,
+      supportedLocales: const [_defaultLocale],
+      initialRoute: Routes.routeStart,
       onGenerateRoute: Routes.onGenerateRoute,
     );
   }

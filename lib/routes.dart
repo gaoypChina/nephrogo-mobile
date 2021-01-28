@@ -20,110 +20,111 @@ import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'ui/user_profile_screen.dart';
 
 class Routes {
-  static const ROUTE_START = 'start';
+  static const routeStart = 'start';
 
-  static const ROUTE_LOGIN = 'login';
-  static const ROUTE_LOGIN_EMAIL_PASSWORD = 'login_email_password';
-  static const ROUTE_REGISTRATION = 'registration';
-  static const ROUTE_REMIND_PASSWORD = 'remind_password';
+  static const routeLogin = 'login';
+  static const routeLoginEmailPassword = 'loginEmailPassword';
+  static const routeRegistration = 'registration';
+  static const routeRemindPassword = 'RemindPassword';
 
-  static const ROUTE_HOME = 'home';
+  static const routeHome = 'home';
 
-  static const ROUTE_ONBOARDING = 'onboarding';
+  static const routeOnboarding = 'onboarding';
 
-  static const ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN = 'weekly_nutrients_screen';
-  static const ROUTE_DAILY_WEEKLY_INTAKES_SCREEN =
-      'ROUTE_DAILY_WEEKLY_INTAKES_SCREEN';
-  static const ROUTE_INTAKE_CREATE = 'ROUTE_INTAKE_CREATE';
-  static const ROUTE_PRODUCT_SEARCH = 'ROUTE_PRODUCT_SEARCH';
+  static const routeDailyWeeklyNutrientsScreen = 'weeklyNutrientsScreen';
+  static const routeDailyWeeklyIntakesScreen = 'dailyWeeklyIntakesScreen';
+  static const routeIntakeCreate = 'intakeCreate';
+  static const routeProductSearch = 'productSearch';
 
-  static const ROUTE_WEEKLY_HEALTH_STATUS_SCREEN =
-      'ROUTE_WEEKLY_HEALTH_STATUS_SCREEN';
-  static const ROUTE_HEALTH_STATUS_CREATION = 'ROUTE_HEALTH_STATUS_CREATION';
+  static const routeWeeklyHealthStatusScreen = 'weeklyHealthStatusScreen';
+  static const routeHealthStatusCreation = 'healthStatusCreation';
 
-  static const ROUTE_USER_PROFILE = 'ROUTE_USER_PROFILE';
-  static const ROUTE_FAQ = 'frequently_asked_questions';
+  static const routeUserProfile = 'userProfile';
+  static const routeFAQ = 'faq';
 
-  static const ROUTE_FORM_SELECT = 'form_select';
+  static const routeFormSelect = 'formSelect';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case ROUTE_START:
+      case routeStart:
         return MaterialPageRoute(builder: (context) {
           return StartScreen();
         });
-      case ROUTE_ONBOARDING:
+      case routeOnboarding:
         return MaterialPageRoute(builder: (context) {
-          OnboardingScreenArguments arguments = settings.arguments;
+          final arguments = settings.arguments as OnboardingScreenArguments;
 
           return OnboardingScreen(exitType: arguments.exitType);
         });
-      case ROUTE_LOGIN:
+      case routeLogin:
         return MaterialPageRoute(builder: (context) {
           return LoginScreen();
         });
-      case ROUTE_REGISTRATION:
+      case routeRegistration:
         return MaterialPageRoute<UserCredential>(builder: (context) {
           return RegistrationScreen();
         });
-      case ROUTE_REMIND_PASSWORD:
+      case routeRemindPassword:
         return MaterialPageRoute(builder: (context) {
           return RemindPasswordScreen();
         });
-      case ROUTE_LOGIN_EMAIL_PASSWORD:
+      case routeLoginEmailPassword:
         return MaterialPageRoute<UserCredential>(builder: (context) {
           return EmailPasswordLoginScreen();
         });
-      case ROUTE_HOME:
+      case routeHome:
         return MaterialPageRoute(builder: (context) {
           return HomeScreen();
         });
-      case ROUTE_INTAKE_CREATE:
+      case routeIntakeCreate:
         return MaterialPageRoute<Intake>(builder: (context) {
-          IntakeCreateScreenArguments arguments = settings.arguments;
+          final arguments = settings.arguments as IntakeCreateScreenArguments;
 
           return IntakeCreateScreen(
             initialProduct: arguments.product ?? arguments.product,
             intake: arguments.intake,
           );
         });
-      case ROUTE_PRODUCT_SEARCH:
+      case routeProductSearch:
         return MaterialPageRoute<Product>(builder: (context) {
-          ProductSearchType searchType = settings.arguments;
+          final searchType = settings.arguments as ProductSearchType;
 
           return ProductSearchScreen(searchType: searchType);
         });
-      case ROUTE_HEALTH_STATUS_CREATION:
+      case routeHealthStatusCreation:
         return MaterialPageRoute(builder: (context) {
           return HealthStatusCreationScreen();
         });
-      case ROUTE_FAQ:
+      case routeFAQ:
         return MaterialPageRoute(builder: (context) {
           return FrequentlyAskedQuestionsScreen();
         });
-      case ROUTE_USER_PROFILE:
+      case routeUserProfile:
         return MaterialPageRoute(builder: (context) {
-          UserProfileNextScreenType nextScreenType = settings.arguments;
+          final nextScreenType =
+              settings.arguments as UserProfileNextScreenType;
 
           return UserProfileScreen(
             nextScreenType: nextScreenType,
           );
         });
-      case ROUTE_DAILY_WEEKLY_INTAKES_SCREEN:
+      case routeDailyWeeklyIntakesScreen:
         return MaterialPageRoute(builder: (context) {
           return WeeklyIntakesScreen();
         });
-      case ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN:
+      case routeDailyWeeklyNutrientsScreen:
         return MaterialPageRoute(builder: (context) {
-          WeeklyNutrientsScreenArguments arguments = settings.arguments;
+          final arguments =
+              settings.arguments as WeeklyNutrientsScreenArguments;
 
           return WeeklyNutrientsScreen(
             nutrient: arguments.nutrient,
           );
         });
-      case ROUTE_WEEKLY_HEALTH_STATUS_SCREEN:
+      case routeWeeklyHealthStatusScreen:
         return MaterialPageRoute(builder: (context) {
-          WeeklyHealthStatusScreenArguments arguments = settings.arguments;
+          final arguments =
+              settings.arguments as WeeklyHealthStatusScreenArguments;
 
           return WeeklyHealthStatusScreen(
             initialHealthIndicator: arguments.initialHealthIndicator,

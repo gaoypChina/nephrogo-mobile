@@ -38,13 +38,11 @@ extension IndexedIterable<E> on Iterable<E> {
 extension ListExtensions<E> on List<E> {
   List<E> shift(int n) {
     if (isEmpty) return this;
-    var i = n % length;
+    final i = n % length;
     return sublist(i)..addAll(sublist(0, i));
   }
 }
 
 extension NumericIterable<E extends num> on Iterable<E> {
-  E get sum => fold<num>(0, (a, b) => a + b);
-
   E get max => maxBy((v) => v);
 }

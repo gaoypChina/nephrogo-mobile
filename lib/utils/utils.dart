@@ -2,7 +2,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 Future<bool> launchURL(String url) async {
   if (await canLaunch(url)) {
-    return await launch(url);
+    return launch(url);
   } else {
     throw 'Could not launch $url';
   }
@@ -11,7 +11,7 @@ Future<bool> launchURL(String url) async {
 Future<bool> launchPhone(String phoneNumber) async {
   final phoneUrl = 'tel:$phoneNumber';
   if (await canLaunch(phoneUrl)) {
-    return await launch(phoneUrl);
+    return launch(phoneUrl);
   } else {
     throw 'Could not launch $phoneUrl';
   }
@@ -20,7 +20,7 @@ Future<bool> launchPhone(String phoneNumber) async {
 Future<bool> launchEmail(String email) async {
   final emailUrl = 'mailto:$email';
   if (await canLaunch(emailUrl)) {
-    return await launch(emailUrl);
+    return launch(emailUrl);
   } else {
     throw 'Could not launch $emailUrl';
   }

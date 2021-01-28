@@ -20,7 +20,7 @@ class _StartScreenState extends State<StartScreen> {
   @override
   Widget build(BuildContext context) {
     if (!_authenticationProvider.isUserLoggedIn) {
-      return AppFutureBuilder(
+      return AppFutureBuilder<bool>(
         future: _appPreferences.isOnboardingPassed(),
         builder: (context, isOnboardingPassed) {
           if (isOnboardingPassed) {
@@ -31,7 +31,7 @@ class _StartScreenState extends State<StartScreen> {
       );
     }
 
-    return AppFutureBuilder(
+    return AppFutureBuilder<bool>(
       future: _appPreferences.isProfileCreated(),
       builder: (context, isProfileCreated) {
         if (isProfileCreated) {

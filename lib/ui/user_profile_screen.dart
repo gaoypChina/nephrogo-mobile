@@ -73,7 +73,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     _userProfileBuilder = UserProfileRequestBuilder();
 
     _userProfileMemoizer.runOnce(() async {
-      return await _apiService.getUserProfile();
+      return _apiService.getUserProfile();
     });
   }
 
@@ -95,10 +95,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         return FloatingActionButton.extended(
           onPressed: () => validateAndSaveUserProfile(context),
           label: Text(_appLocalizations.save.toUpperCase()),
-          icon: Icon(Icons.save),
+          icon: const Icon(Icons.save),
         );
       }),
-      body: AppFutureBuilder(
+      body: AppFutureBuilder<UserProfile>(
         future: _userProfileMemoizer.future,
         builder: (context, userProfile) {
           return _buildBody(userProfile);
@@ -362,7 +362,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Future<UserProfile> _saveUserProfileToApi() async {
     final userProfile = _userProfileBuilder.build();
 
-    return await _apiService.createOrUpdateUserProfile(userProfile);
+    return _apiService.createOrUpdateUserProfile(userProfile);
   }
 
   Future validateAndSaveUserProfile(BuildContext context) async {
@@ -403,9 +403,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         Navigator.pop(context);
         break;
       case UserProfileNextScreenType.homeScreen:
-        return await Navigator.pushReplacementNamed(
+        return Navigator.pushReplacementNamed(
           context,
-          Routes.ROUTE_HOME,
+          Routes.routeHome,
         );
     }
   }

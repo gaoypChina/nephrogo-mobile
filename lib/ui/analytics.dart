@@ -4,7 +4,7 @@ import 'package:firebase_analytics/observer.dart';
 class Analytics {
   static final Analytics _singleton = Analytics._internal();
 
-  static const EVENT_ONBOARDING_SKIPPED = 'tutorial_skipped';
+  static const eventOnboardingSkipped = 'tutorial_skipped';
 
   FirebaseAnalytics _analytics;
 
@@ -36,6 +36,6 @@ class Analytics {
   }
 
   Future logOnboardingSkipped() async {
-    return _analytics.logEvent(name: EVENT_ONBOARDING_SKIPPED);
+    return _analytics.logEvent(name: eventOnboardingSkipped);
   }
 }

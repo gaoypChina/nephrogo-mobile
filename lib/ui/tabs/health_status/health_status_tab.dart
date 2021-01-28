@@ -39,7 +39,7 @@ class _HealthStatusTabState extends State<HealthStatusTab> {
   Future _createHealthStatus() {
     return Navigator.pushNamed(
       context,
-      Routes.ROUTE_HEALTH_STATUS_CREATION,
+      Routes.routeHealthStatusCreation,
     );
   }
 }
@@ -57,15 +57,15 @@ class HealthIndicatorsTabBody extends StatelessWidget {
       builder: (context, response) {
         return Visibility(
           visible: response.hasAnyStatuses,
+          replacement: EmptyStateContainer(
+            text: appLocalizations.weeklyHealthStatusEmpty,
+          ),
           child: ListView(
             padding: EdgeInsets.only(bottom: 64),
             children: [
               for (final indicator in HealthIndicator.values)
                 buildIndicatorChartSection(context, response, indicator)
             ],
-          ),
-          replacement: EmptyStateContainer(
-            text: appLocalizations.weeklyHealthStatusEmpty,
           ),
         );
       },
@@ -78,7 +78,7 @@ class HealthIndicatorsTabBody extends StatelessWidget {
   ) {
     Navigator.pushNamed(
       context,
-      Routes.ROUTE_WEEKLY_HEALTH_STATUS_SCREEN,
+      Routes.routeWeeklyHealthStatusScreen,
       arguments: WeeklyHealthStatusScreenArguments(indicator),
     );
   }
@@ -104,6 +104,10 @@ class HealthIndicatorsTabBody extends StatelessWidget {
     return LargeSection(
       title: indicator.name(appLocalizations),
       subTitle: appLocalizations.healthIndicatorSubtitle(todayConsumption),
+      leading: OutlineButton(
+        onPressed: () => openWeeklyHealthIndicatorScreen(context, indicator),
+        child: Text(appLocalizations.more.toUpperCase()),
+      ),
       children: [
         if (hasReports)
           HealthIndicatorWeeklyBarChart(
@@ -114,10 +118,6 @@ class HealthIndicatorsTabBody extends StatelessWidget {
             appLocalizations: appLocalizations,
           ),
       ],
-      leading: OutlineButton(
-        child: Text(appLocalizations.more.toUpperCase()),
-        onPressed: () => openWeeklyHealthIndicatorScreen(context, indicator),
-      ),
     );
   }
 }
