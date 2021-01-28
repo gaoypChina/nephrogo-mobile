@@ -67,10 +67,6 @@ dependencies:
   sign_in_with_apple: ^2.5.4
   crypto: ^2.1.5
 
-dependency_overrides:
-  # https://github.com/nephrogo-lt/nephrogo-application/runs/1584697225
-  intl: ^0.16.1
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
