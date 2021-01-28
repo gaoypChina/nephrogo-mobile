@@ -10,7 +10,7 @@ class IntakeNutrientTile extends StatelessWidget {
   final Nutrient nutrient;
 
   IntakeNutrientTile(this.intake, this.nutrient)
-      : super(key: Key("IntakeNutrientTile-${intake.id}-$nutrient"));
+      : super(key: Key('IntakeNutrientTile-${intake.id}-$nutrient'));
 
   @override
   Widget build(BuildContext context) {

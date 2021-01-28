@@ -3,10 +3,10 @@ import 'package:nephrogo_api_client/model/product_kind_enum.dart';
 
 class BasicSection extends StatelessWidget {
   static const _defaultHeaderPadding =
-      const EdgeInsets.only(bottom: 4, top: 16, left: 16, right: 16);
+      EdgeInsets.only(bottom: 4, top: 16, left: 16, right: 16);
 
   static const _defaultChildrenPadding =
-      const EdgeInsets.symmetric(vertical: 4, horizontal: 16);
+      EdgeInsets.symmetric(vertical: 4, horizontal: 16);
 
   final Widget header;
   final List<Widget> children;
@@ -55,7 +55,7 @@ class BasicSection extends StatelessWidget {
       return [];
     }
 
-    Iterable<Widget> preparedChildren = children.map(
+    var preparedChildren = children.map(
       (c) => Padding(
         padding: childrenPadding ?? _defaultChildrenPadding,
         child: c,
@@ -86,7 +86,7 @@ class LargeSection extends StatelessWidget {
     @required this.children,
     this.subTitle,
     this.leading,
-    this.showDividers: true,
+    this.showDividers = true,
   }) : super(key: key);
 
   @override
@@ -100,18 +100,18 @@ class LargeSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  this.title,
+                  title,
                   style: TextStyle(
                     fontSize: 24,
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                if (this.subTitle != null)
+                if (subTitle != null)
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2.0),
                     child: Text(
-                      this.subTitle,
+                      subTitle,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -141,10 +141,10 @@ class SmallSection extends StatelessWidget {
     Key key,
     @required this.children,
     @required this.title,
-    this.setLeftPadding: false,
+    this.setLeftPadding = false,
     this.childrenPadding,
     this.headerPadding,
-    this.showDividers: true,
+    this.showDividers = true,
   }) : super(key: key);
 
   @override
@@ -161,7 +161,7 @@ class SmallSection extends StatelessWidget {
       header: Padding(
         padding: headerPaddingAdjusted,
         child: Text(
-          this.title,
+          title,
           style: Theme.of(context).textTheme.subtitle1.copyWith(
                 color: Colors.grey,
               ),
@@ -190,8 +190,8 @@ class AppListTile extends StatelessWidget {
     this.trailing,
     this.onTap,
     this.contentPadding,
-    this.selected: false,
-    this.dense: false,
+    this.selected = false,
+    this.dense = false,
   }) : super(key: key);
 
   @override
@@ -245,7 +245,7 @@ class EmptyStateContainer extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Image.asset("assets/empty.png"),
+            child: Image.asset('assets/empty.png'),
           ),
           Text(
             text,

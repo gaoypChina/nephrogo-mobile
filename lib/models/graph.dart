@@ -19,13 +19,13 @@ class AppBarChartData extends Equatable {
     @required this.groups,
     this.dashedHorizontalLine,
     this.showLeftTitles = false,
-    this.barWidth: 22,
-    this.rodRadius: 6,
+    this.barWidth = 22,
+    this.rodRadius = 6,
     this.maxY,
     this.minY,
     this.interval,
-    this.fitInsideHorizontally: true,
-    this.fitInsideVertically: true,
+    this.fitInsideHorizontally = true,
+    this.fitInsideVertically = true,
   });
 
   @override
@@ -51,8 +51,8 @@ class AppBarChartGroup extends Equatable {
     @required this.text,
     @required this.x,
     @required this.rods,
-    this.isSelected: false,
-  }) : assert(rods.isNotEmpty, "Rods can not be empty");
+    this.isSelected = false,
+  }) : assert(rods.isNotEmpty, 'Rods can not be empty');
 
   @override
   List<Object> get props => [text, x, isSelected, rods];

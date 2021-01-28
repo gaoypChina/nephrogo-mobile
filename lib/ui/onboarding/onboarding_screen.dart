@@ -31,10 +31,10 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   static const STEPS_COUNT = 6;
-  final _controller = new PageController(viewportFraction: 0.9999999);
+  final _controller = PageController(viewportFraction: 0.9999999);
   int page = 0;
 
-  get isDone => page == (STEPS_COUNT - 1);
+  bool get isDone => page == (STEPS_COUNT - 1);
 
   @override
   Widget build(BuildContext context) {
@@ -57,48 +57,48 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   switch (index) {
                     case 0:
                       return OnboardingStepComponent(
-                        assetName: "assets/logo/logo-with-title.png",
+                        assetName: 'assets/logo/logo-with-title.png',
                         title: appLocalizations.onboardingStep1Title,
                         description:
                             appLocalizations.onboardingStep1Description,
                       );
                     case 1:
                       return OnboardingStepComponent(
-                        assetName: "assets/onboarding/2.png",
+                        assetName: 'assets/onboarding/2.png',
                         title: appLocalizations.onboardingStep2Title,
                         description:
                             appLocalizations.onboardingStep2Description,
                       );
                     case 2:
                       return OnboardingStepComponent(
-                        assetName: "assets/onboarding/3.png",
+                        assetName: 'assets/onboarding/3.png',
                         title: appLocalizations.onboardingStep3Title,
                         description:
                             appLocalizations.onboardingStep3Description,
                       );
                     case 3:
                       return OnboardingStepComponent(
-                        assetName: "assets/onboarding/4.png",
+                        assetName: 'assets/onboarding/4.png',
                         title: appLocalizations.onboardingStep4Title,
                         description:
                             appLocalizations.onboardingStep4Description,
                       );
                     case 4:
                       return OnboardingStepComponent(
-                        assetName: "assets/onboarding/5.png",
+                        assetName: 'assets/onboarding/5.png',
                         title: appLocalizations.onboardingStep5Title,
                         description:
                             appLocalizations.onboardingStep5Description,
                       );
                     case 5:
                       return OnboardingStepComponent(
-                        assetName: "assets/onboarding/6.png",
+                        assetName: 'assets/onboarding/6.png',
                         title: appLocalizations.onboardingStep6Title,
                         description:
                             appLocalizations.onboardingStep6Description,
                       );
                     default:
-                      throw ArgumentError("Illegal index $index");
+                      throw ArgumentError('Illegal index $index');
                   }
                 },
                 onPageChanged: (int p) {
@@ -155,7 +155,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Future advancePageOrFinish(bool isDone, {skippedOnboarding: false}) async {
+  Future advancePageOrFinish(bool isDone, {skippedOnboarding = false}) async {
     if (isDone) {
       await AppPreferences().setOnboardingPassed();
 
@@ -174,7 +174,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           break;
       }
     } else {
-      _controller.animateToPage(page + 1,
+      await _controller.animateToPage(page + 1,
           duration: Duration(milliseconds: 300), curve: Curves.easeIn);
     }
   }

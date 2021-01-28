@@ -60,7 +60,7 @@ class NutrientWeeklyBarChart extends StatelessWidget {
     final maximumAmount =
         dailyNutrientConsumptions.map((c) => c.total).max?.toDouble();
 
-    assert(maximumAmount != null, "Maximum amount can not be null");
+    assert(maximumAmount != null, 'Maximum amount can not be null');
 
     double interval;
     if (lastNorm != null) {
@@ -83,8 +83,8 @@ class NutrientWeeklyBarChart extends StatelessWidget {
     final dailyIntakeReportsGrouped =
         dailyIntakeReports.groupBy((v) => Date(v.date)).map((key, values) {
       if (values.length > 1) {
-        throw ArgumentError.value(values, "values",
-            "Multiple daily intakes with same formatted date");
+        throw ArgumentError.value(values, 'values',
+            'Multiple daily intakes with same formatted date');
       }
       return MapEntry(key, values.firstOrNull());
     });
@@ -116,7 +116,7 @@ class NutrientWeeklyBarChart extends StatelessWidget {
       final norm = consumption.norm;
 
       final dailyTotalFormatted = di.getNutrientTotalAmountFormatted(nutrient);
-      var tooltip = "$dateFormatted\n$dailyTotalFormatted";
+      var tooltip = '$dateFormatted\n$dailyTotalFormatted';
 
       final normFormatted = di.getNutrientNormFormatted(nutrient);
       if (normFormatted != null) {
@@ -125,7 +125,7 @@ class NutrientWeeklyBarChart extends StatelessWidget {
             dateFormatted, percent, dailyTotalFormatted, normFormatted);
       }
 
-      AppBarChartRod entry = AppBarChartRod(
+      var entry = AppBarChartRod(
         tooltip: tooltip,
         y: y != null ? y * scaleValue : null,
         barColor: (norm != null && y > norm) ? Colors.redAccent : Colors.teal,

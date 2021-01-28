@@ -97,15 +97,15 @@ class _AppFormMultipleSelectDialogState<T>
     );
   }
 
-  onTap(int index) {
+  void onTap(int index) {
     setState(() {
       _itemsSelection[index] ^= true;
     });
   }
 
   List<AppSelectFormFieldItem<T>> _getSelectedItems() {
-    List<AppSelectFormFieldItem<T>> selectedItems = [];
-    for (int i = 0; i < _itemsSelection.length; ++i) {
+    var selectedItems = <AppSelectFormFieldItem<T>>[];
+    for (var i = 0; i < _itemsSelection.length; ++i) {
       if (_itemsSelection[i]) {
         selectedItems.add(widget.items[i]);
       }

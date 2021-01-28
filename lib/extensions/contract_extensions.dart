@@ -19,23 +19,23 @@ String _formatAmount<T extends num>(T amount, String dim) {
     precision = 2;
   }
 
-  return amount.toStringAsFixed(precision) + " $dim";
+  return amount.toStringAsFixed(precision) + ' $dim';
 }
 
 String _getFormattedNutrient(Nutrient nutrient, int amount) {
   switch (nutrient) {
     case Nutrient.energy:
-      return _formatAmount(amount, "kcal");
+      return _formatAmount(amount, 'kcal');
     case Nutrient.liquids:
-      return _formatAmount(amount, "g");
+      return _formatAmount(amount, 'g');
     case Nutrient.proteins:
     case Nutrient.sodium:
     case Nutrient.potassium:
     case Nutrient.phosphorus:
-      return _formatAmount(amount / 1000, "g");
+    return _formatAmount(amount / 1000, 'g');
     default:
       throw ArgumentError.value(
-          nutrient, "nutrient", "Unable to map nutrient to amount");
+          nutrient, 'nutrient', 'Unable to map nutrient to amount');
   }
 }
 
@@ -43,20 +43,20 @@ extension ProductExtensions on Product {
   num _getNutrientAmount(Nutrient nutrient) {
     switch (nutrient) {
       case Nutrient.potassium:
-        return this.potassiumMg;
+        return potassiumMg;
       case Nutrient.proteins:
-        return this.proteinsMg;
+        return proteinsMg;
       case Nutrient.sodium:
-        return this.sodiumMg;
+        return sodiumMg;
       case Nutrient.phosphorus:
-        return this.phosphorusMg;
+        return phosphorusMg;
       case Nutrient.liquids:
-        return this.liquidsG;
+        return liquidsG;
       case Nutrient.energy:
-        return this.energyKcal;
+        return energyKcal;
       default:
         throw ArgumentError.value(
-            nutrient, "nutrient", "Unable to map indicator to amount");
+            nutrient, 'nutrient', 'Unable to map indicator to amount');
     }
   }
 
@@ -77,20 +77,20 @@ extension DailyIntakesExtensions on DailyIntakesReport {
   DailyNutrientConsumption getDailyNutrientConsumption(Nutrient nutrient) {
     switch (nutrient) {
       case Nutrient.potassium:
-        return this.potassiumMg;
+        return potassiumMg;
       case Nutrient.proteins:
-        return this.proteinsMg;
+        return proteinsMg;
       case Nutrient.sodium:
-        return this.sodiumMg;
+        return sodiumMg;
       case Nutrient.phosphorus:
-        return this.phosphorusMg;
+        return phosphorusMg;
       case Nutrient.liquids:
-        return this.liquidsG;
+        return liquidsG;
       case Nutrient.energy:
-        return this.energyKcal;
+        return energyKcal;
       default:
         throw ArgumentError.value(
-            nutrient, "nutrient", "Unable to map indicator to amount");
+            nutrient, 'nutrient', 'Unable to map indicator to amount');
     }
   }
 
@@ -115,20 +115,20 @@ extension IntakeExtension on Intake {
   int getNutrientAmount(Nutrient nutrient) {
     switch (nutrient) {
       case Nutrient.energy:
-        return this.energyKcal;
+        return energyKcal;
       case Nutrient.liquids:
-        return this.liquidsG;
+        return liquidsG;
       case Nutrient.proteins:
-        return this.proteinsMg;
+        return proteinsMg;
       case Nutrient.sodium:
-        return this.sodiumMg;
+        return sodiumMg;
       case Nutrient.potassium:
-        return this.potassiumMg;
+        return potassiumMg;
       case Nutrient.phosphorus:
-        return this.phosphorusMg;
+        return phosphorusMg;
       default:
         throw ArgumentError.value(
-            nutrient, "nutrient", "Unable to map indicator to amount");
+            nutrient, 'nutrient', 'Unable to map indicator to amount');
     }
   }
 
@@ -139,11 +139,11 @@ extension IntakeExtension on Intake {
   }
 
   String getAmountFormatted() {
-    if (this.amountMl != null) {
-      return _formatAmount(this.amountMl, "ml");
+    if (amountMl != null) {
+      return _formatAmount(amountMl, 'ml');
     }
 
-    return _formatAmount(this.amountG, "g");
+    return _formatAmount(amountG, 'g');
   }
 }
 
@@ -164,14 +164,14 @@ extension NutrientExtensions on Nutrient {
         return appLocalizations.phosphorus;
       default:
         throw ArgumentError.value(
-            this, "nutrient", "Unable to map nutrient to name");
+            this, 'nutrient', 'Unable to map nutrient to name');
     }
   }
 }
 
 extension SwellingExtension on Swelling {
   String getLocalizedName(AppLocalizations appLocalizations) {
-    switch (this.swelling) {
+    switch (swelling) {
       case SwellingEnum.eyes:
         return appLocalizations.healthStatusCreationSwellingsLocalizationEyes;
       case SwellingEnum.wholeFace:
@@ -196,8 +196,8 @@ extension SwellingExtension on Swelling {
       default:
         throw ArgumentError.value(
           swelling,
-          "swelling",
-          "Invalid swelling value",
+          'swelling',
+          'Invalid swelling value',
         );
     }
   }
@@ -233,8 +233,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       default:
         throw ArgumentError.value(
           this,
-          "healthIndicator",
-          "Unable to map indicator and check for indicator existance",
+          'healthIndicator',
+          'Unable to map indicator and check for indicator existance',
         );
     }
   }
@@ -247,30 +247,30 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
 
     switch (indicator) {
       case HealthIndicator.bloodPressure:
-        return "$systolicBloodPressure / $diastolicBloodPressure mmHg";
+        return '$systolicBloodPressure / $diastolicBloodPressure mmHg';
       case HealthIndicator.weight:
-        return "$weightKg kg";
+        return '$weightKg kg';
       case HealthIndicator.glucose:
-        return "${glucose.toStringAsFixed(2)} mmol/l";
+        return '${glucose.toStringAsFixed(2)} mmol/l';
       case HealthIndicator.urine:
-        return _formatAmount(urineMl, "ml");
+        return _formatAmount(urineMl, 'ml');
       case HealthIndicator.severityOfSwelling:
         switch (swellingDifficulty) {
           case SwellingDifficultyEnum.n0plus:
-            return "0+";
+            return '0+';
           case SwellingDifficultyEnum.n1plus:
-            return "1+";
+            return '1+';
           case SwellingDifficultyEnum.n2plus:
-            return "2+";
+            return '2+';
           case SwellingDifficultyEnum.n3plus:
-            return "3+";
+            return '3+';
           case SwellingDifficultyEnum.n4plus:
-            return "4+";
+            return '4+';
         }
         throw ArgumentError.value(
           swellingDifficulty,
-          "swellingDifficulty",
-          "Invalid swellingDifficulty value",
+          'swellingDifficulty',
+          'Invalid swellingDifficulty value',
         );
       case HealthIndicator.swellings:
         return getHealthIndicatorValue(indicator)?.toString();
@@ -289,8 +289,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         }
         throw ArgumentError.value(
           wellFeeling,
-          "wellFeeling",
-          "Invalid wellFeeling value",
+          'wellFeeling',
+          'Invalid wellFeeling value',
         );
       case HealthIndicator.appetite:
         switch (appetite) {
@@ -307,8 +307,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         }
         throw ArgumentError.value(
           appetite,
-          "appetite",
-          "Invalid appetite value",
+          'appetite',
+          'Invalid appetite value',
         );
       case HealthIndicator.shortnessOfBreath:
         switch (shortnessOfBreath) {
@@ -327,14 +327,14 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         }
         throw ArgumentError.value(
           shortnessOfBreath,
-          "shortnessOfBreath",
-          "Invalid shortnessOfBreath value",
+          'shortnessOfBreath',
+          'Invalid shortnessOfBreath value',
         );
       default:
         throw ArgumentError.value(
           this,
-          "healthIndicator",
-          "Unable to map indicator to formatted indicator",
+          'healthIndicator',
+          'Unable to map indicator to formatted indicator',
         );
     }
   }
@@ -346,13 +346,13 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
 
     switch (indicator) {
       case HealthIndicator.bloodPressure:
-        return this.systolicBloodPressure;
+        return systolicBloodPressure;
       case HealthIndicator.weight:
-        return this.weightKg;
+        return weightKg;
       case HealthIndicator.glucose:
-        return this.glucose;
+        return glucose;
       case HealthIndicator.urine:
-        return this.urineMl;
+        return urineMl;
       case HealthIndicator.severityOfSwelling:
         switch (swellingDifficulty) {
           case SwellingDifficultyEnum.n0plus:
@@ -368,8 +368,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         }
         throw ArgumentError.value(
           swellingDifficulty,
-          "swellingDifficulty",
-          "Invalid swellingDifficulty value",
+          'swellingDifficulty',
+          'Invalid swellingDifficulty value',
         );
       case HealthIndicator.swellings:
         return swellings
@@ -390,8 +390,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         }
         throw ArgumentError.value(
           wellFeeling,
-          "wellFeeling",
-          "Invalid wellFeeling value",
+          'wellFeeling',
+          'Invalid wellFeeling value',
         );
       case HealthIndicator.appetite:
         switch (appetite) {
@@ -408,8 +408,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         }
         throw ArgumentError.value(
           appetite,
-          "appetite",
-          "Invalid appetite value",
+          'appetite',
+          'Invalid appetite value',
         );
       case HealthIndicator.shortnessOfBreath:
         switch (shortnessOfBreath) {
@@ -426,14 +426,14 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         }
         throw ArgumentError.value(
           shortnessOfBreath,
-          "shortnessOfBreath",
-          "Invalid shortnessOfBreath value",
+          'shortnessOfBreath',
+          'Invalid shortnessOfBreath value',
         );
       default:
         throw ArgumentError.value(
           this,
-          "healthIndicator",
-          "Unable to map indicator to formatted indicator",
+          'healthIndicator',
+          'Unable to map indicator to formatted indicator',
         );
     }
   }
@@ -463,8 +463,8 @@ extension HealthIndicatorExtensions on HealthIndicator {
       default:
         throw ArgumentError.value(
           this,
-          "healthIndicator",
-          "Unable to map indicator to name",
+          'healthIndicator',
+          'Unable to map indicator to name',
         );
     }
   }

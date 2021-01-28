@@ -39,7 +39,7 @@ Future<Null> main() async {
     );
   }).sendPort);
 
-  runZonedGuarded<Future<void>>(
+  await runZonedGuarded<Future<void>>(
     () async {
       await SystemChrome.setPreferredOrientations(
           [DeviceOrientation.portraitUp]);

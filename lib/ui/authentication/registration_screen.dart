@@ -16,7 +16,7 @@ class RegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Paskyros sukūrimas"),
+        title: Text('Paskyros sukūrimas'),
       ),
       body: SingleChildScrollView(
         child: BasicSection(
@@ -58,7 +58,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
         child: Column(
           children: [
             AppTextFormField(
-              labelText: "El. paštas",
+              labelText: 'El. paštas',
               autoFocus: true,
               keyboardType: TextInputType.emailAddress,
               validator: formValidators.nonEmptyValidator,
@@ -68,7 +68,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
               onSaved: (s) => email = s,
             ),
             AppTextFormField(
-              labelText: "Slaptažodis",
+              labelText: 'Slaptažodis',
               obscureText: true,
               validator: formValidators.and(
                 formValidators.nonNull(),
@@ -83,7 +83,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                 child: AppElevatedButton(
-                  text: "Sukurti paskyrą",
+                  text: 'Sukurti paskyrą',
                   onPressed: () => _register(context),
                 ),
               ),
@@ -104,26 +104,26 @@ class _RegistrationFormState extends State<_RegistrationForm> {
         userCredential =
             await _authProvider.createUserWithEmailAndPassword(email, password);
       } on EmailAlreadyInUseException catch (_) {
-        showAppDialog(
+        await showAppDialog(
           context: context,
-          message: "Toks vartotojas jau registruotas.",
+          message: 'Toks vartotojas jau registruotas.',
         );
       } on InvalidEmailException catch (_) {
-        showAppDialog(
+        await showAppDialog(
           context: context,
-          message: "Blogas elektroninio pašto adresas.",
+          message: 'Blogas elektroninio pašto adresas.',
         );
       } on WeakPasswordException catch (_) {
-        showAppDialog(
+        await showAppDialog(
           context: context,
-          message: "Per silpnas slaptažodis.",
+          message: 'Per silpnas slaptažodis.',
         );
       } catch (e, stacktrace) {
         developer.log(
-          "Unable to to to register",
+          'Unable to to to register',
           stackTrace: stacktrace,
         );
-        showAppDialog(context: context, message: e.toString());
+        await showAppDialog(context: context, message: e.toString());
       }
 
       if (userCredential != null) {

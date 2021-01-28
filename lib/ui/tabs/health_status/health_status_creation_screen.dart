@@ -29,7 +29,7 @@ class HealthStatusCreationScreen extends StatefulWidget {
 
 class _HealthStatusCreationScreenState
     extends State<HealthStatusCreationScreen> {
-  final logger = Logger("HealthStatusCreationScreen");
+  final logger = Logger('HealthStatusCreationScreen');
 
   final _formKey = GlobalKey<FormState>();
 
@@ -37,7 +37,7 @@ class _HealthStatusCreationScreenState
   DailyHealthStatusRequestBuilder _healthStatusBuilder;
   AppLocalizations _appLocalizations;
 
-  var _healthStatusMemoizer = AsyncMemoizer<DailyHealthStatus>();
+  final _healthStatusMemoizer = AsyncMemoizer<DailyHealthStatus>();
   DailyHealthStatus _initialHealthStatus;
 
   @override
@@ -99,7 +99,7 @@ class _HealthStatusCreationScreenState
                       child: AppIntegerFormField(
                         labelText:
                             _appLocalizations.healthStatusCreationSystolic,
-                        suffixText: "mmHg",
+                        suffixText: 'mmHg',
                         validator: formValidators.numRangeValidator(0, 350),
                         initialValue:
                             _initialHealthStatus?.systolicBloodPressure,
@@ -112,7 +112,7 @@ class _HealthStatusCreationScreenState
                       child: AppIntegerFormField(
                         labelText:
                             _appLocalizations.healthStatusCreationDiastolic,
-                        suffixText: "mmHg",
+                        suffixText: 'mmHg',
                         validator: formValidators.numRangeValidator(0, 200),
                         initialValue:
                             _initialHealthStatus?.diastolicBloodPressure,
@@ -138,7 +138,7 @@ class _HealthStatusCreationScreenState
                 AppDoubleInputField(
                   labelText: _appLocalizations.weight,
                   fractionDigits: 1,
-                  suffixText: "kg",
+                  suffixText: 'kg',
                   helperText: _appLocalizations.userProfileWeightHelper,
                   initialValue: _initialHealthStatus?.weightKg,
                   validator: formValidators.numRangeValidator(30.0, 300.0),
@@ -148,7 +148,7 @@ class _HealthStatusCreationScreenState
                 ),
                 AppIntegerFormField(
                   labelText: _appLocalizations.healthStatusCreationUrine,
-                  suffixText: "ml",
+                  suffixText: 'ml',
                   initialValue: _initialHealthStatus?.urineMl,
                   validator: formValidators.numRangeValidator(0, 10000),
                   onSaved: (value) {
@@ -157,7 +157,7 @@ class _HealthStatusCreationScreenState
                 ),
                 AppDoubleInputField(
                   labelText: _appLocalizations.healthStatusCreationGlucose,
-                  suffixText: "mmol/l",
+                  suffixText: 'mmol/l',
                   fractionDigits: 2,
                   validator: formValidators.numRangeValidator(0.01, 100.0),
                   initialValue: _initialHealthStatus?.glucose,
@@ -183,35 +183,35 @@ class _HealthStatusCreationScreenState
                       _healthStatusBuilder.swellingDifficulty = v?.value,
                   items: [
                     AppSelectFormFieldItem(
-                      text: "0+",
+                      text: '0+',
                       description: _appLocalizations
                           .healthStatusCreationSwellingDifficulty0,
                       icon: Icons.sentiment_very_satisfied,
                       value: SwellingDifficultyEnum.n0plus,
                     ),
                     AppSelectFormFieldItem(
-                      text: "1+",
+                      text: '1+',
                       description: _appLocalizations
                           .healthStatusCreationSwellingDifficulty1,
                       icon: Icons.sentiment_satisfied,
                       value: SwellingDifficultyEnum.n1plus,
                     ),
                     AppSelectFormFieldItem(
-                      text: "2+",
+                      text: '2+',
                       description: _appLocalizations
                           .healthStatusCreationSwellingDifficulty2,
                       icon: Icons.sentiment_dissatisfied,
                       value: SwellingDifficultyEnum.n2plus,
                     ),
                     AppSelectFormFieldItem(
-                      text: "3+",
+                      text: '3+',
                       description: _appLocalizations
                           .healthStatusCreationSwellingDifficulty3,
                       icon: Icons.sentiment_very_dissatisfied,
                       value: SwellingDifficultyEnum.n3plus,
                     ),
                     AppSelectFormFieldItem(
-                      text: "4+",
+                      text: '4+',
                       description: _appLocalizations
                           .healthStatusCreationSwellingDifficulty4,
                       icon: Icons.sick,

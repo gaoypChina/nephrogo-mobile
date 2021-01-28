@@ -9,7 +9,7 @@ Future<bool> launchURL(String url) async {
 }
 
 Future<bool> launchPhone(String phoneNumber) async {
-  final phoneUrl = "tel:$phoneNumber";
+  final phoneUrl = 'tel:$phoneNumber';
   if (await canLaunch(phoneUrl)) {
     return await launch(phoneUrl);
   } else {
@@ -18,7 +18,7 @@ Future<bool> launchPhone(String phoneNumber) async {
 }
 
 Future<bool> launchEmail(String email) async {
-  final emailUrl = "mailto:$email";
+  final emailUrl = 'mailto:$email';
   if (await canLaunch(emailUrl)) {
     return await launch(emailUrl);
   } else {

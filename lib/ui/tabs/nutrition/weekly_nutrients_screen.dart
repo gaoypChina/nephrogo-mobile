@@ -97,11 +97,11 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
         return _appLocalizations.consumptionPhosphorus;
       default:
         throw ArgumentError.value(
-            this, "type", "Unable to map indicator to name");
+            this, 'type', 'Unable to map indicator to name');
     }
   }
 
-  _changeNutrient(Nutrient nutrient) {
+  void _changeNutrient(Nutrient nutrient) {
     setState(() {
       _nutrientChangeNotifier.value = nutrient;
     });
@@ -195,7 +195,7 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
 }
 
 class DailyIntakeSection extends StatelessWidget {
-  static final _dateFormat = DateFormat("EEEE, d");
+  static final _dateFormat = DateFormat('EEEE, d');
 
   final Nutrient nutrient;
   final DailyIntakesReport dailyIntakesReport;
@@ -226,7 +226,7 @@ class DailyIntakeSection extends StatelessWidget {
 
     return LargeSection(
       title:
-          _dateFormat.format(dailyIntakesReport.date).capitalizeFirst() + " d.",
+          _dateFormat.format(dailyIntakesReport.date).capitalizeFirst() + ' d.',
       leading: ratio != null ? _getVisualIndicator(ratio) : null,
       subTitle:
           getSubtitle(appLocalizations, totalFormatted, dailyNormFormatted),
@@ -272,7 +272,7 @@ class DailyIntakeSection extends StatelessWidget {
           ),
         ),
         Text(
-          "${(percent * 100).round()}%",
+          '${(percent * 100).round()}%',
           style: TextStyle(
             fontSize: 13.0,
             color: Colors.white,
@@ -285,7 +285,7 @@ class DailyIntakeSection extends StatelessWidget {
 }
 
 class IndicatorIntakeTile extends StatelessWidget {
-  static final dateFormat = DateFormat("MMMM d HH:mm");
+  static final dateFormat = DateFormat('MMMM d HH:mm');
 
   final Intake intake;
   final Nutrient nutrient;
@@ -304,10 +304,10 @@ class IndicatorIntakeTile extends StatelessWidget {
         dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
 
     return AppListTile(
-      key: Key("IndicatorIntakeTile-$nutrient-${intake.id}"),
+      key: Key('IndicatorIntakeTile-$nutrient-${intake.id}'),
       title: Text(product.name),
       contentPadding: EdgeInsets.zero,
-      subtitle: Text("${intake.getAmountFormatted()} | $dateFormatted"),
+      subtitle: Text('${intake.getAmountFormatted()} | $dateFormatted'),
       leading: ProductKindIcon(productKind: product.productKind),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

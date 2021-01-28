@@ -12,7 +12,7 @@ import 'package:nephrogo/utils/utils.dart';
 import 'package:package_info/package_info.dart';
 
 class ProfileTab extends StatelessWidget {
-  static const anonymousPhotoPath = "assets/anonymous_avatar.jpg";
+  static const anonymousPhotoPath = 'assets/anonymous_avatar.jpg';
 
   final _authenticationProvider = AuthenticationProvider();
 
@@ -144,7 +144,7 @@ class ProfileTab extends StatelessWidget {
   Future<String> _getVersionString() async {
     final packageInfo = await PackageInfo.fromPlatform();
 
-    return "${packageInfo.version} (${packageInfo.buildNumber})";
+    return '${packageInfo.version} (${packageInfo.buildNumber})';
   }
 
   Widget _buildUserProfileTile(BuildContext context) {

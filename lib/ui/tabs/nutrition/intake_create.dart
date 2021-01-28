@@ -21,7 +21,7 @@ class IntakeCreateScreenArguments extends Equatable {
   final Intake intake;
 
   IntakeCreateScreenArguments({this.product, this.intake})
-      : assert(product != null || intake != null, "Pass intake or product");
+      : assert(product != null || intake != null, 'Pass intake or product');
 
   @override
   List<Object> get props => [product];
@@ -136,7 +136,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                     initialValue: isAmountInMilliliters()
                         ? widget.intake?.amountMl
                         : widget.intake?.amountG,
-                    suffixText: isAmountInMilliliters() ? "ml" : "g",
+                    suffixText: isAmountInMilliliters() ? 'ml' : 'g',
                     validator: formValidators.and(
                       formValidators.nonNull(),
                       formValidators.numRangeValidator(1, 10000),
@@ -276,7 +276,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
   }
 
   Widget _buildNutrientTile(Nutrient nutrient) {
-    String amountText = "-";
+    var amountText = '-';
     if (selectedProduct != null && amountG != null && amountG > 0) {
       amountText = selectedProduct.getFormattedTotalAmount(nutrient, amountG);
     }

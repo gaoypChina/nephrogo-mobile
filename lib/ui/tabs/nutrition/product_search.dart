@@ -40,7 +40,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
 
   final _searchDispatchDuration = Duration(milliseconds: 200);
 
-  String currentQuery = "";
+  String currentQuery = '';
   final focusNode = FocusNode();
 
   final _queryStreamController = StreamController<_Query>.broadcast();
@@ -55,7 +55,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
 
   Stream<List<Product>> _buildStream() {
     return _queryStreamController.stream
-        .startWith(_Query("", false))
+        .startWith(_Query('', false))
         .asyncMap((q) async {
           if (q.wait) {
             await Future.delayed(_searchDispatchDuration);

@@ -17,7 +17,7 @@ class EmailPasswordLoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Prisijunkite"),
+        title: Text('Prisijunkite'),
       ),
       body: SingleChildScrollView(
         child: BasicSection(
@@ -29,7 +29,7 @@ class EmailPasswordLoginScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: AppElevatedButton(
-                  text: "Registracija",
+                  text: 'Registracija',
                   onPressed: () => _openRegistration(context),
                   color: Colors.grey,
                   textColor: Colors.white,
@@ -41,7 +41,7 @@ class EmailPasswordLoginScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextButton(
-                  child: Text("PAMIRŠOTE SLAPTAŽODĮ?"),
+                  child: Text('PAMIRŠOTE SLAPTAŽODĮ?'),
                   onPressed: () => _openRemindPassword(context),
                 ),
               ),
@@ -62,7 +62,7 @@ class EmailPasswordLoginScreen extends StatelessWidget {
   }
 
   Future _openRegistration(BuildContext context) async {
-    UserCredential userCredential =
+    var userCredential =
         await Navigator.of(context).pushNamed(Routes.ROUTE_REGISTRATION);
 
     if (userCredential != null) {
@@ -94,7 +94,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
         child: Column(
           children: [
             AppTextFormField(
-              labelText: "El. paštas",
+              labelText: 'El. paštas',
               autoFocus: true,
               keyboardType: TextInputType.emailAddress,
               validator: formValidators.nonEmptyValidator,
@@ -104,7 +104,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
               onSaved: (s) => email = s,
             ),
             AppTextFormField(
-              labelText: "Slaptažodis",
+              labelText: 'Slaptažodis',
               obscureText: true,
               validator: formValidators.and(
                 formValidators.nonNull(),
@@ -119,7 +119,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                 child: AppElevatedButton(
-                  text: "Prisijungti",
+                  text: 'Prisijungti',
                   onPressed: () => _login(context),
                 ),
               ),
@@ -142,18 +142,18 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
       } on UserNotFoundException catch (_) {
         await showAppDialog(
           context: context,
-          title: "Klaida",
-          message: "Toks vartotojas neegzistuoja.",
+          title: 'Klaida',
+          message: 'Toks vartotojas neegzistuoja.',
         );
       } on InvalidPasswordException catch (_) {
         await showAppDialog(
           context: context,
-          title: "Klaida",
-          message: "Neteisingas slaptažodis.",
+          title: 'Klaida',
+          message: 'Neteisingas slaptažodis.',
         );
       } catch (e, stacktrace) {
         developer.log(
-          "Unable to to to login using regular login",
+          'Unable to to to login using regular login',
           stackTrace: stacktrace,
         );
         await showAppDialog(context: context, message: e.toString());

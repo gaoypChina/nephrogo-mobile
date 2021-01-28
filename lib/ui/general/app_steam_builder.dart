@@ -7,8 +7,8 @@ class AppStreamBuilder<T> extends StatelessWidget {
   final Stream<T> stream;
   final Widget Function(BuildContext context, T data) builder;
 
-  const AppStreamBuilder({Key key, this.stream, this.builder})
-      : assert(stream != null, "Steam can not be null"),
+  const AppStreamBuilder({Key key, @required this.stream, this.builder})
+      : assert(stream != null, 'Steam can not be null'),
         super(key: key);
 
   @override

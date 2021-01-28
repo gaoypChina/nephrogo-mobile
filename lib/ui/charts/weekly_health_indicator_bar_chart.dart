@@ -49,8 +49,8 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
     final dailyHealthStatusesGrouped =
         dailyHealthStatuses.groupBy((v) => Date(v.date)).map((key, values) {
       if (values.length > 1) {
-        throw ArgumentError.value(values, "values",
-            "Multiple daily health statuses with same formatted date");
+        throw ArgumentError.value(values, 'values',
+            'Multiple daily health statuses with same formatted date');
       }
       return MapEntry(key, values.firstOrNull());
     });
@@ -91,7 +91,7 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
       }
 
       final rod = AppBarChartRod(
-        tooltip: "$dateFormatted\n$dailyTotalFormatted",
+        tooltip: '$dateFormatted\n$dailyTotalFormatted',
         y: y,
         barColor: _getColor(y),
         rodStackItems: rodStackItems,
@@ -125,7 +125,7 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
     }
   }
 
-  _getColor(double y) {
+  MaterialColor _getColor(double y) {
     switch (indicator) {
       case HealthIndicator.severityOfSwelling:
       case HealthIndicator.wellBeing:

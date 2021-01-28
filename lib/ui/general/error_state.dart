@@ -30,7 +30,7 @@ class ErrorStateWidget extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(this.errorText, textAlign: TextAlign.center),
+            child: Text(errorText, textAlign: TextAlign.center),
           ),
         ],
       ),

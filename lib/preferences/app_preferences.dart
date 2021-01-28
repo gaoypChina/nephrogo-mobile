@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppPreferences {
-  static const _KEY_PROFILE_CREATED = "PROFILE_CREATED";
-  static const _KEY_ONBOARDING_PASSED = "ONBOARDING_PASSED";
+  static const _KEY_PROFILE_CREATED = 'PROFILE_CREATED';
+  static const _KEY_ONBOARDING_PASSED = 'ONBOARDING_PASSED';
 
-  static final AppPreferences _singleton = new AppPreferences._internal();
+  static final AppPreferences _singleton = AppPreferences._internal();
 
   factory AppPreferences() {
     return _singleton;

@@ -26,7 +26,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Slaptažodžio atkūrimas"),
+        title: Text('Slaptažodžio atkūrimas'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -40,8 +40,8 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
                 title: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Text(
-                    "Įveskite savo elektroninio pašto adresą ir atsiūsime "
-                    "Jums laišką su instrukcijomis, kaip pakeisti slaptažodį.",
+                    'Įveskite savo elektroninio pašto adresą ir atsiūsime '
+                    'Jums laišką su instrukcijomis, kaip pakeisti slaptažodį.',
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -56,7 +56,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
                     child: Column(
                       children: [
                         AppTextFormField(
-                          labelText: "El. paštas",
+                          labelText: 'El. paštas',
                           autoFocus: true,
                           keyboardType: TextInputType.emailAddress,
                           validator: formValidators.nonEmptyValidator,
@@ -70,7 +70,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                             child: AppElevatedButton(
-                              text: "Patvirtinti",
+                              text: 'Patvirtinti',
                               onPressed: () => _remindPassword(context),
                             ),
                           ),
@@ -96,13 +96,13 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
 
         await showAppDialog(
           context: context,
-          message: "Išsiuntėme laišką slaptažodžiui pakeisti į $email",
+          message: 'Išsiuntėme laišką slaptažodžiui pakeisti į $email',
         );
 
         Navigator.pop(context);
       } catch (e, stacktrace) {
         developer.log(
-          "Unable to remind password",
+          'Unable to remind password',
           stackTrace: stacktrace,
         );
 

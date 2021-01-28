@@ -50,13 +50,13 @@ class AuthenticationProvider {
 
   bool get isUserLoggedIn => currentUser != null;
 
-  get currentUserPhotoURL {
+  String get currentUserPhotoURL {
     final photoURL = _auth.currentUser?.photoURL;
     if (photoURL == null) {
       return null;
     }
 
-    return photoURL.replaceFirst("/s96-c/", "/s300-c/") + "?height=300";
+    return photoURL.replaceFirst('/s96-c/', '/s300-c/') + '?height=300';
   }
 
   Future<void> _onAuthStateChange(User user) async {
@@ -127,14 +127,14 @@ class AuthenticationProvider {
     if (authException.code != 'account-exists-with-different-credential') {
       throw ArgumentError.value(
         authException,
-        "authException",
-        "Can not link different providers, because exception code ${authException.code} is invalid",
+        'authException',
+        'Can not link different providers, because exception code ${authException.code} is invalid',
       );
     }
-    print("Linking ${authException.credential} provider to different provider");
+    print('Linking ${authException.credential} provider to different provider');
 
-    String email = authException.email;
-    AuthCredential pendingCredential = authException.credential;
+    var email = authException.email;
+    var pendingCredential = authException.credential;
 
     // Fetch a list of what sign-in methods exist for the conflicting user
     var userSignInMethods = await _auth.fetchSignInMethodsForEmail(email);
@@ -155,7 +155,7 @@ class AuthenticationProvider {
         break;
       default:
         developer.log(
-          "Unable to match $method in method for signing",
+          'Unable to match $method in method for signing',
         );
         throw authException;
     }
@@ -198,8 +198,8 @@ class AuthenticationProvider {
       case SocialAuthenticationProvider.apple:
         return signInWithApple();
       default:
-        throw ArgumentError.value(provider, "provider",
-            "Unable to find specified provider for sign in.");
+        throw ArgumentError.value(provider, 'provider',
+            'Unable to find specified provider for sign in.');
     }
   }
 
@@ -258,7 +258,7 @@ class AuthenticationProvider {
     );
 
     // Create an `OAuthCredential` from the credential returned by Apple.
-    return OAuthProvider("apple.com").credential(
+    return OAuthProvider('apple.com').credential(
       idToken: appleCredential.identityToken,
       rawNonce: rawNonce,
     );

@@ -20,31 +20,31 @@ import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'ui/user_profile_screen.dart';
 
 class Routes {
-  static const ROUTE_START = "start";
+  static const ROUTE_START = 'start';
 
-  static const ROUTE_LOGIN = "login";
-  static const ROUTE_LOGIN_EMAIL_PASSWORD = "login_email_password";
-  static const ROUTE_REGISTRATION = "registration";
-  static const ROUTE_REMIND_PASSWORD = "remind_password";
+  static const ROUTE_LOGIN = 'login';
+  static const ROUTE_LOGIN_EMAIL_PASSWORD = 'login_email_password';
+  static const ROUTE_REGISTRATION = 'registration';
+  static const ROUTE_REMIND_PASSWORD = 'remind_password';
 
-  static const ROUTE_HOME = "home";
+  static const ROUTE_HOME = 'home';
 
-  static const ROUTE_ONBOARDING = "onboarding";
+  static const ROUTE_ONBOARDING = 'onboarding';
 
-  static const ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN = "weekly_nutrients_screen";
+  static const ROUTE_DAILY_WEEKLY_NUTRIENTS_SCREEN = 'weekly_nutrients_screen';
   static const ROUTE_DAILY_WEEKLY_INTAKES_SCREEN =
-      "ROUTE_DAILY_WEEKLY_INTAKES_SCREEN";
-  static const ROUTE_INTAKE_CREATE = "ROUTE_INTAKE_CREATE";
-  static const ROUTE_PRODUCT_SEARCH = "ROUTE_PRODUCT_SEARCH";
+      'ROUTE_DAILY_WEEKLY_INTAKES_SCREEN';
+  static const ROUTE_INTAKE_CREATE = 'ROUTE_INTAKE_CREATE';
+  static const ROUTE_PRODUCT_SEARCH = 'ROUTE_PRODUCT_SEARCH';
 
   static const ROUTE_WEEKLY_HEALTH_STATUS_SCREEN =
-      "ROUTE_WEEKLY_HEALTH_STATUS_SCREEN";
-  static const ROUTE_HEALTH_STATUS_CREATION = "ROUTE_HEALTH_STATUS_CREATION";
+      'ROUTE_WEEKLY_HEALTH_STATUS_SCREEN';
+  static const ROUTE_HEALTH_STATUS_CREATION = 'ROUTE_HEALTH_STATUS_CREATION';
 
-  static const ROUTE_USER_PROFILE = "ROUTE_USER_PROFILE";
-  static const ROUTE_FAQ = "frequently_asked_questions";
+  static const ROUTE_USER_PROFILE = 'ROUTE_USER_PROFILE';
+  static const ROUTE_FAQ = 'frequently_asked_questions';
 
-  static const ROUTE_FORM_SELECT = "form_select";
+  static const ROUTE_FORM_SELECT = 'form_select';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -130,7 +130,7 @@ class Routes {
           );
         });
       default:
-        throw Exception("Unable to find route ${settings.name} in routes");
+        throw Exception('Unable to find route ${settings.name} in routes');
     }
   }
 }

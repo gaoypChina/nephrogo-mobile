@@ -18,11 +18,11 @@ class ProgressDialog {
 
   Future<T> showForFuture<T>(Future<T> future) async {
     try {
-      this.show();
+      show();
 
       return await future;
     } finally {
-      this.dismiss();
+      dismiss();
     }
   }
 

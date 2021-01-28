@@ -4,7 +4,7 @@ import 'package:firebase_analytics/observer.dart';
 class Analytics {
   static final Analytics _singleton = Analytics._internal();
 
-  static const EVENT_ONBOARDING_SKIPPED = "tutorial_skipped";
+  static const EVENT_ONBOARDING_SKIPPED = 'tutorial_skipped';
 
   FirebaseAnalytics _analytics;
 

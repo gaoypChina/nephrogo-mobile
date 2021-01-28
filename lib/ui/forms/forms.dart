@@ -15,7 +15,7 @@ class AppDropdownMenuItem<T> {
   AppDropdownMenuItem({this.key, @required this.text, @required this.value});
 }
 
-const _defaultFieldPadding = const EdgeInsets.all(8.0);
+const _defaultFieldPadding = EdgeInsets.all(8.0);
 
 class AppTextFormField extends StatelessWidget {
   final TextEditingController controller;
@@ -140,7 +140,7 @@ class AppSelectionScreenFormField<T> extends StatefulWidget {
 
 class _AppSelectionScreenFormFieldState<T>
     extends State<AppSelectionScreenFormField<T>> {
-  TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
   T _selectedItem;
 
   @override
@@ -174,7 +174,7 @@ class _AppSelectionScreenFormFieldState<T>
     return null;
   }
 
-  _onSaved(String s) {
+  void _onSaved(String s) {
     if (widget.onSaved != null) {
       widget.onSaved(_selectedItem);
     }
@@ -188,7 +188,7 @@ class _AppSelectionScreenFormFieldState<T>
     }
   }
 
-  _setItem(T item, {initial: false}) {
+  void _setItem(T item, {initial = false}) {
     _selectedItem = item;
     _textEditingController.text = widget.itemToStringConverter(_selectedItem);
 
@@ -266,8 +266,8 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
     final initialSelection =
         widget.items.firstWhere((e) => e.value == widget.initialValue);
     if (initialSelection == null) {
-      throw ArgumentError.value("initialValue",
-          "Unable to find initial value in AppSelectFormField items");
+      throw ArgumentError.value('initialValue',
+          'Unable to find initial value in AppSelectFormField items');
     }
 
     return initialSelection;
@@ -341,7 +341,7 @@ class _AppMultipleSelectFormFieldState<T>
   Widget build(BuildContext context) {
     return AppSelectionScreenFormField<List<AppSelectFormFieldItem<T>>>(
       onTap: onTap,
-      itemToStringConverter: (items) => items.map((e) => e.text).join(", "),
+      itemToStringConverter: (items) => items.map((e) => e.text).join(', '),
       labelText: widget.labelText,
       helperText: widget.helperText,
       initialSelection: _selectedItems,
@@ -409,7 +409,7 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
   static final DateFormat _defaultDateFormat = DateFormat.yMd();
 
   // This is a bug with platform translation. Incorrect format is shown. Set to correct one.
-  static const _fieldHintText = "yyyy-mm-dd";
+  static const _fieldHintText = 'yyyy-mm-dd';
 
   DateTime selectedDateTime;
 
@@ -562,16 +562,16 @@ class AppIntegerFormField extends StatelessWidget {
     return (v != null && v.isNotEmpty) ? int.parse(v) : null;
   }
 
-  _onSaved(String v) {
+  void _onSaved(String v) {
     final n = _parseToInt(v);
 
-    this.onSaved(n);
+    onSaved(n);
   }
 
-  _onChanged(String v) {
+  void _onChanged(String v) {
     final n = _parseToInt(v);
 
-    this.onChanged(n);
+    onChanged(n);
   }
 }
 
@@ -626,12 +626,12 @@ class AppDoubleInputField extends StatelessWidget {
     return validator(double.tryParse(text.replaceFirst(',', '.')));
   }
 
-  _onSaved(String v) {
+  void _onSaved(String v) {
     final n = (v != null && v.isNotEmpty)
         ? double.parse(double.parse(v.replaceFirst(',', '.'))
             .toStringAsFixed(fractionDigits))
         : null;
 
-    this.onSaved(n);
+    onSaved(n);
   }
 }

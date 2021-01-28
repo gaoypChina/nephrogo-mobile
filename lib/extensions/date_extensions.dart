@@ -22,9 +22,8 @@ extension DateTimeExtension on DateTime {
 
   Tuple2<DateTime, DateTime> startAndEndOfWeek() {
     final start =
-        this.startOfDay().subtract(Duration(days: weekday - DateTime.monday));
-    final end =
-        this.endOfDay().add(Duration(days: DateTime.daysPerWeek - weekday));
+        startOfDay().subtract(Duration(days: weekday - DateTime.monday));
+    final end = endOfDay().add(Duration(days: DateTime.daysPerWeek - weekday));
 
     return Tuple2(start, end);
   }

@@ -22,7 +22,7 @@ class WeeklyPager<T> extends StatefulWidget {
 }
 
 class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
-  static const _animationDuration = const Duration(milliseconds: 400);
+  static const _animationDuration = Duration(milliseconds: 400);
   static final dateFormatter = DateFormat.MMMMd();
 
   final _pageController = PageController();
@@ -115,18 +115,18 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
     return !earliestDate.add(Duration(days: 7)).isAfter(currentWeekEnd);
   }
 
-  advanceToNextDateRange() {
+  void advanceToNextDateRange() {
     _pageController.previousPage(
         duration: _animationDuration, curve: Curves.ease);
   }
 
-  advanceToPreviousDateRange() {
+  void advanceToPreviousDateRange() {
     _pageController.nextPage(duration: _animationDuration, curve: Curves.ease);
   }
 
   String _getDateRangeFormatted() {
-    return "${dateFormatter.format(currentWeekStart).capitalizeFirst()} – "
-        "${dateFormatter.format(currentWeekEnd).capitalizeFirst()}";
+    return '${dateFormatter.format(currentWeekStart).capitalizeFirst()} – '
+        '${dateFormatter.format(currentWeekEnd).capitalizeFirst()}';
   }
 
   Widget _buildDateSelectionSection() {

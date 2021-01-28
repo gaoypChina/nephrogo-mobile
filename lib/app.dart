@@ -13,7 +13,7 @@ class AppComponent extends StatefulWidget {
 }
 
 class _AppComponentState extends State<AppComponent> {
-  static final _defaultLocale = Locale("lt", "LT");
+  static final _defaultLocale = Locale('lt', 'LT');
 
   final _apiService = ApiService();
 

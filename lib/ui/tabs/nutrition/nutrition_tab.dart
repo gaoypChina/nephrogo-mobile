@@ -219,7 +219,7 @@ class DailyIntakesCard extends StatelessWidget {
 }
 
 class IntakeTile extends StatelessWidget {
-  static final dateFormat = DateFormat("E, d MMM HH:mm");
+  static final dateFormat = DateFormat('E, d MMM HH:mm');
 
   final Intake intake;
 

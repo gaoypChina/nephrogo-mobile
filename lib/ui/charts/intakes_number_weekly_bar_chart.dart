@@ -44,8 +44,8 @@ class IntakesNumberWeeklyBarChart extends StatelessWidget {
     final dailyIntakeReportsGrouped =
         dailyIntakeReports.groupBy((v) => Date(v.date)).map((key, values) {
       if (values.length > 1) {
-        throw ArgumentError.value(values, "values",
-            "Multiple daily intakes with same formatted date");
+        throw ArgumentError.value(values, 'values',
+            'Multiple daily intakes with same formatted date');
       }
       return MapEntry(key, values.firstOrNull());
     });
@@ -64,7 +64,7 @@ class IntakesNumberWeeklyBarChart extends StatelessWidget {
         x: i,
         rods: [
           AppBarChartRod(
-            tooltip: "$dateFormatted\n$y",
+            tooltip: '$dateFormatted\n$y',
             y: y.toDouble(),
             barColor: Colors.teal,
           )

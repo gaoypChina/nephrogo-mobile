@@ -46,7 +46,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
         Padding(
           padding: const EdgeInsets.only(bottom: 36),
           child: FractionallySizedBox(
-            child: Image.asset("assets/logo/logo-with-title.png"),
+            child: Image.asset('assets/logo/logo-with-title.png'),
             widthFactor: 0.6,
           ),
         ),
@@ -163,7 +163,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
         userCredential = await _authenticationProvider.signIn(provider);
       } catch (e, stacktrace) {
         developer.log(
-          "Unable to to to login with social",
+          'Unable to to to login with social',
           stackTrace: stacktrace,
           error: e,
         );

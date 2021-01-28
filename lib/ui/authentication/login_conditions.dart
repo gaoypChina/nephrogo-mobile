@@ -39,7 +39,7 @@ class LoginConditionsRichText extends StatelessWidget {
             ..onTap = () => launchURL(Constants.privacyPolicyUrl),
         ),
         TextSpan(
-            text: " ${appLocalizations.and} ",
+            text: ' ${appLocalizations.and} ',
             style: TextStyle(
               color: textColor,
             )),

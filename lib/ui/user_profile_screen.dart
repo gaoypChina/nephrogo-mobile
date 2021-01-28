@@ -43,7 +43,7 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  final logger = Logger("user_profile");
+  final logger = Logger('user_profile');
 
   static final _birthdayFormat = DateFormat.yMd();
 
@@ -54,7 +54,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   FormValidators _formValidators;
 
-  var _userProfileMemoizer = AsyncMemoizer<UserProfile>();
+  final _userProfileMemoizer = AsyncMemoizer<UserProfile>();
 
   UserProfileRequestBuilder _userProfileBuilder;
 
@@ -162,7 +162,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     _formValidators.numRangeValidator(100, 250),
                   ),
                   initialValue: initialUserProfile?.heightCm,
-                  suffixText: "cm",
+                  suffixText: 'cm',
                   onSaved: (v) => _userProfileBuilder.heightCm = v,
                 ),
                 AppDoubleInputField(
@@ -174,7 +174,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ),
                   helperText: _appLocalizations.userProfileWeightHelper,
                   initialValue: initialUserProfile?.weightKg?.toDouble(),
-                  suffixText: "kg",
+                  suffixText: 'kg',
                   onSaved: (v) => _userProfileBuilder.weightKg = v,
                 ),
               ],
@@ -316,7 +316,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             _formValidators.nonNull(),
                             _formValidators.numRangeValidator(0, 100),
                           ),
-                          (_) => !isDiabetic ? null : "",
+                          (_) => !isDiabetic ? null : '',
                         ),
                         suffixText: _appLocalizations.ageSuffix,
                         onSaved: (v) => _userProfileBuilder.diabetesYears = v,
@@ -331,7 +331,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 DiabetesComplicationsEnum.unknown,
                         validator: _formValidators.or(
                           _formValidators.nonNull(),
-                          (_) => !isDiabetic ? null : "",
+                          (_) => !isDiabetic ? null : '',
                         ),
                         items: [
                           AppSelectFormFieldItem(

@@ -32,7 +32,7 @@ class _AppBarChart extends State<AppBarChart> {
               fitInsideVertically: widget.data.fitInsideVertically,
               getTooltipItem: (group, groupIndex, rod, rodIndex) {
                 return BarTooltipItem(
-                  this.widget.data.groups[groupIndex].rods[rodIndex].tooltip,
+                  widget.data.groups[groupIndex].rods[rodIndex].tooltip,
                   TextStyle(color: Colors.yellow),
                 );
               }),
@@ -52,7 +52,7 @@ class _AppBarChart extends State<AppBarChart> {
           bottomTitles: SideTitles(
             showTitles: true,
             getTextStyles: (value) {
-              final group = this.widget.data.groups[value.toInt()];
+              final group = widget.data.groups[value.toInt()];
 
               return TextStyle(
                 color: group.isSelected ? Colors.teal : Colors.grey,
@@ -62,7 +62,7 @@ class _AppBarChart extends State<AppBarChart> {
             },
             margin: 16,
             getTitles: (double value) {
-              return this.widget.data.groups[value.toInt()].text;
+              return widget.data.groups[value.toInt()].text;
             },
           ),
           leftTitles: SideTitles(

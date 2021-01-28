@@ -31,7 +31,7 @@ import 'package:stream_transform/stream_transform.dart';
 enum _AppStateChangeEvent { healthStatus, nutrition }
 
 class ApiService {
-  static const _baseApiUrl = "https://api.nephrogo.com/";
+  static const _baseApiUrl = 'https://api.nephrogo.com/';
   static const _connectionIdleTimeout = Duration(minutes: 1);
 
   static final ApiService _singleton = ApiService._internal();
@@ -67,7 +67,7 @@ class ApiService {
       connectTimeout: 8000,
       receiveTimeout: 5000,
       headers: {
-        "time-zone-name": timeZoneName,
+        'time-zone-name': timeZoneName,
         'accept-encoding': 'br',
       },
     ));
@@ -266,7 +266,7 @@ class ApiService {
 }
 
 class _FirebaseAuthenticationInterceptor extends Interceptor {
-  static const _tokenRegeneratedKey = "tokenRegenerated";
+  static const _tokenRegeneratedKey = 'tokenRegenerated';
 
   final logger = Logger('ApiService');
   final _authenticationProvider = AuthenticationProvider();
@@ -288,7 +288,7 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
 
       final idToken = await _getIdToken(forceRegenerateToken);
 
-      options.headers["authorization"] = "Bearer $idToken";
+      options.headers['authorization'] = 'Bearer $idToken';
     } finally {
       dio.interceptors.requestLock.unlock();
     }
@@ -301,9 +301,9 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
     final statusCode = err.response?.statusCode;
     if (statusCode == 403 || statusCode == 401) {
       if (err.request.extra.containsKey(_tokenRegeneratedKey)) {
-        logger.severe("Authentication error after regenerating token.");
+        logger.severe('Authentication error after regenerating token.');
       } else {
-        logger.warning("Authentication error. Regenerating user id token.");
+        logger.warning('Authentication error. Regenerating user id token.');
 
         err.request.extra.addAll({_tokenRegeneratedKey: true});
 

@@ -14,7 +14,7 @@ extension IndexedIterable<E> on Iterable<E> {
   }
 
   //https://stackoverflow.com/questions/53547997/sort-a-list-of-objects-in-flutter-dart-by-property-value
-  Iterable<E> sortedBy(Comparable key(E e), {bool reverse = false}) {
+  Iterable<E> sortedBy(Comparable Function(E e) key, {bool reverse = false}) {
     if (reverse) {
       return toList()..sort((a, b) => key(b).compareTo(key(a)));
     }
@@ -27,19 +27,19 @@ extension IndexedIterable<E> on Iterable<E> {
 
   // https://stackoverflow.com/questions/58446296/get-the-first-element-of-list-if-it-exists-in-dart
   E firstOrNull() {
-    return this == null || this.isEmpty ? null : this.first;
+    return this == null || isEmpty ? null : first;
   }
 
   E lastOrNull() {
-    return this == null || this.isEmpty ? null : this.last;
+    return this == null || isEmpty ? null : last;
   }
 }
 
 extension ListExtensions<E> on List<E> {
   List<E> shift(int n) {
-    if (this.isEmpty) return this;
-    var i = n % this.length;
-    return this.sublist(i)..addAll(this.sublist(0, i));
+    if (isEmpty) return this;
+    var i = n % length;
+    return sublist(i)..addAll(sublist(0, i));
   }
 }
 

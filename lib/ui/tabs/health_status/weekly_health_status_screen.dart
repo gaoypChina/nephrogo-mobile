@@ -93,7 +93,7 @@ class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
     );
   }
 
-  _changeHealthIndicator(HealthIndicator healthIndicator) {
+  void _changeHealthIndicator(HealthIndicator healthIndicator) {
     setState(() {
       selectedHealthIndicator = healthIndicator;
       healthIndicatorChangeNotifier.value = healthIndicator;
@@ -177,7 +177,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
 }
 
 class DailyHealthStatusIndicatorTile extends StatelessWidget {
-  static final _dateFormat = DateFormat("EEEE, MMMM d");
+  static final _dateFormat = DateFormat('EEEE, MMMM d');
 
   final DailyHealthStatus dailyHealthStatus;
   final HealthIndicator indicator;
@@ -193,7 +193,7 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
       return dailyHealthStatus.swellings
           .map((s) => s.getLocalizedName(appLocalizations))
           .where((s) => s != null)
-          .join(", ")
+          .join(', ')
           .toLowerCase()
           .capitalizeFirst();
     }
