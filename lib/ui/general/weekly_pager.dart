@@ -136,7 +136,7 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
         Row(
           children: [
             IconButton(
-              icon: Icon(Icons.chevron_left),
+              icon: Icon(Icons.navigate_before),
               onPressed:
                   hasPreviousDateRange() ? advanceToPreviousDateRange : null,
             ),
@@ -150,7 +150,7 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
               ),
             ),
             IconButton(
-              icon: Icon(Icons.chevron_right),
+              icon: Icon(Icons.navigate_next),
               onPressed: hasNextDateRange() ? advanceToNextDateRange : null,
             ),
           ],
