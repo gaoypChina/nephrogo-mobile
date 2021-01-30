@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
+import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/utils/utils.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -86,6 +88,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
     );
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: theme.primaryColor,
         iconTheme: theme.primaryIconTheme,
@@ -106,34 +109,56 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
       ),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
-        child: AppStreamBuilder<List<Product>>(
-          stream: _buildStream(),
-          builder: (context, products) {
-            return Visibility(
-              visible: products.isNotEmpty,
-              replacement: SingleChildScrollView(
-                child: EmptyStateContainer(
-                  text: appLocalizations.productSearchEmpty(currentQuery),
-                ),
-              ),
-              child: ListView.separated(
-                itemCount: products.length,
-                separatorBuilder: (BuildContext context, int index) =>
-                    Divider(height: 1),
-                itemBuilder: (context, index) {
-                  final product = products[index];
+        child: Column(
+          children: [
+            Expanded(
+              child: AppStreamBuilder<List<Product>>(
+                stream: _buildStream(),
+                builder: (context, products) {
+                  return Visibility(
+                    visible: products.isNotEmpty,
+                    replacement: SingleChildScrollView(
+                      child: EmptyStateContainer(
+                        text: appLocalizations.productSearchEmpty(currentQuery),
+                      ),
+                    ),
+                    child: ListView.separated(
+                      itemCount: products.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          Divider(height: 1),
+                      itemBuilder: (context, index) {
+                        final product = products[index];
 
-                  return ProductTile(
-                    product: product,
-                    onTap: () => close(context, product),
+                        return ProductTile(
+                          product: product,
+                          onTap: () => close(context, product),
+                        );
+                      },
+                    ),
                   );
                 },
               ),
-            );
-          },
+            ),
+            BasicSection(
+              padding: EdgeInsets.only(top: 8),
+              children: [
+                AppListTile(
+                  title: Text(appLocalizations.searchUnableToFindProduct),
+                  trailing: OutlinedButton(
+                    onPressed: _reportMissingProduct,
+                    child: Text(appLocalizations.report.toUpperCase()),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  Future<bool> _reportMissingProduct() {
+    return launchURL(Constants.reportMissingProductUrl);
   }
 
   Future close(BuildContext context, Product product) async {

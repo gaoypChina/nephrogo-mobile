@@ -58,6 +58,10 @@
   "@chooseNutrient": {},
   "nutrientShort": "Medžiaga",
   "@nutrientShort": {},
+  "searchUnableToFindProduct": "Nerandate maisto produkto?",
+  "@searchUnableToFindProduct": {},
+  "report": "Pranešti",
+  "@report": {},
   "productSearchEmpty": "Pagal \"{query}\" paieškos kriterijų nebuvo rasta jokių produktų!",
   "@productSearchEmpty": {
     "placeholders": {
