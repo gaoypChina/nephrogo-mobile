@@ -155,7 +155,7 @@ class DailyNormsSection extends StatelessWidget {
 
   const DailyNormsSection({
     Key key,
-    this.dailyIntakeReport,
+    @required this.dailyIntakeReport,
   }) : super(key: key);
 
   @override
@@ -173,9 +173,7 @@ class DailyNormsSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            DailyNormsBarChart(
-              dailyIntakeReport: dailyIntakeReport,
-            ),
+            DailyNormsBarChart(dailyIntakeReport: dailyIntakeReport),
           ],
         ),
       ],
