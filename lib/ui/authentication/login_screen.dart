@@ -119,11 +119,11 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
             textAlign: TextAlign.start,
           ),
           actions: [
-            FlatButton(
+            TextButton(
               onPressed: () => Navigator.pop(context, false),
               child: Text(appLocalizations.disagree.toUpperCase()),
             ),
-            FlatButton(
+            TextButton(
               onPressed: () => Navigator.pop(context, true),
               child: Text(appLocalizations.agree.toUpperCase()),
             ),

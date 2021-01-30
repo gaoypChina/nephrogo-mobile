@@ -19,8 +19,9 @@ class AppElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      color: color ?? Theme.of(context).primaryColor,
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          primary: color ?? Theme.of(context).primaryColor),
       onPressed: onPressed,
       child: Padding(
         padding: innerPadding,

@@ -48,13 +48,13 @@ class _BetaBannerState extends State<BetaBanner> {
         leading: const CircleAvatar(child: Icon(Icons.announcement)),
         content: Text(appLocalizations.betaDisclaimer),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             onPressed: () => _showHelpDialog(appLocalizations),
             child: Text(
               appLocalizations.help.toUpperCase(),
             ),
           ),
-          FlatButton(
+          TextButton(
             onPressed: () => setState(() {
               showBanner = false;
             }),

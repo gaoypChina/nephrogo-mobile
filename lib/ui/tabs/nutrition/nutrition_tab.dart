@@ -70,7 +70,7 @@ class NutritionTab extends StatelessWidget {
                   DailyIntakesCard(
                     title: appLocalizations.lastMealsSectionTitle,
                     intakes: latestIntakes,
-                    leading: OutlineButton(
+                    leading: OutlinedButton(
                       onPressed: () => openWeeklyIntakesScreen(context),
                       child: Text(appLocalizations.more.toUpperCase()),
                     ),
@@ -133,7 +133,7 @@ class NutritionTab extends StatelessWidget {
     return LargeSection(
       title: nutrient.name(localizations),
       subTitle: subtitle,
-      leading: OutlineButton(
+      leading: OutlinedButton(
         onPressed: () => openWeeklyNutritionScreen(context, nutrient),
         child: Text(localizations.more.toUpperCase()),
       ),

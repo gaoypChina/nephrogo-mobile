@@ -103,7 +103,7 @@ class HealthIndicatorsTabBody extends StatelessWidget {
     return LargeSection(
       title: indicator.name(appLocalizations),
       subTitle: appLocalizations.healthIndicatorSubtitle(todayConsumption),
-      leading: OutlineButton(
+      leading: OutlinedButton(
         onPressed: () => openWeeklyHealthIndicatorScreen(context, indicator),
         child: Text(appLocalizations.more.toUpperCase()),
       ),
