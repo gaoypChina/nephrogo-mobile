@@ -2,6 +2,7 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
@@ -26,22 +27,21 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Slaptažodžio atkūrimas'),
+        title: Text(appLocalizations.passwordRecovery),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const BasicSection(
+            BasicSection(
               header: AppListTile(
-                leading: IconButton(
+                leading: const IconButton(
                   icon: Icon(Icons.info),
                   onPressed: null,
                 ),
                 title: Padding(
-                  padding: EdgeInsets.only(right: 8.0),
+                  padding: const EdgeInsets.only(right: 8.0),
                   child: Text(
-                    'Įveskite savo elektroninio pašto adresą ir atsiūsime '
-                    'Jums laišką su instrukcijomis, kaip pakeisti slaptažodį.',
+                    appLocalizations.passwordRecoveryInstructions,
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -56,7 +56,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
                     child: Column(
                       children: [
                         AppTextFormField(
-                          labelText: 'El. paštas',
+                          labelText: appLocalizations.email,
                           autoFocus: true,
                           keyboardType: TextInputType.emailAddress,
                           validator: formValidators.nonEmptyValidator,
@@ -70,7 +70,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                             child: AppElevatedButton(
-                              text: 'Patvirtinti',
+                              text: appLocalizations.confirm,
                               onPressed: () => _remindPassword(context),
                             ),
                           ),
@@ -96,7 +96,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
 
         await showAppDialog(
           context: context,
-          message: 'Išsiuntėme laišką slaptažodžiui pakeisti į $email',
+          message: appLocalizations.passwordRecoveryEmailSent(email),
         );
 
         Navigator.pop(context);

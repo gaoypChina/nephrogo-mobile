@@ -3,6 +3,8 @@ import 'dart:developer' as developer;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
+import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
@@ -14,10 +16,9 @@ import 'login_conditions.dart';
 class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Paskyros sukūrimas'),
-      ),
+      appBar: AppBar(title: Text(appLocalizations.registration)),
       body: SingleChildScrollView(
         child: BasicSection(
           showDividers: false,
@@ -58,7 +59,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
         child: Column(
           children: [
             AppTextFormField(
-              labelText: 'El. paštas',
+              labelText: appLocalizations.email,
               autoFocus: true,
               keyboardType: TextInputType.emailAddress,
               validator: formValidators.nonEmptyValidator,
@@ -68,7 +69,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
               onSaved: (s) => email = s,
             ),
             AppTextFormField(
-              labelText: 'Slaptažodis',
+              labelText: appLocalizations.password,
               obscureText: true,
               validator: formValidators.and(
                 formValidators.nonNull(),
@@ -83,7 +84,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                 child: AppElevatedButton(
-                  text: 'Sukurti paskyrą',
+                  text: appLocalizations.register,
                   onPressed: () => _register(context),
                 ),
               ),
@@ -106,17 +107,20 @@ class _RegistrationFormState extends State<_RegistrationForm> {
       } on EmailAlreadyInUseException catch (_) {
         await showAppDialog(
           context: context,
-          message: 'Toks vartotojas jau registruotas.',
+          title: appLocalizations.error,
+          message: appLocalizations.errorEmailAlreadyInUse,
         );
       } on InvalidEmailException catch (_) {
         await showAppDialog(
           context: context,
-          message: 'Blogas elektroninio pašto adresas.',
+          title: appLocalizations.error,
+          message: appLocalizations.errorInvalidEmail,
         );
       } on WeakPasswordException catch (_) {
         await showAppDialog(
           context: context,
-          message: 'Per silpnas slaptažodis.',
+          title: appLocalizations.error,
+          message: appLocalizations.errorWeakPassword,
         );
       } catch (e, stacktrace) {
         developer.log(

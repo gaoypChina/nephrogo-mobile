@@ -16,6 +16,8 @@
   "@save": {},
   "ok": "Gerai",
   "@ok": {},
+  "confirm": "Patvirtinti",
+  "@confirm": {},
   "and": "Ir",
   "@and": {},
   "agree": "Sutinku",
@@ -885,5 +887,71 @@
   "onboardingStep6Description": "Gaukite inkstams palankios mitybos gydytojų rekomendacijas Dažniausiai užduodamuose klausimuose",
   "@onboardingStep6Description": {
     "context": "onboarding"
+  },
+  "login": "Prisijungimas",
+  "@login": {
+    "context": "login"
+  },
+  "loginAction": "Prisijungti",
+  "@loginAction": {
+    "context": "login"
+  },
+  "registration": "Registracija",
+  "@registration": {
+    "context": "login"
+  },
+  "register": "Registruotis",
+  "@register": {
+    "context": "login"
+  },
+  "forgetPassword": "Pamiršote slaptažodį?",
+  "@forgetPassword": {
+    "context": "login"
+  },
+  "email": "El. paštas",
+  "@email": {
+    "context": "login"
+  },
+  "password": "Slaptažodis",
+  "@password": {
+    "context": "login"
+  },
+  "errorUserNotFound": "Toks vartotojas neegzistuoja",
+  "@errorUserNotFound": {
+    "context": "login"
+  },
+  "errorInvalidPassword": "Neteisingas slaptažodis",
+  "@errorInvalidPassword": {
+    "context": "login"
+  },
+  "errorEmailAlreadyInUse": "Toks vartotojas jau registruotas",
+  "@errorEmailAlreadyInUse": {
+    "context": "registration"
+  },
+  "errorInvalidEmail": "Blogas elektroninio pašto adresas",
+  "@errorInvalidEmail": {
+    "context": "registration"
+  },
+  "errorWeakPassword": "Per silpnas slaptažodis",
+  "@errorWeakPassword": {
+    "context": "registration"
+  },
+  "passwordRecovery": "Slaptažodžio atkūrimas",
+  "@passwordRecovery": {
+    "context": "login"
+  },
+  "passwordRecoveryEmailSent": "Išsiuntėme laišką slaptažodžiui pakeisti į {email}",
+  "@passwordRecoveryEmailSent": {
+    "context": "login",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "example": "email@email.lt"
+      }
+    }
+  },
+  "passwordRecoveryInstructions": "Įveskite savo elektroninio pašto adresą ir atsiūsime Jums laišką su instrukcijomis, kaip pakeisti slaptažodį.",
+  "@passwordRecoveryInstructions": {
+    "context": "login"
   }
 }

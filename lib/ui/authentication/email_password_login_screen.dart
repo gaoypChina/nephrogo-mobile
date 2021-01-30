@@ -3,6 +3,8 @@ import 'dart:developer' as developer;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
+import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
@@ -15,10 +17,10 @@ import 'login_conditions.dart';
 class EmailPasswordLoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Prisijunkite'),
-      ),
+      appBar: AppBar(title: Text(appLocalizations.login)),
       body: SingleChildScrollView(
         child: BasicSection(
           showDividers: false,
@@ -29,7 +31,7 @@ class EmailPasswordLoginScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: AppElevatedButton(
-                  text: 'Registracija',
+                  text: appLocalizations.registration,
                   onPressed: () => _openRegistration(context),
                   color: Colors.grey,
                   textColor: Colors.white,
@@ -42,7 +44,7 @@ class EmailPasswordLoginScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: TextButton(
                   onPressed: () => _openRemindPassword(context),
-                  child: const Text('PAMIRŠOTE SLAPTAŽODĮ?'),
+                  child: Text(appLocalizations.forgetPassword.toUpperCase()),
                 ),
               ),
             ),
@@ -94,7 +96,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
         child: Column(
           children: [
             AppTextFormField(
-              labelText: 'El. paštas',
+              labelText: appLocalizations.email,
               autoFocus: true,
               keyboardType: TextInputType.emailAddress,
               validator: formValidators.nonEmptyValidator,
@@ -104,7 +106,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
               onSaved: (s) => email = s,
             ),
             AppTextFormField(
-              labelText: 'Slaptažodis',
+              labelText: appLocalizations.password,
               obscureText: true,
               validator: formValidators.and(
                 formValidators.nonNull(),
@@ -119,7 +121,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                 child: AppElevatedButton(
-                  text: 'Prisijungti',
+                  text: appLocalizations.loginAction,
                   onPressed: () => _login(context),
                 ),
               ),
@@ -142,14 +144,14 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
       } on UserNotFoundException catch (_) {
         await showAppDialog(
           context: context,
-          title: 'Klaida',
-          message: 'Toks vartotojas neegzistuoja.',
+          title: appLocalizations.error,
+          message: appLocalizations.errorUserNotFound,
         );
       } on InvalidPasswordException catch (_) {
         await showAppDialog(
           context: context,
-          title: 'Klaida',
-          message: 'Neteisingas slaptažodis.',
+          title: appLocalizations.error,
+          message: appLocalizations.errorInvalidPassword,
         );
       } catch (e, stacktrace) {
         developer.log(
