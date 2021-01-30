@@ -5,5 +5,6 @@ class Constants {
       'https://www.nephrogo.com/documents/lt/fair-use-rules.pdf';
   static const supportEmail = 'info@nephrogo.com';
   static const supportPhone = '+37065253669';
-  static const reportMissingProductUrl = 'https://forms.gle/GNTB93ZZpd3tz9Cd7';
+  static const reportMissingProductUrl =
+      'https://www.nephrogo.com/missing-product/';
 }
