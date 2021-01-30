@@ -57,7 +57,7 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showIndicatorSelectionPopupMenu(context),
         label: Text(_appLocalizations.nutrientShort.toUpperCase()),
-        icon: Icon(Icons.swap_horizontal_circle),
+        icon: const Icon(Icons.swap_horizontal_circle),
       ),
       body: WeeklyPager<Nutrient>(
         valueChangeNotifier: _nutrientChangeNotifier,
@@ -113,7 +113,7 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
     final options = Nutrient.values.map((t) {
       return SimpleDialogOption(
         onPressed: () => Navigator.pop(context, t),
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         child: Text(t.name(appLocalizations)),
       );
     }).toList();
@@ -171,7 +171,7 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
         text: AppLocalizations.of(context).weeklyNutrientsEmpty,
       ),
       child: ListView(
-        padding: EdgeInsets.only(bottom: 64),
+        padding: const EdgeInsets.only(bottom: 64),
         children: [
           BasicSection(
             children: [
@@ -258,7 +258,7 @@ class DailyIntakeSection extends StatelessWidget {
     return Container(
       width: 70.0,
       height: 70.0,
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
           color: percent > 1.0 ? Colors.redAccent : Colors.teal,
           shape: BoxShape.circle),
@@ -266,12 +266,12 @@ class DailyIntakeSection extends StatelessWidget {
         Positioned.fill(
           child: CircularProgressIndicator(
             value: percent,
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
           ),
         ),
         Text(
           '${(percent * 100).round()}%',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 13.0,
             color: Colors.white,
             fontWeight: FontWeight.w600,
@@ -314,7 +314,7 @@ class IndicatorIntakeTile extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(intake.getNutrientAmountFormatted(nutrient)),
           ),
-          Icon(Icons.chevron_right),
+          const Icon(Icons.chevron_right),
         ],
       ),
       onTap: () => Navigator.of(context).pushNamed(

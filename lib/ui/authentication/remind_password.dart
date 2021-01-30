@@ -26,19 +26,19 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Slaptažodžio atkūrimas'),
+        title: const Text('Slaptažodžio atkūrimas'),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            BasicSection(
+            const BasicSection(
               header: AppListTile(
                 leading: IconButton(
                   icon: Icon(Icons.info),
                   onPressed: null,
                 ),
                 title: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
+                  padding: EdgeInsets.only(right: 8.0),
                   child: Text(
                     'Įveskite savo elektroninio pašto adresą ir atsiūsime '
                     'Jums laišką su instrukcijomis, kaip pakeisti slaptažodį.',
@@ -60,7 +60,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
                           autoFocus: true,
                           keyboardType: TextInputType.emailAddress,
                           validator: formValidators.nonEmptyValidator,
-                          autofillHints: [AutofillHints.email],
+                          autofillHints: const [AutofillHints.email],
                           iconData: Icons.alternate_email,
                           textInputAction: TextInputAction.next,
                           onSaved: (s) => email = s,

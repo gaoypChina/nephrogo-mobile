@@ -110,7 +110,7 @@ class Routes {
         });
       case routeDailyWeeklyIntakesScreen:
         return MaterialPageRoute(builder: (context) {
-          return WeeklyIntakesScreen();
+          return const WeeklyIntakesScreen();
         });
       case routeDailyWeeklyNutrientsScreen:
         return MaterialPageRoute(builder: (context) {

@@ -64,7 +64,7 @@ class _HealthStatusCreationScreenState
         builder: (context) => FloatingActionButton.extended(
           onPressed: () => validateAndSave(context),
           label: Text(_appLocalizations.save.toUpperCase()),
-          icon: Icon(Icons.save),
+          icon: const Icon(Icons.save),
         ),
       ),
       body: AppFutureBuilder<DailyHealthStatus>(
@@ -91,7 +91,7 @@ class _HealthStatusCreationScreenState
               title: _appLocalizations.healthStatusCreationBloodPressure,
               setLeftPadding: true,
               showDividers: false,
-              headerPadding: EdgeInsets.all(8),
+              headerPadding: const EdgeInsets.all(8),
               children: [
                 Row(
                   children: [

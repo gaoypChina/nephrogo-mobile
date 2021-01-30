@@ -186,7 +186,7 @@ class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
           title: Text(item.question),
           children: [
             AppListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 16),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               subtitle: Text(
                 item.answer,
                 style: textTheme.subtitle1,

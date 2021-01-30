@@ -64,7 +64,7 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
         Expanded(
           child: PageView.builder(
             controller: _pageController,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             onPageChanged: changeWeek,
             reverse: true,
             itemBuilder: (context, index) {
@@ -112,7 +112,7 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
       return true;
     }
 
-    return !earliestDate.add(Duration(days: 7)).isAfter(currentWeekEnd);
+    return !earliestDate.add(const Duration(days: 7)).isAfter(currentWeekEnd);
   }
 
   void advanceToNextDateRange() {
@@ -136,7 +136,7 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
         Row(
           children: [
             IconButton(
-              icon: Icon(Icons.navigate_before),
+              icon: const Icon(Icons.navigate_before),
               onPressed:
                   hasPreviousDateRange() ? advanceToPreviousDateRange : null,
             ),
@@ -150,7 +150,7 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
               ),
             ),
             IconButton(
-              icon: Icon(Icons.navigate_next),
+              icon: const Icon(Icons.navigate_next),
               onPressed: hasNextDateRange() ? advanceToNextDateRange : null,
             ),
           ],

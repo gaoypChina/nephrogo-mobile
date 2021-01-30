@@ -40,7 +40,7 @@ class ProductSearchScreen extends StatefulWidget {
 class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
   final _apiService = ApiService();
 
-  final _searchDispatchDuration = Duration(milliseconds: 200);
+  final _searchDispatchDuration = const Duration(milliseconds: 200);
 
   String currentQuery = '';
   final focusNode = FocusNode();
@@ -125,7 +125,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
                     child: ListView.separated(
                       itemCount: products.length,
                       separatorBuilder: (BuildContext context, int index) =>
-                          Divider(height: 1),
+                          const Divider(height: 1),
                       itemBuilder: (context, index) {
                         final product = products[index];
 
@@ -185,7 +185,7 @@ class ProductTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppListTile(
-      contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       title: Text(product.name),
       leading: ProductKindIcon(productKind: product.productKind),
       onTap: onTap,

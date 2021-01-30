@@ -114,7 +114,7 @@ class LargeSection extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 2.0),
                     child: Text(
                       subTitle,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -154,7 +154,7 @@ class SmallSection extends StatelessWidget {
     var headerPaddingAdjusted =
         headerPadding ?? const EdgeInsets.symmetric(vertical: 8);
     if (headerPadding == null && setLeftPadding) {
-      headerPaddingAdjusted = EdgeInsets.all(8);
+      headerPaddingAdjusted = const EdgeInsets.all(8);
     }
 
     return BasicSection(
@@ -207,8 +207,8 @@ class AppListTile extends StatelessWidget {
         title: title,
         subtitle: subtitle,
         dense: dense,
-        trailing:
-            trailing ?? (onTap != null ? Icon(Icons.chevron_right) : null),
+        trailing: trailing ??
+            (onTap != null ? const Icon(Icons.chevron_right) : null),
         onTap: onTap,
         selected: selected,
       ),

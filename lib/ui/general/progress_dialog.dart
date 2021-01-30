@@ -10,8 +10,8 @@ class ProgressDialog {
     dialog = ArsProgressDialog(
       context,
       blur: 2,
-      backgroundColor: Color(0x33000000),
-      loadingWidget: AppProgressIndicator(),
+      backgroundColor: const Color(0x33000000),
+      loadingWidget: const AppProgressIndicator(),
       dismissable: false,
     );
   }

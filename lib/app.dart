@@ -29,14 +29,14 @@ class _AppComponentState extends State<AppComponent> {
         primarySwatch: Colors.teal,
         accentColor: Colors.redAccent,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        inputDecorationTheme: InputDecorationTheme(
-          border: const OutlineInputBorder(),
+        inputDecorationTheme: const InputDecorationTheme(
+          border: OutlineInputBorder(),
           helperMaxLines: 5,
           errorMaxLines: 5,
         ),
       ),
       navigatorObservers: [analytics.observer],
-      localizationsDelegates: [
+      localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

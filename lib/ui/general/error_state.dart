@@ -16,15 +16,15 @@ class ErrorStateWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(bottom: 24),
+          const Padding(
+            padding: EdgeInsets.only(bottom: 24),
             child: Icon(Icons.error, size: 100, color: Colors.redAccent),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
               AppLocalizations.of(context).serverErrorDescription,
-              style: TextStyle(fontSize: 22),
+              style: const TextStyle(fontSize: 22),
               textAlign: TextAlign.center,
             ),
           ),

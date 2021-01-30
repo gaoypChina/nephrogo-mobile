@@ -29,7 +29,7 @@ class _HealthStatusTabState extends State<HealthStatusTab> {
               .weeklyNutrientsCreateHealthIndicators
               .toUpperCase(),
         ),
-        icon: Icon(Icons.add),
+        icon: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: HealthIndicatorsTabBody(),
@@ -61,7 +61,7 @@ class HealthIndicatorsTabBody extends StatelessWidget {
             text: appLocalizations.weeklyHealthStatusEmpty,
           ),
           child: ListView(
-            padding: EdgeInsets.only(bottom: 64),
+            padding: const EdgeInsets.only(bottom: 64),
             children: [
               for (final indicator in HealthIndicator.values)
                 buildIndicatorChartSection(context, response, indicator)

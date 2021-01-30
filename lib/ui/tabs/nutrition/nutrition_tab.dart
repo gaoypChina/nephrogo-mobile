@@ -29,7 +29,7 @@ class NutritionTab extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _createProduct(context),
         label: Text(appLocalizations.createMeal.toUpperCase()),
-        icon: Icon(Icons.add),
+        icon: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: _buildBody(context),
@@ -166,7 +166,7 @@ class DailyNormsSection extends StatelessWidget {
       subTitle: appLocalizations.dailyNormsSectionSubtitle,
       leading: IconButton(
         tooltip: appLocalizations.faqTitle,
-        icon: Icon(Icons.help_outline),
+        icon: const Icon(Icons.help_outline),
         onPressed: () => showInformationScreen(context),
       ),
       children: [
@@ -237,7 +237,7 @@ class IntakeTile extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(intake.getAmountFormatted()),
           ),
-          Icon(Icons.chevron_right),
+          const Icon(Icons.chevron_right),
         ],
       ),
       onTap: () => Navigator.of(context).pushNamed(

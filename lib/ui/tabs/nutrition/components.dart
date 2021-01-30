@@ -18,7 +18,7 @@ class IntakeNutrientTile extends StatelessWidget {
         intake.product.getFormattedTotalAmount(nutrient, intake.amountG);
 
     return AppListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 8),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
       title: Text(nutrient.name(AppLocalizations.of(context))),
       trailing: Text(amountText),
       dense: true,

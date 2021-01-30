@@ -97,7 +97,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
         actions: <Widget>[
           if (widget.intake != null)
             IconButton(
-              icon: Icon(Icons.delete_forever),
+              icon: const Icon(Icons.delete_forever),
               onPressed: () => deleteIntake(widget.intake.id),
             ),
         ],
@@ -105,7 +105,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => validateAndSaveIntake(context),
         label: Text(_appLocalizations.save.toUpperCase()),
-        icon: Icon(Icons.save),
+        icon: const Icon(Icons.save),
       ),
       body: Form(
         key: _formKey,

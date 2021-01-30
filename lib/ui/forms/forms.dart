@@ -612,7 +612,7 @@ class AppDoubleInputField extends StatelessWidget {
       validator: _validator,
       hintText: hintText,
       onSaved: onSaved != null ? _onSaved : null,
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [FilteringTextInputFormatter.allow(floatRegexPattern)],
       suffixText: suffixText,
     );

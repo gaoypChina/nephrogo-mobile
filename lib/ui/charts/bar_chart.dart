@@ -33,7 +33,7 @@ class _AppBarChart extends State<AppBarChart> {
               getTooltipItem: (group, groupIndex, rod, rodIndex) {
                 return BarTooltipItem(
                   widget.data.groups[groupIndex].rods[rodIndex].tooltip,
-                  TextStyle(color: Colors.yellow),
+                  const TextStyle(color: Colors.yellow),
                 );
               }),
           touchCallback: (barTouchResponse) {

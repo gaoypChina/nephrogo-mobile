@@ -24,7 +24,7 @@ class AppFutureBuilder<T> extends StatelessWidget {
           return builder(context, snapshot.data);
         }
 
-        return Center(child: AppProgressIndicator());
+        return const Center(child: AppProgressIndicator());
       },
     );
   }

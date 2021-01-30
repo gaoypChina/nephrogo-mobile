@@ -44,7 +44,7 @@ class _AppFormMultipleSelectDialogState<T>
     return AlertDialog(
       title: Text(widget.title),
       scrollable: true,
-      contentPadding: EdgeInsets.only(top: 20),
+      contentPadding: const EdgeInsets.only(top: 20),
       content: BasicSection(
         padding: EdgeInsets.zero,
         children: widget.items

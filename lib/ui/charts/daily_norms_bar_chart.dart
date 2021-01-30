@@ -39,7 +39,7 @@ class DailyNormsBarChart extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   height: 100,
-                  constraints: BoxConstraints(maxWidth: 250),
+                  constraints: const BoxConstraints(maxWidth: 250),
                   child: _buildGraph(_appLocalizations, group),
                 ),
               ),

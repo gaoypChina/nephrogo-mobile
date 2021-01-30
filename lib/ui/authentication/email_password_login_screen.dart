@@ -17,7 +17,7 @@ class EmailPasswordLoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Prisijunkite'),
+        title: const Text('Prisijunkite'),
       ),
       body: SingleChildScrollView(
         child: BasicSection(
@@ -42,12 +42,12 @@ class EmailPasswordLoginScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: TextButton(
                   onPressed: () => _openRemindPassword(context),
-                  child: Text('PAMIRŠOTE SLAPTAŽODĮ?'),
+                  child: const Text('PAMIRŠOTE SLAPTAŽODĮ?'),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
               child: Center(
                   child: LoginConditionsRichText(textColor: Colors.black)),
             ),
@@ -98,7 +98,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
               autoFocus: true,
               keyboardType: TextInputType.emailAddress,
               validator: formValidators.nonEmptyValidator,
-              autofillHints: [AutofillHints.email],
+              autofillHints: const [AutofillHints.email],
               iconData: Icons.alternate_email,
               textInputAction: TextInputAction.next,
               onSaved: (s) => email = s,
@@ -110,7 +110,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
                 formValidators.nonNull(),
                 formValidators.lengthValidator(6),
               ),
-              autofillHints: [AutofillHints.password],
+              autofillHints: const [AutofillHints.password],
               iconData: Icons.lock,
               onSaved: (s) => password = s,
             ),

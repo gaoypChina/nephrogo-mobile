@@ -113,7 +113,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: SmoothPageIndicator(
                 controller: _controller,
                 count: stepsCount,
-                effect: ScaleEffect(
+                effect: const ScaleEffect(
                   dotColor: Colors.white,
                   activeDotColor: Colors.white,
                   scale: 2,
@@ -130,8 +130,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     primary: Colors.black,
-                    shape: StadiumBorder(),
-                    side: BorderSide(width: 2, color: Colors.white),
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(width: 2, color: Colors.white),
                   ),
                   onPressed: () => advancePageOrFinish(isDone: isDone),
                   child: Padding(
@@ -176,7 +176,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       }
     } else {
       await _controller.animateToPage(page + 1,
-          duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+          duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
     }
   }
 

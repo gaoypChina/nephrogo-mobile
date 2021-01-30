@@ -58,7 +58,7 @@ class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showIndicatorSelectionPopupMenu(appLocalizations),
         label: Text(appLocalizations.healthIndicator.toUpperCase()),
-        icon: Icon(Icons.swap_horizontal_circle),
+        icon: const Icon(Icons.swap_horizontal_circle),
       ),
       body: WeeklyPager<HealthIndicator>(
         valueChangeNotifier: healthIndicatorChangeNotifier,
@@ -105,7 +105,7 @@ class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
     final options = HealthIndicator.values.map((hi) {
       return SimpleDialogOption(
         onPressed: () => Navigator.pop(context, hi),
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         child: Text(hi.name(appLocalizations)),
       );
     }).toList();
@@ -145,7 +145,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.only(bottom: 64),
+      padding: const EdgeInsets.only(bottom: 64),
       child: Column(
         children: [
           BasicSection(

@@ -21,13 +21,13 @@ class AppFormSingleSelectDialog<T> extends StatelessWidget {
     return AlertDialog(
       title: Text(title),
       scrollable: true,
-      contentPadding: EdgeInsets.only(top: 20),
+      contentPadding: const EdgeInsets.only(top: 20),
       content: Column(
         children: [
           if (helpText != null)
             BasicSection(
               header: AppListTile(
-                leading: IconButton(
+                leading: const IconButton(
                   icon: Icon(Icons.info),
                   onPressed: null,
                 ),

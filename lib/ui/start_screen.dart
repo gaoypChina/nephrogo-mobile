@@ -26,7 +26,8 @@ class _StartScreenState extends State<StartScreen> {
           if (isOnboardingPassed) {
             return LoginScreen();
           }
-          return OnboardingScreen(exitType: OnboardingScreenExitType.login);
+          return const OnboardingScreen(
+              exitType: OnboardingScreenExitType.login);
         },
       );
     }
@@ -38,7 +39,7 @@ class _StartScreenState extends State<StartScreen> {
           return HomeScreen();
         }
 
-        return UserProfileScreen(
+        return const UserProfileScreen(
           nextScreenType: UserProfileNextScreenType.homeScreen,
         );
       },

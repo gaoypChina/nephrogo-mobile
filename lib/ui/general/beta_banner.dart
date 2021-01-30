@@ -21,12 +21,12 @@ class _BetaBannerState extends State<BetaBanner> {
             mainAxisSize: MainAxisSize.min,
             children: [
               AppListTile(
-                contentPadding: EdgeInsets.all(12),
+                contentPadding: const EdgeInsets.all(12),
                 title: Text(appLocalizations.supportEmail),
                 onTap: () => launchEmail(Constants.supportEmail),
               ),
               AppListTile(
-                contentPadding: EdgeInsets.all(12),
+                contentPadding: const EdgeInsets.all(12),
                 title: Text(appLocalizations.supportPhone),
                 onTap: () => launchPhone(Constants.supportPhone),
               ),
@@ -45,7 +45,7 @@ class _BetaBannerState extends State<BetaBanner> {
       visible: showBanner,
       child: MaterialBanner(
         backgroundColor: Colors.white,
-        leading: CircleAvatar(child: Icon(Icons.announcement)),
+        leading: const CircleAvatar(child: Icon(Icons.announcement)),
         content: Text(appLocalizations.betaDisclaimer),
         actions: <Widget>[
           FlatButton(

@@ -29,7 +29,7 @@ class ProfileTab extends StatelessWidget {
           children: [
             AppListTile(
               title: Text(appLocalizations.userProfileScreenTitle),
-              leading: Icon(Icons.person),
+              leading: const Icon(Icons.person),
               onTap: () {
                 Navigator.pushNamed(
                   context,
@@ -44,7 +44,7 @@ class ProfileTab extends StatelessWidget {
           children: [
             AppListTile(
               title: Text(appLocalizations.faqTitle),
-              leading: Icon(Icons.help),
+              leading: const Icon(Icons.help),
               onTap: () {
                 Navigator.pushNamed(
                   context,
@@ -58,7 +58,7 @@ class ProfileTab extends StatelessWidget {
           children: [
             AppListTile(
               title: Text(appLocalizations.onboarding),
-              leading: Icon(Icons.explore),
+              leading: const Icon(Icons.explore),
               onTap: () {
                 Navigator.pushNamed(
                   context,
@@ -74,12 +74,12 @@ class ProfileTab extends StatelessWidget {
           children: [
             AppListTile(
               title: Text(appLocalizations.supportPhone),
-              leading: Icon(Icons.call),
+              leading: const Icon(Icons.call),
               onTap: () => launchPhone(Constants.supportPhone),
             ),
             AppListTile(
               title: Text(appLocalizations.supportEmail),
-              leading: Icon(Icons.email),
+              leading: const Icon(Icons.email),
               onTap: () => launchEmail(Constants.supportEmail),
             ),
           ],
@@ -88,12 +88,12 @@ class ProfileTab extends StatelessWidget {
           children: [
             AppListTile(
               title: Text(appLocalizations.privacyPolicy),
-              leading: Icon(Icons.lock),
+              leading: const Icon(Icons.lock),
               onTap: () => launchURL(Constants.privacyPolicyUrl),
             ),
             AppListTile(
               title: Text(appLocalizations.usageRules),
-              leading: Icon(Icons.description),
+              leading: const Icon(Icons.description),
               onTap: () => launchURL(Constants.rulesUrl),
             ),
           ],
@@ -102,7 +102,7 @@ class ProfileTab extends StatelessWidget {
           children: [
             AppListTile(
               title: Text(appLocalizations.logout),
-              leading: Icon(Icons.logout),
+              leading: const Icon(Icons.logout),
               onTap: () => _signOut(context),
             ),
           ],

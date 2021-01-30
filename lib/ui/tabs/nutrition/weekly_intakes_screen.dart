@@ -34,7 +34,7 @@ class _WeeklyIntakesScreenState extends State<WeeklyIntakesScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _createProduct(context),
         label: Text(appLocalizations.createMeal.toUpperCase()),
-        icon: Icon(Icons.add),
+        icon: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: WeeklyPager<bool>(
@@ -89,7 +89,7 @@ class _IntakesListComponent extends StatelessWidget {
         text: AppLocalizations.of(context).weeklyNutrientsEmpty,
       ),
       child: ListView.builder(
-        padding: EdgeInsets.only(bottom: 64),
+        padding: const EdgeInsets.only(bottom: 64),
         itemCount: intakes.length + 1,
         itemBuilder: (context, index) {
           if (index == 0) {

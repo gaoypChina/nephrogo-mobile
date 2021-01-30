@@ -86,7 +86,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         title: Text(_appLocalizations.userProfileScreenTitle),
         actions: [
           IconButton(
-            icon: Icon(Icons.lock),
+            icon: const Icon(Icons.lock),
             onPressed: () => launchURL(Constants.privacyPolicyUrl),
           ),
         ],
@@ -145,7 +145,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 AppDatePickerFormField(
                   labelText: _appLocalizations.birthDate,
                   firstDate: DateTime(1920),
-                  lastDate: DateTime.now().subtract(Duration(days: 365 * 18)),
+                  lastDate:
+                      DateTime.now().subtract(const Duration(days: 365 * 18)),
                   initialDate: DateTime(1995, 6, 26),
                   selectedDate: initialUserProfile?.birthday,
                   initialDatePickerMode: DatePickerMode.year,

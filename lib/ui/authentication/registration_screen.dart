@@ -16,15 +16,15 @@ class RegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Paskyros sukūrimas'),
+        title: const Text('Paskyros sukūrimas'),
       ),
       body: SingleChildScrollView(
         child: BasicSection(
           showDividers: false,
           children: [
             _RegistrationForm(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 32),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 32),
               child: Center(
                   child: LoginConditionsRichText(textColor: Colors.black)),
             ),
@@ -62,7 +62,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
               autoFocus: true,
               keyboardType: TextInputType.emailAddress,
               validator: formValidators.nonEmptyValidator,
-              autofillHints: [AutofillHints.email],
+              autofillHints: const [AutofillHints.email],
               iconData: Icons.alternate_email,
               textInputAction: TextInputAction.next,
               onSaved: (s) => email = s,
@@ -74,7 +74,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
                 formValidators.nonNull(),
                 formValidators.lengthValidator(6),
               ),
-              autofillHints: [AutofillHints.password],
+              autofillHints: const [AutofillHints.password],
               iconData: Icons.lock,
               onSaved: (s) => password = s,
             ),

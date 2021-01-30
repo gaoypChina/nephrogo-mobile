@@ -96,8 +96,8 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
             onPressed: () => _loginUsingEmail(context),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 32),
           child: LoginConditionsRichText(),
         ),
       ],
