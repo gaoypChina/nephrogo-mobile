@@ -160,13 +160,13 @@ class DailyNormsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
     return LargeSection(
-      title: AppLocalizations.of(context).dailyNormsSectionTitle,
-      subTitle: AppLocalizations.of(context).dailyNormsSectionSubtitle,
+      title: appLocalizations.dailyNormsSectionTitle,
+      subTitle: appLocalizations.dailyNormsSectionSubtitle,
       leading: IconButton(
-        icon: Icon(
-          Icons.help_outline,
-        ),
+        tooltip: appLocalizations.faqTitle,
+        icon: Icon(Icons.help_outline),
         onPressed: () => showInformationScreen(context),
       ),
       children: [
