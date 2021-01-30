@@ -198,15 +198,20 @@ class AppListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: contentPadding ?? EdgeInsets.zero,
-      leading: leading,
-      title: title,
-      subtitle: subtitle,
-      dense: dense,
-      trailing: trailing ?? (onTap != null ? Icon(Icons.chevron_right) : null),
-      onTap: onTap,
-      selected: selected,
+    // Material is needed for workaround https://github.com/flutter/flutter/issues/3782
+    return Material(
+      color: Colors.white,
+      child: ListTile(
+        contentPadding: contentPadding ?? EdgeInsets.zero,
+        leading: leading,
+        title: title,
+        subtitle: subtitle,
+        dense: dense,
+        trailing:
+            trailing ?? (onTap != null ? Icon(Icons.chevron_right) : null),
+        onTap: onTap,
+        selected: selected,
+      ),
     );
   }
 }

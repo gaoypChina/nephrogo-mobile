@@ -140,7 +140,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
               ),
             ),
             BasicSection(
-              padding: EdgeInsets.only(top: 8),
+              padding: EdgeInsets.zero,
               children: [
                 AppListTile(
                   title: Text(appLocalizations.searchUnableToFindProduct),
@@ -177,21 +177,17 @@ class ProductTile extends StatelessWidget {
   final Product product;
   final GestureTapCallback onTap;
 
-  const ProductTile({
-    Key key,
+  ProductTile({
     @required this.product,
     @required this.onTap,
-  }) : super(key: key);
+  }) : super(key: ObjectKey(product));
 
   @override
   Widget build(BuildContext context) {
     return AppListTile(
-      key: ObjectKey(product),
       contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       title: Text(product.name),
-      leading: ProductKindIcon(
-        productKind: product.productKind,
-      ),
+      leading: ProductKindIcon(productKind: product.productKind),
       onTap: onTap,
     );
   }
