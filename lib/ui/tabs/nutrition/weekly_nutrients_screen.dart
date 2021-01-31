@@ -266,10 +266,13 @@ class DailyIntakeSection extends StatelessWidget {
       child: Stack(alignment: Alignment.center, children: [
         if (percent <= 1)
           Positioned.fill(
-            child: CircularProgressIndicator(
-              value: percent,
-              strokeWidth: 8,
-              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: CircularProgressIndicator(
+                value: percent,
+                valueColor:
+                    const AlwaysStoppedAnimation<Color>(Colors.tealAccent),
+              ),
             ),
           ),
         Text(
