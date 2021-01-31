@@ -260,11 +260,11 @@ class DailyIntakeSection extends StatelessWidget {
       width: 48,
       height: 48,
       decoration: BoxDecoration(
-        color: percent > 1.0 ? Colors.redAccent : Colors.teal,
+        color: percent < 1.0 ? Colors.teal : Colors.redAccent,
         shape: BoxShape.circle,
       ),
       child: Stack(alignment: Alignment.center, children: [
-        if (percent <= 1)
+        if (percent < 1)
           Positioned.fill(
             child: Padding(
               padding: const EdgeInsets.all(2.0),
