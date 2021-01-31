@@ -208,6 +208,7 @@ class DailyIntakesCard extends StatelessWidget {
       title: title,
       subTitle: subTitle,
       leading: leading,
+      showDividers: true,
       children: [
         for (final intake in intakes) IntakeTile(intake),
       ],

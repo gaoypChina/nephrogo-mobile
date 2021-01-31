@@ -2,26 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo_api_client/model/product_kind_enum.dart';
 
 class BasicSection extends StatelessWidget {
-  static const _defaultHeaderPadding =
-      EdgeInsets.only(bottom: 4, top: 16, left: 16, right: 16);
-
-  static const _defaultChildrenPadding =
-      EdgeInsets.symmetric(vertical: 4, horizontal: 16);
-
   final Widget header;
   final List<Widget> children;
   final EdgeInsetsGeometry padding;
-  final EdgeInsetsGeometry childrenPadding;
   final bool showDividers;
 
-  const BasicSection({
+  BasicSection({
     Key key,
-    this.children = const [],
     this.header,
-    this.showDividers = true,
-    this.childrenPadding,
+    this.children = const [],
+    this.showDividers = false,
     this.padding = const EdgeInsets.only(bottom: 18.0),
-  }) : super(key: key);
+  })  : assert(header != null || children.isNotEmpty,
+            "Either header or at least one child should be passed"),
+        super(key: key);
+
+  const BasicSection.single(Widget child)
+      // ignore: prefer_initializing_formals
+      : header = child,
+        children = const [],
+        showDividers = false,
+        padding = const EdgeInsets.only(bottom: 18.0);
 
   @override
   Widget build(BuildContext context) {
@@ -35,43 +36,37 @@ class BasicSection extends StatelessWidget {
             bottom: Divider.createBorderSide(context),
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (header != null)
-              Padding(
-                padding: _defaultHeaderPadding,
-                child: header,
-              ),
-            ..._getPreparedChildren(context),
-          ],
-        ),
+        child: _buildHeaderAndChildren(context),
       ),
     );
   }
 
-  Iterable<Widget> _getPreparedChildren(BuildContext context) {
+  Widget _buildHeaderAndChildren(BuildContext context) {
     if (children.isEmpty) {
-      return [];
+      return header;
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (header != null) header,
+        ..._getPreparedChildren(context),
+      ],
+    );
+  }
+
+  Iterable<Widget> _getPreparedChildren(BuildContext context) {
+    if (children.isEmpty || children.length == 1) {
+      return children;
     }
 
-    var preparedChildren = children
-        .map(
-          (c) => Padding(
-            padding: childrenPadding ?? _defaultChildrenPadding,
-            child: c,
-          ),
-        )
-        .cast<Widget>();
-
     if (showDividers) {
-      preparedChildren = ListTile.divideTiles(
+      return ListTile.divideTiles(
         context: context,
-        tiles: preparedChildren,
+        tiles: children,
       );
     }
 
-    return preparedChildren;
+    return children;
   }
 }
 
@@ -88,43 +83,37 @@ class LargeSection extends StatelessWidget {
     @required this.children,
     this.subTitle,
     this.leading,
-    this.showDividers = true,
+    this.showDividers = false,
   }) : super(key: key);
+
+  Widget _buildSubtitle() {
+    if (subTitle == null) {
+      return null;
+    }
+    return Text(
+      subTitle,
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return BasicSection(
       showDividers: showDividers,
-      header: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (subTitle != null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2.0),
-                    child: Text(
-                      subTitle,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
+      header: AppListTile(
+        title: Text(
+          title,
+          style: TextStyle(
+            fontSize: 24,
+            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.bold,
           ),
-          if (leading != null) leading
-        ],
+        ),
+        subtitle: _buildSubtitle(),
+        trailing: leading,
       ),
       children: children,
     );
@@ -134,34 +123,21 @@ class LargeSection extends StatelessWidget {
 class SmallSection extends StatelessWidget {
   final String title;
   final List<Widget> children;
-  final EdgeInsetsGeometry headerPadding;
-  final EdgeInsetsGeometry childrenPadding;
-  final bool setLeftPadding;
   final bool showDividers;
 
   const SmallSection({
     Key key,
     @required this.children,
     @required this.title,
-    this.setLeftPadding = false,
-    this.childrenPadding,
-    this.headerPadding,
     this.showDividers = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var headerPaddingAdjusted =
-        headerPadding ?? const EdgeInsets.symmetric(vertical: 8);
-    if (headerPadding == null && setLeftPadding) {
-      headerPaddingAdjusted = const EdgeInsets.all(8);
-    }
-
     return BasicSection(
       showDividers: showDividers,
-      childrenPadding: childrenPadding,
       header: Padding(
-        padding: headerPaddingAdjusted,
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         child: Text(
           title,
           style: Theme.of(context).textTheme.subtitle1.copyWith(
@@ -202,7 +178,7 @@ class AppListTile extends StatelessWidget {
     return Material(
       color: Colors.white,
       child: ListTile(
-        contentPadding: contentPadding ?? EdgeInsets.zero,
+        // contentPadding: contentPadding,
         leading: leading,
         title: title,
         subtitle: subtitle,

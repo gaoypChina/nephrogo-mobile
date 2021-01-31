@@ -107,8 +107,9 @@ class _IntakesListComponent extends StatelessWidget {
 
           return BasicSection(
             key: ObjectKey(intake),
+            header: IntakeTile(intake),
+            showDividers: true,
             children: [
-              IntakeTile(intake),
               for (final nutrient in Nutrient.values)
                 IntakeNutrientTile(intake, nutrient)
             ],

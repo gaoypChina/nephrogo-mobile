@@ -15,7 +15,7 @@ class AppDropdownMenuItem<T> {
   AppDropdownMenuItem({this.key, @required this.text, @required this.value});
 }
 
-const _defaultFieldPadding = EdgeInsets.all(8.0);
+const _defaultFieldPadding = EdgeInsets.symmetric(horizontal: 16, vertical: 12);
 
 class AppTextFormField extends StatelessWidget {
   final TextEditingController controller;

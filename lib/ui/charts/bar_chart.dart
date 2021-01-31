@@ -60,13 +60,13 @@ class _AppBarChart extends State<AppBarChart> {
                 fontSize: 14,
               );
             },
-            margin: 16,
+            margin: 12,
             getTitles: (double value) {
               return widget.data.groups[value.toInt()].text;
             },
           ),
           leftTitles: SideTitles(
-            margin: 16,
+            margin: 8,
             showTitles: widget.data.showLeftTitles,
             interval: widget.data.showLeftTitles
                 ? widget.data.interval ?? _calculateInterval()

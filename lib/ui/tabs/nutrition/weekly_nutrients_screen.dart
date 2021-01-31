@@ -229,6 +229,7 @@ class DailyIntakeSection extends StatelessWidget {
       leading: ratio != null ? _getVisualIndicator(ratio) : null,
       subTitle:
           getSubtitle(appLocalizations, totalFormatted, dailyNormFormatted),
+      showDividers: true,
       children: [
         for (final intake in intakesSorted)
           IndicatorIntakeTile(intake: intake, nutrient: nutrient)
@@ -256,23 +257,25 @@ class DailyIntakeSection extends StatelessWidget {
 
   Widget _getVisualIndicator(double percent) {
     return Container(
-      width: 70.0,
-      height: 70.0,
-      padding: const EdgeInsets.all(8.0),
+      width: 48,
+      height: 48,
       decoration: BoxDecoration(
-          color: percent > 1.0 ? Colors.redAccent : Colors.teal,
-          shape: BoxShape.circle),
+        color: percent > 1.0 ? Colors.redAccent : Colors.teal,
+        shape: BoxShape.circle,
+      ),
       child: Stack(alignment: Alignment.center, children: [
-        Positioned.fill(
-          child: CircularProgressIndicator(
-            value: percent,
-            valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+        if (percent <= 1)
+          Positioned.fill(
+            child: CircularProgressIndicator(
+              value: percent,
+              strokeWidth: 8,
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+            ),
           ),
-        ),
         Text(
           '${(percent * 100).round()}%',
           style: const TextStyle(
-            fontSize: 13.0,
+            fontSize: 12.0,
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),

@@ -23,13 +23,13 @@ class EmailPasswordLoginScreen extends StatelessWidget {
       appBar: AppBar(title: Text(appLocalizations.login)),
       body: SingleChildScrollView(
         child: BasicSection(
-          showDividers: false,
           children: [
             _RegularLoginForm(),
             SizedBox(
               width: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: AppElevatedButton(
                   text: appLocalizations.registration,
                   onPressed: () => _openRegistration(context),
@@ -41,7 +41,8 @@ class EmailPasswordLoginScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: TextButton(
                   onPressed: () => _openRemindPassword(context),
                   child: Text(appLocalizations.forgetPassword.toUpperCase()),
@@ -119,7 +120,8 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
             SizedBox(
               width: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: AppElevatedButton(
                   text: appLocalizations.loginAction,
                   onPressed: () => _login(context),

@@ -177,8 +177,6 @@ class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
 
     return SmallSection(
       title: group.name.toUpperCase(),
-      headerPadding: EdgeInsets.zero,
-      childrenPadding: EdgeInsets.zero,
       showDividers: false,
       children: group.items.map((item) {
         return ExpansionTile(

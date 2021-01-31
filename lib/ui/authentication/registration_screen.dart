@@ -21,7 +21,6 @@ class RegistrationScreen extends StatelessWidget {
       appBar: AppBar(title: Text(appLocalizations.registration)),
       body: SingleChildScrollView(
         child: BasicSection(
-          showDividers: false,
           children: [
             _RegistrationForm(),
             const Padding(
@@ -82,7 +81,8 @@ class _RegistrationFormState extends State<_RegistrationForm> {
             SizedBox(
               width: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 child: AppElevatedButton(
                   text: appLocalizations.register,
                   onPressed: () => _register(context),

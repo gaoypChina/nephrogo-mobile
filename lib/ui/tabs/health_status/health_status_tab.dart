@@ -48,6 +48,8 @@ class HealthIndicatorsTabBody extends StatelessWidget {
   final apiService = ApiService();
   final now = DateTime.now();
 
+  static const healthIndicators = HealthIndicator.values;
+
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
@@ -60,12 +62,14 @@ class HealthIndicatorsTabBody extends StatelessWidget {
           replacement: EmptyStateContainer(
             text: appLocalizations.weeklyHealthStatusEmpty,
           ),
-          child: ListView(
+          child: ListView.builder(
             padding: const EdgeInsets.only(bottom: 64),
-            children: [
-              for (final indicator in HealthIndicator.values)
-                buildIndicatorChartSection(context, response, indicator)
-            ],
+            itemCount: healthIndicators.length,
+            itemBuilder: (context, i) => buildIndicatorChartSection(
+              context,
+              response,
+              healthIndicators[i],
+            ),
           ),
         );
       },
@@ -102,6 +106,7 @@ class HealthIndicatorsTabBody extends StatelessWidget {
 
     return LargeSection(
       title: indicator.name(appLocalizations),
+      showDividers: true,
       subTitle: appLocalizations.healthIndicatorSubtitle(todayConsumption),
       leading: OutlinedButton(
         onPressed: () => openWeeklyHealthIndicatorScreen(context, indicator),

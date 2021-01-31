@@ -22,55 +22,48 @@ class ProfileTab extends StatelessWidget {
 
     return ListView(
       children: [
-        BasicSection(
-          children: [_buildUserProfileTile(context)],
+        BasicSection.single(_buildUserProfileTile(context)),
+        BasicSection.single(
+          AppListTile(
+            title: Text(appLocalizations.userProfileScreenTitle),
+            leading: const Icon(Icons.person),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                Routes.routeUserProfile,
+                arguments: UserProfileNextScreenType.close,
+              );
+            },
+          ),
+        ),
+        BasicSection.single(
+          AppListTile(
+            title: Text(appLocalizations.faqTitle),
+            leading: const Icon(Icons.help),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                Routes.routeFAQ,
+              );
+            },
+          ),
+        ),
+        BasicSection.single(
+          AppListTile(
+            title: Text(appLocalizations.onboarding),
+            leading: const Icon(Icons.explore),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                Routes.routeOnboarding,
+                arguments:
+                    OnboardingScreenArguments(OnboardingScreenExitType.close),
+              );
+            },
+          ),
         ),
         BasicSection(
-          children: [
-            AppListTile(
-              title: Text(appLocalizations.userProfileScreenTitle),
-              leading: const Icon(Icons.person),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  Routes.routeUserProfile,
-                  arguments: UserProfileNextScreenType.close,
-                );
-              },
-            ),
-          ],
-        ),
-        BasicSection(
-          children: [
-            AppListTile(
-              title: Text(appLocalizations.faqTitle),
-              leading: const Icon(Icons.help),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  Routes.routeFAQ,
-                );
-              },
-            ),
-          ],
-        ),
-        BasicSection(
-          children: [
-            AppListTile(
-              title: Text(appLocalizations.onboarding),
-              leading: const Icon(Icons.explore),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  Routes.routeOnboarding,
-                  arguments:
-                      OnboardingScreenArguments(OnboardingScreenExitType.close),
-                );
-              },
-            ),
-          ],
-        ),
-        BasicSection(
+          showDividers: true,
           children: [
             AppListTile(
               title: Text(appLocalizations.supportPhone),
@@ -85,6 +78,7 @@ class ProfileTab extends StatelessWidget {
           ],
         ),
         BasicSection(
+          showDividers: true,
           children: [
             AppListTile(
               title: Text(appLocalizations.privacyPolicy),
@@ -98,20 +92,18 @@ class ProfileTab extends StatelessWidget {
             ),
           ],
         ),
-        BasicSection(
-          children: [
-            AppListTile(
-              title: Text(appLocalizations.logout),
-              leading: const Icon(Icons.logout),
-              onTap: () => _signOut(context),
-            ),
-          ],
+        BasicSection.single(
+          AppListTile(
+            title: Text(appLocalizations.logout),
+            leading: const Icon(Icons.logout),
+            onTap: () => _signOut(context),
+          ),
         ),
         AppFutureBuilder<String>(
           future: _getVersionString(),
           builder: (context, version) {
             return Padding(
-              padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
               child: Center(child: Text(version)),
             );
           },

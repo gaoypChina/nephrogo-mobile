@@ -123,7 +123,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             SmallSection(
               title:
                   _appLocalizations.userProfileSectionGeneralInformationTitle,
-              setLeftPadding: true,
               showDividers: false,
               children: [
                 AppSelectFormField<GenderEnum>(
@@ -183,7 +182,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             SmallSection(
               title:
                   _appLocalizations.userProfileSectionChronicKidneyDiseaseTitle,
-              setLeftPadding: true,
               showDividers: false,
               children: [
                 AppIntegerFormField(
@@ -273,7 +271,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
             SmallSection(
               title: _appLocalizations.userProfileSectionDiabetesTitle,
-              setLeftPadding: true,
               showDividers: false,
               children: [
                 AppSelectFormField<DiabetesTypeEnum>(

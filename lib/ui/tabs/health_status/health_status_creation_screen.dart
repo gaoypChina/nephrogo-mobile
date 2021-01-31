@@ -89,9 +89,7 @@ class _HealthStatusCreationScreenState
           children: <Widget>[
             SmallSection(
               title: _appLocalizations.healthStatusCreationBloodPressure,
-              setLeftPadding: true,
               showDividers: false,
-              headerPadding: const EdgeInsets.all(8),
               children: [
                 Row(
                   children: [
@@ -132,7 +130,6 @@ class _HealthStatusCreationScreenState
             ),
             SmallSection(
               title: _appLocalizations.healthStatusCreationSectionGeneralInfo,
-              setLeftPadding: true,
               showDividers: false,
               children: [
                 AppDoubleInputField(
@@ -169,7 +166,6 @@ class _HealthStatusCreationScreenState
             ),
             SmallSection(
               title: _appLocalizations.healthStatusCreationSwellings,
-              setLeftPadding: true,
               showDividers: false,
               children: [
                 AppSelectFormField<SwellingDifficultyEnum>(
@@ -284,7 +280,6 @@ class _HealthStatusCreationScreenState
             SmallSection(
               title: _appLocalizations.healthStatusCreationWellFeeling,
               showDividers: false,
-              setLeftPadding: true,
               children: [
                 AppSelectFormField<WellFeelingEnum>(
                   labelText: _appLocalizations.healthStatusCreationWellFeeling,

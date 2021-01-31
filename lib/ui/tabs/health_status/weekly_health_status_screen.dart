@@ -158,7 +158,10 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
               ),
             ],
           ),
-          BasicSection(children: _buildIndicatorTiles()),
+          BasicSection(
+            showDividers: true,
+            children: _buildIndicatorTiles(),
+          ),
         ],
       ),
     );

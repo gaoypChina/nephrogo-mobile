@@ -48,7 +48,6 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
               ),
             ),
             BasicSection(
-              showDividers: false,
               children: [
                 Form(
                   key: _formKey,
@@ -68,7 +67,8 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 16),
                             child: AppElevatedButton(
                               text: appLocalizations.confirm,
                               onPressed: () => _remindPassword(context),
