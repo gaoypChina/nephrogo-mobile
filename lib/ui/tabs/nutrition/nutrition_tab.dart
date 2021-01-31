@@ -64,9 +64,7 @@ class NutritionTab extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 64),
               child: Column(
                 children: [
-                  // if (intakes.isEmpty) _buildNoMealsBanner(),
                   DailyNormsSection(dailyIntakeReport: todayIntakesReport),
-                  // if (intakes.isNotEmpty)
                   DailyIntakesCard(
                     title: appLocalizations.lastMealsSectionTitle,
                     intakes: latestIntakes,
