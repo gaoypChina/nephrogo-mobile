@@ -17,12 +17,14 @@ class BasicSection extends StatelessWidget {
             "Either header or at least one child should be passed"),
         super(key: key);
 
-  const BasicSection.single(Widget child)
-      // ignore: prefer_initializing_formals
-      : header = child,
+  const BasicSection.single(
+    Widget child, {
+    this.padding = const EdgeInsets.only(bottom: 18.0),
+  })
+  // ignore: prefer_initializing_formals
+  : header = child,
         children = const [],
-        showDividers = false,
-        padding = const EdgeInsets.only(bottom: 18.0);
+        showDividers = false;
 
   @override
   Widget build(BuildContext context) {

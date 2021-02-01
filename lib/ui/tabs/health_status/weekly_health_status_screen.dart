@@ -70,8 +70,7 @@ class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
               earliestDate = data.earliestHealthStatusDate;
 
               final showChart = data.dailyHealthStatuses
-                  .where((s) => s.isIndicatorExists(indicator))
-                  .isNotEmpty;
+                  .any((s) => s.isIndicatorExists(indicator));
 
               return Visibility(
                 visible: showChart,

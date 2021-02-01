@@ -3,8 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/date_extensions.dart';
 import 'package:nephrogo/extensions/string_extensions.dart';
 
-import 'components.dart';
-
 class WeeklyPager<T> extends StatefulWidget {
   final ValueNotifier<T> valueChangeNotifier;
   final Widget Function(DateTime from, DateTime to, T value) bodyBuilder;
@@ -130,10 +128,11 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
   }
 
   Widget _buildDateSelectionSection() {
-    return BasicSection(
-      padding: EdgeInsets.zero,
-      children: [
-        Row(
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Row(
           children: [
             IconButton(
               icon: const Icon(Icons.navigate_before),
@@ -155,7 +154,7 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
             ),
           ],
         ),
-      ],
+      ),
     );
   }
 
