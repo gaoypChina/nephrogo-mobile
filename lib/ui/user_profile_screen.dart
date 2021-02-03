@@ -165,18 +165,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   suffixText: 'cm',
                   onSaved: (v) => _userProfileBuilder.heightCm = v,
                 ),
-                AppDoubleInputField(
-                  labelText: _appLocalizations.weight,
-                  fractionDigits: 1,
-                  validator: _formValidators.and(
-                    _formValidators.nonNull(),
-                    _formValidators.numRangeValidator(30.0, 300.0),
-                  ),
-                  helperText: _appLocalizations.userProfileWeightHelper,
-                  initialValue: initialUserProfile?.weightKg?.toDouble(),
-                  suffixText: 'kg',
-                  onSaved: (v) => _userProfileBuilder.weightKg = v,
-                ),
               ],
             ),
             SmallSection(

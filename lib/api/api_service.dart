@@ -140,7 +140,7 @@ class ApiService {
 
   Future<List<Product>> getProducts(String query) {
     return _nutritionApi
-        .nutritionProductsList(query)
+        .nutritionProductsList(query: query)
         .then((r) => r.data.toList());
   }
 
