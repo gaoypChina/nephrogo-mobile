@@ -21,16 +21,15 @@ class AppElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-          primary: color ?? Theme.of(context).primaryColor),
-      onPressed: onPressed,
-      child: Padding(
+        primary: color ?? Theme.of(context).primaryColor,
         padding: innerPadding,
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
-            color: textColor ?? Colors.white,
-          ),
+      ),
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 16,
+          color: textColor ?? Colors.white,
         ),
       ),
     );
