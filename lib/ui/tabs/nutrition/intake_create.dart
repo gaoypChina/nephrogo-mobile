@@ -98,6 +98,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
           if (widget.intake != null)
             IconButton(
               icon: const Icon(Icons.delete_forever),
+              tooltip: _appLocalizations.delete,
               onPressed: () => deleteIntake(widget.intake.id),
             ),
         ],

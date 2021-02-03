@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:nephrogo/api/api_service.dart';
+import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
@@ -48,6 +49,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   final _apiService = ApiService();
   final _appPreferences = AppPreferences();
+  final _authenticationProvider = AuthenticationProvider();
 
   FormValidators _formValidators;
 
@@ -84,7 +86,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.lock),
+            tooltip: appLocalizations.privacyPolicy,
             onPressed: () => launchURL(Constants.privacyPolicyUrl),
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: appLocalizations.logout,
+            onPressed: () => _signOut(context),
           ),
         ],
       ),
@@ -101,6 +109,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           return _buildBody(userProfile);
         },
       ),
+    );
+  }
+
+  Future _signOut(BuildContext context) async {
+    await _authenticationProvider.signOut();
+
+    await Navigator.pushReplacementNamed(
+      context,
+      Routes.routeLogin,
     );
   }
 
