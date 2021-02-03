@@ -89,11 +89,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             tooltip: appLocalizations.privacyPolicy,
             onPressed: () => launchURL(Constants.privacyPolicyUrl),
           ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: appLocalizations.logout,
-            onPressed: () => _signOut(context),
-          ),
+          if (!Navigator.of(context).canPop())
+            IconButton(
+              icon: const Icon(Icons.logout),
+              tooltip: appLocalizations.logout,
+              onPressed: () => _signOut(context),
+            ),
         ],
       ),
       floatingActionButton: Builder(builder: (context) {
