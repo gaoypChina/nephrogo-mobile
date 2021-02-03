@@ -90,6 +90,7 @@ class AppTextFormField extends StatelessWidget {
         obscureText: obscureText,
         onTap: onTap,
         textInputAction: textInputAction,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
       ),
     );
   }
