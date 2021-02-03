@@ -156,16 +156,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ],
                 ),
                 AppIntegerFormField(
-                  labelText: _appLocalizations.height,
-                  validator: _formValidators.and(
-                    _formValidators.nonNull(),
-                    _formValidators.numRangeValidator(100, 250),
-                  ),
-                  initialValue: initialUserProfile?.heightCm,
-                  suffixText: 'cm',
-                  onSaved: (v) => _userProfileBuilder.heightCm = v,
-                ),
-                AppIntegerFormField(
                   labelText: _appLocalizations.birthYear,
                   validator: _formValidators.and(
                     _formValidators.nonNull(),
@@ -174,6 +164,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   initialValue: initialUserProfile?.yearOfBirth,
                   onSaved: (v) => _userProfileBuilder.yearOfBirth = v,
                   suffixText: 'm.',
+                ),
+                AppIntegerFormField(
+                  labelText: _appLocalizations.height,
+                  validator: _formValidators.and(
+                    _formValidators.nonNull(),
+                    _formValidators.numRangeValidator(100, 250),
+                  ),
+                  initialValue: initialUserProfile?.heightCm,
+                  suffixText: 'cm',
+                  onSaved: (v) => _userProfileBuilder.heightCm = v,
                 ),
               ],
             ),
