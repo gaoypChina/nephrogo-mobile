@@ -504,8 +504,8 @@
   "@female": {
     "context": "userProfile"
   },
-  "birthDate": "Gimimo data",
-  "@birthDate": {
+  "birthYear": "Gimimo metai",
+  "@birthYear": {
     "context": "userProfile"
   },
   "height": "Ūgis",

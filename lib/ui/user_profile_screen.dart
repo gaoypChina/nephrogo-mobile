@@ -1,6 +1,5 @@
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
@@ -44,8 +43,6 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   final logger = Logger('user_profile');
-
-  static final _birthdayFormat = DateFormat.yMd();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -141,20 +138,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                   ],
                 ),
-                AppDatePickerFormField(
-                  labelText: _appLocalizations.birthDate,
-                  firstDate: DateTime(1920),
-                  lastDate:
-                      DateTime.now().subtract(const Duration(days: 365 * 18)),
-                  initialDate: DateTime(1995, 6, 26),
-                  selectedDate: initialUserProfile?.birthday,
-                  initialDatePickerMode: DatePickerMode.year,
-                  initialEntryMode: DatePickerEntryMode.input,
-                  dateFormat: _birthdayFormat,
-                  validator: _formValidators.nonNull(),
-                  onDateSaved: (date) =>
-                      _userProfileBuilder.birthday = date.toDate(),
-                ),
                 AppIntegerFormField(
                   labelText: _appLocalizations.height,
                   validator: _formValidators.and(
@@ -164,6 +147,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   initialValue: initialUserProfile?.heightCm,
                   suffixText: 'cm',
                   onSaved: (v) => _userProfileBuilder.heightCm = v,
+                ),
+                AppIntegerFormField(
+                  labelText: _appLocalizations.birthYear,
+                  validator: _formValidators.and(
+                    _formValidators.nonNull(),
+                    _formValidators.numRangeValidator(1920, 2003),
+                  ),
+                  initialValue: initialUserProfile?.yearOfBirth,
+                  onSaved: (v) => _userProfileBuilder.yearOfBirth = v,
+                  suffixText: 'm.',
                 ),
               ],
             ),
@@ -180,6 +173,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     _formValidators.numRangeValidator(0, 100),
                   ),
                   initialValue: initialUserProfile?.chronicKidneyDiseaseYears,
+                  suffixText: 'm.',
                   onSaved: (v) =>
                       _userProfileBuilder.chronicKidneyDiseaseYears = v,
                 ),
