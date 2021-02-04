@@ -131,7 +131,7 @@ class SmallSection extends StatelessWidget {
     Key key,
     @required this.children,
     @required this.title,
-    this.showDividers = true,
+    this.showDividers = false,
   }) : super(key: key);
 
   @override
@@ -189,6 +189,43 @@ class AppListTile extends StatelessWidget {
             (onTap != null ? const Icon(Icons.chevron_right) : null),
         onTap: onTap,
         selected: selected,
+      ),
+    );
+  }
+}
+
+class AppCheckboxListTile extends StatelessWidget {
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  final Widget title;
+  final Widget subtitle;
+  final bool dense;
+  final EdgeInsetsGeometry contentPadding;
+
+  const AppCheckboxListTile({
+    Key key,
+    @required this.value,
+    @required this.onChanged,
+    this.title,
+    this.subtitle,
+    this.contentPadding,
+    this.dense = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Material is needed for workaround https://github.com/flutter/flutter/issues/3782
+    return Material(
+      color: Colors.white,
+      child: CheckboxListTile(
+        value: value,
+        activeColor: Theme.of(context).primaryColor,
+        controlAffinity: ListTileControlAffinity.leading,
+        onChanged: onChanged,
+        title: title,
+        subtitle: subtitle,
+        dense: dense,
       ),
     );
   }

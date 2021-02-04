@@ -9,6 +9,7 @@ import 'ui/authentication/registration_screen.dart';
 import 'ui/authentication/remind_password.dart';
 import 'ui/faq_screen.dart';
 import 'ui/home_screen.dart';
+import 'ui/legal/legal_screen.dart';
 import 'ui/onboarding/onboarding_screen.dart';
 import 'ui/start_screen.dart';
 import 'ui/tabs/health_status/health_status_creation_screen.dart';
@@ -41,6 +42,7 @@ class Routes {
 
   static const routeUserProfile = 'userProfile';
   static const routeFAQ = 'faq';
+  static const routeLegal = 'legal';
 
   static const routeFormSelect = 'formSelect';
 
@@ -75,6 +77,10 @@ class Routes {
       case routeHome:
         return MaterialPageRoute(builder: (context) {
           return HomeScreen();
+        });
+      case routeLegal:
+        return MaterialPageRoute(builder: (context) {
+          return LegalScreen();
         });
       case routeIntakeCreate:
         return MaterialPageRoute<Intake>(builder: (context) {

@@ -115,7 +115,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
         return AlertDialog(
           content: LoginConditionsRichText(
             textColor: Colors.black,
-            baseText: appLocalizations.loginConditionsIAgree,
+            baseText: appLocalizations.loginConditionsAgree,
             textAlign: TextAlign.start,
           ),
           actions: [

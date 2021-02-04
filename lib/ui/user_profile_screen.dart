@@ -138,7 +138,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             SmallSection(
               title:
                   _appLocalizations.userProfileSectionGeneralInformationTitle,
-              showDividers: false,
               children: [
                 AppSelectFormField<GenderEnum>(
                   labelText: _appLocalizations.gender,
@@ -181,7 +180,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             SmallSection(
               title:
                   _appLocalizations.userProfileSectionChronicKidneyDiseaseTitle,
-              showDividers: false,
               children: [
                 AppIntegerFormField(
                   labelText: _appLocalizations
@@ -271,7 +269,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
             SmallSection(
               title: _appLocalizations.userProfileSectionDiabetesTitle,
-              showDividers: false,
               children: [
                 AppSelectFormField<DiabetesTypeEnum>(
                   labelText: _appLocalizations.userProfileSectionDiabetesType,

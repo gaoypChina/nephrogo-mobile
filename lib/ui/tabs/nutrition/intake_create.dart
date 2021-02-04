@@ -116,7 +116,6 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
             children: <Widget>[
               SmallSection(
                 title: _appLocalizations.mealCreationMealSectionTitle,
-                showDividers: false,
                 children: [
                   AppSelectionScreenFormField<Product>(
                     labelText: _appLocalizations.mealCreationProduct,
@@ -163,7 +162,6 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
               ),
               SmallSection(
                 title: _appLocalizations.mealCreationDatetimeSectionTitle,
-                showDividers: false,
                 children: [
                   AppDatePickerFormField(
                     initialDate: _consumedAt,
@@ -293,6 +291,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
 
   Widget _buildNutrientsSection() {
     return SmallSection(
+      showDividers: true,
       title: _appLocalizations.total,
       children: [
         for (final nutrient in Nutrient.values) _buildNutrientTile(nutrient)

@@ -14,6 +14,8 @@
   "@deleteConfirmation": {},
   "save": "Išsaugoti",
   "@save": {},
+  "proceed": "Tęsti",
+  "@proceed": {},
   "ok": "Gerai",
   "@ok": {},
   "confirm": "Patvirtinti",
@@ -24,10 +26,22 @@
   "@agree": {},
   "disagree": "Nesutinku",
   "@disagree": {},
-  "loginConditionsAgree": "Prisijungdami Jūs patvirtinate, kad sutinkate su\n",
+  "optionally": "Neprivalomi",
+  "@optionally": {},
+  "mandatory": "Privalomi",
+  "@mandatory": {},
+  "conditionsExplanation": "Norėdami naudotis NephroGo būtinai turite sutikti su visomis privalomomis sąlygomis.",
+  "@conditionsExplanation": {},
+  "loginConditionsAgree": "Aš sutinku su NephroGo",
   "@loginConditionsAgree": {},
-  "loginConditionsIAgree": "Aš sutinku su ",
-  "@loginConditionsIAgree": {},
+  "healthDataProcessing": "Sveikatos duomenų tvarkymo politika",
+  "@healthDataProcessing": {},
+  "agreeWithAllConditions": "Sutinku su visomis sąlygomis",
+  "@agreeWithAllConditions": {},
+  "agreeWithAllConditionsSubtitle": "Sutinku su privalomomis ir neprivalomomis sąlygomis",
+  "@agreeWithAllConditionsSubtitle": {},
+  "agreeToCommunicate": "Sutinku gauti NephroGo naujienas ir pasiūlymus",
+  "@agreeToCommunicate": {},
   "error": "Klaida",
   "@error": {},
   "total": "Iš viso",
@@ -953,5 +967,7 @@
   "passwordRecoveryInstructions": "Įveskite savo elektroninio pašto adresą ir atsiūsime Jums laišką su instrukcijomis, kaip pakeisti slaptažodį.",
   "@passwordRecoveryInstructions": {
     "context": "login"
-  }
+  },
+  "termsOfUse": "Naudojimosi sąlygos",
+  "@termsOfUse": {}
 }

@@ -77,20 +77,12 @@ class ProfileTab extends StatelessWidget {
             ),
           ],
         ),
-        BasicSection(
-          showDividers: true,
-          children: [
-            AppListTile(
-              title: Text(appLocalizations.privacyPolicy),
-              leading: const Icon(Icons.lock),
-              onTap: () => launchPdf(Constants.privacyPolicyUrl),
-            ),
-            AppListTile(
-              title: Text(appLocalizations.usageRules),
-              leading: const Icon(Icons.description),
-              onTap: () => launchPdf(Constants.rulesUrl),
-            ),
-          ],
+        BasicSection.single(
+          AppListTile(
+            title: Text(appLocalizations.termsOfUse),
+            leading: const Icon(Icons.description),
+            onTap: () => _navigateToTermsOfUse(context),
+          ),
         ),
         BasicSection.single(
           AppListTile(
@@ -109,6 +101,13 @@ class ProfileTab extends StatelessWidget {
           },
         )
       ],
+    );
+  }
+
+  Future _navigateToTermsOfUse(BuildContext context) {
+    return Navigator.pushNamed(
+      context,
+      Routes.routeLegal,
     );
   }
 

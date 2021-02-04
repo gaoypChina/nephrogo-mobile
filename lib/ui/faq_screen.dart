@@ -177,7 +177,6 @@ class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
 
     return SmallSection(
       title: group.name.toUpperCase(),
-      showDividers: false,
       children: group.items.map((item) {
         return ExpansionTile(
           key: ObjectKey(item),
