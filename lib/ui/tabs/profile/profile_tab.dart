@@ -119,7 +119,7 @@ class ProfileTab extends StatelessWidget {
 
     await Navigator.pushReplacementNamed(
       context,
-      Routes.routeLogin,
+      Routes.routeStart,
     );
   }
 
