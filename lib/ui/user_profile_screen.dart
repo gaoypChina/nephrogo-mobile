@@ -87,7 +87,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           IconButton(
             icon: const Icon(Icons.lock),
             tooltip: appLocalizations.privacyPolicy,
-            onPressed: () => launchURL(Constants.privacyPolicyUrl),
+            onPressed: () => launchPdf(Constants.privacyPolicyUrl),
           ),
           if (!Navigator.of(context).canPop())
             IconButton(

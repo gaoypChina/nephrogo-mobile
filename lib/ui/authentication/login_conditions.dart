@@ -36,7 +36,7 @@ class LoginConditionsRichText extends StatelessWidget {
           ),
           text: appLocalizations.privacyPolicy,
           recognizer: TapGestureRecognizer()
-            ..onTap = () => launchURL(Constants.privacyPolicyUrl),
+            ..onTap = () => launchPdf(Constants.privacyPolicyUrl),
         ),
         TextSpan(
             text: ' ${appLocalizations.and} ',
@@ -51,7 +51,7 @@ class LoginConditionsRichText extends StatelessWidget {
           ),
           text: appLocalizations.usageRules,
           recognizer: TapGestureRecognizer()
-            ..onTap = () => launchURL(Constants.rulesUrl),
+            ..onTap = () => launchPdf(Constants.rulesUrl),
         ),
       ]),
     );

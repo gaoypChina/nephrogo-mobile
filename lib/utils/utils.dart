@@ -8,6 +8,13 @@ Future<bool> launchURL(String url) async {
   }
 }
 
+Future<bool> launchPdf(String url) async {
+  final queryParameters = {'url': url, 'embedded': 'true'};
+  final uri = Uri.https('docs.google.com', 'gview', queryParameters);
+
+  return launchURL(uri.toString());
+}
+
 Future<bool> launchPhone(String phoneNumber) async {
   final phoneUrl = 'tel:$phoneNumber';
   if (await canLaunch(phoneUrl)) {

@@ -83,12 +83,12 @@ class ProfileTab extends StatelessWidget {
             AppListTile(
               title: Text(appLocalizations.privacyPolicy),
               leading: const Icon(Icons.lock),
-              onTap: () => launchURL(Constants.privacyPolicyUrl),
+              onTap: () => launchPdf(Constants.privacyPolicyUrl),
             ),
             AppListTile(
               title: Text(appLocalizations.usageRules),
               leading: const Icon(Icons.description),
-              onTap: () => launchURL(Constants.rulesUrl),
+              onTap: () => launchPdf(Constants.rulesUrl),
             ),
           ],
         ),
