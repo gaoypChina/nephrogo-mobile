@@ -42,7 +42,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           Expanded(
             child: Image.asset(
               'assets/logo/logo-with-title.png',
-              fit: BoxFit.contain,
+              fit: BoxFit.scaleDown,
             ),
           ),
           Padding(
