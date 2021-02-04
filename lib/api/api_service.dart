@@ -190,15 +190,14 @@ class ApiService {
     );
   }
 
-  Future<DailyHealthStatus> getDailyHealthStatus(
-    DateTime date,) {
+  Future<DailyHealthStatus> getDailyHealthStatus(DateTime date) {
     return _healthStatusApi
         .healthStatusRetrieve(Date(date))
         .then((r) => r.data)
         .catchError(
           (e) => null,
-      test: (e) => e is DioError && e.response?.statusCode == 404,
-    );
+          test: (e) => e is DioError && e.response?.statusCode == 404,
+        );
   }
 
   Future<User> getUser() {
@@ -216,9 +215,10 @@ class ApiService {
   }
 
   Future<UserProfile> createOrUpdateUserProfile(
-      UserProfileRequest userProfile,) {
+    UserProfileRequest userProfile,
+  ) {
     return _userApi.userProfileUpdate(userProfile).then(
-          (r) {
+      (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
         _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
 
