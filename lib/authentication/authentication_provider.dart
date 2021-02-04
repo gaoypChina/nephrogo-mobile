@@ -17,6 +17,8 @@ enum SocialAuthenticationProvider {
   apple,
 }
 
+class LoginCancelledException implements Exception {}
+
 abstract class EmailPasswordLoginException implements Exception {}
 
 class InvalidPasswordException extends EmailPasswordLoginException {}
@@ -190,6 +192,10 @@ class AuthenticationProvider {
   Future<OAuthCredential> _triggerGoogleLogin() async {
     final googleUser = await GoogleSignIn().signIn();
 
+    if (googleUser == null) {
+      throw LoginCancelledException();
+    }
+
     final googleAuth = await googleUser.authentication;
 
     return GoogleAuthProvider.credential(
@@ -221,6 +227,10 @@ class AuthenticationProvider {
 
   Future<OAuthCredential> _triggerFacebookLogin() async {
     final result = await FacebookAuth.instance.login();
+
+    if (result == null) {
+      throw LoginCancelledException();
+    }
 
     return FacebookAuthProvider.credential(result.token);
   }

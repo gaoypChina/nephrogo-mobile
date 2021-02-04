@@ -38,7 +38,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
       padding: const EdgeInsets.all(32),
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 64),
+          padding: const EdgeInsets.only(bottom: 48),
           child: FractionallySizedBox(
             widthFactor: 0.8,
             child: Image.asset('assets/logo/logo-with-title.png'),
@@ -113,6 +113,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
     try {
       userCredential = await _authenticationProvider.signIn(provider);
+    } on LoginCancelledException {
+      developer.log(
+        'Login cancelled',
+      );
     } catch (e, stacktrace) {
       developer.log(
         'Unable to to to login with social',
