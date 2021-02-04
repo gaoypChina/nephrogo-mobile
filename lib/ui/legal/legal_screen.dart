@@ -59,7 +59,10 @@ class _LegalScreenState extends State<LegalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(appLocalizations.termsOfUse)),
+      appBar: AppBar(
+        leading: Navigator.of(context).canPop() ? const CloseButton() : null,
+        title: Text(appLocalizations.termsOfUse),
+      ),
       body: Column(
         children: [
           Expanded(
