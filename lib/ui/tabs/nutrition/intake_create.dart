@@ -8,6 +8,7 @@ import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
@@ -103,103 +104,111 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
             ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => validateAndSaveIntake(context),
-        label: Text(_appLocalizations.save.toUpperCase()),
-        icon: const Icon(Icons.save),
+      bottomNavigationBar: BasicSection.single(
+        SizedBox(
+          width: double.infinity,
+          child: AppElevatedButton(
+            onPressed: () => validateAndSaveIntake(context),
+            text: appLocalizations.save.toUpperCase(),
+          ),
+        ),
+        padding: EdgeInsets.zero,
+        innerPadding: const EdgeInsets.all(8),
       ),
       body: Form(
         key: _formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 64),
-          child: Column(
-            children: <Widget>[
-              SmallSection(
-                title: _appLocalizations.mealCreationMealSectionTitle,
-                children: [
-                  AppSelectionScreenFormField<Product>(
-                    labelText: _appLocalizations.mealCreationProduct,
-                    initialSelection: selectedProduct,
-                    iconData: Icons.restaurant_outlined,
-                    itemToStringConverter: (p) => p.name,
-                    onTap: (context) => _showProductSearch(),
-                    validator: formValidators.nonNull(),
-                    onChanged: (p) {
-                      setState(() {
-                        selectedProduct = p;
-                      });
-                    },
-                    onSaved: (p) => _intakeBuilder.productId = p.id,
-                  ),
-                  AppIntegerFormField(
-                    labelText: _appLocalizations.mealCreationQuantity,
-                    initialValue: isAmountInMilliliters()
-                        ? widget.intake?.amountMl
-                        : widget.intake?.amountG,
-                    suffixText: isAmountInMilliliters() ? 'ml' : 'g',
-                    validator: formValidators.and(
-                      formValidators.nonNull(),
-                      formValidators.numRangeValidator(1, 10000),
+        child: Scrollbar(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SmallSection(
+                  title: _appLocalizations.mealCreationMealSectionTitle,
+                  children: [
+                    AppSelectionScreenFormField<Product>(
+                      labelText: _appLocalizations.mealCreationProduct,
+                      initialSelection: selectedProduct,
+                      iconData: Icons.restaurant_outlined,
+                      itemToStringConverter: (p) => p.name,
+                      onTap: (context) => _showProductSearch(),
+                      validator: formValidators.nonNull(),
+                      onChanged: (p) {
+                        setState(() {
+                          selectedProduct = p;
+                        });
+                      },
+                      onSaved: (p) => _intakeBuilder.productId = p.id,
                     ),
-                    iconData: Icons.kitchen,
-                    onChanged: (v) {
-                      setState(() {
-                        if (v != null && isAmountInMilliliters()) {
-                          amountMl = v;
-                          amountG = (v * selectedProduct.densityGMl).round();
-                        } else {
-                          amountG = v;
-                          amountMl = null;
-                        }
-                      });
-                    },
-                    onSaved: (_) {
-                      _intakeBuilder.amountG = amountG;
-                      _intakeBuilder.amountMl = amountMl;
-                    },
-                  ),
-                ],
-              ),
-              SmallSection(
-                title: _appLocalizations.mealCreationDatetimeSectionTitle,
-                children: [
-                  AppDatePickerFormField(
-                    initialDate: _consumedAt,
-                    selectedDate: _consumedAt,
-                    firstDate: DateTime(2020),
-                    lastDate: DateTime.now(),
-                    validator: formValidators.nonNull(),
-                    dateFormat: _dateFormat,
-                    iconData: Icons.calendar_today,
-                    onDateChanged: (dt) {
-                      final ldt = dt.toLocal();
-                      _consumedAt = DateTime(
-                        ldt.year,
-                        ldt.month,
-                        ldt.day,
-                        _consumedAt.hour,
-                        _consumedAt.minute,
-                      );
-                    },
-                    onDateSaved: (dt) =>
-                        _intakeBuilder.consumedAt = _consumedAt.toUtc(),
-                    labelText: _appLocalizations.mealCreationDate,
-                  ),
-                  AppTimePickerFormField(
-                    labelText: _appLocalizations.mealCreationTime,
-                    iconData: Icons.access_time,
-                    initialTime: TimeOfDay(
-                      hour: _consumedAt.hour,
-                      minute: _consumedAt.minute,
+                    AppIntegerFormField(
+                      labelText: _appLocalizations.mealCreationQuantity,
+                      initialValue: isAmountInMilliliters()
+                          ? widget.intake?.amountMl
+                          : widget.intake?.amountG,
+                      suffixText: isAmountInMilliliters() ? 'ml' : 'g',
+                      validator: formValidators.and(
+                        formValidators.nonNull(),
+                        formValidators.numRangeValidator(1, 10000),
+                      ),
+                      iconData: Icons.kitchen,
+                      onChanged: (v) {
+                        setState(() {
+                          if (v != null && isAmountInMilliliters()) {
+                            amountMl = v;
+                            amountG = (v * selectedProduct.densityGMl).round();
+                          } else {
+                            amountG = v;
+                            amountMl = null;
+                          }
+                        });
+                      },
+                      onSaved: (_) {
+                        _intakeBuilder.amountG = amountG;
+                        _intakeBuilder.amountMl = amountMl;
+                      },
                     ),
-                    onTimeChanged: (t) => _consumedAt = _consumedAt.applied(t),
-                    onTimeSaved: (t) =>
-                        _intakeBuilder.consumedAt = _consumedAt.toUtc(),
-                  ),
-                ],
-              ),
-              _buildNutrientsSection(),
-            ],
+                  ],
+                ),
+                SmallSection(
+                  title: _appLocalizations.mealCreationDatetimeSectionTitle,
+                  children: [
+                    AppDatePickerFormField(
+                      initialDate: _consumedAt,
+                      selectedDate: _consumedAt,
+                      firstDate: DateTime(2020),
+                      lastDate: DateTime.now(),
+                      validator: formValidators.nonNull(),
+                      dateFormat: _dateFormat,
+                      iconData: Icons.calendar_today,
+                      onDateChanged: (dt) {
+                        final ldt = dt.toLocal();
+                        _consumedAt = DateTime(
+                          ldt.year,
+                          ldt.month,
+                          ldt.day,
+                          _consumedAt.hour,
+                          _consumedAt.minute,
+                        );
+                      },
+                      onDateSaved: (dt) =>
+                          _intakeBuilder.consumedAt = _consumedAt.toUtc(),
+                      labelText: _appLocalizations.mealCreationDate,
+                    ),
+                    AppTimePickerFormField(
+                      labelText: _appLocalizations.mealCreationTime,
+                      iconData: Icons.access_time,
+                      initialTime: TimeOfDay(
+                        hour: _consumedAt.hour,
+                        minute: _consumedAt.minute,
+                      ),
+                      onTimeChanged: (t) =>
+                          _consumedAt = _consumedAt.applied(t),
+                      onTimeSaved: (t) =>
+                          _intakeBuilder.consumedAt = _consumedAt.toUtc(),
+                    ),
+                  ],
+                ),
+                _buildNutrientsSection(),
+              ],
+            ),
           ),
         ),
       ),

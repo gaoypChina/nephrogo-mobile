@@ -164,11 +164,13 @@ class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
       ),
     ];
 
-    return ListView.builder(
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        return _buildSection(context, items[index]);
-      },
+    return Scrollbar(
+      child: ListView.builder(
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          return _buildSection(context, items[index]);
+        },
+      ),
     );
   }
 

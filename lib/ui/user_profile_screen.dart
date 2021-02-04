@@ -22,6 +22,7 @@ import 'package:nephrogo_api_client/model/user_profile_request.dart';
 import 'forms/forms.dart';
 import 'general/app_future_builder.dart';
 import 'general/beta_banner.dart';
+import 'general/buttons.dart';
 import 'general/dialogs.dart';
 import 'general/progress_dialog.dart';
 
@@ -97,18 +98,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
         ],
       ),
-      floatingActionButton: Builder(builder: (context) {
-        return FloatingActionButton.extended(
-          onPressed: () => validateAndSaveUserProfile(context),
-          label: Text(_appLocalizations.save.toUpperCase()),
-          icon: const Icon(Icons.save),
-        );
-      }),
       body: AppFutureBuilder<UserProfile>(
         future: _userProfileMemoizer.future,
         builder: (context, userProfile) {
           return _buildBody(userProfile);
         },
+      ),
+      bottomNavigationBar: BasicSection.single(
+        SizedBox(
+          width: double.infinity,
+          child: AppElevatedButton(
+            onPressed: () => validateAndSaveUserProfile(context),
+            text: appLocalizations.save.toUpperCase(),
+          ),
+        ),
+        padding: EdgeInsets.zero,
+        innerPadding: const EdgeInsets.all(8),
       ),
     );
   }
@@ -127,228 +132,230 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     return Form(
       key: _formKey,
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 64),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: BetaBanner(),
-            ),
-            SmallSection(
-              title:
-                  _appLocalizations.userProfileSectionGeneralInformationTitle,
-              children: [
-                AppSelectFormField<GenderEnum>(
-                  labelText: _appLocalizations.gender,
-                  initialValue: initialUserProfile?.gender,
-                  validator: _formValidators.nonNull(),
-                  onSaved: (v) => _userProfileBuilder.gender = v.value,
-                  items: [
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations.male,
-                      value: GenderEnum.male,
-                    ),
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations.female,
-                      value: GenderEnum.female,
-                    ),
-                  ],
-                ),
-                AppIntegerFormField(
-                  labelText: _appLocalizations.birthYear,
-                  validator: _formValidators.and(
-                    _formValidators.nonNull(),
-                    _formValidators.numRangeValidator(1920, 2003),
-                  ),
-                  initialValue: initialUserProfile?.yearOfBirth,
-                  onSaved: (v) => _userProfileBuilder.yearOfBirth = v,
-                  suffixText: 'm.',
-                ),
-                AppIntegerFormField(
-                  labelText: _appLocalizations.height,
-                  validator: _formValidators.and(
-                    _formValidators.nonNull(),
-                    _formValidators.numRangeValidator(100, 250),
-                  ),
-                  initialValue: initialUserProfile?.heightCm,
-                  suffixText: 'cm',
-                  onSaved: (v) => _userProfileBuilder.heightCm = v,
-                ),
-              ],
-            ),
-            SmallSection(
-              title:
-                  _appLocalizations.userProfileSectionChronicKidneyDiseaseTitle,
-              children: [
-                AppIntegerFormField(
-                  labelText: _appLocalizations
-                      .userProfileSectionChronicKidneyDiseaseAge,
-                  validator: _formValidators.and(
-                    _formValidators.nonNull(),
-                    _formValidators.numRangeValidator(0, 100),
-                  ),
-                  initialValue: initialUserProfile?.chronicKidneyDiseaseYears,
-                  suffixText: 'm.',
-                  onSaved: (v) =>
-                      _userProfileBuilder.chronicKidneyDiseaseYears = v,
-                ),
-                AppSelectFormField<ChronicKidneyDiseaseStageEnum>(
-                  labelText: _appLocalizations
-                      .userProfileSectionChronicKidneyDiseaseStage,
-                  helperText: _appLocalizations
-                      .userProfileSectionChronicKidneyDiseaseStageHelper,
-                  onSaved: (v) =>
-                      _userProfileBuilder.chronicKidneyDiseaseStage = v.value,
-                  initialValue: initialUserProfile?.chronicKidneyDiseaseStage,
-                  validator: _formValidators.nonNull(),
-                  items: [
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations
-                          .userProfileSectionChronicKidneyDiseaseStage1,
-                      value: ChronicKidneyDiseaseStageEnum.stage1,
-                    ),
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations
-                          .userProfileSectionChronicKidneyDiseaseStage2,
-                      value: ChronicKidneyDiseaseStageEnum.stage2,
-                    ),
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations
-                          .userProfileSectionChronicKidneyDiseaseStage3,
-                      value: ChronicKidneyDiseaseStageEnum.stage3,
-                    ),
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations
-                          .userProfileSectionChronicKidneyDiseaseStage4,
-                      value: ChronicKidneyDiseaseStageEnum.stage4,
-                    ),
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations
-                          .userProfileSectionChronicKidneyDiseaseStage5,
-                      value: ChronicKidneyDiseaseStageEnum.stage5,
-                    ),
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations.iDontKnown,
-                      value: ChronicKidneyDiseaseStageEnum.unknown,
-                    ),
-                  ],
-                ),
-                AppSelectFormField<DialysisTypeEnum>(
-                  labelText: _appLocalizations.userProfileSectionDialysisType,
-                  validator: _formValidators.nonNull(),
-                  initialValue: initialUserProfile?.dialysisType
-                      ?.enumWithoutDefault(DialysisTypeEnum.unknown),
-                  onSaved: (v) => _userProfileBuilder.dialysisType = v.value,
-                  items: [
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations
-                          .userProfileSectionDialysisTypePeriotonicDialysis,
-                      value: DialysisTypeEnum.periotonicDialysis,
-                    ),
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations
-                          .userProfileSectionDialysisTypeHemodialysis,
-                      value: DialysisTypeEnum.hemodialysis,
-                    ),
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations
-                          .userProfileSectionDialysisTypePostTransplant,
-                      description: _appLocalizations
-                          .userProfileSectionDialysisTypePostTransplantDescription,
-                      value: DialysisTypeEnum.postTransplant,
-                    ),
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations
-                          .userProfileSectionDialysisTypeNotPerformed,
-                      value: DialysisTypeEnum.notPerformed,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SmallSection(
-              title: _appLocalizations.userProfileSectionDiabetesTitle,
-              children: [
-                AppSelectFormField<DiabetesTypeEnum>(
-                  labelText: _appLocalizations.userProfileSectionDiabetesType,
-                  validator: _formValidators.nonNull(),
-                  initialValue: initialUserProfile?.diabetesType
-                          ?.enumWithoutDefault(DiabetesTypeEnum.unknown) ??
-                      DiabetesTypeEnum.no,
-                  onChanged: (dt) {
-                    setState(() {
-                      _diabetesType = dt.value;
-                    });
-                  },
-                  onSaved: (v) => _userProfileBuilder.diabetesType = v.value,
-                  items: [
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations.userProfileSectionDiabetesType1,
-                      value: DiabetesTypeEnum.type1,
-                    ),
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations.userProfileSectionDiabetesType2,
-                      value: DiabetesTypeEnum.type2,
-                    ),
-                    AppSelectFormFieldItem(
-                      text: _appLocalizations.userProfileSectionDiabetesTypeNo,
-                      value: DiabetesTypeEnum.no,
-                    ),
-                  ],
-                ),
-                Visibility(
-                  visible: isDiabetic,
-                  maintainState: true,
-                  child: Column(
-                    children: [
-                      AppIntegerFormField(
-                        labelText:
-                            _appLocalizations.userProfileSectionDiabetesAge,
-                        initialValue: initialUserProfile?.diabetesYears,
-                        validator: _formValidators.or(
-                          _formValidators.and(
-                            _formValidators.nonNull(),
-                            _formValidators.numRangeValidator(0, 100),
-                          ),
-                          (_) => !isDiabetic ? null : '',
-                        ),
-                        suffixText: _appLocalizations.ageSuffix,
-                        onSaved: (v) => _userProfileBuilder.diabetesYears = v,
+      child: Scrollbar(
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: BetaBanner(),
+              ),
+              SmallSection(
+                title:
+                    _appLocalizations.userProfileSectionGeneralInformationTitle,
+                children: [
+                  AppSelectFormField<GenderEnum>(
+                    labelText: _appLocalizations.gender,
+                    initialValue: initialUserProfile?.gender,
+                    validator: _formValidators.nonNull(),
+                    onSaved: (v) => _userProfileBuilder.gender = v.value,
+                    items: [
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations.male,
+                        value: GenderEnum.male,
                       ),
-                      AppSelectFormField<DiabetesComplicationsEnum>(
-                        labelText: _appLocalizations
-                            .userProfileSectionDiabetesComplications,
-                        onSaved: (v) => _userProfileBuilder
-                            .diabetesComplications = v?.value,
-                        initialValue:
-                            initialUserProfile?.diabetesComplications ??
-                                DiabetesComplicationsEnum.unknown,
-                        validator: _formValidators.or(
-                          _formValidators.nonNull(),
-                          (_) => !isDiabetic ? null : '',
-                        ),
-                        items: [
-                          AppSelectFormFieldItem(
-                            text: _appLocalizations.yes,
-                            value: DiabetesComplicationsEnum.yes,
-                          ),
-                          AppSelectFormFieldItem(
-                            text: _appLocalizations.no,
-                            value: DiabetesComplicationsEnum.no,
-                          ),
-                          AppSelectFormFieldItem(
-                            text: _appLocalizations.iDontKnown,
-                            value: DiabetesComplicationsEnum.unknown,
-                          ),
-                        ],
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations.female,
+                        value: GenderEnum.female,
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-          ],
+                  AppIntegerFormField(
+                    labelText: _appLocalizations.birthYear,
+                    validator: _formValidators.and(
+                      _formValidators.nonNull(),
+                      _formValidators.numRangeValidator(1920, 2003),
+                    ),
+                    initialValue: initialUserProfile?.yearOfBirth,
+                    onSaved: (v) => _userProfileBuilder.yearOfBirth = v,
+                    suffixText: 'm.',
+                  ),
+                  AppIntegerFormField(
+                    labelText: _appLocalizations.height,
+                    validator: _formValidators.and(
+                      _formValidators.nonNull(),
+                      _formValidators.numRangeValidator(100, 250),
+                    ),
+                    initialValue: initialUserProfile?.heightCm,
+                    suffixText: 'cm',
+                    onSaved: (v) => _userProfileBuilder.heightCm = v,
+                  ),
+                ],
+              ),
+              SmallSection(
+                title: _appLocalizations
+                    .userProfileSectionChronicKidneyDiseaseTitle,
+                children: [
+                  AppIntegerFormField(
+                    labelText: _appLocalizations
+                        .userProfileSectionChronicKidneyDiseaseAge,
+                    validator: _formValidators.and(
+                      _formValidators.nonNull(),
+                      _formValidators.numRangeValidator(0, 100),
+                    ),
+                    initialValue: initialUserProfile?.chronicKidneyDiseaseYears,
+                    suffixText: 'm.',
+                    onSaved: (v) =>
+                        _userProfileBuilder.chronicKidneyDiseaseYears = v,
+                  ),
+                  AppSelectFormField<ChronicKidneyDiseaseStageEnum>(
+                    labelText: _appLocalizations
+                        .userProfileSectionChronicKidneyDiseaseStage,
+                    helperText: _appLocalizations
+                        .userProfileSectionChronicKidneyDiseaseStageHelper,
+                    onSaved: (v) =>
+                        _userProfileBuilder.chronicKidneyDiseaseStage = v.value,
+                    initialValue: initialUserProfile?.chronicKidneyDiseaseStage,
+                    validator: _formValidators.nonNull(),
+                    items: [
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations
+                            .userProfileSectionChronicKidneyDiseaseStage1,
+                        value: ChronicKidneyDiseaseStageEnum.stage1,
+                      ),
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations
+                            .userProfileSectionChronicKidneyDiseaseStage2,
+                        value: ChronicKidneyDiseaseStageEnum.stage2,
+                      ),
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations
+                            .userProfileSectionChronicKidneyDiseaseStage3,
+                        value: ChronicKidneyDiseaseStageEnum.stage3,
+                      ),
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations
+                            .userProfileSectionChronicKidneyDiseaseStage4,
+                        value: ChronicKidneyDiseaseStageEnum.stage4,
+                      ),
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations
+                            .userProfileSectionChronicKidneyDiseaseStage5,
+                        value: ChronicKidneyDiseaseStageEnum.stage5,
+                      ),
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations.iDontKnown,
+                        value: ChronicKidneyDiseaseStageEnum.unknown,
+                      ),
+                    ],
+                  ),
+                  AppSelectFormField<DialysisTypeEnum>(
+                    labelText: _appLocalizations.userProfileSectionDialysisType,
+                    validator: _formValidators.nonNull(),
+                    initialValue: initialUserProfile?.dialysisType
+                        ?.enumWithoutDefault(DialysisTypeEnum.unknown),
+                    onSaved: (v) => _userProfileBuilder.dialysisType = v.value,
+                    items: [
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations
+                            .userProfileSectionDialysisTypePeriotonicDialysis,
+                        value: DialysisTypeEnum.periotonicDialysis,
+                      ),
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations
+                            .userProfileSectionDialysisTypeHemodialysis,
+                        value: DialysisTypeEnum.hemodialysis,
+                      ),
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations
+                            .userProfileSectionDialysisTypePostTransplant,
+                        description: _appLocalizations
+                            .userProfileSectionDialysisTypePostTransplantDescription,
+                        value: DialysisTypeEnum.postTransplant,
+                      ),
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations
+                            .userProfileSectionDialysisTypeNotPerformed,
+                        value: DialysisTypeEnum.notPerformed,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SmallSection(
+                title: _appLocalizations.userProfileSectionDiabetesTitle,
+                children: [
+                  AppSelectFormField<DiabetesTypeEnum>(
+                    labelText: _appLocalizations.userProfileSectionDiabetesType,
+                    validator: _formValidators.nonNull(),
+                    initialValue: initialUserProfile?.diabetesType
+                            ?.enumWithoutDefault(DiabetesTypeEnum.unknown) ??
+                        DiabetesTypeEnum.no,
+                    onChanged: (dt) {
+                      setState(() {
+                        _diabetesType = dt.value;
+                      });
+                    },
+                    onSaved: (v) => _userProfileBuilder.diabetesType = v.value,
+                    items: [
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations.userProfileSectionDiabetesType1,
+                        value: DiabetesTypeEnum.type1,
+                      ),
+                      AppSelectFormFieldItem(
+                        text: _appLocalizations.userProfileSectionDiabetesType2,
+                        value: DiabetesTypeEnum.type2,
+                      ),
+                      AppSelectFormFieldItem(
+                        text:
+                            _appLocalizations.userProfileSectionDiabetesTypeNo,
+                        value: DiabetesTypeEnum.no,
+                      ),
+                    ],
+                  ),
+                  Visibility(
+                    visible: isDiabetic,
+                    maintainState: true,
+                    child: Column(
+                      children: [
+                        AppIntegerFormField(
+                          labelText:
+                              _appLocalizations.userProfileSectionDiabetesAge,
+                          initialValue: initialUserProfile?.diabetesYears,
+                          validator: _formValidators.or(
+                            _formValidators.and(
+                              _formValidators.nonNull(),
+                              _formValidators.numRangeValidator(0, 100),
+                            ),
+                            (_) => !isDiabetic ? null : '',
+                          ),
+                          suffixText: _appLocalizations.ageSuffix,
+                          onSaved: (v) => _userProfileBuilder.diabetesYears = v,
+                        ),
+                        AppSelectFormField<DiabetesComplicationsEnum>(
+                          labelText: _appLocalizations
+                              .userProfileSectionDiabetesComplications,
+                          onSaved: (v) => _userProfileBuilder
+                              .diabetesComplications = v?.value,
+                          initialValue:
+                              initialUserProfile?.diabetesComplications ??
+                                  DiabetesComplicationsEnum.unknown,
+                          validator: _formValidators.or(
+                            _formValidators.nonNull(),
+                            (_) => !isDiabetic ? null : '',
+                          ),
+                          items: [
+                            AppSelectFormFieldItem(
+                              text: _appLocalizations.yes,
+                              value: DiabetesComplicationsEnum.yes,
+                            ),
+                            AppSelectFormFieldItem(
+                              text: _appLocalizations.no,
+                              value: DiabetesComplicationsEnum.no,
+                            ),
+                            AppSelectFormFieldItem(
+                              text: _appLocalizations.iDontKnown,
+                              value: DiabetesComplicationsEnum.unknown,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
