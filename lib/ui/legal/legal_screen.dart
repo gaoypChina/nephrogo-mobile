@@ -131,7 +131,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                   AppCheckboxListTile(
                     title: _buildTextWithUrl(
                       appLocalizations.loginConditionsAgree,
-                      appLocalizations.healthDataProcessing,
+                      appLocalizations.agreeWithHealthDataProcessing,
                       Constants.healthDataProcessingPolicyUrl,
                     ),
                     value: _healthDataProcessingAgreed,
@@ -141,7 +141,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                   AppCheckboxListTile(
                     title: _buildTextWithUrl(
                       appLocalizations.loginConditionsAgree,
-                      appLocalizations.privacyPolicy,
+                      appLocalizations.agreeWithPrivacyPolicy,
                       Constants.privacyPolicyUrl,
                     ),
                     value: _privacyPolicyAgreed,
@@ -150,7 +150,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                   AppCheckboxListTile(
                     title: _buildTextWithUrl(
                       appLocalizations.loginConditionsAgree,
-                      appLocalizations.usageRules,
+                      appLocalizations.agreeWithUsageRules,
                       Constants.rulesUrl,
                     ),
                     value: _usageRulesAgreed,
@@ -236,7 +236,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
         children: [
           TextSpan(text: "$text "),
           TextSpan(
-            text: urlText.toLowerCase(),
+            text: urlText,
             recognizer: TapGestureRecognizer()..onTap = () => launchPdf(url),
             style: const TextStyle(
               decoration: TextDecoration.underline,

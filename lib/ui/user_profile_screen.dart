@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
-import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/general/components.dart';
-import 'package:nephrogo/utils/utils.dart';
 import 'package:nephrogo_api_client/model/chronic_kidney_disease_stage_enum.dart';
 import 'package:nephrogo_api_client/model/diabetes_complications_enum.dart';
 import 'package:nephrogo_api_client/model/diabetes_type_enum.dart';
@@ -85,11 +83,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       appBar: AppBar(
         title: Text(_appLocalizations.userProfileScreenTitle),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.lock),
-            tooltip: appLocalizations.privacyPolicy,
-            onPressed: () => launchPdf(Constants.privacyPolicyUrl),
-          ),
           if (!Navigator.of(context).canPop())
             IconButton(
               icon: const Icon(Icons.logout),
