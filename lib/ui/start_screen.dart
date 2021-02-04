@@ -31,7 +31,7 @@ class _StartScreenState extends State<StartScreen> {
                 if (isLegalConditionsAgreed) {
                   return LoginScreen();
                 }
-                return const LegalScreen(exitType: LegalScreenExitType.login);
+                return LegalScreen(exitType: LegalScreenExitType.login);
               },
             );
           }

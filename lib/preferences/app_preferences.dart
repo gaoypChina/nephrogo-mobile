@@ -6,6 +6,7 @@ class AppPreferences {
   static const keyProfileCreated = 'PROFILE_CREATED';
   static const keyOnboardingPassed = 'ONBOARDING_PASSED';
   static const keyLegalConditionsAgreed = 'LEGAL_CONDITIONS_AGREED';
+  static const keyMarketingAllowed = 'MARKETING_ALLOWED';
 
   static final AppPreferences _singleton = AppPreferences._internal();
 
@@ -62,5 +63,16 @@ class AppPreferences {
   Future<bool> setLegalConditionsAgreed() {
     return _sharedPreferences.then(
         (preferences) => preferences.setBool(keyLegalConditionsAgreed, true));
+  }
+
+  Future<bool> isMarketingAllowed() {
+    return _sharedPreferences
+        .then((preferences) => preferences.getBool(keyMarketingAllowed));
+  }
+
+  // ignore: avoid_positional_boolean_parameters
+  Future<bool> setMarketingAllowed(bool allowed) {
+    return _sharedPreferences.then(
+        (preferences) => preferences.setBool(keyMarketingAllowed, allowed));
   }
 }

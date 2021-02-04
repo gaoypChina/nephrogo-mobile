@@ -12,6 +12,7 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo/ui/user_profile_screen.dart';
+import 'package:nephrogo_api_client/model/user_profile.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -153,10 +154,23 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
     }
   }
 
+  Future<UserProfile> getUserProfileAndUpdateUser() async {
+    final user = await _apiService.getUser();
+    final marketingAllowedFromPreferences =
+        await _appPreferences.isMarketingAllowed();
+    final marketingAllowed =
+        user.isMarketingAllowed ?? marketingAllowedFromPreferences;
+
+    await _appPreferences.setMarketingAllowed(marketingAllowed);
+    await _apiService.updateUser(marketingAllowed: marketingAllowed);
+
+    return _apiService.getUserProfile();
+  }
+
   Future navigateToNextScreen(
       BuildContext context, UserCredential userCredential) async {
     final userProfile = await ProgressDialog(context)
-        .showForFuture(_apiService.getUserProfile());
+        .showForFuture(getUserProfileAndUpdateUser());
 
     if (userProfile != null) {
       await _appPreferences.setProfileCreated();

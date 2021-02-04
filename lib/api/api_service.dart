@@ -5,7 +5,7 @@ import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_brotli_transformer/dio_brotli_transformer.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
+import 'package:flutter/foundation.dart' show kDebugMode, required;
 import 'package:logging/logging.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/models/date.dart';
@@ -22,8 +22,10 @@ import 'package:nephrogo_api_client/model/intake_request.dart';
 import 'package:nephrogo_api_client/model/nutrient_screen_response.dart';
 import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
 import 'package:nephrogo_api_client/model/product.dart';
+import 'package:nephrogo_api_client/model/user.dart';
 import 'package:nephrogo_api_client/model/user_profile.dart';
 import 'package:nephrogo_api_client/model/user_profile_request.dart';
+import 'package:nephrogo_api_client/model/user_request.dart';
 import 'package:nephrogo_api_client/serializers.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:stream_transform/stream_transform.dart';
@@ -189,22 +191,34 @@ class ApiService {
   }
 
   Future<DailyHealthStatus> getDailyHealthStatus(
-    DateTime date,
-  ) {
+    DateTime date,) {
     return _healthStatusApi
         .healthStatusRetrieve(Date(date))
         .then((r) => r.data)
         .catchError(
           (e) => null,
-          test: (e) => e is DioError && e.response?.statusCode == 404,
-        );
+      test: (e) => e is DioError && e.response?.statusCode == 404,
+    );
+  }
+
+  Future<User> getUser() {
+    return _userApi.userRetrieve().then((r) => r.data);
+  }
+
+  Future<User> updateUser({@required bool marketingAllowed}) {
+    final userRequestBuilder = UserRequestBuilder();
+
+    userRequestBuilder.isMarketingAllowed = marketingAllowed;
+
+    return _userApi
+        .userUpdate(userRequest: userRequestBuilder.build())
+        .then((r) => r.data);
   }
 
   Future<UserProfile> createOrUpdateUserProfile(
-    UserProfileRequest userProfile,
-  ) {
+      UserProfileRequest userProfile,) {
     return _userApi.userProfileUpdate(userProfile).then(
-      (r) {
+          (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
         _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
 
