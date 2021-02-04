@@ -5,6 +5,7 @@ class BasicSection extends StatelessWidget {
   final Widget header;
   final List<Widget> children;
   final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry innerPadding;
   final bool showDividers;
 
   BasicSection({
@@ -13,6 +14,7 @@ class BasicSection extends StatelessWidget {
     this.children = const [],
     this.showDividers = false,
     this.padding = const EdgeInsets.only(bottom: 18.0),
+    this.innerPadding = EdgeInsets.zero,
   })  : assert(header != null || children.isNotEmpty,
             "Either header or at least one child should be passed"),
         super(key: key);
@@ -20,6 +22,7 @@ class BasicSection extends StatelessWidget {
   const BasicSection.single(
     Widget child, {
     this.padding = const EdgeInsets.only(bottom: 18.0),
+    this.innerPadding = EdgeInsets.zero,
   })
   // ignore: prefer_initializing_formals
   : header = child,
@@ -38,7 +41,10 @@ class BasicSection extends StatelessWidget {
             bottom: Divider.createBorderSide(context),
           ),
         ),
-        child: _buildHeaderAndChildren(context),
+        child: Padding(
+          padding: innerPadding,
+          child: _buildHeaderAndChildren(context),
+        ),
       ),
     );
   }

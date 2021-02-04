@@ -6,6 +6,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
@@ -35,10 +36,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(32),
+      padding: const EdgeInsets.all(16),
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 48),
+          padding: const EdgeInsets.only(bottom: 32),
           child: FractionallySizedBox(
             widthFactor: 0.8,
             child: Image.asset('assets/logo/logo-with-title.png'),
@@ -86,18 +87,25 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
           child: SignInButton(
             Buttons.Email,
             padding: const EdgeInsets.all(16),
-            text: appLocalizations.loginEmail,
-            onPressed: () => _loginUsingEmail(context),
+            text: appLocalizations.registerUsingEmail,
+            onPressed: () => _registerAndLoginUsingEmail(context),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(8, 32, 8, 16),
+          child: EmailLoginButtonComponent(
+            onCredentialsRetrieved: (userCredential) =>
+                navigateToNextScreen(context, userCredential),
           ),
         ),
       ],
     );
   }
 
-  Future _loginUsingEmail(BuildContext context) async {
+  Future _registerAndLoginUsingEmail(BuildContext context) async {
     final userCredential = await Navigator.pushNamed<UserCredential>(
       context,
-      Routes.routeLoginEmailPassword,
+      Routes.routeRegistration,
     );
 
     if (userCredential != null) {
@@ -151,5 +159,55 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
       Routes.routeUserProfile,
       arguments: UserProfileNextScreenType.homeScreen,
     );
+  }
+}
+
+class EmailLoginButtonComponent extends StatelessWidget {
+  final void Function(UserCredential userCredential) onCredentialsRetrieved;
+
+  const EmailLoginButtonComponent({
+    Key key,
+    @required this.onCredentialsRetrieved,
+  })  : assert(onCredentialsRetrieved != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          appLocalizations.alreadyRegisterWhenLogin,
+          style: const TextStyle(color: Colors.white),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: OutlinedButton(
+              onPressed: () => _onLoginPressed(context),
+              style: OutlinedButton.styleFrom(
+                primary: Colors.white,
+                side: const BorderSide(width: 2, color: Colors.white),
+                textStyle: const TextStyle(fontSize: 16),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(appLocalizations.loginEmail.toUpperCase()),
+              )),
+        )
+      ],
+    );
+  }
+
+  Future _onLoginPressed(BuildContext context) async {
+    final userCredential = await Navigator.pushNamed<UserCredential>(
+      context,
+      Routes.routeLoginEmailPassword,
+    );
+
+    if (userCredential != null) {
+      onCredentialsRetrieved(userCredential);
+    }
   }
 }

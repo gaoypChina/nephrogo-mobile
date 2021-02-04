@@ -838,8 +838,16 @@
   "@loginApple": {
     "context": "authentication:login"
   },
+  "registerUsingEmail": "Registruotis su el. paštu",
+  "@registerUsingEmail": {
+    "context": "authentication:login"
+  },
   "loginEmail": "Prisijungti su el. paštu",
   "@loginEmail": {
+    "context": "authentication:login"
+  },
+  "alreadyRegisterWhenLogin": "Esate užsiregistravęs su elektroniniu paštu?",
+  "@alreadyRegisterWhenLogin": {
     "context": "authentication:login"
   },
   "finish": "Baigti",

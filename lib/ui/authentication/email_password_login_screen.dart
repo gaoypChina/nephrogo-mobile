@@ -21,21 +21,9 @@ class EmailPasswordLoginScreen extends StatelessWidget {
       appBar: AppBar(title: Text(appLocalizations.login)),
       body: SingleChildScrollView(
         child: BasicSection(
+          innerPadding: const EdgeInsets.only(top: 8),
           children: [
             _RegularLoginForm(),
-            SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: AppElevatedButton(
-                  text: appLocalizations.registration,
-                  onPressed: () => _openRegistration(context),
-                  color: Colors.grey,
-                  textColor: Colors.white,
-                ),
-              ),
-            ),
             SizedBox(
               width: double.infinity,
               child: Padding(
@@ -55,15 +43,6 @@ class EmailPasswordLoginScreen extends StatelessWidget {
 
   Future _openRemindPassword(BuildContext context) {
     return Navigator.of(context).pushNamed(Routes.routeRemindPassword);
-  }
-
-  Future _openRegistration(BuildContext context) async {
-    final userCredential =
-        await Navigator.of(context).pushNamed(Routes.routeRegistration);
-
-    if (userCredential != null) {
-      Navigator.of(context).pop(userCredential);
-    }
   }
 }
 
