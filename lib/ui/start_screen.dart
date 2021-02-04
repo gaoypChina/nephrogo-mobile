@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
+import 'package:nephrogo/ui/legal/legal_screen.dart';
 import 'package:nephrogo/ui/user_profile_screen.dart';
 
 import 'authentication/login_screen.dart';
@@ -24,10 +25,18 @@ class _StartScreenState extends State<StartScreen> {
         future: _appPreferences.isOnboardingPassed(),
         builder: (context, isOnboardingPassed) {
           if (isOnboardingPassed) {
-            return LoginScreen();
+            return AppFutureBuilder<bool>(
+              future: _appPreferences.isLegalConditionsAgreed(),
+              builder: (context, isLegalConditionsAgreed) {
+                if (isLegalConditionsAgreed) {
+                  return LoginScreen();
+                }
+                return const LegalScreen(exitType: LegalScreenExitType.login);
+              },
+            );
           }
           return const OnboardingScreen(
-              exitType: OnboardingScreenExitType.login);
+              exitType: OnboardingScreenExitType.legal);
         },
       );
     }

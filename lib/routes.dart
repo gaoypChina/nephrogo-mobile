@@ -80,7 +80,9 @@ class Routes {
         });
       case routeLegal:
         return MaterialPageRoute(builder: (context) {
-          return LegalScreen();
+          final arguments = settings.arguments as LegalScreenArguments;
+
+          return LegalScreen(exitType: arguments.exitType);
         });
       case routeIntakeCreate:
         return MaterialPageRoute<Intake>(builder: (context) {

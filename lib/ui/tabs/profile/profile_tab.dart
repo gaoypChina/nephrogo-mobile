@@ -6,6 +6,7 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_future_builder.dart';
 import 'package:nephrogo/ui/general/app_network_image.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/legal/legal_screen.dart';
 import 'package:nephrogo/ui/onboarding/onboarding_screen.dart';
 import 'package:nephrogo/ui/user_profile_screen.dart';
 import 'package:nephrogo/utils/utils.dart';
@@ -108,6 +109,7 @@ class ProfileTab extends StatelessWidget {
     return Navigator.pushNamed(
       context,
       Routes.routeLegal,
+      arguments: const LegalScreenArguments(LegalScreenExitType.close),
     );
   }
 

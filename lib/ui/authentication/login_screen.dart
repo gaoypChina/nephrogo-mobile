@@ -12,8 +12,6 @@ import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo/ui/user_profile_screen.dart';
 
-import 'login_conditions.dart';
-
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -31,22 +29,18 @@ class LoginScreenBody extends StatefulWidget {
 
 class _LoginScreenBodyState extends State<LoginScreenBody> {
   final _authenticationProvider = AuthenticationProvider();
-
   final _apiService = ApiService();
-
   final _appPreferences = AppPreferences();
-
-  bool agreedToConditions = false;
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.fromLTRB(32, 32, 32, 64),
+      padding: const EdgeInsets.all(32),
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 36),
+          padding: const EdgeInsets.only(bottom: 64),
           child: FractionallySizedBox(
-            widthFactor: 0.6,
+            widthFactor: 0.8,
             child: Image.asset('assets/logo/logo-with-title.png'),
           ),
         ),
@@ -96,55 +90,18 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
             onPressed: () => _loginUsingEmail(context),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 32),
-          child: LoginConditionsRichText(),
-        ),
       ],
     );
   }
 
-  Future<bool> _agreeToConditions() async {
-    if (agreedToConditions) {
-      return true;
-    }
-
-    return agreedToConditions = await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: LoginConditionsRichText(
-            textColor: Colors.black,
-            baseText: appLocalizations.loginConditionsAgree,
-            textAlign: TextAlign.start,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: Text(appLocalizations.disagree.toUpperCase()),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: Text(appLocalizations.agree.toUpperCase()),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   Future _loginUsingEmail(BuildContext context) async {
-    final agreed = await _agreeToConditions();
+    final userCredential = await Navigator.pushNamed<UserCredential>(
+      context,
+      Routes.routeLoginEmailPassword,
+    );
 
-    if (agreed) {
-      final userCredential = await Navigator.pushNamed<UserCredential>(
-        context,
-        Routes.routeLoginEmailPassword,
-      );
-
-      if (userCredential != null) {
-        await navigateToNextScreen(context, userCredential);
-      }
+    if (userCredential != null) {
+      await navigateToNextScreen(context, userCredential);
     }
   }
 
@@ -152,26 +109,22 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
     BuildContext context,
     SocialAuthenticationProvider provider,
   ) async {
-    final agreed = await _agreeToConditions();
+    UserCredential userCredential;
 
-    if (agreed) {
-      UserCredential userCredential;
+    try {
+      userCredential = await _authenticationProvider.signIn(provider);
+    } catch (e, stacktrace) {
+      developer.log(
+        'Unable to to to login with social',
+        stackTrace: stacktrace,
+        error: e,
+      );
 
-      try {
-        userCredential = await _authenticationProvider.signIn(provider);
-      } catch (e, stacktrace) {
-        developer.log(
-          'Unable to to to login with social',
-          stackTrace: stacktrace,
-          error: e,
-        );
+      await showAppDialog(context: context, message: e.toString());
+    }
 
-        await showAppDialog(context: context, message: e.toString());
-      }
-
-      if (userCredential != null) {
-        await navigateToNextScreen(context, userCredential);
-      }
+    if (userCredential != null) {
+      await navigateToNextScreen(context, userCredential);
     }
   }
 

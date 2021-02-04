@@ -12,8 +12,6 @@ import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 
-import 'login_conditions.dart';
-
 class EmailPasswordLoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -48,11 +46,6 @@ class EmailPasswordLoginScreen extends StatelessWidget {
                   child: Text(appLocalizations.forgetPassword.toUpperCase()),
                 ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: Center(
-                  child: LoginConditionsRichText(textColor: Colors.black)),
             ),
           ],
         ),

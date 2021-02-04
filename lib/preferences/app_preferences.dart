@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppPreferences {
   static const keyProfileCreated = 'PROFILE_CREATED';
   static const keyOnboardingPassed = 'ONBOARDING_PASSED';
+  static const keyLegalConditionsAgreed = 'LEGAL_CONDITIONS_AGREED';
 
   static final AppPreferences _singleton = AppPreferences._internal();
 
@@ -51,5 +52,15 @@ class AppPreferences {
   Future<bool> setOnboardingPassed() {
     return _sharedPreferences
         .then((preferences) => preferences.setBool(keyOnboardingPassed, true));
+  }
+
+  Future<bool> isLegalConditionsAgreed() {
+    return _sharedPreferences.then((preferences) =>
+        preferences.getBool(keyLegalConditionsAgreed) ?? false);
+  }
+
+  Future<bool> setLegalConditionsAgreed() {
+    return _sharedPreferences.then(
+        (preferences) => preferences.setBool(keyLegalConditionsAgreed, true));
   }
 }

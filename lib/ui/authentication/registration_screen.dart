@@ -11,8 +11,6 @@ import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 
-import 'login_conditions.dart';
-
 class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,16 +18,7 @@ class RegistrationScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(appLocalizations.registration)),
       body: SingleChildScrollView(
-        child: BasicSection(
-          children: [
-            _RegistrationForm(),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 32),
-              child: Center(
-                  child: LoginConditionsRichText(textColor: Colors.black)),
-            ),
-          ],
-        ),
+        child: BasicSection.single(_RegistrationForm()),
       ),
     );
   }

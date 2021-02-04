@@ -2,34 +2,58 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/preferences/app_preferences.dart';
+import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/utils.dart';
 
+enum LegalScreenExitType {
+  close,
+  login,
+}
+
+class LegalScreenArguments {
+  final LegalScreenExitType exitType;
+
+  const LegalScreenArguments(this.exitType);
+}
+
 class LegalScreen extends StatefulWidget {
+  final LegalScreenExitType exitType;
+
+  const LegalScreen({Key key, @required this.exitType})
+      : assert(exitType != null),
+        super(key: key);
+
   @override
   _LegalScreenState createState() => _LegalScreenState();
 }
 
 class _LegalScreenState extends State<LegalScreen> {
-  bool healthDataProcessingAgreed;
-  bool privacyPolicyAgreed;
-  bool usageRulesAgreed;
-  bool communicationAgreed;
+  final _appPreferences = AppPreferences();
+
+  bool _healthDataProcessingAgreed;
+  bool _privacyPolicyAgreed;
+  bool _usageRulesAgreed;
+  bool _communicationAgreed;
 
   bool get _canContinue =>
-      healthDataProcessingAgreed && privacyPolicyAgreed && usageRulesAgreed;
+      _healthDataProcessingAgreed && _privacyPolicyAgreed && _usageRulesAgreed;
 
-  bool get _agreedToEverything => _canContinue && communicationAgreed;
+  bool get _agreedToEverything => _canContinue && _communicationAgreed;
 
   @override
   void initState() {
     super.initState();
 
-    privacyPolicyAgreed = false;
-    usageRulesAgreed = false;
-    healthDataProcessingAgreed = false;
-    communicationAgreed = false;
+    final initial = widget.exitType == LegalScreenExitType.close;
+
+    _privacyPolicyAgreed = initial;
+    _usageRulesAgreed = initial;
+    _healthDataProcessingAgreed = initial;
+
+    _communicationAgreed = false;
   }
 
   @override
@@ -67,11 +91,11 @@ class _LegalScreenState extends State<LegalScreen> {
                       title: _buildTextWithUrl(
                         appLocalizations.loginConditionsAgree,
                         appLocalizations.healthDataProcessing,
-                        Constants.privacyPolicyUrl,
+                        Constants.healthDataProcessingPolicyUrl,
                       ),
-                      value: healthDataProcessingAgreed,
+                      value: _healthDataProcessingAgreed,
                       onChanged: (b) =>
-                          setState(() => healthDataProcessingAgreed = b),
+                          setState(() => _healthDataProcessingAgreed = b),
                     ),
                     AppCheckboxListTile(
                       title: _buildTextWithUrl(
@@ -79,8 +103,9 @@ class _LegalScreenState extends State<LegalScreen> {
                         appLocalizations.privacyPolicy,
                         Constants.privacyPolicyUrl,
                       ),
-                      value: privacyPolicyAgreed,
-                      onChanged: (b) => setState(() => privacyPolicyAgreed = b),
+                      value: _privacyPolicyAgreed,
+                      onChanged: (b) =>
+                          setState(() => _privacyPolicyAgreed = b),
                     ),
                     AppCheckboxListTile(
                       title: _buildTextWithUrl(
@@ -88,8 +113,8 @@ class _LegalScreenState extends State<LegalScreen> {
                         appLocalizations.usageRules,
                         Constants.rulesUrl,
                       ),
-                      value: usageRulesAgreed,
-                      onChanged: (b) => setState(() => usageRulesAgreed = b),
+                      value: _usageRulesAgreed,
+                      onChanged: (b) => setState(() => _usageRulesAgreed = b),
                     ),
                   ],
                 ),
@@ -98,8 +123,9 @@ class _LegalScreenState extends State<LegalScreen> {
                   children: [
                     AppCheckboxListTile(
                       title: Text(appLocalizations.agreeToCommunicate),
-                      value: communicationAgreed,
-                      onChanged: (b) => setState(() => communicationAgreed = b),
+                      value: _communicationAgreed,
+                      onChanged: (b) =>
+                          setState(() => _communicationAgreed = b),
                     ),
                   ],
                 ),
@@ -124,9 +150,7 @@ class _LegalScreenState extends State<LegalScreen> {
                 child: SizedBox(
                   width: double.infinity,
                   child: AppElevatedButton(
-                    onPressed: _canContinue
-                        ? () => Navigator.pop(context, false)
-                        : null,
+                    onPressed: _canContinue ? proceed : null,
                     text: appLocalizations.proceed.toUpperCase(),
                   ),
                 ),
@@ -136,6 +160,19 @@ class _LegalScreenState extends State<LegalScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> proceed() async {
+    await _appPreferences.setLegalConditionsAgreed();
+
+    switch (widget.exitType) {
+      case LegalScreenExitType.close:
+        Navigator.pop(context, false);
+        break;
+      case LegalScreenExitType.login:
+        Navigator.pushReplacementNamed(context, Routes.routeLogin);
+        break;
+    }
   }
 
   Widget _buildTextWithUrl(String text, String urlText, String url) {
@@ -160,11 +197,11 @@ class _LegalScreenState extends State<LegalScreen> {
 
   void _agreeWithEverything(bool b) {
     setState(() {
-      healthDataProcessingAgreed = b;
-      privacyPolicyAgreed = b;
-      usageRulesAgreed = b;
+      _healthDataProcessingAgreed = b;
+      _privacyPolicyAgreed = b;
+      _usageRulesAgreed = b;
 
-      communicationAgreed = b;
+      _communicationAgreed = b;
     });
   }
 }

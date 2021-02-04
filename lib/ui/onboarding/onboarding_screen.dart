@@ -3,13 +3,14 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/analytics.dart';
+import 'package:nephrogo/ui/legal/legal_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'onboarding_step.dart';
 
 enum OnboardingScreenExitType {
   close,
-  login,
+  legal,
 }
 
 class OnboardingScreenArguments {
@@ -170,8 +171,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         case OnboardingScreenExitType.close:
           Navigator.of(context).pop();
           break;
-        case OnboardingScreenExitType.login:
-          await Navigator.pushReplacementNamed(context, Routes.routeLogin);
+        case OnboardingScreenExitType.legal:
+          await Navigator.pushReplacementNamed(
+            context,
+            Routes.routeLegal,
+            arguments: const LegalScreenArguments(LegalScreenExitType.login),
+          );
           break;
       }
     } else {
