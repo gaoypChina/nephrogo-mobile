@@ -8,27 +8,21 @@ Future<bool> launchURL(String url) async {
   }
 }
 
-Future<bool> launchPdf(String url) async {
+Future<bool> launchPdf(String url) {
   final queryParameters = {'url': url, 'embedded': 'true'};
   final uri = Uri.https('docs.google.com', 'gview', queryParameters);
 
   return launchURL(uri.toString());
 }
 
-Future<bool> launchPhone(String phoneNumber) async {
+Future<bool> launchPhone(String phoneNumber) {
   final phoneUrl = 'tel:$phoneNumber';
-  if (await canLaunch(phoneUrl)) {
-    return launch(phoneUrl);
-  } else {
-    throw 'Could not launch $phoneUrl';
-  }
+
+  return launchURL(phoneUrl);
 }
 
-Future<bool> launchEmail(String email) async {
+Future<bool> launchEmail(String email) {
   final emailUrl = 'mailto:$email';
-  if (await canLaunch(emailUrl)) {
-    return launch(emailUrl);
-  } else {
-    throw 'Could not launch $emailUrl';
-  }
+
+  return launchURL(emailUrl);
 }
