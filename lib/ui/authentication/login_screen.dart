@@ -35,70 +35,84 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Padding(
       padding: const EdgeInsets.all(16),
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 32),
-          child: FractionallySizedBox(
-            widthFactor: 0.8,
-            child: Image.asset('assets/logo/logo-with-title.png'),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SignInButton(
-            Buttons.Google,
-            padding: const EdgeInsets.all(8),
-            text: appLocalizations.loginGoogle,
-            onPressed: () => _loginWithSocial(
-              context,
-              SocialAuthenticationProvider.google,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Image.asset(
+              'assets/logo/logo-with-title.png',
+              fit: BoxFit.contain,
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SignInButton(
-            Buttons.Facebook,
-            padding: const EdgeInsets.all(16),
-            text: appLocalizations.loginFacebook,
-            onPressed: () => _loginWithSocial(
-              context,
-              SocialAuthenticationProvider.facebook,
-            ),
-          ),
-        ),
-        if (Theme.of(context).platform == TargetPlatform.iOS)
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SignInButton(
-              Buttons.AppleDark,
-              padding: const EdgeInsets.all(16),
-              text: appLocalizations.loginApple,
-              onPressed: () => _loginWithSocial(
-                context,
-                SocialAuthenticationProvider.apple,
+            padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+            child: SizedBox(
+              width: double.infinity,
+              child: SignInButton(
+                Buttons.Google,
+                padding: const EdgeInsets.all(8),
+                text: appLocalizations.loginGoogle,
+                onPressed: () => _loginWithSocial(
+                  context,
+                  SocialAuthenticationProvider.google,
+                ),
               ),
             ),
           ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SignInButton(
-            Buttons.Email,
-            padding: const EdgeInsets.all(16),
-            text: appLocalizations.registerUsingEmail,
-            onPressed: () => _registerAndLoginUsingEmail(context),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: SignInButton(
+                Buttons.Facebook,
+                padding: const EdgeInsets.all(16),
+                text: appLocalizations.loginFacebook,
+                onPressed: () => _loginWithSocial(
+                  context,
+                  SocialAuthenticationProvider.facebook,
+                ),
+              ),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(8, 32, 8, 16),
-          child: EmailLoginButtonComponent(
-            onCredentialsRetrieved: (userCredential) =>
-                navigateToNextScreen(context, userCredential),
+          if (Theme.of(context).platform == TargetPlatform.iOS)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: SignInButton(
+                  Buttons.AppleDark,
+                  padding: const EdgeInsets.all(16),
+                  text: appLocalizations.loginApple,
+                  onPressed: () => _loginWithSocial(
+                    context,
+                    SocialAuthenticationProvider.apple,
+                  ),
+                ),
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: SignInButton(
+                Buttons.Email,
+                padding: const EdgeInsets.all(16),
+                text: appLocalizations.registerUsingEmail,
+                onPressed: () => _registerAndLoginUsingEmail(context),
+              ),
+            ),
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 32, 8, 32),
+            child: EmailLoginButtonComponent(
+              onCredentialsRetrieved: (userCredential) =>
+                  navigateToNextScreen(context, userCredential),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
