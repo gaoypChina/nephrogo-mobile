@@ -46,7 +46,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+            padding: const EdgeInsets.all(8),
             child: SizedBox(
               width: double.infinity,
               child: SignInButton(
