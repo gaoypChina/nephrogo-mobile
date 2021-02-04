@@ -38,7 +38,6 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             child: Image.asset(
