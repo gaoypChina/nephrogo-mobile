@@ -79,8 +79,10 @@ class AuthenticationProvider {
   Future<String> idToken({bool forceRefresh = false}) =>
       currentUser.getIdToken(forceRefresh);
 
-  Future signOut() async {
+  Future<void> signOut() async {
     await _appPreferences.deleteProfileCreated();
+    await _appPreferences.deleteMarketingAllowed();
+
     await _auth.signOut();
   }
 

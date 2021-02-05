@@ -75,4 +75,9 @@ class AppPreferences {
     return _sharedPreferences.then(
         (preferences) => preferences.setBool(keyMarketingAllowed, allowed));
   }
+
+  Future<bool> deleteMarketingAllowed() {
+    return _sharedPreferences
+        .then((preferences) => preferences.remove(keyMarketingAllowed));
+  }
 }
