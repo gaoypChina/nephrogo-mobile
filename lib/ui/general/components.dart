@@ -13,7 +13,7 @@ class BasicSection extends StatelessWidget {
     this.header,
     this.children = const [],
     this.showDividers = false,
-    this.padding = const EdgeInsets.only(bottom: 18.0),
+    this.padding = const EdgeInsets.only(bottom: 16),
     this.innerPadding = EdgeInsets.zero,
   })  : assert(header != null || children.isNotEmpty,
             "Either header or at least one child should be passed"),
@@ -21,7 +21,7 @@ class BasicSection extends StatelessWidget {
 
   const BasicSection.single(
     Widget child, {
-    this.padding = const EdgeInsets.only(bottom: 18.0),
+    this.padding = const EdgeInsets.only(bottom: 16),
     this.innerPadding = EdgeInsets.zero,
   })
   // ignore: prefer_initializing_formals
