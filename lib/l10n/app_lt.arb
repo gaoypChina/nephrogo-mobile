@@ -82,6 +82,8 @@
   "@searchUnableToFindProduct": {},
   "report": "Pranešti",
   "@report": {},
+  "reportMissingProduct": "Pranešti apie trūkstamą produktą",
+  "@reportMissingProduct": {},
   "productSearchEmpty": "Pagal \"{query}\" paieškos kriterijų nebuvo rasta jokių produktų!",
   "@productSearchEmpty": {
     "placeholders": {

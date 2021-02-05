@@ -28,48 +28,49 @@ class ProfileTab extends StatelessWidget {
           AppListTile(
             title: Text(appLocalizations.userProfileScreenTitle),
             leading: const Icon(Icons.person),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                Routes.routeUserProfile,
-                arguments: UserProfileNextScreenType.close,
-              );
-            },
+            onTap: () => Navigator.pushNamed(
+              context,
+              Routes.routeUserProfile,
+              arguments: UserProfileNextScreenType.close,
+            ),
           ),
         ),
         BasicSection.single(
           AppListTile(
             title: Text(appLocalizations.faqTitle),
             leading: const Icon(Icons.help),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                Routes.routeFAQ,
-              );
-            },
+            onTap: () => Navigator.pushNamed(
+              context,
+              Routes.routeFAQ,
+            ),
           ),
         ),
         BasicSection(
           showDividers: true,
           children: [
             AppListTile(
-              title: Text(appLocalizations.onboarding),
-              leading: const Icon(Icons.explore),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  Routes.routeOnboarding,
-                  arguments:
-                      OnboardingScreenArguments(OnboardingScreenExitType.close),
-                );
-              },
-            ),
-            AppListTile(
               title: Text(appLocalizations.termsOfUse),
               leading: const Icon(Icons.description),
               onTap: () => _navigateToTermsOfUse(context),
             ),
+            AppListTile(
+              title: Text(appLocalizations.onboarding),
+              leading: const Icon(Icons.explore),
+              onTap: () => Navigator.pushNamed(
+                context,
+                Routes.routeOnboarding,
+                arguments:
+                    OnboardingScreenArguments(OnboardingScreenExitType.close),
+              ),
+            ),
           ],
+        ),
+        BasicSection.single(
+          AppListTile(
+            title: Text(appLocalizations.reportMissingProduct),
+            leading: const Icon(Icons.feedback),
+            onTap: () => launchURL(Constants.reportMissingProductUrl),
+          ),
         ),
         BasicSection(
           showDividers: true,
