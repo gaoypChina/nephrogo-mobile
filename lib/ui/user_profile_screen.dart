@@ -19,7 +19,6 @@ import 'package:nephrogo_api_client/model/user_profile_request.dart';
 
 import 'forms/forms.dart';
 import 'general/app_future_builder.dart';
-import 'general/beta_banner.dart';
 import 'general/buttons.dart';
 import 'general/dialogs.dart';
 import 'general/progress_dialog.dart';
@@ -129,10 +128,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: BetaBanner(),
-              ),
               SmallSection(
                 title:
                     _appLocalizations.userProfileSectionGeneralInformationTitle,
