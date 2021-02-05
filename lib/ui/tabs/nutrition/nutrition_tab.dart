@@ -59,29 +59,27 @@ class NutritionTab extends StatelessWidget {
           replacement: EmptyStateContainer(
             text: appLocalizations.nutritionEmpty,
           ),
-          child: SingleChildScrollView(
-            child: Padding(
+          child: Scrollbar(
+            child: ListView(
               padding: const EdgeInsets.only(bottom: 64),
-              child: Column(
-                children: [
-                  DailyNormsSection(dailyIntakeReport: todayIntakesReport),
-                  DailyIntakesCard(
-                    title: appLocalizations.lastMealsSectionTitle,
-                    intakes: latestIntakes,
-                    leading: OutlinedButton(
-                      onPressed: () => openWeeklyIntakesScreen(context),
-                      child: Text(appLocalizations.more.toUpperCase()),
-                    ),
+              children: [
+                DailyNormsSection(dailyIntakeReport: todayIntakesReport),
+                DailyIntakesCard(
+                  title: appLocalizations.lastMealsSectionTitle,
+                  intakes: latestIntakes,
+                  leading: OutlinedButton(
+                    onPressed: () => openWeeklyIntakesScreen(context),
+                    child: Text(appLocalizations.more.toUpperCase()),
                   ),
-                  for (final nutrient in Nutrient.values)
-                    buildIndicatorChartSection(
-                      context,
-                      todayIntakesReport,
-                      dailyIntakesReports,
-                      nutrient,
-                    )
-                ],
-              ),
+                ),
+                for (final nutrient in Nutrient.values)
+                  buildIndicatorChartSection(
+                    context,
+                    todayIntakesReport,
+                    dailyIntakesReports,
+                    nutrient,
+                  )
+              ],
             ),
           ),
         );

@@ -62,13 +62,15 @@ class HealthIndicatorsTabBody extends StatelessWidget {
           replacement: EmptyStateContainer(
             text: appLocalizations.weeklyHealthStatusEmpty,
           ),
-          child: ListView.builder(
-            padding: const EdgeInsets.only(bottom: 64),
-            itemCount: healthIndicators.length,
-            itemBuilder: (context, i) => buildIndicatorChartSection(
-              context,
-              response,
-              healthIndicators[i],
+          child: Scrollbar(
+            child: ListView.builder(
+              padding: const EdgeInsets.only(bottom: 64),
+              itemCount: healthIndicators.length,
+              itemBuilder: (context, i) => buildIndicatorChartSection(
+                context,
+                response,
+                healthIndicators[i],
+              ),
             ),
           ),
         );

@@ -163,31 +163,37 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
 
     final dailyIntakeReportsWithIntakesSorted = dailyIntakesReports
         .where((di) => di.intakes.isNotEmpty)
-        .sortedBy((e) => e.date, reverse: true);
+        .sortedBy((e) => e.date, reverse: true)
+        .toList();
 
     return Visibility(
       visible: hasIntakes,
       replacement: EmptyStateContainer(
         text: AppLocalizations.of(context).weeklyNutrientsEmpty,
       ),
-      child: ListView(
-        padding: const EdgeInsets.only(bottom: 64),
-        children: [
-          BasicSection(
-            children: [
-              NutrientWeeklyBarChart(
-                dailyIntakeReports: dailyIntakesReports,
-                nutrient: nutrient,
-                maximumDate: weekEnd,
-              ),
-            ],
-          ),
-          for (final dailyIntakesReport in dailyIntakeReportsWithIntakesSorted)
-            DailyIntakeSection(
+      child: Scrollbar(
+        child: ListView.builder(
+          padding: const EdgeInsets.only(bottom: 64),
+          itemCount: dailyIntakeReportsWithIntakesSorted.length + 1,
+          itemBuilder: (context, i) {
+            if (i == 0) {
+              return BasicSection(
+                children: [
+                  NutrientWeeklyBarChart(
+                    dailyIntakeReports: dailyIntakesReports,
+                    nutrient: nutrient,
+                    maximumDate: weekEnd,
+                  ),
+                ],
+              );
+            }
+
+            return DailyIntakeSection(
               nutrient: nutrient,
-              dailyIntakesReport: dailyIntakesReport,
-            )
-        ],
+              dailyIntakesReport: dailyIntakeReportsWithIntakesSorted[i - 1],
+            );
+          },
+        ),
       ),
     );
   }

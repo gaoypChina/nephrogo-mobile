@@ -143,9 +143,9 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.only(bottom: 64),
-      child: Column(
+    return Scrollbar(
+      child: ListView(
+        padding: const EdgeInsets.only(bottom: 64),
         children: [
           BasicSection(
             children: [

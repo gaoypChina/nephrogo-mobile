@@ -25,7 +25,15 @@ class WeeklyIntakesScreen extends StatefulWidget {
 class _WeeklyIntakesScreenState extends State<WeeklyIntakesScreen> {
   final _apiService = ApiService();
 
+  ValueNotifier<bool> _valueChangeNotifier;
+
   DateTime _earliestDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _valueChangeNotifier = ValueNotifier<bool>(true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +46,7 @@ class _WeeklyIntakesScreenState extends State<WeeklyIntakesScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: WeeklyPager<bool>(
-        valueChangeNotifier: ValueNotifier<bool>(true),
+        valueChangeNotifier: _valueChangeNotifier,
         earliestDate: () => _earliestDate,
         bodyBuilder: (from, to, nutrient) {
           return AppStreamBuilder<NutrientWeeklyScreenResponse>(
@@ -64,6 +72,12 @@ class _WeeklyIntakesScreenState extends State<WeeklyIntakesScreen> {
       arguments: ProductSearchType.choose,
     );
   }
+
+  @override
+  void dispose() {
+    _valueChangeNotifier.dispose();
+    super.dispose();
+  }
 }
 
 class _IntakesListComponent extends StatelessWidget {
@@ -88,33 +102,35 @@ class _IntakesListComponent extends StatelessWidget {
       replacement: EmptyStateContainer(
         text: AppLocalizations.of(context).weeklyNutrientsEmpty,
       ),
-      child: ListView.builder(
-        padding: const EdgeInsets.only(bottom: 64),
-        itemCount: intakes.length + 1,
-        itemBuilder: (context, index) {
-          if (index == 0) {
+      child: Scrollbar(
+        child: ListView.builder(
+          padding: const EdgeInsets.only(bottom: 64),
+          itemCount: intakes.length + 1,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return BasicSection(
+                children: [
+                  IntakesNumberWeeklyBarChart(
+                    dailyIntakeReports: dailyIntakesReports,
+                    maximumDate: maximumDate,
+                  ),
+                ],
+              );
+            }
+
+            final intake = intakes[index - 1];
+
             return BasicSection(
+              key: ObjectKey(intake),
+              header: IntakeTile(intake),
+              showDividers: true,
               children: [
-                IntakesNumberWeeklyBarChart(
-                  dailyIntakeReports: dailyIntakesReports,
-                  maximumDate: maximumDate,
-                ),
+                for (final nutrient in Nutrient.values)
+                  IntakeNutrientTile(intake, nutrient)
               ],
             );
-          }
-
-          final intake = intakes[index - 1];
-
-          return BasicSection(
-            key: ObjectKey(intake),
-            header: IntakeTile(intake),
-            showDividers: true,
-            children: [
-              for (final nutrient in Nutrient.values)
-                IntakeNutrientTile(intake, nutrient)
-            ],
-          );
-        },
+          },
+        ),
       ),
     );
   }
