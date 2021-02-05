@@ -38,10 +38,7 @@ class LegalScreen extends StatelessWidget {
     final appLocalizations = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Navigator.of(context).canPop() ? const CloseButton() : null,
-        title: Text(appLocalizations.termsOfUse),
-      ),
+      appBar: AppBar(title: Text(appLocalizations.termsOfUse)),
       body: AppFutureBuilder<bool>(
         future: _appPreferences.isMarketingAllowed(),
         builder: (context, marketingAllowed) {
@@ -189,7 +186,9 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                 width: double.infinity,
                 child: AppElevatedButton(
                   onPressed: _canContinue ? proceed : null,
-                  text: appLocalizations.proceed.toUpperCase(),
+                  text: _initialAgreed
+                      ? appLocalizations.save.toUpperCase()
+                      : appLocalizations.proceed.toUpperCase(),
                 ),
               ),
             ),
