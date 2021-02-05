@@ -12,7 +12,7 @@ import 'package:nephrogo/ui/user_profile_screen.dart';
 import 'package:nephrogo/utils/utils.dart';
 import 'package:package_info/package_info.dart';
 
-class ProfileTab extends StatelessWidget {
+class AccountTab extends StatelessWidget {
   static const anonymousPhotoPath = 'assets/anonymous_avatar.jpg';
 
   final _authenticationProvider = AuthenticationProvider();

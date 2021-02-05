@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 
 import 'general/app_logo.dart';
+import 'tabs/account/account_tab.dart';
 import 'tabs/health_status/health_status_tab.dart';
 import 'tabs/nutrition/nutrition_tab.dart';
-import 'tabs/profile/profile_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
         return HealthStatusTab();
       case 2:
-        return ProfileTab();
+        return AccountTab();
       default:
         throw ArgumentError("Tab with index $_currentIndex doesn't exist");
     }
