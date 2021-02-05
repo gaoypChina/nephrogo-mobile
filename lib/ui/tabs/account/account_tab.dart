@@ -9,6 +9,7 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/legal/legal_screen.dart';
 import 'package:nephrogo/ui/onboarding/onboarding_screen.dart';
 import 'package:nephrogo/ui/user_profile_screen.dart';
+import 'package:nephrogo/utils/app_review.dart';
 import 'package:nephrogo/utils/utils.dart';
 import 'package:package_info/package_info.dart';
 
@@ -71,6 +72,13 @@ class AccountTab extends StatelessWidget {
               title: Text(appLocalizations.reportMissingProduct),
               leading: const Icon(Icons.feedback),
               onTap: () => launchURL(Constants.reportMissingProductUrl),
+            ),
+          ),
+          BasicSection.single(
+            AppListTile(
+              title: Text(appLocalizations.rateApp),
+              leading: const Icon(Icons.rate_review),
+              onTap: () => AppReview().openStoreListing(),
             ),
           ),
           BasicSection(

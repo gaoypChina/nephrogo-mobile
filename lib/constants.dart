@@ -1,4 +1,6 @@
 class Constants {
+  Constants._();
+
   static const privacyPolicyUrl =
       'https://www.nephrogo.com/documents/lt/privacy-policy.pdf';
   static const healthDataProcessingPolicyUrl =
@@ -9,4 +11,5 @@ class Constants {
   static const supportPhone = '+37065253669';
   static const reportMissingProductUrl =
       'https://www.nephrogo.com/missing-product/';
+  static const appStoreId = '1549505165';
 }

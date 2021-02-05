@@ -60,6 +60,8 @@
   "@supportEmail": {},
   "help": "Pagalba",
   "@help": {},
+  "rateApp": "Įvertinkite NephroGo",
+  "@rateApp": {},
   "supportPhone": "Pagalba telefonu",
   "@supportPhone": {},
   "serverErrorDescription": "Vidinė klaida. Bandykite dar kartą arba susisiekite su kūrėjais.",
