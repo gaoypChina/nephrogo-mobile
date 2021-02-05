@@ -316,7 +316,6 @@ class IndicatorIntakeTile extends StatelessWidget {
     return AppListTile(
       key: Key('IndicatorIntakeTile-$nutrient-${intake.id}'),
       title: Text(product.name),
-      contentPadding: EdgeInsets.zero,
       subtitle: Text('${intake.getAmountFormatted()} | $dateFormatted'),
       leading: ProductKindIcon(productKind: product.productKind),
       trailing: Row(

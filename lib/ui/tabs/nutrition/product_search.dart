@@ -192,7 +192,6 @@ class ProductTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppListTile(
-      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       title: Text(product.name),
       leading: ProductKindIcon(productKind: product.productKind),
       onTap: onTap,

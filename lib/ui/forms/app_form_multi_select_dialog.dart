@@ -44,7 +44,7 @@ class _AppFormMultipleSelectDialogState<T>
     return AlertDialog(
       title: Text(widget.title),
       scrollable: true,
-      contentPadding: const EdgeInsets.only(top: 20),
+      contentPadding: const EdgeInsets.only(top: 16),
       content: BasicSection(
         padding: EdgeInsets.zero,
         children: widget.items
@@ -70,36 +70,22 @@ class _AppFormMultipleSelectDialogState<T>
     );
   }
 
-  AppListTile _generateItemCell(
+  Widget _generateItemCell(
       BuildContext context, AppSelectFormFieldItem item, int index) {
     final selected = _itemsSelection[index];
 
-    final primaryColor = Theme.of(context).primaryColor;
-    return AppListTile(
+    return AppCheckboxListTile(
       title: Text(item.text),
       subtitle: item.description != null ? Text(item.description) : null,
-      leading: item.icon != null
-          ? IconButton(
-              icon: Icon(
-                item.icon,
-                color: selected ? primaryColor : null,
-              ),
-              onPressed: null,
-            )
-          : null,
-      trailing: Checkbox(
-        value: selected,
-        activeColor: primaryColor,
-        onChanged: (b) => onTap(index),
-      ),
-      selected: selected,
-      onTap: () => onTap(index),
+      value: selected,
+      onChanged: (b) => onChanged(index, b),
     );
   }
 
-  void onTap(int index) {
+  // ignore: avoid_positional_boolean_parameters
+  void onChanged(int index, bool value) {
     setState(() {
-      _itemsSelection[index] ^= true;
+      _itemsSelection[index] = value;
     });
   }
 

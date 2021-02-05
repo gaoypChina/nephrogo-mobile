@@ -144,14 +144,15 @@ class SmallSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BasicSection(
       showDividers: showDividers,
-      header: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        child: Text(
+      header: AppListTile(
+        title: Text(
           title,
-          style: Theme.of(context).textTheme.subtitle1.copyWith(
-                color: Colors.grey,
-              ),
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1
+              .copyWith(color: Colors.grey),
         ),
+        dense: true,
       ),
       children: children,
     );
@@ -166,7 +167,6 @@ class AppListTile extends StatelessWidget {
   final GestureTapCallback onTap;
   final bool selected;
   final bool dense;
-  final EdgeInsetsGeometry contentPadding;
 
   const AppListTile({
     Key key,
@@ -175,7 +175,6 @@ class AppListTile extends StatelessWidget {
     this.leading,
     this.trailing,
     this.onTap,
-    this.contentPadding,
     this.selected = false,
     this.dense = false,
   }) : super(key: key);
@@ -186,7 +185,6 @@ class AppListTile extends StatelessWidget {
     return Material(
       color: Colors.white,
       child: ListTile(
-        // contentPadding: contentPadding,
         leading: leading,
         title: title,
         subtitle: subtitle,
@@ -207,7 +205,6 @@ class AppCheckboxListTile extends StatelessWidget {
   final Widget title;
   final Widget subtitle;
   final bool dense;
-  final EdgeInsetsGeometry contentPadding;
 
   const AppCheckboxListTile({
     Key key,
@@ -215,7 +212,6 @@ class AppCheckboxListTile extends StatelessWidget {
     @required this.onChanged,
     this.title,
     this.subtitle,
-    this.contentPadding,
     this.dense = false,
   }) : super(key: key);
 
@@ -240,8 +236,8 @@ class AppCheckboxListTile extends StatelessWidget {
 class ProductKindIcon extends StatelessWidget {
   final ProductKindEnum productKind;
 
-  const ProductKindIcon({Key key, @required this.productKind})
-      : super(key: key);
+  ProductKindIcon({@required this.productKind})
+      : super(key: ObjectKey(productKind));
 
   @override
   Widget build(BuildContext context) {
@@ -249,12 +245,11 @@ class ProductKindIcon extends StatelessWidget {
         ? Icons.local_cafe
         : Icons.local_dining;
 
-    return IconButton(
-      icon: Icon(
-        icon,
-        size: 24,
+    return ExcludeSemantics(
+      child: IconButton(
+        icon: Icon(icon),
+        onPressed: null,
       ),
-      onPressed: null,
     );
   }
 }
