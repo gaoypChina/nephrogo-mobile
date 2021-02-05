@@ -103,9 +103,9 @@
   "@formMultiSelectDialogActionChoose": {},
   "dialogCancel": "Atšaukti",
   "@dialogCancel": {},
-  "dailyNormsSectionTitle": "Paros normos",
+  "dailyNormsSectionTitle": "Asmeninės paros normos",
   "@dailyNormsSectionTitle": {},
-  "dailyNormsSectionSubtitle": "Šios paros suvartojimai",
+  "dailyNormsSectionSubtitle": "Šiandien suvartotų medžiagų normos",
   "@dailyNormsSectionSubtitle": {},
   "todayConsumptionWithNorm": "Šiandien: {amount} iš {norm}",
   "@todayConsumptionWithNorm": {
@@ -266,7 +266,7 @@
   "@energy": {
     "context": "nutrient"
   },
-  "faqTitle": "Dažniausiai užduodami klausimai",
+  "faqTitle": "Bendrieji patarimai",
   "@faqTitle": {
     "context": "faq"
   },
@@ -508,6 +508,10 @@
   },
   "userProfileScreenTitle": "Mano profilis",
   "@userProfileScreenTitle": {
+    "context": "userProfile"
+  },
+  "userProfileExplanation": "Jūsų duomenys reikalingi, kad NephroGo apskaičiuotų Jums pritaikytas mitybos normas.",
+  "@userProfileExplanation": {
     "context": "userProfile"
   },
   "userProfileSectionGeneralInformationTitle": "Bendra informacija",
@@ -886,7 +890,7 @@
   "@onboardingStep2Description": {
     "context": "onboarding"
   },
-  "onboardingStep3Title": "Personalizuotos paros normos",
+  "onboardingStep3Title": "Asmeninės paros normos",
   "@onboardingStep3Title": {
     "context": "onboarding"
   },

@@ -29,7 +29,7 @@ class AccountTab extends StatelessWidget {
           BasicSection.single(
             AppListTile(
               title: Text(appLocalizations.userProfileScreenTitle),
-              leading: const Icon(Icons.person),
+              leading: const Icon(Icons.account_box),
               onTap: () => Navigator.pushNamed(
                 context,
                 Routes.routeUserProfile,
@@ -40,7 +40,7 @@ class AccountTab extends StatelessWidget {
           BasicSection.single(
             AppListTile(
               title: Text(appLocalizations.faqTitle),
-              leading: const Icon(Icons.help),
+              leading: const Icon(Icons.school),
               onTap: () => Navigator.pushNamed(
                 context,
                 Routes.routeFAQ,

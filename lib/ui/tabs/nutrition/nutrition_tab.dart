@@ -160,11 +160,6 @@ class DailyNormsSection extends StatelessWidget {
     return LargeSection(
       title: appLocalizations.dailyNormsSectionTitle,
       subTitle: appLocalizations.dailyNormsSectionSubtitle,
-      leading: IconButton(
-        tooltip: appLocalizations.faqTitle,
-        icon: const Icon(Icons.help_outline),
-        onPressed: () => showInformationScreen(context),
-      ),
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

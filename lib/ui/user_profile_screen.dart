@@ -125,6 +125,24 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              BasicSection(
+                header: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: AppListTile(
+                    leading: const IconButton(
+                      icon: Icon(Icons.info),
+                      onPressed: null,
+                    ),
+                    title: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Text(
+                        appLocalizations.userProfileExplanation,
+                        textAlign: TextAlign.justify,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               SmallSection(
                 title:
                     _appLocalizations.userProfileSectionGeneralInformationTitle,
