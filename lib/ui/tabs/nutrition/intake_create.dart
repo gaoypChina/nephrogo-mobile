@@ -16,6 +16,7 @@ import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/intake_request.dart';
 import 'package:nephrogo_api_client/model/product.dart';
+import 'package:nephrogo_api_client/model/product_kind_enum.dart';
 
 class IntakeCreateScreenArguments extends Equatable {
   final Product product;
@@ -51,6 +52,9 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
   int amountMl;
 
   AppLocalizations get _appLocalizations => AppLocalizations.of(context);
+
+  bool get _isDrinkSelected =>
+      selectedProduct.productKind == ProductKindEnum.drink;
 
   DateTime _consumedAt;
 
@@ -298,7 +302,9 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
   Widget _buildNutrientsSection() {
     return SmallSection(
       showDividers: true,
-      title: _appLocalizations.total,
+      title: _isDrinkSelected
+          ? _appLocalizations.totalInThisDrink
+          : _appLocalizations.totalInThisMeal,
       children: [
         for (final nutrient in Nutrient.values) _buildNutrientTile(nutrient)
       ],
