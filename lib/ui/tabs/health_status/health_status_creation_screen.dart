@@ -62,12 +62,9 @@ class _HealthStatusCreationScreenState
         title: Text(_appLocalizations.healthStatusCreationTodayTitle),
       ),
       bottomNavigationBar: BasicSection.single(
-        SizedBox(
-          width: double.infinity,
-          child: AppElevatedButton(
-            onPressed: () => validateAndSave(context),
-            text: appLocalizations.save.toUpperCase(),
-          ),
+        AppElevatedButton(
+          onPressed: () => validateAndSave(context),
+          text: appLocalizations.save.toUpperCase(),
         ),
         padding: EdgeInsets.zero,
         innerPadding: const EdgeInsets.all(8),

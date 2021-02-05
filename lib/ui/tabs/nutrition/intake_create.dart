@@ -105,12 +105,9 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
         ],
       ),
       bottomNavigationBar: BasicSection.single(
-        SizedBox(
-          width: double.infinity,
-          child: AppElevatedButton(
-            onPressed: () => validateAndSaveIntake(context),
-            text: appLocalizations.save.toUpperCase(),
-          ),
+        AppElevatedButton(
+          onPressed: () => validateAndSaveIntake(context),
+          text: appLocalizations.save.toUpperCase(),
         ),
         padding: EdgeInsets.zero,
         innerPadding: const EdgeInsets.all(8),

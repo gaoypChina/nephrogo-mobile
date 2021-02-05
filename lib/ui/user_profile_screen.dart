@@ -97,12 +97,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         },
       ),
       bottomNavigationBar: BasicSection.single(
-        SizedBox(
-          width: double.infinity,
-          child: AppElevatedButton(
-            onPressed: () => validateAndSaveUserProfile(context),
-            text: appLocalizations.save.toUpperCase(),
-          ),
+        AppElevatedButton(
+          onPressed: () => validateAndSaveUserProfile(context),
+          text: appLocalizations.save.toUpperCase(),
         ),
         padding: EdgeInsets.zero,
         innerPadding: const EdgeInsets.all(8),
