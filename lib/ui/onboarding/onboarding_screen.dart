@@ -131,7 +131,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     primary: Colors.black,
-                    shape: const StadiumBorder(),
                     side: const BorderSide(width: 2, color: Colors.white),
                   ),
                   onPressed: () => advancePageOrFinish(isDone: isDone),
