@@ -106,13 +106,6 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
             hintText: appLocalizations.productSearchTitle,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.feedback_outlined),
-            tooltip: appLocalizations.report,
-            onPressed: _reportMissingProduct,
-          ),
-        ],
       ),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
