@@ -25,24 +25,18 @@ class AppPreferences {
     return _sharedPreferencesInternal = await SharedPreferences.getInstance();
   }
 
+  Future<bool> clear() {
+    return _sharedPreferences.then((preferences) => preferences.clear());
+  }
+
   Future<bool> setProfileCreated() {
     return _sharedPreferences
         .then((preferences) => preferences.setBool(keyProfileCreated, true));
   }
 
-  Future<bool> deleteProfileCreated() {
-    return _sharedPreferences
-        .then((preferences) => preferences.remove(keyProfileCreated));
-  }
-
   Future<bool> isProfileCreated() {
-    return _sharedPreferences.then((preferences) {
-      if (preferences.containsKey(keyProfileCreated)) {
-        return preferences.getBool(keyProfileCreated);
-      }
-
-      return false;
-    });
+    return _sharedPreferences
+        .then((preferences) => preferences.getBool(keyProfileCreated) ?? false);
   }
 
   Future<bool> isOnboardingPassed() {
@@ -74,10 +68,5 @@ class AppPreferences {
   Future<bool> setMarketingAllowed(bool allowed) {
     return _sharedPreferences.then(
         (preferences) => preferences.setBool(keyMarketingAllowed, allowed));
-  }
-
-  Future<bool> deleteMarketingAllowed() {
-    return _sharedPreferences
-        .then((preferences) => preferences.remove(keyMarketingAllowed));
   }
 }

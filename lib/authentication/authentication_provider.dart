@@ -80,8 +80,7 @@ class AuthenticationProvider {
       currentUser.getIdToken(forceRefresh);
 
   Future<void> signOut() async {
-    await _appPreferences.deleteProfileCreated();
-    await _appPreferences.deleteMarketingAllowed();
+    await _appPreferences.clear();
 
     await _auth.signOut();
   }
