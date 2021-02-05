@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/utils/app_review.dart';
 
 import 'general/app_bar_logo.dart';
 import 'tabs/account/account_tab.dart';
@@ -12,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _appReview = AppReview();
   int _currentIndex;
 
   @override
@@ -19,6 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     _currentIndex = 0;
+
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _appReview.requestReviewConditionally());
   }
 
   @override

@@ -23,6 +23,7 @@ import 'package:nephrogo_api_client/model/nutrient_screen_response.dart';
 import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 import 'package:nephrogo_api_client/model/user.dart';
+import 'package:nephrogo_api_client/model/user_app_review.dart';
 import 'package:nephrogo_api_client/model/user_profile.dart';
 import 'package:nephrogo_api_client/model/user_profile_request.dart';
 import 'package:nephrogo_api_client/model/user_request.dart';
@@ -212,6 +213,10 @@ class ApiService {
     return _userApi
         .userUpdate(userRequest: userRequestBuilder.build())
         .then((r) => r.data);
+  }
+
+  Future<UserAppReview> getUserAppReview() {
+    return _userApi.userAppReviewRetrieve().then((r) => r.data);
   }
 
   Future<UserProfile> createOrUpdateUserProfile(
