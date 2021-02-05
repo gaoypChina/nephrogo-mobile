@@ -122,18 +122,20 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
                         text: appLocalizations.productSearchEmpty(currentQuery),
                       ),
                     ),
-                    child: ListView.separated(
-                      itemCount: products.length,
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const Divider(height: 1),
-                      itemBuilder: (context, index) {
-                        final product = products[index];
+                    child: Scrollbar(
+                      child: ListView.separated(
+                        itemCount: products.length,
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(height: 1),
+                        itemBuilder: (context, index) {
+                          final product = products[index];
 
-                        return ProductTile(
-                          product: product,
-                          onTap: () => close(context, product),
-                        );
-                      },
+                          return ProductTile(
+                            product: product,
+                            onTap: () => close(context, product),
+                          );
+                        },
+                      ),
                     ),
                   );
                 },
