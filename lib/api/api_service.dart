@@ -141,9 +141,9 @@ class ApiService {
         .asyncMap((_) => getWeeklyDailyIntakesReport(from, to));
   }
 
-  Future<List<Product>> getProducts(String query) {
+  Future<List<Product>> getProducts(String query, {@required bool submit}) {
     return _nutritionApi
-        .nutritionProductsList(query: query)
+        .nutritionProductsList(query: query, submit: submit)
         .then((r) => r.data.toList());
   }
 

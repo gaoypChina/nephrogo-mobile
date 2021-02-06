@@ -20,9 +20,10 @@ enum ProductSearchType {
 
 class _Query {
   final String query;
+  final bool submit;
   final bool wait;
 
-  _Query(this.query, {@required this.wait});
+  _Query(this.query, {@required this.wait, @required this.submit});
 }
 
 class ProductSearchScreen extends StatefulWidget {
@@ -57,22 +58,39 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
 
   Stream<List<Product>> _buildStream() {
     return _queryStreamController.stream
-        .startWith(_Query('', wait: false))
-        .asyncMap((q) async {
+        .startWith(_Query('', wait: false, submit: false))
+        .asyncMap<_Query>((q) async {
           if (q.wait) {
             await Future.delayed(_searchDispatchDuration);
           }
-          return q.query;
+          return q;
         })
-        .where((q) => q == currentQuery)
-        .asyncMap((q) => _apiService.getProducts(q));
+        .where((q) => q.query == currentQuery)
+        .asyncMap<List<Product>>(
+          (q) => _apiService.getProducts(q.query, submit: q.submit),
+        );
   }
 
-  void _changeQuery(String query) {
-    currentQuery = query.trim();
+  void _changeQuery(String query, {@required bool submit}) {
+    final trimmedQuery = query.trim();
+    if (currentQuery == trimmedQuery) {
+      return;
+    }
 
-    if (currentQuery.isEmpty || currentQuery.length >= 3) {
-      _queryStreamController.add(_Query(currentQuery, wait: true));
+    currentQuery = trimmedQuery;
+
+    if (trimmedQuery.isEmpty || submit) {
+      _queryStreamController.add(_Query(
+        trimmedQuery,
+        wait: false,
+        submit: submit,
+      ));
+    } else if (trimmedQuery.length >= 2) {
+      _queryStreamController.add(_Query(
+        trimmedQuery,
+        wait: true,
+        submit: submit,
+      ));
     }
   }
 
@@ -95,7 +113,8 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
         textTheme: theme.primaryTextTheme,
         brightness: theme.primaryColorBrightness,
         title: TextField(
-          onChanged: _changeQuery,
+          onChanged: (q) => _changeQuery(q, submit: false),
+          onSubmitted: (q) => _changeQuery(q, submit: true),
           focusNode: focusNode,
           style: theme.textTheme.headline6,
           textInputAction: TextInputAction.search,
