@@ -107,10 +107,8 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                 header: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: AppListTile(
-                    leading: const IconButton(
-                      icon: Icon(Icons.info),
-                      onPressed: null,
-                    ),
+                    leading:
+                        const CircleAvatar(child: Icon(Icons.info_outline)),
                     title: Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Text(

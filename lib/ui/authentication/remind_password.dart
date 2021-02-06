@@ -33,11 +33,9 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
         child: Column(
           children: [
             BasicSection(
+              innerPadding: const EdgeInsets.symmetric(vertical: 8),
               header: AppListTile(
-                leading: const IconButton(
-                  icon: Icon(Icons.info),
-                  onPressed: null,
-                ),
+                leading: const CircleAvatar(child: Icon(Icons.info_outline)),
                 title: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Text(

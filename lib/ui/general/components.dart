@@ -245,12 +245,7 @@ class ProductKindIcon extends StatelessWidget {
         ? Icons.local_cafe
         : Icons.local_dining;
 
-    return ExcludeSemantics(
-      child: IconButton(
-        icon: Icon(icon),
-        onPressed: null,
-      ),
-    );
+    return ExcludeSemantics(child: CircleAvatar(child: Icon(icon)));
   }
 }
 
