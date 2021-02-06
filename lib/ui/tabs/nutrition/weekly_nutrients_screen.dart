@@ -235,10 +235,10 @@ class DailyIntakeSection extends StatelessWidget {
 
     return LargeSection(
       title:
-      '${_dateFormat.format(dailyIntakesReport.date).capitalizeFirst()} d.',
+          '${_dateFormat.format(dailyIntakesReport.date).capitalizeFirst()} d.',
       leading: ratio != null ? _getVisualIndicator(ratio) : null,
       subTitle:
-      getSubtitle(appLocalizations, totalFormatted, dailyNormFormatted),
+          getSubtitle(appLocalizations, totalFormatted, dailyNormFormatted),
       showDividers: true,
       children: [
         for (final intake in intakesSorted)
