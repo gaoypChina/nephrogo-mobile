@@ -9,7 +9,7 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/legal/legal_screen.dart';
 import 'package:nephrogo/ui/onboarding/onboarding_screen.dart';
 import 'package:nephrogo/ui/user_profile_screen.dart';
-import 'package:nephrogo/utils/app_review.dart';
+import 'package:nephrogo/utils/app_store_utils.dart';
 import 'package:nephrogo/utils/utils.dart';
 import 'package:package_info/package_info.dart';
 

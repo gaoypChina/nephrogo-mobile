@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
-import 'package:nephrogo/utils/app_review.dart';
+import 'package:nephrogo/utils/app_store_utils.dart';
 
 import 'general/app_bar_logo.dart';
 import 'tabs/account/account_tab.dart';
@@ -22,8 +23,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _currentIndex = 0;
 
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _appReview.requestReviewConditionally());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _showAppUpdateOrReview);
+  }
+
+  Future<void> _showAppUpdateOrReview() async {
+    if (await _appReview.requestReviewConditionally()) {
+      return;
+    }
+
+    final appUpdate = AppUpdate();
+    final appUpdateState = await appUpdate.performInAppUpdateIfNeeded();
+
+    if (appUpdateState == AppUpdateState.flexible) {
+      final snackBar = SnackBar(
+        content: Text(appLocalizations.flexibleAppUpdateCompleted),
+        action: SnackBarAction(
+          label: appLocalizations.reload,
+          onPressed: () => appUpdate.completeFlexibleUpdate(),
+        ),
+      );
+
+      Scaffold.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(snackBar);
+    }
   }
 
   @override
