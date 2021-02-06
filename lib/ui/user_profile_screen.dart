@@ -112,7 +112,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     await Navigator.pushReplacementNamed(
       context,
-      Routes.routeLogin,
+      Routes.routeStart,
     );
   }
 
