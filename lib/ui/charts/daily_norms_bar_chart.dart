@@ -23,7 +23,10 @@ class DailyNormsBarChart extends StatelessWidget {
 
     final nutrientsWithNorms = Nutrient.values
         .where((n) =>
-            dailyIntakeReport.getDailyNutrientConsumption(n).norm != null)
+            dailyIntakeReport.dailyNutrientNormsAndTotals
+                .getDailyNutrientConsumption(n)
+                .norm !=
+            null)
         .toList();
 
     final firstNutrientGroup = nutrientsWithNorms.take(3).toList();
@@ -63,8 +66,9 @@ class DailyNormsBarChart extends StatelessWidget {
     List<Nutrient> nutrients,
   ) {
     return nutrients.mapIndexed((i, nutrient) {
-      final dailyNutrientConsumption =
-          dailyIntakeReport.getDailyNutrientConsumption(nutrient);
+      final dailyNutrientConsumption = dailyIntakeReport
+          .dailyNutrientNormsAndTotals
+          .getDailyNutrientConsumption(nutrient);
 
       final rawYPercent = dailyNutrientConsumption.total.toDouble() /
           dailyNutrientConsumption.norm;
@@ -76,10 +80,10 @@ class DailyNormsBarChart extends StatelessWidget {
         yPercent = 1;
       }
 
-      final formattedTotal =
-          dailyIntakeReport.getNutrientTotalAmountFormatted(nutrient);
-      final formattedNorm =
-          dailyIntakeReport.getNutrientNormFormatted(nutrient);
+      final formattedTotal = dailyIntakeReport.dailyNutrientNormsAndTotals
+          .getNutrientTotalAmountFormatted(nutrient);
+      final formattedNorm = dailyIntakeReport.dailyNutrientNormsAndTotals
+          .getNutrientNormFormatted(nutrient);
 
       final entry = AppBarChartRod(
         tooltip: appLocalizations.todayConsumptionWithNormTooltip(

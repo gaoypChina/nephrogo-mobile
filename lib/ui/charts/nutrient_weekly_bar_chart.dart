@@ -48,11 +48,13 @@ class NutrientWeeklyBarChart extends StatelessWidget {
         dailyIntakeReports.sortedBy((e) => e.date).toList();
 
     final dailyNutrientConsumptions = dailyIntakeReports
-        .map((e) => e.getDailyNutrientConsumption(nutrient))
+        .map((e) =>
+            e.dailyNutrientNormsAndTotals.getDailyNutrientConsumption(nutrient))
         .toList();
 
     final lastNorm = sortedDailyIntakeReports
         .lastOrNull()
+        ?.dailyNutrientNormsAndTotals
         ?.getDailyNutrientConsumption(nutrient)
         ?.norm
         ?.toDouble();
@@ -109,16 +111,20 @@ class NutrientWeeklyBarChart extends StatelessWidget {
           ],
         );
       }
+      final dailyNutrientNormsAndTotals = di.dailyNutrientNormsAndTotals;
 
-      final consumption = di.getDailyNutrientConsumption(nutrient);
+      final consumption =
+          dailyNutrientNormsAndTotals.getDailyNutrientConsumption(nutrient);
 
       final y = consumption.total.toDouble();
       final norm = consumption.norm;
 
-      final dailyTotalFormatted = di.getNutrientTotalAmountFormatted(nutrient);
+      final dailyTotalFormatted =
+          dailyNutrientNormsAndTotals.getNutrientTotalAmountFormatted(nutrient);
       var tooltip = '$dateFormatted\n$dailyTotalFormatted';
 
-      final normFormatted = di.getNutrientNormFormatted(nutrient);
+      final normFormatted =
+          dailyNutrientNormsAndTotals.getNutrientNormFormatted(nutrient);
       if (normFormatted != null) {
         final percent = (y / norm * 100).round().toString();
         tooltip = appLocalizations.consumptionTooltipWithNorm(

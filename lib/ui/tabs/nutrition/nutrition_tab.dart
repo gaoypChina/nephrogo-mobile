@@ -10,6 +10,7 @@ import 'package:nephrogo/ui/charts/nutrient_weekly_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
+import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/nutrient_screen_response.dart';
 
@@ -67,6 +68,8 @@ class NutritionTab extends StatelessWidget {
                 DailyIntakesCard(
                   title: appLocalizations.lastMealsSectionTitle,
                   intakes: latestIntakes,
+                  dailyNutrientNormsWithTotals:
+                      todayIntakesReport.dailyNutrientNormsAndTotals,
                   leading: OutlinedButton(
                     onPressed: () => openWeeklyIntakesScreen(context),
                     child: Text(appLocalizations.more.toUpperCase()),
@@ -107,10 +110,10 @@ class NutritionTab extends StatelessWidget {
   ) {
     final localizations = AppLocalizations.of(context);
 
-    final dailyNormFormatted =
-        todayIntakesReport.getNutrientNormFormatted(nutrient);
-    final todayConsumption =
-        todayIntakesReport.getNutrientTotalAmountFormatted(nutrient);
+    final dailyNormFormatted = todayIntakesReport.dailyNutrientNormsAndTotals
+        .getNutrientNormFormatted(nutrient);
+    final todayConsumption = todayIntakesReport.dailyNutrientNormsAndTotals
+        .getNutrientTotalAmountFormatted(nutrient);
 
     final showGraph = dailyIntakesReports.expand((e) => e.intakes).isNotEmpty;
 
@@ -184,6 +187,7 @@ class DailyIntakesCard extends StatelessWidget {
   final String subTitle;
   final Widget leading;
   final List<Intake> intakes;
+  final DailyNutrientNormsWithTotals dailyNutrientNormsWithTotals;
 
   const DailyIntakesCard({
     Key key,
@@ -191,6 +195,7 @@ class DailyIntakesCard extends StatelessWidget {
     this.subTitle,
     this.leading,
     @required this.intakes,
+    @required this.dailyNutrientNormsWithTotals,
   }) : super(key: key);
 
   @override
@@ -201,7 +206,11 @@ class DailyIntakesCard extends StatelessWidget {
       leading: leading,
       showDividers: true,
       children: [
-        for (final intake in intakes) IntakeTile(intake),
+        for (final intake in intakes)
+          IntakeTile(
+            intake,
+            dailyNutrientNormsWithTotals,
+          ),
       ],
     );
   }
@@ -211,8 +220,12 @@ class IntakeTile extends StatelessWidget {
   static final dateFormat = DateFormat('E, d MMM HH:mm');
 
   final Intake intake;
+  final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
 
-  IntakeTile(this.intake) : super(key: ObjectKey(intake));
+  IntakeTile(
+    this.intake,
+    this.dailyNutrientNormsAndTotals,
+  ) : super(key: ObjectKey(intake));
 
   @override
   Widget build(BuildContext context) {
@@ -234,7 +247,10 @@ class IntakeTile extends StatelessWidget {
       ),
       onTap: () => Navigator.of(context).pushNamed(
         Routes.routeIntakeCreate,
-        arguments: IntakeCreateScreenArguments(intake: intake),
+        arguments: IntakeCreateScreenArguments(
+          intake: intake,
+          dailyNutrientNormsAndTotals: dailyNutrientNormsAndTotals,
+        ),
       ),
     );
   }

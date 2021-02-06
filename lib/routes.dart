@@ -89,7 +89,8 @@ class Routes {
           final arguments = settings.arguments as IntakeCreateScreenArguments;
 
           return IntakeCreateScreen(
-            initialProduct: arguments.product ?? arguments.product,
+            dailyNutrientNormsAndTotals: arguments.dailyNutrientNormsAndTotals,
+            initialProduct: arguments.product ?? arguments.intake.product,
             intake: arguments.intake,
           );
         });

@@ -107,6 +107,15 @@
   "@formMultiSelectDialogActionChoose": {},
   "dialogCancel": "Atšaukti",
   "@dialogCancel": {},
+  "percentageOfDailyNorm": "Paros normos dalis: {percentage}%",
+  "@percentageOfDailyNorm": {
+    "placeholders": {
+      "percentage": {
+        "type": "String",
+        "example": "99"
+      }
+    }
+  },
   "dailyNormsSectionTitle": "Asmeninės paros normos",
   "@dailyNormsSectionTitle": {},
   "dailyNormsSectionSubtitle": "Šiandien suvartotų medžiagų normos",

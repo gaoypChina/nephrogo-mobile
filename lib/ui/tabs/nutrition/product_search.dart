@@ -8,7 +8,9 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/utils.dart';
+import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/product.dart';
+import 'package:nephrogo_api_client/model/product_search_response.dart';
 import 'package:stream_transform/stream_transform.dart';
 
 import 'intake_create.dart';
@@ -56,7 +58,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
     _queryStreamController.close();
   }
 
-  Stream<List<Product>> _buildStream() {
+  Stream<ProductSearchResponse> _buildStream() {
     return _queryStreamController.stream
         .startWith(_Query('', wait: false, submit: false))
         .asyncMap<_Query>((q) async {
@@ -66,9 +68,10 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
           return q;
         })
         .where((q) => q.query == currentQuery)
-        .asyncMap<List<Product>>(
+        .asyncMap<ProductSearchResponse>(
           (q) => _apiService.getProducts(q.query, submit: q.submit),
-        );
+        )
+        .where((p) => p.query == currentQuery);
   }
 
   void _changeQuery(String query, {@required bool submit}) {
@@ -131,9 +134,11 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
         child: Column(
           children: [
             Expanded(
-              child: AppStreamBuilder<List<Product>>(
+              child: AppStreamBuilder<ProductSearchResponse>(
                 stream: _buildStream(),
-                builder: (context, products) {
+                builder: (context, productSearchResponse) {
+                  final products = productSearchResponse.products.toList();
+
                   return Visibility(
                     visible: products.isNotEmpty,
                     replacement: SingleChildScrollView(
@@ -151,7 +156,11 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
 
                           return ProductTile(
                             product: product,
-                            onTap: () => close(context, product),
+                            onTap: () => close(
+                              context,
+                              product,
+                              productSearchResponse.dailyNutrientNormsAndTotals,
+                            ),
                           );
                         },
                       ),
@@ -182,11 +191,18 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
     return launchURL(Constants.reportMissingProductUrl);
   }
 
-  Future close(BuildContext context, Product product) async {
+  Future close(
+    BuildContext context,
+    Product product,
+    DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals,
+  ) async {
     if (widget.searchType == ProductSearchType.choose) {
       return Navigator.of(context).pushReplacementNamed(
         Routes.routeIntakeCreate,
-        arguments: IntakeCreateScreenArguments(product: product),
+        arguments: IntakeCreateScreenArguments(
+          product: product,
+          dailyNutrientNormsAndTotals: dailyNutrientNormsAndTotals,
+        ),
       );
     }
 

@@ -13,28 +13,44 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
+import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/intake_request.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 import 'package:nephrogo_api_client/model/product_kind_enum.dart';
 
+import 'components.dart';
+
 class IntakeCreateScreenArguments extends Equatable {
+  final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
   final Product product;
   final Intake intake;
 
-  const IntakeCreateScreenArguments({this.product, this.intake})
-      : assert(product != null || intake != null, 'Pass intake or product');
+  const IntakeCreateScreenArguments({
+    @required this.dailyNutrientNormsAndTotals,
+    this.product,
+    this.intake,
+  })  : assert(dailyNutrientNormsAndTotals != null),
+        assert(product != null || intake != null, 'Pass intake or product');
 
   @override
-  List<Object> get props => [product];
+  List<Object> get props => [product, dailyNutrientNormsAndTotals];
 }
 
 class IntakeCreateScreen extends StatefulWidget {
+  final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
   final Intake intake;
   final Product initialProduct;
 
-  const IntakeCreateScreen({Key key, this.initialProduct, this.intake})
-      : super(key: key);
+  const IntakeCreateScreen({
+    Key key,
+    @required this.dailyNutrientNormsAndTotals,
+    this.initialProduct,
+    this.intake,
+  })  : assert(dailyNutrientNormsAndTotals != null),
+        assert(
+            initialProduct != null || intake != null, 'Pass intake or product'),
+        super(key: key);
 
   @override
   _IntakeCreateScreenState createState() => _IntakeCreateScreenState();
@@ -286,27 +302,29 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     }
   }
 
-  Widget _buildNutrientTile(Nutrient nutrient) {
-    var amountText = '-';
-    if (selectedProduct != null && amountG != null && amountG > 0) {
-      amountText = selectedProduct.getFormattedTotalAmount(nutrient, amountG);
+  Widget _buildNutrientsSection() {
+    var intake = widget.intake;
+
+    if (amountG != null) {
+      intake = selectedProduct.fakeIntake(
+        amountG: amountG,
+        amountMl: amountMl,
+        consumedAt: _consumedAt,
+      );
     }
 
-    return AppListTile(
-      title: Text(nutrient.name(_appLocalizations)),
-      trailing: Text(amountText),
-      dense: true,
-    );
-  }
-
-  Widget _buildNutrientsSection() {
     return SmallSection(
       showDividers: true,
       title: _isDrinkSelected
           ? _appLocalizations.totalInThisDrink
           : _appLocalizations.totalInThisMeal,
       children: [
-        for (final nutrient in Nutrient.values) _buildNutrientTile(nutrient)
+        for (final nutrient in Nutrient.values)
+          IntakeNutrientTile(
+            intake,
+            nutrient,
+            widget.dailyNutrientNormsAndTotals,
+          )
       ],
     );
   }

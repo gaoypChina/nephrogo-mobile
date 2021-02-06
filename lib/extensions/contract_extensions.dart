@@ -1,10 +1,11 @@
 import 'package:built_value/built_value.dart';
+import 'package:flutter/material.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo_api_client/model/appetite_enum.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
+import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 import 'package:nephrogo_api_client/model/shortness_of_breath_enum.dart';
@@ -60,7 +61,7 @@ extension ProductExtensions on Product {
     }
   }
 
-  int _calculateTotalAmount(Nutrient nutrient, int amountG) {
+  int _calculateTotalNutrientAmount(Nutrient nutrient, int amountG) {
     final nutrientAmount = _getNutrientAmount(nutrient);
     final nutrientAmountRatio = amountG / 100;
 
@@ -69,11 +70,57 @@ extension ProductExtensions on Product {
 
   String getFormattedTotalAmount(Nutrient nutrient, int amountG) {
     return _getFormattedNutrient(
-        nutrient, _calculateTotalAmount(nutrient, amountG));
+        nutrient, _calculateTotalNutrientAmount(nutrient, amountG));
+  }
+
+  int getNutrientNormPercentage(Nutrient nutrient, int amountG, int norm) {
+    return ((_calculateTotalNutrientAmount(nutrient, amountG) / norm) * 100)
+        .round();
+  }
+
+  // This is used for generating intakes required to show nutrient amounts
+  // after searching for a product
+  Intake fakeIntake({
+    @required int amountG,
+    @required int amountMl,
+    @required DateTime consumedAt,
+  }) {
+    final builder = IntakeBuilder();
+
+    builder.consumedAt = consumedAt;
+
+    builder.amountG = amountG;
+    builder.amountMl = amountMl;
+
+    builder.potassiumMg =
+        _calculateTotalNutrientAmount(Nutrient.potassium, amountG);
+    builder.proteinsMg =
+        _calculateTotalNutrientAmount(Nutrient.proteins, amountG);
+    builder.sodiumMg = _calculateTotalNutrientAmount(Nutrient.sodium, amountG);
+    builder.phosphorusMg =
+        _calculateTotalNutrientAmount(Nutrient.phosphorus, amountG);
+    builder.energyKcal =
+        _calculateTotalNutrientAmount(Nutrient.energy, amountG);
+    builder.liquidsG = _calculateTotalNutrientAmount(Nutrient.liquids, amountG);
+
+    builder.product = toBuilder();
+
+    return builder.build();
   }
 }
 
-extension DailyIntakesExtensions on DailyIntakesReport {
+extension DailyNutrientConsumptionExtensions on DailyNutrientConsumption {
+  int normPercentage(int nutrientAmount) {
+    if (norm == null) {
+      return null;
+    }
+
+    return ((nutrientAmount / norm) * 100).round();
+  }
+}
+
+extension DailyNutrientNormsWithTotalsExtensions
+    on DailyNutrientNormsWithTotals {
   DailyNutrientConsumption getDailyNutrientConsumption(Nutrient nutrient) {
     switch (nutrient) {
       case Nutrient.potassium:

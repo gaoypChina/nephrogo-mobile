@@ -21,7 +21,7 @@ import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/intake_request.dart';
 import 'package:nephrogo_api_client/model/nutrient_screen_response.dart';
 import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
-import 'package:nephrogo_api_client/model/product.dart';
+import 'package:nephrogo_api_client/model/product_search_response.dart';
 import 'package:nephrogo_api_client/model/user.dart';
 import 'package:nephrogo_api_client/model/user_app_review.dart';
 import 'package:nephrogo_api_client/model/user_profile.dart';
@@ -141,10 +141,11 @@ class ApiService {
         .asyncMap((_) => getWeeklyDailyIntakesReport(from, to));
   }
 
-  Future<List<Product>> getProducts(String query, {@required bool submit}) {
+  Future<ProductSearchResponse> getProducts(String query,
+      {@required bool submit}) {
     return _nutritionApi
-        .nutritionProductsList(query: query, submit: submit)
-        .then((r) => r.data.toList());
+        .nutritionProductsSearchRetrieve(query: query, submit: submit)
+        .then((r) => r.data);
   }
 
   Future<Intake> createIntake(IntakeRequest intakeRequest) {

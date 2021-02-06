@@ -11,6 +11,7 @@ import 'package:nephrogo/ui/general/weekly_pager.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
+import 'package:tuple/tuple.dart';
 
 import 'components.dart';
 import 'nutrition_tab.dart';
@@ -92,20 +93,24 @@ class _IntakesListComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final intakes = dailyIntakesReports
-        .expand((e) => e.intakes)
-        .sortedBy((e) => e.consumedAt, reverse: true)
+    final intakesWithNorms = dailyIntakesReports
+        .expand(
+          (r) => r.intakes.map(
+            (i) => Tuple2(i, r.dailyNutrientNormsAndTotals),
+          ),
+        )
+        .sortedBy((e) => e.item1.consumedAt, reverse: true)
         .toList();
 
     return Visibility(
-      visible: intakes.isNotEmpty,
+      visible: intakesWithNorms.isNotEmpty,
       replacement: EmptyStateContainer(
         text: AppLocalizations.of(context).weeklyNutrientsEmpty,
       ),
       child: Scrollbar(
         child: ListView.builder(
           padding: const EdgeInsets.only(bottom: 64),
-          itemCount: intakes.length + 1,
+          itemCount: intakesWithNorms.length + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
               return BasicSection(
@@ -118,15 +123,21 @@ class _IntakesListComponent extends StatelessWidget {
               );
             }
 
-            final intake = intakes[index - 1];
+            final intakeWithNorms = intakesWithNorms[index - 1];
+            final intake = intakeWithNorms.item1;
+            final dailyNutrientNormsAndTotals = intakeWithNorms.item2;
 
             return BasicSection(
               key: ObjectKey(intake),
-              header: IntakeTile(intake),
+              header: IntakeTile(intake, dailyNutrientNormsAndTotals),
               showDividers: true,
               children: [
                 for (final nutrient in Nutrient.values)
-                  IntakeNutrientTile(intake, nutrient)
+                  IntakeNutrientTile(
+                    intake,
+                    nutrient,
+                    dailyNutrientNormsAndTotals,
+                  )
               ],
             );
           },

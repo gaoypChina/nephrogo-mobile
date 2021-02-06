@@ -10,6 +10,7 @@ import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/weekly_pager.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
+import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
 
@@ -213,13 +214,16 @@ class DailyIntakeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dailyNutrientNormsAndTotals =
+        dailyIntakesReport.dailyNutrientNormsAndTotals;
+
     final appLocalizations = AppLocalizations.of(context);
     final consumption =
-        dailyIntakesReport.getDailyNutrientConsumption(nutrient);
+        dailyNutrientNormsAndTotals.getDailyNutrientConsumption(nutrient);
     final dailyNormFormatted =
-        dailyIntakesReport.getNutrientNormFormatted(nutrient);
+        dailyNutrientNormsAndTotals.getNutrientNormFormatted(nutrient);
     final totalFormatted =
-        dailyIntakesReport.getNutrientTotalAmountFormatted(nutrient);
+        dailyNutrientNormsAndTotals.getNutrientTotalAmountFormatted(nutrient);
     final intakesSorted =
         dailyIntakesReport.intakes.sortedBy((e) => e.consumedAt, reverse: true);
 
@@ -231,10 +235,10 @@ class DailyIntakeSection extends StatelessWidget {
 
     return LargeSection(
       title:
-          '${_dateFormat.format(dailyIntakesReport.date).capitalizeFirst()} d.',
+      '${_dateFormat.format(dailyIntakesReport.date).capitalizeFirst()} d.',
       leading: ratio != null ? _getVisualIndicator(ratio) : null,
       subTitle:
-          getSubtitle(appLocalizations, totalFormatted, dailyNormFormatted),
+      getSubtitle(appLocalizations, totalFormatted, dailyNormFormatted),
       showDividers: true,
       children: [
         for (final intake in intakesSorted)
@@ -299,11 +303,13 @@ class IndicatorIntakeTile extends StatelessWidget {
 
   final Intake intake;
   final Nutrient nutrient;
+  final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
 
   const IndicatorIntakeTile({
     Key key,
     this.intake,
     this.nutrient,
+    this.dailyNutrientNormsAndTotals,
   }) : super(key: key);
 
   @override
@@ -329,7 +335,10 @@ class IndicatorIntakeTile extends StatelessWidget {
       ),
       onTap: () => Navigator.of(context).pushNamed(
         Routes.routeIntakeCreate,
-        arguments: IntakeCreateScreenArguments(intake: intake),
+        arguments: IntakeCreateScreenArguments(
+          intake: intake,
+          dailyNutrientNormsAndTotals: dailyNutrientNormsAndTotals,
+        ),
       ),
     );
   }
