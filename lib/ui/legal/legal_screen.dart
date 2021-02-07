@@ -125,7 +125,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                 children: [
                   AppCheckboxListTile(
                     title: _buildTextWithUrl(
-                      appLocalizations.loginConditionsAgree,
+                      appLocalizations.loginConditionsAgreeWith,
                       appLocalizations.agreeWithHealthDataProcessing,
                       Constants.healthDataProcessingPolicyUrl,
                     ),
