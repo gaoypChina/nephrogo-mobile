@@ -156,6 +156,16 @@ extension DailyNutrientNormsWithTotalsExtensions
 
     return _getFormattedNutrient(nutrient, norm);
   }
+
+  int getRoundedNormPercentage(Nutrient nutrient) {
+    final consumption = getDailyNutrientConsumption(nutrient);
+
+    if (consumption.norm == null) {
+      return null;
+    }
+
+    return ((consumption.total / consumption.norm) * 100).round();
+  }
 }
 
 extension IntakeExtension on Intake {

@@ -266,34 +266,17 @@ class DailyIntakeSection extends StatelessWidget {
   }
 
   Widget _getVisualIndicator(double percent) {
-    return Container(
-      width: 48,
-      height: 48,
-      decoration: BoxDecoration(
-        color: percent < 1.0 ? Colors.teal : Colors.redAccent,
-        shape: BoxShape.circle,
-      ),
-      child: Stack(alignment: Alignment.center, children: [
-        if (percent < 1)
-          Positioned.fill(
-            child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: CircularProgressIndicator(
-                value: percent,
-                valueColor:
-                    const AlwaysStoppedAnimation<Color>(Colors.tealAccent),
-              ),
-            ),
-          ),
-        Text(
-          '${(percent * 100).round()}%',
-          style: const TextStyle(
-            fontSize: 12.0,
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
+    return CircleAvatar(
+      radius: 20,
+      backgroundColor: percent > 1.0 ? Colors.redAccent : Colors.teal,
+      child: Text(
+        '${(percent * 100).round()}%',
+        style: const TextStyle(
+          fontSize: 12.0,
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
         ),
-      ]),
+      ),
     );
   }
 }
