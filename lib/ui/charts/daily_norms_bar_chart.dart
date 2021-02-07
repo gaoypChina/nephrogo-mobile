@@ -33,13 +33,14 @@ class DailyNormsBarChart extends StatelessWidget {
     final secondNutrientGroup = nutrientsWithNorms.skip(3).toList();
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(bottom: 16),
       child: Column(
         children: [
           for (final group in [firstNutrientGroup, secondNutrientGroup])
             if (group.isNotEmpty)
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 32),
                 child: Container(
                   height: 100,
                   constraints: const BoxConstraints(maxWidth: 250),
@@ -96,8 +97,10 @@ class DailyNormsBarChart extends StatelessWidget {
         backDrawRodY: 1.0,
       );
 
+      final nutrientName = nutrient.name(appLocalizations);
+
       return AppBarChartGroup(
-        text: nutrient.name(appLocalizations),
+        text: '$nutrientName\n${(rawYPercent * 100).round()}%',
         x: i,
         rods: [entry],
       );
