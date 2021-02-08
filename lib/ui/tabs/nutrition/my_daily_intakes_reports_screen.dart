@@ -3,11 +3,10 @@ import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/date.dart';
-import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
-import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo/utils/date_utils.dart';
+import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -22,73 +21,144 @@ class MyDailyIntakesReportsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(appLocalizations.myMeals)),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _createProduct(context),
-        label: Text(appLocalizations.createMeal.toUpperCase()),
-        icon: const Icon(Icons.add),
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: AppStreamBuilder<DailyIntakesReportsResponse>(
-        stream: _apiService.getLightDailyIntakeReportsStream(),
-        builder: (context, data) {
-          final dailyIntakesReportsSorted = data.dailyIntakesLightReports
-              .sortedBy((e) => e.date, reverse: true)
-              .toList();
+          stream: _apiService.getLightDailyIntakeReportsStream(),
+          builder: (context, data) {
+            return Visibility(
+              visible: data.dailyIntakesLightReports.isNotEmpty,
+              replacement: EmptyStateContainer(
+                text: AppLocalizations.of(context).weeklyNutrientsEmpty,
+              ),
+              child: _MyDailyIntakesReportsNonEmptyListBody(data),
+            );
+          }),
+    );
+  }
+}
 
-          final minDate = dailyIntakesReportsSorted.lastOrNull()?.date;
-          final now = DateTime.now();
+class _MyDailyIntakesReportsNonEmptyListBody extends StatefulWidget {
+  final DailyIntakesReportsResponse response;
 
-          final availableDates =
-              dailyIntakesReportsSorted.map((di) => Date(di.date)).toSet();
+  const _MyDailyIntakesReportsNonEmptyListBody(
+    this.response, {
+    Key key,
+  }) : super(key: key);
 
-          final blackoutDates = DateUtils.generateDates(minDate, now)
-              .where((d) => !availableDates.contains(d))
-              .toList();
+  @override
+  _MyDailyIntakesReportsNonEmptyListBodyState createState() =>
+      _MyDailyIntakesReportsNonEmptyListBodyState();
+}
 
-          return Visibility(
-            visible: dailyIntakesReportsSorted.isNotEmpty,
-            replacement: EmptyStateContainer(
-              text: AppLocalizations.of(context).weeklyNutrientsEmpty,
+class _MyDailyIntakesReportsNonEmptyListBodyState
+    extends State<_MyDailyIntakesReportsNonEmptyListBody> {
+  DateTime minDate;
+  DateTime maxDate;
+  DateRangePickerController _datePickerController;
+
+  List<DailyIntakesLightReport> _reportsSortedByDateReverse;
+
+  @override
+  void initState() {
+    _reportsSortedByDateReverse = widget.response.dailyIntakesLightReports
+        .sortedBy((e) => e.date, reverse: true)
+        .toList();
+
+    minDate = _reportsSortedByDateReverse.last.date;
+    maxDate = _reportsSortedByDateReverse.first.date;
+
+    _datePickerController = DateRangePickerController();
+    _datePickerController.selectedDate = maxDate;
+
+    super.initState();
+  }
+
+  Widget _buildCalendar() {
+    final allDates = _reportsSortedByDateReverse.map((r) => Date(r.date));
+
+    final availableDates = allDates.toSet();
+    final blackoutDates = DateUtils.generateDates(minDate, maxDate)
+        .where((d) => !availableDates.contains(d))
+        .toList();
+
+    final dailyNormExceededDates = _reportsSortedByDateReverse
+        .where((r) => r.nutrientNormsAndTotals.isAtLeastOneNormExceeded())
+        .map((r) => r.date)
+        .toList();
+
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton.icon(
+                onPressed: null,
+                icon: Icon(Icons.arrow_drop_down),
+                label: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Hello",
+                    // style: TextStyle(fontSize: 13),
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                ),
+              )),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SfDateRangePicker(
+              view: DateRangePickerView.month,
+              showNavigationArrow: true,
+              minDate: minDate,
+              maxDate: maxDate,
+              controller: _datePickerController,
+              monthViewSettings: DateRangePickerMonthViewSettings(
+                firstDayOfWeek: 1,
+                showTrailingAndLeadingDates: true,
+                blackoutDates: blackoutDates,
+                specialDates: dailyNormExceededDates,
+              ),
+              monthCellStyle: const DateRangePickerMonthCellStyle(
+                blackoutDateTextStyle: TextStyle(color: Colors.grey),
+                specialDatesDecoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  shape: BoxShape.circle,
+                ),
+                specialDatesTextStyle: TextStyle(color: Colors.white),
+                cellDecoration: BoxDecoration(
+                  color: Colors.teal,
+                  shape: BoxShape.circle,
+                ),
+              ),
             ),
-            child: ListView.builder(
-              padding: const EdgeInsets.only(bottom: 80),
-              itemCount: dailyIntakesReportsSorted.length,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return BasicSection.single(
-                    SfDateRangePicker(
-                      view: DateRangePickerView.month,
-                      showNavigationArrow: true,
-                      minDate: minDate,
-                      maxDate: now,
-                      monthViewSettings: DateRangePickerMonthViewSettings(
-                        firstDayOfWeek: 1,
-                        showTrailingAndLeadingDates: true,
-                        blackoutDates: blackoutDates,
-                      ),
-                      monthCellStyle: const DateRangePickerMonthCellStyle(
-                        blackoutDateTextStyle: TextStyle(color: Colors.grey),
-                      ),
-                    ),
-                  );
-                }
-
-                final dailyIntakesReport = dailyIntakesReportsSorted[index];
-
-                return DailyIntakesReportTile(dailyIntakesReport);
-              },
-            ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }
 
-  Future _createProduct(BuildContext context) {
-    return Navigator.pushNamed(
-      context,
-      Routes.routeProductSearch,
-      arguments: ProductSearchType.choose,
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: Material(
+            elevation: 1,
+            child: _buildCalendar(),
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: _reportsSortedByDateReverse.length,
+            itemBuilder: (context, index) {
+              final dailyIntakesReport = _reportsSortedByDateReverse[index];
+
+              return DailyIntakesReportTile(dailyIntakesReport);
+            },
+          ),
+        ),
+      ],
     );
   }
 }

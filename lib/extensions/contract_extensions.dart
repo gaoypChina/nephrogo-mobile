@@ -125,6 +125,14 @@ extension DailyNutrientConsumptionExtensions on DailyNutrientConsumption {
 
     return ((nutrientAmount / norm) * 100).round();
   }
+
+  bool get isNormExceeded {
+    if (norm == null) {
+      return null;
+    }
+
+    return total > norm;
+  }
 }
 
 extension DailyNutrientNormsWithTotalsExtensions
@@ -173,6 +181,12 @@ extension DailyNutrientNormsWithTotalsExtensions
     }
 
     return ((consumption.total / consumption.norm) * 100).round();
+  }
+
+  bool isAtLeastOneNormExceeded() {
+    return Nutrient.values
+        .map(getDailyNutrientConsumption)
+        .any((c) => c.isNormExceeded == true);
   }
 }
 
