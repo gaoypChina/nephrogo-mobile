@@ -5,12 +5,12 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
-import 'package:nephrogo/utils/date_utils.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import 'nutrition_calendar.dart';
 import 'nutrition_components.dart';
 
 class MyDailyIntakesReportsScreen extends StatelessWidget {
@@ -77,82 +77,6 @@ class _MyDailyIntakesReportsNonEmptyListBodyState
     super.initState();
   }
 
-  Widget _buildCalendar() {
-    final allDates = _reportsSortedByDateReverse.map((r) => Date(r.date));
-
-    final availableDatesSet = allDates.toSet();
-    final blackoutDates = DateUtils.generateDates(minDate, maxDate)
-        .where((d) => !availableDatesSet.contains(d))
-        .toList();
-
-    final dailyNormExceededDatesSet = _reportsSortedByDateReverse
-        .where((r) => r.nutrientNormsAndTotals.isAtLeastOneNormExceeded())
-        .map((r) => r.date)
-        .toSet();
-
-    return Container(
-      key: const Key("daily-intakes-calendar"),
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SfDateRangePicker(
-          view: DateRangePickerView.month,
-          showNavigationArrow: true,
-          minDate: minDate,
-          maxDate: maxDate,
-          controller: _datePickerController,
-          selectionColor: Colors.transparent,
-          headerStyle:
-              const DateRangePickerHeaderStyle(textAlign: TextAlign.center),
-          cellBuilder: (context, cellDetails) {
-            final date = Date(cellDetails.date);
-
-            Color fontColor = Colors.white;
-            BoxDecoration boxDecoration;
-
-            if (!availableDatesSet.contains(date)) {
-              fontColor = Colors.grey;
-            } else if (dailyNormExceededDatesSet.contains(date)) {
-              boxDecoration = const BoxDecoration(
-                color: Colors.redAccent,
-                shape: BoxShape.circle,
-              );
-            } else {
-              boxDecoration = const BoxDecoration(
-                color: Colors.teal,
-                shape: BoxShape.circle,
-              );
-            }
-
-            return Container(
-              width: cellDetails.bounds.width,
-              height: cellDetails.bounds.height,
-              alignment: Alignment.center,
-              decoration: boxDecoration,
-              child: Text(
-                date.day.toString(),
-                style: TextStyle(color: fontColor),
-              ),
-            );
-          },
-          monthViewSettings: DateRangePickerMonthViewSettings(
-            firstDayOfWeek: 1,
-            showTrailingAndLeadingDates: true,
-            blackoutDates: blackoutDates,
-            weekendDays: const [],
-          ),
-          onSelectionChanged: (arg) {
-            if (arg.value is DateTime) {
-              final position = getReportPosition(arg.value as DateTime);
-
-              _itemScrollController.jumpTo(index: position);
-            }
-          },
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return ScrollablePositionedList.builder(
@@ -160,13 +84,31 @@ class _MyDailyIntakesReportsNonEmptyListBodyState
       itemCount: _reportsSortedByDateReverse.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
-          return BasicSection.single(_buildCalendar());
+          return BasicSection.single(
+            Container(
+              key: const Key("daily-intakes-calendar"),
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: NutritionCalendar(
+                  _reportsSortedByDateReverse,
+                  onSelectionChanged: _onSelectionChanged,
+                ),
+              ),
+            ),
+          );
         }
         final dailyIntakesReport = _reportsSortedByDateReverse[index - 1];
 
         return DailyIntakesReportTile(dailyIntakesReport);
       },
     );
+  }
+
+  void _onSelectionChanged(DateTime dateTime) {
+    final position = getReportPosition(dateTime);
+
+    _itemScrollController.jumpTo(index: position);
   }
 
   int getReportPosition(DateTime dateTime) {
