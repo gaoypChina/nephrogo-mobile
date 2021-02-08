@@ -70,7 +70,7 @@ class NutritionTab extends StatelessWidget {
                   dailyNutrientNormsWithTotals:
                       todayIntakesReport.dailyNutrientNormsAndTotals,
                   leading: OutlinedButton(
-                    onPressed: () => openWeeklyIntakesScreen(context),
+                    onPressed: () => _openNutritionSummary(context),
                     child: Text(appLocalizations.more.toUpperCase()),
                   ),
                 ),
@@ -97,8 +97,8 @@ class NutritionTab extends StatelessWidget {
     );
   }
 
-  Future openWeeklyIntakesScreen(BuildContext context) {
-    return Navigator.pushNamed(context, Routes.routeDailyWeeklyIntakesScreen);
+  Future _openNutritionSummary(BuildContext context) {
+    return Navigator.pushNamed(context, Routes.routeNutritionSummary);
   }
 
   LargeSection buildIndicatorChartSection(

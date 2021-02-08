@@ -13,7 +13,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'nutrition_calendar.dart';
 import 'nutrition_components.dart';
 
-class MyDailyIntakesReportsScreen extends StatelessWidget {
+class NutritionSummaryScreen extends StatelessWidget {
   final _apiService = ApiService();
 
   @override
@@ -31,28 +31,28 @@ class MyDailyIntakesReportsScreen extends StatelessWidget {
               replacement: EmptyStateContainer(
                 text: AppLocalizations.of(context).weeklyNutrientsEmpty,
               ),
-              child: _MyDailyIntakesReportsNonEmptyListBody(data),
+              child: _NutritionSummaryScreenList(data),
             );
           }),
     );
   }
 }
 
-class _MyDailyIntakesReportsNonEmptyListBody extends StatefulWidget {
+class _NutritionSummaryScreenList extends StatefulWidget {
   final DailyIntakesReportsResponse response;
 
-  const _MyDailyIntakesReportsNonEmptyListBody(
+  const _NutritionSummaryScreenList(
     this.response, {
     Key key,
   }) : super(key: key);
 
   @override
-  _MyDailyIntakesReportsNonEmptyListBodyState createState() =>
-      _MyDailyIntakesReportsNonEmptyListBodyState();
+  _NutritionSummaryScreenListState createState() =>
+      _NutritionSummaryScreenListState();
 }
 
-class _MyDailyIntakesReportsNonEmptyListBodyState
-    extends State<_MyDailyIntakesReportsNonEmptyListBody> {
+class _NutritionSummaryScreenListState
+    extends State<_NutritionSummaryScreenList> {
   ItemScrollController _itemScrollController;
 
   DateTime minDate;

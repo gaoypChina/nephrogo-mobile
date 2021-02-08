@@ -34,7 +34,7 @@ class Routes {
   static const routeOnboarding = 'onboarding';
 
   static const routeDailyWeeklyNutrientsScreen = 'weeklyNutrientsScreen';
-  static const routeDailyWeeklyIntakesScreen = 'dailyWeeklyIntakesScreen';
+  static const routeNutritionSummary = 'nutritionSummary';
   static const routeMyDailyIntakesScreen = 'myDailyIntakesScreen';
   static const routeIntakeCreate = 'intakeCreate';
   static const routeProductSearch = 'productSearch';
@@ -125,9 +125,9 @@ class Routes {
             nextScreenType: nextScreenType,
           );
         });
-      case routeDailyWeeklyIntakesScreen:
+      case routeNutritionSummary:
         return MaterialPageRoute(builder: (context) {
-          return MyDailyIntakesReportsScreen();
+          return NutritionSummaryScreen();
         });
       case routeDailyWeeklyNutrientsScreen:
         return MaterialPageRoute(builder: (context) {
