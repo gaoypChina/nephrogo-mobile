@@ -43,6 +43,8 @@ dependencies:
 
   shared_preferences: 0.5.12+4
 
+  syncfusion_flutter_datepicker: ^18.4.41-beta
+
   dio: ^3.0.10
   dio_http2_adapter: ^1.0.1
   dio_brotli_transformer: ^0.2.0

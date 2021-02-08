@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
+import 'package:nephrogo/utils/date_utils.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import 'nutrition_components.dart';
 
@@ -32,6 +35,16 @@ class MyDailyIntakesReportsScreen extends StatelessWidget {
               .sortedBy((e) => e.date, reverse: true)
               .toList();
 
+          final minDate = dailyIntakesReportsSorted.lastOrNull()?.date;
+          final now = DateTime.now();
+
+          final availableDates =
+              dailyIntakesReportsSorted.map((di) => Date(di.date)).toSet();
+
+          final blackoutDates = DateUtils.generateDates(minDate, now)
+              .where((d) => !availableDates.contains(d))
+              .toList();
+
           return Visibility(
             visible: dailyIntakesReportsSorted.isNotEmpty,
             replacement: EmptyStateContainer(
@@ -41,6 +54,25 @@ class MyDailyIntakesReportsScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 80),
               itemCount: dailyIntakesReportsSorted.length,
               itemBuilder: (context, index) {
+                if (index == 0) {
+                  return BasicSection.single(
+                    SfDateRangePicker(
+                      view: DateRangePickerView.month,
+                      showNavigationArrow: true,
+                      minDate: minDate,
+                      maxDate: now,
+                      monthViewSettings: DateRangePickerMonthViewSettings(
+                        firstDayOfWeek: 1,
+                        showTrailingAndLeadingDates: true,
+                        blackoutDates: blackoutDates,
+                      ),
+                      monthCellStyle: const DateRangePickerMonthCellStyle(
+                        blackoutDateTextStyle: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                  );
+                }
+
                 final dailyIntakesReport = dailyIntakesReportsSorted[index];
 
                 return DailyIntakesReportTile(dailyIntakesReport);
