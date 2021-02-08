@@ -213,7 +213,7 @@ class IntakeExpandableTile extends StatelessWidget {
   }
 
   Future<void> _editIntake(BuildContext context) {
-    return Navigator.of(context).pushNamed(
+    return Navigator.of(context).pushReplacementNamed(
       Routes.routeIntakeCreate,
       arguments: IntakeCreateScreenArguments(
         intake: intake,
