@@ -47,7 +47,9 @@ class MyDailyIntakesScreen extends StatelessWidget {
           builder: (context, data) {
             final dailyIntakesReport = data.dailyIntakesReport;
             final norms = dailyIntakesReport.dailyNutrientNormsAndTotals;
-            final intakes = dailyIntakesReport.intakes.toList();
+            final intakes = dailyIntakesReport.intakes
+                .sortedBy((i) => i.consumedAt)
+                .toList();
 
             return Scrollbar(
               child: ListView.builder(
