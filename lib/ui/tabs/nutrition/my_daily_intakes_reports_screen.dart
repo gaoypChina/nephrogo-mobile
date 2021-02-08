@@ -18,8 +18,10 @@ class MyDailyIntakesReportsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
     return Scaffold(
-      // appBar: AppBar(title: Text(appLocalizations.nutritionSummary)),
+      appBar: AppBar(title: Text(appLocalizations.nutritionSummary)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: AppStreamBuilder<DailyIntakesReportsResponse>(
           stream: _apiService.getLightDailyIntakeReportsStream(),
@@ -50,10 +52,7 @@ class _MyDailyIntakesReportsNonEmptyListBody extends StatefulWidget {
 }
 
 class _MyDailyIntakesReportsNonEmptyListBodyState
-    extends State<_MyDailyIntakesReportsNonEmptyListBody>
-    with SingleTickerProviderStateMixin {
-  bool _isCalendarVisible;
-
+    extends State<_MyDailyIntakesReportsNonEmptyListBody> {
   ItemScrollController _itemScrollController;
 
   DateTime minDate;
@@ -64,8 +63,6 @@ class _MyDailyIntakesReportsNonEmptyListBodyState
 
   @override
   void initState() {
-    _isCalendarVisible = false;
-
     _reportsSortedByDateReverse = widget.response.dailyIntakesLightReports
         .sortedBy((e) => e.date, reverse: true)
         .toList();
@@ -80,16 +77,12 @@ class _MyDailyIntakesReportsNonEmptyListBodyState
     super.initState();
   }
 
-  void _closeCalendar() {
-    setState(() => _isCalendarVisible = false);
-  }
-
   Widget _buildCalendar() {
     final allDates = _reportsSortedByDateReverse.map((r) => Date(r.date));
 
-    final availableDates = allDates.toSet();
+    final availableDatesSet = allDates.toSet();
     final blackoutDates = DateUtils.generateDates(minDate, maxDate)
-        .where((d) => !availableDates.contains(d))
+        .where((d) => !availableDatesSet.contains(d))
         .toList();
 
     final dailyNormExceededDatesSet = _reportsSortedByDateReverse
@@ -117,7 +110,7 @@ class _MyDailyIntakesReportsNonEmptyListBodyState
             Color fontColor = Colors.white;
             BoxDecoration boxDecoration;
 
-            if (!availableDates.contains(date)) {
+            if (!availableDatesSet.contains(date)) {
               fontColor = Colors.grey;
             } else if (dailyNormExceededDatesSet.contains(date)) {
               boxDecoration = const BoxDecoration(
@@ -152,7 +145,6 @@ class _MyDailyIntakesReportsNonEmptyListBodyState
             if (arg.value is DateTime) {
               final position = getReportPosition(arg.value as DateTime);
 
-              _closeCalendar();
               _itemScrollController.jumpTo(index: position);
             }
           },
@@ -163,59 +155,17 @@ class _MyDailyIntakesReportsNonEmptyListBodyState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: InkWell(
-          onTap: () => setState(() => _isCalendarVisible ^= true),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Text(
-                  appLocalizations.myMeals,
-                  style: const TextStyle(color: Colors.white),
-                ),
-                AnimatedCrossFade(
-                  duration: const Duration(milliseconds: 300),
-                  firstChild: const Icon(Icons.arrow_drop_up),
-                  secondChild: const Icon(Icons.arrow_drop_down),
-                  crossFadeState: _isCalendarVisible
-                      ? CrossFadeState.showFirst
-                      : CrossFadeState.showSecond,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          ScrollablePositionedList.builder(
-            itemScrollController: _itemScrollController,
-            itemCount: _reportsSortedByDateReverse.length + 1,
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return BasicSection.single(_buildCalendar());
-              }
-              final dailyIntakesReport = _reportsSortedByDateReverse[index - 1];
+    return ScrollablePositionedList.builder(
+      itemScrollController: _itemScrollController,
+      itemCount: _reportsSortedByDateReverse.length + 1,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return BasicSection.single(_buildCalendar());
+        }
+        final dailyIntakesReport = _reportsSortedByDateReverse[index - 1];
 
-              return DailyIntakesReportTile(dailyIntakesReport);
-            },
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Visibility(
-                visible: _isCalendarVisible,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
-                  child: Material(elevation: 1, child: _buildCalendar()),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+        return DailyIntakesReportTile(dailyIntakesReport);
+      },
     );
   }
 
