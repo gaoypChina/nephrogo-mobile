@@ -48,7 +48,8 @@ class DailyIntakesReportTile extends StatelessWidget {
   }
 
   Widget _getLeadingIndicator() {
-    if (_isAtLeastOneNormExceeded()) {
+    if (dailyIntakesLightReport.nutrientNormsAndTotals
+        .isAtLeastOneNormExceeded()) {
       return const CircleAvatar(
         backgroundColor: Colors.redAccent,
         child: Icon(Icons.error, color: Colors.white),
@@ -59,13 +60,6 @@ class DailyIntakesReportTile extends StatelessWidget {
       backgroundColor: Colors.teal,
       child: Icon(Icons.check_circle, color: Colors.white),
     );
-  }
-
-  bool _isAtLeastOneNormExceeded() {
-    final totals = dailyIntakesLightReport.nutrientNormsAndTotals;
-
-    return Nutrient.values
-        .any((n) => (totals.getRoundedNormPercentage(n) ?? 0) > 100);
   }
 }
 

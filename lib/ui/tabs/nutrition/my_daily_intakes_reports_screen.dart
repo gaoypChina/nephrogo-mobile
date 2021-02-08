@@ -8,6 +8,7 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/date_utils.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import 'nutrition_components.dart';
@@ -17,10 +18,8 @@ class MyDailyIntakesReportsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
-
     return Scaffold(
-      appBar: AppBar(title: Text(appLocalizations.myMeals)),
+      // appBar: AppBar(title: Text(appLocalizations.nutritionSummary)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: AppStreamBuilder<DailyIntakesReportsResponse>(
           stream: _apiService.getLightDailyIntakeReportsStream(),
@@ -51,7 +50,12 @@ class _MyDailyIntakesReportsNonEmptyListBody extends StatefulWidget {
 }
 
 class _MyDailyIntakesReportsNonEmptyListBodyState
-    extends State<_MyDailyIntakesReportsNonEmptyListBody> {
+    extends State<_MyDailyIntakesReportsNonEmptyListBody>
+    with SingleTickerProviderStateMixin {
+  bool _isCalendarVisible;
+
+  ItemScrollController _itemScrollController;
+
   DateTime minDate;
   DateTime maxDate;
   DateRangePickerController _datePickerController;
@@ -60,6 +64,8 @@ class _MyDailyIntakesReportsNonEmptyListBodyState
 
   @override
   void initState() {
+    _isCalendarVisible = false;
+
     _reportsSortedByDateReverse = widget.response.dailyIntakesLightReports
         .sortedBy((e) => e.date, reverse: true)
         .toList();
@@ -67,10 +73,15 @@ class _MyDailyIntakesReportsNonEmptyListBodyState
     minDate = _reportsSortedByDateReverse.last.date;
     maxDate = _reportsSortedByDateReverse.first.date;
 
+    _itemScrollController = ItemScrollController();
+
     _datePickerController = DateRangePickerController();
-    _datePickerController.selectedDate = maxDate;
 
     super.initState();
+  }
+
+  void _closeCalendar() {
+    setState(() => _isCalendarVisible = false);
   }
 
   Widget _buildCalendar() {
@@ -81,84 +92,144 @@ class _MyDailyIntakesReportsNonEmptyListBodyState
         .where((d) => !availableDates.contains(d))
         .toList();
 
-    final dailyNormExceededDates = _reportsSortedByDateReverse
+    final dailyNormExceededDatesSet = _reportsSortedByDateReverse
         .where((r) => r.nutrientNormsAndTotals.isAtLeastOneNormExceeded())
         .map((r) => r.date)
-        .toList();
+        .toSet();
 
     return Container(
+      key: const Key("daily-intakes-calendar"),
       color: Colors.white,
-      child: Column(
-        children: [
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextButton.icon(
-                onPressed: null,
-                icon: Icon(Icons.arrow_drop_down),
-                label: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Hello",
-                    // style: TextStyle(fontSize: 13),
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                ),
-              )),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SfDateRangePicker(
-              view: DateRangePickerView.month,
-              showNavigationArrow: true,
-              minDate: minDate,
-              maxDate: maxDate,
-              controller: _datePickerController,
-              monthViewSettings: DateRangePickerMonthViewSettings(
-                firstDayOfWeek: 1,
-                showTrailingAndLeadingDates: true,
-                blackoutDates: blackoutDates,
-                specialDates: dailyNormExceededDates,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SfDateRangePicker(
+          view: DateRangePickerView.month,
+          showNavigationArrow: true,
+          minDate: minDate,
+          maxDate: maxDate,
+          controller: _datePickerController,
+          selectionColor: Colors.transparent,
+          headerStyle:
+              const DateRangePickerHeaderStyle(textAlign: TextAlign.center),
+          cellBuilder: (context, cellDetails) {
+            final date = Date(cellDetails.date);
+
+            Color fontColor = Colors.white;
+            BoxDecoration boxDecoration;
+
+            if (!availableDates.contains(date)) {
+              fontColor = Colors.grey;
+            } else if (dailyNormExceededDatesSet.contains(date)) {
+              boxDecoration = const BoxDecoration(
+                color: Colors.redAccent,
+                shape: BoxShape.circle,
+              );
+            } else {
+              boxDecoration = const BoxDecoration(
+                color: Colors.teal,
+                shape: BoxShape.circle,
+              );
+            }
+
+            return Container(
+              width: cellDetails.bounds.width,
+              height: cellDetails.bounds.height,
+              alignment: Alignment.center,
+              decoration: boxDecoration,
+              child: Text(
+                date.day.toString(),
+                style: TextStyle(color: fontColor),
               ),
-              monthCellStyle: const DateRangePickerMonthCellStyle(
-                blackoutDateTextStyle: TextStyle(color: Colors.grey),
-                specialDatesDecoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  shape: BoxShape.circle,
-                ),
-                specialDatesTextStyle: TextStyle(color: Colors.white),
-                cellDecoration: BoxDecoration(
-                  color: Colors.teal,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
+            );
+          },
+          monthViewSettings: DateRangePickerMonthViewSettings(
+            firstDayOfWeek: 1,
+            showTrailingAndLeadingDates: true,
+            blackoutDates: blackoutDates,
+            weekendDays: const [],
           ),
-        ],
+          onSelectionChanged: (arg) {
+            if (arg.value is DateTime) {
+              final position = getReportPosition(arg.value as DateTime);
+
+              _closeCalendar();
+              _itemScrollController.jumpTo(index: position);
+            }
+          },
+        ),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 4),
-          child: Material(
-            elevation: 1,
-            child: _buildCalendar(),
+    return Scaffold(
+      appBar: AppBar(
+        title: InkWell(
+          onTap: () => setState(() => _isCalendarVisible ^= true),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Text(
+                  appLocalizations.myMeals,
+                  style: const TextStyle(color: Colors.white),
+                ),
+                AnimatedCrossFade(
+                  duration: const Duration(milliseconds: 300),
+                  firstChild: const Icon(Icons.arrow_drop_up),
+                  secondChild: const Icon(Icons.arrow_drop_down),
+                  crossFadeState: _isCalendarVisible
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                ),
+              ],
+            ),
           ),
         ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: _reportsSortedByDateReverse.length,
+      ),
+      body: Stack(
+        children: [
+          ScrollablePositionedList.builder(
+            itemScrollController: _itemScrollController,
+            itemCount: _reportsSortedByDateReverse.length + 1,
             itemBuilder: (context, index) {
-              final dailyIntakesReport = _reportsSortedByDateReverse[index];
+              if (index == 0) {
+                return BasicSection.single(_buildCalendar());
+              }
+              final dailyIntakesReport = _reportsSortedByDateReverse[index - 1];
 
               return DailyIntakesReportTile(dailyIntakesReport);
             },
           ),
-        ),
-      ],
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Visibility(
+                visible: _isCalendarVisible,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Material(elevation: 1, child: _buildCalendar()),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
+  }
+
+  int getReportPosition(DateTime dateTime) {
+    return _reportsSortedByDateReverse
+            .mapIndexed((i, r) => r.date == Date(dateTime) ? i : null)
+            .firstWhere((i) => i != null) +
+        1;
+  }
+
+  @override
+  void dispose() {
+    _datePickerController.dispose();
+
+    super.dispose();
   }
 }

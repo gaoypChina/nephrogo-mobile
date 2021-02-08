@@ -60,6 +60,8 @@
   "@error": {},
   "total": "Iš viso",
   "@total": {},
+  "nutritionSummary": "Mitybos suvestinė",
+  "@nutritionSummary": {},
   "totalInThisMeal": "Iš viso šiame valgyje",
   "@totalInThisMeal": {},
   "totalInThisDrink": "Iš viso šiame gėrime",
