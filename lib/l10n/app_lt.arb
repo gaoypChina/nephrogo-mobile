@@ -92,11 +92,11 @@
   "@chooseNutrient": {},
   "nutrientShort": "Medžiaga",
   "@nutrientShort": {},
-  "dailyNormsExceededZero": "Paros normos neviršitos",
+  "dailyNormsExceededZero": "Paros normos neviršytos",
   "@dailyNormsExceededZero": {},
-  "dailyNormsExceededOne": "Viršita viena paros norma",
+  "dailyNormsExceededOne": "Viršyta viena paros norma",
   "@dailyNormsExceededOne": {},
-  "dailyNormsExceededOther": "Viršitos {count} paros normos",
+  "dailyNormsExceededOther": "Viršytos {count} paros normos",
   "@dailyNormsExceededOther": {
     "type": "text",
     "placeholders": {
