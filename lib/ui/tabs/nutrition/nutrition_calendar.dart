@@ -6,6 +6,7 @@ import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class NutritionCalendar extends StatefulWidget {
+  final DateRangePickerController datePickerController;
   final List<DailyIntakesLightReport> dailyIntakesLightReports;
   final void Function(DateTime dateTime) onSelectionChanged;
 
@@ -13,6 +14,7 @@ class NutritionCalendar extends StatefulWidget {
     this.dailyIntakesLightReports, {
     Key key,
     this.onSelectionChanged,
+    this.datePickerController,
   }) : super(key: key);
 
   @override
@@ -20,8 +22,6 @@ class NutritionCalendar extends StatefulWidget {
 }
 
 class _NutritionCalendarState extends State<NutritionCalendar> {
-  DateRangePickerController _datePickerController;
-
   DateTime _minDate;
   DateTime _maxDate;
 
@@ -39,8 +39,6 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
 
     _minDate = _reportsSortedByDateReverse.last.date;
     _maxDate = _reportsSortedByDateReverse.first.date;
-
-    _datePickerController = DateRangePickerController();
 
     final allDates = _reportsSortedByDateReverse.map((r) => Date(r.date));
 
@@ -65,7 +63,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
       showNavigationArrow: true,
       minDate: _minDate,
       maxDate: _maxDate,
-      controller: _datePickerController,
+      controller: widget.datePickerController,
       selectionColor: Colors.transparent,
       headerStyle: const DateRangePickerHeaderStyle(
         textAlign: TextAlign.center,
@@ -123,12 +121,5 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
             .mapIndexed((i, r) => r.date == Date(dateTime) ? i : null)
             .firstWhere((i) => i != null) +
         1;
-  }
-
-  @override
-  void dispose() {
-    _datePickerController.dispose();
-
-    super.dispose();
   }
 }

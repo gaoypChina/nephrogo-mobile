@@ -132,7 +132,7 @@ class ApiService {
 
   Future<DailyIntakesReportsResponse> getLightDailyIntakeReports() {
     return _nutritionApi
-        .nutritionDailyIntakesReportsLightRetrieve()
+        .nutritionDailyReportsLightRetrieve()
         .then((r) => r.data);
   }
 
@@ -143,7 +143,7 @@ class ApiService {
 
   Future<DailyIntakesReportResponse> getDailyIntakesReport(Date date) {
     return _nutritionApi
-        .nutritionDailyIntakesReportsRetrieve(date.toString())
+        .nutritionDailyReportsRetrieve(date.toString())
         .then((r) => r.data);
   }
 

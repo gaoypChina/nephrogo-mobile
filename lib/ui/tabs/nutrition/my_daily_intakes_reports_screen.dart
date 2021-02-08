@@ -92,6 +92,7 @@ class _MyDailyIntakesReportsNonEmptyListBodyState
                 padding: const EdgeInsets.all(8.0),
                 child: NutritionCalendar(
                   _reportsSortedByDateReverse,
+                  datePickerController: _datePickerController,
                   onSelectionChanged: _onSelectionChanged,
                 ),
               ),
