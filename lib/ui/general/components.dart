@@ -198,6 +198,44 @@ class AppListTile extends StatelessWidget {
   }
 }
 
+class AppExpansionTile extends StatelessWidget {
+  final Widget title;
+  final Widget leading;
+  final Widget subtitle;
+  final List<Widget> children;
+
+  final GestureLongPressCallback onLongPress;
+
+  const AppExpansionTile({
+    Key key,
+    @required this.title,
+    @required this.children,
+    this.subtitle,
+    this.leading,
+    this.onLongPress,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Material is needed for workaround https://github.com/flutter/flutter/issues/3782
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: Material(
+        color: Colors.white,
+        child: GestureDetector(
+          onLongPress: onLongPress,
+          child: ExpansionTile(
+            leading: leading,
+            title: title,
+            subtitle: subtitle,
+            children: children,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class AppCheckboxListTile extends StatelessWidget {
   final bool value;
   final ValueChanged<bool> onChanged;

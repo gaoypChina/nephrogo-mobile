@@ -15,6 +15,8 @@ import 'package:nephrogo_api_client/api/nutrition_api.dart';
 import 'package:nephrogo_api_client/api/user_api.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
+import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
+import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
 import 'package:nephrogo_api_client/model/health_status_screen_response.dart';
 import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
@@ -126,6 +128,28 @@ class ApiService {
   Stream<NutrientScreenResponse> getNutritionScreenStream() {
     return _buildAppEventsStreamWithInitialEmit(_AppStateChangeEvent.nutrition)
         .asyncMap((_) => getNutritionScreen());
+  }
+
+  Future<DailyIntakesReportsResponse> getLightDailyIntakeReports() {
+    return _nutritionApi
+        .nutritionDailyIntakesReportsLightRetrieve()
+        .then((r) => r.data);
+  }
+
+  Stream<DailyIntakesReportsResponse> getLightDailyIntakeReportsStream() {
+    return _buildAppEventsStreamWithInitialEmit(_AppStateChangeEvent.nutrition)
+        .asyncMap((_) => getLightDailyIntakeReports());
+  }
+
+  Future<DailyIntakesReportResponse> getDailyIntakesReport(Date date) {
+    return _nutritionApi
+        .nutritionDailyIntakesReportsRetrieve(date.toString())
+        .then((r) => r.data);
+  }
+
+  Stream<DailyIntakesReportResponse> getDailyIntakesReportStream(Date date) {
+    return _buildAppEventsStreamWithInitialEmit(_AppStateChangeEvent.nutrition)
+        .asyncMap((_) => getDailyIntakesReport(date));
   }
 
   Future<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReport(

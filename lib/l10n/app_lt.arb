@@ -126,6 +126,28 @@
   "@dailyNormsSectionTitle": {},
   "dailyNormsSectionSubtitle": "Šiandien suvartotų medžiagų normos",
   "@dailyNormsSectionSubtitle": {},
+  "consumptionWithNorm": "Suvartota: {amount} iš {norm}",
+  "@consumptionWithNorm": {
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "120 g"
+      },
+      "norm": {
+        "type": "String",
+        "example": "150 g"
+      }
+    }
+  },
+  "consumptionWithoutNorm": "Suvartota: {amount}",
+  "@consumptionWithoutNorm": {
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "120 g"
+      }
+    }
+  },
   "todayConsumptionWithNorm": "Šiandien: {amount} iš {norm}",
   "@todayConsumptionWithNorm": {
     "placeholders": {

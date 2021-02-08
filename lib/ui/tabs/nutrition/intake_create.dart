@@ -19,7 +19,7 @@ import 'package:nephrogo_api_client/model/intake_request.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 import 'package:nephrogo_api_client/model/product_kind_enum.dart';
 
-import 'components.dart';
+import 'nutrition_components.dart';
 
 class IntakeCreateScreenArguments extends Equatable {
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;

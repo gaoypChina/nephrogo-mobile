@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
@@ -14,7 +13,7 @@ import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart'
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/nutrient_screen_response.dart';
 
-import 'intake_create.dart';
+import 'nutrition_components.dart';
 import 'product_search.dart';
 import 'weekly_nutrients_screen.dart';
 
@@ -207,51 +206,11 @@ class DailyIntakesCard extends StatelessWidget {
       showDividers: true,
       children: [
         for (final intake in intakes)
-          IntakeTile(
+          IntakeExpandableTile(
             intake,
             dailyNutrientNormsWithTotals,
           ),
       ],
-    );
-  }
-}
-
-class IntakeTile extends StatelessWidget {
-  static final dateFormat = DateFormat('E, d MMM HH:mm');
-
-  final Intake intake;
-  final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
-
-  IntakeTile(
-    this.intake,
-    this.dailyNutrientNormsAndTotals,
-  ) : super(key: ObjectKey(intake));
-
-  @override
-  Widget build(BuildContext context) {
-    return AppListTile(
-      title: Text(intake.product.name),
-      subtitle: Text(
-        dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst(),
-      ),
-      leading: ProductKindIcon(productKind: intake.product.productKind),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(intake.getAmountFormatted()),
-          ),
-          const Icon(Icons.chevron_right),
-        ],
-      ),
-      onTap: () => Navigator.of(context).pushNamed(
-        Routes.routeIntakeCreate,
-        arguments: IntakeCreateScreenArguments(
-          intake: intake,
-          dailyNutrientNormsAndTotals: dailyNutrientNormsAndTotals,
-        ),
-      ),
     );
   }
 }

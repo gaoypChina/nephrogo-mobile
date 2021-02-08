@@ -110,6 +110,14 @@ extension ProductExtensions on Product {
 }
 
 extension DailyNutrientConsumptionExtensions on DailyNutrientConsumption {
+  int totalConsumptionRoundedPercentage() {
+    if (norm == null) {
+      return null;
+    }
+
+    return ((total / norm) * 100).round();
+  }
+
   int normPercentage(int nutrientAmount) {
     if (norm == null) {
       return null;
