@@ -30,6 +30,7 @@ class DailyIntakesReportTile extends StatelessWidget {
       header: AppListTile(
         leading: _getLeadingIndicator(),
         title: title,
+        subtitle: Text(_getSubtitleText(context)),
         onTap: () => Navigator.of(context).pushNamed(
           Routes.routeMyDailyIntakesScreen,
           arguments:
@@ -45,6 +46,22 @@ class DailyIntakesReportTile extends StatelessWidget {
           )
       ],
     );
+  }
+
+  String _getSubtitleText(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
+    final exceededCount =
+        dailyIntakesLightReport.nutrientNormsAndTotals.normsExceededCount();
+
+    switch (exceededCount) {
+      case 0:
+        return appLocalizations.dailyNormsExceededZero;
+      case 1:
+        return appLocalizations.dailyNormsExceededOne;
+      default:
+        return appLocalizations.dailyNormsExceededOther(exceededCount);
+    }
   }
 
   Widget _getLeadingIndicator() {

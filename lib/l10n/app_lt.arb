@@ -92,6 +92,19 @@
   "@chooseNutrient": {},
   "nutrientShort": "Medžiaga",
   "@nutrientShort": {},
+  "dailyNormsExceededZero": "Paros normos neviršitos",
+  "@dailyNormsExceededZero": {},
+  "dailyNormsExceededOne": "Viršita viena paros norma",
+  "@dailyNormsExceededOne": {},
+  "dailyNormsExceededOther": "Viršitos {count} paros normos",
+  "@dailyNormsExceededOther": {
+    "type": "text",
+    "placeholders": {
+      "count": {
+        "example": "5"
+      }
+    }
+  },
   "searchUnableToFindProduct": "Nerandate maisto produkto?",
   "@searchUnableToFindProduct": {},
   "report": "Pranešti",

@@ -183,6 +183,13 @@ extension DailyNutrientNormsWithTotalsExtensions
     return ((consumption.total / consumption.norm) * 100).round();
   }
 
+  int normsExceededCount() {
+    return Nutrient.values
+        .map(getDailyNutrientConsumption)
+        .where((c) => c.isNormExceeded == true)
+        .length;
+  }
+
   bool isAtLeastOneNormExceeded() {
     return Nutrient.values
         .map(getDailyNutrientConsumption)
