@@ -43,7 +43,7 @@ class DailyNormsBarChart extends StatelessWidget {
           if (secondNutrientGroup.isNotEmpty)
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-              child: _buildGroup(_appLocalizations, firstNutrientGroup),
+              child: _buildGroup(_appLocalizations, secondNutrientGroup),
             )
         ],
       ),
