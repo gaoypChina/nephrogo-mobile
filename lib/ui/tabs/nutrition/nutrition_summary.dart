@@ -4,10 +4,13 @@ import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/date.dart';
+import 'package:nephrogo/ui/general/app_future_builder.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/general/monthly_pager.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
+import 'package:nephrogo_api_client/model/user.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -19,14 +22,63 @@ class NutritionSummaryScreen extends StatefulWidget {
   _NutritionSummaryScreenState createState() => _NutritionSummaryScreenState();
 }
 
-class _NutritionSummaryScreenState extends State<NutritionSummaryScreen>
-    with SingleTickerProviderStateMixin {
+class _NutritionSummaryScreenState extends State<NutritionSummaryScreen> {
   final _apiService = ApiService();
 
-  AnimationController _hideFabAnimation;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(appLocalizations.nutritionSummary)),
+      body: AppStreamBuilder<User>(
+        stream: _apiService.getUserStream(),
+        builder: (context, userData) {
+          final nutritionSummary = userData.nutritionSummary;
+          return Visibility(
+            visible: nutritionSummary.minReportDate != null,
+            replacement: EmptyStateContainer(
+              text: AppLocalizations.of(context).nutritionEmpty,
+            ),
+            child: MonthlyPager(
+              earliestDate: nutritionSummary.minReportDate.toDate(),
+              initialDate: nutritionSummary.maxReportDate.toDate(),
+              bodyBuilder: (context, from, to) {
+                return AppFutureBuilder<DailyIntakesReportsResponse>(
+                  future: _apiService.getLightDailyIntakeReports(from, to),
+                  builder: (context, data) {
+                    return Visibility(
+                      visible: data.dailyIntakesLightReports.isNotEmpty,
+                      replacement: EmptyStateContainer(
+                        text: AppLocalizations.of(context).weeklyNutrientsEmpty,
+                      ),
+                      child: _NutritionMonthlyReportsList(
+                        reports: data.dailyIntakesLightReports.toList(),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
 
+class _NutritionMonthlyReportsList extends StatefulWidget {
+  final List<DailyIntakesLightReport> reports;
+
+  const _NutritionMonthlyReportsList({Key key, @required this.reports})
+      : super(key: key);
+
+  @override
+  _NutritionMonthlyReportsListState createState() =>
+      _NutritionMonthlyReportsListState();
+}
+
+class _NutritionMonthlyReportsListState
+    extends State<_NutritionMonthlyReportsList> {
   ItemScrollController _itemScrollController;
-
   DateRangePickerController _datePickerController;
 
   @override
@@ -34,52 +86,13 @@ class _NutritionSummaryScreenState extends State<NutritionSummaryScreen>
     super.initState();
 
     _itemScrollController = ItemScrollController();
-
     _datePickerController = DateRangePickerController();
-
-    _hideFabAnimation = AnimationController(
-      vsync: this,
-      duration: kThemeAnimationDuration,
-      value: 0,
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return NotificationListener<ScrollNotification>(
-      onNotification: _handleScrollNotification,
-      child: Scaffold(
-        appBar: AppBar(title: Text(appLocalizations.nutritionSummary)),
-        floatingActionButton: ScaleTransition(
-          scale: _hideFabAnimation,
-          child: FloatingActionButton(
-            heroTag: 'scrollToTop',
-            onPressed: () {
-              _hideFabAnimation.reverse();
-              _itemScrollController.jumpTo(index: 0);
-            },
-            child: const Icon(Icons.keyboard_arrow_up),
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-        body: AppStreamBuilder<DailyIntakesReportsResponse>(
-            stream: _apiService.getLightDailyIntakeReportsStream(),
-            builder: (context, data) {
-              return Visibility(
-                visible: data.dailyIntakesLightReports.isNotEmpty,
-                replacement: EmptyStateContainer(
-                  text: AppLocalizations.of(context).weeklyNutrientsEmpty,
-                ),
-                child: _buildList(data.dailyIntakesLightReports),
-              );
-            }),
-      ),
-    );
-  }
-
-  Widget _buildList(Iterable<DailyIntakesLightReport> reports) {
     final reportsReverseSorted =
-        reports.sortedBy((e) => e.date, reverse: true).toList();
+        widget.reports.sortedBy((e) => e.date, reverse: true).toList();
 
     return ScrollablePositionedList.builder(
       itemScrollController: _itemScrollController,
@@ -122,37 +135,13 @@ class _NutritionSummaryScreenState extends State<NutritionSummaryScreen>
     List<DailyIntakesLightReport> reports,
   ) {
     return reports
-            .mapIndexed((i, r) => r.date == Date(dateTime) ? i : null)
+            .mapIndexed((i, r) => r.date == Date.from(dateTime) ? i : null)
             .firstWhere((i) => i != null) +
         1;
   }
 
-  bool _handleScrollNotification(ScrollNotification notification) {
-    if (notification.depth == 0 && notification is UserScrollNotification) {
-      final UserScrollNotification userScroll = notification;
-      switch (userScroll.direction) {
-        case ScrollDirection.forward:
-          if (userScroll.metrics.maxScrollExtent !=
-              userScroll.metrics.minScrollExtent) {
-            _hideFabAnimation.forward();
-          }
-          break;
-        case ScrollDirection.reverse:
-          if (userScroll.metrics.maxScrollExtent !=
-              userScroll.metrics.minScrollExtent) {
-            _hideFabAnimation.reverse();
-          }
-          break;
-        case ScrollDirection.idle:
-          break;
-      }
-    }
-    return false;
-  }
-
   @override
   void dispose() {
-    _hideFabAnimation.dispose();
     _datePickerController.dispose();
 
     super.dispose();

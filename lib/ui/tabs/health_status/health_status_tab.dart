@@ -96,7 +96,7 @@ class HealthIndicatorsTabBody extends StatelessWidget {
   ) {
     final appLocalizations = AppLocalizations.of(context);
     final todayHealthStatus = healthStatusScreenResponse.dailyHealthStatuses
-        .where((e) => Date(e.date) == Date(now))
+        .where((e) => Date.from(e.date) == Date.from(now))
         .firstOrNull();
 
     final todayConsumption = todayHealthStatus?.getHealthIndicatorFormatted(

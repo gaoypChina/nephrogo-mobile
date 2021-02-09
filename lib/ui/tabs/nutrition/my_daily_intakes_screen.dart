@@ -48,7 +48,7 @@ class MyDailyIntakesScreen extends StatelessWidget {
             final dailyIntakesReport = data.dailyIntakesReport;
             final norms = dailyIntakesReport.dailyNutrientNormsAndTotals;
             final intakes = dailyIntakesReport.intakes
-                .sortedBy((i) => i.consumedAt)
+                .sortedBy((i) => i.consumedAt, reverse: true)
                 .toList();
 
             return Scrollbar(

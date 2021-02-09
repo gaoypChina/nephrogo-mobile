@@ -33,8 +33,8 @@ class DailyIntakesReportTile extends StatelessWidget {
         subtitle: Text(_getSubtitleText(context)),
         onTap: () => Navigator.of(context).pushNamed(
           Routes.routeMyDailyIntakesScreen,
-          arguments:
-              MyDailyIntakesScreenArguments(Date(dailyIntakesLightReport.date)),
+          arguments: MyDailyIntakesScreenArguments(
+              Date.from(dailyIntakesLightReport.date)),
         ),
       ),
       showDividers: true,

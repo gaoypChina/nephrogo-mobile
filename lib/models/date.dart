@@ -6,8 +6,10 @@ import 'package:intl/intl.dart';
 class Date extends DateTime {
   static final dateFormat = DateFormat('yyyy-MM-dd');
 
-  Date(DateTime dateTime)
-      : super(
+  Date(int year, int month, int day) : super(year, month, day);
+
+  Date.from(DateTime dateTime)
+      : this(
           dateTime.toLocal().year,
           dateTime.toLocal().month,
           dateTime.toLocal().day,

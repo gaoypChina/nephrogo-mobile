@@ -14,7 +14,7 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
   static final _dayFormatter = DateFormat.E();
   static final _dateFormatter = DateFormat.MMMd();
 
-  final Date today = Date(DateTime.now());
+  final Date today = Date.from(DateTime.now());
   final DateTime maximumDate;
   final HealthIndicator indicator;
   final List<DailyHealthStatus> dailyHealthStatuses;
@@ -43,11 +43,12 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
 
   AppBarChartData _getChartData() {
     final days =
-        List.generate(7, (d) => Date(maximumDate.add(Duration(days: -d))))
+        List.generate(7, (d) => Date.from(maximumDate.add(Duration(days: -d))))
             .reversed;
 
-    final dailyHealthStatusesGrouped =
-        dailyHealthStatuses.groupBy((v) => Date(v.date)).map((key, values) {
+    final dailyHealthStatusesGrouped = dailyHealthStatuses
+        .groupBy((v) => Date.from(v.date))
+        .map((key, values) {
       if (values.length > 1) {
         throw ArgumentError.value(values, 'values',
             'Multiple daily health statuses with same formatted date');
@@ -56,7 +57,7 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
     });
 
     final groups = days.mapIndexed((i, day) {
-      final dhs = dailyHealthStatusesGrouped[Date(day)];
+      final dhs = dailyHealthStatusesGrouped[Date.from(day)];
 
       final dayFormatted = _dayFormatter.format(day).capitalizeFirst();
       final dateFormatted = _dateFormatter.format(day);

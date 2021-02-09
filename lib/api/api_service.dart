@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:built_value/iso_8601_date_time_serializer.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
@@ -31,7 +32,6 @@ import 'package:nephrogo_api_client/model/user_profile_request.dart';
 import 'package:nephrogo_api_client/model/user_request.dart';
 import 'package:nephrogo_api_client/serializers.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:stream_transform/stream_transform.dart';
 
 enum _AppStateChangeEvent { healthStatus, nutrition }
 
@@ -116,9 +116,9 @@ class ApiService {
 
   Stream<_AppStateChangeEvent> _buildAppEventsStreamWithInitialEmit(
       _AppStateChangeEvent event) {
-    return _appEventsStreamController.stream
-        .startWith(event)
-        .where((e) => e == event);
+    return StreamGroup.merge(
+      [_appEventsStreamController.stream, Stream.value(event)],
+    ).where((e) => e == event);
   }
 
   Future<NutrientScreenResponse> getNutritionScreen() {
@@ -130,15 +130,11 @@ class ApiService {
         .asyncMap((_) => getNutritionScreen());
   }
 
-  Future<DailyIntakesReportsResponse> getLightDailyIntakeReports() {
+  Future<DailyIntakesReportsResponse> getLightDailyIntakeReports(
+      Date from, Date to) {
     return _nutritionApi
-        .nutritionDailyReportsLightRetrieve()
+        .nutritionDailyReportsLightRetrieve(from: from, to: to)
         .then((r) => r.data);
-  }
-
-  Stream<DailyIntakesReportsResponse> getLightDailyIntakeReportsStream() {
-    return _buildAppEventsStreamWithInitialEmit(_AppStateChangeEvent.nutrition)
-        .asyncMap((_) => getLightDailyIntakeReports());
   }
 
   Future<DailyIntakesReportResponse> getDailyIntakesReport(Date date) {
@@ -155,7 +151,7 @@ class ApiService {
   Future<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReport(
       DateTime from, DateTime to) {
     return _nutritionApi
-        .nutritionWeeklyRetrieve(Date(from), Date(to))
+        .nutritionWeeklyRetrieve(Date.from(from), Date.from(to))
         .then((r) => r.data);
   }
 
@@ -218,7 +214,7 @@ class ApiService {
 
   Future<DailyHealthStatus> getDailyHealthStatus(DateTime date) {
     return _healthStatusApi
-        .healthStatusRetrieve(Date(date))
+        .healthStatusRetrieve(Date.from(date))
         .then((r) => r.data)
         .catchError(
           (e) => null,
@@ -228,6 +224,11 @@ class ApiService {
 
   Future<User> getUser() {
     return _userApi.userRetrieve().then((r) => r.data);
+  }
+
+  Stream<User> getUserStream() {
+    return _buildAppEventsStreamWithInitialEmit(_AppStateChangeEvent.nutrition)
+        .asyncMap((_) => getUser());
   }
 
   Future<User> updateUser({@required bool marketingAllowed}) {
@@ -290,7 +291,7 @@ class ApiService {
   Future<HealthStatusWeeklyScreenResponse> getWeeklyHealthStatusReport(
       DateTime from, DateTime to) {
     return _healthStatusApi
-        .healthStatusWeeklyRetrieve(Date(from), Date(to))
+        .healthStatusWeeklyRetrieve(Date.from(from), Date.from(to))
         .then((r) => r.data);
   }
 
@@ -380,7 +381,7 @@ class DateAndDateTimeUtcSerializer extends Iso8601DateTimeSerializer {
     }
 
     try {
-      return Date(Date.dateFormat.parseStrict(s));
+      return Date.from(Date.dateFormat.parseStrict(s));
     } on FormatException {
       return super.deserialize(serializers, serialized);
     }

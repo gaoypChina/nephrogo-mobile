@@ -17,7 +17,7 @@ extension DateTimeExtension on DateTime {
   }
 
   Date toDate() {
-    return Date(this);
+    return Date.from(this);
   }
 
   Tuple2<DateTime, DateTime> startAndEndOfWeek() {

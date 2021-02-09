@@ -41,7 +41,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     _maxDate = _reportsSortedByDateReverse.firstOrNull()?.date;
 
     _availableDatesSet =
-        _reportsSortedByDateReverse.map((r) => Date(r.date)).toSet();
+        _reportsSortedByDateReverse.map((r) => Date.from(r.date)).toSet();
 
     _blackoutDates = (_minDate != null && _maxDate != null)
         ? DateUtils.generateDates(_minDate, _maxDate)
@@ -66,11 +66,9 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
       maxDate: _maxDate,
       controller: widget.datePickerController,
       selectionColor: Colors.transparent,
-      headerStyle: const DateRangePickerHeaderStyle(
-        textAlign: TextAlign.center,
-      ),
+      headerHeight: 0,
       cellBuilder: (context, cellDetails) {
-        final date = Date(cellDetails.date);
+        final date = Date.from(cellDetails.date);
 
         Color fontColor = Colors.white;
         BoxDecoration boxDecoration;
@@ -118,7 +116,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
 
   int getReportPosition(DateTime dateTime) {
     return _reportsSortedByDateReverse
-            .mapIndexed((i, r) => r.date == Date(dateTime) ? i : null)
+            .mapIndexed((i, r) => r.date == Date.from(dateTime) ? i : null)
             .firstWhere((i) => i != null) +
         1;
   }

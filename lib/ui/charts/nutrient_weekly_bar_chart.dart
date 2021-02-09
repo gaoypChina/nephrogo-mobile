@@ -15,7 +15,7 @@ class NutrientWeeklyBarChart extends StatelessWidget {
   static final _dayFormatter = DateFormat.E();
   static final _dateFormatter = DateFormat.MMMd();
 
-  final Date today = Date(DateTime.now());
+  final Date today = Date.from(DateTime.now());
 
   final Nutrient nutrient;
   final DateTime maximumDate;
@@ -79,11 +79,11 @@ class NutrientWeeklyBarChart extends StatelessWidget {
             : 1e-3;
 
     final days =
-        List.generate(7, (d) => Date(maximumDate.add(Duration(days: -d))))
+        List.generate(7, (d) => Date.from(maximumDate.add(Duration(days: -d))))
             .reversed;
 
     final dailyIntakeReportsGrouped =
-        dailyIntakeReports.groupBy((v) => Date(v.date)).map((key, values) {
+    dailyIntakeReports.groupBy((v) => Date.from(v.date)).map((key, values) {
       if (values.length > 1) {
         throw ArgumentError.value(values, 'values',
             'Multiple daily intakes with same formatted date');

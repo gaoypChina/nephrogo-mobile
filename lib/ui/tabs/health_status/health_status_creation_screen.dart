@@ -46,7 +46,7 @@ class _HealthStatusCreationScreenState
     super.initState();
 
     _healthStatusBuilder = DailyHealthStatusRequestBuilder();
-    _healthStatusBuilder.date = Date(DateTime.now());
+    _healthStatusBuilder.date = Date.from(DateTime.now());
 
     _healthStatusMemoizer.runOnce(
       () => _apiService.getDailyHealthStatus(_healthStatusBuilder.date),
