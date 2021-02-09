@@ -30,31 +30,38 @@ class DailyNormsBarChart extends StatelessWidget {
         .toList();
 
     final firstNutrientGroup = nutrientsWithNorms.take(3).toList();
-    final secondNutrientGroup = nutrientsWithNorms.skip(3).toList();
+    final secondNutrientGroup = nutrientsWithNorms.skip(3).take(3).toList();
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Column(
         children: [
-          for (final group in [firstNutrientGroup, secondNutrientGroup])
-            if (group.isNotEmpty)
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 32),
-                child: Container(
-                  height: 100,
-                  constraints: const BoxConstraints(maxWidth: 250),
-                  child: _buildGraph(_appLocalizations, group),
-                ),
-              ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(32, 0, 32, 8),
+            child: _buildGroup(_appLocalizations, firstNutrientGroup),
+          ),
+          if (secondNutrientGroup.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(32, 16, 32, 8),
+              child: _buildGroup(_appLocalizations, firstNutrientGroup),
+            )
         ],
       ),
+    );
+  }
+
+  Widget _buildGroup(AppLocalizations appLocalizations, List<Nutrient> types) {
+    return Container(
+      height: 100,
+      constraints: const BoxConstraints(maxWidth: 300),
+      child: _buildGraph(appLocalizations, types),
     );
   }
 
   Widget _buildGraph(AppLocalizations appLocalizations, List<Nutrient> types) {
     return AppBarChart(
       data: AppBarChartData(
+        barWidth: 28,
         fitInsideHorizontally: false,
         fitInsideVertically: false,
         groups: _buildChartGroups(appLocalizations, types),
