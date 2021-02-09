@@ -160,6 +160,7 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
 
   @override
   void dispose() {
+    _pageController.dispose();
     widget.valueChangeNotifier.removeListener(onIndicatorChanged);
 
     super.dispose();
