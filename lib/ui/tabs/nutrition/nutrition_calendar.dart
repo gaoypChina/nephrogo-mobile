@@ -40,13 +40,14 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     _minDate = _reportsSortedByDateReverse.lastOrNull()?.date;
     _maxDate = _reportsSortedByDateReverse.firstOrNull()?.date;
 
-    final allDates = _reportsSortedByDateReverse.map((r) => Date(r.date));
+    _availableDatesSet =
+        _reportsSortedByDateReverse.map((r) => Date(r.date)).toSet();
 
-    _availableDatesSet = allDates.toSet();
-
-    _blackoutDates = DateUtils.generateDates(_minDate, _maxDate)
-        .where((d) => !_availableDatesSet.contains(d))
-        .toList();
+    _blackoutDates = (_minDate != null && _maxDate != null)
+        ? DateUtils.generateDates(_minDate, _maxDate)
+            .where((d) => !_availableDatesSet.contains(d))
+            .toList()
+        : [];
 
     _dailyNormExceededDatesSet = _reportsSortedByDateReverse
         .where((r) => r.nutrientNormsAndTotals.isAtLeastOneNormExceeded())
@@ -101,7 +102,6 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
       },
       monthViewSettings: DateRangePickerMonthViewSettings(
         firstDayOfWeek: 1,
-        showTrailingAndLeadingDates: true,
         blackoutDates: _blackoutDates,
         weekendDays: const [],
       ),

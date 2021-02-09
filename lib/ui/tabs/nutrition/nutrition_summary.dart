@@ -129,8 +129,6 @@ class _NutritionSummaryScreenState extends State<NutritionSummaryScreen>
 
   bool _handleScrollNotification(ScrollNotification notification) {
     if (notification.depth == 0 && notification is UserScrollNotification) {
-      print("_handleScrollNotification");
-
       final UserScrollNotification userScroll = notification;
       switch (userScroll.direction) {
         case ScrollDirection.forward:
