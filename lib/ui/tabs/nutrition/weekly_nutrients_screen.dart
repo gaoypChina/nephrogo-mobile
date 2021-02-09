@@ -237,8 +237,8 @@ class DailyIntakeSection extends StatelessWidget {
       title:
           '${_dateFormat.format(dailyIntakesReport.date).capitalizeFirst()} d.',
       trailing: ratio != null ? _getVisualIndicator(ratio) : null,
-      subTitle:
-          getSubtitle(appLocalizations, totalFormatted, dailyNormFormatted),
+      subTitle: Text(
+          getSubtitle(appLocalizations, totalFormatted, dailyNormFormatted)),
       showDividers: true,
       children: [
         for (final intake in intakesSorted)

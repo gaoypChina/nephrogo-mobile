@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
@@ -8,11 +9,13 @@ import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
 import 'package:nephrogo/ui/charts/nutrient_weekly_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/nutrient_screen_response.dart';
 
+import 'nutrition_calendar.dart';
 import 'nutrition_components.dart';
 import 'product_search.dart';
 import 'weekly_nutrients_screen.dart';
@@ -59,30 +62,31 @@ class NutritionTab extends StatelessWidget {
           replacement: EmptyStateContainer(
             text: appLocalizations.nutritionEmpty,
           ),
-          child: Scrollbar(
-            child: ListView(
-              padding: const EdgeInsets.only(bottom: 64),
-              children: [
-                DailyNormsSection(dailyIntakeReport: todayIntakesReport),
-                DailyIntakesCard(
-                  title: appLocalizations.lastMealsSectionTitle,
-                  intakes: latestIntakes,
-                  dailyNutrientNormsWithTotals:
-                      todayIntakesReport.dailyNutrientNormsAndTotals,
-                  leading: OutlinedButton(
-                    onPressed: () => _openNutritionSummary(context),
-                    child: Text(appLocalizations.more.toUpperCase()),
-                  ),
+          child: ListView(
+            padding: const EdgeInsets.only(bottom: 64),
+            children: [
+              DailyNormsSection(dailyIntakeReport: todayIntakesReport),
+              DailyIntakesCard(
+                title: appLocalizations.lastMealsSectionTitle,
+                intakes: latestIntakes,
+                dailyNutrientNormsWithTotals:
+                    todayIntakesReport.dailyNutrientNormsAndTotals,
+                leading: OutlinedButton(
+                  onPressed: () => _openNutritionSummary(context),
+                  child: Text(appLocalizations.more.toUpperCase()),
                 ),
-                for (final nutrient in Nutrient.values)
-                  buildIndicatorChartSection(
-                    context,
-                    todayIntakesReport,
-                    dailyIntakesReports,
-                    nutrient,
-                  )
-              ],
-            ),
+              ),
+              MonthlyNutritionSummarySection(
+                data.currentMonthDailyReports.toList(),
+              ),
+              for (final nutrient in Nutrient.values)
+                buildIndicatorChartSection(
+                  context,
+                  todayIntakesReport,
+                  dailyIntakesReports,
+                  nutrient,
+                )
+            ],
           ),
         );
       },
@@ -130,7 +134,7 @@ class NutritionTab extends StatelessWidget {
 
     return LargeSection(
       title: nutrient.name(localizations),
-      subTitle: subtitle,
+      subTitle: Text(subtitle),
       trailing: OutlinedButton(
         onPressed: () => openWeeklyNutritionScreen(context, nutrient),
         child: Text(localizations.more.toUpperCase()),
@@ -161,7 +165,7 @@ class DailyNormsSection extends StatelessWidget {
     final appLocalizations = AppLocalizations.of(context);
     return LargeSection(
       title: appLocalizations.dailyNormsSectionTitle,
-      subTitle: appLocalizations.dailyNormsSectionSubtitle,
+      subTitle: Text(appLocalizations.dailyNormsSectionSubtitle),
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -194,7 +198,7 @@ class DailyIntakesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LargeSection(
       title: title,
-      subTitle: subTitle,
+      subTitle: subTitle != null ? Text(subTitle) : null,
       trailing: leading,
       showDividers: true,
       children: [
@@ -205,5 +209,78 @@ class DailyIntakesCard extends StatelessWidget {
           ),
       ],
     );
+  }
+}
+
+class MonthlyNutritionSummarySection extends StatelessWidget {
+  final List<DailyIntakesLightReport> reports;
+  final _monthFormat = DateFormat('MMMM ');
+
+  MonthlyNutritionSummarySection(
+    this.reports, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
+    return LargeSection(
+      title:
+          "${_monthFormat.format(DateTime.now())}${appLocalizations.summary.toLowerCase()}"
+              .capitalizeFirst(),
+      subTitle: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: _buildDailyNormExplanation(
+              appLocalizations.dailyNormExplanationExceeded,
+              Colors.redAccent,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: _buildDailyNormExplanation(
+              appLocalizations.dailyNormExplanationNotExceeded,
+              Colors.teal,
+            ),
+          ),
+        ],
+      ),
+      trailing: OutlinedButton(
+        onPressed: () => _openNutritionSummary(context),
+        child: Text(appLocalizations.more.toUpperCase()),
+      ),
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: NutritionCalendar(reports),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDailyNormExplanation(String text, Color color) {
+    return Row(
+      children: [
+        Container(
+          height: 16,
+          width: 16,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 4.0),
+          child: Text(text),
+        )
+      ],
+    );
+  }
+
+  Future _openNutritionSummary(BuildContext context) {
+    return Navigator.pushNamed(context, Routes.routeNutritionSummary);
   }
 }

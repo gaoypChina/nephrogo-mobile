@@ -119,7 +119,7 @@ class BasicSection extends StatelessWidget {
 class LargeSection extends StatelessWidget {
   final List<Widget> children;
   final String title;
-  final String subTitle;
+  final Widget subTitle;
   final Widget trailing;
   final bool showDividers;
   final GestureTapCallback onTap;
@@ -138,12 +138,13 @@ class LargeSection extends StatelessWidget {
     if (subTitle == null) {
       return null;
     }
-    return Text(
-      subTitle,
+
+    return DefaultTextStyle.merge(
       style: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold,
       ),
+      child: subTitle,
     );
   }
 
