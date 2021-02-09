@@ -62,8 +62,6 @@ class DailyNormsBarChart extends StatelessWidget {
     return AppBarChart(
       data: AppBarChartData(
         barWidth: 28,
-        fitInsideHorizontally: false,
-        fitInsideVertically: false,
         groups: _buildChartGroups(appLocalizations, types),
       ),
     );
