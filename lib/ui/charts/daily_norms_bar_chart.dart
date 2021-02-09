@@ -53,7 +53,7 @@ class DailyNormsBarChart extends StatelessWidget {
   Widget _buildGroup(AppLocalizations appLocalizations, List<Nutrient> types) {
     return Container(
       height: 100,
-      constraints: const BoxConstraints(maxWidth: 300),
+      constraints: const BoxConstraints(maxWidth: 280),
       child: _buildGraph(appLocalizations, types),
     );
   }
