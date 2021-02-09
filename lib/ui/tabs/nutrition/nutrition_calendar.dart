@@ -37,8 +37,8 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
         .sortedBy((e) => e.date, reverse: true)
         .toList();
 
-    _minDate = _reportsSortedByDateReverse.last.date;
-    _maxDate = _reportsSortedByDateReverse.first.date;
+    _minDate = _reportsSortedByDateReverse.lastOrNull()?.date;
+    _maxDate = _reportsSortedByDateReverse.firstOrNull()?.date;
 
     final allDates = _reportsSortedByDateReverse.map((r) => Date(r.date));
 
