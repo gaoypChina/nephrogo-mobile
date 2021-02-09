@@ -227,11 +227,11 @@ class MonthlyNutritionSummarySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
+    final monthFormatted = _monthFormat.format(DateTime.now());
 
     return LargeSection(
-      title:
-          "${_monthFormat.format(DateTime.now())}${appLocalizations.summary.toLowerCase()}"
-              .capitalizeFirst(),
+      title: "$monthFormatted${appLocalizations.summary.toLowerCase()}"
+          .capitalizeFirst(),
       subTitle: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
