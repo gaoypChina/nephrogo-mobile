@@ -37,12 +37,12 @@ class DailyNormsBarChart extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(32, 0, 32, 8),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
             child: _buildGroup(_appLocalizations, firstNutrientGroup),
           ),
           if (secondNutrientGroup.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.fromLTRB(32, 16, 32, 8),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
               child: _buildGroup(_appLocalizations, firstNutrientGroup),
             )
         ],
