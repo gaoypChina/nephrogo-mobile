@@ -131,7 +131,7 @@ class NutritionTab extends StatelessWidget {
     return LargeSection(
       title: nutrient.name(localizations),
       subTitle: subtitle,
-      leading: OutlinedButton(
+      trailing: OutlinedButton(
         onPressed: () => openWeeklyNutritionScreen(context, nutrient),
         child: Text(localizations.more.toUpperCase()),
       ),
@@ -172,13 +172,6 @@ class DailyNormsSection extends StatelessWidget {
       ],
     );
   }
-
-  Future showInformationScreen(BuildContext context) {
-    return Navigator.pushNamed(
-      context,
-      Routes.routeFAQ,
-    );
-  }
 }
 
 class DailyIntakesCard extends StatelessWidget {
@@ -202,7 +195,7 @@ class DailyIntakesCard extends StatelessWidget {
     return LargeSection(
       title: title,
       subTitle: subTitle,
-      leading: leading,
+      trailing: leading,
       showDividers: true,
       children: [
         for (final intake in intakes)

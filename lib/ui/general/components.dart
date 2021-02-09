@@ -120,15 +120,17 @@ class LargeSection extends StatelessWidget {
   final List<Widget> children;
   final String title;
   final String subTitle;
-  final Widget leading;
+  final Widget trailing;
   final bool showDividers;
+  final GestureTapCallback onTap;
 
   const LargeSection({
     Key key,
     @required this.title,
     @required this.children,
     this.subTitle,
-    this.leading,
+    this.trailing,
+    this.onTap,
     this.showDividers = false,
   }) : super(key: key);
 
@@ -158,8 +160,9 @@ class LargeSection extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        onTap: onTap,
         subtitle: _buildSubtitle(),
-        trailing: leading,
+        trailing: trailing,
       ),
       children: children,
     );
