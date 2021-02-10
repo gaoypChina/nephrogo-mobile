@@ -8,11 +8,10 @@ class NutritionCalendar extends StatefulWidget {
   final List<DailyIntakesLightReport> dailyIntakesLightReports;
   final void Function(Date date) onDaySelected;
 
-  const NutritionCalendar(
+  NutritionCalendar(
     this.dailyIntakesLightReports, {
-    Key key,
     this.onDaySelected,
-  }) : super(key: key);
+  }) : super(key: UniqueKey());
 
   @override
   _NutritionCalendarState createState() => _NutritionCalendarState();
@@ -74,39 +73,46 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
       builders: CalendarBuilders(
         dayBuilder: (context, dateTime, _) {
           final date = Date.from(dateTime);
-          Color fontColor = Colors.white;
-          BoxDecoration boxDecoration;
-
-          if (!_availableDatesSet.contains(date)) {
-            if (_today.isAfter(date)) {
-              fontColor = Colors.black;
-            } else {
-              fontColor = Colors.grey;
-            }
-          } else if (_dailyNormExceededDatesSet.contains(date)) {
-            boxDecoration = const BoxDecoration(
-              color: Colors.redAccent,
-              shape: BoxShape.circle,
-            );
-          } else {
-            boxDecoration = const BoxDecoration(
-              color: Colors.teal,
-              shape: BoxShape.circle,
-            );
-          }
-
-          return Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: Container(
-              alignment: Alignment.center,
-              decoration: boxDecoration,
-              child: Text(
-                date.day.toString(),
-                style: TextStyle(color: fontColor),
-              ),
-            ),
-          );
+          return _buildCalendarCell(date);
         },
+      ),
+    );
+  }
+
+  Widget _buildCalendarCell(Date date) {
+    Color fontColor = Colors.white;
+    FontWeight fontWeight = FontWeight.normal;
+    BoxDecoration boxDecoration;
+
+    if (!_availableDatesSet.contains(date)) {
+      if (_today.isBefore(date)) {
+        fontColor = Colors.grey;
+      } else {
+        fontColor = Colors.black;
+      }
+    } else if (_dailyNormExceededDatesSet.contains(date)) {
+      fontWeight = FontWeight.bold;
+      boxDecoration = const BoxDecoration(
+        color: Colors.redAccent,
+        shape: BoxShape.circle,
+      );
+    } else {
+      fontWeight = FontWeight.bold;
+      boxDecoration = const BoxDecoration(
+        color: Colors.teal,
+        shape: BoxShape.circle,
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: Container(
+        alignment: Alignment.center,
+        decoration: boxDecoration,
+        child: Text(
+          date.day.toString(),
+          style: TextStyle(color: fontColor, fontWeight: fontWeight),
+        ),
       ),
     );
   }
