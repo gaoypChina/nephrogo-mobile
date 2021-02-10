@@ -24,6 +24,7 @@ class _AppComponentState extends State<AppComponent> {
     final analytics = Analytics();
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'NephroGo',
       theme: ThemeData(
         primarySwatch: Colors.teal,

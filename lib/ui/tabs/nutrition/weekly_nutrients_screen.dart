@@ -242,7 +242,11 @@ class DailyIntakeSection extends StatelessWidget {
       showDividers: true,
       children: [
         for (final intake in intakesSorted)
-          IndicatorIntakeTile(intake: intake, nutrient: nutrient)
+          IndicatorIntakeTile(
+            intake: intake,
+            nutrient: nutrient,
+            dailyNutrientNormsAndTotals: dailyNutrientNormsAndTotals,
+          )
       ],
     );
   }
@@ -290,10 +294,13 @@ class IndicatorIntakeTile extends StatelessWidget {
 
   const IndicatorIntakeTile({
     Key key,
-    this.intake,
-    this.nutrient,
-    this.dailyNutrientNormsAndTotals,
-  }) : super(key: key);
+    @required this.intake,
+    @required this.nutrient,
+    @required this.dailyNutrientNormsAndTotals,
+  })  : assert(intake != null),
+        assert(nutrient != null),
+        assert(dailyNutrientNormsAndTotals != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -86,7 +86,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: 16, right: 8, left: 8),
       child: Column(
         children: [
           Expanded(
