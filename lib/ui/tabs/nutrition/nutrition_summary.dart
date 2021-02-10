@@ -97,17 +97,12 @@ class _NutritionMonthlyReportsListState
       itemBuilder: (context, index) {
         if (index == 0) {
           return BasicSection.single(
-            Container(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: NutritionCalendar(
-                  reportsReverseSorted,
-                  onDaySelected: (dt) =>
-                      _onSelectionChanged(dt, reportsReverseSorted),
-                ),
-              ),
+            NutritionCalendar(
+              reportsReverseSorted,
+              onDaySelected: (dt) =>
+                  _onSelectionChanged(dt, reportsReverseSorted),
             ),
+            innerPadding: const EdgeInsets.all(8.0),
           );
         }
         final dailyIntakesReport = reportsReverseSorted[index - 1];
