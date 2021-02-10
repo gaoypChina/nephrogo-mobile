@@ -106,8 +106,7 @@ class _NutritionMonthlyReportsListState
                 padding: const EdgeInsets.all(8.0),
                 child: NutritionCalendar(
                   reportsReverseSorted,
-                  datePickerController: _datePickerController,
-                  onSelectionChanged: (dt) =>
+                  onDaySelected: (dt) =>
                       _onSelectionChanged(dt, reportsReverseSorted),
                 ),
               ),

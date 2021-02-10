@@ -15,6 +15,11 @@ class Date extends DateTime {
           dateTime.toLocal().day,
         );
 
+  // ignore: prefer_constructors_over_static_methods
+  static Date today() {
+    return Date.from(DateTime.now());
+  }
+
   @override
   String toString() {
     return dateFormat.format(toLocal());
