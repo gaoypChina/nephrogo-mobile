@@ -67,9 +67,6 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
         outsideDaysVisible: false,
       ),
       onDaySelected: (widget.onDaySelected != null) ? _onDaySelected : null,
-      daysOfWeekStyle: const DaysOfWeekStyle(
-        weekendStyle: TextStyle(color: Colors.blue),
-      ),
       headerVisible: false,
       builders: CalendarBuilders(
         dayBuilder: (context, dateTime, _) {
