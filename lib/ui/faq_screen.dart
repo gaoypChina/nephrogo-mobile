@@ -3,12 +3,37 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/ui/general/components.dart';
 
+import 'general/dialogs.dart';
+
 class FrequentlyAskedQuestionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context).faqTitle)),
+      appBar: AppBar(
+        title: Text(appLocalizations.faqTitle),
+        actions: [
+          TextButton(
+            onPressed: () => _openSources(context),
+            child: Text(
+              appLocalizations.sources.toUpperCase(),
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
       body: FrequentlyAskedQuestionsScreenBody(),
+    );
+  }
+
+  Future<void> _openSources(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
+    return showAppDialog(
+      context: context,
+      title: appLocalizations.sources,
+      message: appLocalizations.recommendationsSources,
     );
   }
 }
@@ -179,21 +204,24 @@ class FrequentlyAskedQuestionsScreenBody extends StatelessWidget {
 
     return SmallSection(
       title: group.name.toUpperCase(),
-      children: group.items.map((item) {
-        return ExpansionTile(
-          key: ObjectKey(item),
-          title: Text(item.question),
-          children: [
-            AppListTile(
-              subtitle: Text(
-                item.answer,
-                style: textTheme.subtitle1,
-                textAlign: TextAlign.justify,
+      children: [
+        for (final item in group.items)
+          AppExpansionTile(
+            key: PageStorageKey(item),
+            title: Text(item.question),
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: Text(
+                  item.answer,
+                  style: textTheme.subtitle1,
+                  textAlign: TextAlign.justify,
+                ),
               ),
-            ),
-          ],
-        );
-      }).toList(),
+            ],
+          )
+      ],
     );
   }
 }

@@ -172,13 +172,15 @@ class LargeSection extends StatelessWidget {
 
 class SmallSection extends StatelessWidget {
   final String title;
+  final Widget trailing;
   final List<Widget> children;
   final bool showDividers;
 
   const SmallSection({
     Key key,
-    @required this.children,
     @required this.title,
+    @required this.children,
+    this.trailing,
     this.showDividers = false,
   }) : super(key: key);
 
@@ -194,6 +196,7 @@ class SmallSection extends StatelessWidget {
               .subtitle1
               .copyWith(color: Colors.grey),
         ),
+        trailing: trailing,
         dense: true,
       ),
       children: children,
