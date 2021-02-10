@@ -257,8 +257,11 @@ class MonthlyNutritionSummarySection extends StatelessWidget {
       ),
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: NutritionCalendar(reports),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: NutritionCalendar(
+            reports,
+            onDaySelected: (_) => _openNutritionSummary(context),
+          ),
         ),
       ],
     );

@@ -12,7 +12,6 @@ import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
 import 'package:nephrogo_api_client/model/user.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import 'nutrition_calendar.dart';
 import 'nutrition_components.dart';
@@ -79,14 +78,12 @@ class _NutritionMonthlyReportsList extends StatefulWidget {
 class _NutritionMonthlyReportsListState
     extends State<_NutritionMonthlyReportsList> {
   ItemScrollController _itemScrollController;
-  DateRangePickerController _datePickerController;
 
   @override
   void initState() {
     super.initState();
 
     _itemScrollController = ItemScrollController();
-    _datePickerController = DateRangePickerController();
   }
 
   @override
@@ -137,12 +134,5 @@ class _NutritionMonthlyReportsListState
             .mapIndexed((i, r) => r.date == Date.from(dateTime) ? i : null)
             .firstWhere((i) => i != null) +
         1;
-  }
-
-  @override
-  void dispose() {
-    _datePickerController.dispose();
-
-    super.dispose();
   }
 }
