@@ -232,25 +232,7 @@ class MonthlyNutritionSummarySection extends StatelessWidget {
     return LargeSection(
       title: "$monthFormatted${appLocalizations.summary.toLowerCase()}"
           .capitalizeFirst(),
-      subTitle: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 4.0),
-            child: _buildDailyNormExplanation(
-              appLocalizations.dailyNormExplanationExceeded,
-              Colors.redAccent,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: _buildDailyNormExplanation(
-              appLocalizations.dailyNormExplanationNotExceeded,
-              Colors.teal,
-            ),
-          ),
-        ],
-      ),
+      subTitle: const NutrientCalendarExplanation(),
       trailing: OutlinedButton(
         onPressed: () => _openNutritionSummary(context),
         child: Text(appLocalizations.more.toUpperCase()),
@@ -263,25 +245,6 @@ class MonthlyNutritionSummarySection extends StatelessWidget {
             onDaySelected: (_) => _openNutritionSummary(context),
           ),
         ),
-      ],
-    );
-  }
-
-  Widget _buildDailyNormExplanation(String text, Color color) {
-    return Row(
-      children: [
-        Container(
-          height: 16,
-          width: 16,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 4.0),
-          child: Text(text),
-        )
       ],
     );
   }

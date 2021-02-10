@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -133,5 +134,54 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     _calendarController.dispose();
 
     super.dispose();
+  }
+}
+
+class NutrientCalendarExplanation extends StatelessWidget {
+  const NutrientCalendarExplanation()
+      : super(key: const Key('NutrientCalendarExplanation'));
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 4.0),
+          child: _buildDailyNormExplanation(
+            appLocalizations.dailyNormExplanationExceeded,
+            Colors.redAccent,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: _buildDailyNormExplanation(
+            appLocalizations.dailyNormExplanationNotExceeded,
+            Colors.teal,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDailyNormExplanation(String text, Color color) {
+    return Row(
+      children: [
+        Container(
+          height: 16,
+          width: 16,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 4.0),
+          child: Text(text),
+        )
+      ],
+    );
   }
 }
