@@ -125,6 +125,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                 children: [
                   AppCheckboxListTile(
                     title: _buildTextWithUrl(
+                      context,
                       appLocalizations.loginConditionsAgreeWith,
                       appLocalizations.agreeWithHealthDataProcessing,
                       Constants.healthDataProcessingPolicyUrl,
@@ -135,6 +136,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                   ),
                   AppCheckboxListTile(
                     title: _buildTextWithUrl(
+                      context,
                       appLocalizations.loginConditionsAgree,
                       appLocalizations.agreeWithPrivacyPolicy,
                       Constants.privacyPolicyUrl,
@@ -144,6 +146,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                   ),
                   AppCheckboxListTile(
                     title: _buildTextWithUrl(
+                      context,
                       appLocalizations.loginConditionsAgree,
                       appLocalizations.agreeWithUsageRules,
                       Constants.rulesUrl,
@@ -226,10 +229,12 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
     );
   }
 
-  Widget _buildTextWithUrl(String text, String urlText, String url) {
+  Widget _buildTextWithUrl(
+      BuildContext context, String text, String urlText, String url) {
     return RichText(
       text: TextSpan(
-        style: const TextStyle(color: Colors.black, fontSize: 16),
+        style: TextStyle(
+            color: Theme.of(context).textTheme.bodyText1.color, fontSize: 16),
         children: [
           TextSpan(text: "$text "),
           TextSpan(

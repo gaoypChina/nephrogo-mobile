@@ -102,7 +102,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
     final appLocalizations = AppLocalizations.of(context);
     final baseTheme = Theme.of(context);
     final theme = baseTheme.copyWith(
-      primaryColor: Colors.white,
+      primaryColor: Theme.of(context).dialogBackgroundColor,
       primaryIconTheme: baseTheme.primaryIconTheme.copyWith(color: Colors.grey),
       primaryColorBrightness: Brightness.dark,
       primaryTextTheme: baseTheme.textTheme,

@@ -114,7 +114,7 @@ class _MonthlyPagerState<T> extends State<MonthlyPager<T>> {
 
   Widget _buildDateSelectionSection(Date date) {
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).dialogBackgroundColor,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Row(

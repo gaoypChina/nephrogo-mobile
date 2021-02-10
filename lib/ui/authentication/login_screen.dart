@@ -266,7 +266,7 @@ class EmailLoginButtonComponent extends StatelessWidget {
               style: OutlinedButton.styleFrom(
                 primary: Colors.white,
                 side: const BorderSide(width: 2, color: Colors.white),
-                textStyle: const TextStyle(fontSize: 16),
+                textStyle: const TextStyle(fontSize: 16, color: Colors.white),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),

@@ -20,6 +20,8 @@ class _AppBarChart extends State<AppBarChart> {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).textTheme.bodyText1.color;
+
     return BarChart(
       BarChartData(
         maxY: widget.data.maxY,
@@ -67,6 +69,7 @@ class _AppBarChart extends State<AppBarChart> {
           ),
           leftTitles: SideTitles(
             margin: 8,
+            getTextStyles: (v) => TextStyle(color: textColor, fontSize: 11),
             showTitles: widget.data.showLeftTitles,
             interval: widget.data.showLeftTitles
                 ? widget.data.interval ?? _calculateInterval()

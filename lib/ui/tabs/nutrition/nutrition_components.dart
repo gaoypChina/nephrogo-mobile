@@ -167,7 +167,7 @@ class IntakeExpandableTile extends StatelessWidget {
       child: AppExpansionTile(
         title: Text(
           intake.product.name,
-          style: const TextStyle(color: Colors.black),
+          style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color),
         ),
         subtitle: Text(
           '${intake.getAmountFormatted()} | $dateFormatted',

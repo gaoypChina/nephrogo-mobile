@@ -2,43 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:nephrogo_api_client/model/product_kind_enum.dart';
 
-typedef OnWidgetSizeChange = void Function(Size size);
-
-class MeasureSizeRenderObject extends RenderProxyBox {
-  Size oldSize;
-  final OnWidgetSizeChange onChange;
-
-  MeasureSizeRenderObject(this.onChange);
-
-  @override
-  void performLayout() {
-    super.performLayout();
-
-    final Size newSize = child.size;
-    if (oldSize == newSize) return;
-
-    oldSize = newSize;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      onChange(newSize);
-    });
-  }
-}
-
-class MeasureSize extends SingleChildRenderObjectWidget {
-  final OnWidgetSizeChange onChange;
-
-  const MeasureSize({
-    Key key,
-    @required this.onChange,
-    @required Widget child,
-  }) : super(key: key, child: child);
-
-  @override
-  RenderObject createRenderObject(BuildContext context) {
-    return MeasureSizeRenderObject(onChange);
-  }
-}
-
 class BasicSection extends StatelessWidget {
   final Widget header;
   final List<Widget> children;
@@ -73,7 +36,7 @@ class BasicSection extends StatelessWidget {
       padding: padding,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).dialogBackgroundColor,
           border: Border(
             top: Divider.createBorderSide(context),
             bottom: Divider.createBorderSide(context),
@@ -155,9 +118,9 @@ class LargeSection extends StatelessWidget {
       header: AppListTile(
         title: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 24,
-            color: Theme.of(context).primaryColor,
+            color: Colors.teal,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -228,7 +191,7 @@ class AppListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     // Material is needed for workaround https://github.com/flutter/flutter/issues/3782
     return Material(
-      color: Colors.white,
+      color: Theme.of(context).dialogBackgroundColor,
       child: ListTile(
         leading: leading,
         title: title,
@@ -266,7 +229,7 @@ class AppExpansionTile extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: Material(
-        color: Colors.white,
+        color: Theme.of(context).dialogBackgroundColor,
         child: GestureDetector(
           onLongPress: onLongPress,
           child: ExpansionTile(
@@ -302,10 +265,10 @@ class AppCheckboxListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     // Material is needed for workaround https://github.com/flutter/flutter/issues/3782
     return Material(
-      color: Colors.white,
+      color: Theme.of(context).dialogBackgroundColor,
       child: CheckboxListTile(
         value: value,
-        activeColor: Theme.of(context).primaryColor,
+        activeColor: Colors.teal,
         controlAffinity: ListTileControlAffinity.leading,
         onChanged: onChanged,
         title: title,

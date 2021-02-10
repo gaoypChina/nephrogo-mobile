@@ -50,7 +50,6 @@ class AppFormSingleSelectDialog<T> extends StatelessWidget {
   AppListTile _generateItemCell(
       BuildContext context, AppSelectFormFieldItem item) {
     final selected = selectedValue != null && item.value == selectedValue;
-    final primaryColor = Theme.of(context).primaryColor;
 
     final radioIconData =
         selected ? Icons.radio_button_on : Icons.radio_button_off;
@@ -62,12 +61,12 @@ class AppFormSingleSelectDialog<T> extends StatelessWidget {
           ? IconButton(
               icon: Icon(
                 item.icon,
-                color: selected ? primaryColor : null,
+                color: selected ? Colors.teal : null,
               ),
               onPressed: null,
             )
           : null,
-      trailing: Icon(radioIconData, color: primaryColor),
+      trailing: Icon(radioIconData, color: Colors.teal),
       selected: selected,
       onTap: () => Navigator.pop(context, item),
     );

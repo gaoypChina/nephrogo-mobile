@@ -129,7 +129,7 @@ class _WeeklyPagerState<T> extends State<WeeklyPager<T>> {
 
   Widget _buildDateSelectionSection() {
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).dialogBackgroundColor,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Row(

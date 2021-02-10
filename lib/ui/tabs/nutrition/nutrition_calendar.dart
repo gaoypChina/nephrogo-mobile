@@ -78,7 +78,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
   }
 
   Widget _buildCalendarCell(Date date) {
-    Color fontColor = Colors.white;
+    Color fontColor;
     FontWeight fontWeight = FontWeight.normal;
     BoxDecoration boxDecoration;
 
@@ -86,15 +86,17 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
       if (_today.isBefore(date)) {
         fontColor = Colors.grey;
       } else {
-        fontColor = Colors.black;
+        fontColor = null;
       }
     } else if (_dailyNormExceededDatesSet.contains(date)) {
+      fontColor = Colors.white;
       fontWeight = FontWeight.bold;
       boxDecoration = const BoxDecoration(
         color: Colors.redAccent,
         shape: BoxShape.circle,
       );
     } else {
+      fontColor = Colors.white;
       fontWeight = FontWeight.bold;
       boxDecoration = const BoxDecoration(
         color: Colors.teal,
