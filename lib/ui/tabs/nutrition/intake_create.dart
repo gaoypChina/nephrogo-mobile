@@ -130,7 +130,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
           text: appLocalizations.save.toUpperCase(),
         ),
         padding: EdgeInsets.zero,
-        innerPadding: const EdgeInsets.all(8),
+        innerPadding: const EdgeInsets.all(16),
       ),
       body: Form(
         key: _formKey,

@@ -67,7 +67,7 @@ class _HealthStatusCreationScreenState
           text: appLocalizations.save.toUpperCase(),
         ),
         padding: EdgeInsets.zero,
-        innerPadding: const EdgeInsets.all(8),
+        innerPadding: const EdgeInsets.all(16),
       ),
       body: AppFutureBuilder<DailyHealthStatus>(
         future: _healthStatusMemoizer.future,

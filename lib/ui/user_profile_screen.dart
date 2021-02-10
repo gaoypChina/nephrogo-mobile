@@ -102,7 +102,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           text: appLocalizations.save.toUpperCase(),
         ),
         padding: EdgeInsets.zero,
-        innerPadding: const EdgeInsets.all(8),
+        innerPadding: const EdgeInsets.all(16),
       ),
     );
   }
