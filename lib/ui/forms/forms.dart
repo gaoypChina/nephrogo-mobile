@@ -36,7 +36,7 @@ class AppTextFormField extends StatelessWidget {
   final EdgeInsets padding;
   final bool disabled;
   final bool autoFocus;
-  final IconData suffixIconData;
+  final Widget suffixIcon;
   final bool obscureText;
   final Iterable<String> autofillHints;
   final TextInputAction textInputAction;
@@ -57,7 +57,7 @@ class AppTextFormField extends StatelessWidget {
     this.suffixText,
     this.onTap,
     this.initialValue,
-    this.suffixIconData,
+    this.suffixIcon,
     this.padding = _defaultFieldPadding,
     this.autoFocus = false,
     this.disabled = false,
@@ -77,7 +77,7 @@ class AppTextFormField extends StatelessWidget {
           helperText: helperText,
           suffixText: suffixText,
           hintText: hintText,
-          suffixIcon: suffixIconData != null ? Icon(suffixIconData) : null,
+          suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
           icon: icon,
         ),
@@ -171,7 +171,7 @@ class _AppSelectionScreenFormFieldState<T>
       prefixIcon: widget.prefixIcon,
       disabled: true,
       onTap: () => _onTap(context),
-      suffixIconData: Icons.chevron_right,
+      suffixIcon: const Icon(Icons.chevron_right),
       onSaved: _onSaved,
       validator: _validator,
     );
@@ -602,7 +602,7 @@ class AppDoubleInputField extends StatelessWidget {
   final String helperText;
   final String hintText;
   final double initialValue;
-  final IconData iconData;
+  final Widget icon;
   final FormFieldValidator<double> validator;
   final FormFieldSetter<double> onSaved;
   final String suffixText;
@@ -616,7 +616,7 @@ class AppDoubleInputField extends StatelessWidget {
     this.hintText,
     this.helperText,
     this.initialValue,
-    this.iconData,
+    this.icon,
     this.validator,
     this.suffixText,
   }) : super(key: key);
@@ -626,7 +626,7 @@ class AppDoubleInputField extends StatelessWidget {
     return AppTextFormField(
       labelText: labelText,
       helperText: helperText,
-      icon: Icon(iconData),
+      icon: icon,
       initialValue: initialValue?.toStringAsFixed(fractionDigits),
       validator: _validator,
       hintText: hintText,
