@@ -120,7 +120,6 @@ class LargeSection extends StatelessWidget {
           title,
           style: const TextStyle(
             fontSize: 24,
-            color: Colors.teal,
             fontWeight: FontWeight.bold,
           ),
         ),
