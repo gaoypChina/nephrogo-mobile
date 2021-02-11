@@ -23,18 +23,28 @@ class _AppComponentState extends State<AppComponent> {
 
     final analytics = Analytics();
 
+    const inputDecorationTheme = InputDecorationTheme(
+      border: OutlineInputBorder(),
+      helperMaxLines: 5,
+      errorMaxLines: 5,
+    );
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'NephroGo',
       theme: ThemeData(
         primarySwatch: Colors.teal,
         accentColor: Colors.redAccent,
+        brightness: Brightness.light,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        inputDecorationTheme: const InputDecorationTheme(
-          border: OutlineInputBorder(),
-          helperMaxLines: 5,
-          errorMaxLines: 5,
-        ),
+        inputDecorationTheme: inputDecorationTheme,
+      ),
+      darkTheme: ThemeData(
+        primarySwatch: Colors.teal,
+        accentColor: Colors.redAccent,
+        brightness: Brightness.dark,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        inputDecorationTheme: inputDecorationTheme,
       ),
       navigatorObservers: [analytics.observer],
       localizationsDelegates: const [
