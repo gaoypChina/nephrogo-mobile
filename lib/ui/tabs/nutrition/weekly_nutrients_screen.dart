@@ -89,7 +89,7 @@ class _WeeklyNutrientsScreenState extends State<WeeklyNutrientsScreen> {
       case Nutrient.liquids:
         return _appLocalizations.consumptionLiquids;
       case Nutrient.proteins:
-        return _appLocalizations.consumptionLiquids;
+        return _appLocalizations.consumptionProteins;
       case Nutrient.sodium:
         return _appLocalizations.consumptionSodium;
       case Nutrient.potassium:
