@@ -170,7 +170,8 @@ class IntakeExpandableTile extends StatelessWidget {
       child: AppExpansionTile(
         title: Text(intake.product.name),
         subtitle: showSubtitle ? Text(subtitleText) : null,
-        onLongPress: () => _showLongClickDialog(context),
+        onLongPress:
+            (intake.id != null) ? () => _showLongClickDialog(context) : null,
         initiallyExpanded: initiallyExpanded,
         leading: ProductKindIcon(productKind: intake.product.productKind),
         children: ListTile.divideTiles(
