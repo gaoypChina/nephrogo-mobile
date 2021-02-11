@@ -14,7 +14,7 @@ import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart'
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
 
-import 'intake_create.dart';
+import 'intake_edit.dart';
 
 class WeeklyNutrientsScreenArguments {
   final Nutrient nutrient;
@@ -324,10 +324,10 @@ class IndicatorIntakeTile extends StatelessWidget {
         ],
       ),
       onTap: () => Navigator.of(context).pushNamed(
-        Routes.routeIntakeCreate,
-        arguments: IntakeCreateScreenArguments(
-          intake: intake,
-          dailyNutrientNormsAndTotals: dailyNutrientNormsAndTotals,
+        Routes.routeIntakeEdit,
+        arguments: IntakeEditScreenArguments(
+          intake,
+          dailyNutrientNormsAndTotals,
         ),
       ),
     );

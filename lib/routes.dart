@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/ui/authentication/email_password_login_screen.dart';
-import 'package:nephrogo_api_client/model/intake.dart';
+import 'package:nephrogo/ui/tabs/nutrition/intake_edit.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 
 import 'ui/authentication/login_screen.dart';
@@ -37,6 +37,7 @@ class Routes {
   static const routeNutritionSummary = 'nutritionSummary';
   static const routeMyDailyIntakesScreen = 'myDailyIntakesScreen';
   static const routeIntakeCreate = 'intakeCreate';
+  static const routeIntakeEdit = 'intakeEdit';
   static const routeProductSearch = 'productSearch';
 
   static const routeWeeklyHealthStatusScreen = 'weeklyHealthStatusScreen';
@@ -87,12 +88,21 @@ class Routes {
           return LegalScreen(exitType: arguments.exitType);
         });
       case routeIntakeCreate:
-        return MaterialPageRoute<Intake>(builder: (context) {
+        return MaterialPageRoute(builder: (context) {
           final arguments = settings.arguments as IntakeCreateScreenArguments;
 
           return IntakeCreateScreen(
             dailyNutrientNormsAndTotals: arguments.dailyNutrientNormsAndTotals,
             initialProduct: arguments.product ?? arguments.intake.product,
+            intake: arguments.intake,
+          );
+        });
+      case routeIntakeEdit:
+        return MaterialPageRoute(builder: (context) {
+          final arguments = settings.arguments as IntakeEditScreenArguments;
+
+          return IntakeEditScreen(
+            dailyNutrientNormsAndTotals: arguments.dailyNutrientNormsAndTotals,
             intake: arguments.intake,
           );
         });

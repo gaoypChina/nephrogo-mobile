@@ -11,7 +11,7 @@ import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 
-import 'intake_create.dart';
+import 'intake_edit.dart';
 
 class DailyIntakesReportTile extends StatelessWidget {
   final _dateFormat = DateFormat('EEEE, MMMM d');
@@ -136,10 +136,10 @@ class IntakeTile extends StatelessWidget {
         ],
       ),
       onTap: () => Navigator.of(context).pushNamed(
-        Routes.routeIntakeCreate,
-        arguments: IntakeCreateScreenArguments(
-          intake: intake,
-          dailyNutrientNormsAndTotals: dailyNutrientNormsAndTotals,
+        Routes.routeIntakeEdit,
+        arguments: IntakeEditScreenArguments(
+          intake,
+          dailyNutrientNormsAndTotals,
         ),
       ),
     );
@@ -163,13 +163,11 @@ class IntakeExpandableTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final subtitleText = _getSubtitleParts().join(" | ");
-
     return ListTileTheme(
       selectedColor: Colors.blue,
       child: AppExpansionTile(
         title: Text(intake.product.name),
-        subtitle: showSubtitle ? Text(subtitleText) : null,
+        subtitle: showSubtitle ? Text(_getSubtitleParts().join(" | ")) : null,
         onLongPress:
             (intake.id != null) ? () => _showLongClickDialog(context) : null,
         initiallyExpanded: initiallyExpanded,
@@ -221,10 +219,10 @@ class IntakeExpandableTile extends StatelessWidget {
 
   Future<void> _editIntake(BuildContext context) {
     return Navigator.of(context).pushReplacementNamed(
-      Routes.routeIntakeCreate,
-      arguments: IntakeCreateScreenArguments(
-        intake: intake,
-        dailyNutrientNormsAndTotals: dailyNutrientNormsAndTotals,
+      Routes.routeIntakeEdit,
+      arguments: IntakeEditScreenArguments(
+        intake,
+        dailyNutrientNormsAndTotals,
       ),
     );
   }
