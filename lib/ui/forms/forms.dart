@@ -528,8 +528,8 @@ class AppIntegerFormField extends StatelessWidget {
 
   const AppIntegerFormField({
     Key key,
-    @required this.onSaved,
     @required this.labelText,
+    this.onSaved,
     this.helperText,
     this.initialValue,
     this.iconData,

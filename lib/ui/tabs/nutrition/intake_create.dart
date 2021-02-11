@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
@@ -63,18 +62,21 @@ class _IntakeSectionOption {
 }
 
 class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
-  static final _dateFormatDep = DateFormat.yMEd();
-  final _dateFormat = DateFormat("EEEE, MMMM d");
+  static final _calendarDateFormat = DateFormat.yMEd();
+  static final _titleDateFormat = DateFormat("EEEE, MMMM d");
 
   final _formKey = GlobalKey<FormState>();
   final _apiService = ApiService();
-  final _intakeBuilder = IntakeRequestBuilder();
 
   List<_IntakeSectionOption> _intakeSectionsOptions;
 
-  AppLocalizations get _appLocalizations => AppLocalizations.of(context);
-
   DateTime _consumedAt;
+
+  bool get _isAddNewProductButtonActive =>
+      !_intakeSectionsOptions.any((e) => e.fakeIntake.amountG == 0);
+
+  bool get _isSubmitActive =>
+      _intakeSectionsOptions.isNotEmpty && _isAddNewProductButtonActive;
 
   @override
   void initState() {
@@ -87,13 +89,6 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     );
 
     _intakeSectionsOptions = [_IntakeSectionOption(fakedIntake, FocusNode())];
-
-    print(
-        "_IntakeCreateScreenState initState ${_intakeSectionsOptions.length}");
-    for (final options in _intakeSectionsOptions) {
-      final intake = options.fakeIntake;
-      print("${intake.product.name} ${intake.amountG} ${intake.amountMl}");
-    }
   }
 
   Future<Product> _showProductSearch() async {
@@ -123,27 +118,16 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     return product;
   }
 
-  bool _isAddNewProductButtonActive() {
-    return !_intakeSectionsOptions.any((e) => e.fakeIntake.amountG == 0);
-  }
-
   @override
   Widget build(BuildContext context) {
-    print("_IntakeCreateScreenState build ${_intakeSectionsOptions.length}");
-    for (final options in _intakeSectionsOptions) {
-      final intake = options.fakeIntake;
-      print("${intake.product.name} ${intake.amountG} ${intake.amountMl}");
-    }
-
     final formValidators = FormValidators(context);
+    final title = _titleDateFormat.format(_consumedAt).capitalizeFirst();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_dateFormat.format(_consumedAt).capitalizeFirst()),
-      ),
+      appBar: AppBar(title: Text(title)),
       bottomNavigationBar: BasicSection.single(
         AppElevatedButton(
-          onPressed: () => validateAndSaveIntake(context),
+          onPressed: _isSubmitActive ? validateAndSaveIntake : null,
           text: appLocalizations.save.toUpperCase(),
         ),
         padding: EdgeInsets.zero,
@@ -160,64 +144,71 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: OutlinedButton.icon(
-                      onPressed: _isAddNewProductButtonActive()
+                      onPressed: _isAddNewProductButtonActive
                           ? _showProductSearch
                           : null,
                       icon: const Icon(Icons.add_circle),
-                      label: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: Text(
-                          "Papildomas valgis".toUpperCase(),
-                          style: const TextStyle(fontSize: 16),
+                      label: Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: Text(
+                            appLocalizations.createAdditionalMeal.toUpperCase(),
+                            style: const TextStyle(fontSize: 16),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-              for (final options in _intakeSectionsOptions)
+              for (var i = 0; i < _intakeSectionsOptions.length; i++)
                 _IntakeEditSection(
-                  key: ObjectKey(options.fakeIntake.product),
-                  focusNode: options.focusNode,
-                  initialFakedIntake: options.fakeIntake,
+                  key: ObjectKey(_intakeSectionsOptions[i].fakeIntake.product),
+                  focusNode: _intakeSectionsOptions[i].focusNode,
+                  initialFakedIntake: _intakeSectionsOptions[i].fakeIntake,
                   dailyNutrientNormsAndTotals:
                       widget.dailyNutrientNormsAndTotals,
                   onChanged: _onIntakeChanged,
                   onDelete: _onIntakeDeleted,
+                  initiallyExpanded: i + 1 == _intakeSectionsOptions.length,
                 ),
               SmallSection(
-                title: _appLocalizations.mealCreationDatetimeSectionTitle,
+                title: appLocalizations.mealCreationDatetimeSectionTitle,
                 children: [
                   AppDatePickerFormField(
                     initialDate: _consumedAt,
                     selectedDate: _consumedAt,
-                    firstDate: DateTime(2020),
+                    firstDate: DateTime(2021),
                     lastDate: DateTime.now(),
                     validator: formValidators.nonNull(),
-                    dateFormat: _dateFormatDep,
+                    dateFormat: _calendarDateFormat,
                     iconData: Icons.calendar_today,
                     onDateChanged: (dt) {
                       final ldt = dt.toLocal();
-                      _consumedAt = DateTime(
-                        ldt.year,
-                        ldt.month,
-                        ldt.day,
-                        _consumedAt.hour,
-                        _consumedAt.minute,
-                      );
+                      setState(() {
+                        _consumedAt = DateTime(
+                          ldt.year,
+                          ldt.month,
+                          ldt.day,
+                          _consumedAt.hour,
+                          _consumedAt.minute,
+                        );
+                      });
                     },
-                    onDateSaved: (dt) =>
-                        _intakeBuilder.consumedAt = dt.toLocal(),
-                    labelText: _appLocalizations.mealCreationDate,
+                    labelText: appLocalizations.mealCreationDate,
                   ),
                   AppTimePickerFormField(
-                    labelText: _appLocalizations.mealCreationTime,
+                    labelText: appLocalizations.mealCreationTime,
                     iconData: Icons.access_time,
                     initialTime: TimeOfDay(
                       hour: _consumedAt.hour,
                       minute: _consumedAt.minute,
                     ),
-                    onTimeChanged: (t) => _consumedAt = _consumedAt.applied(t),
+                    onTimeChanged: (t) {
+                      setState(() {
+                        _consumedAt = _consumedAt.applied(t);
+                      });
+                    },
                   ),
                 ],
               ),
@@ -284,14 +275,14 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     return _apiService.createIntake(intakeRequest);
   }
 
-  Future validateAndSaveIntake(BuildContext context) async {
+  Future validateAndSaveIntake() async {
     FocusScope.of(context).unfocus();
 
     if (!_formKey.currentState.validate()) {
       await showAppDialog(
         context: context,
-        title: _appLocalizations.error,
-        message: _appLocalizations.formErrorDescription,
+        title: appLocalizations.error,
+        message: appLocalizations.formErrorDescription,
       );
 
       return false;
@@ -302,8 +293,8 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
       (e, stackTrace) async {
         await showAppDialog(
           context: context,
-          title: _appLocalizations.error,
-          message: _appLocalizations.serverErrorDescription,
+          title: appLocalizations.error,
+          message: appLocalizations.serverErrorDescription,
         );
       },
     );
@@ -322,6 +313,7 @@ class _IntakeEditSection extends StatefulWidget {
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
   final void Function(Intake fakedIntaked) onChanged;
   final void Function(Intake fakedIntaked) onDelete;
+  final bool initiallyExpanded;
 
   const _IntakeEditSection({
     Key key,
@@ -330,6 +322,7 @@ class _IntakeEditSection extends StatefulWidget {
     @required this.onChanged,
     @required this.onDelete,
     @required this.focusNode,
+    @required this.initiallyExpanded,
   })  : assert(initialFakedIntake != null),
         assert(dailyNutrientNormsAndTotals != null),
         assert(onChanged != null),
@@ -354,9 +347,6 @@ class _IntakeEditSectionState extends State<_IntakeEditSection> {
     super.initState();
 
     intake = widget.initialFakedIntake;
-
-    print(
-        "_IntakeEditSectionState initState ${intake.product.name} ${intake.amountG} ${intake.amountMl}");
   }
 
   @override
@@ -364,9 +354,6 @@ class _IntakeEditSectionState extends State<_IntakeEditSection> {
     final formValidators = FormValidators(context);
 
     final amount = isAmountInMilliliters ? intake.amountMl : intake.amountG;
-
-    print(
-        "_IntakeEditSectionState build ${intake.product.name} ${intake.amountMl} ${intake.amountG}");
 
     return SmallSection(
       title: _product.name,
@@ -390,13 +377,12 @@ class _IntakeEditSectionState extends State<_IntakeEditSection> {
           ),
           iconData: Icons.kitchen,
           onChanged: _onChanged,
-          onSaved: (_) {
-            print("OnSavedIntake");
-          },
         ),
         IntakeExpandableTile(
           intake,
           widget.dailyNutrientNormsAndTotals,
+          initiallyExpanded: widget.initiallyExpanded,
+          showSubtitle: false,
         ),
       ],
     );

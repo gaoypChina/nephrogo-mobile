@@ -38,7 +38,7 @@ class MyDailyIntakesScreen extends StatelessWidget {
         appBar: AppBar(title: Text(_dateFormat.format(date).capitalizeFirst())),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => _createProduct(context),
-          label: Text(appLocalizations.createMeal.toUpperCase()),
+          label: Text(appLocalizations.createMeals.toUpperCase()),
           icon: const Icon(Icons.add),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

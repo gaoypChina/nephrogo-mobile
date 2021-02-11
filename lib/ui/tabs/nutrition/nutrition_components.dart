@@ -152,20 +152,24 @@ class IntakeExpandableTile extends StatelessWidget {
   final Intake intake;
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
   final bool initiallyExpanded;
+  final bool showSubtitle;
 
   IntakeExpandableTile(
     this.intake,
     this.dailyNutrientNormsAndTotals, {
     this.initiallyExpanded = false,
+    this.showSubtitle = true,
   }) : super(key: PageStorageKey(intake));
 
   @override
   Widget build(BuildContext context) {
+    final subtitleText = _getSubtitleParts().join(" | ");
+
     return ListTileTheme(
       selectedColor: Colors.blue,
       child: AppExpansionTile(
         title: Text(intake.product.name),
-        subtitle: Text(_getSubtitleParts().join(" | ")),
+        subtitle: showSubtitle ? Text(subtitleText) : null,
         onLongPress: () => _showLongClickDialog(context),
         initiallyExpanded: initiallyExpanded,
         leading: ProductKindIcon(productKind: intake.product.productKind),
