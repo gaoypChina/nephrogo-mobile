@@ -24,7 +24,8 @@ class AppTextFormField extends StatelessWidget {
   final String helperText;
   final String hintText;
   final String initialValue;
-  final IconData iconData;
+  final Widget icon;
+  final Widget prefixIcon;
   final FormFieldValidator<String> validator;
   final FormFieldSetter<String> onSaved;
   final FormFieldSetter<String> onChanged;
@@ -47,7 +48,8 @@ class AppTextFormField extends StatelessWidget {
     this.onChanged,
     this.helperText,
     this.hintText,
-    this.iconData,
+    this.icon,
+    this.prefixIcon,
     this.validator,
     this.controller,
     this.keyboardType,
@@ -76,7 +78,8 @@ class AppTextFormField extends StatelessWidget {
           suffixText: suffixText,
           hintText: hintText,
           suffixIcon: suffixIconData != null ? Icon(suffixIconData) : null,
-          icon: iconData != null ? Icon(iconData) : null,
+          prefixIcon: prefixIcon,
+          icon: icon,
         ),
         validator: validator,
         onSaved: onSaved,
@@ -119,7 +122,8 @@ class AppSelectionScreenFormField<T> extends StatefulWidget {
   final T initialSelection;
   final String Function(T item) itemToStringConverter;
   final Future<T> Function(BuildContext context) onTap;
-  final IconData iconData;
+  final Widget icon;
+  final Widget prefixIcon;
   final FormFieldItemSetter<T> onChanged;
   final FormFieldItemSetter<T> onSaved;
   final FormFieldValidator<T> validator;
@@ -131,7 +135,8 @@ class AppSelectionScreenFormField<T> extends StatefulWidget {
     this.labelText,
     this.helperText,
     this.initialSelection,
-    this.iconData,
+    this.icon,
+    this.prefixIcon,
     this.onChanged,
     this.onSaved,
     this.validator,
@@ -162,7 +167,8 @@ class _AppSelectionScreenFormFieldState<T>
       labelText: widget.labelText,
       controller: _textEditingController,
       helperText: widget.helperText,
-      iconData: widget.iconData,
+      icon: widget.icon,
+      prefixIcon: widget.prefixIcon,
       disabled: true,
       onTap: () => _onTap(context),
       suffixIconData: Icons.chevron_right,
@@ -214,7 +220,7 @@ class AppSelectFormField<T> extends StatefulWidget {
   final String labelText;
   final String dialogHelpText;
   final String helperText;
-  final IconData iconData;
+  final Icon icon;
   final FormFieldValidator<AppSelectFormFieldItem<T>> validator;
   final FormFieldSetter<AppSelectFormFieldItem<T>> onChanged;
   final FormFieldSetter<AppSelectFormFieldItem<T>> onSaved;
@@ -225,7 +231,7 @@ class AppSelectFormField<T> extends StatefulWidget {
     @required this.items,
     this.labelText,
     this.helperText,
-    this.iconData,
+    this.icon,
     this.initialValue,
     this.onChanged,
     this.onSaved,
@@ -254,7 +260,7 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
       itemToStringConverter: (item) => item.text,
       labelText: widget.labelText,
       helperText: widget.helperText,
-      iconData: widget.iconData,
+      icon: widget.icon,
       onChanged: widget.onChanged,
       onSaved: widget.onSaved,
       validator: widget.validator,
@@ -300,7 +306,7 @@ class AppMultipleSelectFormField<T> extends StatefulWidget {
   final List<T> initialValues;
   final String labelText;
   final String helperText;
-  final IconData iconData;
+  final Icon icon;
   final FormFieldSetter<List<AppSelectFormFieldItem<T>>> onChanged;
   final FormFieldSetter<List<AppSelectFormFieldItem<T>>> onSaved;
 
@@ -310,7 +316,7 @@ class AppMultipleSelectFormField<T> extends StatefulWidget {
     this.initialValues,
     this.labelText,
     this.helperText,
-    this.iconData,
+    this.icon,
     this.onChanged,
     this.onSaved,
   }) : super(key: key);
@@ -349,7 +355,7 @@ class _AppMultipleSelectFormFieldState<T>
       labelText: widget.labelText,
       helperText: widget.helperText,
       initialSelection: _selectedItems,
-      iconData: widget.iconData,
+      icon: widget.icon,
       onChanged: widget.onChanged,
       onSaved: widget.onSaved,
     );
@@ -380,7 +386,8 @@ class AppDatePickerFormField extends StatefulWidget {
 
   final String labelText;
   final String helperText;
-  final IconData iconData;
+  final Widget icon;
+  final Widget prefixIcon;
   final FormFieldValidator<DateTime> validator;
   final FormFieldSetter<DateTime> onDateSaved;
   final FormFieldSetter<DateTime> onDateChanged;
@@ -399,7 +406,8 @@ class AppDatePickerFormField extends StatefulWidget {
     this.dateFormat,
     this.labelText,
     this.helperText,
-    this.iconData,
+    this.icon,
+    this.prefixIcon,
     this.validator,
     this.initialEntryMode = DatePickerEntryMode.calendar,
     this.initialDatePickerMode = DatePickerMode.day,
@@ -433,7 +441,8 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
       },
       labelText: widget.labelText,
       helperText: widget.helperText,
-      iconData: widget.iconData,
+      icon: widget.icon,
+      prefixIcon: widget.prefixIcon,
       onSaved: widget.onDateSaved,
       onChanged: widget.onDateChanged,
       initialSelection: selectedDateTime,
@@ -462,7 +471,7 @@ class AppTimePickerFormField extends StatefulWidget {
   final TimeOfDay initialTime;
   final String labelText;
   final String helperText;
-  final IconData iconData;
+  final Widget prefixIcon;
   final FormFieldSetter<TimeOfDay> onTimeSaved;
   final FormFieldSetter<TimeOfDay> onTimeChanged;
 
@@ -473,7 +482,7 @@ class AppTimePickerFormField extends StatefulWidget {
     this.onTimeChanged,
     this.labelText,
     this.helperText,
-    this.iconData,
+    this.prefixIcon,
   }) : super(key: key);
 
   @override
@@ -494,7 +503,7 @@ class _AppTimePickerFormFieldState extends State<AppTimePickerFormField> {
       },
       labelText: widget.labelText,
       helperText: widget.helperText,
-      iconData: widget.iconData,
+      prefixIcon: widget.prefixIcon,
       onSaved: widget.onTimeSaved,
       onChanged: widget.onTimeChanged,
       initialSelection: widget.initialTime,
@@ -518,7 +527,7 @@ class AppIntegerFormField extends StatelessWidget {
   final String helperText;
   final String hintText;
   final int initialValue;
-  final IconData iconData;
+  final Widget icon;
   final FormFieldValidator<int> validator;
   final FormFieldSetter<int> onSaved;
   final FormFieldSetter<int> onChanged;
@@ -532,7 +541,7 @@ class AppIntegerFormField extends StatelessWidget {
     this.onSaved,
     this.helperText,
     this.initialValue,
-    this.iconData,
+    this.icon,
     this.validator,
     this.suffixText,
     this.hintText,
@@ -547,7 +556,7 @@ class AppIntegerFormField extends StatelessWidget {
       labelText: labelText,
       helperText: helperText,
       hintText: hintText,
-      iconData: iconData,
+      icon: icon,
       validator: _validator,
       autoFocus: autoFocus,
       initialValue: initialValue?.toString(),
@@ -617,7 +626,7 @@ class AppDoubleInputField extends StatelessWidget {
     return AppTextFormField(
       labelText: labelText,
       helperText: helperText,
-      iconData: iconData,
+      icon: Icon(iconData),
       initialValue: initialValue?.toStringAsFixed(fractionDigits),
       validator: _validator,
       hintText: hintText,

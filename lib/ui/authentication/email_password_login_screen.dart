@@ -74,7 +74,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
               keyboardType: TextInputType.emailAddress,
               validator: formValidators.nonEmptyValidator,
               autofillHints: const [AutofillHints.email],
-              iconData: Icons.alternate_email,
+              prefixIcon: const Icon(Icons.alternate_email),
               textInputAction: TextInputAction.next,
               onSaved: (s) => email = s,
             ),
@@ -86,7 +86,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
                 formValidators.lengthValidator(6),
               ),
               autofillHints: const [AutofillHints.password],
-              iconData: Icons.lock,
+              prefixIcon: const Icon(Icons.lock),
               onSaved: (s) => password = s,
             ),
             SizedBox(

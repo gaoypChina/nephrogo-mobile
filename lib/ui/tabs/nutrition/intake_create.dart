@@ -182,7 +182,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                     lastDate: DateTime.now(),
                     validator: formValidators.nonNull(),
                     dateFormat: _calendarDateFormat,
-                    iconData: Icons.calendar_today,
+                    prefixIcon: const Icon(Icons.calendar_today),
                     onDateChanged: (dt) {
                       final ldt = dt.toLocal();
                       setState(() {
@@ -199,7 +199,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                   ),
                   AppTimePickerFormField(
                     labelText: appLocalizations.mealCreationTime,
-                    iconData: Icons.access_time,
+                    prefixIcon: const Icon(Icons.access_time),
                     initialTime: TimeOfDay(
                       hour: _consumedAt.hour,
                       minute: _consumedAt.minute,
@@ -250,9 +250,9 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
       final fakedIntake = options.fakeIntake;
 
       final builder = IntakeRequestBuilder();
+      builder.productId = fakedIntake.product.id;
       builder.amountG = fakedIntake.amountG;
       builder.amountMl = fakedIntake.amountMl;
-      builder.productId = fakedIntake.product.id;
       builder.consumedAt = _consumedAt.toUtc();
       builder.mealType = MealTypeEnum.unknown;
 
@@ -375,7 +375,13 @@ class _IntakeEditSectionState extends State<_IntakeEditSection> {
             formValidators.nonNull(),
             formValidators.numRangeValidator(1, 10000),
           ),
-          iconData: Icons.kitchen,
+          icon: CircleAvatar(
+            backgroundColor: Theme.of(context).accentColor,
+            child: const Icon(
+              Icons.kitchen,
+              color: Colors.white,
+            ),
+          ),
           onChanged: _onChanged,
         ),
         IntakeExpandableTile(

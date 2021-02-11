@@ -58,7 +58,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
                           keyboardType: TextInputType.emailAddress,
                           validator: formValidators.nonEmptyValidator,
                           autofillHints: const [AutofillHints.email],
-                          iconData: Icons.alternate_email,
+                          prefixIcon: const Icon(Icons.alternate_email),
                           textInputAction: TextInputAction.next,
                           onSaved: (s) => email = s,
                         ),
