@@ -143,18 +143,15 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                   width: double.infinity,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: OutlinedButton.icon(
+                    child: OutlinedButton(
                       onPressed: _isAddNewProductButtonActive
                           ? _showProductSearch
                           : null,
-                      icon: const Icon(Icons.add_circle),
-                      label: Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: Text(
-                            appLocalizations.createAdditionalMeal.toUpperCase(),
-                            style: const TextStyle(fontSize: 16),
-                          ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Text(
+                          appLocalizations.createAdditionalMeal.toUpperCase(),
+                          style: const TextStyle(fontSize: 15),
                         ),
                       ),
                     ),
