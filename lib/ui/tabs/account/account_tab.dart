@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/constants.dart';
+import 'package:nephrogo/debug/debug_list_cell.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_future_builder.dart';
@@ -62,7 +64,7 @@ class AccountTab extends StatelessWidget {
                   context,
                   Routes.routeOnboarding,
                   arguments:
-                      OnboardingScreenArguments(OnboardingScreenExitType.close),
+                  OnboardingScreenArguments(OnboardingScreenExitType.close),
                 ),
               ),
             ],
@@ -96,6 +98,7 @@ class AccountTab extends StatelessWidget {
               ),
             ],
           ),
+          if (kDebugMode) DebugListCell(),
           BasicSection.single(
             AppListTile(
               title: Text(appLocalizations.logout),
