@@ -100,33 +100,25 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
-    final baseTheme = Theme.of(context);
-    final theme = baseTheme.copyWith(
-      primaryColor: Theme.of(context).dialogBackgroundColor,
-      primaryIconTheme: baseTheme.primaryIconTheme.copyWith(color: Colors.grey),
-      primaryColorBrightness: Brightness.dark,
-      primaryTextTheme: baseTheme.textTheme,
-    );
+    final theme = Theme.of(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: theme.primaryColor,
-        iconTheme: theme.primaryIconTheme,
-        textTheme: theme.primaryTextTheme,
-        brightness: theme.primaryColorBrightness,
         title: TextField(
           onChanged: (q) => _changeQuery(q, submit: false),
           onSubmitted: (q) => _changeQuery(q, submit: true),
           focusNode: focusNode,
-          style: theme.textTheme.headline6,
+          style: theme.textTheme.headline6.copyWith(color: Colors.white),
           textInputAction: TextInputAction.search,
           keyboardType: TextInputType.text,
           autofocus: true,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: appLocalizations.productSearchTitle,
+            hintStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
           ),
+          cursorColor: Colors.white.withOpacity(0.9),
         ),
       ),
       body: AnimatedSwitcher(
