@@ -20,7 +20,7 @@ class MyDailyIntakesScreenArguments {
 }
 
 class MyDailyIntakesScreen extends StatelessWidget {
-  static final _dateFormat = DateFormat('EEEE, MMMM d');
+  static final _dateFormat = DateFormat('MMMM d, EE');
 
   final _apiService = ApiService();
 
@@ -35,7 +35,18 @@ class MyDailyIntakesScreen extends StatelessWidget {
     final appLocalizations = AppLocalizations.of(context);
 
     return Scaffold(
-        appBar: AppBar(title: Text(_dateFormat.format(date).capitalizeFirst())),
+        appBar: AppBar(
+          title: Text(_dateFormat.format(date).capitalizeFirst()),
+          actions: [
+            TextButton(
+              onPressed: () => _openGeneralRecommendations(context),
+              child: Text(
+                appLocalizations.tips.toUpperCase(),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => _createProduct(context),
           label: Text(appLocalizations.createMeals.toUpperCase()),
@@ -73,6 +84,10 @@ class MyDailyIntakesScreen extends StatelessWidget {
             );
           },
         ));
+  }
+
+  Future _openGeneralRecommendations(BuildContext context) {
+    return Navigator.pushNamed(context, Routes.routeFAQ);
   }
 
   Future _createProduct(BuildContext context) {

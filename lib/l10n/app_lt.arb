@@ -334,6 +334,10 @@
   "@energy": {
     "context": "nutrient"
   },
+  "tips": "Patarimai",
+  "@tips": {
+    "context": "faq"
+  },
   "faqTitle": "Bendrieji patarimai",
   "@faqTitle": {
     "context": "faq"

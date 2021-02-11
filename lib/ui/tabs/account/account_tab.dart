@@ -64,7 +64,7 @@ class AccountTab extends StatelessWidget {
                   context,
                   Routes.routeOnboarding,
                   arguments:
-                  OnboardingScreenArguments(OnboardingScreenExitType.close),
+                      OnboardingScreenArguments(OnboardingScreenExitType.close),
                 ),
               ),
             ],
