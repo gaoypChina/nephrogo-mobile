@@ -20,6 +20,13 @@ enum ProductSearchType {
   change,
 }
 
+class ProductSearchScreenArguments {
+  final ProductSearchType searchType;
+  final List<int> excludeProductsIds;
+
+  ProductSearchScreenArguments(this.searchType, {this.excludeProductsIds});
+}
+
 class _Query {
   final String query;
   final bool submit;
@@ -30,11 +37,14 @@ class _Query {
 
 class ProductSearchScreen extends StatefulWidget {
   final ProductSearchType searchType;
+  final List<int> excludeProductsIds;
 
   const ProductSearchScreen({
     Key key,
     @required this.searchType,
-  }) : super(key: key);
+    @required this.excludeProductsIds,
+  })  : assert(searchType != null),
+        super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ProductSearchScreenState();
@@ -69,7 +79,11 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
         })
         .where((q) => q.query == currentQuery)
         .asyncMap<ProductSearchResponse>(
-          (q) => _apiService.getProducts(q.query, submit: q.submit),
+          (q) => _apiService.getProducts(
+            q.query,
+            submit: q.submit,
+            excludeProductIds: widget.excludeProductsIds,
+          ),
         )
         .where((p) => p.query == currentQuery);
   }

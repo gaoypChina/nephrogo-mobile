@@ -161,10 +161,19 @@ class ApiService {
         .asyncMap((_) => getWeeklyDailyIntakesReport(from, to));
   }
 
-  Future<ProductSearchResponse> getProducts(String query,
-      {@required bool submit}) {
+  Future<ProductSearchResponse> getProducts(
+    String query, {
+    @required bool submit,
+    @required List<int> excludeProductIds,
+  }) {
+    final excludeProductIdsStr = excludeProductIds?.join(',');
+
     return _nutritionApi
-        .nutritionProductsSearchRetrieve(query: query, submit: submit)
+        .nutritionProductsSearchRetrieve(
+          query: query,
+          submit: submit,
+          excludeProducts: excludeProductIdsStr,
+        )
         .then((r) => r.data);
   }
 

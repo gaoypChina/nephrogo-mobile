@@ -19,6 +19,7 @@ const _defaultFieldPadding = EdgeInsets.symmetric(horizontal: 16, vertical: 12);
 
 class AppTextFormField extends StatelessWidget {
   final TextEditingController controller;
+  final FocusNode focusNode;
   final String labelText;
   final String helperText;
   final String hintText;
@@ -61,6 +62,7 @@ class AppTextFormField extends StatelessWidget {
     this.obscureText = false,
     this.autofillHints,
     this.textInputAction,
+    this.focusNode,
   }) : super(key: key);
 
   @override
@@ -79,6 +81,7 @@ class AppTextFormField extends StatelessWidget {
         validator: validator,
         onSaved: onSaved,
         onChanged: onChanged,
+        focusNode: focusNode,
         keyboardType: keyboardType,
         inputFormatters: inputFormatters,
         controller: controller,
@@ -520,6 +523,8 @@ class AppIntegerFormField extends StatelessWidget {
   final FormFieldSetter<int> onSaved;
   final FormFieldSetter<int> onChanged;
   final String suffixText;
+  final bool autoFocus;
+  final FocusNode focusNode;
 
   const AppIntegerFormField({
     Key key,
@@ -532,6 +537,8 @@ class AppIntegerFormField extends StatelessWidget {
     this.suffixText,
     this.hintText,
     this.onChanged,
+    this.focusNode,
+    this.autoFocus = false,
   }) : super(key: key);
 
   @override
@@ -542,12 +549,14 @@ class AppIntegerFormField extends StatelessWidget {
       hintText: hintText,
       iconData: iconData,
       validator: _validator,
+      autoFocus: autoFocus,
       initialValue: initialValue?.toString(),
       onSaved: onSaved != null ? _onSaved : null,
       onChanged: onChanged != null ? _onChanged : null,
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       suffixText: suffixText,
+      focusNode: focusNode,
     );
   }
 

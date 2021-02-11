@@ -98,9 +98,12 @@ class Routes {
         });
       case routeProductSearch:
         return MaterialPageRoute<Product>(builder: (context) {
-          final searchType = settings.arguments as ProductSearchType;
+          final arguments = settings.arguments as ProductSearchScreenArguments;
 
-          return ProductSearchScreen(searchType: searchType);
+          return ProductSearchScreen(
+            searchType: arguments.searchType,
+            excludeProductsIds: arguments.excludeProductsIds,
+          );
         });
       case routeMyDailyIntakesScreen:
         return MaterialPageRoute(builder: (context) {

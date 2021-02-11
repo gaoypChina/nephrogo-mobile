@@ -212,6 +212,8 @@ class AppExpansionTile extends StatelessWidget {
   final Widget subtitle;
   final List<Widget> children;
 
+  final bool initiallyExpanded;
+
   final GestureLongPressCallback onLongPress;
 
   const AppExpansionTile({
@@ -221,7 +223,10 @@ class AppExpansionTile extends StatelessWidget {
     this.subtitle,
     this.leading,
     this.onLongPress,
-  }) : super(key: key);
+    this.initiallyExpanded = false,
+  })  : assert(title != null),
+        assert(children != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -233,13 +238,30 @@ class AppExpansionTile extends StatelessWidget {
         child: GestureDetector(
           onLongPress: onLongPress,
           child: ExpansionTile(
+            initiallyExpanded: initiallyExpanded,
             leading: leading,
-            title: title,
-            subtitle: subtitle,
+            title: DefaultTextStyle.merge(
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodyText1.color,
+              ),
+              child: title,
+            ),
+            subtitle: _getSubtitle(context),
             children: children,
           ),
         ),
       ),
+    );
+  }
+
+  Widget _getSubtitle(BuildContext context) {
+    if (subtitle == null) {
+      return null;
+    }
+
+    return DefaultTextStyle.merge(
+      style: TextStyle(color: Theme.of(context).textTheme.caption.color),
+      child: subtitle,
     );
   }
 }

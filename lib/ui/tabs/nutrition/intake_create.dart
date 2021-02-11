@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
-import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
@@ -16,8 +15,8 @@ import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/intake_request.dart';
+import 'package:nephrogo_api_client/model/meal_type_enum.dart';
 import 'package:nephrogo_api_client/model/product.dart';
-import 'package:nephrogo_api_client/model/product_kind_enum.dart';
 
 import 'nutrition_components.dart';
 
@@ -56,21 +55,24 @@ class IntakeCreateScreen extends StatefulWidget {
   _IntakeCreateScreenState createState() => _IntakeCreateScreenState();
 }
 
+class _IntakeSectionOption {
+  Intake fakeIntake;
+  FocusNode focusNode;
+
+  _IntakeSectionOption(this.fakeIntake, this.focusNode);
+}
+
 class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
-  static final _dateFormat = DateFormat.yMEd();
+  static final _dateFormatDep = DateFormat.yMEd();
+  final _dateFormat = DateFormat("EEEE, MMMM d");
 
   final _formKey = GlobalKey<FormState>();
   final _apiService = ApiService();
   final _intakeBuilder = IntakeRequestBuilder();
 
-  Product selectedProduct;
-  int amountG;
-  int amountMl;
+  List<_IntakeSectionOption> _intakeSectionsOptions;
 
   AppLocalizations get _appLocalizations => AppLocalizations.of(context);
-
-  bool get _isDrinkSelected =>
-      selectedProduct.productKind == ProductKindEnum.drink;
 
   DateTime _consumedAt;
 
@@ -78,51 +80,66 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
   void initState() {
     super.initState();
 
-    selectedProduct = widget.intake?.product ?? widget.initialProduct;
-    amountG = widget.intake?.amountG;
-    amountMl = widget.intake?.amountMl;
+    _consumedAt = DateTime.now();
 
-    _consumedAt =
-        widget.intake?.consumedAt?.toLocal() ?? DateTime.now().toLocal();
+    final fakedIntake = widget.initialProduct.fakeIntake(
+      consumedAt: _consumedAt,
+    );
+
+    _intakeSectionsOptions = [_IntakeSectionOption(fakedIntake, FocusNode())];
+
+    print(
+        "_IntakeCreateScreenState initState ${_intakeSectionsOptions.length}");
+    for (final options in _intakeSectionsOptions) {
+      final intake = options.fakeIntake;
+      print("${intake.product.name} ${intake.amountG} ${intake.amountMl}");
+    }
   }
 
-  Future<Product> _showProductSearch() {
-    return Navigator.pushNamed<Product>(
+  Future<Product> _showProductSearch() async {
+    final excludeProductIds =
+        _intakeSectionsOptions.map((e) => e.fakeIntake.product.id).toList();
+
+    final product = await Navigator.pushNamed<Product>(
       context,
       Routes.routeProductSearch,
-      arguments: ProductSearchType.change,
+      arguments: ProductSearchScreenArguments(
+        ProductSearchType.change,
+        excludeProductsIds: excludeProductIds,
+      ),
     );
-  }
 
-  bool isAmountInMilliliters() {
-    // For backward capability
-    if (widget.intake != null &&
-        widget.intake.product.id == selectedProduct.id &&
-        selectedProduct.densityGMl != null) {
-      return widget.intake.amountMl != null;
+    if (product != null) {
+      final fakedIntake = product.fakeIntake(consumedAt: _consumedAt.toLocal());
+
+      final intakeSectionOptions =
+          _IntakeSectionOption(fakedIntake, FocusNode());
+
+      setState(() => _intakeSectionsOptions.insert(0, intakeSectionOptions));
+
+      intakeSectionOptions.focusNode.requestFocus();
     }
 
-    return selectedProduct.densityGMl != null;
+    return product;
+  }
+
+  bool _isAddNewProductButtonActive() {
+    return !_intakeSectionsOptions.any((e) => e.fakeIntake.amountG == 0);
   }
 
   @override
   Widget build(BuildContext context) {
+    print("_IntakeCreateScreenState build ${_intakeSectionsOptions.length}");
+    for (final options in _intakeSectionsOptions) {
+      final intake = options.fakeIntake;
+      print("${intake.product.name} ${intake.amountG} ${intake.amountMl}");
+    }
+
     final formValidators = FormValidators(context);
-    final title = widget.intake == null
-        ? _appLocalizations.mealCreationTitle
-        : _appLocalizations.mealUpdateTitle;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
-        actions: <Widget>[
-          if (widget.intake != null)
-            IconButton(
-              icon: const Icon(Icons.delete_forever),
-              tooltip: _appLocalizations.delete,
-              onPressed: () => deleteIntake(widget.intake.id),
-            ),
-        ],
+        title: Text(_dateFormat.format(_consumedAt).capitalizeFirst()),
       ),
       bottomNavigationBar: BasicSection.single(
         AppElevatedButton(
@@ -135,139 +152,136 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
       body: Form(
         key: _formKey,
         child: Scrollbar(
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                SmallSection(
-                  title: _appLocalizations.mealCreationMealSectionTitle,
-                  children: [
-                    AppSelectionScreenFormField<Product>(
-                      labelText: _appLocalizations.mealCreationProduct,
-                      initialSelection: selectedProduct,
-                      iconData: Icons.restaurant_outlined,
-                      itemToStringConverter: (p) => p.name,
-                      onTap: (context) => _showProductSearch(),
-                      validator: formValidators.nonNull(),
-                      onChanged: (p) {
-                        setState(() {
-                          selectedProduct = p;
-                        });
-                      },
-                      onSaved: (p) => _intakeBuilder.productId = p.id,
-                    ),
-                    AppIntegerFormField(
-                      labelText: _appLocalizations.mealCreationQuantity,
-                      initialValue: isAmountInMilliliters()
-                          ? widget.intake?.amountMl
-                          : widget.intake?.amountG,
-                      suffixText: isAmountInMilliliters() ? 'ml' : 'g',
-                      validator: formValidators.and(
-                        formValidators.nonNull(),
-                        formValidators.numRangeValidator(1, 10000),
+          child: ListView(
+            children: <Widget>[
+              BasicSection.single(
+                SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: OutlinedButton.icon(
+                      onPressed: _isAddNewProductButtonActive()
+                          ? _showProductSearch
+                          : null,
+                      icon: const Icon(Icons.add_circle),
+                      label: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Text(
+                          "Papildomas valgis".toUpperCase(),
+                          style: const TextStyle(fontSize: 16),
+                        ),
                       ),
-                      iconData: Icons.kitchen,
-                      onChanged: (v) {
-                        setState(() {
-                          if (v != null && isAmountInMilliliters()) {
-                            amountMl = v;
-                            amountG = (v * selectedProduct.densityGMl).round();
-                          } else {
-                            amountG = v;
-                            amountMl = null;
-                          }
-                        });
-                      },
-                      onSaved: (_) {
-                        _intakeBuilder.amountG = amountG;
-                        _intakeBuilder.amountMl = amountMl;
-                      },
                     ),
-                  ],
+                  ),
                 ),
-                SmallSection(
-                  title: _appLocalizations.mealCreationDatetimeSectionTitle,
-                  children: [
-                    AppDatePickerFormField(
-                      initialDate: _consumedAt,
-                      selectedDate: _consumedAt,
-                      firstDate: DateTime(2020),
-                      lastDate: DateTime.now(),
-                      validator: formValidators.nonNull(),
-                      dateFormat: _dateFormat,
-                      iconData: Icons.calendar_today,
-                      onDateChanged: (dt) {
-                        final ldt = dt.toLocal();
-                        _consumedAt = DateTime(
-                          ldt.year,
-                          ldt.month,
-                          ldt.day,
-                          _consumedAt.hour,
-                          _consumedAt.minute,
-                        );
-                      },
-                      onDateSaved: (dt) =>
-                          _intakeBuilder.consumedAt = _consumedAt.toUtc(),
-                      labelText: _appLocalizations.mealCreationDate,
-                    ),
-                    AppTimePickerFormField(
-                      labelText: _appLocalizations.mealCreationTime,
-                      iconData: Icons.access_time,
-                      initialTime: TimeOfDay(
-                        hour: _consumedAt.hour,
-                        minute: _consumedAt.minute,
-                      ),
-                      onTimeChanged: (t) =>
-                          _consumedAt = _consumedAt.applied(t),
-                      onTimeSaved: (t) =>
-                          _intakeBuilder.consumedAt = _consumedAt.toUtc(),
-                    ),
-                  ],
+              ),
+              for (final options in _intakeSectionsOptions)
+                _IntakeEditSection(
+                  key: ObjectKey(options.fakeIntake.product),
+                  focusNode: options.focusNode,
+                  initialFakedIntake: options.fakeIntake,
+                  dailyNutrientNormsAndTotals:
+                      widget.dailyNutrientNormsAndTotals,
+                  onChanged: _onIntakeChanged,
+                  onDelete: _onIntakeDeleted,
                 ),
-                _buildNutrientsSection(),
-              ],
-            ),
+              SmallSection(
+                title: _appLocalizations.mealCreationDatetimeSectionTitle,
+                children: [
+                  AppDatePickerFormField(
+                    initialDate: _consumedAt,
+                    selectedDate: _consumedAt,
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime.now(),
+                    validator: formValidators.nonNull(),
+                    dateFormat: _dateFormatDep,
+                    iconData: Icons.calendar_today,
+                    onDateChanged: (dt) {
+                      final ldt = dt.toLocal();
+                      _consumedAt = DateTime(
+                        ldt.year,
+                        ldt.month,
+                        ldt.day,
+                        _consumedAt.hour,
+                        _consumedAt.minute,
+                      );
+                    },
+                    onDateSaved: (dt) =>
+                        _intakeBuilder.consumedAt = dt.toLocal(),
+                    labelText: _appLocalizations.mealCreationDate,
+                  ),
+                  AppTimePickerFormField(
+                    labelText: _appLocalizations.mealCreationTime,
+                    iconData: Icons.access_time,
+                    initialTime: TimeOfDay(
+                      hour: _consumedAt.hour,
+                      minute: _consumedAt.minute,
+                    ),
+                    onTimeChanged: (t) => _consumedAt = _consumedAt.applied(t),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Future deleteIntake(int id) async {
-    final appLocalizations = AppLocalizations.of(context);
-
-    final delete = await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(appLocalizations.delete),
-          content: Text(appLocalizations.deleteConfirmation),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text(appLocalizations.dialogCancel.toUpperCase()),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: Text(appLocalizations.delete.toUpperCase()),
-            ),
-          ],
-        );
-      },
+  int _getIntakeIndex(Intake fakedIntake) {
+    final index = _intakeSectionsOptions.indexWhere(
+      (options) => options.fakeIntake.product.id == fakedIntake.product.id,
     );
 
-    if (delete) {
-      final deletingFuture = _apiService.deleteIntake(id);
-      await ProgressDialog(context).showForFuture(deletingFuture);
-      Navigator.pop(context);
+    assert(index != -1, "Unable to find intake between intakes for creation");
+
+    return index;
+  }
+
+  void _onIntakeChanged(Intake fakedIntake) {
+    final index = _getIntakeIndex(fakedIntake);
+
+    setState(() {
+      _intakeSectionsOptions[index].fakeIntake = fakedIntake;
+    });
+  }
+
+  void _onIntakeDeleted(Intake fakedIntake) {
+    final index = _getIntakeIndex(fakedIntake);
+
+    setState(() {
+      _intakeSectionsOptions.removeAt(index);
+    });
+  }
+
+  Iterable<IntakeRequest> _prepareIntakeRequests() sync* {
+    for (final options in _intakeSectionsOptions) {
+      final fakedIntake = options.fakeIntake;
+
+      final builder = IntakeRequestBuilder();
+      builder.amountG = fakedIntake.amountG;
+      builder.amountMl = fakedIntake.amountMl;
+      builder.productId = fakedIntake.product.id;
+      builder.consumedAt = _consumedAt.toUtc();
+      builder.mealType = MealTypeEnum.unknown;
+
+      yield builder.build();
     }
   }
 
-  Future<Intake> saveIntake(int id, IntakeRequest intakeRequest) {
-    if (id != null) {
-      return _apiService.updateIntake(id, intakeRequest);
-    } else {
-      return _apiService.createIntake(intakeRequest);
+  Future<List<Intake>> saveIntakes() async {
+    final List<Intake> intakes = [];
+
+    for (final request in _prepareIntakeRequests()) {
+      final intake = await saveIntake(request);
+      intakes.add(intake);
     }
+
+    return intakes;
+  }
+
+  Future<Intake> saveIntake(IntakeRequest intakeRequest) {
+    return _apiService.createIntake(intakeRequest);
   }
 
   Future validateAndSaveIntake(BuildContext context) async {
@@ -284,8 +298,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     }
     _formKey.currentState.save();
 
-    final savingFuture =
-        saveIntake(widget.intake?.id, _intakeBuilder.build()).catchError(
+    final savingFuture = saveIntakes().catchError(
       (e, stackTrace) async {
         await showAppDialog(
           context: context,
@@ -295,37 +308,120 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
       },
     );
 
-    final intake = await ProgressDialog(context).showForFuture(savingFuture);
+    final intakes = await ProgressDialog(context).showForFuture(savingFuture);
 
-    if (intake != null) {
-      Navigator.pop(context, intake);
+    if (intakes != null) {
+      Navigator.pop(context);
     }
   }
+}
 
-  Widget _buildNutrientsSection() {
-    var intake = widget.intake;
+class _IntakeEditSection extends StatefulWidget {
+  final FocusNode focusNode;
+  final Intake initialFakedIntake;
+  final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
+  final void Function(Intake fakedIntaked) onChanged;
+  final void Function(Intake fakedIntaked) onDelete;
 
-    if (amountG != null) {
-      intake = selectedProduct.fakeIntake(
-        amountG: amountG,
-        amountMl: amountMl,
-        consumedAt: _consumedAt,
-      );
-    }
+  const _IntakeEditSection({
+    Key key,
+    @required this.initialFakedIntake,
+    @required this.dailyNutrientNormsAndTotals,
+    @required this.onChanged,
+    @required this.onDelete,
+    @required this.focusNode,
+  })  : assert(initialFakedIntake != null),
+        assert(dailyNutrientNormsAndTotals != null),
+        assert(onChanged != null),
+        assert(onDelete != null),
+        super(key: key);
+
+  @override
+  _IntakeEditSectionState createState() => _IntakeEditSectionState();
+}
+
+class _IntakeEditSectionState extends State<_IntakeEditSection> {
+  Intake intake;
+
+  bool get isAmountInMilliliters => intake.product.densityGMl != null;
+
+  DateTime get _consumedAt => intake.consumedAt;
+
+  Product get _product => intake.product;
+
+  @override
+  void initState() {
+    super.initState();
+
+    intake = widget.initialFakedIntake;
+
+    print(
+        "_IntakeEditSectionState initState ${intake.product.name} ${intake.amountG} ${intake.amountMl}");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final formValidators = FormValidators(context);
+
+    final amount = isAmountInMilliliters ? intake.amountMl : intake.amountG;
+
+    print(
+        "_IntakeEditSectionState build ${intake.product.name} ${intake.amountMl} ${intake.amountG}");
 
     return SmallSection(
-      showDividers: true,
-      title: _isDrinkSelected
-          ? _appLocalizations.totalInThisDrink
-          : _appLocalizations.totalInThisMeal,
+      title: _product.name,
+      trailing: IconButton(
+        icon: Icon(
+          Icons.delete_outline,
+          semanticLabel: appLocalizations.delete,
+        ),
+        onPressed: () => widget.onDelete(intake),
+      ),
       children: [
-        for (final nutrient in Nutrient.values)
-          IntakeNutrientTile(
-            intake,
-            nutrient,
-            widget.dailyNutrientNormsAndTotals,
-          )
+        AppIntegerFormField(
+          focusNode: widget.focusNode,
+          labelText: appLocalizations.mealCreationQuantity,
+          initialValue: amount != 0 ? amount : null,
+          suffixText: isAmountInMilliliters ? 'ml' : 'g',
+          autoFocus: intake.amountG == 0,
+          validator: formValidators.and(
+            formValidators.nonNull(),
+            formValidators.numRangeValidator(1, 10000),
+          ),
+          iconData: Icons.kitchen,
+          onChanged: _onChanged,
+          onSaved: (_) {
+            print("OnSavedIntake");
+          },
+        ),
+        IntakeExpandableTile(
+          intake,
+          widget.dailyNutrientNormsAndTotals,
+        ),
       ],
     );
+  }
+
+  void _onChanged(int amount) {
+    int amountG;
+    int amountMl;
+
+    if (amount != null && isAmountInMilliliters) {
+      amountMl = amount;
+      amountG = (amount * _product.densityGMl).round();
+    } else {
+      amountG = amount ?? 0;
+      amountMl = null;
+    }
+
+    setState(() {
+      intake = _product.fakeIntake(
+        consumedAt: _consumedAt,
+        amountG: amountG,
+        amountMl: amountMl,
+      );
+    });
+
+    widget.onChanged(intake);
   }
 }

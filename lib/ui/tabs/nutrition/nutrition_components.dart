@@ -151,29 +151,23 @@ class IntakeExpandableTile extends StatelessWidget {
 
   final Intake intake;
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
+  final bool initiallyExpanded;
 
   IntakeExpandableTile(
     this.intake,
-    this.dailyNutrientNormsAndTotals,
-  ) : super(key: ObjectKey(intake));
+    this.dailyNutrientNormsAndTotals, {
+    this.initiallyExpanded = false,
+  }) : super(key: PageStorageKey(intake));
 
   @override
   Widget build(BuildContext context) {
-    final dateFormatted =
-        dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
-
     return ListTileTheme(
       selectedColor: Colors.blue,
       child: AppExpansionTile(
-        title: Text(
-          intake.product.name,
-          style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color),
-        ),
-        subtitle: Text(
-          '${intake.getAmountFormatted()} | $dateFormatted',
-          style: TextStyle(color: Theme.of(context).textTheme.caption.color),
-        ),
+        title: Text(intake.product.name),
+        subtitle: Text(_getSubtitleParts().join(" | ")),
         onLongPress: () => _showLongClickDialog(context),
+        initiallyExpanded: initiallyExpanded,
         leading: ProductKindIcon(productKind: intake.product.productKind),
         children: ListTile.divideTiles(
           context: context,
@@ -188,6 +182,14 @@ class IntakeExpandableTile extends StatelessWidget {
         ).toList(),
       ),
     );
+  }
+
+  Iterable<String> _getSubtitleParts() sync* {
+    if (intake.amountG != 0) {
+      yield intake.getAmountFormatted();
+    }
+
+    yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
   }
 
   Future<void> _showLongClickDialog(BuildContext context) async {
@@ -240,7 +242,7 @@ class IntakeNutrientTile extends StatelessWidget {
     final appLocalizations = AppLocalizations.of(context);
     final nutrientName = nutrient.name(appLocalizations);
 
-    if (intake == null) {
+    if (intake == null || intake.amountG == 0) {
       return AppListTile(
         title: Text(nutrientName),
         trailing: const Text('-'),

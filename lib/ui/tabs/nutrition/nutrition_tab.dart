@@ -43,7 +43,7 @@ class NutritionTab extends StatelessWidget {
     return Navigator.pushNamed(
       context,
       Routes.routeProductSearch,
-      arguments: ProductSearchType.choose,
+      arguments: ProductSearchScreenArguments(ProductSearchType.choose),
     );
   }
 

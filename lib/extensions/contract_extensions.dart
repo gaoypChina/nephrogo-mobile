@@ -81,16 +81,25 @@ extension ProductExtensions on Product {
   // This is used for generating intakes required to show nutrient amounts
   // after searching for a product
   Intake fakeIntake({
-    @required int amountG,
-    @required int amountMl,
     @required DateTime consumedAt,
+    int amountG = 0,
+    int amountMl,
   }) {
+    assert(amountG != null);
+
     final builder = IntakeBuilder();
 
     builder.consumedAt = consumedAt;
 
     builder.amountG = amountG;
-    builder.amountMl = amountMl;
+
+    if (densityGMl != null) {
+      if (amountMl != null) {
+        builder.amountMl = amountMl;
+      } else {
+        builder.amountMl = (amountG / densityGMl).round();
+      }
+    }
 
     builder.potassiumMg =
         _calculateTotalNutrientAmount(Nutrient.potassium, amountG);
