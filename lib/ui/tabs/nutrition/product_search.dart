@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
@@ -11,7 +12,6 @@ import 'package:nephrogo/utils/utils.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 import 'package:nephrogo_api_client/model/product_search_response.dart';
-import 'package:stream_transform/stream_transform.dart';
 
 import 'intake_create.dart';
 
@@ -69,8 +69,10 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
   }
 
   Stream<ProductSearchResponse> _buildStream() {
-    return _queryStreamController.stream
-        .startWith(_Query('', wait: false, submit: false))
+    return StreamGroup.merge([
+      _queryStreamController.stream,
+      Stream.value(_Query('', wait: false, submit: false))
+    ])
         .asyncMap<_Query>((q) async {
           if (q.wait) {
             await Future.delayed(_searchDispatchDuration);
