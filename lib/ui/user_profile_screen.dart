@@ -97,15 +97,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  Future _signOut(BuildContext context) async {
-    await _authenticationProvider.signOut();
-
-    await Navigator.pushReplacementNamed(
-      context,
-      Routes.routeStart,
-    );
-  }
-
   Widget _buildBody(UserProfile initialUserProfile) {
     _diabetesType = _diabetesType ?? initialUserProfile?.diabetesType;
 
