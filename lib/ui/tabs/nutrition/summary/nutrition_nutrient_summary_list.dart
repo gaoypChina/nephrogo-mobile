@@ -66,6 +66,7 @@ class NutritionNutrientMonthlyReportsListState
                 reportsReverseSorted,
                 onDaySelected: (dt) =>
                     _onSelectionChanged(dt, reportsReverseSorted),
+                nutrient: widget.nutrient,
               ),
             ],
           );

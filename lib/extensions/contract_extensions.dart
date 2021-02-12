@@ -135,6 +135,8 @@ extension DailyNutrientConsumptionExtensions on DailyNutrientConsumption {
     return ((nutrientAmount / norm) * 100).round();
   }
 
+  bool get isNormExists => norm != null;
+
   bool get isNormExceeded {
     if (norm == null) {
       return null;

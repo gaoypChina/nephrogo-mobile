@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -8,11 +9,14 @@ import 'package:table_calendar/table_calendar.dart';
 class NutritionCalendar extends StatefulWidget {
   final List<DailyIntakesLightReport> dailyIntakesLightReports;
   final void Function(Date date) onDaySelected;
+  final Nutrient nutrient;
 
   NutritionCalendar(
     this.dailyIntakesLightReports, {
     this.onDaySelected,
-  }) : super(key: UniqueKey());
+    this.nutrient,
+  })  : assert(dailyIntakesLightReports != null),
+        super(key: UniqueKey());
 
   @override
   _NutritionCalendarState createState() => _NutritionCalendarState();
@@ -28,6 +32,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
   List<DailyIntakesLightReport> _reportsSortedByDateReverse;
 
   Set<DateTime> _dailyNormExceededDatesSet;
+  Set<DateTime> _dailyNormUnavailableDatesSet;
   Set<DateTime> _availableDatesSet;
 
   @override
@@ -46,12 +51,49 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     _availableDatesSet =
         _reportsSortedByDateReverse.map((r) => Date.from(r.date)).toSet();
 
-    _dailyNormExceededDatesSet = _reportsSortedByDateReverse
-        .where((r) => r.nutrientNormsAndTotals.isAtLeastOneNormExceeded())
-        .map((r) => r.date)
-        .toSet();
+    _dailyNormExceededDatesSet =
+        generateDailyNormExceededDates(_reportsSortedByDateReverse).toSet();
+
+    _dailyNormUnavailableDatesSet =
+        generateDailyNormUnavailableDates(_reportsSortedByDateReverse).toSet();
 
     super.initState();
+  }
+
+  Iterable<DateTime> generateDailyNormExceededDates(
+    List<DailyIntakesLightReport> reports,
+  ) {
+    if (widget.nutrient == null) {
+      return _reportsSortedByDateReverse
+          .where((r) => r.nutrientNormsAndTotals.isAtLeastOneNormExceeded())
+          .map((r) => r.date);
+    }
+
+    return _reportsSortedByDateReverse.where(
+      (r) {
+        final consumption = r.nutrientNormsAndTotals
+            .getDailyNutrientConsumption(widget.nutrient);
+
+        return consumption.isNormExceeded == true;
+      },
+    ).map((r) => r.date);
+  }
+
+  Iterable<DateTime> generateDailyNormUnavailableDates(
+    List<DailyIntakesLightReport> reports,
+  ) {
+    if (widget.nutrient == null) {
+      return [];
+    }
+
+    return _reportsSortedByDateReverse.where(
+      (r) {
+        final consumption = r.nutrientNormsAndTotals
+            .getDailyNutrientConsumption(widget.nutrient);
+
+        return !consumption.isNormExists;
+      },
+    ).map((r) => r.date);
   }
 
   @override
@@ -82,7 +124,14 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     FontWeight fontWeight = FontWeight.normal;
     BoxDecoration boxDecoration;
 
-    if (!_availableDatesSet.contains(date)) {
+    if (_dailyNormUnavailableDatesSet.contains(date)) {
+      fontColor = Colors.white;
+      fontWeight = FontWeight.bold;
+      boxDecoration = const BoxDecoration(
+        color: Colors.blue,
+        shape: BoxShape.circle,
+      );
+    } else if (!_availableDatesSet.contains(date)) {
       if (_today.isBefore(date)) {
         fontColor = Colors.grey;
       } else {
