@@ -4,11 +4,13 @@ import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
 import 'package:nephrogo/ui/charts/nutrient_weekly_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
@@ -56,6 +58,9 @@ class NutritionTab extends StatelessWidget {
         final latestIntakes = data.latestIntakes.toList();
         final lastWeekLightNutritionReports =
             data.lastWeekLightNutritionReports.toList();
+        final currentMonthNutritionReports =
+            data.currentMonthNutritionReports.toList();
+
         final todayIntakesReport = data.todayLightNutritionReport;
         final nutritionSummaryStatistics = data.nutritionSummaryStatistics;
         final dailyNutrientNormsWithTotals =
@@ -77,12 +82,16 @@ class NutritionTab extends StatelessWidget {
                 intakes: latestIntakes,
                 dailyNutrientNormsWithTotals: dailyNutrientNormsWithTotals,
                 leading: OutlinedButton(
-                  onPressed: () => _openNutritionSummary(
+                  onPressed: () => _openNutritionDailySummary(
                     context,
-                    nutritionSummaryStatistics,
+                    latestIntakes.first.consumedAt.toDate(),
                   ),
                   child: Text(appLocalizations.more.toUpperCase()),
                 ),
+              ),
+              MonthlyNutritionSummarySection(
+                currentMonthNutritionReports,
+                nutritionSummaryStatistics,
               ),
               for (final nutrient in Nutrient.values)
                 buildIndicatorChartSection(
@@ -126,6 +135,17 @@ class NutritionTab extends StatelessWidget {
         screenType: NutritionSummaryScreenType.monthly,
         nutritionSummaryStatistics: nutritionSummaryStatistics,
       ),
+    );
+  }
+
+  Future _openNutritionDailySummary(
+    BuildContext context,
+    Date date,
+  ) {
+    return Navigator.pushNamed(
+      context,
+      Routes.routeNutritionDailySummary,
+      arguments: NutritionDailySummaryScreenArguments(date),
     );
   }
 
