@@ -73,7 +73,7 @@ class NutritionNutrientMonthlyReportsListState
         final dailyIntakesReport = reportsReverseSorted[index - 1];
 
         return NutrientDailyNutritionTile.fromLightReport(
-          Nutrient.phosphorus,
+          widget.nutrient,
           dailyIntakesReport,
         );
       },

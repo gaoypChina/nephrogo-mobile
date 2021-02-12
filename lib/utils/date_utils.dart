@@ -6,12 +6,12 @@ class DateUtils {
   DateUtils._();
 
   static Iterable<Date> generateDates(
-    DateTime startDate,
-    DateTime endDate,
+    Date startDate,
+    Date endDate,
   ) sync* {
     for (var date = startDate;
         date.isBefore(endDate) || date == endDate;
-        date = date.add(const Duration(days: 1))) {
+        date = date.add(const Duration(days: 1)).toDate()) {
       yield Date.from(date);
     }
   }

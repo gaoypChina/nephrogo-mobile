@@ -43,6 +43,7 @@ class DailyIntakesReportSection extends StatelessWidget {
         for (final nutrient in Nutrient.values)
           DailyIntakesReportNutrientTile(
             dailyIntakesLightReport.nutrientNormsAndTotals,
+            dailyIntakesLightReport.date.toDate(),
             nutrient,
           )
       ],
@@ -307,10 +308,12 @@ class IntakeNutrientDenseTile extends StatelessWidget {
 
 class DailyIntakesReportNutrientTile extends StatelessWidget {
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
+  final Date date;
   final Nutrient nutrient;
 
   const DailyIntakesReportNutrientTile(
     this.dailyNutrientNormsAndTotals,
+    this.date,
     this.nutrient, {
     Key key,
   })  : assert(dailyNutrientNormsAndTotals != null),
@@ -330,8 +333,29 @@ class DailyIntakesReportNutrientTile extends StatelessWidget {
       title: Text(nutrientName),
       subtitle: Text(_getSubtitleText(appLocalizations)),
       leading: _leadingTotalConsumptionIndicator(percentage),
-      trailing: percentage != null ? Text('$percentage%') : null,
       dense: true,
+      trailing: SizedBox(
+        height: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (percentage != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Text('$percentage%'),
+              ),
+            const Icon(Icons.chevron_right),
+          ],
+        ),
+      ),
+      onTap: () => Navigator.of(context).pushNamed(
+        Routes.routeMyDailyIntakesScreen,
+        arguments: MyDailyIntakesScreenArguments(
+          date,
+          nutrient: nutrient,
+        ),
+      ),
     );
   }
 
@@ -516,7 +540,7 @@ class NutrientIntakeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
-    final nutrientAmountFormatted = intake.getNutrientAmountFormatted(nutrient);
+    final consumptionPercentageText = _getConsumptionPercentageText();
 
     return AppListTile(
       title: Text(intake.product.name),
@@ -531,15 +555,16 @@ class NutrientIntakeTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: Text(nutrientAmountFormatted),
-            ),
+            if (consumptionPercentageText != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Text(consumptionPercentageText),
+              ),
             const Icon(Icons.chevron_right),
           ],
         ),
       ),
-      isThreeLine: _consumption.isNormExceeded != null,
+      isThreeLine: true,
       onTap: () => Navigator.of(context).pushNamed(
         Routes.routeIntakeEdit,
         arguments: IntakeEditScreenArguments(
@@ -550,16 +575,32 @@ class NutrientIntakeTile extends StatelessWidget {
     );
   }
 
-  String _getConsumptionPercentageText(AppLocalizations appLocalizations) {
+  String _getConsumptionPercentageText() {
     final nutrientAmount = intake.getNutrientAmount(nutrient);
 
     final percentage = _consumption.normPercentage(nutrientAmount)?.toString();
 
     if (percentage != null) {
-      return appLocalizations.percentageOfDailyNorm(percentage);
+      return '$percentage%';
     }
 
     return null;
+  }
+
+  String _getConsumptionText(AppLocalizations appLocalizations) {
+    final totalFormatted =
+        dailyNutrientNormsAndTotals.getNutrientTotalAmountFormatted(nutrient);
+
+    final normFormatted =
+        dailyNutrientNormsAndTotals.getNutrientNormFormatted(nutrient);
+    if (normFormatted != null) {
+      return appLocalizations.consumptionWithNorm(
+        totalFormatted,
+        normFormatted,
+      );
+    }
+
+    return appLocalizations.consumptionWithoutNorm(totalFormatted);
   }
 
   String _getSubtitle(AppLocalizations appLocalizations) {
@@ -569,13 +610,6 @@ class NutrientIntakeTile extends StatelessWidget {
 
     final intakeText = [amount, date].join(' | ');
 
-    final consumptionPercentageText =
-        _getConsumptionPercentageText(appLocalizations);
-
-    if (consumptionPercentageText == null) {
-      return intakeText;
-    }
-
-    return [intakeText, consumptionPercentageText].join("\n");
+    return [intakeText, _getConsumptionText(appLocalizations)].join("\n");
   }
 }

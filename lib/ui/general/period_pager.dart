@@ -11,6 +11,48 @@ typedef PagerBodyBuilder = Widget Function(
   Date to,
 );
 
+class DailyPager extends StatelessWidget {
+  final dayFormatter = DateFormat('E, d MMM');
+
+  final Date earliestDate;
+  final Date initialDate;
+
+  final PagerBodyBuilder bodyBuilder;
+
+  DailyPager({
+    Key key,
+    @required this.earliestDate,
+    @required this.initialDate,
+    @required this.bodyBuilder,
+  })  : assert(earliestDate != null),
+        assert(initialDate != null),
+        assert(bodyBuilder != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final today = Date.today();
+    final dates = DateUtils.generateWeekDates(earliestDate, today).toList();
+
+    final initialFromDateIndex = dates.indexOf(initialDate);
+    assert(initialFromDateIndex != -1);
+
+    return _PeriodPager(
+      bodyBuilder: bodyBuilder,
+      headerTextBuilder: _buildHeaderText,
+      allFromDates: dates,
+      initialFromDate: dates[initialFromDateIndex],
+      dateFromToDateTo: _dateFromToDateTo,
+    );
+  }
+
+  Date _dateFromToDateTo(Date from) => from;
+
+  Widget _buildHeaderText(BuildContext context, Date from, Date to) {
+    return Text(dayFormatter.format(from).capitalizeFirst());
+  }
+}
+
 class WeeklyPager extends StatelessWidget {
   final dateFormatter = DateFormat.MMMMd();
   final _monthFormatter = DateFormat("MMMM ");
