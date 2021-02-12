@@ -174,6 +174,7 @@ class AppListTile extends StatelessWidget {
   final GestureTapCallback onTap;
   final bool selected;
   final bool dense;
+  final bool isThreeLine;
 
   const AppListTile({
     Key key,
@@ -184,6 +185,7 @@ class AppListTile extends StatelessWidget {
     this.onTap,
     this.selected = false,
     this.dense = false,
+    this.isThreeLine = false,
   }) : super(key: key);
 
   @override
@@ -196,6 +198,7 @@ class AppListTile extends StatelessWidget {
         title: title,
         subtitle: subtitle,
         dense: dense,
+        isThreeLine: isThreeLine,
         trailing: trailing ??
             (onTap != null ? const Icon(Icons.chevron_right) : null),
         onTap: onTap,

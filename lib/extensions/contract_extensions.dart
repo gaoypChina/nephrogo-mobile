@@ -262,6 +262,29 @@ extension NutrientExtensions on Nutrient {
             this, 'nutrient', 'Unable to map nutrient to name');
     }
   }
+
+  String consumptionName(AppLocalizations appLocalizations) {
+    switch (this) {
+      case Nutrient.energy:
+        return appLocalizations.consumptionEnergy;
+      case Nutrient.liquids:
+        return appLocalizations.consumptionLiquids;
+      case Nutrient.proteins:
+        return appLocalizations.consumptionProteins;
+      case Nutrient.sodium:
+        return appLocalizations.consumptionSodium;
+      case Nutrient.potassium:
+        return appLocalizations.consumptionPotassium;
+      case Nutrient.phosphorus:
+        return appLocalizations.consumptionPhosphorus;
+    }
+
+    throw ArgumentError.value(
+      this,
+      'nutrient',
+      'Unable to map nutrient to name',
+    );
+  }
 }
 
 extension SwellingExtension on Swelling {

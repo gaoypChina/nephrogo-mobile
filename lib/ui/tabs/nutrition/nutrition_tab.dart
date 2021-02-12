@@ -20,7 +20,6 @@ import 'nutrition_calendar.dart';
 import 'nutrition_components.dart';
 import 'product_search.dart';
 import 'summary/nutrition_summary.dart';
-import 'weekly_nutrients_screen.dart';
 
 class NutritionTab extends StatelessWidget {
   final now = DateTime.now();
@@ -83,13 +82,15 @@ class NutritionTab extends StatelessWidget {
                 ),
               ),
               MonthlyNutritionSummarySection(
-                  data.currentMonthDailyReports.toList(),
-                  nutritionSummaryStatistics),
+                data.currentMonthDailyReports.toList(),
+                nutritionSummaryStatistics,
+              ),
               for (final nutrient in Nutrient.values)
                 buildIndicatorChartSection(
                   context,
                   todayIntakesReport,
                   dailyIntakesReports,
+                  nutritionSummaryStatistics,
                   nutrient,
                 )
             ],
@@ -99,11 +100,19 @@ class NutritionTab extends StatelessWidget {
     );
   }
 
-  Future openWeeklyNutritionScreen(BuildContext context, Nutrient indicator) {
+  Future openWeeklyNutritionScreen(
+    BuildContext context,
+    NutritionSummaryStatistics nutritionSummaryStatistics,
+    Nutrient nutrient,
+  ) {
     return Navigator.pushNamed(
       context,
-      Routes.routeDailyWeeklyNutrientsScreen,
-      arguments: WeeklyNutrientsScreenArguments(indicator),
+      Routes.routeNutritionSummary,
+      arguments: NutritionSummaryScreenArguments(
+        nutritionSummaryStatistics: nutritionSummaryStatistics,
+        nutrient: nutrient,
+        screenType: NutritionSummaryScreenType.weekly,
+      ),
     );
   }
 
@@ -115,8 +124,8 @@ class NutritionTab extends StatelessWidget {
       context,
       Routes.routeNutritionSummary,
       arguments: NutritionSummaryScreenArguments(
-        NutritionSummaryScreenType.weekly,
-        nutritionSummaryStatistics,
+        screenType: NutritionSummaryScreenType.weekly,
+        nutritionSummaryStatistics: nutritionSummaryStatistics,
       ),
     );
   }
@@ -125,6 +134,7 @@ class NutritionTab extends StatelessWidget {
     BuildContext context,
     DailyIntakesReport todayIntakesReport,
     List<DailyIntakesReport> dailyIntakesReports,
+    NutritionSummaryStatistics nutritionSummaryStatistics,
     Nutrient nutrient,
   ) {
     final localizations = AppLocalizations.of(context);
@@ -152,7 +162,11 @@ class NutritionTab extends StatelessWidget {
       title: nutrient.name(localizations),
       subTitle: Text(subtitle),
       trailing: OutlinedButton(
-        onPressed: () => openWeeklyNutritionScreen(context, nutrient),
+        onPressed: () => openWeeklyNutritionScreen(
+          context,
+          nutritionSummaryStatistics,
+          nutrient,
+        ),
         child: Text(localizations.more.toUpperCase()),
       ),
       children: [
@@ -281,8 +295,8 @@ class MonthlyNutritionSummarySection extends StatelessWidget {
       context,
       Routes.routeNutritionSummary,
       arguments: NutritionSummaryScreenArguments(
-        NutritionSummaryScreenType.monthly,
-        nutritionSummaryStatistics,
+        screenType: NutritionSummaryScreenType.monthly,
+        nutritionSummaryStatistics: nutritionSummaryStatistics,
       ),
     );
   }

@@ -8,6 +8,7 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/my_daily_intakes_screen.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
+import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 
@@ -129,7 +130,7 @@ class IntakeTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: Text(intake.getAmountFormatted()),
           ),
           const Icon(Icons.chevron_right),
@@ -258,11 +259,33 @@ class IntakeNutrientDenseTile extends StatelessWidget {
 
     final subtitle = _getSubtitle(appLocalizations);
 
+    final clickable = intake.id != null;
+
     return AppListTile(
       title: Text(nutrientName),
       subtitle: subtitle != null ? Text(subtitle) : null,
-      trailing: Text(amountText),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Text(amountText),
+          ),
+          if (clickable) const Icon(Icons.chevron_right),
+        ],
+      ),
+      onTap: clickable ? () => _onTap(context) : null,
       dense: true,
+    );
+  }
+
+  Future<void> _onTap(BuildContext context) {
+    return Navigator.of(context).pushNamed(
+      Routes.routeMyDailyIntakesScreen,
+      arguments: MyDailyIntakesScreenArguments(
+        intake.consumedAt.toDate(),
+        nutrient: nutrient,
+      ),
     );
   }
 
@@ -341,6 +364,134 @@ class DailyIntakesReportNutrientTile extends StatelessWidget {
     return const CircleAvatar(
       backgroundColor: Colors.transparent,
       child: Icon(Icons.check_circle, color: Colors.teal),
+    );
+  }
+}
+
+class NutrientDailyNutritionTile extends StatelessWidget {
+  final _dateFormat = DateFormat('EEEE, MMMM d');
+
+  final Date date;
+  final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
+  final Nutrient nutrient;
+
+  NutrientDailyNutritionTile(
+    this.date,
+    this.dailyNutrientNormsAndTotals,
+    this.nutrient, {
+    Key key,
+  })  : assert(dailyNutrientNormsAndTotals != null),
+        assert(nutrient != null),
+        assert(date != null),
+        super(key: key);
+
+  NutrientDailyNutritionTile.fromLightReport(
+    this.nutrient,
+    DailyIntakesLightReport lightReport,
+  )   : date = lightReport.date.toDate(),
+        dailyNutrientNormsAndTotals = lightReport.nutrientNormsAndTotals;
+
+  DailyNutrientConsumption get consumption =>
+      dailyNutrientNormsAndTotals.getDailyNutrientConsumption(nutrient);
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+
+    final percentageRounded = consumption.totalConsumptionRoundedPercentage();
+
+    return AppListTile(
+      title: Text(_dateFormat.format(date).capitalizeFirst()),
+      subtitle: Text(_getSubtitleText(appLocalizations)),
+      leading: _leadingTotalConsumptionIndicator(),
+      isThreeLine: consumption.isNormExceeded != null,
+      trailing: SizedBox(
+        height: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (percentageRounded != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Text('$percentageRounded%'),
+              ),
+            const Icon(Icons.chevron_right),
+          ],
+        ),
+      ),
+      onTap: () => Navigator.of(context).pushNamed(
+        Routes.routeMyDailyIntakesScreen,
+        arguments: MyDailyIntakesScreenArguments(
+          date,
+          nutrient: nutrient,
+        ),
+      ),
+    );
+  }
+
+  String _getConsumptionText(AppLocalizations appLocalizations) {
+    final totalFormatted =
+        dailyNutrientNormsAndTotals.getNutrientTotalAmountFormatted(nutrient);
+
+    final normFormatted =
+        dailyNutrientNormsAndTotals.getNutrientNormFormatted(nutrient);
+    if (normFormatted != null) {
+      return appLocalizations.consumptionWithNorm(
+          totalFormatted, normFormatted);
+    }
+
+    return appLocalizations.consumptionWithoutNorm(totalFormatted);
+  }
+
+  String _getNormExceededText(AppLocalizations appLocalizations) {
+    if (consumption.isNormExceeded == null) {
+      return null;
+    }
+
+    if (consumption.isNormExceeded) {
+      return appLocalizations.dailyNormExplanationExceeded;
+    } else {
+      return appLocalizations.dailyNormExplanationNotExceeded;
+    }
+  }
+
+  String _getSubtitleText(AppLocalizations appLocalizations) {
+    final consumptionText = _getConsumptionText(appLocalizations);
+    final normExceededText = _getNormExceededText(appLocalizations);
+
+    return [consumptionText, normExceededText]
+        .where((s) => s != null)
+        .join('\n');
+  }
+
+  Widget _leadingTotalConsumptionIndicator() {
+    final percentageRounded = consumption.totalConsumptionRoundedPercentage();
+
+    if (percentageRounded == null) {
+      return CircleAvatar(
+        backgroundColor: Colors.blue,
+        child: Text(
+          date.day.toString(),
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      );
+    }
+
+    if (percentageRounded > 100) {
+      return const CircleAvatar(
+        backgroundColor: Colors.redAccent,
+        child: Icon(Icons.error, color: Colors.white),
+      );
+    }
+
+    return const CircleAvatar(
+      backgroundColor: Colors.teal,
+      child: Icon(Icons.check_circle, color: Colors.white),
     );
   }
 }

@@ -119,7 +119,10 @@ class Routes {
         return MaterialPageRoute(builder: (context) {
           final arguments = settings.arguments as MyDailyIntakesScreenArguments;
 
-          return MyDailyIntakesScreen(arguments.date);
+          return MyDailyIntakesScreen(
+            arguments.date,
+            nutrient: arguments.nutrient,
+          );
         });
       case routeHealthStatusCreation:
         return MaterialPageRoute(builder: (context) {
@@ -147,6 +150,7 @@ class Routes {
 
           return NutritionSummaryScreen(
             screenType: arguments.screenType,
+            nutrient: arguments.nutrient,
             nutritionSummaryStatistics: arguments.nutritionSummaryStatistics,
           );
         });
