@@ -13,7 +13,7 @@ import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
-import 'package:nephrogo_api_client/model/nutrient_screen_response.dart';
+import 'package:nephrogo_api_client/model/nutrition_screen_response.dart';
 
 import 'nutrition_calendar.dart';
 import 'nutrition_components.dart';
@@ -51,7 +51,7 @@ class NutritionTab extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
 
-    return AppStreamBuilder<NutrientScreenResponse>(
+    return AppStreamBuilder<NutritionScreenResponse>(
       stream: apiService.getNutritionScreenStream(),
       builder: (context, data) {
         final latestIntakes = data.latestIntakes.toList();

@@ -53,7 +53,7 @@ dependencies:
   nephrogo_api_client:
     git:
       url: https://github.com/nephrogo/nephrogo-api-dart-client.git
-      ref: release/v0.3.9
+      ref: release/v0.4.0
 
   ars_progress_dialog: 0.1.2
 

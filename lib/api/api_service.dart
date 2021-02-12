@@ -22,7 +22,7 @@ import 'package:nephrogo_api_client/model/health_status_screen_response.dart';
 import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/intake_request.dart';
-import 'package:nephrogo_api_client/model/nutrient_screen_response.dart';
+import 'package:nephrogo_api_client/model/nutrition_screen_response.dart';
 import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
 import 'package:nephrogo_api_client/model/product_search_response.dart';
 import 'package:nephrogo_api_client/model/user.dart';
@@ -121,11 +121,11 @@ class ApiService {
     ).where((e) => e == event);
   }
 
-  Future<NutrientScreenResponse> getNutritionScreen() {
+  Future<NutritionScreenResponse> getNutritionScreen() {
     return _nutritionApi.nutritionScreenRetrieve().then((r) => r.data);
   }
 
-  Stream<NutrientScreenResponse> getNutritionScreenStream() {
+  Stream<NutritionScreenResponse> getNutritionScreenStream() {
     return _buildAppEventsStreamWithInitialEmit(_AppStateChangeEvent.nutrition)
         .asyncMap((_) => getNutritionScreen());
   }
