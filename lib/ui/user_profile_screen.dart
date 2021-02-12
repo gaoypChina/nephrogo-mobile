@@ -2,7 +2,6 @@ import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:nephrogo/api/api_service.dart';
-import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
@@ -46,7 +45,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   final _apiService = ApiService();
   final _appPreferences = AppPreferences();
-  final _authenticationProvider = AuthenticationProvider();
 
   FormValidators _formValidators;
 
