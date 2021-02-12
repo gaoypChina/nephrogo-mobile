@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
@@ -23,11 +24,13 @@ class IntakeCreateScreenArguments extends Equatable {
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
   final Product product;
   final Intake intake;
+  final Date initialDate;
 
   const IntakeCreateScreenArguments({
     @required this.dailyNutrientNormsAndTotals,
     this.product,
     this.intake,
+    this.initialDate,
   })  : assert(dailyNutrientNormsAndTotals != null),
         assert(product != null || intake != null, 'Pass intake or product');
 
@@ -39,12 +42,14 @@ class IntakeCreateScreen extends StatefulWidget {
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
   final Intake intake;
   final Product initialProduct;
+  final Date initialDate;
 
   const IntakeCreateScreen({
     Key key,
     @required this.dailyNutrientNormsAndTotals,
     this.initialProduct,
     this.intake,
+    this.initialDate,
   })  : assert(dailyNutrientNormsAndTotals != null),
         assert(
             initialProduct != null || intake != null, 'Pass intake or product'),
@@ -83,6 +88,14 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     super.initState();
 
     _consumedAt = DateTime.now();
+
+    if (widget.initialDate != null) {
+      _consumedAt = _consumedAt.copyWith(
+        year: widget.initialDate.year,
+        month: widget.initialDate.month,
+        day: widget.initialDate.day,
+      );
+    }
 
     final fakedIntake = widget.initialProduct.fakeIntake(
       consumedAt: _consumedAt,

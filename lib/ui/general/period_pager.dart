@@ -11,8 +11,15 @@ typedef PagerBodyBuilder = Widget Function(
   Date to,
 );
 
+typedef OnPageChanged = void Function(
+  Date from,
+  Date to,
+);
+
 class DailyPager extends StatelessWidget {
   final _dayFormatter = DateFormat('EEEE, MMMM d');
+
+  final OnPageChanged onPageChanged;
 
   final Date earliestDate;
   final Date initialDate;
@@ -24,6 +31,7 @@ class DailyPager extends StatelessWidget {
     @required this.earliestDate,
     @required this.initialDate,
     @required this.bodyBuilder,
+    this.onPageChanged,
   })  : assert(earliestDate != null),
         assert(initialDate != null),
         assert(bodyBuilder != null),
@@ -43,6 +51,7 @@ class DailyPager extends StatelessWidget {
       allFromDates: dates,
       initialFromDate: dates[initialFromDateIndex],
       dateFromToDateTo: _dateFromToDateTo,
+      onPageChanged: onPageChanged,
     );
   }
 
@@ -156,6 +165,7 @@ class _PeriodPager extends StatefulWidget {
 
   final Date Function(Date from) dateFromToDateTo;
 
+  final OnPageChanged onPageChanged;
   final PagerBodyBuilder bodyBuilder;
   final Widget Function(
     BuildContext context,
@@ -170,6 +180,7 @@ class _PeriodPager extends StatefulWidget {
     @required this.bodyBuilder,
     @required this.headerTextBuilder,
     @required this.dateFromToDateTo,
+    this.onPageChanged,
   })  : assert(initialFromDate != null),
         assert(allFromDates != null),
         assert(bodyBuilder != null),
@@ -209,6 +220,14 @@ class _PeriodPagerState extends State<_PeriodPager> {
       controller: _pageController,
       reverse: true,
       itemCount: _dates.length,
+      onPageChanged: widget.onPageChanged != null
+          ? (index) {
+              final from = _dates[index];
+              final to = widget.dateFromToDateTo(from);
+
+              widget.onPageChanged(from, to);
+            }
+          : null,
       itemBuilder: (context, index) {
         final from = _dates[index];
         final to = widget.dateFromToDateTo(from);

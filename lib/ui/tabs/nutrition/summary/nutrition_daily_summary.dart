@@ -21,13 +21,11 @@ class NutritionDailySummaryScreenArguments {
   NutritionDailySummaryScreenArguments(this.date, {this.nutrient});
 }
 
-class NutritionDailySummaryScreen extends StatelessWidget {
-  final _apiService = ApiService();
-
+class NutritionDailySummaryScreen extends StatefulWidget {
   final Date date;
   final Nutrient nutrient;
 
-  NutritionDailySummaryScreen(
+  const NutritionDailySummaryScreen(
     this.date, {
     Key key,
     @required this.nutrient,
@@ -35,15 +33,31 @@ class NutritionDailySummaryScreen extends StatelessWidget {
         super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+  _NutritionDailySummaryScreenState createState() =>
+      _NutritionDailySummaryScreenState();
+}
 
+class _NutritionDailySummaryScreenState
+    extends State<NutritionDailySummaryScreen> {
+  final _apiService = ApiService();
+
+  Date date;
+
+  @override
+  void initState() {
+    super.initState();
+
+    date = widget.date;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_getTitle(appLocalizations)),
+        title: Text(_getTitle()),
         actions: [
           TextButton(
-            onPressed: () => _openGeneralRecommendations(context),
+            onPressed: () => _openGeneralRecommendations(),
             child: Text(
               appLocalizations.tips.toUpperCase(),
               style: const TextStyle(color: Colors.white),
@@ -52,7 +66,7 @@ class NutritionDailySummaryScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _createProduct(context),
+        onPressed: () => _createProduct(),
         label: Text(appLocalizations.createMeals.toUpperCase()),
         icon: const Icon(Icons.add),
       ),
@@ -60,15 +74,18 @@ class NutritionDailySummaryScreen extends StatelessWidget {
       body: DailyPager(
         earliestDate: Date(2021, 1, 1),
         initialDate: date,
+        onPageChanged: (from, to) {
+          date = from;
+        },
         bodyBuilder: (context, header, from, to) {
           return AppStreamBuilder<DailyIntakesReportResponse>(
             stream: _apiService.getDailyIntakesReportStream(from),
             builder: (context, data) {
               Widget child;
-              if (nutrient != null) {
+              if (widget.nutrient != null) {
                 child = _DailyNutritionNutrientList(
                   data.dailyIntakesReport,
-                  nutrient,
+                  widget.nutrient,
                   header: header,
                 );
               } else {
@@ -100,23 +117,26 @@ class NutritionDailySummaryScreen extends StatelessWidget {
     );
   }
 
-  String _getTitle(AppLocalizations appLocalizations) {
-    if (nutrient == null) {
+  String _getTitle() {
+    if (widget.nutrient == null) {
       return appLocalizations.dailyNutritionSummary;
     }
 
-    return nutrient.consumptionName(appLocalizations);
+    return widget.nutrient.consumptionName(appLocalizations);
   }
 
-  Future _openGeneralRecommendations(BuildContext context) {
+  Future _openGeneralRecommendations() {
     return Navigator.pushNamed(context, Routes.routeFAQ);
   }
 
-  Future _createProduct(BuildContext context) {
+  Future _createProduct() {
     return Navigator.pushNamed(
       context,
       Routes.routeProductSearch,
-      arguments: ProductSearchScreenArguments(ProductSearchType.choose),
+      arguments: ProductSearchScreenArguments(
+        ProductSearchType.choose,
+        date: date,
+      ),
     );
   }
 }

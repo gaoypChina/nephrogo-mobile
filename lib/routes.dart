@@ -95,6 +95,7 @@ class Routes {
             dailyNutrientNormsAndTotals: arguments.dailyNutrientNormsAndTotals,
             initialProduct: arguments.product ?? arguments.intake.product,
             intake: arguments.intake,
+            initialDate: arguments.initialDate,
           );
         });
       case routeIntakeEdit:
@@ -113,6 +114,7 @@ class Routes {
           return ProductSearchScreen(
             searchType: arguments.searchType,
             excludeProductsIds: arguments.excludeProductsIds,
+            date: arguments.date,
           );
         });
       case routeNutritionDailySummary:
