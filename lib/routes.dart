@@ -15,8 +15,8 @@ import 'ui/start_screen.dart';
 import 'ui/tabs/health_status/health_status_creation_screen.dart';
 import 'ui/tabs/health_status/weekly_health_status_screen.dart';
 import 'ui/tabs/nutrition/intake_create.dart';
-import 'ui/tabs/nutrition/my_daily_intakes_screen.dart';
 import 'ui/tabs/nutrition/product_search.dart';
+import 'ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
 import 'ui/tabs/nutrition/summary/nutrition_summary.dart';
 import 'ui/tabs/nutrition/weekly_nutrients_screen.dart';
 import 'ui/user_profile_screen.dart';
@@ -35,7 +35,7 @@ class Routes {
 
   static const routeDailyWeeklyNutrientsScreen = 'weeklyNutrientsScreen';
   static const routeNutritionSummary = 'nutritionSummary';
-  static const routeMyDailyIntakesScreen = 'myDailyIntakesScreen';
+  static const routeNutritionDailySummary = 'nutritionDailySummary';
   static const routeIntakeCreate = 'intakeCreate';
   static const routeIntakeEdit = 'intakeEdit';
   static const routeProductSearch = 'productSearch';
@@ -115,11 +115,12 @@ class Routes {
             excludeProductsIds: arguments.excludeProductsIds,
           );
         });
-      case routeMyDailyIntakesScreen:
+      case routeNutritionDailySummary:
         return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments as MyDailyIntakesScreenArguments;
+          final arguments =
+              settings.arguments as NutritionDailySummaryScreenArguments;
 
-          return MyDailyIntakesScreen(
+          return NutritionDailySummaryScreen(
             arguments.date,
             nutrient: arguments.nutrient,
           );

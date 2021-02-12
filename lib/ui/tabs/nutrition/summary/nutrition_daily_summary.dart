@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
@@ -10,28 +9,25 @@ import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
+import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
 
-import 'nutrition_components.dart';
-
-class MyDailyIntakesScreenArguments {
+class NutritionDailySummaryScreenArguments {
   final Date date;
   final Nutrient nutrient;
 
-  MyDailyIntakesScreenArguments(this.date, {this.nutrient});
+  NutritionDailySummaryScreenArguments(this.date, {this.nutrient});
 }
 
-class MyDailyIntakesScreen extends StatelessWidget {
-  static final _dateFormat = DateFormat('MMMM d, EE');
-
+class NutritionDailySummaryScreen extends StatelessWidget {
   final _apiService = ApiService();
 
   final Date date;
   final Nutrient nutrient;
 
-  MyDailyIntakesScreen(
+  NutritionDailySummaryScreen(
     this.date, {
     Key key,
     @required this.nutrient,
@@ -76,7 +72,7 @@ class MyDailyIntakesScreen extends StatelessWidget {
                   header: header,
                 );
               } else {
-                child = _DailyNutritionList(
+                child = _NutritionDailySummaryList(
                   data.dailyIntakesReport,
                   header: header,
                 );
@@ -125,11 +121,11 @@ class MyDailyIntakesScreen extends StatelessWidget {
   }
 }
 
-class _DailyNutritionList extends StatelessWidget {
+class _NutritionDailySummaryList extends StatelessWidget {
   final DailyIntakesReport dailyIntakesReport;
   final Widget header;
 
-  const _DailyNutritionList(
+  const _NutritionDailySummaryList(
     this.dailyIntakesReport, {
     Key key,
     @required this.header,

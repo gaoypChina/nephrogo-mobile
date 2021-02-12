@@ -6,7 +6,7 @@ import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/components.dart';
-import 'package:nephrogo/ui/tabs/nutrition/my_daily_intakes_screen.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
@@ -33,8 +33,8 @@ class DailyIntakesReportSection extends StatelessWidget {
         title: title,
         subtitle: Text(_getSubtitleText(context)),
         onTap: () => Navigator.of(context).pushNamed(
-          Routes.routeMyDailyIntakesScreen,
-          arguments: MyDailyIntakesScreenArguments(
+          Routes.routeNutritionDailySummary,
+          arguments: NutritionDailySummaryScreenArguments(
               Date.from(dailyIntakesLightReport.date)),
         ),
       ),
@@ -282,8 +282,8 @@ class IntakeNutrientDenseTile extends StatelessWidget {
 
   Future<void> _onTap(BuildContext context) {
     return Navigator.of(context).pushNamed(
-      Routes.routeMyDailyIntakesScreen,
-      arguments: MyDailyIntakesScreenArguments(
+      Routes.routeNutritionDailySummary,
+      arguments: NutritionDailySummaryScreenArguments(
         intake.consumedAt.toDate(),
         nutrient: nutrient,
       ),
@@ -350,8 +350,8 @@ class DailyIntakesReportNutrientTile extends StatelessWidget {
         ),
       ),
       onTap: () => Navigator.of(context).pushNamed(
-        Routes.routeMyDailyIntakesScreen,
-        arguments: MyDailyIntakesScreenArguments(
+        Routes.routeNutritionDailySummary,
+        arguments: NutritionDailySummaryScreenArguments(
           date,
           nutrient: nutrient,
         ),
@@ -445,8 +445,8 @@ class NutrientDailyNutritionTile extends StatelessWidget {
         ),
       ),
       onTap: () => Navigator.of(context).pushNamed(
-        Routes.routeMyDailyIntakesScreen,
-        arguments: MyDailyIntakesScreenArguments(
+        Routes.routeNutritionDailySummary,
+        arguments: NutritionDailySummaryScreenArguments(
           date,
           nutrient: nutrient,
         ),
