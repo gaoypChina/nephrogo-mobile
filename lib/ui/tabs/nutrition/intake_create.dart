@@ -7,7 +7,6 @@ import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
-import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
@@ -67,8 +66,8 @@ class _IntakeSectionOption {
 }
 
 class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
-  static final _calendarDateFormat = DateFormat.yMEd();
-  static final _titleDateFormat = DateFormat("EEEE, MMMM d");
+  final _calendarDateFormat = DateFormat.yMEd();
+  final _titleDateFormat = DateFormat.MMMMd();
 
   final _formKey = GlobalKey<FormState>();
   final _apiService = ApiService();
@@ -79,9 +78,6 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
 
   bool get _isAddNewProductButtonActive =>
       !_intakeSectionsOptions.any((e) => e.fakeIntake.amountG == 0);
-
-  bool get _isSubmitActive =>
-      _intakeSectionsOptions.isNotEmpty && _isAddNewProductButtonActive;
 
   @override
   void initState() {
@@ -137,14 +133,15 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     final title = _titleDateFormat.format(_consumedAt).capitalizeFirst();
 
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      bottomNavigationBar: BasicSection.single(
-        AppElevatedButton(
-          onPressed: _isSubmitActive ? validateAndSaveIntake : null,
-          text: appLocalizations.save.toUpperCase(),
-        ),
-        padding: EdgeInsets.zero,
-        innerPadding: const EdgeInsets.all(16),
+      appBar: AppBar(
+        title: Text(title),
+        actions: <Widget>[
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: _validateAndSaveIntake,
+            child: Text(appLocalizations.save.toUpperCase()),
+          ),
+        ],
       ),
       body: Form(
         key: _formKey,
@@ -285,8 +282,18 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     return _apiService.createIntake(intakeRequest);
   }
 
-  Future validateAndSaveIntake() async {
+  Future _validateAndSaveIntake() async {
     FocusScope.of(context).unfocus();
+
+    if (_intakeSectionsOptions.isEmpty) {
+      await showAppDialog(
+        context: context,
+        title: appLocalizations.error,
+        message: appLocalizations.formErrorNoMealsAdded,
+      );
+
+      return false;
+    }
 
     if (!_formKey.currentState.validate()) {
       await showAppDialog(

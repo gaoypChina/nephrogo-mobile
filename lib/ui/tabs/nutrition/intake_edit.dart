@@ -6,7 +6,6 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
-import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
@@ -90,20 +89,12 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
       appBar: AppBar(
         title: Text(title),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.delete),
-            tooltip: appLocalizations.delete,
-            onPressed: () => deleteIntake(widget.intake.id),
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () => validateAndSaveIntake(context),
+            child: Text(appLocalizations.update.toUpperCase()),
           ),
         ],
-      ),
-      bottomNavigationBar: BasicSection.single(
-        AppElevatedButton(
-          onPressed: () => validateAndSaveIntake(context),
-          text: appLocalizations.update.toUpperCase(),
-        ),
-        padding: EdgeInsets.zero,
-        innerPadding: const EdgeInsets.all(16),
       ),
       body: Form(
         key: _formKey,
@@ -113,6 +104,13 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
               children: <Widget>[
                 SmallSection(
                   title: product.name,
+                  trailing: IconButton(
+                    icon: Icon(
+                      Icons.delete_outline,
+                      semanticLabel: appLocalizations.delete,
+                    ),
+                    onPressed: () => deleteIntake(widget.intake.id),
+                  ),
                   children: [
                     AppIntegerFormField(
                       labelText: appLocalizations.mealCreationQuantity,

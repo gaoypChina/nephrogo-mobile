@@ -19,7 +19,6 @@ import 'package:nephrogo_api_client/model/user_profile_request.dart';
 
 import 'forms/forms.dart';
 import 'general/app_future_builder.dart';
-import 'general/buttons.dart';
 import 'general/dialogs.dart';
 import 'general/progress_dialog.dart';
 
@@ -82,12 +81,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       appBar: AppBar(
         title: Text(_appLocalizations.userProfileScreenTitle),
         actions: [
-          if (!Navigator.of(context).canPop())
-            IconButton(
-              icon: const Icon(Icons.logout),
-              tooltip: appLocalizations.logout,
-              onPressed: () => _signOut(context),
-            ),
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () => validateAndSaveUserProfile(context),
+            child: Text(appLocalizations.save.toUpperCase()),
+          ),
         ],
       ),
       body: AppFutureBuilder<UserProfile>(
@@ -95,14 +93,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         builder: (context, userProfile) {
           return _buildBody(userProfile);
         },
-      ),
-      bottomNavigationBar: BasicSection.single(
-        AppElevatedButton(
-          onPressed: () => validateAndSaveUserProfile(context),
-          text: appLocalizations.save.toUpperCase(),
-        ),
-        padding: EdgeInsets.zero,
-        innerPadding: const EdgeInsets.all(16),
       ),
     );
   }

@@ -92,6 +92,8 @@
   "@serverErrorDescription": {},
   "formErrorDescription": "Dalis duomenų nepateikta arba pateikta neteisingai. Prašome dar kartą peržiūrėti pateiktus duomenis.",
   "@formErrorDescription": {},
+  "formErrorNoMealsAdded": "Pridėkite bent vieną valgį.",
+  "@formErrorNoMealsAdded": {},
   "noInfo": "Nėra informacijos",
   "@noInfo": {},
   "logout": "Atsijungti",

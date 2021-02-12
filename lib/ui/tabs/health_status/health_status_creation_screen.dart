@@ -9,7 +9,6 @@ import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_future_builder.dart';
-import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
@@ -60,14 +59,13 @@ class _HealthStatusCreationScreenState
     return Scaffold(
       appBar: AppBar(
         title: Text(_appLocalizations.healthStatusCreationTodayTitle),
-      ),
-      bottomNavigationBar: BasicSection.single(
-        AppElevatedButton(
-          onPressed: () => validateAndSave(context),
-          text: appLocalizations.save.toUpperCase(),
-        ),
-        padding: EdgeInsets.zero,
-        innerPadding: const EdgeInsets.all(16),
+        actions: <Widget>[
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () => validateAndSave(context),
+            child: Text(appLocalizations.save.toUpperCase()),
+          ),
+        ],
       ),
       body: AppFutureBuilder<DailyHealthStatus>(
         future: _healthStatusMemoizer.future,
