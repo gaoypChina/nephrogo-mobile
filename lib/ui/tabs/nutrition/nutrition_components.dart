@@ -495,3 +495,87 @@ class NutrientDailyNutritionTile extends StatelessWidget {
     );
   }
 }
+
+class NutrientIntakeTile extends StatelessWidget {
+  final dateFormat = DateFormat('E, d MMM HH:mm');
+
+  final Intake intake;
+  final Nutrient nutrient;
+  final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
+
+  NutrientIntakeTile(
+    this.intake,
+    this.nutrient,
+    this.dailyNutrientNormsAndTotals, {
+    Key key,
+  }) : super(key: key);
+
+  DailyNutrientConsumption get _consumption =>
+      dailyNutrientNormsAndTotals.getDailyNutrientConsumption(nutrient);
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+    final nutrientAmountFormatted = intake.getNutrientAmountFormatted(nutrient);
+
+    return AppListTile(
+      title: Text(intake.product.name),
+      subtitle: Text(_getSubtitle(appLocalizations)),
+      leading: SizedBox(
+        height: double.infinity,
+        child: ProductKindIcon(productKind: intake.product.productKind),
+      ),
+      trailing: SizedBox(
+        height: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(nutrientAmountFormatted),
+            ),
+            const Icon(Icons.chevron_right),
+          ],
+        ),
+      ),
+      isThreeLine: _consumption.isNormExceeded != null,
+      onTap: () => Navigator.of(context).pushNamed(
+        Routes.routeIntakeEdit,
+        arguments: IntakeEditScreenArguments(
+          intake,
+          dailyNutrientNormsAndTotals,
+        ),
+      ),
+    );
+  }
+
+  String _getConsumptionPercentageText(AppLocalizations appLocalizations) {
+    final nutrientAmount = intake.getNutrientAmount(nutrient);
+
+    final percentage = _consumption.normPercentage(nutrientAmount)?.toString();
+
+    if (percentage != null) {
+      return appLocalizations.percentageOfDailyNorm(percentage);
+    }
+
+    return null;
+  }
+
+  String _getSubtitle(AppLocalizations appLocalizations) {
+    final amount = intake.getAmountFormatted();
+    final date =
+        dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
+
+    final intakeText = [amount, date].join(' | ');
+
+    final consumptionPercentageText =
+        _getConsumptionPercentageText(appLocalizations);
+
+    if (consumptionPercentageText == null) {
+      return intakeText;
+    }
+
+    return [intakeText, consumptionPercentageText].join("\n");
+  }
+}

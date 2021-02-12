@@ -10,6 +10,7 @@ import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
+import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
 
 import 'nutrition_components.dart';
@@ -41,55 +42,38 @@ class MyDailyIntakesScreen extends StatelessWidget {
     final appLocalizations = AppLocalizations.of(context);
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(_dateFormat.format(date).capitalizeFirst()),
-          actions: [
-            TextButton(
-              onPressed: () => _openGeneralRecommendations(context),
-              child: Text(
-                appLocalizations.tips.toUpperCase(),
-                style: const TextStyle(color: Colors.white),
-              ),
+      appBar: AppBar(
+        title: Text(_dateFormat.format(date).capitalizeFirst()),
+        actions: [
+          TextButton(
+            onPressed: () => _openGeneralRecommendations(context),
+            child: Text(
+              appLocalizations.tips.toUpperCase(),
+              style: const TextStyle(color: Colors.white),
             ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => _createProduct(context),
-          label: Text(appLocalizations.createMeals.toUpperCase()),
-          icon: const Icon(Icons.add),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: AppStreamBuilder<DailyIntakesReportResponse>(
-          stream: _apiService.getDailyIntakesReportStream(date),
-          builder: (context, data) {
-            final dailyIntakesReport = data.dailyIntakesReport;
-            final norms = dailyIntakesReport.dailyNutrientNormsAndTotals;
-            final intakes = dailyIntakesReport.intakes
-                .sortedBy((i) => i.consumedAt, reverse: true)
-                .toList();
-
-            return Scrollbar(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(bottom: 80),
-                itemCount: intakes.length + 1,
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return BasicSection.single(
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: DailyNormsBarChart(
-                          dailyIntakeReport: dailyIntakesReport,
-                        ),
-                      ),
-                    );
-                  }
-
-                  return IntakeWithNormsSection(intakes[index - 1], norms);
-                },
-              ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => _createProduct(context),
+        label: Text(appLocalizations.createMeals.toUpperCase()),
+        icon: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: AppStreamBuilder<DailyIntakesReportResponse>(
+        stream: _apiService.getDailyIntakesReportStream(date),
+        builder: (context, data) {
+          if (nutrient != null) {
+            return _DailyNutritionNutrientList(
+              data.dailyIntakesReport,
+              nutrient,
             );
-          },
-        ));
+          }
+
+          return _DailyNutritionList(data.dailyIntakesReport);
+        },
+      ),
+    );
   }
 
   Future _openGeneralRecommendations(BuildContext context) {
@@ -101,6 +85,70 @@ class MyDailyIntakesScreen extends StatelessWidget {
       context,
       Routes.routeProductSearch,
       arguments: ProductSearchScreenArguments(ProductSearchType.choose),
+    );
+  }
+}
+
+class _DailyNutritionList extends StatelessWidget {
+  final DailyIntakesReport dailyIntakesReport;
+
+  const _DailyNutritionList(
+    this.dailyIntakesReport, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final norms = dailyIntakesReport.dailyNutrientNormsAndTotals;
+    final intakes = dailyIntakesReport.intakes
+        .sortedBy((i) => i.consumedAt, reverse: true)
+        .toList();
+
+    return ListView.builder(
+      padding: const EdgeInsets.only(bottom: 80),
+      itemCount: intakes.length + 1,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return BasicSection.single(
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: DailyNormsBarChart(
+                dailyIntakeReport: dailyIntakesReport,
+              ),
+            ),
+          );
+        }
+
+        return IntakeWithNormsSection(intakes[index - 1], norms);
+      },
+    );
+  }
+}
+
+class _DailyNutritionNutrientList extends StatelessWidget {
+  final DailyIntakesReport dailyIntakesReport;
+  final Nutrient nutrient;
+
+  const _DailyNutritionNutrientList(
+    this.dailyIntakesReport,
+    this.nutrient, {
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final intakes = dailyIntakesReport.intakes
+        .sortedBy((i) => i.consumedAt, reverse: true)
+        .toList();
+    final norms = dailyIntakesReport.dailyNutrientNormsAndTotals;
+
+    return ListView.separated(
+      padding: const EdgeInsets.only(bottom: 80),
+      separatorBuilder: (context, index) => const Divider(height: 1),
+      itemCount: intakes.length,
+      itemBuilder: (context, index) {
+        return NutrientIntakeTile(intakes[index], nutrient, norms);
+      },
     );
   }
 }
