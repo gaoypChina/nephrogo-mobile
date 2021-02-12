@@ -8,7 +8,7 @@ import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
 import 'package:nephrogo_api_client/model/nutrition_summary_statistics.dart';
 
-import 'nutrition_monthly_summary_list.dart';
+import 'nutrition_summary_list.dart';
 
 enum NutritionSummaryScreenType { weekly, monthly }
 
@@ -57,10 +57,10 @@ class _NutritionSummaryScreenState extends State<NutritionSummaryScreen> {
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
-            _NutritionWeeklySummaryScreenBody(
+            _NutritionWeeklySummaryTabBody(
               nutritionSummaryStatistics: widget.nutritionSummaryStatistics,
             ),
-            _NutritionMonthlySummaryScreenBody(
+            _NutritionMonthlySummaryTabBody(
               nutritionSummaryStatistics: widget.nutritionSummaryStatistics,
             ),
           ],
@@ -81,12 +81,12 @@ class _NutritionSummaryScreenState extends State<NutritionSummaryScreen> {
   }
 }
 
-class _NutritionMonthlySummaryScreenBody extends StatelessWidget {
+class _NutritionMonthlySummaryTabBody extends StatelessWidget {
   final _apiService = ApiService();
 
   final NutritionSummaryStatistics nutritionSummaryStatistics;
 
-  _NutritionMonthlySummaryScreenBody({
+  _NutritionMonthlySummaryTabBody({
     Key key,
     @required this.nutritionSummaryStatistics,
   })  : assert(nutritionSummaryStatistics != null),
@@ -124,12 +124,12 @@ class _NutritionMonthlySummaryScreenBody extends StatelessWidget {
   }
 }
 
-class _NutritionWeeklySummaryScreenBody extends StatelessWidget {
+class _NutritionWeeklySummaryTabBody extends StatelessWidget {
   final _apiService = ApiService();
 
   final NutritionSummaryStatistics nutritionSummaryStatistics;
 
-  _NutritionWeeklySummaryScreenBody({
+  _NutritionWeeklySummaryTabBody({
     Key key,
     @required this.nutritionSummaryStatistics,
   })  : assert(nutritionSummaryStatistics != null),
@@ -154,7 +154,7 @@ class _NutritionWeeklySummaryScreenBody extends StatelessWidget {
                 replacement: EmptyStateContainer(
                   text: AppLocalizations.of(context).weeklyNutrientsEmpty,
                 ),
-                child: NutritionMonthlyReportsList(
+                child: NutritionWeeklyReportsList(
                   header: header,
                   reports: data.dailyIntakesLightReports.toList(),
                 ),

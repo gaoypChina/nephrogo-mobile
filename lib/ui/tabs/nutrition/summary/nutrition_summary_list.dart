@@ -52,9 +52,11 @@ class NutritionMonthlyReportsListState
       itemBuilder: (context, index) {
         if (index == 0) {
           return BasicSection(
-            innerPadding: const EdgeInsets.all(8.0),
             children: [
-              widget.header,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: widget.header,
+              ),
               NutritionCalendar(
                 reportsReverseSorted,
                 onDaySelected: (dt) =>
@@ -79,13 +81,47 @@ class NutritionMonthlyReportsListState
     _itemScrollController.jumpTo(index: position);
   }
 
-  int getReportPosition(
-    DateTime dateTime,
-    List<DailyIntakesLightReport> reports,
-  ) {
+  int getReportPosition(DateTime dateTime,
+      List<DailyIntakesLightReport> reports,) {
     return reports
-            .mapIndexed((i, r) => r.date == Date.from(dateTime) ? i : null)
-            .firstWhere((i) => i != null) +
+        .mapIndexed((i, r) => r.date == Date.from(dateTime) ? i : null)
+        .firstWhere((i) => i != null) +
         1;
+  }
+}
+
+class NutritionWeeklyReportsList extends StatelessWidget {
+  final List<DailyIntakesLightReport> reports;
+  final Widget header;
+
+  NutritionWeeklyReportsList({
+    Key key,
+    @required this.reports,
+    @required this.header,
+  })
+      : assert(reports != null),
+        assert(reports.isNotEmpty),
+        assert(header != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final reportsReverseSorted =
+    reports.sortedBy((e) => e.date, reverse: true).toList();
+
+    return ListView.builder(
+      itemCount: reportsReverseSorted.length + 1,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return BasicSection.single(
+            header,
+            innerPadding: const EdgeInsets.symmetric(vertical: 8),
+          );
+        }
+        final dailyIntakesReport = reportsReverseSorted[index - 1];
+
+        return DailyIntakesReportTile(dailyIntakesReport);
+      },
+    );
   }
 }

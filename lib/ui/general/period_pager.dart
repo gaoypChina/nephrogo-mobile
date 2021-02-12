@@ -166,7 +166,6 @@ class _PeriodPagerState extends State<_PeriodPager> {
     return PageView.builder(
       controller: _pageController,
       reverse: true,
-      physics: const NeverScrollableScrollPhysics(),
       itemCount: _dates.length,
       itemBuilder: (context, index) {
         final from = _dates[index];
