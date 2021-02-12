@@ -124,20 +124,6 @@ class NutritionTab extends StatelessWidget {
     );
   }
 
-  Future _openNutritionSummary(
-    BuildContext context,
-    NutritionSummaryStatistics nutritionSummaryStatistics,
-  ) {
-    return Navigator.pushNamed(
-      context,
-      Routes.routeNutritionSummary,
-      arguments: NutritionSummaryScreenArguments(
-        screenType: NutritionSummaryScreenType.monthly,
-        nutritionSummaryStatistics: nutritionSummaryStatistics,
-      ),
-    );
-  }
-
   Future _openNutritionDailySummary(
     BuildContext context,
     Date date,
