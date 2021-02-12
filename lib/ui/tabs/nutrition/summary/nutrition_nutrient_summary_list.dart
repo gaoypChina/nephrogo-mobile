@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
+import 'package:nephrogo/ui/charts/nutrient_weekly_bar_chart.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_calendar.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
@@ -103,6 +104,7 @@ class NutritionNutrientMonthlyReportsListState
 
 class NutritionNutrientWeeklyReportsList extends StatelessWidget {
   final List<DailyIntakesLightReport> reports;
+  final Date dateTo;
   final Widget header;
   final Nutrient nutrient;
 
@@ -111,6 +113,7 @@ class NutritionNutrientWeeklyReportsList extends StatelessWidget {
     @required this.reports,
     @required this.header,
     @required this.nutrient,
+    @required this.dateTo,
   })  : assert(reports != null),
         assert(reports.isNotEmpty),
         assert(header != null),
@@ -133,15 +136,11 @@ class NutritionNutrientWeeklyReportsList extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: header,
               ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 8),
-              //   child: NutrientWeeklyBarChart(
-              //     dailyIntakeReports: dailyIntakesReports,
-              //     nutrient: nutrient,
-              //     maximumDate: todayIntakesReport.date,
-              //     fitInsideVertically: false,
-              //   ),
-              // )
+              NutrientWeeklyBarChart(
+                dailyIntakeLightReports: reportsReverseSorted,
+                nutrient: nutrient,
+                maximumDate: dateTo,
+              )
             ],
           );
         }
