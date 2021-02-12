@@ -10,10 +10,9 @@ import 'package:nephrogo/ui/charts/nutrient_weekly_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
-import 'package:nephrogo_api_client/model/nutrition_screen_response.dart';
+import 'package:nephrogo_api_client/model/nutrition_screen_v2_response.dart';
 import 'package:nephrogo_api_client/model/nutrition_summary_statistics.dart';
 
 import 'nutrition_calendar.dart';
@@ -51,13 +50,16 @@ class NutritionTab extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
 
-    return AppStreamBuilder<NutritionScreenResponse>(
+    return AppStreamBuilder<NutritionScreenV2Response>(
       stream: apiService.getNutritionScreenStream(),
       builder: (context, data) {
         final latestIntakes = data.latestIntakes.toList();
-        final dailyIntakesReports = data.dailyIntakesReports.toList();
-        final todayIntakesReport = data.todayIntakesReport;
+        final lastWeekLightNutritionReports =
+            data.lastWeekLightNutritionReports.toList();
+        final todayIntakesReport = data.todayLightNutritionReport;
         final nutritionSummaryStatistics = data.nutritionSummaryStatistics;
+        final dailyNutrientNormsWithTotals =
+            todayIntakesReport.nutrientNormsAndTotals;
 
         return Visibility(
           visible: latestIntakes.isNotEmpty,
@@ -67,12 +69,13 @@ class NutritionTab extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.only(bottom: 64),
             children: [
-              DailyNormsSection(dailyIntakeReport: todayIntakesReport),
+              DailyNormsSection(
+                nutritionLightReport: todayIntakesReport,
+              ),
               DailyIntakesCard(
                 title: appLocalizations.lastMealsSectionTitle,
                 intakes: latestIntakes,
-                dailyNutrientNormsWithTotals:
-                    todayIntakesReport.dailyNutrientNormsAndTotals,
+                dailyNutrientNormsWithTotals: dailyNutrientNormsWithTotals,
                 leading: OutlinedButton(
                   onPressed: () => _openNutritionSummary(
                     context,
@@ -81,15 +84,11 @@ class NutritionTab extends StatelessWidget {
                   child: Text(appLocalizations.more.toUpperCase()),
                 ),
               ),
-              MonthlyNutritionSummarySection(
-                data.currentMonthDailyReports.toList(),
-                nutritionSummaryStatistics,
-              ),
               for (final nutrient in Nutrient.values)
                 buildIndicatorChartSection(
                   context,
                   todayIntakesReport,
-                  dailyIntakesReports,
+                  lastWeekLightNutritionReports,
                   nutritionSummaryStatistics,
                   nutrient,
                 )
@@ -132,19 +131,20 @@ class NutritionTab extends StatelessWidget {
 
   LargeSection buildIndicatorChartSection(
     BuildContext context,
-    DailyIntakesReport todayIntakesReport,
-    List<DailyIntakesReport> dailyIntakesReports,
+    DailyIntakesLightReport todayIntakesReport,
+    List<DailyIntakesLightReport> dailyIntakesReports,
     NutritionSummaryStatistics nutritionSummaryStatistics,
     Nutrient nutrient,
   ) {
     final localizations = AppLocalizations.of(context);
 
-    final dailyNormFormatted = todayIntakesReport.dailyNutrientNormsAndTotals
+    final dailyNormFormatted = todayIntakesReport.nutrientNormsAndTotals
         .getNutrientNormFormatted(nutrient);
-    final todayConsumption = todayIntakesReport.dailyNutrientNormsAndTotals
+    final todayConsumption = todayIntakesReport.nutrientNormsAndTotals
         .getNutrientTotalAmountFormatted(nutrient);
 
-    final showGraph = dailyIntakesReports.expand((e) => e.intakes).isNotEmpty;
+    final showGraph = dailyIntakesReports
+        .any((r) => r.nutrientNormsAndTotals.isAtLeastTotalNonZeo());
 
     String subtitle;
     if (dailyNormFormatted != null) {
@@ -174,7 +174,7 @@ class NutritionTab extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: NutrientWeeklyBarChart(
-              dailyIntakeReports: dailyIntakesReports,
+              dailyIntakeLightReports: dailyIntakesReports,
               nutrient: nutrient,
               maximumDate: todayIntakesReport.date,
               fitInsideVertically: false,
@@ -186,11 +186,11 @@ class NutritionTab extends StatelessWidget {
 }
 
 class DailyNormsSection extends StatelessWidget {
-  final DailyIntakesReport dailyIntakeReport;
+  final DailyIntakesLightReport nutritionLightReport;
 
   const DailyNormsSection({
     Key key,
-    @required this.dailyIntakeReport,
+    @required this.nutritionLightReport,
   }) : super(key: key);
 
   @override
@@ -203,7 +203,7 @@ class DailyNormsSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            DailyNormsBarChart(dailyIntakeReport: dailyIntakeReport),
+            DailyNormsBarChart(dailyIntakeReport: nutritionLightReport),
           ],
         ),
       ],

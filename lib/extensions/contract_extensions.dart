@@ -4,6 +4,8 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo_api_client/model/appetite_enum.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
+import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
+import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
@@ -146,6 +148,17 @@ extension DailyNutrientConsumptionExtensions on DailyNutrientConsumption {
   }
 }
 
+extension DailyIntakesReportExtensions on DailyIntakesReport {
+  DailyIntakesLightReport toLightReport() {
+    final builder = DailyIntakesLightReportBuilder();
+
+    builder.nutrientNormsAndTotals = dailyNutrientNormsAndTotals.toBuilder();
+    builder.date = date;
+
+    return builder.build();
+  }
+}
+
 extension DailyNutrientNormsWithTotalsExtensions
     on DailyNutrientNormsWithTotals {
   DailyNutrientConsumption getDailyNutrientConsumption(Nutrient nutrient) {
@@ -205,6 +218,12 @@ extension DailyNutrientNormsWithTotalsExtensions
     return Nutrient.values
         .map(getDailyNutrientConsumption)
         .any((c) => c.isNormExceeded == true);
+  }
+
+  bool isAtLeastTotalNonZeo() {
+    return Nutrient.values
+        .map(getDailyNutrientConsumption)
+        .any((c) => c.total != 0);
   }
 }
 

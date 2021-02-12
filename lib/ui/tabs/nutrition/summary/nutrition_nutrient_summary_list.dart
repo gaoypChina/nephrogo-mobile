@@ -127,9 +127,22 @@ class NutritionNutrientWeeklyReportsList extends StatelessWidget {
       separatorBuilder: (context, i) => const Divider(height: 1),
       itemBuilder: (context, index) {
         if (index == 0) {
-          return BasicSection.single(
-            header,
-            innerPadding: const EdgeInsets.symmetric(vertical: 8),
+          return BasicSection(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: header,
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 8),
+              //   child: NutrientWeeklyBarChart(
+              //     dailyIntakeReports: dailyIntakesReports,
+              //     nutrient: nutrient,
+              //     maximumDate: todayIntakesReport.date,
+              //     fitInsideVertically: false,
+              //   ),
+              // )
+            ],
           );
         }
         final dailyIntakesReport = reportsReverseSorted[index - 1];

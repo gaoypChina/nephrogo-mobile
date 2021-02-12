@@ -7,7 +7,7 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/models/graph.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
+import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 
 import 'bar_chart.dart';
 
@@ -19,12 +19,12 @@ class NutrientWeeklyBarChart extends StatelessWidget {
 
   final Nutrient nutrient;
   final DateTime maximumDate;
-  final List<DailyIntakesReport> dailyIntakeReports;
+  final List<DailyIntakesLightReport> dailyIntakeLightReports;
   final bool fitInsideVertically;
 
   NutrientWeeklyBarChart({
     Key key,
-    @required this.dailyIntakeReports,
+    @required this.dailyIntakeLightReports,
     @required this.nutrient,
     @required this.maximumDate,
     this.fitInsideVertically = true,
@@ -45,16 +45,16 @@ class NutrientWeeklyBarChart extends StatelessWidget {
 
   AppBarChartData _getChartData(AppLocalizations appLocalizations) {
     final sortedDailyIntakeReports =
-        dailyIntakeReports.sortedBy((e) => e.date).toList();
+        dailyIntakeLightReports.sortedBy((e) => e.date).toList();
 
-    final dailyNutrientConsumptions = dailyIntakeReports
+    final dailyNutrientConsumptions = dailyIntakeLightReports
         .map((e) =>
-            e.dailyNutrientNormsAndTotals.getDailyNutrientConsumption(nutrient))
+            e.nutrientNormsAndTotals.getDailyNutrientConsumption(nutrient))
         .toList();
 
     final lastNorm = sortedDailyIntakeReports
         .lastOrNull()
-        ?.dailyNutrientNormsAndTotals
+        ?.nutrientNormsAndTotals
         ?.getDailyNutrientConsumption(nutrient)
         ?.norm
         ?.toDouble();
@@ -82,8 +82,9 @@ class NutrientWeeklyBarChart extends StatelessWidget {
         List.generate(7, (d) => Date.from(maximumDate.add(Duration(days: -d))))
             .reversed;
 
-    final dailyIntakeReportsGrouped =
-        dailyIntakeReports.groupBy((v) => Date.from(v.date)).map((key, values) {
+    final dailyIntakeReportsGrouped = dailyIntakeLightReports
+        .groupBy((v) => Date.from(v.date))
+        .map((key, values) {
       if (values.length > 1) {
         throw ArgumentError.value(values, 'values',
             'Multiple daily intakes with same formatted date');
@@ -111,7 +112,7 @@ class NutrientWeeklyBarChart extends StatelessWidget {
           ],
         );
       }
-      final dailyNutrientNormsAndTotals = di.dailyNutrientNormsAndTotals;
+      final dailyNutrientNormsAndTotals = di.nutrientNormsAndTotals;
 
       final consumption =
           dailyNutrientNormsAndTotals.getDailyNutrientConsumption(nutrient);

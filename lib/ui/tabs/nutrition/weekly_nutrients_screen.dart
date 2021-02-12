@@ -5,7 +5,6 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/routes.dart';
-import 'package:nephrogo/ui/charts/nutrient_weekly_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/weekly_pager.dart';
@@ -180,11 +179,11 @@ class _WeeklyNutrientsComponent extends StatelessWidget {
             if (i == 0) {
               return BasicSection(
                 children: [
-                  NutrientWeeklyBarChart(
-                    dailyIntakeReports: dailyIntakesReports,
-                    nutrient: nutrient,
-                    maximumDate: weekEnd,
-                  ),
+                  // NutrientWeeklyBarChart(
+                  //   dailyIntakeLightReports: dailyIntakesReports,
+                  //   nutrient: nutrient,
+                  //   maximumDate: weekEnd,
+                  // ),
                 ],
               );
             }

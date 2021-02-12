@@ -5,12 +5,12 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/graph.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
+import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 
 import 'bar_chart.dart';
 
 class DailyNormsBarChart extends StatelessWidget {
-  final DailyIntakesReport dailyIntakeReport;
+  final DailyIntakesLightReport dailyIntakeReport;
 
   const DailyNormsBarChart({
     Key key,
@@ -23,7 +23,7 @@ class DailyNormsBarChart extends StatelessWidget {
 
     final nutrientsWithNorms = Nutrient.values
         .where((n) =>
-            dailyIntakeReport.dailyNutrientNormsAndTotals
+    dailyIntakeReport.nutrientNormsAndTotals
                 .getDailyNutrientConsumption(n)
                 .norm !=
             null)
@@ -74,8 +74,7 @@ class DailyNormsBarChart extends StatelessWidget {
     List<Nutrient> nutrients,
   ) {
     return nutrients.mapIndexed((i, nutrient) {
-      final dailyNutrientConsumption = dailyIntakeReport
-          .dailyNutrientNormsAndTotals
+      final dailyNutrientConsumption = dailyIntakeReport.nutrientNormsAndTotals
           .getDailyNutrientConsumption(nutrient);
 
       final rawYPercent = dailyNutrientConsumption.total.toDouble() /
@@ -88,9 +87,9 @@ class DailyNormsBarChart extends StatelessWidget {
         yPercent = 1;
       }
 
-      final formattedTotal = dailyIntakeReport.dailyNutrientNormsAndTotals
+      final formattedTotal = dailyIntakeReport.nutrientNormsAndTotals
           .getNutrientTotalAmountFormatted(nutrient);
-      final formattedNorm = dailyIntakeReport.dailyNutrientNormsAndTotals
+      final formattedNorm = dailyIntakeReport.nutrientNormsAndTotals
           .getNutrientNormFormatted(nutrient);
 
       final entry = AppBarChartRod(

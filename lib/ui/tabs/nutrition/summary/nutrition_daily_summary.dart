@@ -174,7 +174,7 @@ class _NutritionDailySummaryList extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: DailyNormsBarChart(
-                      dailyIntakeReport: dailyIntakesReport,
+                      dailyIntakeReport: dailyIntakesReport.toLightReport(),
                     ),
                   ),
                 ],
