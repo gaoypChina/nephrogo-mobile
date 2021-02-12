@@ -9,6 +9,7 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
@@ -43,7 +44,7 @@ class MyDailyIntakesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_dateFormat.format(date).capitalizeFirst()),
+        title: Text(_getTitle(appLocalizations)),
         actions: [
           TextButton(
             onPressed: () => _openGeneralRecommendations(context),
@@ -60,20 +61,55 @@ class MyDailyIntakesScreen extends StatelessWidget {
         icon: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: AppStreamBuilder<DailyIntakesReportResponse>(
-        stream: _apiService.getDailyIntakesReportStream(date),
-        builder: (context, data) {
-          if (nutrient != null) {
-            return _DailyNutritionNutrientList(
-              data.dailyIntakesReport,
-              nutrient,
-            );
-          }
+      body: DailyPager(
+        earliestDate: Date(2021, 1, 1),
+        initialDate: date,
+        bodyBuilder: (context, header, from, to) {
+          return AppStreamBuilder<DailyIntakesReportResponse>(
+            stream: _apiService.getDailyIntakesReportStream(from),
+            builder: (context, data) {
+              Widget child;
+              if (nutrient != null) {
+                child = _DailyNutritionNutrientList(
+                  data.dailyIntakesReport,
+                  nutrient,
+                  header: header,
+                );
+              } else {
+                child = _DailyNutritionList(
+                  data.dailyIntakesReport,
+                  header: header,
+                );
+              }
 
-          return _DailyNutritionList(data.dailyIntakesReport);
+              return Visibility(
+                visible: data.dailyIntakesReport.intakes.isNotEmpty,
+                replacement: Column(children: [
+                  BasicSection.single(
+                    header,
+                    innerPadding: const EdgeInsets.symmetric(vertical: 8),
+                  ),
+                  Expanded(
+                    child: EmptyStateContainer(
+                      text: AppLocalizations.of(context).weeklyNutrientsEmpty,
+                    ),
+                  ),
+                ]),
+                child: child,
+              );
+            },
+          );
         },
       ),
     );
+  }
+
+  String _getTitle(AppLocalizations appLocalizations) {
+    if (nutrient == null) {
+      return appLocalizations.nutritionSummary;
+    }
+
+    return nutrient.consumptionName(appLocalizations);
   }
 
   Future _openGeneralRecommendations(BuildContext context) {
@@ -91,11 +127,14 @@ class MyDailyIntakesScreen extends StatelessWidget {
 
 class _DailyNutritionList extends StatelessWidget {
   final DailyIntakesReport dailyIntakesReport;
+  final Widget header;
 
   const _DailyNutritionList(
     this.dailyIntakesReport, {
     Key key,
-  }) : super(key: key);
+    @required this.header,
+  })  : assert(header != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -109,13 +148,22 @@ class _DailyNutritionList extends StatelessWidget {
       itemCount: intakes.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
-          return BasicSection.single(
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: DailyNormsBarChart(
-                dailyIntakeReport: dailyIntakesReport,
+          return BasicSection(
+            innerPadding: const EdgeInsets.symmetric(vertical: 8),
+            children: [
+              header,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: DailyNormsBarChart(
+                      dailyIntakeReport: dailyIntakesReport,
+                    ),
+                  ),
+                ],
               ),
-            ),
+            ],
           );
         }
 
@@ -126,6 +174,7 @@ class _DailyNutritionList extends StatelessWidget {
 }
 
 class _DailyNutritionNutrientList extends StatelessWidget {
+  final Widget header;
   final DailyIntakesReport dailyIntakesReport;
   final Nutrient nutrient;
 
@@ -133,7 +182,9 @@ class _DailyNutritionNutrientList extends StatelessWidget {
     this.dailyIntakesReport,
     this.nutrient, {
     Key key,
-  }) : super(key: key);
+    @required this.header,
+  })  : assert(header != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -145,9 +196,16 @@ class _DailyNutritionNutrientList extends StatelessWidget {
     return ListView.separated(
       padding: const EdgeInsets.only(bottom: 80),
       separatorBuilder: (context, index) => const Divider(height: 1),
-      itemCount: intakes.length,
+      itemCount: intakes.length + 1,
       itemBuilder: (context, index) {
-        return NutrientIntakeTile(intakes[index], nutrient, norms);
+        if (index == 0) {
+          return BasicSection.single(
+            header,
+            innerPadding: const EdgeInsets.symmetric(vertical: 8),
+          );
+        }
+
+        return NutrientIntakeTile(intakes[index - 1], nutrient, norms);
       },
     );
   }
