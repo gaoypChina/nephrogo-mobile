@@ -23,7 +23,7 @@ class DailyNormsBarChart extends StatelessWidget {
 
     final nutrientsWithNorms = Nutrient.values
         .where((n) =>
-    dailyIntakeReport.nutrientNormsAndTotals
+            dailyIntakeReport.nutrientNormsAndTotals
                 .getDailyNutrientConsumption(n)
                 .norm !=
             null)
