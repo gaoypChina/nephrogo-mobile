@@ -1,43 +1,34 @@
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:tuple/tuple.dart';
 
 class DateUtils {
   DateUtils._();
 
-  static Iterable<Date> generateDates(
-    DateTime startDate,
-    DateTime endDate,
-  ) sync* {
+  static Iterable<Date> generateDates(DateTime startDate,
+      DateTime endDate,) sync* {
     for (var date = startDate;
-        date.isBefore(endDate) || date == endDate;
-        date = date.add(const Duration(days: 1))) {
+    date.isBefore(endDate) || date == endDate;
+    date = date.add(const Duration(days: 1))) {
       yield Date.from(date);
     }
   }
 
-  static Iterable<Date> generateWeekDates(
-    Date startDate,
-    Date endDate,
-  ) sync* {
-    final start = startDate.subtract(
-      Duration(days: startDate.weekday - DateTime.monday),
-    );
-
-    for (var date = start;
-        date.isBefore(endDate) || date == endDate;
+  static Iterable<Date> generateWeekDates(Date startDate,
+      Date endDate,) sync* {
+    for (DateTime date = startDate.firstDayOfWeek();
+        date.isBefore(endDate) || date.isAtSameMomentAs(endDate);
         date = date.add(const Duration(days: 7))) {
       yield Date.from(date);
     }
   }
 
-  static Iterable<Date> generateMonthDates(
-    Date startDate,
-    Date endDate,
-  ) sync* {
+  static Iterable<Date> generateMonthDates(Date startDate,
+      Date endDate,) sync* {
     final finalEndDate = getLastDayOfCurrentMonth(endDate);
     for (var date = Date(startDate.year, startDate.month, 1);
-        date.isBefore(finalEndDate);
-        date = getFirstDayOfNextMonth(date)) {
+    date.isBefore(finalEndDate);
+    date = getFirstDayOfNextMonth(date)) {
       yield date;
     }
   }

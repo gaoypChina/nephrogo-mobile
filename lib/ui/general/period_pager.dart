@@ -11,6 +11,57 @@ typedef PagerBodyBuilder = Widget Function(
   Date to,
 );
 
+class WeeklyPager extends StatelessWidget {
+  final dateFormatter = DateFormat.MMMMd();
+  final _monthFormatter = DateFormat("MMMM ");
+
+  final Date earliestDate;
+  final Date initialDate;
+
+  final PagerBodyBuilder bodyBuilder;
+
+  WeeklyPager({
+    Key key,
+    @required this.earliestDate,
+    @required this.initialDate,
+    @required this.bodyBuilder,
+  })  : assert(earliestDate != null),
+        assert(initialDate != null),
+        assert(bodyBuilder != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final today = Date.today();
+    final dates = DateUtils.generateWeekDates(earliestDate, today).toList();
+
+    final initialFromDateIndex = dates.indexOf(initialDate.firstDayOfWeek());
+    assert(initialFromDateIndex != -1);
+
+    return _PeriodPager(
+      bodyBuilder: bodyBuilder,
+      headerTextBuilder: _buildHeaderText,
+      allFromDates: dates,
+      initialFromDate: dates[initialFromDateIndex],
+      dateFromToDateTo: _dateFromToDateTo,
+    );
+  }
+
+  Date _dateFromToDateTo(Date from) {
+    return from.lastDayOfWeek();
+  }
+
+  Widget _buildHeaderText(BuildContext context, Date from, Date to) {
+    if (from.month == to.month) {
+      final formattedFrom = _monthFormatter.format(from).capitalizeFirst();
+      return Text("$formattedFrom ${from.day} – ${to.day}");
+    }
+
+    return Text('${dateFormatter.format(from).capitalizeFirst()} – '
+        '${dateFormatter.format(to).capitalizeFirst()}');
+  }
+}
+
 class MonthlyPager extends StatelessWidget {
   static final monthFormatter = DateFormat.yMMMM();
 
@@ -147,6 +198,7 @@ class _PeriodPagerState extends State<_PeriodPager> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
+          iconSize: 32,
           icon: const Icon(
             Icons.navigate_before,
           ),
@@ -154,16 +206,14 @@ class _PeriodPagerState extends State<_PeriodPager> {
               hasPreviousDateRange(index) ? advanceToPreviousDateRange : null,
         ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: DefaultTextStyle(
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.subtitle2,
-              child: widget.headerTextBuilder(context, from, to),
-            ),
+          child: DefaultTextStyle(
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyText1,
+            child: widget.headerTextBuilder(context, from, to),
           ),
         ),
         IconButton(
+          iconSize: 32,
           icon: const Icon(Icons.navigate_next),
           onPressed: hasNextDateRange(index) ? advanceToNextDateRange : null,
         ),

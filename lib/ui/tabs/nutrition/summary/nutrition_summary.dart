@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
-import 'package:nephrogo/ui/general/app_future_builder.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
-import 'package:nephrogo_api_client/model/user.dart';
+import 'package:nephrogo_api_client/model/nutrition_summary_statistics.dart';
 
 import 'nutrition_monthly_summary_list.dart';
 
@@ -15,15 +14,24 @@ enum NutritionSummaryScreenType { weekly, monthly }
 
 class NutritionSummaryScreenArguments {
   final NutritionSummaryScreenType screenType;
+  final NutritionSummaryStatistics nutritionSummaryStatistics;
 
-  NutritionSummaryScreenArguments(this.screenType);
+  NutritionSummaryScreenArguments(
+    this.screenType,
+    this.nutritionSummaryStatistics,
+  );
 }
 
 class NutritionSummaryScreen extends StatefulWidget {
   final NutritionSummaryScreenType screenType;
+  final NutritionSummaryStatistics nutritionSummaryStatistics;
 
-  const NutritionSummaryScreen({Key key, @required this.screenType})
-      : assert(screenType != null),
+  const NutritionSummaryScreen({
+    Key key,
+    @required this.screenType,
+    @required this.nutritionSummaryStatistics,
+  })  : assert(screenType != null),
+        assert(nutritionSummaryStatistics != null),
         super(key: key);
 
   @override
@@ -49,8 +57,12 @@ class _NutritionSummaryScreenState extends State<NutritionSummaryScreen> {
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
-            _NutritionSummaryMonthlyScreenBody(),
-            _NutritionSummaryMonthlyScreenBody(),
+            _NutritionWeeklySummaryScreenBody(
+              nutritionSummaryStatistics: widget.nutritionSummaryStatistics,
+            ),
+            _NutritionMonthlySummaryScreenBody(
+              nutritionSummaryStatistics: widget.nutritionSummaryStatistics,
+            ),
           ],
         ),
       ),
@@ -69,43 +81,88 @@ class _NutritionSummaryScreenState extends State<NutritionSummaryScreen> {
   }
 }
 
-class _NutritionSummaryMonthlyScreenBody extends StatelessWidget {
+class _NutritionMonthlySummaryScreenBody extends StatelessWidget {
   final _apiService = ApiService();
+
+  final NutritionSummaryStatistics nutritionSummaryStatistics;
+
+  _NutritionMonthlySummaryScreenBody({
+    Key key,
+    @required this.nutritionSummaryStatistics,
+  })  : assert(nutritionSummaryStatistics != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AppStreamBuilder<User>(
-      stream: _apiService.getUserStream(),
-      builder: (context, userData) {
-        final nutritionSummary = userData.nutritionSummary;
-        return Visibility(
-          visible: nutritionSummary.minReportDate != null,
-          replacement: EmptyStateContainer(
-            text: AppLocalizations.of(context).nutritionEmpty,
-          ),
-          child: MonthlyPager(
-            earliestDate: nutritionSummary.minReportDate.toDate(),
-            initialDate: nutritionSummary.maxReportDate.toDate(),
-            bodyBuilder: (context, header, from, to) {
-              return AppFutureBuilder<DailyIntakesReportsResponse>(
-                future: _apiService.getLightDailyIntakeReports(from, to),
-                builder: (context, data) {
-                  return Visibility(
-                    visible: data.dailyIntakesLightReports.isNotEmpty,
-                    replacement: EmptyStateContainer(
-                      text: AppLocalizations.of(context).weeklyNutrientsEmpty,
-                    ),
-                    child: NutritionMonthlyReportsList(
-                      header: header,
-                      reports: data.dailyIntakesLightReports.toList(),
-                    ),
-                  );
-                },
+    return Visibility(
+      visible: nutritionSummaryStatistics.minReportDate != null,
+      replacement: EmptyStateContainer(
+        text: AppLocalizations.of(context).nutritionEmpty,
+      ),
+      child: MonthlyPager(
+        earliestDate: nutritionSummaryStatistics.minReportDate.toDate(),
+        initialDate: nutritionSummaryStatistics.maxReportDate.toDate(),
+        bodyBuilder: (context, header, from, to) {
+          return AppStreamBuilder<DailyIntakesReportsResponse>(
+            stream: _apiService.getLightDailyIntakeReportsStream(from, to),
+            builder: (context, data) {
+              return Visibility(
+                visible: data.dailyIntakesLightReports.isNotEmpty,
+                replacement: EmptyStateContainer(
+                  text: AppLocalizations.of(context).weeklyNutrientsEmpty,
+                ),
+                child: NutritionMonthlyReportsList(
+                  header: header,
+                  reports: data.dailyIntakesLightReports.toList(),
+                ),
               );
             },
-          ),
-        );
-      },
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _NutritionWeeklySummaryScreenBody extends StatelessWidget {
+  final _apiService = ApiService();
+
+  final NutritionSummaryStatistics nutritionSummaryStatistics;
+
+  _NutritionWeeklySummaryScreenBody({
+    Key key,
+    @required this.nutritionSummaryStatistics,
+  })  : assert(nutritionSummaryStatistics != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: nutritionSummaryStatistics.minReportDate != null,
+      replacement: EmptyStateContainer(
+        text: AppLocalizations.of(context).nutritionEmpty,
+      ),
+      child: WeeklyPager(
+        earliestDate: nutritionSummaryStatistics.minReportDate.toDate(),
+        initialDate: nutritionSummaryStatistics.maxReportDate.toDate(),
+        bodyBuilder: (context, header, from, to) {
+          return AppStreamBuilder<DailyIntakesReportsResponse>(
+            stream: _apiService.getLightDailyIntakeReportsStream(from, to),
+            builder: (context, data) {
+              return Visibility(
+                visible: data.dailyIntakesLightReports.isNotEmpty,
+                replacement: EmptyStateContainer(
+                  text: AppLocalizations.of(context).weeklyNutrientsEmpty,
+                ),
+                child: NutritionMonthlyReportsList(
+                  header: header,
+                  reports: data.dailyIntakesLightReports.toList(),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

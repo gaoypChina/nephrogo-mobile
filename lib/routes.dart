@@ -147,6 +147,7 @@ class Routes {
 
           return NutritionSummaryScreen(
             screenType: arguments.screenType,
+            nutritionSummaryStatistics: arguments.nutritionSummaryStatistics,
           );
         });
       case routeDailyWeeklyNutrientsScreen:

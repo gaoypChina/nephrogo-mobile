@@ -14,6 +14,7 @@ import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/nutrition_screen_response.dart';
+import 'package:nephrogo_api_client/model/nutrition_summary_statistics.dart';
 
 import 'nutrition_calendar.dart';
 import 'nutrition_components.dart';
@@ -57,6 +58,7 @@ class NutritionTab extends StatelessWidget {
         final latestIntakes = data.latestIntakes.toList();
         final dailyIntakesReports = data.dailyIntakesReports.toList();
         final todayIntakesReport = data.todayIntakesReport;
+        final nutritionSummaryStatistics = data.nutritionSummaryStatistics;
 
         return Visibility(
           visible: latestIntakes.isNotEmpty,
@@ -73,13 +75,16 @@ class NutritionTab extends StatelessWidget {
                 dailyNutrientNormsWithTotals:
                     todayIntakesReport.dailyNutrientNormsAndTotals,
                 leading: OutlinedButton(
-                  onPressed: () => _openNutritionSummary(context),
+                  onPressed: () => _openNutritionSummary(
+                    context,
+                    nutritionSummaryStatistics,
+                  ),
                   child: Text(appLocalizations.more.toUpperCase()),
                 ),
               ),
               MonthlyNutritionSummarySection(
-                data.currentMonthDailyReports.toList(),
-              ),
+                  data.currentMonthDailyReports.toList(),
+                  nutritionSummaryStatistics),
               for (final nutrient in Nutrient.values)
                 buildIndicatorChartSection(
                   context,
@@ -102,12 +107,16 @@ class NutritionTab extends StatelessWidget {
     );
   }
 
-  Future _openNutritionSummary(BuildContext context) {
+  Future _openNutritionSummary(
+    BuildContext context,
+    NutritionSummaryStatistics nutritionSummaryStatistics,
+  ) {
     return Navigator.pushNamed(
       context,
       Routes.routeNutritionSummary,
       arguments: NutritionSummaryScreenArguments(
         NutritionSummaryScreenType.weekly,
+        nutritionSummaryStatistics,
       ),
     );
   }
@@ -224,10 +233,12 @@ class DailyIntakesCard extends StatelessWidget {
 
 class MonthlyNutritionSummarySection extends StatelessWidget {
   final List<DailyIntakesLightReport> reports;
+  final NutritionSummaryStatistics nutritionSummaryStatistics;
   final _monthFormat = DateFormat('MMMM ');
 
   MonthlyNutritionSummarySection(
-    this.reports, {
+    this.reports,
+    this.nutritionSummaryStatistics, {
     Key key,
   }) : super(key: key);
 
@@ -241,7 +252,10 @@ class MonthlyNutritionSummarySection extends StatelessWidget {
           .capitalizeFirst(),
       subTitle: const NutrientCalendarExplanation(),
       trailing: OutlinedButton(
-        onPressed: () => _openNutritionSummary(context),
+        onPressed: () => _openNutritionSummary(
+          context,
+          nutritionSummaryStatistics,
+        ),
         child: Text(appLocalizations.more.toUpperCase()),
       ),
       children: [
@@ -249,19 +263,26 @@ class MonthlyNutritionSummarySection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: NutritionCalendar(
             reports,
-            onDaySelected: (_) => _openNutritionSummary(context),
+            onDaySelected: (_) => _openNutritionSummary(
+              context,
+              nutritionSummaryStatistics,
+            ),
           ),
         ),
       ],
     );
   }
 
-  Future _openNutritionSummary(BuildContext context) {
+  Future _openNutritionSummary(
+    BuildContext context,
+    NutritionSummaryStatistics nutritionSummaryStatistics,
+  ) {
     return Navigator.pushNamed(
       context,
       Routes.routeNutritionSummary,
       arguments: NutritionSummaryScreenArguments(
         NutritionSummaryScreenType.monthly,
+        nutritionSummaryStatistics,
       ),
     );
   }

@@ -20,6 +20,14 @@ extension DateTimeExtension on DateTime {
     return Date.from(this);
   }
 
+  Date firstDayOfWeek() {
+    return subtract(Duration(days: weekday - DateTime.monday)).toDate();
+  }
+
+  Date lastDayOfWeek() {
+    return add(Duration(days: DateTime.daysPerWeek - weekday)).toDate();
+  }
+
   Tuple2<DateTime, DateTime> startAndEndOfWeek() {
     final start =
         startOfDay().subtract(Duration(days: weekday - DateTime.monday));
