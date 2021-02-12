@@ -81,11 +81,13 @@ class NutritionMonthlyReportsListState
     _itemScrollController.jumpTo(index: position);
   }
 
-  int getReportPosition(DateTime dateTime,
-      List<DailyIntakesLightReport> reports,) {
+  int getReportPosition(
+    DateTime dateTime,
+    List<DailyIntakesLightReport> reports,
+  ) {
     return reports
-        .mapIndexed((i, r) => r.date == Date.from(dateTime) ? i : null)
-        .firstWhere((i) => i != null) +
+            .mapIndexed((i, r) => r.date == Date.from(dateTime) ? i : null)
+            .firstWhere((i) => i != null) +
         1;
   }
 }
@@ -98,8 +100,7 @@ class NutritionWeeklyReportsList extends StatelessWidget {
     Key key,
     @required this.reports,
     @required this.header,
-  })
-      : assert(reports != null),
+  })  : assert(reports != null),
         assert(reports.isNotEmpty),
         assert(header != null),
         super(key: key);
@@ -107,7 +108,7 @@ class NutritionWeeklyReportsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reportsReverseSorted =
-    reports.sortedBy((e) => e.date, reverse: true).toList();
+        reports.sortedBy((e) => e.date, reverse: true).toList();
 
     return ListView.builder(
       itemCount: reportsReverseSorted.length + 1,
