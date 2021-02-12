@@ -18,6 +18,7 @@ import 'package:nephrogo_api_client/model/nutrient_screen_response.dart';
 import 'nutrition_calendar.dart';
 import 'nutrition_components.dart';
 import 'product_search.dart';
+import 'summary/nutrition_summary.dart';
 import 'weekly_nutrients_screen.dart';
 
 class NutritionTab extends StatelessWidget {
@@ -102,7 +103,13 @@ class NutritionTab extends StatelessWidget {
   }
 
   Future _openNutritionSummary(BuildContext context) {
-    return Navigator.pushNamed(context, Routes.routeNutritionSummary);
+    return Navigator.pushNamed(
+      context,
+      Routes.routeNutritionSummary,
+      arguments: NutritionSummaryScreenArguments(
+        NutritionSummaryScreenType.weekly,
+      ),
+    );
   }
 
   LargeSection buildIndicatorChartSection(
@@ -250,6 +257,12 @@ class MonthlyNutritionSummarySection extends StatelessWidget {
   }
 
   Future _openNutritionSummary(BuildContext context) {
-    return Navigator.pushNamed(context, Routes.routeNutritionSummary);
+    return Navigator.pushNamed(
+      context,
+      Routes.routeNutritionSummary,
+      arguments: NutritionSummaryScreenArguments(
+        NutritionSummaryScreenType.monthly,
+      ),
+    );
   }
 }
