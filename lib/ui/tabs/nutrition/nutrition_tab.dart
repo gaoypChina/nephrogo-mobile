@@ -123,7 +123,7 @@ class NutritionTab extends StatelessWidget {
       context,
       Routes.routeNutritionSummary,
       arguments: NutritionSummaryScreenArguments(
-        screenType: NutritionSummaryScreenType.weekly,
+        screenType: NutritionSummaryScreenType.monthly,
         nutritionSummaryStatistics: nutritionSummaryStatistics,
       ),
     );
