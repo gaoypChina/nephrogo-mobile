@@ -68,6 +68,8 @@
   "@total": {},
   "nutritionSummary": "Mitybos suvestinė",
   "@nutritionSummary": {},
+  "dailyNutritionSummary": "Dienos suvestinė",
+  "@dailyNutritionSummary": {},
   "monthly": "Mėnesio",
   "@monthly": {},
   "weekly": "Savaitės",

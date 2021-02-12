@@ -102,7 +102,7 @@ class NutritionDailySummaryScreen extends StatelessWidget {
 
   String _getTitle(AppLocalizations appLocalizations) {
     if (nutrient == null) {
-      return appLocalizations.nutritionSummary;
+      return appLocalizations.dailyNutritionSummary;
     }
 
     return nutrient.consumptionName(appLocalizations);
