@@ -78,7 +78,7 @@ class MyDailyIntakesScreen extends StatelessWidget {
                     );
                   }
 
-                  return IntakeWithNormsTile(intakes[index - 1], norms);
+                  return IntakeWithNormsSection(intakes[index - 1], norms);
                 },
               ),
             );

@@ -67,7 +67,7 @@ class NutritionMonthlyReportsListState
         }
         final dailyIntakesReport = reportsReverseSorted[index - 1];
 
-        return DailyIntakesReportTile(dailyIntakesReport);
+        return DailyIntakesReportSection(dailyIntakesReport);
       },
     );
   }
@@ -121,7 +121,7 @@ class NutritionWeeklyReportsList extends StatelessWidget {
         }
         final dailyIntakesReport = reportsReverseSorted[index - 1];
 
-        return DailyIntakesReportTile(dailyIntakesReport);
+        return DailyIntakesReportSection(dailyIntakesReport);
       },
     );
   }

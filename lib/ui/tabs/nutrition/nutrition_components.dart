@@ -13,12 +13,12 @@ import 'package:nephrogo_api_client/model/intake.dart';
 
 import 'intake_edit.dart';
 
-class DailyIntakesReportTile extends StatelessWidget {
+class DailyIntakesReportSection extends StatelessWidget {
   final _dateFormat = DateFormat('EEEE, MMMM d');
 
   final DailyIntakesLightReport dailyIntakesLightReport;
 
-  DailyIntakesReportTile(this.dailyIntakesLightReport)
+  DailyIntakesReportSection(this.dailyIntakesLightReport)
       : super(key: ObjectKey(dailyIntakesLightReport));
 
   @override
@@ -80,11 +80,11 @@ class DailyIntakesReportTile extends StatelessWidget {
   }
 }
 
-class IntakeWithNormsTile extends StatelessWidget {
+class IntakeWithNormsSection extends StatelessWidget {
   final Intake intake;
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
 
-  IntakeWithNormsTile(
+  IntakeWithNormsSection(
     this.intake,
     this.dailyNutrientNormsAndTotals,
   ) : super(key: ObjectKey(intake));
@@ -96,7 +96,7 @@ class IntakeWithNormsTile extends StatelessWidget {
       showDividers: true,
       children: [
         for (final nutrient in Nutrient.values)
-          IntakeNutrientTile(
+          IntakeNutrientDenseTile(
             intake,
             nutrient,
             dailyNutrientNormsAndTotals,
@@ -176,7 +176,7 @@ class IntakeExpandableTile extends StatelessWidget {
           context: context,
           tiles: [
             for (final nutrient in Nutrient.values)
-              IntakeNutrientTile(
+              IntakeNutrientDenseTile(
                 intake,
                 nutrient,
                 dailyNutrientNormsAndTotals,
@@ -228,12 +228,12 @@ class IntakeExpandableTile extends StatelessWidget {
   }
 }
 
-class IntakeNutrientTile extends StatelessWidget {
+class IntakeNutrientDenseTile extends StatelessWidget {
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
   final Intake intake;
   final Nutrient nutrient;
 
-  const IntakeNutrientTile(
+  const IntakeNutrientDenseTile(
     this.intake,
     this.nutrient,
     this.dailyNutrientNormsAndTotals, {
@@ -248,7 +248,7 @@ class IntakeNutrientTile extends StatelessWidget {
     if (intake == null || intake.amountG == 0) {
       return AppListTile(
         title: Text(nutrientName),
-        trailing: const Text('-'),
+        trailing: const Text('–'),
         dense: true,
       );
     }
