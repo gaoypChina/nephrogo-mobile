@@ -248,13 +248,9 @@
   "@consumptionPhosphorus": {
     "context": "nutrient:weekly"
   },
-  "todayConsumptionWithNormTooltip": "{percent}%\nŠiandien: {amount}\nNorma: {norm}",
+  "todayConsumptionWithNormTooltip": "{amount}\nNorma: {norm}",
   "@todayConsumptionWithNormTooltip": {
     "placeholders": {
-      "percent": {
-        "type": "String",
-        "example": "12"
-      },
       "amount": {
         "type": "String",
         "example": "120 g"
@@ -265,7 +261,7 @@
       }
     }
   },
-  "todayConsumptionWithoutNorm": "Šiandien: {amount}",
+  "todayConsumptionWithoutNorm": "{amount}",
   "@todayConsumptionWithoutNorm": {
     "placeholders": {
       "amount": {

@@ -94,7 +94,6 @@ class DailyNormsBarChart extends StatelessWidget {
 
       final entry = AppBarChartRod(
         tooltip: appLocalizations.todayConsumptionWithNormTooltip(
-          (rawYPercent * 100).round().toString(),
           formattedTotal,
           formattedNorm,
         ),
