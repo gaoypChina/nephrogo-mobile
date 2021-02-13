@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
-import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_calendar.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+import 'nutrition_summary_components.dart';
 
 class NutritionMonthlyReportsList extends StatefulWidget {
   final List<DailyIntakesLightReport> reports;
@@ -51,16 +52,16 @@ class NutritionMonthlyReportsListState
       itemCount: reportsReverseSorted.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
-          return BasicSection(
+          return DateSwitcherHeaderSection(
+            header: widget.header,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: widget.header,
-              ),
-              NutritionCalendar(
-                reportsReverseSorted,
-                onDaySelected: (dt) =>
-                    _onSelectionChanged(dt, reportsReverseSorted),
+                padding: const EdgeInsets.only(top: 16.0),
+                child: NutritionCalendar(
+                  reportsReverseSorted,
+                  onDaySelected: (dt) =>
+                      _onSelectionChanged(dt, reportsReverseSorted),
+                ),
               ),
             ],
           );
@@ -114,10 +115,7 @@ class NutritionWeeklyReportsList extends StatelessWidget {
       itemCount: reportsReverseSorted.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
-          return BasicSection.single(
-            header,
-            innerPadding: const EdgeInsets.symmetric(vertical: 8),
-          );
+          return DateSwitcherHeaderSection(header: header);
         }
         final dailyIntakesReport = reportsReverseSorted[index - 1];
 

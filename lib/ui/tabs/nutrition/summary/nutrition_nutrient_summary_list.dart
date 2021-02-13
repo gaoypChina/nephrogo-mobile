@@ -61,11 +61,14 @@ class NutritionNutrientMonthlyReportsListState
           return DateSwitcherHeaderSection(
             header: widget.header,
             children: [
-              NutritionCalendar(
-                reportsReverseSorted,
-                onDaySelected: (dt) =>
-                    _onSelectionChanged(dt, reportsReverseSorted),
-                nutrient: widget.nutrient,
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: NutritionCalendar(
+                  reportsReverseSorted,
+                  onDaySelected: (dt) =>
+                      _onSelectionChanged(dt, reportsReverseSorted),
+                  nutrient: widget.nutrient,
+                ),
               ),
             ],
           );
