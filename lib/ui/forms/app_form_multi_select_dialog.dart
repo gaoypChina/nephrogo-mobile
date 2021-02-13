@@ -46,7 +46,7 @@ class _AppFormMultipleSelectDialogState<T>
       scrollable: true,
       contentPadding: const EdgeInsets.only(top: 16),
       content: BasicSection(
-        padding: EdgeInsets.zero,
+        margin: EdgeInsets.zero,
         children: widget.items
             .mapIndexed((i, item) => _generateItemCell(context, item, i))
             .toList(),

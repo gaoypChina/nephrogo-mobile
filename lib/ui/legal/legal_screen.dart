@@ -170,7 +170,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
           ),
         ),
         BasicSection(
-          padding: EdgeInsets.zero,
+          margin: EdgeInsets.zero,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),

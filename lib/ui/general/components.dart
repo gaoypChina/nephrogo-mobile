@@ -5,7 +5,7 @@ import 'package:nephrogo_api_client/model/product_kind_enum.dart';
 class BasicSection extends StatelessWidget {
   final Widget header;
   final List<Widget> children;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry margin;
   final EdgeInsetsGeometry innerPadding;
   final bool showDividers;
   final bool showHeaderDivider;
@@ -16,7 +16,7 @@ class BasicSection extends StatelessWidget {
     this.children = const [],
     this.showDividers = false,
     this.showHeaderDivider = false,
-    this.padding = const EdgeInsets.only(bottom: 16),
+    this.margin = const EdgeInsets.only(bottom: 16),
     this.innerPadding = EdgeInsets.zero,
   })  : assert(header != null || children.isNotEmpty,
             "Either header or at least one child should be passed"),
@@ -25,7 +25,7 @@ class BasicSection extends StatelessWidget {
 
   const BasicSection.single(
     Widget child, {
-    this.padding = const EdgeInsets.only(bottom: 16),
+    this.margin = const EdgeInsets.only(bottom: 16),
     this.innerPadding = EdgeInsets.zero,
   })
   // ignore: prefer_initializing_formals
@@ -37,7 +37,7 @@ class BasicSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding,
+      padding: margin,
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).dialogBackgroundColor,

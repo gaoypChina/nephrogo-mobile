@@ -38,7 +38,7 @@ class AppFormSingleSelectDialog<T> extends StatelessWidget {
               ),
             ),
           BasicSection(
-            padding: EdgeInsets.zero,
+            margin: EdgeInsets.zero,
             children:
                 items.map((item) => _generateItemCell(context, item)).toList(),
           ),

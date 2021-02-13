@@ -183,7 +183,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
               ),
             ),
             BasicSection(
-              padding: EdgeInsets.zero,
+              margin: EdgeInsets.zero,
               children: [
                 AppListTile(
                   title: Text(appLocalizations.searchUnableToFindProduct),
