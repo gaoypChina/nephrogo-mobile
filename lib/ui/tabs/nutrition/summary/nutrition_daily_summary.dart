@@ -81,9 +81,9 @@ class _NutritionDailySummaryScreenState
           return AppStreamBuilder<DailyIntakesReportResponse>(
             stream: _apiService.getDailyIntakesReportStream(from),
             builder: (context, data) {
-              final report = data.dailyIntakesReport;
+              final report = data?.dailyIntakesReport;
 
-              if (report.intakes.isEmpty) {
+              if (report == null || report.intakes.isEmpty) {
                 return Column(
                   children: [
                     BasicSection.single(

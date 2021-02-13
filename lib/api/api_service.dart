@@ -150,7 +150,11 @@ class ApiService {
   Future<DailyIntakesReportResponse> getDailyIntakesReport(Date date) {
     return _nutritionApi
         .nutritionDailyReportsRetrieve(date.toString())
-        .then((r) => r.data);
+        .then((r) => r.data)
+        .catchError(
+          (e) => null,
+          test: (e) => e is DioError && e.response?.statusCode == 404,
+        );
   }
 
   Stream<DailyIntakesReportResponse> getDailyIntakesReportStream(Date date) {
