@@ -128,13 +128,24 @@ class _NutritionMonthlySummaryTabBody extends StatelessWidget {
             stream: _apiService.getLightDailyIntakeReportsStream(from, to),
             builder: (context, data) {
               final reports = data.dailyIntakesLightReports.toList();
-              return Visibility(
-                visible: data.dailyIntakesLightReports.isNotEmpty,
-                replacement: EmptyStateContainer(
-                  text: AppLocalizations.of(context).weeklyNutrientsEmpty,
-                ),
-                child: _buildListComponent(header, reports),
-              );
+
+              if (reports.isEmpty) {
+                return Column(
+                  children: [
+                    BasicSection.single(
+                      header,
+                      innerPadding: const EdgeInsets.symmetric(vertical: 8),
+                    ),
+                    Expanded(
+                      child: EmptyStateContainer(
+                        text: AppLocalizations.of(context).weeklyNutrientsEmpty,
+                      ),
+                    ),
+                  ],
+                );
+              }
+
+              return _buildListComponent(header, reports);
             },
           );
         },
@@ -190,13 +201,23 @@ class _NutritionWeeklySummaryTabBody extends StatelessWidget {
             builder: (context, data) {
               final reports = data.dailyIntakesLightReports.toList();
 
-              return Visibility(
-                visible: data.dailyIntakesLightReports.isNotEmpty,
-                replacement: EmptyStateContainer(
-                  text: AppLocalizations.of(context).weeklyNutrientsEmpty,
-                ),
-                child: _buildListComponent(header, reports, to),
-              );
+              if (reports.isEmpty) {
+                return Column(
+                  children: [
+                    BasicSection.single(
+                      header,
+                      innerPadding: const EdgeInsets.symmetric(vertical: 8),
+                    ),
+                    Expanded(
+                      child: EmptyStateContainer(
+                        text: AppLocalizations.of(context).weeklyNutrientsEmpty,
+                      ),
+                    ),
+                  ],
+                );
+              }
+
+              return _buildListComponent(header, reports, to);
             },
           );
         },

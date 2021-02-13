@@ -534,9 +534,6 @@ class NutrientIntakeTile extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
-  DailyNutrientConsumption get _consumption =>
-      dailyNutrientNormsAndTotals.getDailyNutrientConsumption(nutrient);
-
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);

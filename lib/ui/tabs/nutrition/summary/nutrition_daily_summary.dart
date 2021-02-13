@@ -81,34 +81,35 @@ class _NutritionDailySummaryScreenState
           return AppStreamBuilder<DailyIntakesReportResponse>(
             stream: _apiService.getDailyIntakesReportStream(from),
             builder: (context, data) {
-              Widget child;
-              if (widget.nutrient != null) {
-                child = _DailyNutritionNutrientList(
-                  data.dailyIntakesReport,
-                  widget.nutrient,
-                  header: header,
+              final report = data.dailyIntakesReport;
+
+              if (report.intakes.isEmpty) {
+                return Column(
+                  children: [
+                    BasicSection.single(
+                      header,
+                      innerPadding: const EdgeInsets.symmetric(vertical: 8),
+                    ),
+                    Expanded(
+                      child: EmptyStateContainer(
+                        text: AppLocalizations.of(context).weeklyNutrientsEmpty,
+                      ),
+                    ),
+                  ],
                 );
-              } else {
-                child = _NutritionDailySummaryList(
-                  data.dailyIntakesReport,
+              }
+
+              if (widget.nutrient != null) {
+                return _DailyNutritionNutrientList(
+                  report,
+                  widget.nutrient,
                   header: header,
                 );
               }
 
-              return Visibility(
-                visible: data.dailyIntakesReport.intakes.isNotEmpty,
-                replacement: Column(children: [
-                  BasicSection.single(
-                    header,
-                    innerPadding: const EdgeInsets.symmetric(vertical: 8),
-                  ),
-                  Expanded(
-                    child: EmptyStateContainer(
-                      text: AppLocalizations.of(context).weeklyNutrientsEmpty,
-                    ),
-                  ),
-                ]),
-                child: child,
+              return _NutritionDailySummaryList(
+                report,
+                header: header,
               );
             },
           );
