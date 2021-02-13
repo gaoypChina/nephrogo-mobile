@@ -3,6 +3,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/charts/nutrient_weekly_bar_chart.dart';
+import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_calendar.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
@@ -52,10 +53,9 @@ class NutritionNutrientMonthlyReportsListState
 
   @override
   Widget build(BuildContext context) {
-    return ScrollablePositionedList.separated(
+    return ScrollablePositionedList.builder(
       itemScrollController: _itemScrollController,
       itemCount: reportsReverseSorted.length + 1,
-      separatorBuilder: (context, i) => const Divider(height: 1),
       itemBuilder: (context, index) {
         if (index == 0) {
           return DateSwitcherHeaderSection(
@@ -76,9 +76,11 @@ class NutritionNutrientMonthlyReportsListState
 
         final dailyIntakesReport = reportsReverseSorted[index - 1];
 
-        return NutrientDailyNutritionTile.fromLightReport(
-          widget.nutrient,
-          dailyIntakesReport,
+        return BasicSection.single(
+          NutrientDailyNutritionTile.fromLightReport(
+            widget.nutrient,
+            dailyIntakesReport,
+          ),
         );
       },
     );
@@ -127,9 +129,8 @@ class NutritionNutrientWeeklyReportsList extends StatelessWidget {
     final reportsReverseSorted =
         reports.sortedBy((e) => e.date, reverse: true).toList();
 
-    return ListView.separated(
+    return ListView.builder(
       itemCount: reportsReverseSorted.length + 1,
-      separatorBuilder: (context, i) => const Divider(height: 1),
       itemBuilder: (context, index) {
         if (index == 0) {
           return DateSwitcherHeaderSection(
@@ -145,9 +146,11 @@ class NutritionNutrientWeeklyReportsList extends StatelessWidget {
         }
         final dailyIntakesReport = reportsReverseSorted[index - 1];
 
-        return NutrientDailyNutritionTile.fromLightReport(
-          nutrient,
-          dailyIntakesReport,
+        return BasicSection.single(
+          NutrientDailyNutritionTile.fromLightReport(
+            nutrient,
+            dailyIntakesReport,
+          ),
         );
       },
     );
