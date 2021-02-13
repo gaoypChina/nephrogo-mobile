@@ -104,7 +104,8 @@ class AccountTab extends StatelessWidget {
             future: _appUpdate.isUpdateExists(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
+                  snapshot.hasData &&
+                  snapshot.data) {
                 return BasicSection.single(
                   AppListTile(
                     title: Text(appLocalizations.updateApp),
