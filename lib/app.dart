@@ -30,7 +30,6 @@ class _AppComponentState extends State<AppComponent> {
     );
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'NephroGo',
       theme: ThemeData(
         primarySwatch: Colors.teal,
