@@ -39,6 +39,7 @@ class DailyIntakesReportSection extends StatelessWidget {
         ),
       ),
       showDividers: true,
+      showHeaderDivider: true,
       children: [
         for (final nutrient in Nutrient.values)
           DailyIntakesReportNutrientTile(
@@ -96,6 +97,7 @@ class IntakeWithNormsSection extends StatelessWidget {
     return BasicSection(
       header: IntakeTile(intake, dailyNutrientNormsAndTotals),
       showDividers: true,
+      showHeaderDivider: true,
       children: [
         for (final nutrient in Nutrient.values)
           IntakeNutrientDenseTile(

@@ -8,16 +8,19 @@ class BasicSection extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry innerPadding;
   final bool showDividers;
+  final bool showHeaderDivider;
 
   BasicSection({
     Key key,
     this.header,
     this.children = const [],
     this.showDividers = false,
+    this.showHeaderDivider = false,
     this.padding = const EdgeInsets.only(bottom: 16),
     this.innerPadding = EdgeInsets.zero,
   })  : assert(header != null || children.isNotEmpty,
             "Either header or at least one child should be passed"),
+        assert(!showHeaderDivider || (showHeaderDivider && header != null)),
         super(key: key);
 
   const BasicSection.single(
@@ -26,8 +29,9 @@ class BasicSection extends StatelessWidget {
     this.innerPadding = EdgeInsets.zero,
   })
   // ignore: prefer_initializing_formals
-  : header = child,
+      : header = child,
         children = const [],
+        showHeaderDivider = false,
         showDividers = false;
 
   @override
@@ -56,26 +60,28 @@ class BasicSection extends StatelessWidget {
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (header != null) header,
-        ..._getPreparedChildren(context),
-      ],
+      children: _getPreparedChildren(context).toList(),
     );
   }
 
-  Iterable<Widget> _getPreparedChildren(BuildContext context) {
-    if (children.isEmpty || children.length == 1) {
-      return children;
+  Iterable<Widget> _getPreparedChildren(BuildContext context) sync* {
+    if (header != null && !showHeaderDivider) {
+      yield header;
     }
 
     if (showDividers) {
-      return ListTile.divideTiles(
-        context: context,
-        tiles: children,
-      );
-    }
+      final allChildren = [
+        if (header != null && showHeaderDivider) header,
+        ...children
+      ];
 
-    return children;
+      yield* ListTile.divideTiles(
+        context: context,
+        tiles: allChildren,
+      );
+    } else {
+      yield* children;
+    }
   }
 }
 
