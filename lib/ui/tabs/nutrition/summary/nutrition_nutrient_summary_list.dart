@@ -3,11 +3,12 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/charts/nutrient_weekly_bar_chart.dart';
-import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_calendar.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+import 'nutrition_summary_components.dart';
 
 class NutritionNutrientMonthlyReportsList extends StatefulWidget {
   final List<DailyIntakesLightReport> reports;
@@ -57,12 +58,9 @@ class NutritionNutrientMonthlyReportsListState
       separatorBuilder: (context, i) => const Divider(height: 1),
       itemBuilder: (context, index) {
         if (index == 0) {
-          return BasicSection(
+          return DateSwitcherHeaderSection(
+            header: widget.header,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: widget.header,
-              ),
               NutritionCalendar(
                 reportsReverseSorted,
                 onDaySelected: (dt) =>
@@ -72,6 +70,7 @@ class NutritionNutrientMonthlyReportsListState
             ],
           );
         }
+
         final dailyIntakesReport = reportsReverseSorted[index - 1];
 
         return NutrientDailyNutritionTile.fromLightReport(
@@ -130,17 +129,14 @@ class NutritionNutrientWeeklyReportsList extends StatelessWidget {
       separatorBuilder: (context, i) => const Divider(height: 1),
       itemBuilder: (context, index) {
         if (index == 0) {
-          return BasicSection(
+          return DateSwitcherHeaderSection(
+            header: header,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: header,
-              ),
               NutrientWeeklyBarChart(
                 dailyIntakeLightReports: reportsReverseSorted,
                 nutrient: nutrient,
                 maximumDate: dateTo,
-              )
+              ),
             ],
           );
         }

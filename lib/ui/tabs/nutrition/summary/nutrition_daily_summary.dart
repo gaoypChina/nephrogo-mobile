@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
-import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
+
+import 'nutrition_summary_components.dart';
 
 class NutritionDailySummaryScreenArguments {
   final Date date;
@@ -84,19 +84,7 @@ class _NutritionDailySummaryScreenState
               final report = data?.dailyIntakesReport;
 
               if (report == null || report.intakes.isEmpty) {
-                return Column(
-                  children: [
-                    BasicSection.single(
-                      header,
-                      innerPadding: const EdgeInsets.symmetric(vertical: 8),
-                    ),
-                    Expanded(
-                      child: EmptyStateContainer(
-                        text: AppLocalizations.of(context).weeklyNutrientsEmpty,
-                      ),
-                    ),
-                  ],
-                );
+                return NutritionListWithHeaderEmpty(header: header);
               }
 
               if (widget.nutrient != null) {
@@ -165,20 +153,14 @@ class _NutritionDailySummaryList extends StatelessWidget {
       itemCount: intakes.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
-          return BasicSection(
-            innerPadding: const EdgeInsets.symmetric(vertical: 8),
+          return DateSwitcherHeaderSection(
+            header: header,
             children: [
-              header,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: DailyNormsBarChart(
-                      dailyIntakeReport: dailyIntakesReport.toLightReport(),
-                    ),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: DailyNormsBarChart(
+                  dailyIntakeReport: dailyIntakesReport.toLightReport(),
+                ),
               ),
             ],
           );
@@ -216,9 +198,8 @@ class _DailyNutritionNutrientList extends StatelessWidget {
       itemCount: intakes.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
-          return BasicSection.single(
-            header,
-            innerPadding: const EdgeInsets.symmetric(vertical: 8),
+          return DateSwitcherHeaderSection(
+            header: header,
           );
         }
 

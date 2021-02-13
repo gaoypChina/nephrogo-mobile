@@ -9,6 +9,7 @@ class BasicSection extends StatelessWidget {
   final EdgeInsetsGeometry innerPadding;
   final bool showDividers;
   final bool showHeaderDivider;
+  final CrossAxisAlignment crossAxisAlignment;
 
   BasicSection({
     Key key,
@@ -18,6 +19,7 @@ class BasicSection extends StatelessWidget {
     this.showHeaderDivider = false,
     this.margin = const EdgeInsets.only(bottom: 16),
     this.innerPadding = EdgeInsets.zero,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
   })  : assert(header != null || children.isNotEmpty,
             "Either header or at least one child should be passed"),
         assert(!showHeaderDivider || (showHeaderDivider && header != null)),
@@ -29,10 +31,11 @@ class BasicSection extends StatelessWidget {
     this.innerPadding = EdgeInsets.zero,
   })
   // ignore: prefer_initializing_formals
-      : header = child,
+  : header = child,
         children = const [],
         showHeaderDivider = false,
-        showDividers = false;
+        showDividers = false,
+        crossAxisAlignment = CrossAxisAlignment.start;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +62,7 @@ class BasicSection extends StatelessWidget {
       return header;
     }
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: crossAxisAlignment,
       children: _getPreparedChildren(context).toList(),
     );
   }

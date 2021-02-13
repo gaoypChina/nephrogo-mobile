@@ -12,6 +12,7 @@ import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
 import 'package:nephrogo_api_client/model/nutrition_summary_statistics.dart';
 
 import 'nutrition_nutrient_summary_list.dart';
+import 'nutrition_summary_components.dart';
 import 'nutrition_summary_list.dart';
 
 enum NutritionSummaryScreenType { weekly, monthly }
@@ -130,19 +131,7 @@ class _NutritionMonthlySummaryTabBody extends StatelessWidget {
               final reports = data.dailyIntakesLightReports.toList();
 
               if (reports.isEmpty) {
-                return Column(
-                  children: [
-                    BasicSection.single(
-                      header,
-                      innerPadding: const EdgeInsets.symmetric(vertical: 8),
-                    ),
-                    Expanded(
-                      child: EmptyStateContainer(
-                        text: AppLocalizations.of(context).weeklyNutrientsEmpty,
-                      ),
-                    ),
-                  ],
-                );
+                return NutritionListWithHeaderEmpty(header: header);
               }
 
               return _buildListComponent(header, reports);
@@ -202,19 +191,7 @@ class _NutritionWeeklySummaryTabBody extends StatelessWidget {
               final reports = data.dailyIntakesLightReports.toList();
 
               if (reports.isEmpty) {
-                return Column(
-                  children: [
-                    BasicSection.single(
-                      header,
-                      innerPadding: const EdgeInsets.symmetric(vertical: 8),
-                    ),
-                    Expanded(
-                      child: EmptyStateContainer(
-                        text: AppLocalizations.of(context).weeklyNutrientsEmpty,
-                      ),
-                    ),
-                  ],
-                );
+                return NutritionListWithHeaderEmpty(header: header);
               }
 
               return _buildListComponent(header, reports, to);
