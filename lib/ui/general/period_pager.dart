@@ -266,7 +266,7 @@ class _PeriodPagerState extends State<_PeriodPager> {
               hasPreviousDateRange(index) ? advanceToPreviousDateRange : null,
         ),
         Expanded(
-          child: DefaultTextStyle(
+          child: DefaultTextStyle.merge(
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyText1,
             child: widget.headerTextBuilder(context, from, to),

@@ -29,7 +29,7 @@ class BasicSection extends StatelessWidget {
     Widget child, {
     this.margin = const EdgeInsets.only(bottom: 16),
     this.innerPadding = EdgeInsets.zero,
-  })
+  })  
   // ignore: prefer_initializing_formals
   : header = child,
         children = const [],
@@ -91,7 +91,7 @@ class BasicSection extends StatelessWidget {
 class LargeSection extends StatelessWidget {
   final List<Widget> children;
   final String title;
-  final Widget subTitle;
+  final Widget subtitle;
   final Widget trailing;
   final bool showDividers;
   final GestureTapCallback onTap;
@@ -100,41 +100,21 @@ class LargeSection extends StatelessWidget {
     Key key,
     @required this.title,
     @required this.children,
-    this.subTitle,
+    this.subtitle,
     this.trailing,
     this.onTap,
     this.showDividers = false,
   }) : super(key: key);
 
-  Widget _buildSubtitle() {
-    if (subTitle == null) {
-      return null;
-    }
-
-    return DefaultTextStyle.merge(
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-      ),
-      child: subTitle,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BasicSection(
       showDividers: showDividers,
-      header: AppListTile(
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        onTap: onTap,
-        subtitle: _buildSubtitle(),
+      header: LargeAppListTile(
+        title: Text(title),
+        subtitle: subtitle,
         trailing: trailing,
+        onTap: onTap,
       ),
       children: children,
     );
@@ -171,6 +151,62 @@ class SmallSection extends StatelessWidget {
         dense: true,
       ),
       children: children,
+    );
+  }
+}
+
+class LargeAppListTile extends StatelessWidget {
+  final Widget leading;
+  final Widget title;
+  final Widget subtitle;
+  final Widget trailing;
+  final GestureTapCallback onTap;
+
+  const LargeAppListTile({
+    Key key,
+    this.title,
+    this.subtitle,
+    this.leading,
+    this.trailing,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppListTile(
+      title: titleWithStyleApplied,
+      subtitle: subtitleWithStyleApplied,
+      leading: leading,
+      trailing: trailing,
+      onTap: onTap,
+    );
+  }
+
+  Widget get titleWithStyleApplied {
+    if (title == null) {
+      return null;
+    }
+
+    return DefaultTextStyle.merge(
+      style: const TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+      child: title,
+    );
+  }
+
+  Widget get subtitleWithStyleApplied {
+    if (subtitle == null) {
+      return null;
+    }
+
+    return DefaultTextStyle.merge(
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
+      child: subtitle,
     );
   }
 }

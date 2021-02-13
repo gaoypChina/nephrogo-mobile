@@ -166,7 +166,7 @@ class NutritionTab extends StatelessWidget {
 
     return LargeSection(
       title: nutrient.name(localizations),
-      subTitle: Text(subtitle),
+      subtitle: Text(subtitle),
       trailing: OutlinedButton(
         onPressed: () => openWeeklyNutritionScreen(
           context,
@@ -204,7 +204,7 @@ class DailyNormsSection extends StatelessWidget {
     final appLocalizations = AppLocalizations.of(context);
     return LargeSection(
       title: appLocalizations.dailyNormsSectionTitle,
-      subTitle: Text(appLocalizations.dailyNormsSectionSubtitle),
+      subtitle: Text(appLocalizations.dailyNormsSectionSubtitle),
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -237,7 +237,7 @@ class DailyIntakesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LargeSection(
       title: title,
-      subTitle: subTitle != null ? Text(subTitle) : null,
+      subtitle: subTitle != null ? Text(subTitle) : null,
       trailing: leading,
       showDividers: true,
       children: [
@@ -270,7 +270,7 @@ class MonthlyNutritionSummarySection extends StatelessWidget {
     return LargeSection(
       title: "$monthFormatted${appLocalizations.summary.toLowerCase()}"
           .capitalizeFirst(),
-      subTitle: const NutrientCalendarExplanation(),
+      subtitle: const NutrientCalendarExplanation(),
       trailing: OutlinedButton(
         onPressed: () => _openNutritionSummary(
           context,
