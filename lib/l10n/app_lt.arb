@@ -16,6 +16,8 @@
   "@save": {},
   "update": "Atnaujinti",
   "@update": {},
+  "updateApp": "Atnaujinti programėlę",
+  "@updateApp": {},
   "proceed": "Tęsti",
   "@proceed": {},
   "ok": "Gerai",

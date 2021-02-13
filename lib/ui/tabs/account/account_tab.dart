@@ -20,6 +20,8 @@ class AccountTab extends StatelessWidget {
 
   final _authenticationProvider = AuthenticationProvider();
 
+  final _appUpdate = AppUpdate();
+
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
@@ -97,6 +99,23 @@ class AccountTab extends StatelessWidget {
                 onTap: () => launchEmail(Constants.supportEmail),
               ),
             ],
+          ),
+          FutureBuilder<bool>(
+            future: _appUpdate.isUpdateExists(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done &&
+                  snapshot.hasData) {
+                return BasicSection.single(
+                  AppListTile(
+                    title: Text(appLocalizations.updateApp),
+                    leading: const Icon(Icons.system_update),
+                    onTap: () => _appUpdate.performImmediateUpdate(),
+                  ),
+                );
+              }
+
+              return const SizedBox.shrink();
+            },
           ),
           if (kDebugMode) DebugListCell(),
           BasicSection.single(

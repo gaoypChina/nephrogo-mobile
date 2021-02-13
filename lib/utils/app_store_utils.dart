@@ -45,6 +45,16 @@ enum AppUpdateState {
 class AppUpdate {
   final _appPreferences = AppPreferences();
 
+  Future<bool> isUpdateExists() async {
+    if (!Platform.isAndroid) {
+      return false;
+    }
+
+    final appUpdateInfo = await InAppUpdate.checkForUpdate();
+
+    return appUpdateInfo.updateAvailable;
+  }
+
   Future<bool> _isUpdateAllowedForUser() async {
     if (!Platform.isAndroid) {
       return false;
@@ -104,5 +114,9 @@ class AppUpdate {
 
   Future<void> completeFlexibleUpdate() {
     return InAppUpdate.completeFlexibleUpdate();
+  }
+
+  Future<void> performImmediateUpdate() {
+    return InAppUpdate.performImmediateUpdate();
   }
 }
