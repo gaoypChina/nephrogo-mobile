@@ -83,15 +83,24 @@ class GeneralRecommendationsCategoryScreen extends StatelessWidget {
 
           return AppExpansionTile(
             key: PageStorageKey(recommendation),
-            title: Text(recommendation.question),
+            title: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Text(
+                recommendation.question,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
             children: [
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: Text(
-                  recommendation.answer,
-                  style: Theme.of(context).textTheme.subtitle1,
-                  textAlign: TextAlign.justify,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    recommendation.answer,
+                    style: Theme.of(context).textTheme.subtitle1,
+                    textAlign: TextAlign.justify,
+                  ),
                 ),
               ),
             ],
