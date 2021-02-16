@@ -136,8 +136,8 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
       appBar: AppBar(
         title: Text(title),
         actions: <Widget>[
-          FlatButton(
-            textColor: Colors.white,
+          TextButton(
+            style: TextButton.styleFrom(primary: Colors.white),
             onPressed: _validateAndSaveIntake,
             child: Text(appLocalizations.save.toUpperCase()),
           ),

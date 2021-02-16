@@ -60,8 +60,8 @@ class _HealthStatusCreationScreenState
       appBar: AppBar(
         title: Text(_appLocalizations.healthStatusCreationTodayTitle),
         actions: <Widget>[
-          FlatButton(
-            textColor: Colors.white,
+          TextButton(
+            style: TextButton.styleFrom(primary: Colors.white),
             onPressed: () => validateAndSave(context),
             child: Text(appLocalizations.save.toUpperCase()),
           ),

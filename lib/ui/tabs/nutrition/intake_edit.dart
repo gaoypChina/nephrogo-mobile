@@ -89,8 +89,8 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
       appBar: AppBar(
         title: Text(title),
         actions: <Widget>[
-          FlatButton(
-            textColor: Colors.white,
+          TextButton(
+            style: TextButton.styleFrom(primary: Colors.white),
             onPressed: () => validateAndSaveIntake(context),
             child: Text(appLocalizations.update.toUpperCase()),
           ),
