@@ -117,6 +117,9 @@ extension ProductExtensions on Product {
     builder.energyKcal =
         _calculateTotalNutrientAmount(Nutrient.energy, amountG);
     builder.liquidsG = _calculateTotalNutrientAmount(Nutrient.liquids, amountG);
+    builder.carbohydratesMg =
+        _calculateTotalNutrientAmount(Nutrient.carbohydrate, amountG);
+    builder.fatMg = _calculateTotalNutrientAmount(Nutrient.fat, amountG);
 
     builder.product = toBuilder();
 
