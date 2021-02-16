@@ -43,7 +43,7 @@ class AccountTab extends StatelessWidget {
           ),
           BasicSection.single(
             AppListTile(
-              title: Text(appLocalizations.faqTitle),
+              title: Text(appLocalizations.generalRecommendations),
               leading: const Icon(Icons.school),
               onTap: () => Navigator.pushNamed(
                 context,
