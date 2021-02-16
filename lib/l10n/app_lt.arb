@@ -250,6 +250,14 @@
   "@consumptionPhosphorus": {
     "context": "nutrient:weekly"
   },
+  "consumptionFat": "Riebalų suvartojimas",
+  "@consumptionFat": {
+    "context": "nutrient:weekly"
+  },
+  "consumptionCarbohydrate": "Angliavandenių suvartojimas",
+  "@consumptionCarbohydrate": {
+    "context": "nutrient:weekly"
+  },
   "todayConsumptionWithNormTooltip": "{amount}\nNorma: {norm}",
   "@todayConsumptionWithNormTooltip": {
     "placeholders": {
@@ -330,6 +338,14 @@
   },
   "phosphorus": "Fosforas",
   "@phosphorus": {
+    "context": "nutrient"
+  },
+  "fat": "Riebalai",
+  "@fat": {
+    "context": "nutrient"
+  },
+  "carbohydrate": "Angliavandeniai",
+  "@carbohydrate": {
     "context": "nutrient"
   },
   "liquids": "Skysčiai",

@@ -35,11 +35,12 @@ String _getFormattedNutrient(Nutrient nutrient, int amount) {
     case Nutrient.sodium:
     case Nutrient.potassium:
     case Nutrient.phosphorus:
+    case Nutrient.fat:
+    case Nutrient.carbohydrate:
       return _formatAmount(amount / 1000, 'g');
-    default:
-      throw ArgumentError.value(
-          nutrient, 'nutrient', 'Unable to map nutrient to amount');
   }
+  throw ArgumentError.value(
+      nutrient, 'nutrient', 'Unable to map nutrient to amount');
 }
 
 extension ProductExtensions on Product {
@@ -57,10 +58,13 @@ extension ProductExtensions on Product {
         return liquidsG;
       case Nutrient.energy:
         return energyKcal;
-      default:
-        throw ArgumentError.value(
-            nutrient, 'nutrient', 'Unable to map indicator to amount');
+      case Nutrient.fat:
+        return fatMg;
+      case Nutrient.carbohydrate:
+        return carbohydratesMg;
     }
+    throw ArgumentError.value(
+        nutrient, 'nutrient', 'Unable to map indicator to amount');
   }
 
   int _calculateTotalNutrientAmount(Nutrient nutrient, int amountG) {
@@ -175,10 +179,13 @@ extension DailyNutrientNormsWithTotalsExtensions
         return liquidsG;
       case Nutrient.energy:
         return energyKcal;
-      default:
-        throw ArgumentError.value(
-            nutrient, 'nutrient', 'Unable to map indicator to amount');
+      case Nutrient.fat:
+        return fatMg;
+      case Nutrient.carbohydrate:
+        return carbohydratesMg;
     }
+    throw ArgumentError.value(
+        nutrient, 'nutrient', 'Unable to map indicator to amount');
   }
 
   String getNutrientTotalAmountFormatted(Nutrient nutrient) {
@@ -242,10 +249,13 @@ extension IntakeExtension on Intake {
         return potassiumMg;
       case Nutrient.phosphorus:
         return phosphorusMg;
-      default:
-        throw ArgumentError.value(
-            nutrient, 'nutrient', 'Unable to map indicator to amount');
+      case Nutrient.fat:
+        return fatMg;
+      case Nutrient.carbohydrate:
+        return carbohydratesMg;
     }
+    throw ArgumentError.value(
+        nutrient, 'nutrient', 'Unable to map indicator to amount');
   }
 
   String getNutrientAmountFormatted(Nutrient nutrient) {
@@ -278,10 +288,13 @@ extension NutrientExtensions on Nutrient {
         return appLocalizations.potassium;
       case Nutrient.phosphorus:
         return appLocalizations.phosphorus;
-      default:
-        throw ArgumentError.value(
-            this, 'nutrient', 'Unable to map nutrient to name');
+      case Nutrient.fat:
+        return appLocalizations.fat;
+      case Nutrient.carbohydrate:
+        return appLocalizations.carbohydrate;
     }
+    throw ArgumentError.value(
+        this, 'nutrient', 'Unable to map nutrient to name');
   }
 
   String consumptionName(AppLocalizations appLocalizations) {
@@ -298,6 +311,10 @@ extension NutrientExtensions on Nutrient {
         return appLocalizations.consumptionPotassium;
       case Nutrient.phosphorus:
         return appLocalizations.consumptionPhosphorus;
+      case Nutrient.fat:
+        return appLocalizations.consumptionFat;
+      case Nutrient.carbohydrate:
+        return appLocalizations.consumptionCarbohydrate;
     }
 
     throw ArgumentError.value(
@@ -332,13 +349,12 @@ extension SwellingExtension on Swelling {
             .healthStatusCreationSwellingsLocalizationWholeLegs;
       case SwellingEnum.unknown:
         return null;
-      default:
-        throw ArgumentError.value(
-          swelling,
-          'swelling',
-          'Invalid swelling value',
-        );
     }
+    throw ArgumentError.value(
+      swelling,
+      'swelling',
+      'Invalid swelling value',
+    );
   }
 }
 
@@ -369,13 +385,12 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       case HealthIndicator.shortnessOfBreath:
         return shortnessOfBreath != null &&
             shortnessOfBreath != ShortnessOfBreathEnum.unknown;
-      default:
-        throw ArgumentError.value(
-          this,
-          'healthIndicator',
-          'Unable to map indicator and check for indicator existance',
-        );
     }
+    throw ArgumentError.value(
+      this,
+      'healthIndicator',
+      'Unable to map indicator and check for indicator existance',
+    );
   }
 
   String getHealthIndicatorFormatted(
@@ -477,13 +492,12 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
           'shortnessOfBreath',
           'Invalid shortnessOfBreath value',
         );
-      default:
-        throw ArgumentError.value(
-          this,
-          'healthIndicator',
-          'Unable to map indicator to formatted indicator',
-        );
     }
+    throw ArgumentError.value(
+      this,
+      'healthIndicator',
+      'Unable to map indicator to formatted indicator',
+    );
   }
 
   num getHealthIndicatorValue(HealthIndicator indicator) {
@@ -584,13 +598,12 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
           'shortnessOfBreath',
           'Invalid shortnessOfBreath value',
         );
-      default:
-        throw ArgumentError.value(
-          this,
-          'healthIndicator',
-          'Unable to map indicator to formatted indicator',
-        );
     }
+    throw ArgumentError.value(
+      this,
+      'healthIndicator',
+      'Unable to map indicator to formatted indicator',
+    );
   }
 }
 
@@ -615,13 +628,12 @@ extension HealthIndicatorExtensions on HealthIndicator {
         return appLocalizations.healthStatusCreationAppetite;
       case HealthIndicator.shortnessOfBreath:
         return appLocalizations.healthStatusCreationShortnessOfBreath;
-      default:
-        throw ArgumentError.value(
-          this,
-          'healthIndicator',
-          'Unable to map indicator to name',
-        );
     }
+    throw ArgumentError.value(
+      this,
+      'healthIndicator',
+      'Unable to map indicator to name',
+    );
   }
 }
 

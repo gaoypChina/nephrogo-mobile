@@ -5,6 +5,8 @@ enum Nutrient {
   phosphorus,
   liquids,
   energy,
+  fat,
+  carbohydrate,
 }
 
 enum HealthIndicator {
