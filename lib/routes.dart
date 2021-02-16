@@ -7,7 +7,7 @@ import 'package:nephrogo_api_client/model/product.dart';
 import 'ui/authentication/login_screen.dart';
 import 'ui/authentication/registration_screen.dart';
 import 'ui/authentication/remind_password.dart';
-import 'ui/faq_screen.dart';
+import 'ui/general_recommendations_screen.dart';
 import 'ui/home_screen.dart';
 import 'ui/legal/legal_screen.dart';
 import 'ui/onboarding/onboarding_screen.dart';
@@ -42,7 +42,9 @@ class Routes {
   static const routeHealthStatusCreation = 'healthStatusCreation';
 
   static const routeUserProfile = 'userProfile';
-  static const routeFAQ = 'faq';
+  static const routeGeneralRecommendations = 'generalRecommendations';
+  static const routeGeneralRecommendationsCategory =
+      'generalRecommendationsCategory';
   static const routeLegal = 'legal';
 
   static const routeFormSelect = 'formSelect';
@@ -129,9 +131,17 @@ class Routes {
         return MaterialPageRoute(builder: (context) {
           return HealthStatusCreationScreen();
         });
-      case routeFAQ:
+      case routeGeneralRecommendations:
         return MaterialPageRoute(builder: (context) {
-          return FrequentlyAskedQuestionsScreen();
+          return GeneralRecommendationsScreen();
+        });
+      case routeGeneralRecommendationsCategory:
+        return MaterialPageRoute(builder: (context) {
+          final arguments = settings.arguments
+              as GeneralRecommendationsCategoryScreenArguments;
+          return GeneralRecommendationsCategoryScreen(
+            category: arguments.category,
+          );
         });
       case routeUserProfile:
         return MaterialPageRoute(builder: (context) {

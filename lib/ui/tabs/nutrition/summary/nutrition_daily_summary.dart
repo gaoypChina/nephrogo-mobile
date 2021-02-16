@@ -115,7 +115,7 @@ class _NutritionDailySummaryScreenState
   }
 
   Future _openGeneralRecommendations() {
-    return Navigator.pushNamed(context, Routes.routeFAQ);
+    return Navigator.pushNamed(context, Routes.routeGeneralRecommendations);
   }
 
   Future _createProduct() {

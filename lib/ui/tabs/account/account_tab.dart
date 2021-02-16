@@ -47,7 +47,7 @@ class AccountTab extends StatelessWidget {
               leading: const Icon(Icons.school),
               onTap: () => Navigator.pushNamed(
                 context,
-                Routes.routeFAQ,
+                Routes.routeGeneralRecommendations,
               ),
             ),
           ),

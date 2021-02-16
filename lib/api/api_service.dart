@@ -11,6 +11,7 @@ import 'package:logging/logging.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo_api_client/api.dart';
+import 'package:nephrogo_api_client/api/general_recommendations_api.dart';
 import 'package:nephrogo_api_client/api/health_status_api.dart';
 import 'package:nephrogo_api_client/api/nutrition_api.dart';
 import 'package:nephrogo_api_client/api/user_api.dart';
@@ -18,6 +19,7 @@ import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
+import 'package:nephrogo_api_client/model/general_recommendations_response.dart';
 import 'package:nephrogo_api_client/model/health_status_screen_response.dart';
 import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
@@ -45,9 +47,11 @@ class ApiService {
       StreamController<_AppStateChangeEvent>.broadcast();
 
   NephrogoApiClient _apiClient;
+
   NutritionApi _nutritionApi;
   HealthStatusApi _healthStatusApi;
   UserApi _userApi;
+  GeneralRecommendationsApi _generalRecommendationsApi;
 
   Stream<_AppStateChangeEvent> get appEventsStreamRemove =>
       _appEventsStreamController.stream;
@@ -62,6 +66,7 @@ class ApiService {
     _nutritionApi = _apiClient.getNutritionApi();
     _healthStatusApi = _apiClient.getHealthStatusApi();
     _userApi = _apiClient.getUserApi();
+    _generalRecommendationsApi = _apiClient.getGeneralRecommendationsApi();
   }
 
   NephrogoApiClient _buildNephrogoApiClient() {
@@ -299,6 +304,12 @@ class ApiService {
     return _userApi.userProfileRetrieve().then((r) => r.data).catchError(
           (e) => null,
         );
+  }
+
+  Future<GeneralRecommendationsResponse> getGeneralRecommendations() {
+    return _generalRecommendationsApi
+        .generalRecommendationsRetrieve()
+        .then((r) => r.data);
   }
 
   Future<HealthStatusScreenResponse> getHealthStatusScreen() {
