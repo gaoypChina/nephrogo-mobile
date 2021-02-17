@@ -29,7 +29,7 @@ class BasicSection extends StatelessWidget {
     Widget child, {
     this.margin = const EdgeInsets.only(bottom: 16),
     this.innerPadding = EdgeInsets.zero,
-  })  
+  })
   // ignore: prefer_initializing_formals
   : header = child,
         children = const [],
@@ -92,8 +92,10 @@ class LargeSection extends StatelessWidget {
   final List<Widget> children;
   final String title;
   final Widget subtitle;
+  final Widget leading;
   final Widget trailing;
   final bool showDividers;
+  final bool showHeaderDivider;
   final GestureTapCallback onTap;
 
   const LargeSection({
@@ -101,18 +103,22 @@ class LargeSection extends StatelessWidget {
     @required this.title,
     @required this.children,
     this.subtitle,
+    this.leading,
     this.trailing,
     this.onTap,
     this.showDividers = false,
+    this.showHeaderDivider = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BasicSection(
       showDividers: showDividers,
+      showHeaderDivider: showHeaderDivider,
       header: LargeAppListTile(
         title: Text(title),
         subtitle: subtitle,
+        leading: leading,
         trailing: trailing,
         onTap: onTap,
       ),

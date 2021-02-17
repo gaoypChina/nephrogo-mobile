@@ -1,3 +1,4 @@
+import 'package:collection_ext/iterables.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
@@ -6,10 +7,15 @@ import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
+import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
+import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
+import 'package:nephrogo_api_client/model/intake.dart';
+import 'package:nephrogo_api_client/model/meal_type_enum.dart';
+import 'package:tuple/tuple.dart';
 
 import 'nutrition_summary_components.dart';
 
@@ -24,8 +30,7 @@ class NutritionDailySummaryScreen extends StatefulWidget {
   final Date date;
   final Nutrient nutrient;
 
-  const NutritionDailySummaryScreen(
-    this.date, {
+  const NutritionDailySummaryScreen(this.date, {
     Key key,
     @required this.nutrient,
   })  : assert(date != null),
@@ -36,8 +41,7 @@ class NutritionDailySummaryScreen extends StatefulWidget {
       _NutritionDailySummaryScreenState();
 }
 
-class _NutritionDailySummaryScreenState
-    extends State<NutritionDailySummaryScreen> {
+class _NutritionDailySummaryScreenState extends State<NutritionDailySummaryScreen> {
   final _apiService = ApiService();
 
   Date date;
@@ -64,8 +68,6 @@ class _NutritionDailySummaryScreenState
           ),
         ],
       ),
-      floatingActionButton: IntakeCreationFloatingActionButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: DailyPager(
         earliestDate: Date(2021, 1, 1),
         initialDate: date,
@@ -118,8 +120,7 @@ class _NutritionDailySummaryList extends StatelessWidget {
   final DailyIntakesReport dailyIntakesReport;
   final Widget header;
 
-  const _NutritionDailySummaryList(
-    this.dailyIntakesReport, {
+  const _NutritionDailySummaryList(this.dailyIntakesReport, {
     Key key,
     @required this.header,
   })  : assert(header != null),
@@ -161,25 +162,22 @@ class _DailyNutritionNutrientList extends StatelessWidget {
   final DailyIntakesReport dailyIntakesReport;
   final Nutrient nutrient;
 
-  const _DailyNutritionNutrientList(
-    this.dailyIntakesReport,
-    this.nutrient, {
-    Key key,
-    @required this.header,
-  })  : assert(header != null),
+  const _DailyNutritionNutrientList(this.dailyIntakesReport,
+      this.nutrient, {
+        Key key,
+        @required this.header,
+      })  : assert(header != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final intakes = dailyIntakesReport.intakes
-        .sortedBy((i) => i.consumedAt, reverse: true)
-        .toList();
-    final norms = dailyIntakesReport.dailyNutrientNormsAndTotals;
+    final intakes =
+        dailyIntakesReport.intakes.sortedBy((i) => i.consumedAt, reverse: true);
 
-    return ListView.separated(
-      padding: const EdgeInsets.only(bottom: 80),
-      separatorBuilder: (context, index) => const Divider(height: 1),
-      itemCount: intakes.length + 1,
+    final groupedIntakes = _getGroupedIntakes(intakes).toList();
+
+    return ListView.builder(
+      itemCount: groupedIntakes.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
           return DateSwitcherHeaderSection(
@@ -187,8 +185,104 @@ class _DailyNutritionNutrientList extends StatelessWidget {
           );
         }
 
-        return NutrientIntakeTile(intakes[index - 1], nutrient, norms);
+        final group = groupedIntakes[index - 1];
+
+        return _DailyNutritionNutrientSection(
+          nutrient: nutrient,
+          mealType: group.item1,
+          intakes: group.item2,
+          dailyIntakesReport: dailyIntakesReport,
+        );
       },
     );
+  }
+
+  Iterable<Tuple2<MealTypeEnum, List<Intake>>> _getGroupedIntakes(
+    Iterable<Intake> intakes,
+  ) sync* {
+    final Map<MealTypeEnum, List<Intake>> groups =
+        intakes.groupBy((intake) => intake.mealType);
+
+    final mealTypes = [
+      MealTypeEnum.dinner,
+      MealTypeEnum.lunch,
+      MealTypeEnum.breakfast,
+      MealTypeEnum.snack,
+      MealTypeEnum.unknown,
+    ];
+
+    for (final mealType in mealTypes) {
+      if (groups.containsKey(mealType)) {
+        yield Tuple2(mealType, groups[mealType]);
+      } else if (mealType != MealTypeEnum.unknown) {
+        yield Tuple2(mealType, []);
+      }
+    }
+  }
+}
+
+class _DailyNutritionNutrientSection extends StatelessWidget {
+  final Nutrient nutrient;
+
+  final MealTypeEnum mealType;
+  final List<Intake> intakes;
+  final DailyIntakesReport dailyIntakesReport;
+
+  const _DailyNutritionNutrientSection(
+      {Key key,
+      @required this.nutrient,
+      @required this.mealType,
+      @required this.intakes,
+      @required this.dailyIntakesReport})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LargeSection(
+      showDividers: true,
+      showHeaderDivider: true,
+      title: mealType.localizedName(context.appLocalizations),
+      subtitle: intakes.isNotEmpty
+          ? Text(
+              context.appLocalizations
+                  .consumptionDailyPercentage(_dailyPercentage.toString()),
+            )
+          : null,
+      trailing: mealType != MealTypeEnum.unknown
+          ? OutlinedButton(
+              onPressed: () => Navigator.pushNamed(
+                context,
+                Routes.routeProductSearch,
+                arguments: ProductSearchScreenArguments(
+                  ProductSearchType.choose,
+                  mealType,
+                ),
+              ),
+              child: Text(context.appLocalizations.create.toUpperCase()),
+            )
+          : null,
+      children: [
+        for (final intake in intakes)
+          NutrientIntakeTile(
+            intake,
+            nutrient,
+            dailyIntakesReport.dailyNutrientNormsAndTotals,
+          )
+      ],
+    );
+  }
+
+  int get _dailyPercentage {
+    final total = dailyIntakesReport.intakes
+        .sumBy((i, e) => e.getNutrientAmount(nutrient));
+
+    final totalThisMeal =
+        intakes.sumBy((i, e) => e.getNutrientAmount(nutrient));
+
+    if (total == 0) {
+      return 0;
+    }
+
+    return ((totalThisMeal / total) * 100).round();
   }
 }

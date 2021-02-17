@@ -42,6 +42,8 @@
   "@dinner": {},
   "snack": "Užkandžiai",
   "@snack": {},
+  "otherMeals": "Kiti valgiai",
+  "@otherMeals": {},
   "flexibleAppUpdateCompleted": "NephroGo atnaujinimas įdiegtas",
   "@flexibleAppUpdateCompleted": {},
   "reload": "Perkrauti",
@@ -311,6 +313,15 @@
       }
     }
   },
+  "consumptionDailyPercentage": "Paros dalis: {percent}%",
+  "@consumptionDailyPercentage": {
+    "placeholders": {
+      "percent": {
+        "type": "String",
+        "example": "12"
+      }
+    }
+  },
   "consumptionTooltipWithoutNorm": "Suvartota: {amount}\n{date}",
   "@consumptionTooltipWithoutNorm": {
     "placeholders": {
@@ -328,6 +339,8 @@
   "@lastMealsSectionTitle": {},
   "myMeals": "Mano valgiai",
   "@myMeals": {},
+  "create": "Pridėti",
+  "@create": {},
   "createMeals": "Pridėti valgius",
   "@createMeals": {},
   "createAdditionalMeal": "Pridėti kitą valgį",

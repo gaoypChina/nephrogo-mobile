@@ -170,6 +170,40 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
   }
 }
 
+extension MealTypeExtensions on MealTypeEnum {
+  String localizedName(AppLocalizations appLocalizations) {
+    switch (this) {
+      case MealTypeEnum.breakfast:
+        return appLocalizations.breakfast;
+      case MealTypeEnum.lunch:
+        return appLocalizations.lunch;
+      case MealTypeEnum.dinner:
+        return appLocalizations.dinner;
+      case MealTypeEnum.snack:
+        return appLocalizations.snack;
+      case MealTypeEnum.unknown:
+        return appLocalizations.otherMeals;
+    }
+    throw ArgumentError.value(this, 'mealType', 'Unable to map mealType');
+  }
+
+  IconData get icon {
+    switch (this) {
+      case MealTypeEnum.breakfast:
+        return Icons.breakfast_dining;
+      case MealTypeEnum.lunch:
+        return Icons.dinner_dining;
+      case MealTypeEnum.dinner:
+        return Icons.ramen_dining;
+      case MealTypeEnum.snack:
+        return Icons.bakery_dining;
+      case MealTypeEnum.unknown:
+        return Icons.local_dining;
+    }
+    throw ArgumentError.value(this, 'mealType', 'Unable to map mealType');
+  }
+}
+
 extension DailyNutrientNormsWithTotalsExtensions
     on DailyNutrientNormsWithTotals {
   DailyNutrientConsumption getDailyNutrientConsumption(Nutrient nutrient) {

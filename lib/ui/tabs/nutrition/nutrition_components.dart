@@ -33,26 +33,13 @@ class IntakeCreationFloatingActionButton extends StatelessWidget {
       builder: (context) {
         return Wrap(
           children: [
-            AppListTile(
-              leading: const Icon(Icons.breakfast_dining),
-              onTap: () => _createProduct(context, MealTypeEnum.breakfast),
-              title: Text(context.appLocalizations.breakfast),
-            ),
-            AppListTile(
-              leading: const Icon(Icons.dinner_dining),
-              onTap: () => _createProduct(context, MealTypeEnum.lunch),
-              title: Text(context.appLocalizations.lunch),
-            ),
-            AppListTile(
-              leading: const Icon(Icons.ramen_dining),
-              onTap: () => _createProduct(context, MealTypeEnum.dinner),
-              title: Text(context.appLocalizations.dinner),
-            ),
-            AppListTile(
-              leading: const Icon(Icons.bakery_dining),
-              onTap: () => _createProduct(context, MealTypeEnum.snack),
-              title: Text(context.appLocalizations.snack),
-            ),
+            for (final mealType in MealTypeEnum.values)
+              if (mealType != MealTypeEnum.unknown)
+                AppListTile(
+                  leading: Icon(mealType.icon),
+                  onTap: () => _createProduct(context, mealType),
+                  title: Text(mealType.localizedName(context.appLocalizations)),
+                ),
           ],
         );
       },
@@ -91,26 +78,13 @@ class MealTypeSelectionFormField extends StatelessWidget {
       onChanged: (dt) => onChanged(dt.value),
       onSaved: (v) => onSaved(v.value),
       items: [
-        AppSelectFormFieldItem(
-          text: context.appLocalizations.breakfast,
-          value: MealTypeEnum.breakfast,
-          icon: const Icon(Icons.breakfast_dining),
-        ),
-        AppSelectFormFieldItem(
-          text: context.appLocalizations.lunch,
-          value: MealTypeEnum.lunch,
-          icon: const Icon(Icons.dinner_dining),
-        ),
-        AppSelectFormFieldItem(
-          text: context.appLocalizations.dinner,
-          value: MealTypeEnum.dinner,
-          icon: const Icon(Icons.ramen_dining),
-        ),
-        AppSelectFormFieldItem(
-          text: context.appLocalizations.snack,
-          value: MealTypeEnum.snack,
-          icon: const Icon(Icons.bakery_dining),
-        ),
+        for (final mealType in MealTypeEnum.values)
+          if (mealType != MealTypeEnum.unknown)
+            AppSelectFormFieldItem(
+              value: mealType,
+              icon: Icon(mealType.icon),
+              text: mealType.localizedName(context.appLocalizations),
+            ),
       ],
     );
   }
