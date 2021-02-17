@@ -258,13 +258,13 @@ class IntakeExpandableTile extends StatelessWidget {
   final Intake intake;
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
   final bool initiallyExpanded;
-  final bool showSubtitle;
+  final bool showDate;
 
   IntakeExpandableTile(
     this.intake,
     this.dailyNutrientNormsAndTotals, {
     this.initiallyExpanded = false,
-    this.showSubtitle = true,
+    this.showDate = true,
   }) : super(key: PageStorageKey(intake));
 
   @override
@@ -273,7 +273,7 @@ class IntakeExpandableTile extends StatelessWidget {
       selectedColor: Colors.blue,
       child: AppExpansionTile(
         title: Text(intake.product.name),
-        subtitle: showSubtitle ? Text(_getSubtitleParts().join(" | ")) : null,
+        subtitle: Text(_getSubtitleParts().join(" | ")),
         onLongPress:
             (intake.id != null) ? () => _showLongClickDialog(context) : null,
         initiallyExpanded: initiallyExpanded,
@@ -294,11 +294,11 @@ class IntakeExpandableTile extends StatelessWidget {
   }
 
   Iterable<String> _getSubtitleParts() sync* {
-    if (intake.amountG != 0) {
-      yield intake.getAmountFormatted();
-    }
+    yield intake.getAmountFormatted();
 
-    yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
+    if (showDate) {
+      yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
+    }
   }
 
   Future<void> _showLongClickDialog(BuildContext context) async {

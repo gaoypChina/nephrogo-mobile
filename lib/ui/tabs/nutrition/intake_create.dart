@@ -361,6 +361,14 @@ class _IntakeEditSectionState extends State<_IntakeEditSection> {
 
   Product get _product => intake.product;
 
+  Intake get intakeOrIntakeWithDefaultAmount {
+    if (intake.amountG != 0) {
+      return intake;
+    }
+
+    return _createFakeIntake(100);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -404,16 +412,16 @@ class _IntakeEditSectionState extends State<_IntakeEditSection> {
           onChanged: _onChanged,
         ),
         IntakeExpandableTile(
-          intake,
+          intakeOrIntakeWithDefaultAmount,
           widget.dailyNutrientNormsAndTotals,
           initiallyExpanded: widget.initiallyExpanded,
-          showSubtitle: false,
+          showDate: false,
         ),
       ],
     );
   }
 
-  void _onChanged(int amount) {
+  Intake _createFakeIntake(int amount) {
     int amountG;
     int amountMl;
 
@@ -425,12 +433,16 @@ class _IntakeEditSectionState extends State<_IntakeEditSection> {
       amountMl = null;
     }
 
+    return _product.fakeIntake(
+      consumedAt: _consumedAt,
+      amountG: amountG,
+      amountMl: amountMl,
+    );
+  }
+
+  void _onChanged(int amount) {
     setState(() {
-      intake = _product.fakeIntake(
-        consumedAt: _consumedAt,
-        amountG: amountG,
-        amountMl: amountMl,
-      );
+      intake = _createFakeIntake(amount);
     });
 
     widget.onChanged(intake);
