@@ -1,7 +1,10 @@
 import 'package:built_value/built_value.dart';
+import 'package:collection_ext/iterables.dart';
 import 'package:flutter/material.dart';
+import 'package:nephrogo/extensions/collection_extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo_api_client/model/appetite_enum.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
@@ -11,6 +14,7 @@ import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart'
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/meal_type_enum.dart';
 import 'package:nephrogo_api_client/model/product.dart';
+import 'package:nephrogo_api_client/model/product_kind_enum.dart';
 import 'package:nephrogo_api_client/model/shortness_of_breath_enum.dart';
 import 'package:nephrogo_api_client/model/swelling.dart';
 import 'package:nephrogo_api_client/model/swelling_difficulty_enum.dart';
@@ -84,6 +88,8 @@ extension ProductExtensions on Product {
     return ((_calculateTotalNutrientAmount(nutrient, amountG) / norm) * 100)
         .round();
   }
+
+  bool get isDrink => productKind == ProductKindEnum.drink;
 
   // This is used for generating intakes required to show nutrient amounts
   // after searching for a product
@@ -167,6 +173,49 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
     builder.date = date;
 
     return builder.build();
+  }
+
+  Iterable<DailyMealTypeNutrientConsumption> dailyMealTypeNutrientConsumptions({
+    @required Nutrient nutrient,
+    bool includeEmpty = false,
+  }) sync* {
+    final dailyTotal = intakes.sumBy((_, e) => e.getNutrientAmount(nutrient));
+    final groups = intakes.groupBy((intake) => intake.mealType);
+
+    final mealTypes = [
+      ...MealTypeEnum.values.where((e) => e != MealTypeEnum.unknown).toList(),
+      MealTypeEnum.unknown
+    ];
+
+    for (final mealType in mealTypes) {
+      if (groups.containsKey(mealType)) {
+        final drinksTotal = groups[mealType]
+            .where((i) => i.product.isDrink)
+            .sumBy((_, e) => e.getNutrientAmount(nutrient));
+
+        final foodTotal = groups[mealType]
+            .where((i) => !i.product.isDrink)
+            .sumBy((_, e) => e.getNutrientAmount(nutrient));
+
+        yield DailyMealTypeNutrientConsumption(
+          date: Date.from(date),
+          nutrient: nutrient,
+          mealType: mealType,
+          drinksTotal: drinksTotal,
+          foodTotal: foodTotal,
+          dailyTotal: dailyTotal,
+        );
+      } else if (includeEmpty && mealType != MealTypeEnum.unknown) {
+        yield DailyMealTypeNutrientConsumption(
+          date: Date.from(date),
+          nutrient: nutrient,
+          mealType: mealType,
+          drinksTotal: 0,
+          foodTotal: 0,
+          dailyTotal: dailyTotal,
+        );
+      }
+    }
   }
 }
 
