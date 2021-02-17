@@ -59,10 +59,8 @@ class AppFormSingleSelectDialog<T> extends StatelessWidget {
       subtitle: item.description != null ? Text(item.description) : null,
       leading: item.icon != null
           ? IconButton(
-              icon: Icon(
-                item.icon,
-                color: selected ? Colors.teal : null,
-              ),
+              color: selected ? Colors.teal : null,
+              icon: item.icon,
               onPressed: null,
             )
           : null,

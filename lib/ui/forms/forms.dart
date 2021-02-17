@@ -105,7 +105,7 @@ class AppTextFormField extends StatelessWidget {
 class AppSelectFormFieldItem<T> {
   final String text;
   final String description;
-  final IconData icon;
+  final Widget icon;
   final T value;
 
   const AppSelectFormFieldItem({
@@ -261,6 +261,7 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
       labelText: widget.labelText,
       helperText: widget.helperText,
       icon: widget.icon,
+      prefixIcon: selectedItem?.icon,
       onChanged: widget.onChanged,
       onSaved: widget.onSaved,
       validator: widget.validator,
@@ -294,8 +295,9 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
             helpText: widget.dialogHelpText,
           );
         });
-
-    selectedItem = item ?? selectedItem;
+    setState(() {
+      selectedItem = item ?? selectedItem;
+    });
 
     return item;
   }

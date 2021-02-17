@@ -94,22 +94,22 @@ class MealTypeSelectionFormField extends StatelessWidget {
         AppSelectFormFieldItem(
           text: context.appLocalizations.breakfast,
           value: MealTypeEnum.breakfast,
-          icon: Icons.breakfast_dining,
+          icon: const Icon(Icons.breakfast_dining),
         ),
         AppSelectFormFieldItem(
           text: context.appLocalizations.lunch,
           value: MealTypeEnum.lunch,
-          icon: Icons.dinner_dining,
+          icon: const Icon(Icons.dinner_dining),
         ),
         AppSelectFormFieldItem(
           text: context.appLocalizations.dinner,
           value: MealTypeEnum.dinner,
-          icon: Icons.ramen_dining,
+          icon: const Icon(Icons.ramen_dining),
         ),
         AppSelectFormFieldItem(
           text: context.appLocalizations.snack,
           value: MealTypeEnum.snack,
-          icon: Icons.bakery_dining,
+          icon: const Icon(Icons.bakery_dining),
         ),
       ],
     );

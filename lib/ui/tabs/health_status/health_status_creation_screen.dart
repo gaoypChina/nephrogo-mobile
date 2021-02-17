@@ -179,35 +179,35 @@ class _HealthStatusCreationScreenState
                         text: '0+',
                         description: _appLocalizations
                             .healthStatusCreationSwellingDifficulty0,
-                        icon: Icons.sentiment_very_satisfied,
+                        icon: const Icon(Icons.sentiment_very_satisfied),
                         value: SwellingDifficultyEnum.n0plus,
                       ),
                       AppSelectFormFieldItem(
                         text: '1+',
                         description: _appLocalizations
                             .healthStatusCreationSwellingDifficulty1,
-                        icon: Icons.sentiment_satisfied,
+                        icon: const Icon(Icons.sentiment_satisfied),
                         value: SwellingDifficultyEnum.n1plus,
                       ),
                       AppSelectFormFieldItem(
                         text: '2+',
                         description: _appLocalizations
                             .healthStatusCreationSwellingDifficulty2,
-                        icon: Icons.sentiment_dissatisfied,
+                        icon: const Icon(Icons.sentiment_dissatisfied),
                         value: SwellingDifficultyEnum.n2plus,
                       ),
                       AppSelectFormFieldItem(
                         text: '3+',
                         description: _appLocalizations
                             .healthStatusCreationSwellingDifficulty3,
-                        icon: Icons.sentiment_very_dissatisfied,
+                        icon: const Icon(Icons.sentiment_very_dissatisfied),
                         value: SwellingDifficultyEnum.n3plus,
                       ),
                       AppSelectFormFieldItem(
                         text: '4+',
                         description: _appLocalizations
                             .healthStatusCreationSwellingDifficulty4,
-                        icon: Icons.sick,
+                        icon: const Icon(Icons.sick),
                         value: SwellingDifficultyEnum.n4plus,
                       ),
                     ],
@@ -287,31 +287,31 @@ class _HealthStatusCreationScreenState
                       AppSelectFormFieldItem(
                         text: _appLocalizations
                             .healthStatusCreationWellFeelingPerfect,
-                        icon: Icons.sentiment_very_satisfied,
+                        icon: const Icon(Icons.sentiment_very_satisfied),
                         value: WellFeelingEnum.perfect,
                       ),
                       AppSelectFormFieldItem(
                         text: _appLocalizations
                             .healthStatusCreationWellFeelingGood,
-                        icon: Icons.sentiment_satisfied,
+                        icon: const Icon(Icons.sentiment_satisfied),
                         value: WellFeelingEnum.good,
                       ),
                       AppSelectFormFieldItem(
                         text: _appLocalizations
                             .healthStatusCreationWellFeelingAverage,
-                        icon: Icons.sentiment_dissatisfied,
+                        icon: const Icon(Icons.sentiment_dissatisfied),
                         value: WellFeelingEnum.average,
                       ),
                       AppSelectFormFieldItem(
                         text: _appLocalizations
                             .healthStatusCreationWellFeelingBad,
-                        icon: Icons.sentiment_very_dissatisfied,
+                        icon: const Icon(Icons.sentiment_very_dissatisfied),
                         value: WellFeelingEnum.bad,
                       ),
                       AppSelectFormFieldItem(
                         text: _appLocalizations
                             .healthStatusCreationWellFeelingVeryBad,
-                        icon: Icons.sick,
+                        icon: const Icon(Icons.sick),
                         value: WellFeelingEnum.veryBad,
                       ),
                     ],
@@ -325,30 +325,30 @@ class _HealthStatusCreationScreenState
                       AppSelectFormFieldItem(
                         text: _appLocalizations
                             .healthStatusCreationAppetitePerfect,
-                        icon: Icons.sentiment_very_satisfied,
+                        icon: const Icon(Icons.sentiment_very_satisfied),
                         value: AppetiteEnum.perfect,
                       ),
                       AppSelectFormFieldItem(
                         text:
                             _appLocalizations.healthStatusCreationAppetiteGood,
-                        icon: Icons.sentiment_satisfied,
+                        icon: const Icon(Icons.sentiment_satisfied),
                         value: AppetiteEnum.good,
                       ),
                       AppSelectFormFieldItem(
                         text: _appLocalizations
                             .healthStatusCreationAppetiteAverage,
-                        icon: Icons.sentiment_dissatisfied,
+                        icon: const Icon(Icons.sentiment_dissatisfied),
                         value: AppetiteEnum.average,
                       ),
                       AppSelectFormFieldItem(
                         text: _appLocalizations.healthStatusCreationAppetiteBad,
-                        icon: Icons.sentiment_very_dissatisfied,
+                        icon: const Icon(Icons.sentiment_very_dissatisfied),
                         value: AppetiteEnum.bad,
                       ),
                       AppSelectFormFieldItem(
                         text: _appLocalizations
                             .healthStatusCreationAppetiteVeryBad,
-                        icon: Icons.sick,
+                        icon: const Icon(Icons.sick),
                         value: AppetiteEnum.veryBad,
                       ),
                     ],
@@ -364,7 +364,7 @@ class _HealthStatusCreationScreenState
                       AppSelectFormFieldItem(
                         text: _appLocalizations
                             .healthStatusCreationShortnessOfBreathNo,
-                        icon: Icons.sentiment_very_satisfied,
+                        icon: const Icon(Icons.sentiment_very_satisfied),
                         value: ShortnessOfBreathEnum.no,
                       ),
                       AppSelectFormFieldItem(
@@ -372,7 +372,7 @@ class _HealthStatusCreationScreenState
                             .healthStatusCreationShortnessOfBreathLight,
                         description: _appLocalizations
                             .healthStatusCreationShortnessOfBreathLightHelper,
-                        icon: Icons.sentiment_satisfied,
+                        icon: const Icon(Icons.sentiment_satisfied),
                         value: ShortnessOfBreathEnum.light,
                       ),
                       AppSelectFormFieldItem(
@@ -380,7 +380,7 @@ class _HealthStatusCreationScreenState
                             .healthStatusCreationShortnessOfBreathAverage,
                         description: _appLocalizations
                             .healthStatusCreationShortnessOfBreathAverageHelper,
-                        icon: Icons.sentiment_dissatisfied,
+                        icon: const Icon(Icons.sentiment_dissatisfied),
                         value: ShortnessOfBreathEnum.average,
                       ),
                       AppSelectFormFieldItem(
@@ -388,7 +388,7 @@ class _HealthStatusCreationScreenState
                             .healthStatusCreationShortnessOfBreathSevere,
                         description: _appLocalizations
                             .healthStatusCreationShortnessOfBreathSevereHelper,
-                        icon: Icons.sentiment_very_dissatisfied,
+                        icon: const Icon(Icons.sentiment_very_dissatisfied),
                         value: ShortnessOfBreathEnum.severe,
                       ),
                       AppSelectFormFieldItem(
@@ -396,7 +396,7 @@ class _HealthStatusCreationScreenState
                             .healthStatusCreationShortnessOfBreathBackbreaking,
                         description: _appLocalizations
                             .healthStatusCreationShortnessOfBreathBackbreakingHelper,
-                        icon: Icons.sick,
+                        icon: const Icon(Icons.sick),
                         value: ShortnessOfBreathEnum.backbreaking,
                       ),
                     ],
