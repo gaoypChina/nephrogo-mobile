@@ -32,7 +32,8 @@ class NutritionDailySummaryScreen extends StatefulWidget {
   final Date date;
   final Nutrient nutrient;
 
-  const NutritionDailySummaryScreen(this.date, {
+  const NutritionDailySummaryScreen(
+    this.date, {
     Key key,
     @required this.nutrient,
   })  : assert(date != null),
@@ -43,7 +44,8 @@ class NutritionDailySummaryScreen extends StatefulWidget {
       _NutritionDailySummaryScreenState();
 }
 
-class _NutritionDailySummaryScreenState extends State<NutritionDailySummaryScreen> {
+class _NutritionDailySummaryScreenState
+    extends State<NutritionDailySummaryScreen> {
   final _apiService = ApiService();
 
   Date date;
@@ -123,7 +125,8 @@ class _NutritionDailySummaryList extends StatelessWidget {
   final DailyIntakesReport dailyIntakesReport;
   final Widget header;
 
-  const _NutritionDailySummaryList(this.dailyIntakesReport, {
+  const _NutritionDailySummaryList(
+    this.dailyIntakesReport, {
     Key key,
     @required this.header,
   })  : assert(header != null),
@@ -166,18 +169,19 @@ class _DailyNutritionNutrientList extends StatelessWidget {
   final Nutrient nutrient;
   final Date date;
 
-  const _DailyNutritionNutrientList(this.dailyIntakesReport,
-      this.nutrient, {
-        Key key,
-        @required this.header,
-        @required this.date,
-      })  : assert(header != null),
+  const _DailyNutritionNutrientList(
+    this.dailyIntakesReport,
+    this.nutrient, {
+    Key key,
+    @required this.header,
+    @required this.date,
+  })  : assert(header != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final intakes = dailyIntakesReport?.intakes
-        ?.sortedBy((i) => i.consumedAt, reverse: true) ??
+            ?.sortedBy((i) => i.consumedAt, reverse: true) ??
         [];
 
     final groupedIntakes = _getGroupedIntakes(intakes).toList();
@@ -212,9 +216,10 @@ class _DailyNutritionNutrientList extends StatelessWidget {
   }
 
   Iterable<Tuple2<MealTypeEnum, List<Intake>>> _getGroupedIntakes(
-      Iterable<Intake> intakes,) sync* {
+    Iterable<Intake> intakes,
+  ) sync* {
     final Map<MealTypeEnum, List<Intake>> groups =
-    intakes.groupBy((intake) => intake.mealType);
+        intakes.groupBy((intake) => intake.mealType);
 
     final mealTypes = [
       MealTypeEnum.dinner,
@@ -259,23 +264,23 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
       title: mealType.localizedName(context.appLocalizations),
       subtitle: intakes?.isNotEmpty ?? false
           ? Text(
-        context.appLocalizations
-            .consumptionDailyPercentage(_dailyPercentage.toString()),
-      )
+              context.appLocalizations
+                  .consumptionDailyPercentage(_dailyPercentage.toString()),
+            )
           : null,
       trailing: mealType != MealTypeEnum.unknown
           ? OutlinedButton(
-        onPressed: () => Navigator.pushNamed(
-          context,
-          Routes.routeProductSearch,
-          arguments: ProductSearchScreenArguments(
-            ProductSearchType.choose,
-            mealType,
-            date: date,
-          ),
-        ),
-        child: Text(context.appLocalizations.create.toUpperCase()),
-      )
+              onPressed: () => Navigator.pushNamed(
+                context,
+                Routes.routeProductSearch,
+                arguments: ProductSearchScreenArguments(
+                  ProductSearchType.choose,
+                  mealType,
+                  date: date,
+                ),
+              ),
+              child: Text(context.appLocalizations.create.toUpperCase()),
+            )
           : null,
       children: [
         for (final intake in intakes)
@@ -293,7 +298,7 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
         .sumBy((i, e) => e.getNutrientAmount(nutrient));
 
     final totalThisMeal =
-    intakes.sumBy((i, e) => e.getNutrientAmount(nutrient));
+        intakes.sumBy((i, e) => e.getNutrientAmount(nutrient));
 
     if (total == 0) {
       return 0;
