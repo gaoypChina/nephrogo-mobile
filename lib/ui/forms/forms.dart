@@ -295,9 +295,8 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
             helpText: widget.dialogHelpText,
           );
         });
-    setState(() {
-      selectedItem = item ?? selectedItem;
-    });
+
+    setState(() => selectedItem = item ?? selectedItem);
 
     return item;
   }
