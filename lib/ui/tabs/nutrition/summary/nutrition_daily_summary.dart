@@ -30,7 +30,8 @@ class NutritionDailySummaryScreen extends StatefulWidget {
   final Date date;
   final Nutrient nutrient;
 
-  const NutritionDailySummaryScreen(this.date, {
+  const NutritionDailySummaryScreen(
+    this.date, {
     Key key,
     @required this.nutrient,
   })  : assert(date != null),
@@ -41,7 +42,8 @@ class NutritionDailySummaryScreen extends StatefulWidget {
       _NutritionDailySummaryScreenState();
 }
 
-class _NutritionDailySummaryScreenState extends State<NutritionDailySummaryScreen> {
+class _NutritionDailySummaryScreenState
+    extends State<NutritionDailySummaryScreen> {
   final _apiService = ApiService();
 
   Date date;
@@ -80,16 +82,17 @@ class _NutritionDailySummaryScreenState extends State<NutritionDailySummaryScree
             builder: (context, data) {
               final report = data?.dailyIntakesReport;
 
-              if (report == null || report.intakes.isEmpty) {
-                return NutritionListWithHeaderEmpty(header: header);
-              }
-
               if (widget.nutrient != null) {
                 return _DailyNutritionNutrientList(
                   report,
                   widget.nutrient,
                   header: header,
+                  date: from,
                 );
+              }
+
+              if (report == null || report.intakes.isEmpty) {
+                return NutritionListWithHeaderEmpty(header: header);
               }
 
               return _NutritionDailySummaryList(
@@ -120,7 +123,8 @@ class _NutritionDailySummaryList extends StatelessWidget {
   final DailyIntakesReport dailyIntakesReport;
   final Widget header;
 
-  const _NutritionDailySummaryList(this.dailyIntakesReport, {
+  const _NutritionDailySummaryList(
+    this.dailyIntakesReport, {
     Key key,
     @required this.header,
   })  : assert(header != null),
@@ -161,18 +165,22 @@ class _DailyNutritionNutrientList extends StatelessWidget {
   final Widget header;
   final DailyIntakesReport dailyIntakesReport;
   final Nutrient nutrient;
+  final Date date;
 
-  const _DailyNutritionNutrientList(this.dailyIntakesReport,
-      this.nutrient, {
-        Key key,
-        @required this.header,
-      })  : assert(header != null),
+  const _DailyNutritionNutrientList(
+    this.dailyIntakesReport,
+    this.nutrient, {
+    Key key,
+    @required this.header,
+    @required this.date,
+  })  : assert(header != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final intakes =
-        dailyIntakesReport.intakes.sortedBy((i) => i.consumedAt, reverse: true);
+    final intakes = dailyIntakesReport?.intakes
+            ?.sortedBy((i) => i.consumedAt, reverse: true) ??
+        [];
 
     final groupedIntakes = _getGroupedIntakes(intakes).toList();
 
@@ -192,6 +200,7 @@ class _DailyNutritionNutrientList extends StatelessWidget {
           mealType: group.item1,
           intakes: group.item2,
           dailyIntakesReport: dailyIntakesReport,
+          date: date,
         );
       },
     );
@@ -227,14 +236,16 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
   final MealTypeEnum mealType;
   final List<Intake> intakes;
   final DailyIntakesReport dailyIntakesReport;
+  final Date date;
 
-  const _DailyNutritionNutrientSection(
-      {Key key,
-      @required this.nutrient,
-      @required this.mealType,
-      @required this.intakes,
-      @required this.dailyIntakesReport})
-      : super(key: key);
+  const _DailyNutritionNutrientSection({
+    Key key,
+    @required this.nutrient,
+    @required this.mealType,
+    @required this.intakes,
+    @required this.dailyIntakesReport,
+    @required this.date,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -242,7 +253,7 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
       showDividers: true,
       showHeaderDivider: true,
       title: mealType.localizedName(context.appLocalizations),
-      subtitle: intakes.isNotEmpty
+      subtitle: intakes?.isNotEmpty ?? false
           ? Text(
               context.appLocalizations
                   .consumptionDailyPercentage(_dailyPercentage.toString()),
@@ -256,6 +267,7 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
                 arguments: ProductSearchScreenArguments(
                   ProductSearchType.choose,
                   mealType,
+                  date: date,
                 ),
               ),
               child: Text(context.appLocalizations.create.toUpperCase()),
