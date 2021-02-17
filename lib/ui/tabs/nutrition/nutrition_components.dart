@@ -5,6 +5,7 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
+import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
@@ -38,12 +39,12 @@ class IntakeCreationFloatingActionButton extends StatelessWidget {
               title: Text(context.appLocalizations.breakfast),
             ),
             AppListTile(
-              leading: const Icon(Icons.restaurant),
+              leading: const Icon(Icons.dinner_dining),
               onTap: () => _createProduct(context, MealTypeEnum.lunch),
               title: Text(context.appLocalizations.lunch),
             ),
             AppListTile(
-              leading: const Icon(Icons.dinner_dining),
+              leading: const Icon(Icons.ramen_dining),
               onTap: () => _createProduct(context, MealTypeEnum.dinner),
               title: Text(context.appLocalizations.dinner),
             ),
@@ -66,6 +67,51 @@ class IntakeCreationFloatingActionButton extends StatelessWidget {
         ProductSearchType.choose,
         mealType,
       ),
+    );
+  }
+}
+
+class MealTypeSelectionFormField extends StatelessWidget {
+  final MealTypeEnum initialMealType;
+  final FormFieldSetter<MealTypeEnum> onChanged;
+  final FormFieldSetter<MealTypeEnum> onSaved;
+
+  const MealTypeSelectionFormField({
+    Key key,
+    @required this.initialMealType,
+    @required this.onChanged,
+    @required this.onSaved,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppSelectFormField<MealTypeEnum>(
+      labelText: context.appLocalizations.mealType,
+      initialValue: initialMealType.enumWithoutDefault(MealTypeEnum.unknown),
+      onChanged: (dt) => onChanged(dt.value),
+      onSaved: (v) => onSaved(v.value),
+      items: [
+        AppSelectFormFieldItem(
+          text: context.appLocalizations.breakfast,
+          value: MealTypeEnum.breakfast,
+          icon: Icons.breakfast_dining,
+        ),
+        AppSelectFormFieldItem(
+          text: context.appLocalizations.lunch,
+          value: MealTypeEnum.lunch,
+          icon: Icons.dinner_dining,
+        ),
+        AppSelectFormFieldItem(
+          text: context.appLocalizations.dinner,
+          value: MealTypeEnum.dinner,
+          icon: Icons.ramen_dining,
+        ),
+        AppSelectFormFieldItem(
+          text: context.appLocalizations.snack,
+          value: MealTypeEnum.snack,
+          icon: Icons.bakery_dining,
+        ),
+      ],
     );
   }
 }

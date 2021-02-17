@@ -32,6 +32,8 @@
   "@support": {},
   "summary": "Suvestinė",
   "@summary": {},
+  "mealType": "Valgio tipas",
+  "@mealType": {},
   "breakfast": "Pusryčiai",
   "@breakfast": {},
   "lunch": "Pietūs",

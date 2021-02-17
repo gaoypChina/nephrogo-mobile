@@ -80,6 +80,8 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
 
   DateTime _consumedAt;
 
+  MealTypeEnum _mealType;
+
   bool get _isAddNewProductButtonActive =>
       !_intakeSectionsOptions.any((e) => e.fakeIntake.amountG == 0);
 
@@ -88,6 +90,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     super.initState();
 
     _consumedAt = DateTime.now();
+    _mealType = widget.mealType;
 
     if (widget.initialDate != null) {
       _consumedAt = _consumedAt.copyWith(
@@ -119,7 +122,10 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     );
 
     if (product != null) {
-      final fakedIntake = product.fakeIntake(consumedAt: _consumedAt.toLocal());
+      final fakedIntake = product.fakeIntake(
+        consumedAt: _consumedAt.toLocal(),
+        mealType: _mealType,
+      );
 
       final intakeSectionOptions =
           _IntakeSectionOption(fakedIntake, FocusNode());
@@ -184,8 +190,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                   onDelete: _onIntakeDeleted,
                   initiallyExpanded: i + 1 == _intakeSectionsOptions.length,
                 ),
-              SmallSection(
-                title: appLocalizations.mealCreationDatetimeSectionTitle,
+              BasicSection(
                 children: [
                   AppDatePickerFormField(
                     initialDate: _consumedAt,
@@ -209,18 +214,10 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                     },
                     labelText: appLocalizations.mealCreationDate,
                   ),
-                  AppTimePickerFormField(
-                    labelText: appLocalizations.mealCreationTime,
-                    prefixIcon: const Icon(Icons.access_time),
-                    initialTime: TimeOfDay(
-                      hour: _consumedAt.hour,
-                      minute: _consumedAt.minute,
-                    ),
-                    onTimeChanged: (t) {
-                      setState(() {
-                        _consumedAt = _consumedAt.applied(t);
-                      });
-                    },
+                  MealTypeSelectionFormField(
+                    initialMealType: _mealType,
+                    onChanged: (v) => _mealType = v,
+                    onSaved: (v) => _mealType = v,
                   ),
                 ],
               ),
@@ -266,7 +263,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
       builder.amountG = fakedIntake.amountG;
       builder.amountMl = fakedIntake.amountMl;
       builder.consumedAt = _consumedAt.toUtc();
-      builder.mealType = MealTypeEnum.unknown;
+      builder.mealType = _mealType;
 
       yield builder.build();
     }

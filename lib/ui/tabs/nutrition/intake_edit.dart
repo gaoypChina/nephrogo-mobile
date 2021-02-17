@@ -12,6 +12,7 @@ import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/intake_request.dart';
+import 'package:nephrogo_api_client/model/meal_type_enum.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 
 import 'nutrition_components.dart';
@@ -56,6 +57,8 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
   int amountG;
   int amountMl;
 
+  MealTypeEnum mealType;
+
   Product get product => widget.intake.product;
 
   DateTime _consumedAt;
@@ -66,6 +69,7 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
   void initState() {
     super.initState();
 
+    mealType = widget.intake.mealType;
     amountG = widget.intake.amountG;
     amountMl = widget.intake.amountMl;
 
@@ -83,6 +87,7 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
       consumedAt: _consumedAt,
       amountG: amountG,
       amountMl: amountMl,
+      mealType: mealType,
     );
 
     return Scaffold(
@@ -153,8 +158,7 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
                     )
                   ],
                 ),
-                SmallSection(
-                  title: appLocalizations.mealCreationDatetimeSectionTitle,
+                BasicSection(
                   children: [
                     AppDatePickerFormField(
                       initialDate: _consumedAt,
@@ -178,17 +182,10 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
                           _intakeBuilder.consumedAt = _consumedAt.toUtc(),
                       labelText: appLocalizations.mealCreationDate,
                     ),
-                    AppTimePickerFormField(
-                      labelText: appLocalizations.mealCreationTime,
-                      prefixIcon: const Icon(Icons.access_time),
-                      initialTime: TimeOfDay(
-                        hour: _consumedAt.hour,
-                        minute: _consumedAt.minute,
-                      ),
-                      onTimeChanged: (t) =>
-                          _consumedAt = _consumedAt.applied(t),
-                      onTimeSaved: (t) =>
-                          _intakeBuilder.consumedAt = _consumedAt.toUtc(),
+                    MealTypeSelectionFormField(
+                      initialMealType: mealType,
+                      onChanged: (v) => mealType = v,
+                      onSaved: (v) => _intakeBuilder.mealType = mealType = v,
                     ),
                   ],
                 ),

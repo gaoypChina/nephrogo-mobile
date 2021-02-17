@@ -191,7 +191,7 @@ class ApiService {
 
     return _nutritionApi
         .nutritionProductsSearchRetrieve(
-      query: query,
+          query: query,
           submit: submit,
           excludeProducts: excludeProductIdsStr,
           mealType: mealType.name,

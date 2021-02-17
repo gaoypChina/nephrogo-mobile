@@ -9,6 +9,7 @@ import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
+import 'package:nephrogo_api_client/model/meal_type_enum.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 import 'package:nephrogo_api_client/model/shortness_of_breath_enum.dart';
 import 'package:nephrogo_api_client/model/swelling.dart';
@@ -90,6 +91,7 @@ extension ProductExtensions on Product {
     @required DateTime consumedAt,
     int amountG = 0,
     int amountMl,
+    MealTypeEnum mealType,
   }) {
     assert(amountG != null);
 
@@ -98,6 +100,8 @@ extension ProductExtensions on Product {
     builder.consumedAt = consumedAt;
 
     builder.amountG = amountG;
+
+    builder.mealType = mealType;
 
     if (densityGMl != null) {
       if (amountMl != null) {
