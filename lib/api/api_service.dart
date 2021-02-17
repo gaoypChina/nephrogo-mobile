@@ -24,6 +24,7 @@ import 'package:nephrogo_api_client/model/health_status_screen_response.dart';
 import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/intake_request.dart';
+import 'package:nephrogo_api_client/model/meal_type_enum.dart';
 import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
 import 'package:nephrogo_api_client/model/nutrition_screen_v2_response.dart';
 import 'package:nephrogo_api_client/model/product_search_response.dart';
@@ -184,14 +185,16 @@ class ApiService {
     String query, {
     @required bool submit,
     @required List<int> excludeProductIds,
+    @required MealTypeEnum mealType,
   }) {
     final excludeProductIdsStr = excludeProductIds?.join(',');
 
     return _nutritionApi
         .nutritionProductsSearchRetrieve(
-          query: query,
+      query: query,
           submit: submit,
           excludeProducts: excludeProductIdsStr,
+          mealType: mealType.name,
         )
         .then((r) => r.data);
   }

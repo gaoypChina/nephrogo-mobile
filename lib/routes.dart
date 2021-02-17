@@ -96,6 +96,7 @@ class Routes {
             initialProduct: arguments.product ?? arguments.intake.product,
             intake: arguments.intake,
             initialDate: arguments.initialDate,
+            mealType: arguments.mealType,
           );
         });
       case routeIntakeEdit:
@@ -115,6 +116,7 @@ class Routes {
             searchType: arguments.searchType,
             excludeProductsIds: arguments.excludeProductsIds,
             date: arguments.date,
+            mealType: arguments.mealType,
           );
         });
       case routeNutritionDailySummary:

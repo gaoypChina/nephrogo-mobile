@@ -8,7 +8,6 @@ import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
-import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
 
@@ -65,11 +64,7 @@ class _NutritionDailySummaryScreenState
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _createProduct(),
-        label: Text(appLocalizations.createMeals.toUpperCase()),
-        icon: const Icon(Icons.add),
-      ),
+      floatingActionButton: IntakeCreationFloatingActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: DailyPager(
         earliestDate: Date(2021, 1, 1),
@@ -116,17 +111,6 @@ class _NutritionDailySummaryScreenState
 
   Future _openGeneralRecommendations() {
     return Navigator.pushNamed(context, Routes.routeGeneralRecommendations);
-  }
-
-  Future _createProduct() {
-    return Navigator.pushNamed(
-      context,
-      Routes.routeProductSearch,
-      arguments: ProductSearchScreenArguments(
-        ProductSearchType.choose,
-        date: date,
-      ),
-    );
   }
 }
 

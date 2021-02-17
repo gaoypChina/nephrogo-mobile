@@ -24,9 +24,11 @@ class IntakeCreateScreenArguments extends Equatable {
   final Product product;
   final Intake intake;
   final Date initialDate;
+  final MealTypeEnum mealType;
 
   const IntakeCreateScreenArguments({
     @required this.dailyNutrientNormsAndTotals,
+    @required this.mealType,
     this.product,
     this.intake,
     this.initialDate,
@@ -42,10 +44,12 @@ class IntakeCreateScreen extends StatefulWidget {
   final Intake intake;
   final Product initialProduct;
   final Date initialDate;
+  final MealTypeEnum mealType;
 
   const IntakeCreateScreen({
     Key key,
     @required this.dailyNutrientNormsAndTotals,
+    @required this.mealType,
     this.initialProduct,
     this.intake,
     this.initialDate,
@@ -109,6 +113,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
       Routes.routeProductSearch,
       arguments: ProductSearchScreenArguments(
         ProductSearchType.change,
+        widget.mealType,
         excludeProductsIds: excludeProductIds,
       ),
     );

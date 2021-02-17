@@ -11,8 +11,64 @@ import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
+import 'package:nephrogo_api_client/model/meal_type_enum.dart';
 
 import 'intake_edit.dart';
+import 'product_search.dart';
+
+class IntakeCreationFloatingActionButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton.extended(
+      onPressed: () => _showMealTypeSelection(context),
+      label: Text(context.appLocalizations.createMeals.toUpperCase()),
+      icon: const Icon(Icons.add),
+    );
+  }
+
+  Future<void> _showMealTypeSelection(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Wrap(
+          children: [
+            AppListTile(
+              leading: const Icon(Icons.breakfast_dining),
+              onTap: () => _createProduct(context, MealTypeEnum.breakfast),
+              title: Text(context.appLocalizations.breakfast),
+            ),
+            AppListTile(
+              leading: const Icon(Icons.restaurant),
+              onTap: () => _createProduct(context, MealTypeEnum.lunch),
+              title: Text(context.appLocalizations.lunch),
+            ),
+            AppListTile(
+              leading: const Icon(Icons.dinner_dining),
+              onTap: () => _createProduct(context, MealTypeEnum.dinner),
+              title: Text(context.appLocalizations.dinner),
+            ),
+            AppListTile(
+              leading: const Icon(Icons.bakery_dining),
+              onTap: () => _createProduct(context, MealTypeEnum.snack),
+              title: Text(context.appLocalizations.snack),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future _createProduct(BuildContext context, MealTypeEnum mealType) {
+    return Navigator.pushReplacementNamed(
+      context,
+      Routes.routeProductSearch,
+      arguments: ProductSearchScreenArguments(
+        ProductSearchType.choose,
+        mealType,
+      ),
+    );
+  }
+}
 
 class DailyIntakesReportSection extends StatelessWidget {
   final _dateFormat = DateFormat('EEEE, MMMM d');

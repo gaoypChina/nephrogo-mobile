@@ -11,6 +11,7 @@ import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/utils.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
+import 'package:nephrogo_api_client/model/meal_type_enum.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 import 'package:nephrogo_api_client/model/product_search_response.dart';
 
@@ -25,9 +26,14 @@ class ProductSearchScreenArguments {
   final ProductSearchType searchType;
   final List<int> excludeProductsIds;
   final Date date;
+  final MealTypeEnum mealType;
 
-  ProductSearchScreenArguments(this.searchType,
-      {this.excludeProductsIds, this.date});
+  ProductSearchScreenArguments(
+    this.searchType,
+    this.mealType, {
+    this.excludeProductsIds,
+    this.date,
+  });
 }
 
 class _Query {
@@ -42,13 +48,16 @@ class ProductSearchScreen extends StatefulWidget {
   final ProductSearchType searchType;
   final List<int> excludeProductsIds;
   final Date date;
+  final MealTypeEnum mealType;
 
   const ProductSearchScreen({
     Key key,
     @required this.searchType,
     @required this.excludeProductsIds,
+    @required this.mealType,
     this.date,
   })  : assert(searchType != null),
+        assert(mealType != null),
         super(key: key);
 
   @override
@@ -90,6 +99,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
             q.query,
             submit: q.submit,
             excludeProductIds: widget.excludeProductsIds,
+            mealType: widget.mealType,
           ),
         )
         .where((p) => p.query == currentQuery);
@@ -216,6 +226,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
           product: product,
           dailyNutrientNormsAndTotals: dailyNutrientNormsAndTotals,
           initialDate: widget.date,
+          mealType: widget.mealType,
         ),
       );
     }

@@ -19,7 +19,6 @@ import 'package:nephrogo_api_client/model/nutrition_summary_statistics.dart';
 
 import 'nutrition_calendar.dart';
 import 'nutrition_components.dart';
-import 'product_search.dart';
 import 'summary/nutrition_summary.dart';
 
 class NutritionTab extends StatelessWidget {
@@ -28,24 +27,10 @@ class NutritionTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
-
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _createProduct(context),
-        label: Text(appLocalizations.createMeals.toUpperCase()),
-        icon: const Icon(Icons.add),
-      ),
+      floatingActionButton: IntakeCreationFloatingActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: _buildBody(context),
-    );
-  }
-
-  Future _createProduct(BuildContext context) {
-    return Navigator.pushNamed(
-      context,
-      Routes.routeProductSearch,
-      arguments: ProductSearchScreenArguments(ProductSearchType.choose),
     );
   }
 
