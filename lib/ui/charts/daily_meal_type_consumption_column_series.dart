@@ -40,6 +40,7 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final consumptionName = nutrient.consumptionName(context.appLocalizations);
+    final scaledDimension = nutrient.scaledDimension;
 
     return SfCartesianChart(
       title: ChartTitle(text: _getTitleText(context.appLocalizations)),
@@ -57,9 +58,10 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
       ),
       primaryYAxis: NumericAxis(
         title: AxisTitle(
-          text: "$consumptionName, ${nutrient.scaledDimension}",
+          text: "$consumptionName, $scaledDimension",
           textStyle: const TextStyle(fontSize: 12),
         ),
+        decimalPlaces: nutrient.decimalPlaces,
         // plotBands: <PlotBand>[
         //   PlotBand(
         //     text: 'Average',
@@ -76,6 +78,7 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
       ),
       series: _getStackedColumnSeries(context).toList(),
       tooltipBehavior: TooltipBehavior(
+        decimalPlaces: nutrient.decimalPlaces,
         enable: true,
         canShowMarker: true,
         shared: true,
@@ -106,6 +109,11 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
             c.mealType.localizedName(context.appLocalizations),
         yValueMapper: (c, _) => c.foodTotal * nutrient.scale,
         name: context.appLocalizations.meals,
+        // dataLabelSettings: DataLabelSettings(
+        //   isVisible: true,
+        //   showCumulativeValues: true,
+        //   showZeroValue: false,
+        // ),
       ),
     ];
   }

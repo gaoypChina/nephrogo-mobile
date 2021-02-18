@@ -410,6 +410,16 @@ extension NutrientExtensions on Nutrient {
     }
   }
 
+  int get decimalPlaces {
+    switch (this) {
+      case Nutrient.energy:
+      case Nutrient.liquids:
+        return 0;
+      default:
+        return 2;
+    }
+  }
+
   String get scaledDimension {
     switch (this) {
       case Nutrient.energy:
