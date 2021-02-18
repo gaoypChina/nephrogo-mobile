@@ -86,7 +86,9 @@ class _NutritionDailySummaryScreenState
 
               if (report == null || report.intakes.isEmpty) {
                 return NutritionDailyListWithHeaderEmpty(
-                    header: header, date: from);
+                  header: header,
+                  date: from,
+                );
               }
 
               if (widget.nutrient != null) {
@@ -94,7 +96,6 @@ class _NutritionDailySummaryScreenState
                   report,
                   widget.nutrient,
                   header: header,
-                  date: from,
                 );
               }
 
@@ -141,7 +142,6 @@ class _NutritionDailySummaryList extends StatelessWidget {
         dailyIntakesReport.getIntakesGroupedByMealType().toList();
 
     return ListView.builder(
-      padding: const EdgeInsets.only(bottom: 80),
       itemCount: groupedIntakes.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
@@ -219,14 +219,12 @@ class _DailyNutritionNutrientList extends StatelessWidget {
   final Widget header;
   final DailyIntakesReport dailyIntakesReport;
   final Nutrient nutrient;
-  final Date date;
 
   const _DailyNutritionNutrientList(
     this.dailyIntakesReport,
     this.nutrient, {
     Key key,
     @required this.header,
-    @required this.date,
   })  : assert(header != null),
         assert(dailyIntakesReport != null),
         super(key: key);
@@ -258,7 +256,6 @@ class _DailyNutritionNutrientList extends StatelessWidget {
           mealType: group.item1,
           intakes: group.item2,
           dailyIntakesReport: dailyIntakesReport,
-          date: date,
         );
       },
     );
@@ -271,7 +268,6 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
   final MealTypeEnum mealType;
   final List<Intake> intakes;
   final DailyIntakesReport dailyIntakesReport;
-  final Date date;
 
   const _DailyNutritionNutrientSection({
     Key key,
@@ -279,7 +275,6 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
     @required this.mealType,
     @required this.intakes,
     @required this.dailyIntakesReport,
-    @required this.date,
   }) : super(key: key);
 
   @override
@@ -299,7 +294,7 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
                 arguments: ProductSearchScreenArguments(
                   ProductSearchType.choose,
                   mealType,
-                  date: date,
+                  date: dailyIntakesReport.date.toDate(),
                 ),
               ),
               child: Text(context.appLocalizations.create.toUpperCase()),
