@@ -20,8 +20,7 @@ class BasicSection extends StatelessWidget {
     EdgeInsetsGeometry margin,
     this.innerPadding = EdgeInsets.zero,
     this.crossAxisAlignment = CrossAxisAlignment.start,
-  })
-      : assert(header != null || children.isNotEmpty,
+  })  : assert(header != null || children.isNotEmpty,
             "Either header or at least one child should be passed"),
         assert(!showHeaderDivider || (showHeaderDivider && header != null)),
         margin = margin ?? const EdgeInsets.only(bottom: 16),

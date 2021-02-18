@@ -227,8 +227,7 @@ class _DailyNutritionNutrientList extends StatelessWidget {
     Key key,
     @required this.header,
     @required this.date,
-  })
-      : assert(header != null),
+  })  : assert(header != null),
         assert(dailyIntakesReport != null),
         super(key: key);
 
