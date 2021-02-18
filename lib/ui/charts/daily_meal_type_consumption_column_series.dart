@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -17,12 +17,32 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
         assert(nutrient != null),
         super(key: key);
 
+  String _getTitleText(AppLocalizations appLocalizations) {
+    final nutrientNorms = report.dailyNutrientNormsAndTotals;
+    final nutrientConsumption = report.dailyNutrientNormsAndTotals
+        .getDailyNutrientConsumption(nutrient);
+
+    final totalFormatted =
+        nutrientNorms.getNutrientTotalAmountFormatted(nutrient);
+
+    if (nutrientConsumption.isNormExists) {
+      final normFormatted = nutrientNorms.getNutrientNormFormatted(nutrient);
+
+      return appLocalizations.consumptionWithNorm(
+        totalFormatted,
+        normFormatted,
+      );
+    }
+
+    return appLocalizations.consumptionWithoutNorm(totalFormatted);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final consumptionName = nutrient.consumptionName(context.appLocalizations);
+
     return SfCartesianChart(
-      title: ChartTitle(
-        text: nutrient.consumptionName(context.appLocalizations),
-      ),
+      title: ChartTitle(text: _getTitleText(context.appLocalizations)),
       plotAreaBorderWidth: 0,
       palette: [
         Colors.orange,
@@ -36,7 +56,23 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
         majorGridLines: MajorGridLines(width: 0),
       ),
       primaryYAxis: NumericAxis(
-        numberFormat: NumberFormat.percentPattern(),
+        title: AxisTitle(
+          text: "$consumptionName, ${nutrient.scaledDimension}",
+          textStyle: const TextStyle(fontSize: 12),
+        ),
+        // plotBands: <PlotBand>[
+        //   PlotBand(
+        //     text: 'Average',
+        //     start: 15,
+        //     end: 16,
+        //     shouldRenderAboveSeries: true,
+        //     // textStyle: TextStyle(color: Colors.deepOrange, fontSize: 16),
+        //     dashArray: [5, 5],
+        //     opacity: 0.7,
+        //     borderColor: Colors.redAccent,
+        //     borderWidth: 3,
+        //   )
+        // ],
       ),
       series: _getStackedColumnSeries(context).toList(),
       tooltipBehavior: TooltipBehavior(
@@ -47,7 +83,7 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
     );
   }
 
-  List<StackedColumnSeries<DailyMealTypeNutrientConsumption, String>>
+  List<XyDataSeries<DailyMealTypeNutrientConsumption, String>>
       _getStackedColumnSeries(BuildContext context) {
     final dailyMealTypeNutrientConsumptions = report
         .dailyMealTypeNutrientConsumptions(
@@ -61,14 +97,14 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
         dataSource: dailyMealTypeNutrientConsumptions,
         xValueMapper: (c, _) =>
             c.mealType.localizedName(context.appLocalizations),
-        yValueMapper: (c, _) => c.drinksPercentage,
+        yValueMapper: (c, _) => c.drinksTotal * nutrient.scale,
         name: context.appLocalizations.drinks,
       ),
       StackedColumnSeries<DailyMealTypeNutrientConsumption, String>(
         dataSource: dailyMealTypeNutrientConsumptions,
         xValueMapper: (c, _) =>
             c.mealType.localizedName(context.appLocalizations),
-        yValueMapper: (c, _) => c.foodPercentage,
+        yValueMapper: (c, _) => c.foodTotal * nutrient.scale,
         name: context.appLocalizations.meals,
       ),
     ];

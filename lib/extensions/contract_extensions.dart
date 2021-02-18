@@ -31,21 +31,7 @@ String _formatAmount<T extends num>(T amount, String dim) {
 }
 
 String _getFormattedNutrient(Nutrient nutrient, int amount) {
-  switch (nutrient) {
-    case Nutrient.energy:
-      return _formatAmount(amount, 'kcal');
-    case Nutrient.liquids:
-      return _formatAmount(amount, 'g');
-    case Nutrient.proteins:
-    case Nutrient.sodium:
-    case Nutrient.potassium:
-    case Nutrient.phosphorus:
-    case Nutrient.fat:
-    case Nutrient.carbohydrate:
-      return _formatAmount(amount / 1000, 'g');
-  }
-  throw ArgumentError.value(
-      nutrient, 'nutrient', 'Unable to map nutrient to amount');
+  return _formatAmount(amount * nutrient.scale, nutrient.scaledDimension);
 }
 
 extension ProductExtensions on Product {
@@ -412,6 +398,33 @@ extension NutrientExtensions on Nutrient {
       'nutrient',
       'Unable to map nutrient to name',
     );
+  }
+
+  num get scale {
+    switch (this) {
+      case Nutrient.energy:
+      case Nutrient.liquids:
+        return 1;
+      default:
+        return 1e-3;
+    }
+  }
+
+  String get scaledDimension {
+    switch (this) {
+      case Nutrient.energy:
+        return 'kcal';
+      case Nutrient.liquids:
+      case Nutrient.proteins:
+      case Nutrient.sodium:
+      case Nutrient.potassium:
+      case Nutrient.phosphorus:
+      case Nutrient.fat:
+      case Nutrient.carbohydrate:
+        return 'g';
+    }
+    throw ArgumentError.value(
+        this, 'nutrient', 'Unable to map nutrient to dimension');
   }
 }
 
