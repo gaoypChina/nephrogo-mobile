@@ -31,10 +31,6 @@ String _formatAmount<T extends num>(T amount, String dim) {
   return '${amount.toStringAsFixed(precision)} $dim';
 }
 
-String _getFormattedNutrient(Nutrient nutrient, int amount) {
-  return _formatAmount(amount * nutrient.scale, nutrient.scaledDimension);
-}
-
 extension ProductExtensions on Product {
   num _getNutrientAmount(Nutrient nutrient) {
     switch (nutrient) {
@@ -67,8 +63,9 @@ extension ProductExtensions on Product {
   }
 
   String getFormattedTotalAmount(Nutrient nutrient, int amountG) {
-    return _getFormattedNutrient(
-        nutrient, _calculateTotalNutrientAmount(nutrient, amountG));
+    final nutrientAmount = _calculateTotalNutrientAmount(nutrient, amountG);
+
+    return nutrient.formatAmount(nutrientAmount);
   }
 
   int getNutrientNormPercentage(Nutrient nutrient, int amountG, int norm) {
@@ -291,7 +288,7 @@ extension DailyNutrientNormsWithTotalsExtensions
     final amount = getDailyNutrientConsumption(nutrient).total;
     assert(amount != null);
 
-    return _getFormattedNutrient(nutrient, amount);
+    return nutrient.formatAmount(amount);
   }
 
   String getNutrientNormFormatted(Nutrient nutrient) {
@@ -300,7 +297,7 @@ extension DailyNutrientNormsWithTotalsExtensions
       return null;
     }
 
-    return _getFormattedNutrient(nutrient, norm);
+    return nutrient.formatAmount(norm);
   }
 
   int getRoundedNormPercentage(Nutrient nutrient) {
@@ -360,7 +357,7 @@ extension IntakeExtension on Intake {
   String getNutrientAmountFormatted(Nutrient nutrient) {
     final amount = getNutrientAmount(nutrient);
 
-    return _getFormattedNutrient(nutrient, amount);
+    return nutrient.formatAmount(amount);
   }
 
   String getAmountFormatted() {
@@ -421,6 +418,10 @@ extension NutrientExtensions on Nutrient {
       'nutrient',
       'Unable to map nutrient to name',
     );
+  }
+
+  String formatAmount(int amount) {
+    return _formatAmount(amount * scale, scaledDimension);
   }
 
   num get scale {

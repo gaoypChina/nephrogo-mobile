@@ -289,10 +289,7 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
       showHeaderDivider: true,
       title: mealType.localizedName(context.appLocalizations),
       subtitle: intakes?.isNotEmpty ?? false
-          ? Text(
-              context.appLocalizations
-                  .consumptionDailyPercentage(_dailyPercentage.toString()),
-            )
+          ? Text(_getMealTotalText(context))
           : null,
       trailing: mealType != MealTypeEnum.unknown
           ? OutlinedButton(
@@ -319,17 +316,10 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
     );
   }
 
-  int get _dailyPercentage {
-    final total = dailyIntakesReport.intakes
-        .sumBy((i, e) => e.getNutrientAmount(nutrient));
+  String _getMealTotalText(BuildContext context) {
+    final total = intakes.sumBy((i, e) => e.getNutrientAmount(nutrient));
+    final formattedAmount = nutrient.formatAmount(total);
 
-    final totalThisMeal =
-        intakes.sumBy((i, e) => e.getNutrientAmount(nutrient));
-
-    if (total == 0) {
-      return 0;
-    }
-
-    return ((totalThisMeal / total) * 100).round();
+    return context.appLocalizations.consumptionWithoutNorm(formattedAmount);
   }
 }
