@@ -187,7 +187,7 @@ class IntakeWithNormsSection extends StatelessWidget {
 }
 
 class IntakeTile extends StatelessWidget {
-  static final dateFormat = DateFormat('E, d MMM HH:mm');
+  static final dateFormat = DateFormat('E, d MMM');
 
   final Intake intake;
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
@@ -201,9 +201,7 @@ class IntakeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppListTile(
       title: Text(intake.product.name),
-      subtitle: Text(
-        dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst(),
-      ),
+      subtitle: Text(_getSubtitleParts(context).join(" | ")),
       leading: ProductKindIcon(productKind: intake.product.productKind),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -224,10 +222,18 @@ class IntakeTile extends StatelessWidget {
       ),
     );
   }
+
+  Iterable<String> _getSubtitleParts(BuildContext context) sync* {
+    if (intake.mealType != MealTypeEnum.unknown) {
+      yield intake.mealType.localizedName(context.appLocalizations);
+    }
+
+    yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
+  }
 }
 
 class IntakeExpandableTile extends StatelessWidget {
-  static final dateFormat = DateFormat('E, d MMM HH:mm');
+  static final dateFormat = DateFormat('E, d MMM');
 
   final Intake intake;
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
@@ -247,7 +253,7 @@ class IntakeExpandableTile extends StatelessWidget {
       selectedColor: Colors.blue,
       child: AppExpansionTile(
         title: Text(intake.product.name),
-        subtitle: Text(_getSubtitleParts().join(" | ")),
+        subtitle: Text(_getSubtitleParts(context).join(" | ")),
         onLongPress:
             (intake.id != null) ? () => _showLongClickDialog(context) : null,
         initiallyExpanded: initiallyExpanded,
@@ -267,10 +273,13 @@ class IntakeExpandableTile extends StatelessWidget {
     );
   }
 
-  Iterable<String> _getSubtitleParts() sync* {
+  Iterable<String> _getSubtitleParts(BuildContext context) sync* {
     yield intake.getAmountFormatted();
 
     if (showDate) {
+      if (intake.mealType != MealTypeEnum.unknown) {
+        yield intake.mealType.localizedName(context.appLocalizations);
+      }
       yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
     }
   }
@@ -599,7 +608,7 @@ class NutrientDailyNutritionTile extends StatelessWidget {
 }
 
 class NutrientIntakeTile extends StatelessWidget {
-  final dateFormat = DateFormat('E, d MMM HH:mm');
+  final dateFormat = DateFormat('E, d MMM');
 
   final Intake intake;
   final Nutrient nutrient;
@@ -669,15 +678,22 @@ class NutrientIntakeTile extends StatelessWidget {
     return null;
   }
 
+  Iterable<String> _getFirstSubtitleLineParts(
+    AppLocalizations appLocalizations,
+  ) sync* {
+    yield intake.getAmountFormatted();
+
+    if (intake.mealType != MealTypeEnum.unknown) {
+      yield intake.mealType.localizedName(appLocalizations);
+    }
+    yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
+  }
+
   String _getSubtitle(AppLocalizations appLocalizations) {
-    final amount = intake.getAmountFormatted();
-    final date =
-        dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
+    final firstLine = _getFirstSubtitleLineParts(appLocalizations).join(' | ');
 
-    final intakeText = [amount, date].join(' | ');
-
-    return [intakeText, _getConsumptionText(appLocalizations)]
-        .where((t) => t != null)
+    return [firstLine, _getConsumptionText(appLocalizations)]
+        .where((t) => t != null && t.isNotEmpty)
         .join("\n");
   }
 }
