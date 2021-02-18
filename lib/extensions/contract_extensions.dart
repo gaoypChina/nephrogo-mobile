@@ -20,6 +20,7 @@ import 'package:nephrogo_api_client/model/swelling.dart';
 import 'package:nephrogo_api_client/model/swelling_difficulty_enum.dart';
 import 'package:nephrogo_api_client/model/swelling_enum.dart';
 import 'package:nephrogo_api_client/model/well_feeling_enum.dart';
+import 'package:tuple/tuple.dart';
 
 String _formatAmount<T extends num>(T amount, String dim) {
   var precision = 0;
@@ -159,6 +160,28 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
     builder.date = date;
 
     return builder.build();
+  }
+
+  Iterable<Tuple2<MealTypeEnum, List<Intake>>>
+      getIntakesGroupedByMealType() sync* {
+    final sortedIntakes = intakes.sortedBy((i) => i.consumedAt, reverse: true);
+    final groups = sortedIntakes.groupBy((intake) => intake.mealType);
+
+    final mealTypes = [
+      MealTypeEnum.dinner,
+      MealTypeEnum.lunch,
+      MealTypeEnum.breakfast,
+      MealTypeEnum.snack,
+      MealTypeEnum.unknown,
+    ];
+
+    for (final mealType in mealTypes) {
+      if (groups.containsKey(mealType)) {
+        yield Tuple2(mealType, groups[mealType]);
+      } else if (mealType != MealTypeEnum.unknown) {
+        yield Tuple2(mealType, []);
+      }
+    }
   }
 
   Iterable<DailyMealTypeNutrientConsumption> dailyMealTypeNutrientConsumptions({

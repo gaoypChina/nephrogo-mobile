@@ -162,16 +162,19 @@ class DailyIntakesReportSection extends StatelessWidget {
 class IntakeWithNormsSection extends StatelessWidget {
   final Intake intake;
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
+  final EdgeInsets margin;
 
   IntakeWithNormsSection(
     this.intake,
-    this.dailyNutrientNormsAndTotals,
-  ) : super(key: ObjectKey(intake));
+    this.dailyNutrientNormsAndTotals, {
+    this.margin,
+  }) : super(key: ObjectKey(intake));
 
   @override
   Widget build(BuildContext context) {
     return BasicSection(
       header: IntakeTile(intake, dailyNutrientNormsAndTotals),
+      margin: margin,
       showDividers: true,
       showHeaderDivider: true,
       children: [
@@ -224,11 +227,11 @@ class IntakeTile extends StatelessWidget {
   }
 
   Iterable<String> _getSubtitleParts(BuildContext context) sync* {
+    yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
+
     if (intake.mealType != MealTypeEnum.unknown) {
       yield intake.mealType.localizedName(context.appLocalizations);
     }
-
-    yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
   }
 }
 
@@ -277,10 +280,11 @@ class IntakeExpandableTile extends StatelessWidget {
     yield intake.getAmountFormatted();
 
     if (showDate) {
+      yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
+
       if (intake.mealType != MealTypeEnum.unknown) {
         yield intake.mealType.localizedName(context.appLocalizations);
       }
-      yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
     }
   }
 
@@ -683,10 +687,11 @@ class NutrientIntakeTile extends StatelessWidget {
   ) sync* {
     yield intake.getAmountFormatted();
 
+    yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
+
     if (intake.mealType != MealTypeEnum.unknown) {
       yield intake.mealType.localizedName(appLocalizations);
     }
-    yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
   }
 
   String _getSubtitle(AppLocalizations appLocalizations) {

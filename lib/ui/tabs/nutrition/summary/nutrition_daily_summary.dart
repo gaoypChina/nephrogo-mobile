@@ -15,9 +15,9 @@ import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
+import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/meal_type_enum.dart';
-import 'package:tuple/tuple.dart';
 
 import 'nutrition_summary_components.dart';
 
@@ -84,6 +84,11 @@ class _NutritionDailySummaryScreenState
             builder: (context, data) {
               final report = data?.dailyIntakesReport;
 
+              if (report == null || report.intakes.isEmpty) {
+                return NutritionDailyListWithHeaderEmpty(
+                    header: header, date: from);
+              }
+
               if (widget.nutrient != null) {
                 return _DailyNutritionNutrientList(
                   report,
@@ -91,10 +96,6 @@ class _NutritionDailySummaryScreenState
                   header: header,
                   date: from,
                 );
-              }
-
-              if (report == null || report.intakes.isEmpty) {
-                return NutritionListWithHeaderEmpty(header: header);
               }
 
               return _NutritionDailySummaryList(
@@ -135,13 +136,13 @@ class _NutritionDailySummaryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final norms = dailyIntakesReport.dailyNutrientNormsAndTotals;
-    final intakes = dailyIntakesReport.intakes
-        .sortedBy((i) => i.consumedAt, reverse: true)
-        .toList();
+
+    final groupedIntakes =
+        dailyIntakesReport.getIntakesGroupedByMealType().toList();
 
     return ListView.builder(
       padding: const EdgeInsets.only(bottom: 80),
-      itemCount: intakes.length + 1,
+      itemCount: groupedIntakes.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
           return DateSwitcherHeaderSection(
@@ -156,9 +157,60 @@ class _NutritionDailySummaryList extends StatelessWidget {
             ],
           );
         }
+        final group = groupedIntakes[index - 1];
 
-        return IntakeWithNormsSection(intakes[index - 1], norms);
+        return _NutritionDailySummaryListNutritionSection(
+          mealType: group.item1,
+          intakes: group.item2,
+          date: dailyIntakesReport.date.toDate(),
+          norms: norms,
+        );
       },
+    );
+  }
+}
+
+class _NutritionDailySummaryListNutritionSection extends StatelessWidget {
+  final MealTypeEnum mealType;
+  final List<Intake> intakes;
+  final DailyNutrientNormsWithTotals norms;
+  final Date date;
+
+  const _NutritionDailySummaryListNutritionSection({
+    Key key,
+    @required this.mealType,
+    @required this.intakes,
+    @required this.date,
+    @required this.norms,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LargeSection(
+      showDividers: true,
+      title: mealType.localizedName(context.appLocalizations),
+      trailing: mealType != MealTypeEnum.unknown
+          ? OutlinedButton(
+              onPressed: () => Navigator.pushNamed(
+                context,
+                Routes.routeProductSearch,
+                arguments: ProductSearchScreenArguments(
+                  ProductSearchType.choose,
+                  mealType,
+                  date: date,
+                ),
+              ),
+              child: Text(context.appLocalizations.create.toUpperCase()),
+            )
+          : null,
+      children: [
+        for (final intake in intakes)
+          IntakeWithNormsSection(
+            intake,
+            norms,
+            margin: EdgeInsets.zero,
+          )
+      ],
     );
   }
 }
@@ -175,16 +227,15 @@ class _DailyNutritionNutrientList extends StatelessWidget {
     Key key,
     @required this.header,
     @required this.date,
-  })  : assert(header != null),
+  })
+      : assert(header != null),
+        assert(dailyIntakesReport != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final intakes = dailyIntakesReport?.intakes
-            ?.sortedBy((i) => i.consumedAt, reverse: true) ??
-        [];
-
-    final groupedIntakes = _getGroupedIntakes(intakes).toList();
+    final groupedIntakes =
+        dailyIntakesReport.getIntakesGroupedByMealType().toList();
 
     return ListView.builder(
       itemCount: groupedIntakes.length + 1,
@@ -193,11 +244,10 @@ class _DailyNutritionNutrientList extends StatelessWidget {
           return DateSwitcherHeaderSection(
             header: header,
             children: [
-              if (dailyIntakesReport?.intakes?.isNotEmpty ?? false)
-                DailyMealTypeConsumptionColumnSeries(
-                  report: dailyIntakesReport,
-                  nutrient: nutrient,
-                ),
+              DailyMealTypeConsumptionColumnSeries(
+                report: dailyIntakesReport,
+                nutrient: nutrient,
+              ),
             ],
           );
         }
@@ -213,29 +263,6 @@ class _DailyNutritionNutrientList extends StatelessWidget {
         );
       },
     );
-  }
-
-  Iterable<Tuple2<MealTypeEnum, List<Intake>>> _getGroupedIntakes(
-    Iterable<Intake> intakes,
-  ) sync* {
-    final Map<MealTypeEnum, List<Intake>> groups =
-        intakes.groupBy((intake) => intake.mealType);
-
-    final mealTypes = [
-      MealTypeEnum.dinner,
-      MealTypeEnum.lunch,
-      MealTypeEnum.breakfast,
-      MealTypeEnum.snack,
-      MealTypeEnum.unknown,
-    ];
-
-    for (final mealType in mealTypes) {
-      if (groups.containsKey(mealType)) {
-        yield Tuple2(mealType, groups[mealType]);
-      } else if (mealType != MealTypeEnum.unknown) {
-        yield Tuple2(mealType, []);
-      }
-    }
   }
 }
 
