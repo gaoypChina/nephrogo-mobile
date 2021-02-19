@@ -1,3 +1,5 @@
+import 'models/date.dart';
+
 class Constants {
   Constants._();
 
@@ -12,4 +14,6 @@ class Constants {
   static const reportMissingProductUrl =
       'https://www.nephrogo.com/missing-product/';
   static const appStoreId = '1549505165';
+
+  static final earliestDate = Date(2021, 1, 1);
 }

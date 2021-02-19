@@ -180,7 +180,7 @@ class Routes {
               settings.arguments as WeeklyHealthStatusScreenArguments;
 
           return WeeklyHealthStatusScreen(
-            initialHealthIndicator: arguments.initialHealthIndicator,
+            healthIndicator: arguments.healthIndicator,
           );
         });
       default:

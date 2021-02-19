@@ -532,42 +532,36 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     );
   }
 
-  Iterable<String> getHealthIndicatorValuesFormatted(
+  Iterable<Tuple2<DateTime, String>> getHealthIndicatorValuesFormatted(
     HealthIndicator indicator,
     AppLocalizations appLocalizations,
   ) {
-    if (!isIndicatorExists(indicator)) {
+    if (!isIndicatorExists(indicator) && indicator.isMultiValuesPerDay) {
       return [];
     }
 
-    switch (indicator) {
-      case HealthIndicator.bloodPressure:
-        return bloodPressures.map((p) {
-          return '${p.systolicBloodPressure} / ${p.diastolicBloodPressure} mmHg';
-        });
-      case HealthIndicator.pulse:
-        return pulses.map((p) {
-          return '${p.pulse} ${appLocalizations.pulseDimension}';
-        });
-      case HealthIndicator.weight:
-      case HealthIndicator.glucose:
-      case HealthIndicator.urine:
-      case HealthIndicator.severityOfSwelling:
-      case HealthIndicator.swellings:
-      case HealthIndicator.wellBeing:
-      case HealthIndicator.appetite:
-      case HealthIndicator.shortnessOfBreath:
-        final formatted =
-            getHealthIndicatorFormatted(indicator, appLocalizations);
-        if (formatted == null) {
-          return [];
-        }
-        return [formatted];
+    if (indicator == HealthIndicator.bloodPressure) {
+      return bloodPressures.sortedBy((e) => e.measuredAt, reverse: true).map(
+        (p) {
+          final formatted =
+              '${p.systolicBloodPressure} / ${p.diastolicBloodPressure} mmHg';
+          return Tuple2(p.measuredAt, formatted);
+        },
+      );
     }
+    if (indicator == HealthIndicator.pulse) {
+      return pulses.sortedBy((e) => e.measuredAt, reverse: true).map(
+        (p) {
+          final formatted = '${p.pulse} ${appLocalizations.pulseDimension}';
+          return Tuple2(p.measuredAt, formatted);
+        },
+      );
+    }
+
     throw ArgumentError.value(
       this,
       'healthIndicator',
-      'Unable to map indicator to values',
+      'Unable to map indicator to multiple values. Does it support multi values ?',
     );
   }
 

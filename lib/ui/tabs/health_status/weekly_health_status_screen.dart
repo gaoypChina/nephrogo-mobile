@@ -2,126 +2,74 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
-import 'package:nephrogo/extensions/collection_extensions.dart';
-import 'package:nephrogo/extensions/contract_extensions.dart';
-import 'package:nephrogo/extensions/string_extensions.dart';
+import 'package:nephrogo/constants.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/charts/health_indicator_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
-import 'package:nephrogo/ui/general/weekly_pager.dart';
+import 'package:nephrogo/ui/general/period_pager.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
 
 class WeeklyHealthStatusScreenArguments {
-  final HealthIndicator initialHealthIndicator;
+  final HealthIndicator healthIndicator;
 
-  const WeeklyHealthStatusScreenArguments(this.initialHealthIndicator);
+  const WeeklyHealthStatusScreenArguments(this.healthIndicator);
 }
 
-class WeeklyHealthStatusScreen extends StatefulWidget {
-  final HealthIndicator initialHealthIndicator;
-
-  const WeeklyHealthStatusScreen({Key key, this.initialHealthIndicator})
-      : super(key: key);
-
-  @override
-  _WeeklyHealthStatusScreenState createState() =>
-      _WeeklyHealthStatusScreenState();
-}
-
-class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
-  ValueNotifier<HealthIndicator> healthIndicatorChangeNotifier;
-  HealthIndicator selectedHealthIndicator;
+class WeeklyHealthStatusScreen extends StatelessWidget {
+  final HealthIndicator healthIndicator;
 
   final ApiService _apiService = ApiService();
 
-  DateTime earliestDate;
-
-  @override
-  void initState() {
-    super.initState();
-
-    healthIndicatorChangeNotifier =
-        ValueNotifier(widget.initialHealthIndicator);
-    selectedHealthIndicator = widget.initialHealthIndicator;
-  }
+  WeeklyHealthStatusScreen({Key key, @required this.healthIndicator})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = context.appLocalizations;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(selectedHealthIndicator.name(appLocalizations)),
+        title: Text(healthIndicator.name(appLocalizations)),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showIndicatorSelectionPopupMenu(appLocalizations),
-        label: Text(appLocalizations.healthIndicator.toUpperCase()),
-        icon: const Icon(Icons.swap_horizontal_circle),
-      ),
-      body: WeeklyPager<HealthIndicator>(
-        valueChangeNotifier: healthIndicatorChangeNotifier,
-        earliestDate: () => earliestDate,
-        bodyBuilder: (from, to, indicator) {
+      body: WeeklyPager(
+        initialDate: Date.today(),
+        earliestDate: Constants.earliestDate,
+        bodyBuilder: (context, header, from, to) {
           return AppStreamBuilder<HealthStatusWeeklyScreenResponse>(
             stream: _apiService.getWeeklyHealthStatusReportsStream(from, to),
             builder: (context, data) {
-              earliestDate = data.earliestHealthStatusDate;
-
               final showChart = data.dailyHealthStatuses
-                  .any((s) => s.isIndicatorExists(indicator));
+                  .any((s) => s.isIndicatorExists(healthIndicator));
+              if (!showChart) {
+                return DateSwitcherHeaderSection(
+                  header: header,
+                  children: [
+                    EmptyStateContainer(
+                      text: appLocalizations.weeklyHealthStatusEmpty,
+                    )
+                  ],
+                );
+              }
 
-              return Visibility(
-                visible: showChart,
-                replacement: EmptyStateContainer(
-                  text: appLocalizations.weeklyHealthStatusEmpty,
-                ),
-                child: HealthIndicatorsListWithChart(
-                  dailyHealthStatuses: data.dailyHealthStatuses.toList(),
-                  healthIndicator: selectedHealthIndicator,
-                  from: from,
-                  to: to,
-                  appLocalizations: appLocalizations,
-                ),
+              return HealthIndicatorsListWithChart(
+                dailyHealthStatuses: data.dailyHealthStatuses.toList(),
+                header: header,
+                healthIndicator: healthIndicator,
+                from: from,
+                to: to,
+                appLocalizations: appLocalizations,
               );
             },
           );
         },
       ),
     );
-  }
-
-  void _changeHealthIndicator(HealthIndicator healthIndicator) {
-    setState(() {
-      selectedHealthIndicator = healthIndicator;
-      healthIndicatorChangeNotifier.value = healthIndicator;
-    });
-  }
-
-  Future _showIndicatorSelectionPopupMenu(
-      AppLocalizations appLocalizations) async {
-    final options = HealthIndicator.values.map((hi) {
-      return SimpleDialogOption(
-        onPressed: () => Navigator.pop(context, hi),
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-        child: Text(hi.name(appLocalizations)),
-      );
-    }).toList();
-
-    final selectedHealthIndicator = await showDialog<HealthIndicator>(
-      context: context,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          title: Text(appLocalizations.chooseHealthIndicator),
-          children: options,
-        );
-      },
-    );
-
-    if (selectedHealthIndicator != null) {
-      _changeHealthIndicator(selectedHealthIndicator);
-    }
   }
 }
 
@@ -131,6 +79,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
   final AppLocalizations appLocalizations;
   final DateTime from;
   final DateTime to;
+  final Widget header;
 
   const HealthIndicatorsListWithChart({
     Key key,
@@ -139,43 +88,105 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
     @required this.appLocalizations,
     @required this.from,
     @required this.to,
+    @required this.header,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final sortedHealthStatusesWithIndicators = dailyHealthStatuses
+        .where((dhs) => dhs.isIndicatorExists(healthIndicator))
+        .sortedBy((e) => e.date, reverse: true)
+        .toList();
+
     return Scrollbar(
-      child: ListView(
-        padding: const EdgeInsets.only(bottom: 64),
-        children: [
-          BasicSection(
-            children: [
-              HealthIndicatorBarChart(
-                dailyHealthStatuses: dailyHealthStatuses,
-                indicator: healthIndicator,
-                appLocalizations: appLocalizations,
-                from: from,
-                to: to,
-              ),
-            ],
-          ),
-          BasicSection(
-            showDividers: true,
-            children: _buildIndicatorTiles(),
-          ),
-        ],
+      child: ListView.builder(
+        itemCount: sortedHealthStatusesWithIndicators.length + 1,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return DateSwitcherHeaderSection(
+              header: header,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: HealthIndicatorBarChart(
+                    dailyHealthStatuses: dailyHealthStatuses,
+                    indicator: healthIndicator,
+                    appLocalizations: appLocalizations,
+                    from: from,
+                    to: to,
+                  ),
+                ),
+              ],
+            );
+          }
+
+          final dailyHealthStatus =
+              sortedHealthStatusesWithIndicators[index - 1];
+
+          return _buildSection(dailyHealthStatus);
+        },
       ),
     );
   }
 
-  List<Widget> _buildIndicatorTiles() {
-    return dailyHealthStatuses
-        .where((dhs) => dhs.isIndicatorExists(healthIndicator))
-        .sortedBy((e) => e.date, reverse: true)
-        .map((dhs) => DailyHealthStatusIndicatorTile(
-              dailyHealthStatus: dhs,
-              indicator: healthIndicator,
-            ))
-        .toList();
+  Widget _buildSection(DailyHealthStatus dailyHealthStatus) {
+    if (healthIndicator.isMultiValuesPerDay) {
+      return DailyHealthStatusIndicatorMultiValueSection(
+        dailyHealthStatus: dailyHealthStatus,
+        indicator: healthIndicator,
+      );
+    }
+
+    return BasicSection(
+      showDividers: true,
+      children: [
+        DailyHealthStatusIndicatorTile(
+          dailyHealthStatus: dailyHealthStatus,
+          indicator: healthIndicator,
+        )
+      ],
+    );
+  }
+}
+
+class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
+  final dateFormat = DateFormat('EEEE, MMMM d');
+  final fullDateFormat = DateFormat.yMd().add_jm();
+
+  final DailyHealthStatus dailyHealthStatus;
+  final HealthIndicator indicator;
+
+  DailyHealthStatusIndicatorMultiValueSection({
+    Key key,
+    @required this.dailyHealthStatus,
+    @required this.indicator,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final date = dailyHealthStatus.date.toLocal();
+    final values = dailyHealthStatus.getHealthIndicatorValuesFormatted(
+      indicator,
+      context.appLocalizations,
+    );
+
+    return BasicSection(
+      header: AppListTile(
+        title: Text(dateFormat.format(date).capitalizeFirst()),
+        subtitle: Text(indicator.name(context.appLocalizations)),
+        leading: CircleAvatar(child: Text(date.day.toString())),
+      ),
+      showDividers: true,
+      showHeaderDivider: true,
+      children: [
+        for (final value in values)
+          AppListTile(
+            title: Text(fullDateFormat.format(value.item1)),
+            trailing: Text(value.item2),
+            dense: true,
+          )
+      ],
+    );
   }
 }
 
