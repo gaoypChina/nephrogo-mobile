@@ -775,6 +775,54 @@ extension HealthIndicatorExtensions on HealthIndicator {
       'Unable to map indicator to name',
     );
   }
+
+  int get decimalPlaces {
+    switch (this) {
+      case HealthIndicator.bloodPressure:
+        return 0;
+      case HealthIndicator.weight:
+        return 1;
+      case HealthIndicator.glucose:
+        return 2;
+      case HealthIndicator.urine:
+        return 1;
+      case HealthIndicator.severityOfSwelling:
+      case HealthIndicator.swellings:
+      case HealthIndicator.wellBeing:
+      case HealthIndicator.appetite:
+      case HealthIndicator.shortnessOfBreath:
+        return 1;
+    }
+    throw ArgumentError.value(
+      this,
+      'healthIndicator',
+      'Unable to map indicator to name',
+    );
+  }
+
+  String dimension(AppLocalizations appLocalizations) {
+    switch (this) {
+      case HealthIndicator.bloodPressure:
+        return "mmHg";
+      case HealthIndicator.weight:
+        return "kg";
+      case HealthIndicator.glucose:
+        return "mmol/l";
+      case HealthIndicator.urine:
+        return "ml";
+      case HealthIndicator.severityOfSwelling:
+      case HealthIndicator.swellings:
+      case HealthIndicator.wellBeing:
+      case HealthIndicator.appetite:
+      case HealthIndicator.shortnessOfBreath:
+        return null;
+    }
+    throw ArgumentError.value(
+      this,
+      'healthIndicator',
+      'Unable to map indicator to name',
+    );
+  }
 }
 
 extension EnumClassExtensions<E extends EnumClass> on E {

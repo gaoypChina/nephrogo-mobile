@@ -7,7 +7,7 @@ import 'package:nephrogo/extensions/contract_extensions.dart';
 import 'package:nephrogo/extensions/string_extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo/ui/charts/weekly_health_indicator_bar_chart.dart';
+import 'package:nephrogo/ui/charts/health_indicator_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/weekly_pager.dart';
@@ -149,11 +149,12 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
         children: [
           BasicSection(
             children: [
-              HealthIndicatorWeeklyBarChart(
+              HealthIndicatorBarChart(
                 dailyHealthStatuses: dailyHealthStatuses,
                 indicator: healthIndicator,
                 appLocalizations: appLocalizations,
-                maximumDate: to,
+                from: from,
+                to: to,
               ),
             ],
           ),

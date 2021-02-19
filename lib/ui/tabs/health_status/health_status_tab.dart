@@ -5,11 +5,9 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
-import 'package:nephrogo/ui/charts/blood_pressure_chart.dart';
-import 'package:nephrogo/ui/charts/weekly_health_indicator_bar_chart.dart';
+import 'package:nephrogo/ui/charts/health_indicator_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/health_status_screen_response.dart';
 
 import 'health_status_components.dart';
@@ -104,32 +102,15 @@ class HealthIndicatorsTabBody extends StatelessWidget {
       ),
       children: [
         if (hasReports)
-          _getIndicatorChart(
-            context,
-            healthStatusScreenResponse.dailyHealthStatuses,
-            indicator,
+          HealthIndicatorBarChart(
+            dailyHealthStatuses:
+                healthStatusScreenResponse.dailyHealthStatuses.toList(),
+            indicator: indicator,
+            from: Date.today().subtract(const Duration(days: 6)),
+            to: now,
+            appLocalizations: appLocalizations,
           )
       ],
-    );
-  }
-
-  Widget _getIndicatorChart(
-    BuildContext context,
-    Iterable<DailyHealthStatus> dailyHealthStatuses,
-    HealthIndicator indicator,
-  ) {
-    if (indicator == HealthIndicator.bloodPressure) {
-      final bloodPressures =
-          dailyHealthStatuses.expand((s) => s.bloodPressures).toList();
-
-      return BloodPressureChart(bloodPressures: bloodPressures);
-    }
-
-    return HealthIndicatorWeeklyBarChart(
-      dailyHealthStatuses: dailyHealthStatuses.toList(),
-      indicator: indicator,
-      maximumDate: now,
-      appLocalizations: context.appLocalizations,
     );
   }
 }
