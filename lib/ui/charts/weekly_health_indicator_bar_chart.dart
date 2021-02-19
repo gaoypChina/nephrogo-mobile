@@ -81,21 +81,10 @@ class HealthIndicatorWeeklyBarChart extends StatelessWidget {
       final dailyTotalFormatted =
           dhs.getHealthIndicatorFormatted(indicator, appLocalizations);
 
-      List<AppBarChartRodStackItem> rodStackItems;
-      if (y != null && indicator == HealthIndicator.bloodPressure) {
-        rodStackItems = [
-          AppBarChartRodStackItem(
-              0, dhs.diastolicBloodPressure.toDouble(), Colors.orange),
-          AppBarChartRodStackItem(dhs.diastolicBloodPressure.toDouble(),
-              dhs.systolicBloodPressure.toDouble() - 1, Colors.teal),
-        ];
-      }
-
       final rod = AppBarChartRod(
         tooltip: '$dateFormatted\n$dailyTotalFormatted',
         y: y,
         barColor: _getColor(y),
-        rodStackItems: rodStackItems,
       );
 
       return AppBarChartGroup(

@@ -500,7 +500,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
   bool isIndicatorExists(HealthIndicator indicator) {
     switch (indicator) {
       case HealthIndicator.bloodPressure:
-        return diastolicBloodPressure != null && systolicBloodPressure != null;
+        return bloodPressures.isNotEmpty;
       case HealthIndicator.weight:
         return weightKg != null;
       case HealthIndicator.glucose:
@@ -538,7 +538,9 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
 
     switch (indicator) {
       case HealthIndicator.bloodPressure:
-        return '$systolicBloodPressure / $diastolicBloodPressure mmHg';
+        final latestBloodPressure =
+            bloodPressures.maxBy((_, p) => p.measuredAt);
+        return '${latestBloodPressure.systolicBloodPressure} / ${latestBloodPressure.diastolicBloodPressure} mmHg';
       case HealthIndicator.weight:
         return '$weightKg kg';
       case HealthIndicator.glucose:
@@ -644,7 +646,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
 
     switch (indicator) {
       case HealthIndicator.bloodPressure:
-        return systolicBloodPressure;
+        throw ArgumentError(
+            "Unable to get blood pressure indicator value. Please use different method");
       case HealthIndicator.weight:
         return weightKg;
       case HealthIndicator.glucose:

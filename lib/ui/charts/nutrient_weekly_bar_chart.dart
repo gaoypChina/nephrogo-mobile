@@ -60,7 +60,7 @@ class NutrientWeeklyBarChart extends StatelessWidget {
         ?.toDouble();
 
     final maximumAmount =
-        dailyNutrientConsumptions.map((c) => c.total).max?.toDouble();
+        dailyNutrientConsumptions.map((c) => c.total).max()?.toDouble();
 
     assert(maximumAmount != null, 'Maximum amount can not be null');
 

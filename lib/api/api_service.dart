@@ -15,6 +15,8 @@ import 'package:nephrogo_api_client/api/general_recommendations_api.dart';
 import 'package:nephrogo_api_client/api/health_status_api.dart';
 import 'package:nephrogo_api_client/api/nutrition_api.dart';
 import 'package:nephrogo_api_client/api/user_api.dart';
+import 'package:nephrogo_api_client/model/blood_pressure.dart';
+import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
@@ -28,6 +30,8 @@ import 'package:nephrogo_api_client/model/meal_type_enum.dart';
 import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
 import 'package:nephrogo_api_client/model/nutrition_screen_v2_response.dart';
 import 'package:nephrogo_api_client/model/product_search_response.dart';
+import 'package:nephrogo_api_client/model/pulse.dart';
+import 'package:nephrogo_api_client/model/pulse_request.dart';
 import 'package:nephrogo_api_client/model/user.dart';
 import 'package:nephrogo_api_client/model/user_app_review.dart';
 import 'package:nephrogo_api_client/model/user_profile.dart';
@@ -337,6 +341,30 @@ class ApiService {
     return _buildAppEventsStreamWithInitialEmit(
             _AppStateChangeEvent.healthStatus)
         .asyncMap((_) => getWeeklyHealthStatusReport(from, to));
+  }
+
+  Future<BloodPressure> createBloodPressure(
+    BloodPressureRequest bloodPressureRequest,
+  ) {
+    return _healthStatusApi
+        .healthStatusBloodPressureCreate(bloodPressureRequest)
+        .then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+
+        return r.data;
+      },
+    );
+  }
+
+  Future<Pulse> createPulse(PulseRequest pulseRequest) {
+    return _healthStatusApi.healthStatusPulseCreate(pulseRequest).then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+
+        return r.data;
+      },
+    );
   }
 
   Future dispose() async {

@@ -79,8 +79,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       appBar: AppBar(
         title: Text(_appLocalizations.userProfileScreenTitle),
         actions: [
-          TextButton(
-            style: TextButton.styleFrom(primary: Colors.white),
+          AppBarTextButton(
             onPressed: () => validateAndSaveUserProfile(context),
             child: Text(appLocalizations.save.toUpperCase()),
           ),

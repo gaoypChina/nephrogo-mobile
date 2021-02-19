@@ -11,6 +11,7 @@ import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo_api_client/model/health_status_screen_response.dart';
 
+import 'health_status_components.dart';
 import 'weekly_health_status_screen.dart';
 
 class HealthStatusTab extends StatefulWidget {
@@ -22,24 +23,9 @@ class _HealthStatusTabState extends State<HealthStatusTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _createHealthStatus,
-        label: Text(
-          AppLocalizations.of(context)
-              .weeklyNutrientsCreateHealthIndicators
-              .toUpperCase(),
-        ),
-        icon: const Icon(Icons.add),
-      ),
+      floatingActionButton: HealthStatusCreationFloatingActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: HealthIndicatorsTabBody(),
-    );
-  }
-
-  Future _createHealthStatus() {
-    return Navigator.pushNamed(
-      context,
-      Routes.routeHealthStatusCreation,
     );
   }
 }
@@ -48,11 +34,13 @@ class HealthIndicatorsTabBody extends StatelessWidget {
   final apiService = ApiService();
   final now = DateTime.now();
 
-  static const healthIndicators = HealthIndicator.values;
-
   @override
   Widget build(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
+
+    final healthIndicators = HealthIndicator.values
+        .where((e) => e != HealthIndicator.bloodPressure)
+        .toList();
 
     return AppStreamBuilder<HealthStatusScreenResponse>(
       stream: apiService.getHealthStatusScreenStream(),

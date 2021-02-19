@@ -40,6 +40,8 @@ class AppTextFormField extends StatelessWidget {
   final bool obscureText;
   final Iterable<String> autofillHints;
   final TextInputAction textInputAction;
+  final VoidCallback onEditingComplete;
+  final ValueChanged<String> onFieldSubmitted;
 
   const AppTextFormField({
     Key key,
@@ -65,6 +67,8 @@ class AppTextFormField extends StatelessWidget {
     this.autofillHints,
     this.textInputAction,
     this.focusNode,
+    this.onEditingComplete,
+    this.onFieldSubmitted,
   }) : super(key: key);
 
   @override
@@ -96,6 +100,8 @@ class AppTextFormField extends StatelessWidget {
         obscureText: obscureText,
         onTap: onTap,
         textInputAction: textInputAction,
+        onEditingComplete: onEditingComplete,
+        onFieldSubmitted: onFieldSubmitted,
         autovalidateMode: AutovalidateMode.onUserInteraction,
       ),
     );
@@ -535,6 +541,7 @@ class AppIntegerFormField extends StatelessWidget {
   final String suffixText;
   final bool autoFocus;
   final FocusNode focusNode;
+  final TextInputAction textInputAction;
 
   const AppIntegerFormField({
     Key key,
@@ -549,6 +556,7 @@ class AppIntegerFormField extends StatelessWidget {
     this.onChanged,
     this.focusNode,
     this.autoFocus = false,
+    this.textInputAction,
   }) : super(key: key);
 
   @override
@@ -567,6 +575,7 @@ class AppIntegerFormField extends StatelessWidget {
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       suffixText: suffixText,
       focusNode: focusNode,
+      textInputAction: textInputAction,
     );
   }
 

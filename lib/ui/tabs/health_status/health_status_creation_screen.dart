@@ -60,8 +60,7 @@ class _HealthStatusCreationScreenState
       appBar: AppBar(
         title: Text(_appLocalizations.healthStatusCreationTodayTitle),
         actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(primary: Colors.white),
+          AppBarTextButton(
             onPressed: () => validateAndSave(context),
             child: Text(appLocalizations.save.toUpperCase()),
           ),
@@ -87,46 +86,6 @@ class _HealthStatusCreationScreenState
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              SmallSection(
-                title: _appLocalizations.healthStatusCreationBloodPressure,
-                children: [
-                  Row(
-                    children: [
-                      Flexible(
-                        child: AppIntegerFormField(
-                          labelText:
-                              _appLocalizations.healthStatusCreationSystolic,
-                          suffixText: 'mmHg',
-                          validator: formValidators.numRangeValidator(0, 350),
-                          initialValue:
-                              _initialHealthStatus?.systolicBloodPressure,
-                          onSaved: (value) {
-                            _healthStatusBuilder.systolicBloodPressure = value;
-                          },
-                        ),
-                      ),
-                      Flexible(
-                        child: AppIntegerFormField(
-                          labelText:
-                              _appLocalizations.healthStatusCreationDiastolic,
-                          suffixText: 'mmHg',
-                          validator: formValidators.numRangeValidator(0, 200),
-                          initialValue:
-                              _initialHealthStatus?.diastolicBloodPressure,
-                          onSaved: (value) {
-                            _healthStatusBuilder.diastolicBloodPressure = value;
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(_appLocalizations
-                        .healthStatusCreationBloodPressureHelper),
-                  ),
-                ],
-              ),
               SmallSection(
                 title: _appLocalizations.healthStatusCreationSectionGeneralInfo,
                 children: [

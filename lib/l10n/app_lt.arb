@@ -62,6 +62,10 @@
   "@optionally": {},
   "mandatory": "Privalomi",
   "@mandatory": {},
+  "bloodPressureAndPulse": "Kraujo spaudimas ir pulsas",
+  "@bloodPressureAndPulse": {},
+  "otherHealthStatusIndicators": "Kiti sveikatos rodikliai",
+  "@otherHealthStatusIndicators": {},
   "conditionsExplanation": "Norėdami naudotis NephroGo būtinai turite sutikti su visomis privalomomis sąlygomis.",
   "@conditionsExplanation": {},
   "loginConditionsAgree": "Susipažinau su",
@@ -625,11 +629,17 @@
   "@ageSuffix": {
     "context": "userProfile"
   },
+  "pulse": "Pulsas",
+  "@pulse": {},
+  "pulseDimension": "k/min",
+  "@pulseDimension": {},
+  "measureDateAndTime": "Matavimo data ir laikas",
+  "@measureDateAndTime": {},
   "healthStatusCreationTodayTitle": "Šiandienos sveikatos rodikliai",
   "@healthStatusCreationTodayTitle": {
     "context": "healthStatusCreation"
   },
-  "healthStatusCreationBloodPressure": "Kraujo spaudimas",
+  "healthStatusCreationBloodPressure": "Arterinis kraujo spaudimas",
   "@healthStatusCreationBloodPressure": {
     "context": "healthStatusCreation"
   },

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/ui/authentication/email_password_login_screen.dart';
+import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/nutrition/intake_edit.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 
@@ -40,6 +41,8 @@ class Routes {
 
   static const routeWeeklyHealthStatusScreen = 'weeklyHealthStatusScreen';
   static const routeHealthStatusCreation = 'healthStatusCreation';
+  static const routeBloodPressureAndPulseCreation =
+      'bloodPressureAndPulseCreation';
 
   static const routeUserProfile = 'userProfile';
   static const routeGeneralRecommendations = 'generalRecommendations';
@@ -132,6 +135,10 @@ class Routes {
       case routeHealthStatusCreation:
         return MaterialPageRoute(builder: (context) {
           return HealthStatusCreationScreen();
+        });
+      case routeBloodPressureAndPulseCreation:
+        return MaterialPageRoute(builder: (context) {
+          return BloodPressureAndPulseCreationScreen();
         });
       case routeGeneralRecommendations:
         return MaterialPageRoute(builder: (context) {

@@ -104,7 +104,7 @@ class _AppBarChart extends State<AppBarChart> {
 
   double _calculateInterval() {
     var range = widget.data.maxY;
-    range ??= widget.data.groups.expand((e) => e.rods.map((e) => e.y)).max;
+    range ??= widget.data.groups.expand((e) => e.rods.map((e) => e.y)).max();
 
     if (range == null) {
       return null;

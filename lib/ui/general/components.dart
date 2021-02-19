@@ -133,6 +133,7 @@ class SmallSection extends StatelessWidget {
   final Widget trailing;
   final List<Widget> children;
   final bool showDividers;
+  final EdgeInsets innerPadding;
 
   const SmallSection({
     Key key,
@@ -140,6 +141,7 @@ class SmallSection extends StatelessWidget {
     @required this.children,
     this.trailing,
     this.showDividers = false,
+    this.innerPadding = const EdgeInsets.only(bottom: 4),
   }) : super(key: key);
 
   @override
@@ -157,6 +159,7 @@ class SmallSection extends StatelessWidget {
         trailing: trailing,
         dense: true,
       ),
+      innerPadding: innerPadding,
       children: children,
     );
   }
@@ -394,6 +397,26 @@ class EmptyStateContainer extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class AppBarTextButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final Widget child;
+
+  const AppBarTextButton({
+    Key key,
+    @required this.onPressed,
+    @required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      style: TextButton.styleFrom(primary: Colors.white),
+      onPressed: onPressed,
+      child: child,
     );
   }
 }

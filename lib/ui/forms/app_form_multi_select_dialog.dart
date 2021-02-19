@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nephrogo/extensions/collection_extensions.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
