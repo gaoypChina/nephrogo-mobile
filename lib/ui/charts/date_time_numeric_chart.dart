@@ -13,6 +13,7 @@ class DateTimeNumericChart extends StatelessWidget {
   final int decimalPlaces;
   final double interval;
   final double maximumY;
+  final LegendPosition legendPosition;
 
   const DateTimeNumericChart({
     Key key,
@@ -26,6 +27,7 @@ class DateTimeNumericChart extends StatelessWidget {
     this.decimalPlaces,
     this.interval,
     this.maximumY,
+    this.legendPosition = LegendPosition.top,
   }) : super(key: key);
 
   @override
@@ -35,7 +37,7 @@ class DateTimeNumericChart extends StatelessWidget {
       plotAreaBorderWidth: 0,
       legend: Legend(
         isVisible: showLegend,
-        position: LegendPosition.top,
+        position: legendPosition,
       ),
       primaryXAxis: _getDateTimeAxis(),
       primaryYAxis: NumericAxis(

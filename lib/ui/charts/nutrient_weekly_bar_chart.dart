@@ -24,6 +24,15 @@ class NutrientWeeklyBarChart extends StatelessWidget {
     @required this.maximumDate,
   }) : super(key: key);
 
+  double get _dailyNorm {
+    return dailyIntakeLightReports
+        .maxBy((index, e) => e.date)
+        ?.nutrientNormsAndTotals
+        ?.getDailyNutrientConsumption(nutrient)
+        ?.norm
+        ?.toDouble();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AspectRatio(aspectRatio: 1.5, child: _cherChart(context));
@@ -40,6 +49,8 @@ class NutrientWeeklyBarChart extends StatelessWidget {
       from: minimumDate,
       to: maximumDate,
       decimalPlaces: nutrient.decimalPlaces,
+      legendPosition: LegendPosition.bottom,
+      showLegend: _dailyNorm != null,
     );
   }
 
@@ -67,18 +78,11 @@ class NutrientWeeklyBarChart extends StatelessWidget {
   }
 
   XyDataSeries _getDailyNormLineSeries(BuildContext context) {
-    final dailyNorm = dailyIntakeLightReports
-        .maxBy((index, e) => e.date)
-        ?.nutrientNormsAndTotals
-        ?.getDailyNutrientConsumption(nutrient)
-        ?.norm
-        ?.toDouble();
-
-    if (dailyNorm == null) {
+    if (_dailyNorm == null) {
       return null;
     }
 
-    final scaledDailyNorm = dailyNorm * nutrient.scale;
+    final scaledDailyNorm = _dailyNorm * nutrient.scale;
     final dates = DateUtils.generateDates(
       minimumDate.subtract(const Duration(days: 1)).toDate(),
       maximumDate.add(const Duration(days: 1)).toDate(),
