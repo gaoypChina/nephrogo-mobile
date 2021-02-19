@@ -639,7 +639,7 @@
   "@healthStatusCreationTodayTitle": {
     "context": "healthStatusCreation"
   },
-  "healthStatusCreationBloodPressure": "Arterinis kraujo spaudimas",
+  "healthStatusCreationBloodPressure": "Kraujo spaudimas",
   "@healthStatusCreationBloodPressure": {
     "context": "healthStatusCreation"
   },
