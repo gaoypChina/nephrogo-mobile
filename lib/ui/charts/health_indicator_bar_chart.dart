@@ -29,33 +29,29 @@ class HealthIndicatorBarChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1.5,
-      child: _getChart(context),
-    );
-  }
-
-  Widget _getChart(BuildContext context) {
-    return DateTimeNumericChart(
-      series: _getGraphSeries(context),
-      showLegend: false,
-      yAxisText: _getIndicatorNameAndDimensionParts().join(", "),
-      from: from,
-      to: to,
-      decimalPlaces: indicator.decimalPlaces,
-      interval: _getInterval(),
-      maximumY: _getMaxY(),
-      isMultiValuesPerDay: indicator.isMultiValuesPerDay,
+      child: DateTimeNumericChart(
+        series: _getGraphSeries(context),
+        showLegend: false,
+        yAxisText: _getIndicatorNameAndDimensionParts().join(", "),
+        from: from,
+        to: to,
+        decimalPlaces: indicator.decimalPlaces,
+        interval: _getInterval(),
+        maximumY: _getMaxY(),
+        isMultiValuesPerDay: indicator.isMultiValuesPerDay,
+      ),
     );
   }
 
   List<XyDataSeries> _getGraphSeries(BuildContext context) {
-    if (indicator == HealthIndicator.bloodPressure) {
-      return _getBloodPressureSeries(context);
+    switch (indicator) {
+      case HealthIndicator.bloodPressure:
+        return _getBloodPressureSeries(context);
+      case HealthIndicator.pulse:
+        return _getPulseSeries(context);
+      default:
+        return _getDefaultColumnSeries(context);
     }
-    if (indicator == HealthIndicator.pulse) {
-      return _getPulseSeries(context);
-    }
-
-    return _getDefaultColumnSeries(context);
   }
 
   List<XyDataSeries> _getBloodPressureSeries(BuildContext context) {
@@ -67,7 +63,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
     return [
       RangeAreaSeries<BloodPressure, DateTime>(
         dataSource: sortedBloodPressures,
-        xValueMapper: (c, _) => c.measuredAt,
+        xValueMapper: (c, _) => c.measuredAt.toLocal(),
         lowValueMapper: (c, _) => c.diastolicBloodPressure,
         highValueMapper: (c, _) => c.systolicBloodPressure,
         borderDrawMode: RangeAreaBorderMode.excludeSides,
@@ -75,7 +71,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
         borderWidth: 2,
         opacity: 0.5,
         borderColor: const Color.fromRGBO(75, 135, 185, 1),
-        // color: Colors.teal,
+        name: context.appLocalizations.healthStatusCreationBloodPressure,
       ),
     ];
   }
@@ -89,7 +85,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
     return [
       AreaSeries<Pulse, DateTime>(
         dataSource: sortedPulses,
-        xValueMapper: (c, _) => c.measuredAt,
+        xValueMapper: (c, _) => c.measuredAt.toLocal(),
         yValueMapper: (c, _) => c.pulse,
         name: context.appLocalizations.pulse,
         markerSettings: MarkerSettings(isVisible: true),

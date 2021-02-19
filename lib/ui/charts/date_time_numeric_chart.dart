@@ -46,6 +46,7 @@ class DateTimeNumericChart extends StatelessWidget {
       legend: Legend(
         isVisible: showLegend,
         position: legendPosition,
+        overflowMode: LegendItemOverflowMode.wrap,
       ),
       primaryXAxis: _getDateTimeAxis(),
       primaryYAxis: NumericAxis(
