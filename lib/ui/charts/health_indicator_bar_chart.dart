@@ -5,6 +5,7 @@ import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
 
 import 'blood_pressure_chart.dart';
+import 'pulse_chart.dart';
 import 'regular_single_bar_chart.dart';
 
 class HealthIndicatorBarChart extends StatelessWidget {
@@ -37,6 +38,11 @@ class HealthIndicatorBarChart extends StatelessWidget {
           dailyHealthStatuses.expand((s) => s.bloodPressures).toList();
 
       return BloodPressureChart(bloodPressures: bloodPressures);
+    }
+    if (indicator == HealthIndicator.pulse) {
+      final pulses = dailyHealthStatuses.expand((s) => s.pulses).toList();
+
+      return PulseChart(pulses: pulses);
     }
 
     return RegularSingleColumnChart<DailyHealthStatus>(

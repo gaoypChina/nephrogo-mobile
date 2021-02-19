@@ -16,6 +16,7 @@ enum Nutrient {
 
 enum HealthIndicator {
   bloodPressure,
+  pulse,
   weight,
   urine,
   glucose,

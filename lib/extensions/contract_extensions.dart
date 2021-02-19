@@ -501,6 +501,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     switch (indicator) {
       case HealthIndicator.bloodPressure:
         return bloodPressures.isNotEmpty;
+      case HealthIndicator.pulse:
+        return pulses.isNotEmpty;
       case HealthIndicator.weight:
         return weightKg != null;
       case HealthIndicator.glucose:
@@ -530,8 +532,49 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     );
   }
 
+  Iterable<String> getHealthIndicatorValuesFormatted(
+    HealthIndicator indicator,
+    AppLocalizations appLocalizations,
+  ) {
+    if (!isIndicatorExists(indicator)) {
+      return [];
+    }
+
+    switch (indicator) {
+      case HealthIndicator.bloodPressure:
+        return bloodPressures.map((p) {
+          return '${p.systolicBloodPressure} / ${p.diastolicBloodPressure} mmHg';
+        });
+      case HealthIndicator.pulse:
+        return pulses.map((p) {
+          return '${p.pulse} ${appLocalizations.pulseDimension}';
+        });
+      case HealthIndicator.weight:
+      case HealthIndicator.glucose:
+      case HealthIndicator.urine:
+      case HealthIndicator.severityOfSwelling:
+      case HealthIndicator.swellings:
+      case HealthIndicator.wellBeing:
+      case HealthIndicator.appetite:
+      case HealthIndicator.shortnessOfBreath:
+        final formatted =
+            getHealthIndicatorFormatted(indicator, appLocalizations);
+        if (formatted == null) {
+          return [];
+        }
+        return [formatted];
+    }
+    throw ArgumentError.value(
+      this,
+      'healthIndicator',
+      'Unable to map indicator to values',
+    );
+  }
+
   String getHealthIndicatorFormatted(
-      HealthIndicator indicator, AppLocalizations appLocalizations) {
+    HealthIndicator indicator,
+    AppLocalizations appLocalizations,
+  ) {
     if (!isIndicatorExists(indicator)) {
       return null;
     }
@@ -541,6 +584,9 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         final latestBloodPressure =
             bloodPressures.maxBy((_, p) => p.measuredAt);
         return '${latestBloodPressure.systolicBloodPressure} / ${latestBloodPressure.diastolicBloodPressure} mmHg';
+      case HealthIndicator.pulse:
+        final latestPulse = pulses.maxBy((_, p) => p.measuredAt);
+        return '${latestPulse.pulse} ${appLocalizations.pulseDimension}';
       case HealthIndicator.weight:
         return '$weightKg kg';
       case HealthIndicator.glucose:
@@ -648,6 +694,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       case HealthIndicator.bloodPressure:
         throw ArgumentError(
             "Unable to get blood pressure indicator value. Please use different method");
+      case HealthIndicator.pulse:
+        return pulses.maxBy((_, p) => p.measuredAt).pulse;
       case HealthIndicator.weight:
         return weightKg;
       case HealthIndicator.glucose:
@@ -752,6 +800,8 @@ extension HealthIndicatorExtensions on HealthIndicator {
     switch (this) {
       case HealthIndicator.bloodPressure:
         return appLocalizations.healthStatusCreationBloodPressure;
+      case HealthIndicator.pulse:
+        return appLocalizations.pulse;
       case HealthIndicator.weight:
         return appLocalizations.weight;
       case HealthIndicator.glucose:
@@ -776,9 +826,32 @@ extension HealthIndicatorExtensions on HealthIndicator {
     );
   }
 
+  bool get isMultiValuesPerDay {
+    switch (this) {
+      case HealthIndicator.bloodPressure:
+      case HealthIndicator.pulse:
+        return true;
+      case HealthIndicator.weight:
+      case HealthIndicator.glucose:
+      case HealthIndicator.urine:
+      case HealthIndicator.severityOfSwelling:
+      case HealthIndicator.swellings:
+      case HealthIndicator.wellBeing:
+      case HealthIndicator.appetite:
+      case HealthIndicator.shortnessOfBreath:
+        return false;
+    }
+    throw ArgumentError.value(
+      this,
+      'healthIndicator',
+      'Unable to map indicator to isMultiValuesPerDay',
+    );
+  }
+
   int get decimalPlaces {
     switch (this) {
       case HealthIndicator.bloodPressure:
+      case HealthIndicator.pulse:
         return 0;
       case HealthIndicator.weight:
         return 1;
@@ -804,6 +877,8 @@ extension HealthIndicatorExtensions on HealthIndicator {
     switch (this) {
       case HealthIndicator.bloodPressure:
         return "mmHg";
+      case HealthIndicator.pulse:
+        return appLocalizations.pulseDimension;
       case HealthIndicator.weight:
         return "kg";
       case HealthIndicator.glucose:
