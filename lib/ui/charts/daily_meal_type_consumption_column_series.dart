@@ -5,6 +5,8 @@ import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import 'regular_single_bar_chart.dart';
+
 class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
   final DailyIntakesReport report;
   final Nutrient nutrient;
@@ -62,19 +64,6 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
           textStyle: const TextStyle(fontSize: 12),
         ),
         decimalPlaces: nutrient.decimalPlaces,
-        // plotBands: <PlotBand>[
-        //   PlotBand(
-        //     text: 'Average',
-        //     start: 15,
-        //     end: 16,
-        //     shouldRenderAboveSeries: true,
-        //     // textStyle: TextStyle(color: Colors.deepOrange, fontSize: 16),
-        //     dashArray: [5, 5],
-        //     opacity: 0.7,
-        //     borderColor: Colors.redAccent,
-        //     borderWidth: 3,
-        //   )
-        // ],
       ),
       series: _getStackedColumnSeries(context).toList(),
       tooltipBehavior: TooltipBehavior(
@@ -102,6 +91,7 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
             c.mealType.localizedName(context.appLocalizations),
         yValueMapper: (c, _) => c.drinksTotal * nutrient.scale,
         name: context.appLocalizations.drinks,
+        borderRadius: RegularSingleColumnChart.rodRadius,
       ),
       StackedColumnSeries<DailyMealTypeNutrientConsumption, String>(
         dataSource: dailyMealTypeNutrientConsumptions,
@@ -109,11 +99,7 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
             c.mealType.localizedName(context.appLocalizations),
         yValueMapper: (c, _) => c.foodTotal * nutrient.scale,
         name: context.appLocalizations.meals,
-        // dataLabelSettings: DataLabelSettings(
-        //   isVisible: true,
-        //   showCumulativeValues: true,
-        //   showZeroValue: false,
-        // ),
+        borderRadius: RegularSingleColumnChart.rodRadius,
       ),
     ];
   }
