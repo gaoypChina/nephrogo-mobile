@@ -3,6 +3,8 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DateTimeNumericChart extends StatelessWidget {
+  static const rodTopRadius = BorderRadius.vertical(top: Radius.circular(6));
+
   final List<XyDataSeries> series;
   final String chartTitleText;
   final String yAxisText;
@@ -13,6 +15,7 @@ class DateTimeNumericChart extends StatelessWidget {
   final int decimalPlaces;
   final double interval;
   final double maximumY;
+  final bool isMultiValuesPerDay;
   final LegendPosition legendPosition;
 
   const DateTimeNumericChart({
@@ -28,6 +31,7 @@ class DateTimeNumericChart extends StatelessWidget {
     this.interval,
     this.maximumY,
     this.legendPosition = LegendPosition.top,
+    this.isMultiValuesPerDay = false,
   }) : super(key: key);
 
   @override
@@ -35,6 +39,10 @@ class DateTimeNumericChart extends StatelessWidget {
     return SfCartesianChart(
       title: _getChartTitle(),
       plotAreaBorderWidth: 0,
+      zoomPanBehavior: ZoomPanBehavior(
+        enablePinching: true,
+        zoomMode: ZoomMode.x,
+      ),
       legend: Legend(
         isVisible: showLegend,
         position: legendPosition,
@@ -77,14 +85,14 @@ class DateTimeNumericChart extends StatelessWidget {
   DateTimeAxis _getDateTimeAxis() {
     var minimum = from?.startOfDay();
     final maximum = to?.endOfDay();
+
     double interval;
     var intervalType = DateTimeIntervalType.auto;
 
     if (minimum != null && maximum != null) {
       final daysDifference = maximum.difference(minimum).inDays;
-      if (daysDifference < 2) {
-        intervalType = DateTimeIntervalType.hours;
-      } else if (daysDifference <= 7) {
+
+      if (daysDifference <= 7) {
         intervalType = DateTimeIntervalType.days;
         interval = 1;
         minimum = minimum.subtract(const Duration(hours: 12));
@@ -92,8 +100,9 @@ class DateTimeNumericChart extends StatelessWidget {
     }
 
     return DateTimeAxis(
-      intervalType: intervalType,
       interval: interval,
+      intervalType: intervalType,
+      // dateFormat: DateFormat.Md().add_Hm(),
       majorGridLines: MajorGridLines(width: 0),
       minimum: minimum,
       maximum: maximum,
