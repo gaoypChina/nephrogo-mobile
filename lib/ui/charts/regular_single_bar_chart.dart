@@ -10,6 +10,7 @@ class RegularSingleColumnChart<T> extends StatelessWidget {
   final List<T> chartData;
   final Date Function(T v) xValueMapper;
   final num Function(T v) yValueMapper;
+  final Color Function(T v) pointColorMapper;
   final String seriesName;
   final DateTime from;
   final DateTime to;
@@ -27,6 +28,7 @@ class RegularSingleColumnChart<T> extends StatelessWidget {
     @required this.seriesName,
     @required this.from,
     @required this.to,
+    this.pointColorMapper,
     this.decimalPlaces,
     this.interval,
     this.maximumY,
@@ -54,6 +56,8 @@ class RegularSingleColumnChart<T> extends StatelessWidget {
         borderRadius: rodRadius,
         xValueMapper: (T c, _) => xValueMapper(c),
         yValueMapper: (T c, _) => yValueMapper(c),
+        pointColorMapper:
+            pointColorMapper != null ? (T c, _) => pointColorMapper(c) : null,
         name: seriesName,
       ),
     ];

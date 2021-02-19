@@ -108,6 +108,7 @@ class NutritionNutrientMonthlyReportsListState
 
 class NutritionNutrientWeeklyReportsList extends StatelessWidget {
   final List<DailyIntakesLightReport> reports;
+  final Date dateFrom;
   final Date dateTo;
   final Widget header;
   final Nutrient nutrient;
@@ -117,6 +118,7 @@ class NutritionNutrientWeeklyReportsList extends StatelessWidget {
     @required this.reports,
     @required this.header,
     @required this.nutrient,
+    @required this.dateFrom,
     @required this.dateTo,
   })  : assert(reports != null),
         assert(reports.isNotEmpty),
@@ -139,6 +141,7 @@ class NutritionNutrientWeeklyReportsList extends StatelessWidget {
               NutrientWeeklyBarChart(
                 dailyIntakeLightReports: reportsReverseSorted,
                 nutrient: nutrient,
+                minimumDate: dateFrom,
                 maximumDate: dateTo,
               ),
             ],

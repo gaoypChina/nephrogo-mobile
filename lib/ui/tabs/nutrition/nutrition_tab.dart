@@ -167,7 +167,8 @@ class NutritionTab extends StatelessWidget {
             child: NutrientWeeklyBarChart(
               dailyIntakeLightReports: dailyIntakesReports,
               nutrient: nutrient,
-              maximumDate: todayIntakesReport.date,
+              minimumDate: Date.today().subtract(const Duration(days: 6)),
+              maximumDate: Date.today(),
               fitInsideVertically: false,
             ),
           )

@@ -9,7 +9,7 @@ import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/models/graph.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 
-import 'bar_chart.dart';
+import 'regular_single_bar_chart.dart';
 
 class NutrientWeeklyBarChart extends StatelessWidget {
   static final _dayFormatter = DateFormat.E();
@@ -18,6 +18,7 @@ class NutrientWeeklyBarChart extends StatelessWidget {
   final Date today = Date.from(DateTime.now());
 
   final Nutrient nutrient;
+  final DateTime minimumDate;
   final DateTime maximumDate;
   final List<DailyIntakesLightReport> dailyIntakeLightReports;
   final bool fitInsideVertically;
@@ -26,27 +27,54 @@ class NutrientWeeklyBarChart extends StatelessWidget {
     Key key,
     @required this.dailyIntakeLightReports,
     @required this.nutrient,
+    @required this.minimumDate,
     @required this.maximumDate,
     this.fitInsideVertically = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-      child: AspectRatio(
-        aspectRatio: 2,
-        child: AppBarChart(
-          data: _getChartData(AppLocalizations.of(context)),
-        ),
+    final appLocalizations = AppLocalizations.of(context);
+    final nutrientConsumptionName = nutrient.consumptionName(appLocalizations);
+
+    return AspectRatio(
+      aspectRatio: 1.5,
+      child: RegularSingleColumnChart<DailyIntakesLightReport>(
+        chartData: dailyIntakeLightReports,
+        xValueMapper: (report) => report.date.toDate(),
+        yValueMapper: (report) {
+          final total = report.nutrientNormsAndTotals
+              .getDailyNutrientConsumption(nutrient)
+              .total;
+
+          return total * nutrient.scale;
+        },
+        yAxisTitle: "$nutrientConsumptionName, ${nutrient.scaledDimension}",
+        pointColorMapper: (report) => _barColor(report),
+        seriesName: nutrient.name(appLocalizations),
+        from: minimumDate,
+        to: maximumDate,
       ),
     );
+  }
+
+  Color _barColor(DailyIntakesLightReport report) {
+    final normExceeded = report.nutrientNormsAndTotals
+        .getDailyNutrientConsumption(nutrient)
+        .isNormExceeded;
+
+    if (normExceeded == null) {
+      return Colors.grey;
+    } else if (normExceeded) {
+      return Colors.redAccent;
+    } else {
+      return Colors.teal;
+    }
   }
 
   AppBarChartData _getChartData(AppLocalizations appLocalizations) {
     final sortedDailyIntakeReports =
         dailyIntakeLightReports.sortedBy((e) => e.date).toList();
-
     final dailyNutrientConsumptions = dailyIntakeLightReports
         .map((e) =>
             e.nutrientNormsAndTotals.getDailyNutrientConsumption(nutrient))

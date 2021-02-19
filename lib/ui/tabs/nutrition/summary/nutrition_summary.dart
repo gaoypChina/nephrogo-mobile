@@ -194,7 +194,7 @@ class _NutritionWeeklySummaryTabBody extends StatelessWidget {
                 return NutritionListWithHeaderEmpty(header: header);
               }
 
-              return _buildListComponent(header, reports, to);
+              return _buildListComponent(header, reports, from, to);
             },
           );
         },
@@ -205,12 +205,14 @@ class _NutritionWeeklySummaryTabBody extends StatelessWidget {
   Widget _buildListComponent(
     Widget header,
     List<DailyIntakesLightReport> reports,
+    Date dateFrom,
     Date dateTo,
   ) {
     if (nutrient != null) {
       return NutritionNutrientWeeklyReportsList(
         header: header,
         reports: reports,
+        dateFrom: dateFrom,
         dateTo: dateTo,
         nutrient: nutrient,
       );
