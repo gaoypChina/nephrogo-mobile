@@ -169,7 +169,6 @@ class NutritionTab extends StatelessWidget {
               nutrient: nutrient,
               minimumDate: Date.today().subtract(const Duration(days: 6)),
               maximumDate: Date.today(),
-              fitInsideVertically: false,
             ),
           )
       ],

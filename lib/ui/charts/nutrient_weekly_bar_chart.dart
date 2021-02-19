@@ -1,60 +1,98 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
-import 'package:nephrogo/models/graph.dart';
+import 'package:nephrogo/utils/date_utils.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
+import 'date_time_numeric_chart.dart';
 import 'regular_single_bar_chart.dart';
 
 class NutrientWeeklyBarChart extends StatelessWidget {
-  static final _dayFormatter = DateFormat.E();
-  static final _dateFormatter = DateFormat.MMMd();
-
-  final Date today = Date.from(DateTime.now());
-
   final Nutrient nutrient;
   final DateTime minimumDate;
   final DateTime maximumDate;
   final List<DailyIntakesLightReport> dailyIntakeLightReports;
-  final bool fitInsideVertically;
 
-  NutrientWeeklyBarChart({
+  const NutrientWeeklyBarChart({
     Key key,
     @required this.dailyIntakeLightReports,
     @required this.nutrient,
     @required this.minimumDate,
     @required this.maximumDate,
-    this.fitInsideVertically = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    return AspectRatio(aspectRatio: 1.5, child: _cherChart(context));
+  }
+
+  Widget _cherChart(BuildContext context) {
     final appLocalizations = AppLocalizations.of(context);
+
     final nutrientConsumptionName = nutrient.consumptionName(appLocalizations);
 
-    return AspectRatio(
-      aspectRatio: 1.5,
-      child: RegularSingleColumnChart<DailyIntakesLightReport>(
-        chartData: dailyIntakeLightReports,
-        xValueMapper: (report) => report.date.toDate(),
-        yValueMapper: (report) {
-          final total = report.nutrientNormsAndTotals
-              .getDailyNutrientConsumption(nutrient)
-              .total;
+    return DateTimeNumericChart(
+      series: _getStackedColumnSeries(context).toList(),
+      yAxisText: "$nutrientConsumptionName, ${nutrient.scaledDimension}",
+      from: minimumDate,
+      to: maximumDate,
+      decimalPlaces: nutrient.decimalPlaces,
+    );
+  }
 
-          return total * nutrient.scale;
-        },
-        yAxisTitle: "$nutrientConsumptionName, ${nutrient.scaledDimension}",
-        pointColorMapper: (report) => _barColor(report),
-        seriesName: nutrient.name(appLocalizations),
-        from: minimumDate,
-        to: maximumDate,
-      ),
+  Iterable<XyDataSeries> _getStackedColumnSeries(BuildContext context) sync* {
+    yield ColumnSeries<DailyIntakesLightReport, DateTime>(
+      dataSource: dailyIntakeLightReports,
+      borderRadius: RegularSingleColumnChart.rodRadius,
+      xValueMapper: (report, _) => report.date.toDate(),
+      yValueMapper: (report, _) {
+        final total = report.nutrientNormsAndTotals
+            .getDailyNutrientConsumption(nutrient)
+            .total;
+
+        return total * nutrient.scale;
+      },
+      pointColorMapper: (report, _) => _barColor(report),
+      name: nutrient.name(context.appLocalizations),
+      color: Colors.teal,
+    );
+
+    final dailyNormSeries = _getDailyNormLineSeries(context);
+    if (dailyNormSeries != null) {
+      yield dailyNormSeries;
+    }
+  }
+
+  XyDataSeries _getDailyNormLineSeries(BuildContext context) {
+    final dailyNorm = dailyIntakeLightReports
+        .maxBy((index, e) => e.date)
+        ?.nutrientNormsAndTotals
+        ?.getDailyNutrientConsumption(nutrient)
+        ?.norm
+        ?.toDouble();
+
+    if (dailyNorm == null) {
+      return null;
+    }
+
+    final scaledDailyNorm = dailyNorm * nutrient.scale;
+    final dates = DateUtils.generateDates(
+      minimumDate.subtract(const Duration(days: 1)).toDate(),
+      maximumDate.add(const Duration(days: 1)).toDate(),
+    ).toList();
+
+    return LineSeries<Date, DateTime>(
+      dataSource: dates,
+      xValueMapper: (date, _) => date,
+      yValueMapper: (date, _) => scaledDailyNorm,
+      dashArray: [10, 10],
+      width: 3,
+      opacity: 0.8,
+      color: Colors.blue,
+      name: context.appLocalizations.dailyNorm,
     );
   }
 
@@ -70,128 +108,5 @@ class NutrientWeeklyBarChart extends StatelessWidget {
     } else {
       return Colors.teal;
     }
-  }
-
-  AppBarChartData _getChartData(AppLocalizations appLocalizations) {
-    final sortedDailyIntakeReports =
-        dailyIntakeLightReports.sortedBy((e) => e.date).toList();
-    final dailyNutrientConsumptions = dailyIntakeLightReports
-        .map((e) =>
-            e.nutrientNormsAndTotals.getDailyNutrientConsumption(nutrient))
-        .toList();
-
-    final lastNorm = sortedDailyIntakeReports
-        .lastOrNull()
-        ?.nutrientNormsAndTotals
-        ?.getDailyNutrientConsumption(nutrient)
-        ?.norm
-        ?.toDouble();
-
-    final maximumAmount =
-        dailyNutrientConsumptions.map((c) => c.total).max()?.toDouble();
-
-    assert(maximumAmount != null, 'Maximum amount can not be null');
-
-    double interval;
-    if (lastNorm != null) {
-      interval = lastNorm / 2;
-
-      if (maximumAmount ~/ lastNorm > 3) {
-        interval = lastNorm;
-      }
-    }
-
-    final scaleValue =
-        (nutrient == Nutrient.energy || nutrient == Nutrient.liquids)
-            ? 1.0
-            : 1e-3;
-
-    final days =
-        List.generate(7, (d) => Date.from(maximumDate.add(Duration(days: -d))))
-            .reversed;
-
-    final dailyIntakeReportsGrouped = dailyIntakeLightReports
-        .groupBy((v) => Date.from(v.date))
-        .map((key, values) {
-      if (values.length > 1) {
-        throw ArgumentError.value(values, 'values',
-            'Multiple daily intakes with same formatted date');
-      }
-      return MapEntry(key, values.firstOrNull());
-    });
-
-    final groups = days.mapIndexed((i, day) {
-      final di = dailyIntakeReportsGrouped[day];
-
-      final dateFormatted = _dateFormatter.format(day);
-      final dayFormatted = _dayFormatter.format(day).capitalizeFirst();
-
-      if (di == null) {
-        return AppBarChartGroup(
-          text: dayFormatted,
-          isSelected: day.compareTo(today) == 0,
-          x: i,
-          rods: [
-            AppBarChartRod(
-              tooltip: dateFormatted,
-              y: 0,
-              barColor: Colors.teal,
-            )
-          ],
-        );
-      }
-      final dailyNutrientNormsAndTotals = di.nutrientNormsAndTotals;
-
-      final consumption =
-          dailyNutrientNormsAndTotals.getDailyNutrientConsumption(nutrient);
-
-      final y = consumption.total.toDouble();
-      final norm = consumption.norm;
-
-      final dailyTotalFormatted =
-          dailyNutrientNormsAndTotals.getNutrientTotalAmountFormatted(nutrient);
-      var tooltip = '$dateFormatted\n$dailyTotalFormatted';
-
-      final normFormatted =
-          dailyNutrientNormsAndTotals.getNutrientNormFormatted(nutrient);
-      if (normFormatted != null) {
-        final percent = (y / norm * 100).round().toString();
-        tooltip = appLocalizations.consumptionTooltipWithNorm(
-            dateFormatted, percent, dailyTotalFormatted, normFormatted);
-      }
-
-      Color barColor;
-      if (norm == null) {
-        barColor = Colors.grey;
-      } else if (y > norm) {
-        barColor = Colors.redAccent;
-      } else {
-        barColor = Colors.teal;
-      }
-
-      final entry = AppBarChartRod(
-        tooltip: tooltip,
-        y: y != null ? y * scaleValue : null,
-        barColor: barColor,
-      );
-
-      return AppBarChartGroup(
-        text: dayFormatted,
-        x: i,
-        isSelected: day.compareTo(today) == 0,
-        rods: [entry],
-      );
-    }).toList();
-
-    return AppBarChartData(
-      groups: groups,
-      showLeftTitles: true,
-      fitInsideVertically: fitInsideVertically,
-      dashedHorizontalLine: lastNorm != null ? lastNorm * scaleValue : null,
-      interval: interval != null ? interval * scaleValue : null,
-      maxY: (lastNorm != null && maximumAmount != null)
-          ? max(lastNorm, maximumAmount) * scaleValue * 1.01
-          : null,
-    );
   }
 }

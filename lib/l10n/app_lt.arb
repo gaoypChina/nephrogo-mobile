@@ -177,6 +177,8 @@
       }
     }
   },
+  "dailyNorm": "Asmeninė paros norma",
+  "@dailyNorm": {},
   "dailyNormsSectionTitle": "Asmeninės paros normos",
   "@dailyNormsSectionTitle": {},
   "dailyNormsSectionSubtitle": "Šiandien suvartotų medžiagų normos",
