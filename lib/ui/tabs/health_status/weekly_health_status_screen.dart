@@ -21,54 +21,114 @@ class WeeklyHealthStatusScreenArguments {
   const WeeklyHealthStatusScreenArguments(this.healthIndicator);
 }
 
-class WeeklyHealthStatusScreen extends StatelessWidget {
+class WeeklyHealthStatusScreen extends StatefulWidget {
   final HealthIndicator healthIndicator;
 
-  final ApiService _apiService = ApiService();
-
-  WeeklyHealthStatusScreen({Key key, @required this.healthIndicator})
+  const WeeklyHealthStatusScreen({Key key, @required this.healthIndicator})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final appLocalizations = context.appLocalizations;
+  _WeeklyHealthStatusScreenState createState() =>
+      _WeeklyHealthStatusScreenState();
+}
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(healthIndicator.name(appLocalizations)),
+class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(_tabTitle),
+          bottom: TabBar(
+            tabs: [
+              Tab(text: appLocalizations.weekly.toUpperCase()),
+              Tab(text: appLocalizations.monthly.toUpperCase()),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            _HealthStatusScreenTab(
+              healthIndicator: widget.healthIndicator,
+              isWeekly: true,
+            ),
+            _HealthStatusScreenTab(
+              healthIndicator: widget.healthIndicator,
+              isWeekly: false,
+            ),
+          ],
+        ),
       ),
-      body: WeeklyPager(
+    );
+  }
+
+  String get _tabTitle {
+    return widget.healthIndicator.name(appLocalizations);
+  }
+}
+
+class _HealthStatusScreenTab extends StatelessWidget {
+  final HealthIndicator healthIndicator;
+
+  final ApiService _apiService = ApiService();
+  final bool isWeekly;
+
+  _HealthStatusScreenTab({
+    Key key,
+    @required this.healthIndicator,
+    @required this.isWeekly,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (isWeekly) {
+      return WeeklyPager(
         initialDate: Date.today(),
         earliestDate: Constants.earliestDate,
-        bodyBuilder: (context, header, from, to) {
-          return AppStreamBuilder<HealthStatusWeeklyScreenResponse>(
-            stream: _apiService.getWeeklyHealthStatusReportsStream(from, to),
-            builder: (context, data) {
-              final showChart = data.dailyHealthStatuses
-                  .any((s) => s.isIndicatorExists(healthIndicator));
-              if (!showChart) {
-                return DateSwitcherHeaderSection(
-                  header: header,
-                  children: [
-                    EmptyStateContainer(
-                      text: appLocalizations.weeklyHealthStatusEmpty,
-                    )
-                  ],
-                );
-              }
+        bodyBuilder: _bodyBuilder,
+      );
+    }
 
-              return HealthIndicatorsListWithChart(
-                dailyHealthStatuses: data.dailyHealthStatuses.toList(),
-                header: header,
-                healthIndicator: healthIndicator,
-                from: from,
-                to: to,
-                appLocalizations: appLocalizations,
-              );
-            },
+    return MonthlyPager(
+      initialDate: Date.today(),
+      earliestDate: Constants.earliestDate,
+      bodyBuilder: _bodyBuilder,
+    );
+  }
+
+  Widget _bodyBuilder(
+    BuildContext context,
+    Widget header,
+    Date from,
+    Date to,
+  ) {
+    return AppStreamBuilder<HealthStatusWeeklyScreenResponse>(
+      stream: _apiService.getWeeklyHealthStatusReportsStream(from, to),
+      builder: (context, data) {
+        final showChart = data.dailyHealthStatuses
+            .any((s) => s.isIndicatorExists(healthIndicator));
+        if (!showChart) {
+          return DateSwitcherHeaderSection(
+            header: header,
+            children: [
+              EmptyStateContainer(
+                text: context.appLocalizations.weeklyHealthStatusEmpty,
+              )
+            ],
           );
-        },
-      ),
+        }
+
+        return HealthIndicatorsListWithChart(
+          dailyHealthStatuses: data.dailyHealthStatuses.toList(),
+          header: header,
+          healthIndicator: healthIndicator,
+          from: from,
+          to: to,
+          appLocalizations: context.appLocalizations,
+        );
+      },
     );
   }
 }
