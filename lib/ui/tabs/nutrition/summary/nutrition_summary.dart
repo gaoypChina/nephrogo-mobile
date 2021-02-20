@@ -134,29 +134,24 @@ class _NutritionMonthlySummaryTabBody extends StatelessWidget {
                 return NutritionListWithHeaderEmpty(header: header);
               }
 
-              return _buildListComponent(header, reports);
+              if (nutrient != null) {
+                return NutritionNutrientReportsList(
+                  header: header,
+                  reports: reports,
+                  nutrient: nutrient,
+                  dateFrom: from,
+                  dateTo: to,
+                );
+              }
+
+              return NutritionMonthlyReportsList(
+                header: header,
+                reports: reports,
+              );
             },
           );
         },
       ),
-    );
-  }
-
-  Widget _buildListComponent(
-    Widget header,
-    List<DailyIntakesLightReport> reports,
-  ) {
-    if (nutrient != null) {
-      return NutritionNutrientMonthlyReportsList(
-        header: header,
-        reports: reports,
-        nutrient: nutrient,
-      );
-    }
-
-    return NutritionMonthlyReportsList(
-      header: header,
-      reports: reports,
     );
   }
 }
@@ -209,7 +204,7 @@ class _NutritionWeeklySummaryTabBody extends StatelessWidget {
     Date dateTo,
   ) {
     if (nutrient != null) {
-      return NutritionNutrientWeeklyReportsList(
+      return NutritionNutrientReportsList(
         header: header,
         reports: reports,
         dateFrom: dateFrom,
