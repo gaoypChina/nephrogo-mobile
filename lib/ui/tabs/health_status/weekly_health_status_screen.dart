@@ -246,7 +246,7 @@ class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
       children: [
         for (final value in values)
           AppListTile(
-            title: Text(fullDateFormat.format(value.item1)),
+            title: Text(fullDateFormat.format(value.item1.toLocal())),
             trailing: Text(value.item2),
             dense: true,
           )
@@ -291,8 +291,12 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
     return AppListTile(
       title: Text(dateTitle),
       subtitle: subtitle != null ? Text(subtitle) : null,
-      trailing: Text(dailyHealthStatus.getHealthIndicatorFormatted(
-          indicator, appLocalizations)),
+      trailing: Text(
+        dailyHealthStatus.getHealthIndicatorFormatted(
+          indicator,
+          appLocalizations,
+        ),
+      ),
     );
   }
 }
