@@ -46,7 +46,7 @@ class _BloodPressureAndPulseCreationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLocalizations.bloodPressureAndPulse),
+        title: Text(appLocalizations.addHealthStatus),
         actions: <Widget>[
           AppBarTextButton(
             onPressed: _submit,

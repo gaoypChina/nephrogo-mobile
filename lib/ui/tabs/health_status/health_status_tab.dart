@@ -13,23 +13,17 @@ import 'package:nephrogo_api_client/model/health_status_screen_response.dart';
 import 'health_status_components.dart';
 import 'weekly_health_status_screen.dart';
 
-class HealthStatusTab extends StatefulWidget {
-  @override
-  _HealthStatusTabState createState() => _HealthStatusTabState();
-}
-
-class _HealthStatusTabState extends State<HealthStatusTab> {
+class HealthStatusTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: HealthStatusCreationFloatingActionButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: HealthIndicatorsTabBody(),
+      body: _HealthStatusTabBody(),
     );
   }
 }
 
-class HealthIndicatorsTabBody extends StatelessWidget {
+class _HealthStatusTabBody extends StatelessWidget {
   final apiService = ApiService();
   final now = DateTime.now();
 

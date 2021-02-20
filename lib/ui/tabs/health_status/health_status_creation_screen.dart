@@ -58,7 +58,7 @@ class _HealthStatusCreationScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_appLocalizations.healthStatusCreationTodayTitle),
+        title: Text(_appLocalizations.addHealthStatus),
         actions: <Widget>[
           AppBarTextButton(
             onPressed: () => validateAndSave(context),
