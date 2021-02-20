@@ -7,7 +7,7 @@ import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
-import 'package:nephrogo/ui/charts/nutrient_weekly_bar_chart.dart';
+import 'package:nephrogo/ui/charts/nutrient_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
@@ -163,7 +163,7 @@ class NutritionTab extends StatelessWidget {
         if (showGraph)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: NutrientWeeklyBarChart(
+            child: NutrientBarChart(
               dailyIntakeLightReports: dailyIntakesReports,
               nutrient: nutrient,
               minimumDate: Date.today().subtract(const Duration(days: 6)),

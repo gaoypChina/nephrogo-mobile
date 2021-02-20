@@ -9,13 +9,13 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'date_time_numeric_chart.dart';
 
-class NutrientWeeklyBarChart extends StatelessWidget {
+class NutrientBarChart extends StatelessWidget {
   final Nutrient nutrient;
   final DateTime minimumDate;
   final DateTime maximumDate;
   final List<DailyIntakesLightReport> dailyIntakeLightReports;
 
-  const NutrientWeeklyBarChart({
+  const NutrientBarChart({
     Key key,
     @required this.dailyIntakeLightReports,
     @required this.nutrient,
