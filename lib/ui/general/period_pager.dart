@@ -16,6 +16,58 @@ typedef OnPageChanged = void Function(
   Date to,
 );
 
+enum PeriodPagerType {
+  daily,
+  weekly,
+  monthly,
+}
+
+class PeriodPager extends StatelessWidget {
+  final PeriodPagerType pagerType;
+
+  final Date earliestDate;
+  final Date initialDate;
+
+  final PagerBodyBuilder bodyBuilder;
+
+  const PeriodPager({
+    Key key,
+    @required this.pagerType,
+    @required this.earliestDate,
+    @required this.initialDate,
+    @required this.bodyBuilder,
+  })  : assert(earliestDate != null),
+        assert(initialDate != null),
+        assert(bodyBuilder != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    switch (pagerType) {
+      case PeriodPagerType.daily:
+        return DailyPager(
+          earliestDate: earliestDate,
+          initialDate: initialDate,
+          bodyBuilder: bodyBuilder,
+        );
+      case PeriodPagerType.weekly:
+        return WeeklyPager(
+          earliestDate: earliestDate,
+          initialDate: initialDate,
+          bodyBuilder: bodyBuilder,
+        );
+      case PeriodPagerType.monthly:
+        return MonthlyPager(
+          earliestDate: earliestDate,
+          initialDate: initialDate,
+          bodyBuilder: bodyBuilder,
+        );
+    }
+
+    throw ArgumentError.value(pagerType);
+  }
+}
+
 class DailyPager extends StatelessWidget {
   final _dayFormatter = DateFormat('EEEE, MMMM d');
 
@@ -105,7 +157,7 @@ class WeeklyPager extends StatelessWidget {
   Widget _buildHeaderText(BuildContext context, Date from, Date to) {
     if (from.month == to.month) {
       final formattedFrom = _monthFormatter.format(from).capitalizeFirst();
-      return Text("$formattedFrom ${from.day} – ${to.day}");
+      return Text("$formattedFrom${from.day} – ${to.day}");
     }
 
     return Text('${dateFormatter.format(from).capitalizeFirst()} – '

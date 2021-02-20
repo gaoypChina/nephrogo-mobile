@@ -112,6 +112,8 @@
   "@monthly": {},
   "weekly": "Savaitės",
   "@weekly": {},
+  "daily": "Dienos",
+  "@daily": {},
   "totalInThisMeal": "Iš viso šiame valgyje",
   "@totalInThisMeal": {},
   "totalInThisDrink": "Iš viso šiame gėrime",

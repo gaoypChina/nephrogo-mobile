@@ -33,15 +33,20 @@ class WeeklyHealthStatusScreen extends StatefulWidget {
 }
 
 class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
+  bool get _isDailyTabAvailable => widget.healthIndicator.isMultiValuesPerDay;
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: _isDailyTabAvailable ? 3 : 2,
+      initialIndex: _isDailyTabAvailable ? 1 : 0,
       child: Scaffold(
         appBar: AppBar(
           title: Text(_tabTitle),
           bottom: TabBar(
             tabs: [
+              if (_isDailyTabAvailable)
+                Tab(text: appLocalizations.daily.toUpperCase()),
               Tab(text: appLocalizations.weekly.toUpperCase()),
               Tab(text: appLocalizations.monthly.toUpperCase()),
             ],
@@ -50,13 +55,18 @@ class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
+            if (_isDailyTabAvailable)
+              _HealthStatusScreenTab(
+                healthIndicator: widget.healthIndicator,
+                pagerType: PeriodPagerType.daily,
+              ),
             _HealthStatusScreenTab(
               healthIndicator: widget.healthIndicator,
-              isWeekly: true,
+              pagerType: PeriodPagerType.weekly,
             ),
             _HealthStatusScreenTab(
               healthIndicator: widget.healthIndicator,
-              isWeekly: false,
+              pagerType: PeriodPagerType.monthly,
             ),
           ],
         ),
@@ -73,25 +83,18 @@ class _HealthStatusScreenTab extends StatelessWidget {
   final HealthIndicator healthIndicator;
 
   final ApiService _apiService = ApiService();
-  final bool isWeekly;
+  final PeriodPagerType pagerType;
 
   _HealthStatusScreenTab({
     Key key,
     @required this.healthIndicator,
-    @required this.isWeekly,
+    @required this.pagerType,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (isWeekly) {
-      return WeeklyPager(
-        initialDate: Date.today(),
-        earliestDate: Constants.earliestDate,
-        bodyBuilder: _bodyBuilder,
-      );
-    }
-
-    return MonthlyPager(
+    return PeriodPager(
+      pagerType: pagerType,
       initialDate: Date.today(),
       earliestDate: Constants.earliestDate,
       bodyBuilder: _bodyBuilder,
@@ -166,7 +169,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
             header: header,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                 child: HealthIndicatorBarChart(
                   dailyHealthStatuses: dailyHealthStatuses,
                   indicator: healthIndicator,
