@@ -122,6 +122,7 @@ class _HealthStatusCreationScreenState
                       .healthStatusCreationSwellingDifficultyHelper,
                   initialValue: _requestBuilder.swellingDifficulty
                       ?.enumWithoutDefault(SwellingDifficultyEnum.unknown),
+                  focusNextOnSelection: true,
                   onChanged: (v) =>
                       _requestBuilder.swellingDifficulty = v?.value,
                   items: [
@@ -177,6 +178,7 @@ class _HealthStatusCreationScreenState
                     })?.toList();
                     _requestBuilder.swellings = ListBuilder(swellings ?? []);
                   },
+                  focusNextOnSelection: true,
                   items: [
                     AppSelectFormFieldItem(
                       text: appLocalizations
@@ -230,6 +232,7 @@ class _HealthStatusCreationScreenState
                   initialValue: _requestBuilder.wellFeeling
                       ?.enumWithoutDefault(WellFeelingEnum.unknown),
                   onChanged: (v) => _requestBuilder.wellFeeling = v?.value,
+                  focusNextOnSelection: true,
                   items: [
                     AppSelectFormFieldItem(
                       text: appLocalizations
@@ -267,6 +270,7 @@ class _HealthStatusCreationScreenState
                   initialValue: _requestBuilder?.appetite
                       ?.enumWithoutDefault(AppetiteEnum.unknown),
                   onChanged: (v) => _requestBuilder.appetite = v?.value,
+                  focusNextOnSelection: true,
                   items: [
                     AppSelectFormFieldItem(
                       text:

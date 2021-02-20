@@ -230,6 +230,7 @@ class AppSelectFormField<T> extends StatefulWidget {
   final FormFieldValidator<AppSelectFormFieldItem<T>> validator;
   final FormFieldSetter<AppSelectFormFieldItem<T>> onChanged;
   final FormFieldSetter<AppSelectFormFieldItem<T>> onSaved;
+  final bool focusNextOnSelection;
   final T initialValue;
 
   const AppSelectFormField({
@@ -243,6 +244,7 @@ class AppSelectFormField<T> extends StatefulWidget {
     this.onSaved,
     this.validator,
     this.dialogHelpText,
+    this.focusNextOnSelection = false,
   }) : super(key: key);
 
   @override
@@ -304,6 +306,10 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
 
     setState(() => selectedItem = item ?? selectedItem);
 
+    if (item != null && widget.focusNextOnSelection) {
+      FocusScope.of(context).nextFocus();
+    }
+
     return item;
   }
 }
@@ -316,6 +322,7 @@ class AppMultipleSelectFormField<T> extends StatefulWidget {
   final Icon icon;
   final FormFieldSetter<List<AppSelectFormFieldItem<T>>> onChanged;
   final FormFieldSetter<List<AppSelectFormFieldItem<T>>> onSaved;
+  final bool focusNextOnSelection;
 
   const AppMultipleSelectFormField({
     Key key,
@@ -326,6 +333,7 @@ class AppMultipleSelectFormField<T> extends StatefulWidget {
     this.icon,
     this.onChanged,
     this.onSaved,
+    this.focusNextOnSelection = false,
   }) : super(key: key);
 
   @override
@@ -380,6 +388,10 @@ class _AppMultipleSelectFormFieldState<T>
         });
 
     _selectedItems = items ?? _selectedItems;
+
+    if (items != null && widget.focusNextOnSelection) {
+      FocusScope.of(context).nextFocus();
+    }
 
     return items;
   }
