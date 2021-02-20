@@ -5,7 +5,7 @@ import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import 'regular_single_bar_chart.dart';
+import 'date_time_numeric_chart.dart';
 
 class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
   final DailyIntakesReport report;
@@ -91,7 +91,7 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
             c.mealType.localizedName(context.appLocalizations),
         yValueMapper: (c, _) => c.drinksTotal * nutrient.scale,
         name: context.appLocalizations.drinks,
-        borderRadius: RegularSingleColumnChart.rodRadius,
+        borderRadius: DateTimeNumericChart.rodTopRadius,
       ),
       StackedColumnSeries<DailyMealTypeNutrientConsumption, String>(
         dataSource: dailyMealTypeNutrientConsumptions,
@@ -99,7 +99,7 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
             c.mealType.localizedName(context.appLocalizations),
         yValueMapper: (c, _) => c.foodTotal * nutrient.scale,
         name: context.appLocalizations.meals,
-        borderRadius: RegularSingleColumnChart.rodRadius,
+        borderRadius: DateTimeNumericChart.rodTopRadius,
       ),
     ];
   }

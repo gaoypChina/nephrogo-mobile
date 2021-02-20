@@ -8,7 +8,6 @@ import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'date_time_numeric_chart.dart';
-import 'regular_single_bar_chart.dart';
 
 class NutrientWeeklyBarChart extends StatelessWidget {
   final Nutrient nutrient;
@@ -57,7 +56,7 @@ class NutrientWeeklyBarChart extends StatelessWidget {
   Iterable<XyDataSeries> _getStackedColumnSeries(BuildContext context) sync* {
     yield ColumnSeries<DailyIntakesLightReport, DateTime>(
       dataSource: dailyIntakeLightReports,
-      borderRadius: RegularSingleColumnChart.rodRadius,
+      borderRadius: DateTimeNumericChart.rodTopRadius,
       xValueMapper: (report, _) => report.date.toDate(),
       yValueMapper: (report, _) {
         final total = report.nutrientNormsAndTotals
