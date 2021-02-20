@@ -109,7 +109,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: AppListTile(
                     leading:
-                    const CircleAvatar(child: Icon(Icons.info_outline)),
+                        const CircleAvatar(child: Icon(Icons.info_outline)),
                     title: Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Text(
@@ -122,7 +122,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
               SmallSection(
                 title:
-                _appLocalizations.userProfileSectionGeneralInformationTitle,
+                    _appLocalizations.userProfileSectionGeneralInformationTitle,
                 children: [
                   AppSelectFormField<GenderEnum>(
                     focusNextOnSelection: isInitial,
@@ -180,7 +180,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     initialValue: userProfile?.chronicKidneyDiseaseYears,
                     suffixText: 'm.',
                     onSaved: (v) =>
-                    _userProfileBuilder.chronicKidneyDiseaseYears = v,
+                        _userProfileBuilder.chronicKidneyDiseaseYears = v,
                   ),
                   AppSelectFormField<ChronicKidneyDiseaseStageEnum>(
                     labelText: _appLocalizations
@@ -265,7 +265,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     labelText: _appLocalizations.userProfileSectionDiabetesType,
                     validator: _formValidators.nonNull(),
                     initialValue: userProfile?.diabetesType
-                        ?.enumWithoutDefault(DiabetesTypeEnum.unknown) ??
+                            ?.enumWithoutDefault(DiabetesTypeEnum.unknown) ??
                         DiabetesTypeEnum.no,
                     onChanged: (dt) {
                       setState(() {
@@ -288,7 +288,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                       AppSelectFormFieldItem(
                         text:
-                        _appLocalizations.userProfileSectionDiabetesTypeNo,
+                            _appLocalizations.userProfileSectionDiabetesTypeNo,
                         value: DiabetesTypeEnum.no,
                       ),
                     ],
@@ -300,16 +300,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       children: [
                         AppIntegerFormField(
                           labelText:
-                          _appLocalizations.userProfileSectionDiabetesAge,
+                              _appLocalizations.userProfileSectionDiabetesAge,
                           initialValue: userProfile?.diabetesYears,
                           textInputAction:
-                          isInitial ? TextInputAction.next : null,
+                              isInitial ? TextInputAction.next : null,
                           validator: _formValidators.or(
                             _formValidators.and(
                               _formValidators.nonNull(),
                               _formValidators.numRangeValidator(0, 100),
                             ),
-                                (_) => !isDiabetic ? null : '',
+                            (_) => !isDiabetic ? null : '',
                           ),
                           suffixText: _appLocalizations.ageSuffix,
                           onSaved: (v) => _userProfileBuilder.diabetesYears = v,
@@ -323,7 +323,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               DiabetesComplicationsEnum.unknown,
                           validator: _formValidators.or(
                             _formValidators.nonNull(),
-                                (_) => !isDiabetic ? null : '',
+                            (_) => !isDiabetic ? null : '',
                           ),
                           items: [
                             AppSelectFormFieldItem(

@@ -119,7 +119,7 @@ class _NutritionMonthlySummaryTabBody extends StatelessWidget {
     return Visibility(
       visible: nutritionSummaryStatistics.minReportDate != null,
       replacement: EmptyStateContainer(
-        text: AppLocalizations.of(context).nutritionEmpty,
+        text: AppLocalizations.of(context).weeklyNutrientsEmpty,
       ),
       child: MonthlyPager(
         earliestDate: nutritionSummaryStatistics.minReportDate.toDate(),
