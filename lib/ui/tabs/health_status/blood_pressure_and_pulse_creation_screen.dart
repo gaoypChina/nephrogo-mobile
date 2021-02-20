@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
@@ -12,7 +13,20 @@ import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
 import 'package:nephrogo_api_client/model/pulse.dart';
 import 'package:nephrogo_api_client/model/pulse_request.dart';
 
+class BloodPressureAndPulseCreationScreenArguments {
+  final Date date;
+
+  BloodPressureAndPulseCreationScreenArguments({this.date});
+}
+
 class BloodPressureAndPulseCreationScreen extends StatefulWidget {
+  final Date initialDate;
+
+  const BloodPressureAndPulseCreationScreen({
+    Key key,
+    @required this.initialDate,
+  }) : super(key: key);
+
   @override
   _BloodPressureAndPulseCreationScreenState createState() =>
       _BloodPressureAndPulseCreationScreenState();
@@ -41,6 +55,10 @@ class _BloodPressureAndPulseCreationScreenState
     super.initState();
 
     _measuredAt = DateTime.now();
+
+    if (widget.initialDate != null) {
+      _measuredAt = _measuredAt.appliedDate(widget.initialDate);
+    }
   }
 
   @override

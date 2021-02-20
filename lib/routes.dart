@@ -138,7 +138,12 @@ class Routes {
         });
       case routeBloodPressureAndPulseCreation:
         return MaterialPageRoute(builder: (context) {
-          return BloodPressureAndPulseCreationScreen();
+          final arguments = settings.arguments
+              as BloodPressureAndPulseCreationScreenArguments;
+
+          return BloodPressureAndPulseCreationScreen(
+            initialDate: arguments.date,
+          );
         });
       case routeGeneralRecommendations:
         return MaterialPageRoute(builder: (context) {

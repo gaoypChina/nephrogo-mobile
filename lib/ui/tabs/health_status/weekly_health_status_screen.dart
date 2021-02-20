@@ -7,6 +7,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
+import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/health_indicator_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
@@ -14,6 +15,8 @@ import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
+
+import 'blood_pressure_and_pulse_creation_screen.dart';
 
 class WeeklyHealthStatusScreenArguments {
   final HealthIndicator healthIndicator;
@@ -284,6 +287,16 @@ class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
             date.day.toString(),
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
+        ),
+        trailing: OutlinedButton(
+          onPressed: () => Navigator.pushNamed(
+            context,
+            Routes.routeBloodPressureAndPulseCreation,
+            arguments: BloodPressureAndPulseCreationScreenArguments(
+              date: date,
+            ),
+          ),
+          child: Text(context.appLocalizations.create.toUpperCase()),
         ),
       ),
       showDividers: true,
