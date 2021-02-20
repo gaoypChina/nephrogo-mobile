@@ -38,7 +38,6 @@ class HealthIndicatorBarChart extends StatelessWidget {
         decimalPlaces: indicator.decimalPlaces,
         interval: _getInterval(),
         maximumY: _getMaxY(),
-        isMultiValuesPerDay: indicator.isMultiValuesPerDay,
       ),
     );
   }

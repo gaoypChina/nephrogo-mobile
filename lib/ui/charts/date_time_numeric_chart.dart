@@ -15,7 +15,6 @@ class DateTimeNumericChart extends StatelessWidget {
   final int decimalPlaces;
   final double interval;
   final double maximumY;
-  final bool isMultiValuesPerDay;
   final bool legendToggleSeriesVisibility;
   final LegendPosition legendPosition;
 
@@ -33,7 +32,6 @@ class DateTimeNumericChart extends StatelessWidget {
     this.maximumY,
     this.legendPosition = LegendPosition.top,
     this.legendToggleSeriesVisibility = true,
-    this.isMultiValuesPerDay = false,
   }) : super(key: key);
 
   // Disable legend temporary due to bug after getting back from route

@@ -581,7 +581,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     }
     if (indicator == HealthIndicator.pulse) {
       return pulses.sortedBy((e) => e.measuredAt, reverse: true).map(
-            (p) {
+        (p) {
           final formatted = '${p.pulse} ${appLocalizations.pulseDimension}';
           return Tuple2(p.measuredAt, formatted);
         },
