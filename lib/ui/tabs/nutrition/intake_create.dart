@@ -10,8 +10,8 @@ import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
-import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
+import 'package:nephrogo/utils/form_utils.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/intake_request.dart';
@@ -284,7 +284,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     return _apiService.createIntake(intakeRequest);
   }
 
-  Future _validateAndSaveIntake() async {
+  Future<bool> _validateAndSaveIntake() async {
     FocusScope.of(context).unfocus();
 
     if (_intakeSectionsOptions.isEmpty) {
@@ -297,32 +297,11 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
       return false;
     }
 
-    if (!_formKey.currentState.validate()) {
-      await showAppDialog(
-        context: context,
-        title: appLocalizations.error,
-        message: appLocalizations.formErrorDescription,
-      );
-
-      return false;
-    }
-    _formKey.currentState.save();
-
-    final savingFuture = saveIntakes().catchError(
-      (e, stackTrace) async {
-        await showAppDialog(
-          context: context,
-          title: appLocalizations.error,
-          message: appLocalizations.serverErrorDescription,
-        );
-      },
+    return FormUtils.validateAndSave(
+      context: context,
+      formKey: _formKey,
+      futureBuilder: saveIntakes,
     );
-
-    final intakes = await ProgressDialog(context).showForFuture(savingFuture);
-
-    if (intakes != null) {
-      Navigator.pop(context);
-    }
   }
 }
 

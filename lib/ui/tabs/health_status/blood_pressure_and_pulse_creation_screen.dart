@@ -6,8 +6,7 @@ import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
-import 'package:nephrogo/ui/general/dialogs.dart';
-import 'package:nephrogo/ui/general/progress_dialog.dart';
+import 'package:nephrogo/utils/form_utils.dart';
 import 'package:nephrogo_api_client/model/blood_pressure.dart';
 import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
 import 'package:nephrogo_api_client/model/pulse.dart';
@@ -219,32 +218,11 @@ class _BloodPressureAndPulseCreationScreenState
     return true;
   }
 
-  Future _submit() async {
-    if (!_formKey.currentState.validate()) {
-      await showAppDialog(
-        context: context,
-        title: appLocalizations.error,
-        message: appLocalizations.formErrorDescription,
-      );
-
-      return false;
-    }
-    _formKey.currentState.save();
-
-    final savingFuture = _save().catchError(
-      (e, stackTrace) async {
-        await showAppDialog(
-          context: context,
-          title: appLocalizations.error,
-          message: appLocalizations.serverErrorDescription,
-        );
-      },
+  Future<bool> _submit() {
+    return FormUtils.validateAndSave(
+      context: context,
+      formKey: _formKey,
+      futureBuilder: _save,
     );
-
-    final res = await ProgressDialog(context).showForFuture(savingFuture);
-
-    if (res != null) {
-      Navigator.pop(context);
-    }
   }
 }
