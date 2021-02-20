@@ -24,15 +24,3 @@ extension IndexedIterable<E> on Iterable<E> {
     return this == null || isEmpty ? null : last;
   }
 }
-
-extension ListExtensions<E> on List<E> {
-  List<E> shift(int n) {
-    if (isEmpty) return this;
-    final i = n % length;
-    return sublist(i)..addAll(sublist(0, i));
-  }
-}
-
-extension NumericIterable<E extends num> on Iterable<E> {
-  // E get max => maxBy((v) => v);
-}
