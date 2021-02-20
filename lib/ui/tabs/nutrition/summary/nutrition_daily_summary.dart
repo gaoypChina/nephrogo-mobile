@@ -2,6 +2,7 @@ import 'package:collection_ext/all.dart';
 import 'package:collection_ext/iterables.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
+import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
@@ -73,7 +74,7 @@ class _NutritionDailySummaryScreenState
         ],
       ),
       body: DailyPager(
-        earliestDate: Date(2021, 1, 1),
+        earliestDate: Constants.earliestDate,
         initialDate: date,
         onPageChanged: (from, to) {
           date = from;

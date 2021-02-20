@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
+import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
@@ -67,7 +68,7 @@ class _BloodPressureAndPulseCreationScreenState
                       child: AppDatePickerFormField(
                         initialDate: _measuredAt,
                         selectedDate: _measuredAt,
-                        firstDate: DateTime(2021),
+                        firstDate: Constants.earliestDate,
                         lastDate: DateTime.now(),
                         validator: _formValidators.nonNull(),
                         onDateChanged: (dt) {

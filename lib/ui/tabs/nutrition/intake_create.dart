@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
+import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
@@ -194,7 +195,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                   AppDatePickerFormField(
                     initialDate: _consumedAt,
                     selectedDate: _consumedAt,
-                    firstDate: DateTime(2021),
+                    firstDate: Constants.earliestDate,
                     lastDate: DateTime.now(),
                     validator: formValidators.nonNull(),
                     dateFormat: _calendarDateFormat,
