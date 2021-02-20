@@ -127,7 +127,15 @@ class _BloodPressureAndPulseCreationScreenState
                         labelText:
                             appLocalizations.healthStatusCreationSystolic,
                         suffixText: 'mmHg',
-                        validator: _formValidators.numRangeValidator(1, 350),
+                        validator: _formValidators.and(
+                          _formValidators.numRangeValidator(1, 350),
+                          (v) {
+                            if (v == null && _diastolicBloodPressure != null) {
+                              return _formValidators.nonNull()(v);
+                            }
+                            return null;
+                          },
+                        ),
                         textInputAction: TextInputAction.next,
                         initialValue: _systolicBloodPressure,
                         onChanged: (value) => _systolicBloodPressure = value,
@@ -138,7 +146,15 @@ class _BloodPressureAndPulseCreationScreenState
                         labelText:
                             appLocalizations.healthStatusCreationDiastolic,
                         suffixText: 'mmHg',
-                        validator: _formValidators.numRangeValidator(1, 200),
+                        validator: _formValidators.and(
+                          _formValidators.numRangeValidator(1, 200),
+                          (v) {
+                            if (v == null && _systolicBloodPressure != null) {
+                              return _formValidators.nonNull()(v);
+                            }
+                            return null;
+                          },
+                        ),
                         textInputAction: TextInputAction.next,
                         initialValue: _diastolicBloodPressure,
                         onChanged: (value) => _diastolicBloodPressure = value,
