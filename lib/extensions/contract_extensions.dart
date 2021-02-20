@@ -597,37 +597,6 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     return builder.build();
   }
 
-  Iterable<Tuple2<DateTime, String>> getHealthIndicatorValuesFormatted(
-    HealthIndicator indicator,
-    AppLocalizations appLocalizations,
-  ) {
-    if (!isIndicatorExists(indicator) && indicator.isMultiValuesPerDay) {
-      return [];
-    }
-
-    if (indicator == HealthIndicator.bloodPressure) {
-      return bloodPressures.sortedBy((e) => e.measuredAt, reverse: true).map(
-        (p) {
-          return Tuple2(p.measuredAt, p.formattedAmount);
-        },
-      );
-    }
-    if (indicator == HealthIndicator.pulse) {
-      return pulses.sortedBy((e) => e.measuredAt, reverse: true).map(
-        (p) {
-          final formatted = '${p.pulse} ${appLocalizations.pulseDimension}';
-          return Tuple2(p.measuredAt, formatted);
-        },
-      );
-    }
-
-    throw ArgumentError.value(
-      this,
-      'healthIndicator',
-      'Unable to map indicator to multiple values. Does it support multi values ?',
-    );
-  }
-
   String getHealthIndicatorFormatted(
     HealthIndicator indicator,
     AppLocalizations appLocalizations,

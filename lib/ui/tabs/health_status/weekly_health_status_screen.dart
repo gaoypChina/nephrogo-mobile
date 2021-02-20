@@ -320,11 +320,6 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
 
   @override
   Widget build(BuildContext context) {
-    final values = dailyHealthStatus.getHealthIndicatorValuesFormatted(
-      indicator,
-      context.appLocalizations,
-    );
-
     return DailyHealthStatusIndicatorMultiValueSection(
       date: dailyHealthStatus.date.toDate(),
       indicator: indicator,
