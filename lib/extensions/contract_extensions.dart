@@ -572,7 +572,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
 
     if (indicator == HealthIndicator.bloodPressure) {
       return bloodPressures.sortedBy((e) => e.measuredAt, reverse: true).map(
-            (p) {
+        (p) {
           final formatted =
               '${p.systolicBloodPressure} / ${p.diastolicBloodPressure} mmHg';
           return Tuple2(p.measuredAt, formatted);
