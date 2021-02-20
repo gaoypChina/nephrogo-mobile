@@ -69,10 +69,6 @@ class DateTimeNumericChart extends StatelessWidget {
     return SfCartesianChart(
       title: _getChartTitle(),
       plotAreaBorderWidth: 0,
-      zoomPanBehavior: ZoomPanBehavior(
-        enablePinching: true,
-        zoomMode: ZoomMode.x,
-      ),
       legend: Legend(
         isVisible: false,
         position: legendPosition,
