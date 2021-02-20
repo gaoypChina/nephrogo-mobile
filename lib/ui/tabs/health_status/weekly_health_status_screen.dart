@@ -12,6 +12,7 @@ import 'package:nephrogo/ui/charts/health_indicator_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
+import 'package:nephrogo/ui/tabs/health_status/health_status_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
@@ -251,7 +252,6 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
     }
 
     return BasicSection(
-      showDividers: true,
       children: [
         DailyHealthStatusIndicatorTile(
           dailyHealthStatus: dailyHealthStatus,
@@ -365,20 +365,31 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final date = dailyHealthStatus.date.toDate();
+    final dateTitle = _dateFormat.format(date).capitalizeFirst();
+    final subtitle = getSubtitle(context.appLocalizations);
 
-    final dateTitle =
-        _dateFormat.format(dailyHealthStatus.date).capitalizeFirst();
-    final subtitle = getSubtitle(appLocalizations);
+    final formattedAmount = dailyHealthStatus.getHealthIndicatorFormatted(
+      indicator,
+      context.appLocalizations,
+    );
 
     return AppListTile(
       title: Text(dateTitle),
       subtitle: subtitle != null ? Text(subtitle) : null,
-      trailing: Text(
-        dailyHealthStatus.getHealthIndicatorFormatted(
-          indicator,
-          appLocalizations,
-        ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Text(formattedAmount),
+          ),
+          const Icon(Icons.chevron_right),
+        ],
+      ),
+      onTap: () => Navigator.of(context).pushNamed(
+        Routes.routeHealthStatusCreation,
+        arguments: HealthStatusCreationScreenArguments(date: date),
       ),
     );
   }

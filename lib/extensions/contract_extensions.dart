@@ -163,7 +163,7 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
   }
 
   Iterable<Tuple2<MealTypeEnum, List<Intake>>>
-  getIntakesGroupedByMealType() sync* {
+      getIntakesGroupedByMealType() sync* {
     final sortedIntakes = intakes.sortedBy((i) => i.consumedAt, reverse: true);
     final groups = sortedIntakes.groupBy((intake) => intake.mealType);
 
@@ -263,7 +263,7 @@ extension MealTypeExtensions on MealTypeEnum {
 }
 
 extension DailyNutrientNormsWithTotalsExtensions
-on DailyNutrientNormsWithTotals {
+    on DailyNutrientNormsWithTotals {
   DailyNutrientConsumption getDailyNutrientConsumption(Nutrient nutrient) {
     switch (nutrient) {
       case Nutrient.potassium:
@@ -595,8 +595,10 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     );
   }
 
-  String getHealthIndicatorFormatted(HealthIndicator indicator,
-      AppLocalizations appLocalizations,) {
+  String getHealthIndicatorFormatted(
+    HealthIndicator indicator,
+    AppLocalizations appLocalizations,
+  ) {
     if (!isIndicatorExists(indicator)) {
       return null;
     }
@@ -604,7 +606,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     switch (indicator) {
       case HealthIndicator.bloodPressure:
         final latestBloodPressure =
-        bloodPressures.maxBy((_, p) => p.measuredAt);
+            bloodPressures.maxBy((_, p) => p.measuredAt);
         return '${latestBloodPressure.systolicBloodPressure} / ${latestBloodPressure.diastolicBloodPressure} mmHg';
       case HealthIndicator.pulse:
         final latestPulse = pulses.maxBy((_, p) => p.measuredAt);
