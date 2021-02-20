@@ -16,6 +16,7 @@ class DateTimeNumericChart extends StatelessWidget {
   final double interval;
   final double maximumY;
   final bool isMultiValuesPerDay;
+  final bool legendToggleSeriesVisibility;
   final LegendPosition legendPosition;
 
   const DateTimeNumericChart({
@@ -31,6 +32,7 @@ class DateTimeNumericChart extends StatelessWidget {
     this.interval,
     this.maximumY,
     this.legendPosition = LegendPosition.top,
+    this.legendToggleSeriesVisibility = true,
     this.isMultiValuesPerDay = false,
   }) : super(key: key);
 
@@ -47,6 +49,7 @@ class DateTimeNumericChart extends StatelessWidget {
         isVisible: showLegend,
         position: legendPosition,
         overflowMode: LegendItemOverflowMode.wrap,
+        toggleSeriesVisibility: legendToggleSeriesVisibility,
       ),
       primaryXAxis: _getDateTimeAxis(),
       primaryYAxis: NumericAxis(

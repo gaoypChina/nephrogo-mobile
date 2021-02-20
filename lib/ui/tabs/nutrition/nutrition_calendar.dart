@@ -74,7 +74,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
         final consumption = r.nutrientNormsAndTotals
             .getDailyNutrientConsumption(widget.nutrient);
 
-        return consumption.isNormExceeded == true;
+        return consumption.normExceeded == true;
       },
     ).map((r) => r.date);
   }

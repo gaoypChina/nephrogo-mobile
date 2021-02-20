@@ -45,6 +45,7 @@ class NutrientBarChart extends StatelessWidget {
     return DateTimeNumericChart(
       series: _getStackedColumnSeries(context).toList(),
       yAxisText: "$nutrientConsumptionName, ${nutrient.scaledDimension}",
+      legendToggleSeriesVisibility: false,
       from: minimumDate,
       to: maximumDate,
       decimalPlaces: nutrient.decimalPlaces,
@@ -66,8 +67,10 @@ class NutrientBarChart extends StatelessWidget {
         return total * nutrient.scale;
       },
       pointColorMapper: (report, _) => _barColor(report),
+      sortFieldValueMapper: (r, _) => r.date,
       name: nutrient.name(context.appLocalizations),
       color: Colors.teal,
+      isVisibleInLegend: false,
     );
 
     final dailyNormSeries = _getDailyNormLineSeries(context);
@@ -102,7 +105,7 @@ class NutrientBarChart extends StatelessWidget {
   Color _barColor(DailyIntakesLightReport report) {
     final normExceeded = report.nutrientNormsAndTotals
         .getDailyNutrientConsumption(nutrient)
-        .isNormExceeded;
+        .normExceeded;
 
     if (normExceeded == null) {
       return Colors.grey;

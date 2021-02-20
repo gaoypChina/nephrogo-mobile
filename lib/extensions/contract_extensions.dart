@@ -140,7 +140,7 @@ extension DailyNutrientConsumptionExtensions on DailyNutrientConsumption {
 
   bool get isNormExists => norm != null;
 
-  bool get isNormExceeded {
+  bool get normExceeded {
     if (norm == null) {
       return null;
     }
@@ -313,14 +313,14 @@ extension DailyNutrientNormsWithTotalsExtensions
   int normsExceededCount() {
     return Nutrient.values
         .map(getDailyNutrientConsumption)
-        .where((c) => c.isNormExceeded == true)
+        .where((c) => c.normExceeded == true)
         .length;
   }
 
   bool isAtLeastOneNormExceeded() {
     return Nutrient.values
         .map(getDailyNutrientConsumption)
-        .any((c) => c.isNormExceeded == true);
+        .any((c) => c.normExceeded == true);
   }
 
   bool isAtLeastTotalNonZeo() {

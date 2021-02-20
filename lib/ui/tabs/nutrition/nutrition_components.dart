@@ -537,7 +537,7 @@ class NutrientDailyNutritionTile extends StatelessWidget {
       title: Text(_dateFormat.format(date).capitalizeFirst()),
       subtitle: Text(_getSubtitleText(appLocalizations)),
       leading: _leadingTotalConsumptionIndicator(),
-      isThreeLine: consumption.isNormExceeded != null,
+      isThreeLine: consumption.normExceeded != null,
       trailing: SizedBox(
         height: double.infinity,
         child: Row(
@@ -578,11 +578,11 @@ class NutrientDailyNutritionTile extends StatelessWidget {
   }
 
   String _getNormExceededText(AppLocalizations appLocalizations) {
-    if (consumption.isNormExceeded == null) {
+    if (consumption.normExceeded == null) {
       return null;
     }
 
-    if (consumption.isNormExceeded) {
+    if (consumption.normExceeded) {
       return appLocalizations.dailyNormExplanationExceeded;
     } else {
       return appLocalizations.dailyNormExplanationNotExceeded;
