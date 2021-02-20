@@ -374,7 +374,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     final profile = await ProgressDialog(context)
         .showForFuture(_saveUserProfileToApi())
         .catchError(
-          (e, stackTrace) async {
+      (e, stackTrace) async {
         await showAppDialog(
           context: context,
           title: _appLocalizations.error,
