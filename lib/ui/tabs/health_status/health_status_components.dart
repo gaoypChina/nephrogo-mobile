@@ -14,22 +14,22 @@ class HealthStatusCreationFloatingActionButton extends StatelessWidget {
       tooltipText: context.appLocalizations.createMeals,
       children: [
         _createDialButton(
-          icon: Icons.analytics,
-          onTap: () => _createHealthStatus(context),
-          backgroundColor: Colors.teal,
-          label: context.appLocalizations.addOtherHealthStatuses,
-        ),
-        _createDialButton(
           icon: Icons.favorite,
           onTap: () => _createBloodPressureOrPulse(context),
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.deepPurple,
           label: context.appLocalizations.addBloodPressure,
         ),
         _createDialButton(
           icon: Icons.timeline,
           onTap: () => _createBloodPressureOrPulse(context),
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Colors.blue,
           label: context.appLocalizations.addPulse,
+        ),
+        _createDialButton(
+          icon: Icons.analytics,
+          onTap: () => _createHealthStatus(context),
+          backgroundColor: Colors.teal,
+          label: context.appLocalizations.addOtherHealthStatuses,
         ),
       ],
     );
