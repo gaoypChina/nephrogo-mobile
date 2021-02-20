@@ -189,7 +189,7 @@ class _NutritionDailySummaryListNutritionSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return LargeSection(
       showDividers: true,
-      title: mealType.localizedName(context.appLocalizations),
+      title: Text(mealType.localizedName(context.appLocalizations)),
       trailing: mealType != MealTypeEnum.unknown
           ? OutlinedButton(
               onPressed: () => Navigator.pushNamed(
@@ -283,7 +283,7 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
     return LargeSection(
       showDividers: true,
       showHeaderDivider: true,
-      title: mealType.localizedName(context.appLocalizations),
+      title: Text(mealType.localizedName(context.appLocalizations)),
       subtitle: intakes?.isNotEmpty ?? false
           ? Text(_getMealTotalText(context))
           : null,

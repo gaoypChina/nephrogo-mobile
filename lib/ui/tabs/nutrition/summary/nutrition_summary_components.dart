@@ -33,7 +33,7 @@ class NutritionDailyListWithHeaderEmpty extends StatelessWidget {
 
         return LargeSection(
           showDividers: true,
-          title: mealType.localizedName(context.appLocalizations),
+          title: Text(mealType.localizedName(context.appLocalizations)),
           trailing: OutlinedButton(
             onPressed: () => Navigator.pushNamed(
               context,

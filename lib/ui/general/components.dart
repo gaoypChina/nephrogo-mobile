@@ -152,7 +152,7 @@ class BasicSection extends StatelessWidget {
 
 class LargeSection extends StatelessWidget {
   final List<Widget> children;
-  final String title;
+  final Widget title;
   final Widget subtitle;
   final Widget leading;
   final Widget trailing;
@@ -178,7 +178,7 @@ class LargeSection extends StatelessWidget {
       showDividers: showDividers,
       showHeaderDivider: showHeaderDivider,
       header: LargeAppListTile(
-        title: Text(title),
+        title: title,
         subtitle: subtitle,
         leading: leading,
         trailing: trailing,

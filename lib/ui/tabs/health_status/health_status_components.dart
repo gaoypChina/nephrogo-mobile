@@ -3,6 +3,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation_screen.dart';
 
 class HealthStatusCreationFloatingActionButton extends StatelessWidget {
   @override
@@ -59,6 +60,7 @@ class HealthStatusCreationFloatingActionButton extends StatelessWidget {
     return Navigator.pushNamed(
       context,
       Routes.routeBloodPressureAndPulseCreation,
+      arguments: BloodPressureAndPulseCreationScreenArguments(),
     );
   }
 }

@@ -280,7 +280,10 @@ class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BasicSection(
       header: AppListTile(
-        title: Text(dateFormat.format(date).capitalizeFirst()),
+        title: Text(
+          dateFormat.format(date).capitalizeFirst(),
+          maxLines: 1,
+        ),
         subtitle: Text(indicator.name(context.appLocalizations)),
         leading: CircleAvatar(
           child: Text(

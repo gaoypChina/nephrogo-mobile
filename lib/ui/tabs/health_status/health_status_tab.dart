@@ -86,7 +86,7 @@ class _HealthStatusTabBody extends StatelessWidget {
         .any((s) => s.isIndicatorExists(indicator));
 
     return LargeSection(
-      title: indicator.name(appLocalizations),
+      title: Text(indicator.name(appLocalizations)),
       showDividers: true,
       subtitle:
           Text(appLocalizations.healthIndicatorSubtitle(todayConsumption)),
