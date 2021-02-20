@@ -357,6 +357,21 @@ class ApiService {
     );
   }
 
+  Future<BloodPressure> updateBloodPressure(
+    int id,
+    BloodPressureRequest bloodPressureRequest,
+  ) {
+    return _healthStatusApi
+        .healthStatusBloodPressureUpdate(id, bloodPressureRequest)
+        .then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+
+        return r.data;
+      },
+    );
+  }
+
   Future<Pulse> createPulse(PulseRequest pulseRequest) {
     return _healthStatusApi.healthStatusPulseCreate(pulseRequest).then(
       (r) {

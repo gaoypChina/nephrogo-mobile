@@ -7,6 +7,8 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo_api_client/model/appetite_enum.dart';
+import 'package:nephrogo_api_client/model/blood_pressure.dart';
+import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
@@ -498,6 +500,22 @@ extension SwellingExtension on Swelling {
   }
 }
 
+extension BloodPressureExtensions on BloodPressure {
+  BloodPressureRequestBuilder toRequestBuilder() {
+    final builder = BloodPressureRequestBuilder();
+
+    builder.diastolicBloodPressure = diastolicBloodPressure;
+    builder.systolicBloodPressure = systolicBloodPressure;
+    builder.measuredAt = measuredAt.toUtc();
+
+    return builder;
+  }
+
+  String get formattedAmount {
+    return '$systolicBloodPressure / $diastolicBloodPressure mmHg';
+  }
+}
+
 // Health indicators
 extension DailyHealthStatusExtensions on DailyHealthStatus {
   bool isIndicatorExists(HealthIndicator indicator) {
@@ -573,9 +591,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     if (indicator == HealthIndicator.bloodPressure) {
       return bloodPressures.sortedBy((e) => e.measuredAt, reverse: true).map(
         (p) {
-          final formatted =
-              '${p.systolicBloodPressure} / ${p.diastolicBloodPressure} mmHg';
-          return Tuple2(p.measuredAt, formatted);
+          return Tuple2(p.measuredAt, p.formattedAmount);
         },
       );
     }

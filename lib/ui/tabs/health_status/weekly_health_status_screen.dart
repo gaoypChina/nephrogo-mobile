@@ -12,6 +12,7 @@ import 'package:nephrogo/ui/charts/health_indicator_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
+import 'package:nephrogo/ui/tabs/health_status/blood_pressure_edit_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/health_status_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
@@ -326,15 +327,56 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
     return DailyHealthStatusIndicatorMultiValueSection(
       date: dailyHealthStatus.date.toDate(),
       indicator: indicator,
-      children: [
-        for (final value in values)
-          AppListTile(
-            title: Text(fullDateFormat.format(value.item1.toLocal())),
-            trailing: Text(value.item2),
-            dense: true,
-          )
-      ],
+      children: _buildChildren(context).toList(),
     );
+  }
+
+  Widget _buildValueTile({
+    @required DateTime dateTime,
+    @required String formattedAmount,
+    @required GestureTapCallback onTap,
+  }) {
+    return AppListTile(
+      title: Text(fullDateFormat.format(dateTime.toLocal())),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Text(formattedAmount),
+          ),
+          const Icon(Icons.chevron_right),
+        ],
+      ),
+      dense: true,
+      onTap: onTap,
+    );
+  }
+
+  Iterable<Widget> _buildBloodPressureChildren(BuildContext context) {
+    return dailyHealthStatus.bloodPressures
+        .sortedBy((e) => e.measuredAt, reverse: true)
+        .map(
+      (b) {
+        return _buildValueTile(
+          dateTime: b.measuredAt,
+          formattedAmount: b.formattedAmount,
+          onTap: () => Navigator.pushNamed(
+            context,
+            Routes.routeBloodPressureEdit,
+            arguments: BloodPressureEditScreenArguments(b),
+          ),
+        );
+      },
+    );
+  }
+
+  Iterable<Widget> _buildChildren(BuildContext context) {
+    if (indicator == HealthIndicator.bloodPressure) {
+      return _buildBloodPressureChildren(context);
+    }
+
+    throw ArgumentError.value(indicator);
   }
 }
 
