@@ -618,6 +618,7 @@ class AppDoubleInputField extends StatelessWidget {
   final FormFieldSetter<double> onChanged;
   final String suffixText;
   final int fractionDigits;
+  final TextInputAction textInputAction;
 
   const AppDoubleInputField({
     Key key,
@@ -631,6 +632,7 @@ class AppDoubleInputField extends StatelessWidget {
     this.icon,
     this.validator,
     this.suffixText,
+    this.textInputAction,
   }) : super(key: key);
 
   @override
@@ -647,6 +649,7 @@ class AppDoubleInputField extends StatelessWidget {
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [FilteringTextInputFormatter.allow(floatRegexPattern)],
       suffixText: suffixText,
+      textInputAction: textInputAction,
     );
   }
 

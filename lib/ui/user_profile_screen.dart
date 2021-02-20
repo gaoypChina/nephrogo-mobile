@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:nephrogo/api/api_service.dart';
@@ -48,8 +47,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   FormValidators _formValidators;
 
-  final _userProfileMemoizer = AsyncMemoizer<UserProfile>();
-
   UserProfileRequestBuilder _userProfileBuilder;
 
   DiabetesTypeEnum _diabetesType;
@@ -65,10 +62,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     super.initState();
 
     _userProfileBuilder = UserProfileRequestBuilder();
-
-    _userProfileMemoizer.runOnce(() async {
-      return _apiService.getUserProfile();
-    });
   }
 
   @override
@@ -86,7 +79,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         ],
       ),
       body: AppFutureBuilder<UserProfile>(
-        future: _userProfileMemoizer.future,
+        future: _apiService.getUserProfile(),
         builder: (context, userProfile) {
           return _buildBody(userProfile);
         },
@@ -94,8 +87,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  Widget _buildBody(UserProfile initialUserProfile) {
-    _diabetesType = _diabetesType ?? initialUserProfile?.diabetesType;
+  Widget _buildBody(UserProfile userProfile) {
+    _diabetesType = _diabetesType ?? userProfile?.diabetesType;
+    final isInitial = userProfile == null;
 
     return Form(
       key: _formKey,
@@ -125,7 +119,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 children: [
                   AppSelectFormField<GenderEnum>(
                     labelText: _appLocalizations.gender,
-                    initialValue: initialUserProfile?.gender,
+                    initialValue: userProfile?.gender,
                     validator: _formValidators.nonNull(),
                     onSaved: (v) => _userProfileBuilder.gender = v.value,
                     items: [
@@ -145,7 +139,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       _formValidators.nonNull(),
                       _formValidators.numRangeValidator(1920, 2003),
                     ),
-                    initialValue: initialUserProfile?.yearOfBirth,
+                    initialValue: userProfile?.yearOfBirth,
+                    textInputAction: isInitial ? TextInputAction.next : null,
                     onSaved: (v) => _userProfileBuilder.yearOfBirth = v,
                     suffixText: 'm.',
                   ),
@@ -155,7 +150,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       _formValidators.nonNull(),
                       _formValidators.numRangeValidator(100, 250),
                     ),
-                    initialValue: initialUserProfile?.heightCm,
+                    initialValue: userProfile?.heightCm,
+                    textInputAction: isInitial ? TextInputAction.next : null,
                     suffixText: 'cm',
                     onSaved: (v) => _userProfileBuilder.heightCm = v,
                   ),
@@ -168,11 +164,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   AppIntegerFormField(
                     labelText: _appLocalizations
                         .userProfileSectionChronicKidneyDiseaseAge,
+                    textInputAction: isInitial ? TextInputAction.next : null,
                     validator: _formValidators.and(
                       _formValidators.nonNull(),
                       _formValidators.numRangeValidator(0, 100),
                     ),
-                    initialValue: initialUserProfile?.chronicKidneyDiseaseYears,
+                    initialValue: userProfile?.chronicKidneyDiseaseYears,
                     suffixText: 'm.',
                     onSaved: (v) =>
                         _userProfileBuilder.chronicKidneyDiseaseYears = v,
@@ -184,7 +181,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         .userProfileSectionChronicKidneyDiseaseStageHelper,
                     onSaved: (v) =>
                         _userProfileBuilder.chronicKidneyDiseaseStage = v.value,
-                    initialValue: initialUserProfile?.chronicKidneyDiseaseStage,
+                    initialValue: userProfile?.chronicKidneyDiseaseStage,
                     validator: _formValidators.nonNull(),
                     items: [
                       AppSelectFormFieldItem(
@@ -221,7 +218,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   AppSelectFormField<DialysisTypeEnum>(
                     labelText: _appLocalizations.userProfileSectionDialysisType,
                     validator: _formValidators.nonNull(),
-                    initialValue: initialUserProfile?.dialysisType
+                    initialValue: userProfile?.dialysisType
                         ?.enumWithoutDefault(DialysisTypeEnum.unknown),
                     onSaved: (v) => _userProfileBuilder.dialysisType = v.value,
                     items: [
@@ -257,7 +254,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   AppSelectFormField<DiabetesTypeEnum>(
                     labelText: _appLocalizations.userProfileSectionDiabetesType,
                     validator: _formValidators.nonNull(),
-                    initialValue: initialUserProfile?.diabetesType
+                    initialValue: userProfile?.diabetesType
                             ?.enumWithoutDefault(DiabetesTypeEnum.unknown) ??
                         DiabetesTypeEnum.no,
                     onChanged: (dt) {
@@ -290,7 +287,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         AppIntegerFormField(
                           labelText:
                               _appLocalizations.userProfileSectionDiabetesAge,
-                          initialValue: initialUserProfile?.diabetesYears,
+                          initialValue: userProfile?.diabetesYears,
+                          textInputAction:
+                              isInitial ? TextInputAction.next : null,
                           validator: _formValidators.or(
                             _formValidators.and(
                               _formValidators.nonNull(),
@@ -306,9 +305,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               .userProfileSectionDiabetesComplications,
                           onSaved: (v) => _userProfileBuilder
                               .diabetesComplications = v?.value,
-                          initialValue:
-                              initialUserProfile?.diabetesComplications ??
-                                  DiabetesComplicationsEnum.unknown,
+                          initialValue: userProfile?.diabetesComplications ??
+                              DiabetesComplicationsEnum.unknown,
                           validator: _formValidators.or(
                             _formValidators.nonNull(),
                             (_) => !isDiabetic ? null : '',

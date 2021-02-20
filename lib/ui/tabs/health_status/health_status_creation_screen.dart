@@ -87,6 +87,7 @@ class _HealthStatusCreationScreenState
                   labelText: appLocalizations.weight,
                   fractionDigits: 1,
                   suffixText: 'kg',
+                  textInputAction: TextInputAction.next,
                   helperText: appLocalizations.userProfileWeightHelper,
                   initialValue: _requestBuilder.weightKg,
                   validator: formValidators.numRangeValidator(30.0, 300.0),
@@ -95,12 +96,14 @@ class _HealthStatusCreationScreenState
                 AppIntegerFormField(
                   labelText: appLocalizations.healthStatusCreationUrine,
                   suffixText: 'ml',
+                  textInputAction: TextInputAction.next,
                   initialValue: _requestBuilder.urineMl,
                   validator: formValidators.numRangeValidator(0, 10000),
                   onChanged: (value) => _requestBuilder.urineMl = value,
                 ),
                 AppDoubleInputField(
                   labelText: appLocalizations.healthStatusCreationGlucose,
+                  textInputAction: TextInputAction.next,
                   suffixText: 'mmol/l',
                   fractionDigits: 2,
                   validator: formValidators.numRangeValidator(0.01, 100.0),
