@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/models/date.dart';
+import 'package:nephrogo/utils/date_utils.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DateTimeNumericChart extends StatelessWidget {
@@ -82,7 +84,7 @@ class DateTimeNumericChart extends StatelessWidget {
         interval: interval,
         maximum: maximumY,
       ),
-      series: series,
+      series: _getSeries(),
       tooltipBehavior: TooltipBehavior(
         decimalPlaces: decimalPlaces,
         enable: true,
@@ -90,6 +92,23 @@ class DateTimeNumericChart extends StatelessWidget {
         shared: true,
       ),
     );
+  }
+
+  List<XyDataSeries> _getSeries() {
+    return [
+      LineSeries<Date, DateTime>(
+        dataSource: DateUtils.generateDates(
+          from.toDate(),
+          to.toDate(),
+        ).toList(),
+        xValueMapper: (d, _) => d,
+        yValueMapper: (d, _) => 0,
+        isVisibleInLegend: false,
+        enableTooltip: false,
+        color: Colors.transparent,
+      ),
+      ...series,
+    ];
   }
 
   ChartTitle _getChartTitle() {
@@ -117,17 +136,15 @@ class DateTimeNumericChart extends StatelessWidget {
     double interval;
     var intervalType = DateTimeIntervalType.auto;
 
-    if (minimum != null && maximum != null) {
-      final daysDifference = maximum.difference(minimum).inDays;
-      if (daysDifference <= 1) {
-        maximum = from.add(const Duration(days: 1));
-        intervalType = DateTimeIntervalType.hours;
-        interval = 1;
-      } else if (daysDifference <= 7) {
-        intervalType = DateTimeIntervalType.days;
-        interval = 1;
-        minimum = minimum.subtract(const Duration(hours: 12));
-      }
+    final daysDifference = maximum.difference(minimum).inDays;
+    if (daysDifference <= 1) {
+      maximum = from.add(const Duration(days: 1));
+      intervalType = DateTimeIntervalType.hours;
+      interval = 1;
+    } else if (daysDifference <= 7) {
+      intervalType = DateTimeIntervalType.days;
+      interval = 1;
+      minimum = minimum.subtract(const Duration(hours: 12));
     }
 
     return DateTimeAxis(
