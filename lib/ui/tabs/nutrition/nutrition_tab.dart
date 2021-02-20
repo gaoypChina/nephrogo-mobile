@@ -28,7 +28,7 @@ class NutritionTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: const IntakeCreationFloatingActionButton(),
+      floatingActionButton: IntakeCreationFloatingActionButton(),
       body: _buildBody(context),
     );
   }

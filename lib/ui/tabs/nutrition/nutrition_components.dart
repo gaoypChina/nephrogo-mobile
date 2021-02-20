@@ -20,19 +20,7 @@ import 'package:nephrogo_api_client/model/meal_type_enum.dart';
 import 'intake_edit.dart';
 import 'product_search.dart';
 
-class IntakeCreationFloatingActionButton extends StatefulWidget {
-  final MealTypeEnum mealType;
-
-  const IntakeCreationFloatingActionButton({Key key, this.mealType})
-      : super(key: key);
-
-  @override
-  _IntakeCreationFloatingActionButtonState createState() =>
-      _IntakeCreationFloatingActionButtonState();
-}
-
-class _IntakeCreationFloatingActionButtonState
-    extends State<IntakeCreationFloatingActionButton> {
+class IntakeCreationFloatingActionButton extends StatelessWidget {
   final _mealTypesWithColors = LinkedHashMap.fromEntries([
     const MapEntry(MealTypeEnum.breakfast, Colors.indigo),
     const MapEntry(MealTypeEnum.lunch, Colors.teal),
@@ -40,37 +28,28 @@ class _IntakeCreationFloatingActionButtonState
     const MapEntry(MealTypeEnum.snack, Colors.deepOrange),
   ]);
 
-  ValueNotifier<bool> _isDialOpen;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _isDialOpen = ValueNotifier(false);
-  }
-
   @override
   Widget build(BuildContext context) {
     return SpeedDialFloatingActionButton(
       tooltipText: context.appLocalizations.createMeals,
-      children: _getMealTypeDials(),
+      children: _getMealTypeDials(context),
     );
   }
 
-  List<SpeedDialChild> _getMealTypeDials() {
+  List<SpeedDialChild> _getMealTypeDials(BuildContext context) {
     return _mealTypesWithColors.keys.map((mealType) {
       return SpeedDialChild(
         child: Icon(mealType.icon),
         backgroundColor: _mealTypesWithColors[mealType],
         labelStyle: const TextStyle(fontSize: 16),
         foregroundColor: Colors.white,
-        label: _localizedAddLabel(mealType),
+        label: _localizedAddLabel(context, mealType),
         onTap: () => _createProduct(context, mealType),
       );
     }).toList();
   }
 
-  String _localizedAddLabel(MealTypeEnum mealType) {
+  String _localizedAddLabel(BuildContext context, MealTypeEnum mealType) {
     switch (mealType) {
       case MealTypeEnum.breakfast:
         return context.appLocalizations.addBreakfast;
@@ -94,13 +73,6 @@ class _IntakeCreationFloatingActionButtonState
         mealType,
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _isDialOpen.dispose();
-
-    super.dispose();
   }
 }
 
@@ -177,7 +149,7 @@ class DailyIntakesReportSection extends StatelessWidget {
     final appLocalizations = AppLocalizations.of(context);
 
     final exceededCount =
-    dailyIntakesLightReport.nutrientNormsAndTotals.normsExceededCount();
+        dailyIntakesLightReport.nutrientNormsAndTotals.normsExceededCount();
 
     switch (exceededCount) {
       case 0:
@@ -210,10 +182,11 @@ class IntakeWithNormsSection extends StatelessWidget {
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
   final EdgeInsets margin;
 
-  IntakeWithNormsSection(this.intake,
-      this.dailyNutrientNormsAndTotals, {
-        this.margin,
-      }) : super(key: ObjectKey(intake));
+  IntakeWithNormsSection(
+    this.intake,
+    this.dailyNutrientNormsAndTotals, {
+    this.margin,
+  }) : super(key: ObjectKey(intake));
 
   @override
   Widget build(BuildContext context) {
@@ -240,8 +213,10 @@ class IntakeTile extends StatelessWidget {
   final Intake intake;
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
 
-  IntakeTile(this.intake,
-      this.dailyNutrientNormsAndTotals,) : super(key: ObjectKey(intake));
+  IntakeTile(
+    this.intake,
+    this.dailyNutrientNormsAndTotals,
+  ) : super(key: ObjectKey(intake));
 
   @override
   Widget build(BuildContext context) {
@@ -286,11 +261,12 @@ class IntakeExpandableTile extends StatelessWidget {
   final bool initiallyExpanded;
   final bool showDate;
 
-  IntakeExpandableTile(this.intake,
-      this.dailyNutrientNormsAndTotals, {
-        this.initiallyExpanded = false,
-        this.showDate = true,
-      }) : super(key: PageStorageKey(intake));
+  IntakeExpandableTile(
+    this.intake,
+    this.dailyNutrientNormsAndTotals, {
+    this.initiallyExpanded = false,
+    this.showDate = true,
+  }) : super(key: PageStorageKey(intake));
 
   @override
   Widget build(BuildContext context) {
@@ -300,7 +276,7 @@ class IntakeExpandableTile extends StatelessWidget {
         title: Text(intake.product.name),
         subtitle: Text(_getSubtitleParts(context).join(" | ")),
         onLongPress:
-        (intake.id != null) ? () => _showLongClickDialog(context) : null,
+            (intake.id != null) ? () => _showLongClickDialog(context) : null,
         initiallyExpanded: initiallyExpanded,
         leading: ProductKindIcon(productKind: intake.product.productKind),
         children: ListTile.divideTiles(
@@ -368,11 +344,12 @@ class IntakeNutrientDenseTile extends StatelessWidget {
   final Intake intake;
   final Nutrient nutrient;
 
-  const IntakeNutrientDenseTile(this.intake,
-      this.nutrient,
-      this.dailyNutrientNormsAndTotals, {
-        Key key,
-      }) : super(key: key);
+  const IntakeNutrientDenseTile(
+    this.intake,
+    this.nutrient,
+    this.dailyNutrientNormsAndTotals, {
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -388,7 +365,7 @@ class IntakeNutrientDenseTile extends StatelessWidget {
     }
 
     final amountText =
-    intake.product.getFormattedTotalAmount(nutrient, intake.amountG);
+        intake.product.getFormattedTotalAmount(nutrient, intake.amountG);
 
     final subtitle = _getSubtitle(appLocalizations);
 
@@ -443,11 +420,12 @@ class DailyIntakesReportNutrientTile extends StatelessWidget {
   final Date date;
   final Nutrient nutrient;
 
-  const DailyIntakesReportNutrientTile(this.dailyNutrientNormsAndTotals,
-      this.date,
-      this.nutrient, {
-        Key key,
-      })  : assert(dailyNutrientNormsAndTotals != null),
+  const DailyIntakesReportNutrientTile(
+    this.dailyNutrientNormsAndTotals,
+    this.date,
+    this.nutrient, {
+    Key key,
+  })  : assert(dailyNutrientNormsAndTotals != null),
         assert(nutrient != null),
         super(key: key);
 
@@ -492,10 +470,10 @@ class DailyIntakesReportNutrientTile extends StatelessWidget {
 
   String _getSubtitleText(AppLocalizations appLocalizations) {
     final totalFormatted =
-    dailyNutrientNormsAndTotals.getNutrientTotalAmountFormatted(nutrient);
+        dailyNutrientNormsAndTotals.getNutrientTotalAmountFormatted(nutrient);
 
     final normFormatted =
-    dailyNutrientNormsAndTotals.getNutrientNormFormatted(nutrient);
+        dailyNutrientNormsAndTotals.getNutrientNormFormatted(nutrient);
     if (normFormatted != null) {
       return appLocalizations.consumptionWithNorm(
           totalFormatted, normFormatted);
@@ -530,17 +508,20 @@ class NutrientDailyNutritionTile extends StatelessWidget {
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
   final Nutrient nutrient;
 
-  NutrientDailyNutritionTile(this.date,
-      this.dailyNutrientNormsAndTotals,
-      this.nutrient, {
-        Key key,
-      })  : assert(dailyNutrientNormsAndTotals != null),
+  NutrientDailyNutritionTile(
+    this.date,
+    this.dailyNutrientNormsAndTotals,
+    this.nutrient, {
+    Key key,
+  })  : assert(dailyNutrientNormsAndTotals != null),
         assert(nutrient != null),
         assert(date != null),
         super(key: key);
 
-  NutrientDailyNutritionTile.fromLightReport(this.nutrient,
-      DailyIntakesLightReport lightReport,)   : date = lightReport.date.toDate(),
+  NutrientDailyNutritionTile.fromLightReport(
+    this.nutrient,
+    DailyIntakesLightReport lightReport,
+  )   : date = lightReport.date.toDate(),
         dailyNutrientNormsAndTotals = lightReport.nutrientNormsAndTotals;
 
   DailyNutrientConsumption get consumption =>
@@ -584,10 +565,10 @@ class NutrientDailyNutritionTile extends StatelessWidget {
 
   String _getConsumptionText(AppLocalizations appLocalizations) {
     final totalFormatted =
-    dailyNutrientNormsAndTotals.getNutrientTotalAmountFormatted(nutrient);
+        dailyNutrientNormsAndTotals.getNutrientTotalAmountFormatted(nutrient);
 
     final normFormatted =
-    dailyNutrientNormsAndTotals.getNutrientNormFormatted(nutrient);
+        dailyNutrientNormsAndTotals.getNutrientNormFormatted(nutrient);
     if (normFormatted != null) {
       return appLocalizations.consumptionWithNorm(
           totalFormatted, normFormatted);
@@ -655,11 +636,12 @@ class NutrientIntakeTile extends StatelessWidget {
   final Nutrient nutrient;
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
 
-  NutrientIntakeTile(this.intake,
-      this.nutrient,
-      this.dailyNutrientNormsAndTotals, {
-        Key key,
-      }) : super(key: key);
+  NutrientIntakeTile(
+    this.intake,
+    this.nutrient,
+    this.dailyNutrientNormsAndTotals, {
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -719,7 +701,8 @@ class NutrientIntakeTile extends StatelessWidget {
   }
 
   Iterable<String> _getFirstSubtitleLineParts(
-      AppLocalizations appLocalizations,) sync* {
+    AppLocalizations appLocalizations,
+  ) sync* {
     yield intake.getAmountFormatted();
 
     yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
