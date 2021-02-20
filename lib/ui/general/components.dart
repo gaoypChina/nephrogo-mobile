@@ -1,6 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:nephrogo_api_client/model/product_kind_enum.dart';
+
+class SpeedDialFloatingActionButton extends StatefulWidget {
+  final String tooltipText;
+  final List<SpeedDialChild> children;
+  final VoidCallback onPress;
+
+  const SpeedDialFloatingActionButton({
+    Key key,
+    this.tooltipText,
+    this.onPress,
+    this.children = const [],
+  }) : super(key: key);
+
+  @override
+  _SpeedDialFloatingActionButtonState createState() =>
+      _SpeedDialFloatingActionButtonState();
+}
+
+class _SpeedDialFloatingActionButtonState
+    extends State<SpeedDialFloatingActionButton> {
+  ValueNotifier<bool> _isDialOpen;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isDialOpen = ValueNotifier(false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        if (_isDialOpen.value) {
+          _isDialOpen.value = false;
+          return false;
+        }
+        return true;
+      },
+      child: SpeedDial(
+        overlayOpacity: 0.9,
+        openCloseDial: _isDialOpen,
+        icon: Icons.add,
+        activeIcon: Icons.close,
+        backgroundColor: Colors.redAccent,
+        tooltip: widget.tooltipText,
+        iconTheme: const IconThemeData(color: Colors.white),
+        children: widget.children,
+        onPress: widget.onPress,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _isDialOpen.dispose();
+
+    super.dispose();
+  }
+}
 
 class BasicSection extends StatelessWidget {
   final Widget header;

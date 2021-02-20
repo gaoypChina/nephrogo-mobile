@@ -57,6 +57,11 @@ dependencies:
       url: https://github.com/nephrogo/nephrogo-api-dart-client.git
       ref: release/v0.4.5
 
+  flutter_speed_dial:
+    git:
+      url: https://github.com/darioielardi/flutter_speed_dial.git
+      ref: 75351a17f9c7d3de8ad50c11c0dc37c5c4054c81
+
   ars_progress_dialog: 0.1.2
 
   pretty_dio_logger: ^1.1.1
