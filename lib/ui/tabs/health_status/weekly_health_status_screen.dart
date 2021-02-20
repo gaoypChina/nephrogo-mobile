@@ -110,17 +110,26 @@ class _HealthStatusScreenTab extends StatelessWidget {
     return AppStreamBuilder<HealthStatusWeeklyScreenResponse>(
       stream: _apiService.getWeeklyHealthStatusReportsStream(from, to),
       builder: (context, data) {
-        final showChart = data.dailyHealthStatuses
+        final indicatorsExists = data.dailyHealthStatuses
             .any((s) => s.isIndicatorExists(healthIndicator));
-        if (!showChart) {
-          return DateSwitcherHeaderSection(
-            header: header,
-            children: [
-              EmptyStateContainer(
-                text: context.appLocalizations.weeklyHealthStatusEmpty,
-              )
-            ],
-          );
+
+        if (!indicatorsExists) {
+          if (pagerType == PeriodPagerType.daily) {
+            return EmptyDailyHealthIndicatorsListWithChart(
+              date: from,
+              healthIndicator: healthIndicator,
+              header: header,
+            );
+          } else {
+            return DateSwitcherHeaderSection(
+              header: header,
+              children: [
+                EmptyStateContainer(
+                  text: context.appLocalizations.weeklyHealthStatusEmpty,
+                )
+              ],
+            );
+          }
         }
 
         return HealthIndicatorsListWithChart(
@@ -132,6 +141,47 @@ class _HealthStatusScreenTab extends StatelessWidget {
           appLocalizations: context.appLocalizations,
         );
       },
+    );
+  }
+}
+
+class EmptyDailyHealthIndicatorsListWithChart extends StatelessWidget {
+  final Date date;
+  final HealthIndicator healthIndicator;
+  final Widget header;
+
+  const EmptyDailyHealthIndicatorsListWithChart({
+    Key key,
+    @required this.date,
+    @required this.healthIndicator,
+    @required this.header,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        DateSwitcherHeaderSection(
+          header: header,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              child: HealthIndicatorBarChart(
+                dailyHealthStatuses: const [],
+                indicator: healthIndicator,
+                appLocalizations: context.appLocalizations,
+                from: date,
+                to: date,
+              ),
+            ),
+          ],
+        ),
+        DailyHealthStatusIndicatorMultiValueSection(
+          date: date,
+          indicator: healthIndicator,
+          children: const [],
+        ),
+      ],
     );
   }
 }
@@ -169,7 +219,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
             header: header,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                 child: HealthIndicatorBarChart(
                   dailyHealthStatuses: dailyHealthStatuses,
                   indicator: healthIndicator,
@@ -191,7 +241,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
 
   Widget _buildSection(DailyHealthStatus dailyHealthStatus) {
     if (healthIndicator.isMultiValuesPerDay) {
-      return DailyHealthStatusIndicatorMultiValueSection(
+      return DailyHealthStatusIndicatorMultiValueSectionWithTiles(
         dailyHealthStatus: dailyHealthStatus,
         indicator: healthIndicator,
       );
@@ -211,25 +261,20 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
 
 class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
   final dateFormat = DateFormat('EEEE, MMMM d');
-  final fullDateFormat = DateFormat.yMd().add_jm();
 
-  final DailyHealthStatus dailyHealthStatus;
+  final Date date;
   final HealthIndicator indicator;
+  final List<Widget> children;
 
   DailyHealthStatusIndicatorMultiValueSection({
     Key key,
-    @required this.dailyHealthStatus,
+    @required this.date,
     @required this.indicator,
+    @required this.children,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final date = dailyHealthStatus.date.toLocal();
-    final values = dailyHealthStatus.getHealthIndicatorValuesFormatted(
-      indicator,
-      context.appLocalizations,
-    );
-
     return BasicSection(
       header: AppListTile(
         title: Text(dateFormat.format(date).capitalizeFirst()),
@@ -243,6 +288,34 @@ class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
       ),
       showDividers: true,
       showHeaderDivider: true,
+      children: children,
+    );
+  }
+}
+
+class DailyHealthStatusIndicatorMultiValueSectionWithTiles
+    extends StatelessWidget {
+  final fullDateFormat = DateFormat.yMd().add_jm();
+
+  final DailyHealthStatus dailyHealthStatus;
+  final HealthIndicator indicator;
+
+  DailyHealthStatusIndicatorMultiValueSectionWithTiles({
+    Key key,
+    @required this.dailyHealthStatus,
+    @required this.indicator,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final values = dailyHealthStatus.getHealthIndicatorValuesFormatted(
+      indicator,
+      context.appLocalizations,
+    );
+
+    return DailyHealthStatusIndicatorMultiValueSection(
+      date: dailyHealthStatus.date.toDate(),
+      indicator: indicator,
       children: [
         for (final value in values)
           AppListTile(
