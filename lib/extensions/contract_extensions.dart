@@ -19,6 +19,8 @@ import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/meal_type_enum.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 import 'package:nephrogo_api_client/model/product_kind_enum.dart';
+import 'package:nephrogo_api_client/model/pulse.dart';
+import 'package:nephrogo_api_client/model/pulse_request.dart';
 import 'package:nephrogo_api_client/model/shortness_of_breath_enum.dart';
 import 'package:nephrogo_api_client/model/swelling.dart';
 import 'package:nephrogo_api_client/model/swelling_difficulty_enum.dart';
@@ -513,6 +515,21 @@ extension BloodPressureExtensions on BloodPressure {
 
   String get formattedAmount {
     return '$systolicBloodPressure / $diastolicBloodPressure mmHg';
+  }
+}
+
+extension PulseExtensions on Pulse {
+  PulseRequestBuilder toRequestBuilder() {
+    final builder = PulseRequestBuilder();
+
+    builder.pulse = pulse;
+    builder.measuredAt = measuredAt.toUtc();
+
+    return builder;
+  }
+
+  String formattedAmount(AppLocalizations appLocalizations) {
+    return '$pulse ${appLocalizations.pulseDimension}';
   }
 }
 

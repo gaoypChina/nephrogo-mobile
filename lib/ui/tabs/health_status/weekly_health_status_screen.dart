@@ -14,6 +14,7 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_edit_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/health_status_creation_screen.dart';
+import 'package:nephrogo/ui/tabs/health_status/pulse_edit_screen.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
@@ -371,9 +372,30 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
     );
   }
 
+  Iterable<Widget> _buildPulseChildren(BuildContext context) {
+    return dailyHealthStatus.pulses
+        .sortedBy((e) => e.measuredAt, reverse: true)
+        .map(
+      (p) {
+        return _buildValueTile(
+          dateTime: p.measuredAt,
+          formattedAmount: p.formattedAmount(context.appLocalizations),
+          onTap: () => Navigator.pushNamed(
+            context,
+            Routes.routePulseEdit,
+            arguments: PulseEditScreenArguments(p),
+          ),
+        );
+      },
+    );
+  }
+
   Iterable<Widget> _buildChildren(BuildContext context) {
     if (indicator == HealthIndicator.bloodPressure) {
       return _buildBloodPressureChildren(context);
+    }
+    if (indicator == HealthIndicator.pulse) {
+      return _buildPulseChildren(context);
     }
 
     throw ArgumentError.value(indicator);

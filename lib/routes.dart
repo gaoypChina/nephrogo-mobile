@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/ui/authentication/email_password_login_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_edit_screen.dart';
+import 'package:nephrogo/ui/tabs/health_status/pulse_edit_screen.dart';
 import 'package:nephrogo/ui/tabs/nutrition/intake_edit.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 
@@ -45,6 +46,7 @@ class Routes {
   static const routeBloodPressureAndPulseCreation =
       'bloodPressureAndPulseCreation';
   static const routeBloodPressureEdit = 'bloodPressureEdit';
+  static const routePulseEdit = 'pulseEdit';
 
   static const routeUserProfile = 'userProfile';
   static const routeGeneralRecommendations = 'generalRecommendations';
@@ -158,6 +160,12 @@ class Routes {
           return BloodPressureEditScreen(
             bloodPressure: arguments.bloodPressure,
           );
+        });
+      case routePulseEdit:
+        return MaterialPageRoute(builder: (context) {
+          final arguments = settings.arguments as PulseEditScreenArguments;
+
+          return PulseEditScreen(pulse: arguments.pulse);
         });
       case routeGeneralRecommendations:
         return MaterialPageRoute(builder: (context) {

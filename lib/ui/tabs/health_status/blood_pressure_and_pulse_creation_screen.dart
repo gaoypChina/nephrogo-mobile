@@ -84,20 +84,14 @@ class _BloodPressureAndPulseCreationScreenState
                   children: [
                     Flexible(
                       child: AppDatePickerFormField(
-                        initialDate: _measuredAt,
-                        selectedDate: _measuredAt,
+                        initialDate: _measuredAt.toLocal(),
+                        selectedDate: _measuredAt.toLocal(),
                         firstDate: Constants.earliestDate,
                         lastDate: DateTime.now(),
                         validator: _formValidators.nonNull(),
                         onDateChanged: (dt) {
-                          final ldt = dt.toLocal();
-                          _measuredAt = DateTime(
-                            ldt.year,
-                            ldt.month,
-                            ldt.day,
-                            _measuredAt.hour,
-                            _measuredAt.minute,
-                          );
+                          _measuredAt =
+                              _measuredAt.appliedDate(dt.toDate()).toUtc();
                         },
                         labelText: appLocalizations.mealCreationDate,
                       ),
@@ -107,9 +101,9 @@ class _BloodPressureAndPulseCreationScreenState
                         initialTime: TimeOfDay.fromDateTime(_measuredAt),
                         labelText: appLocalizations.mealCreationTime,
                         onTimeChanged: (t) =>
-                            _measuredAt = _measuredAt.applied(t),
+                            _measuredAt = _measuredAt.applied(t).toUtc(),
                         onTimeSaved: (t) =>
-                            _measuredAt = _measuredAt.applied(t),
+                            _measuredAt = _measuredAt.applied(t).toUtc(),
                       ),
                     ),
                   ],

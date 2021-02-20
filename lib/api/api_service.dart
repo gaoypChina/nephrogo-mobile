@@ -372,6 +372,16 @@ class ApiService {
     );
   }
 
+  Future<Pulse> updatePulse(int id, PulseRequest pulseRequest) {
+    return _healthStatusApi.healthStatusPulseUpdate(id, pulseRequest).then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+
+        return r.data;
+      },
+    );
+  }
+
   Future<Pulse> createPulse(PulseRequest pulseRequest) {
     return _healthStatusApi.healthStatusPulseCreate(pulseRequest).then(
       (r) {
