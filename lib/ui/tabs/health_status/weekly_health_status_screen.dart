@@ -158,34 +158,31 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
         .sortedBy((e) => e.date, reverse: true)
         .toList();
 
-    return Scrollbar(
-      child: ListView.builder(
-        itemCount: sortedHealthStatusesWithIndicators.length + 1,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return DateSwitcherHeaderSection(
-              header: header,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: HealthIndicatorBarChart(
-                    dailyHealthStatuses: dailyHealthStatuses,
-                    indicator: healthIndicator,
-                    appLocalizations: appLocalizations,
-                    from: from,
-                    to: to,
-                  ),
+    return ListView.builder(
+      itemCount: sortedHealthStatusesWithIndicators.length + 1,
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return DateSwitcherHeaderSection(
+            header: header,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: HealthIndicatorBarChart(
+                  dailyHealthStatuses: dailyHealthStatuses,
+                  indicator: healthIndicator,
+                  appLocalizations: appLocalizations,
+                  from: from,
+                  to: to,
                 ),
-              ],
-            );
-          }
+              ),
+            ],
+          );
+        }
 
-          final dailyHealthStatus =
-              sortedHealthStatusesWithIndicators[index - 1];
+        final dailyHealthStatus = sortedHealthStatusesWithIndicators[index - 1];
 
-          return _buildSection(dailyHealthStatus);
-        },
-      ),
+        return _buildSection(dailyHealthStatus);
+      },
     );
   }
 
@@ -234,7 +231,12 @@ class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
       header: AppListTile(
         title: Text(dateFormat.format(date).capitalizeFirst()),
         subtitle: Text(indicator.name(context.appLocalizations)),
-        leading: CircleAvatar(child: Text(date.day.toString())),
+        leading: CircleAvatar(
+          child: Text(
+            date.day.toString(),
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
       showDividers: true,
       showHeaderDivider: true,
