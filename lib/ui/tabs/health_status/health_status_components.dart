@@ -5,6 +5,8 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation_screen.dart';
 
+import 'health_status_creation_screen.dart';
+
 class HealthStatusCreationFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -53,6 +55,7 @@ class HealthStatusCreationFloatingActionButton extends StatelessWidget {
     return Navigator.pushNamed(
       context,
       Routes.routeHealthStatusCreation,
+      arguments: HealthStatusCreationScreenArguments(),
     );
   }
 

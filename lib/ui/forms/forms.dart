@@ -615,14 +615,16 @@ class AppDoubleInputField extends StatelessWidget {
   final Widget icon;
   final FormFieldValidator<double> validator;
   final FormFieldSetter<double> onSaved;
+  final FormFieldSetter<double> onChanged;
   final String suffixText;
   final int fractionDigits;
 
   const AppDoubleInputField({
     Key key,
-    @required this.onSaved,
     @required this.labelText,
     @required this.fractionDigits,
+    this.onSaved,
+    this.onChanged,
     this.hintText,
     this.helperText,
     this.initialValue,
@@ -640,6 +642,7 @@ class AppDoubleInputField extends StatelessWidget {
       initialValue: initialValue?.toStringAsFixed(fractionDigits),
       validator: _validator,
       hintText: hintText,
+      onChanged: onChanged != null ? _onChanged : null,
       onSaved: onSaved != null ? _onSaved : null,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [FilteringTextInputFormatter.allow(floatRegexPattern)],
@@ -655,12 +658,23 @@ class AppDoubleInputField extends StatelessWidget {
     return validator(double.tryParse(text.replaceFirst(',', '.')));
   }
 
+  double _parseDouble(String v) {
+    if (v == null || v.isEmpty) {
+      return null;
+    }
+    return double.parse(
+        double.parse(v.replaceFirst(',', '.')).toStringAsFixed(fractionDigits));
+  }
+
   void _onSaved(String v) {
-    final n = (v != null && v.isNotEmpty)
-        ? double.parse(double.parse(v.replaceFirst(',', '.'))
-            .toStringAsFixed(fractionDigits))
-        : null;
+    final n = _parseDouble(v);
 
     onSaved(n);
+  }
+
+  void _onChanged(String v) {
+    final n = _parseDouble(v);
+
+    onChanged(n);
   }
 }

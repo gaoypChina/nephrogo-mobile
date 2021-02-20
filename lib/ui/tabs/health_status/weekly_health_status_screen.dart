@@ -285,12 +285,6 @@ class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
           maxLines: 1,
         ),
         subtitle: Text(indicator.name(context.appLocalizations)),
-        leading: CircleAvatar(
-          child: Text(
-            date.day.toString(),
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
         trailing: OutlinedButton(
           onPressed: () => Navigator.pushNamed(
             context,

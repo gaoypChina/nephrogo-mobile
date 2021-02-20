@@ -134,7 +134,10 @@ class Routes {
         });
       case routeHealthStatusCreation:
         return MaterialPageRoute(builder: (context) {
-          return HealthStatusCreationScreen();
+          final arguments =
+              settings.arguments as HealthStatusCreationScreenArguments;
+
+          return HealthStatusCreationScreen(date: arguments.date);
         });
       case routeBloodPressureAndPulseCreation:
         return MaterialPageRoute(builder: (context) {

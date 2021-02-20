@@ -1,3 +1,4 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:collection_ext/iterables.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo_api_client/model/appetite_enum.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
+import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
@@ -19,6 +21,7 @@ import 'package:nephrogo_api_client/model/shortness_of_breath_enum.dart';
 import 'package:nephrogo_api_client/model/swelling.dart';
 import 'package:nephrogo_api_client/model/swelling_difficulty_enum.dart';
 import 'package:nephrogo_api_client/model/swelling_enum.dart';
+import 'package:nephrogo_api_client/model/swelling_request.dart';
 import 'package:nephrogo_api_client/model/well_feeling_enum.dart';
 import 'package:tuple/tuple.dart';
 
@@ -160,7 +163,7 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
   }
 
   Iterable<Tuple2<MealTypeEnum, List<Intake>>>
-      getIntakesGroupedByMealType() sync* {
+  getIntakesGroupedByMealType() sync* {
     final sortedIntakes = intakes.sortedBy((i) => i.consumedAt, reverse: true);
     final groups = sortedIntakes.groupBy((intake) => intake.mealType);
 
@@ -260,7 +263,7 @@ extension MealTypeExtensions on MealTypeEnum {
 }
 
 extension DailyNutrientNormsWithTotalsExtensions
-    on DailyNutrientNormsWithTotals {
+on DailyNutrientNormsWithTotals {
   DailyNutrientConsumption getDailyNutrientConsumption(Nutrient nutrient) {
     switch (nutrient) {
       case Nutrient.potassium:
@@ -532,6 +535,33 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     );
   }
 
+  DailyHealthStatusRequest toRequest() {
+    final builder = DailyHealthStatusRequestBuilder();
+
+    builder.date = date;
+
+    builder.weightKg = weightKg;
+    builder.urineMl = urineMl;
+    builder.glucose = glucose;
+
+    builder.wellFeeling = wellFeeling;
+    builder.shortnessOfBreath = shortnessOfBreath;
+    builder.appetite = appetite;
+
+    builder.swellingDifficulty = swellingDifficulty;
+
+    final swellingRequests = swellings.map<SwellingRequest>((e) {
+      final swellingBuilder = SwellingRequestBuilder();
+      swellingBuilder.swelling = e.swelling;
+
+      return swellingBuilder.build();
+    }).toList();
+
+    builder.swellings = ListBuilder(swellingRequests);
+
+    return builder.build();
+  }
+
   Iterable<Tuple2<DateTime, String>> getHealthIndicatorValuesFormatted(
     HealthIndicator indicator,
     AppLocalizations appLocalizations,
@@ -542,7 +572,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
 
     if (indicator == HealthIndicator.bloodPressure) {
       return bloodPressures.sortedBy((e) => e.measuredAt, reverse: true).map(
-        (p) {
+            (p) {
           final formatted =
               '${p.systolicBloodPressure} / ${p.diastolicBloodPressure} mmHg';
           return Tuple2(p.measuredAt, formatted);
@@ -551,7 +581,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     }
     if (indicator == HealthIndicator.pulse) {
       return pulses.sortedBy((e) => e.measuredAt, reverse: true).map(
-        (p) {
+            (p) {
           final formatted = '${p.pulse} ${appLocalizations.pulseDimension}';
           return Tuple2(p.measuredAt, formatted);
         },
@@ -565,10 +595,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     );
   }
 
-  String getHealthIndicatorFormatted(
-    HealthIndicator indicator,
-    AppLocalizations appLocalizations,
-  ) {
+  String getHealthIndicatorFormatted(HealthIndicator indicator,
+      AppLocalizations appLocalizations,) {
     if (!isIndicatorExists(indicator)) {
       return null;
     }
@@ -576,7 +604,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     switch (indicator) {
       case HealthIndicator.bloodPressure:
         final latestBloodPressure =
-            bloodPressures.maxBy((_, p) => p.measuredAt);
+        bloodPressures.maxBy((_, p) => p.measuredAt);
         return '${latestBloodPressure.systolicBloodPressure} / ${latestBloodPressure.diastolicBloodPressure} mmHg';
       case HealthIndicator.pulse:
         final latestPulse = pulses.maxBy((_, p) => p.measuredAt);
