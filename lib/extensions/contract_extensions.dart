@@ -731,15 +731,15 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       case HealthIndicator.severityOfSwelling:
         switch (swellingDifficulty) {
           case SwellingDifficultyEnum.n0plus:
-            return 1;
+            return 0;
           case SwellingDifficultyEnum.n1plus:
-            return 2;
+            return 1;
           case SwellingDifficultyEnum.n2plus:
-            return 3;
+            return 2;
           case SwellingDifficultyEnum.n3plus:
-            return 4;
+            return 3;
           case SwellingDifficultyEnum.n4plus:
-            return 5;
+            return 4;
           case SwellingDifficultyEnum.unknown:
             return null;
         }
