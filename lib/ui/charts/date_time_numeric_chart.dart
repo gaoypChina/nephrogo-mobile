@@ -96,6 +96,7 @@ class DateTimeNumericChart extends StatelessWidget {
 
   List<XyDataSeries> _getSeries() {
     return [
+      ...series,
       LineSeries<Date, DateTime>(
         dataSource: DateUtils.generateDates(
           from.toDate(),
@@ -107,7 +108,6 @@ class DateTimeNumericChart extends StatelessWidget {
         enableTooltip: false,
         color: Colors.transparent,
       ),
-      ...series,
     ];
   }
 
