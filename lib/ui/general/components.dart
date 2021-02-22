@@ -4,13 +4,13 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:nephrogo_api_client/model/product_kind_enum.dart';
 
 class SpeedDialFloatingActionButton extends StatefulWidget {
-  final String tooltipText;
+  final String label;
   final List<SpeedDialChild> children;
   final VoidCallback onPress;
 
   const SpeedDialFloatingActionButton({
     Key key,
-    this.tooltipText,
+    this.label,
     this.onPress,
     this.children = const [],
   }) : super(key: key);
@@ -47,7 +47,10 @@ class _SpeedDialFloatingActionButtonState
         icon: Icons.add,
         activeIcon: Icons.close,
         backgroundColor: Colors.redAccent,
-        tooltip: widget.tooltipText,
+        label: Text(
+          widget.label.toUpperCase(),
+          style: const TextStyle(color: Colors.white),
+        ),
         iconTheme: const IconThemeData(color: Colors.white),
         children: widget.children,
         onPress: widget.onPress,

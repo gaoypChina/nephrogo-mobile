@@ -31,7 +31,7 @@ class IntakeCreationFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SpeedDialFloatingActionButton(
-      tooltipText: context.appLocalizations.createMeals,
+      label: context.appLocalizations.createMeals,
       children: _getMealTypeDials(context),
     );
   }
@@ -52,13 +52,13 @@ class IntakeCreationFloatingActionButton extends StatelessWidget {
   String _localizedAddLabel(BuildContext context, MealTypeEnum mealType) {
     switch (mealType) {
       case MealTypeEnum.breakfast:
-        return context.appLocalizations.addBreakfast;
+        return context.appLocalizations.breakfast;
       case MealTypeEnum.lunch:
-        return context.appLocalizations.addLunch;
+        return context.appLocalizations.lunch;
       case MealTypeEnum.dinner:
-        return context.appLocalizations.addDinner;
+        return context.appLocalizations.dinner;
       case MealTypeEnum.snack:
-        return context.appLocalizations.addSnacks;
+        return context.appLocalizations.snacks;
       default:
         throw ArgumentError.value(mealType);
     }

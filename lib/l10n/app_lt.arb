@@ -14,6 +14,8 @@
   "@deleteConfirmation": {},
   "save": "Išsaugoti",
   "@save": {},
+  "close": "Uždaryti",
+  "@close": {},
   "update": "Atnaujinti",
   "@update": {},
   "updateApp": "Atnaujinti programėlę",
@@ -42,6 +44,8 @@
   "@dinner": {},
   "snack": "Užkandis",
   "@snack": {},
+  "snacks": "Užkandžiai",
+  "@snacks": {},
   "otherMeals": "Kiti valgiai",
   "@otherMeals": {},
   "addBreakfast": "Pusryčių valgių pridėjimas",
@@ -465,8 +469,8 @@
   "@weeklyNutrientsEmpty": {
     "context": "weeklyNutrients"
   },
-  "weeklyNutrientsCreateHealthIndicators": "Pridėti rodiklius",
-  "@weeklyNutrientsCreateHealthIndicators": {
+  "createHealthStatus": "Pridėti rodiklius",
+  "@createHealthStatus": {
     "context": "weeklyNutrients"
   },
   "mealCreationTitle": "Valgio sukūrimas",

@@ -11,25 +11,25 @@ class HealthStatusCreationFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SpeedDialFloatingActionButton(
-      tooltipText: context.appLocalizations.createMeals,
+      label: context.appLocalizations.createHealthStatus,
       children: [
-        _createDialButton(
-          icon: Icons.favorite,
-          onTap: () => _createBloodPressureOrPulse(context),
-          backgroundColor: Colors.deepPurple,
-          label: context.appLocalizations.addBloodPressure,
-        ),
         _createDialButton(
           icon: Icons.timeline,
           onTap: () => _createBloodPressureOrPulse(context),
           backgroundColor: Colors.blue,
-          label: context.appLocalizations.addPulse,
+          label: context.appLocalizations.pulse,
+        ),
+        _createDialButton(
+          icon: Icons.favorite,
+          onTap: () => _createBloodPressureOrPulse(context),
+          backgroundColor: Colors.deepPurple,
+          label: context.appLocalizations.healthStatusCreationBloodPressure,
         ),
         _createDialButton(
           icon: Icons.analytics,
           onTap: () => _createHealthStatus(context),
           backgroundColor: Colors.teal,
-          label: context.appLocalizations.addOtherHealthStatuses,
+          label: context.appLocalizations.otherHealthStatusIndicators,
         ),
       ],
     );
