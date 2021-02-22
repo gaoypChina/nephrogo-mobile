@@ -117,6 +117,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
       case HealthIndicator.wellBeing:
       case HealthIndicator.appetite:
       case HealthIndicator.shortnessOfBreath:
+      case HealthIndicator.swellings:
         return true;
       default:
         return false;
