@@ -64,6 +64,7 @@ class DailyNormsBarChart extends StatelessWidget {
         dataSource: nutrientsWithNorms,
         borderRadius: const BorderRadius.horizontal(right: Radius.circular(6)),
         isTrackVisible: true,
+        trackBorderWidth: 0,
         dataLabelSettings: DataLabelSettings(
           isVisible: true,
           textStyle: const TextStyle(color: Colors.white),
