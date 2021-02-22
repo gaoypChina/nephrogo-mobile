@@ -43,7 +43,7 @@ class NutrientBarChart extends StatelessWidget {
     final nutrientConsumptionName = nutrient.consumptionName(appLocalizations);
 
     return DateTimeNumericChart(
-      series: _getStackedColumnSeries(context).toList(),
+      series: _getColumnSeries(context).toList(),
       yAxisText: "$nutrientConsumptionName, ${nutrient.scaledDimension}",
       legendToggleSeriesVisibility: false,
       from: minimumDate,
@@ -54,9 +54,9 @@ class NutrientBarChart extends StatelessWidget {
     );
   }
 
-  Iterable<XyDataSeries> _getStackedColumnSeries(BuildContext context) sync* {
+  Iterable<XyDataSeries> _getColumnSeries(BuildContext context) sync* {
     yield ColumnSeries<DailyIntakesLightReport, DateTime>(
-      dataSource: dailyIntakeLightReports,
+      dataSource: dailyIntakeLightReports.sortedBy((e) => e.date).toList(),
       borderRadius: DateTimeNumericChart.rodTopRadius,
       xValueMapper: (report, _) => report.date.toDate(),
       yValueMapper: (report, _) {
@@ -67,8 +67,6 @@ class NutrientBarChart extends StatelessWidget {
         return total * nutrient.scale;
       },
       pointColorMapper: (report, _) => _barColor(report),
-      sortFieldValueMapper: (r, _) => r.date,
-      sortingOrder: SortingOrder.ascending,
       name: nutrient.name(context.appLocalizations),
       color: Colors.teal,
       isVisibleInLegend: false,

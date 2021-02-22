@@ -97,14 +97,12 @@ class HealthIndicatorBarChart extends StatelessWidget {
   List<XyDataSeries> _getDefaultLineSeries(BuildContext context) {
     return [
       LineSeries<DailyHealthStatus, DateTime>(
-        dataSource: dailyHealthStatuses.toList(),
+        dataSource: dailyHealthStatuses.sortedBy((e) => e.date).toList(),
         xValueMapper: (s, _) => s.date.toDate(),
         yValueMapper: (s, _) => s.getHealthIndicatorValue(indicator),
         dataLabelMapper: (s, _) =>
             s.getHealthIndicatorFormatted(indicator, appLocalizations),
         dataLabelSettings: DataLabelSettings(isVisible: _isShowingDataLabels()),
-        sortFieldValueMapper: (s, _) => s.date,
-        sortingOrder: SortingOrder.ascending,
         name: indicator.name(appLocalizations),
         markerSettings: MarkerSettings(isVisible: true),
       ),
