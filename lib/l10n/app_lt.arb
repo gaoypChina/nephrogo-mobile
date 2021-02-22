@@ -647,7 +647,7 @@
   },
   "pulse": "Pulsas",
   "@pulse": {},
-  "pulseDimension": "k/min",
+  "pulseDimension": "k./min",
   "@pulseDimension": {},
   "measureDateAndTime": "Matavimo data ir laikas",
   "@measureDateAndTime": {},

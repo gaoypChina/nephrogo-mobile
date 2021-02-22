@@ -18,7 +18,6 @@ class DateTimeNumericChart extends StatelessWidget {
   final double interval;
   final double maximumY;
   final bool legendToggleSeriesVisibility;
-  final bool showXMajorGridLines;
   final LegendPosition legendPosition;
 
   const DateTimeNumericChart({
@@ -35,7 +34,6 @@ class DateTimeNumericChart extends StatelessWidget {
     this.maximumY,
     this.legendPosition = LegendPosition.top,
     this.legendToggleSeriesVisibility = true,
-    this.showXMajorGridLines = false,
   }) : super(key: key);
 
   // Disable legend temporary due to bug after getting back from route
@@ -152,7 +150,6 @@ class DateTimeNumericChart extends StatelessWidget {
     return DateTimeAxis(
       interval: interval,
       intervalType: intervalType,
-      majorGridLines: showXMajorGridLines ? null : MajorGridLines(width: 0),
       minimum: minimum,
       maximum: maximum,
     );

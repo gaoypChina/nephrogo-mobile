@@ -32,7 +32,6 @@ class HealthIndicatorBarChart extends StatelessWidget {
       child: DateTimeNumericChart(
         series: _getGraphSeries(context),
         showLegend: false,
-        showXMajorGridLines: true,
         yAxisText: _getIndicatorNameAndDimensionParts().join(", "),
         from: from,
         to: to,
