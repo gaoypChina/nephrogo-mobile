@@ -49,13 +49,7 @@ class DailyNormsBarChart extends StatelessWidget {
             .max() ??
         0;
 
-    var graphMaximum = max(maximumConsumption, 1.0);
-
-    if ((graphMaximum * 100).toInt() % 25 != 0) {
-      graphMaximum += ((graphMaximum * 100).toInt() % 25) / 100;
-    }
-
-    return graphMaximum;
+    return max(maximumConsumption, 1.0);
   }
 
   List<XyDataSeries> _getTrackerBarSeries(BuildContext context) {
