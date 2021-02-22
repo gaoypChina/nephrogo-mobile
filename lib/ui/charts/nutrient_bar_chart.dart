@@ -68,6 +68,7 @@ class NutrientBarChart extends StatelessWidget {
       },
       pointColorMapper: (report, _) => _barColor(report),
       sortFieldValueMapper: (r, _) => r.date,
+      sortingOrder: SortingOrder.ascending,
       name: nutrient.name(context.appLocalizations),
       color: Colors.teal,
       isVisibleInLegend: false,

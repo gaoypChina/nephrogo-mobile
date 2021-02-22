@@ -1,13 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo/models/graph.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
-
-import 'bar_chart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DailyNormsBarChart extends StatelessWidget {
   final DailyIntakesLightReport dailyIntakeReport;
@@ -19,96 +17,77 @@ class DailyNormsBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _appLocalizations = AppLocalizations.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: SfCartesianChart(
+        plotAreaBorderWidth: 0,
+        primaryXAxis: CategoryAxis(
+          majorGridLines: MajorGridLines(width: 0),
+        ),
+        primaryYAxis: NumericAxis(
+          // majorGridLines: MajorGridLines(width: 0),
+          title: AxisTitle(
+            text: context.appLocalizations.dailyNormsConsumedExplanation,
+            textStyle: const TextStyle(fontSize: 12),
+          ),
+          minimum: 0,
+          maximum: _getGraphMax(),
+          majorTickLines: MajorTickLines(size: 0),
+          numberFormat: NumberFormat.percentPattern(),
+        ),
+        series: _getTrackerBarSeries(context),
+      ),
+    );
+  }
+
+  double _getGraphMax() {
+    final maximumConsumption = Nutrient.values
+            .map((n) => dailyIntakeReport.nutrientNormsAndTotals
+                .getDailyNutrientConsumption(n)
+                .normPercentage)
+            .where((n) => n != null)
+            .max() ??
+        0;
+
+    var graphMaximum = max(maximumConsumption, 1.0);
+
+    if ((graphMaximum * 100).toInt() % 25 != 0) {
+      graphMaximum += ((graphMaximum * 100).toInt() % 25) / 100;
+    }
+
+    return graphMaximum;
+  }
+
+  List<XyDataSeries> _getTrackerBarSeries(BuildContext context) {
+    final norms = dailyIntakeReport.nutrientNormsAndTotals;
 
     final nutrientsWithNorms = Nutrient.values
-        .where((n) =>
-            dailyIntakeReport.nutrientNormsAndTotals
-                .getDailyNutrientConsumption(n)
-                .norm !=
-            null)
+        .where((n) => norms.getDailyNutrientConsumption(n).isNormExists)
         .toList();
 
-    final firstNutrientGroup = nutrientsWithNorms.take(3).toList();
-    final secondNutrientGroup = nutrientsWithNorms.skip(3).take(3).toList();
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: _buildGroup(_appLocalizations, firstNutrientGroup),
-          ),
-          if (secondNutrientGroup.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-              child: _buildGroup(_appLocalizations, secondNutrientGroup),
-            )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildGroup(AppLocalizations appLocalizations, List<Nutrient> types) {
-    return Container(
-      height: 100,
-      constraints: const BoxConstraints(maxWidth: 280),
-      child: _buildGraph(appLocalizations, types),
-    );
-  }
-
-  Widget _buildGraph(AppLocalizations appLocalizations, List<Nutrient> types) {
-    return AppBarChart(
-      data: AppBarChartData(
-        barWidth: 28,
-        fitInsideVertically: false,
-        fitInsideHorizontally: false,
-        groups: _buildChartGroups(appLocalizations, types),
-      ),
-    );
-  }
-
-  List<AppBarChartGroup> _buildChartGroups(
-    AppLocalizations appLocalizations,
-    List<Nutrient> nutrients,
-  ) {
-    return nutrients.mapIndexed((i, nutrient) {
-      final dailyNutrientConsumption = dailyIntakeReport.nutrientNormsAndTotals
-          .getDailyNutrientConsumption(nutrient);
-
-      final rawYPercent = dailyNutrientConsumption.total.toDouble() /
-          dailyNutrientConsumption.norm;
-
-      var yPercent = rawYPercent;
-      Color barColor = yPercent > 1.0 ? Colors.redAccent : Colors.teal;
-      if (dailyNutrientConsumption.total == 0) {
-        barColor = Colors.transparent;
-        yPercent = 1;
-      }
-
-      final formattedTotal = dailyIntakeReport.nutrientNormsAndTotals
-          .getNutrientTotalAmountFormatted(nutrient);
-      final formattedNorm = dailyIntakeReport.nutrientNormsAndTotals
-          .getNutrientNormFormatted(nutrient);
-
-      final entry = AppBarChartRod(
-        tooltip: appLocalizations.todayConsumptionWithNormTooltip(
-          formattedTotal,
-          formattedNorm,
+    return [
+      BarSeries<Nutrient, String>(
+        dataSource: nutrientsWithNorms,
+        borderRadius: const BorderRadius.horizontal(right: Radius.circular(6)),
+        isTrackVisible: true,
+        dataLabelSettings: DataLabelSettings(
+          isVisible: true,
+          textStyle: const TextStyle(color: Colors.white),
         ),
-        y: min(yPercent, 1.0),
-        barColor: barColor,
-        backDrawRodY: 1.0,
-      );
-
-      final nutrientName = nutrient.name(appLocalizations);
-
-      return AppBarChartGroup(
-        text: '$nutrientName\n${(rawYPercent * 100).round()}%',
-        x: i,
-        rods: [entry],
-      );
-    }).toList();
+        sortFieldValueMapper: (_, i) => i,
+        sortingOrder: SortingOrder.descending,
+        pointColorMapper: (n, _) {
+          if (norms.getDailyNutrientConsumption(n).normPercentage > 1) {
+            return Colors.redAccent;
+          }
+          return Colors.teal;
+        },
+        enableTooltip: false,
+        xValueMapper: (n, _) => n.name(context.appLocalizations),
+        yValueMapper: (n, _) {
+          return norms.getDailyNutrientConsumption(n).normPercentage;
+        },
+      ),
+    ];
   }
 }

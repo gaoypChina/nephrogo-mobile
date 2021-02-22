@@ -197,6 +197,8 @@
   "@dailyNormsSectionTitle": {},
   "dailyNormsSectionSubtitle": "Šiandien suvartotų medžiagų normos",
   "@dailyNormsSectionSubtitle": {},
+  "dailyNormsConsumedExplanation": "Suvartotos asmeninės paros normos dalis",
+  "@dailyNormsConsumedExplanation": {},
   "consumptionWithNorm": "Suvartota: {amount} iš {norm}",
   "@consumptionWithNorm": {
     "placeholders": {

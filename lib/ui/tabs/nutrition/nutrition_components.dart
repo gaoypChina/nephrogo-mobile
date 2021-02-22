@@ -404,7 +404,7 @@ class IntakeNutrientDenseTile extends StatelessWidget {
 
     final percentage = dailyNutrientNormsAndTotals
         .getDailyNutrientConsumption(nutrient)
-        .normPercentage(nutrientAmount)
+        .normPercentageRounded(nutrientAmount)
         ?.toString();
 
     if (percentage != null) {
@@ -690,7 +690,7 @@ class NutrientIntakeTile extends StatelessWidget {
 
     final percentage = dailyNutrientNormsAndTotals
         .getDailyNutrientConsumption(nutrient)
-        .normPercentage(nutrientAmount)
+        .normPercentageRounded(nutrientAmount)
         ?.toString();
 
     if (percentage != null) {

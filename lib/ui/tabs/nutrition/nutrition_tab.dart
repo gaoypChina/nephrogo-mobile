@@ -190,12 +190,7 @@ class DailyNormsSection extends StatelessWidget {
       title: Text(appLocalizations.dailyNormsSectionTitle),
       subtitle: Text(appLocalizations.dailyNormsSectionSubtitle),
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            DailyNormsBarChart(dailyIntakeReport: nutritionLightReport),
-          ],
-        ),
+        DailyNormsBarChart(dailyIntakeReport: nutritionLightReport),
       ],
     );
   }

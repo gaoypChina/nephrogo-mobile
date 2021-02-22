@@ -104,6 +104,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
             s.getHealthIndicatorFormatted(indicator, appLocalizations),
         dataLabelSettings: DataLabelSettings(isVisible: _isShowingDataLabels()),
         sortFieldValueMapper: (s, _) => s.date,
+        sortingOrder: SortingOrder.ascending,
         name: indicator.name(appLocalizations),
         markerSettings: MarkerSettings(isVisible: true),
       ),

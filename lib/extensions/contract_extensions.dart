@@ -137,7 +137,15 @@ extension DailyNutrientConsumptionExtensions on DailyNutrientConsumption {
     return ((total / norm) * 100).round();
   }
 
-  int normPercentage(int nutrientAmount) {
+  double get normPercentage {
+    if (norm == null) {
+      return null;
+    }
+
+    return total / norm;
+  }
+
+  int normPercentageRounded(int nutrientAmount) {
     if (norm == null) {
       return null;
     }
