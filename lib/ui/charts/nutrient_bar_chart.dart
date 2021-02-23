@@ -60,6 +60,8 @@ class NutrientBarChart extends StatelessWidget {
   }
 
   Iterable<XyDataSeries> _getColumnSeries(BuildContext context) sync* {
+    final lastReport = dailyIntakeLightReports.maxBy((_, r) => r.date);
+
     yield ColumnSeries<DailyIntakesLightReport, DateTime>(
       dataSource: dailyIntakeLightReports.sortedBy((e) => e.date).toList(),
       borderRadius: DateTimeNumericChart.rodTopRadius,
@@ -88,7 +90,7 @@ class NutrientBarChart extends StatelessWidget {
         textStyle: const TextStyle(fontSize: 10),
       ),
       name: nutrient.name(context.appLocalizations),
-      color: Colors.teal,
+      color: lastReport != null ? _barColor(lastReport) : Colors.teal,
       isVisibleInLegend: false,
     );
 
@@ -127,7 +129,7 @@ class NutrientBarChart extends StatelessWidget {
         .normExceeded;
 
     if (normExceeded == null) {
-      return Colors.grey;
+      return Colors.blueGrey;
     } else if (normExceeded) {
       return Colors.redAccent;
     } else {

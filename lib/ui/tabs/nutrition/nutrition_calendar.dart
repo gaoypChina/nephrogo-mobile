@@ -128,7 +128,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
       fontColor = Colors.white;
       fontWeight = FontWeight.bold;
       boxDecoration = const BoxDecoration(
-        color: Colors.grey,
+        color: Colors.blueGrey,
         shape: BoxShape.circle,
       );
     } else if (!_availableDatesSet.contains(date)) {
