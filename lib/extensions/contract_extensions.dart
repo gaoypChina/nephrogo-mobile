@@ -250,7 +250,7 @@ extension MealTypeExtensions on MealTypeEnum {
       case MealTypeEnum.dinner:
         return appLocalizations.dinner;
       case MealTypeEnum.snack:
-        return appLocalizations.snack;
+        return appLocalizations.snacks;
       case MealTypeEnum.unknown:
         return appLocalizations.otherMeals;
     }
