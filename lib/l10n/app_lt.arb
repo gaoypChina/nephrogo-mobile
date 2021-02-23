@@ -76,6 +76,8 @@
   "@bloodPressureAndPulse": {},
   "otherHealthStatusIndicators": "Kiti sveikatos rodikliai",
   "@otherHealthStatusIndicators": {},
+  "dailyHealthStatusIndicators": "Dienos sveikatos rodikliai",
+  "@dailyHealthStatusIndicators": {},
   "conditionsExplanation": "Norėdami naudotis NephroGo būtinai turite sutikti su visomis privalomomis sąlygomis.",
   "@conditionsExplanation": {},
   "loginConditionsAgree": "Susipažinau su",
@@ -537,6 +539,10 @@
   "@weight": {
     "context": "userProfile"
   },
+  "dryWeight": "Sausasis kūno svoris",
+  "@dryWeight": {
+    "context": "userProfile"
+  },
   "userProfileWeightHelper": "Jeigu atliekate dializes, įrašykite savo sausąjį svorį",
   "@userProfileWeightHelper": {
     "context": "userProfile"
@@ -991,6 +997,106 @@
   },
   "termsOfUse": "Naudojimosi sąlygos",
   "@termsOfUse": {},
+  "unknown": "Nežinomas",
+  "@unknown": {},
   "recommendationsSources": "Ikizler TA, Burrowes JD, Byham-Gray LD, et al; KDOQI Nutrition in CKD Guideline Work Group. KDOQI clinical practice guideline for nutrition in CKD: 2020 update. Am J Kidney Dis. 2020;76(3)(suppl 1):S1-S107.\n\nAlgirdas Tamošaitis, Regina Galubauskienė „Lėtinis inkstų nepakankamumas ir mityba“, 2013 m., Vilnius, ISBN 978-9955-721-07-9\n\nLaurynas Rimševičius, Marius Miglinas „Peritoninės dializės pagrindai ir gairės“, 2017 m., Vilnius, ISBN 978-609-459-844-9",
-  "@recommendationsSources": {}
+  "@recommendationsSources": {},
+  "dialysisStartDateTime": "Dializės pradžios data ir laikas",
+  "@dialysisStartDateTime": {
+    "context": "manualDialysis"
+  },
+  "dialysisEndDateTime": "Dializės pabaigos data ir laikas",
+  "@dialysisEndDateTime": {
+    "context": "manualDialysis"
+  },
+  "mandatoryHealthStatusIndicators": "Privalomi sveikatos rodikliai",
+  "@mandatoryHealthStatusIndicators": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionSection": "Tirpalo pasirinkimas",
+  "@dialysisSolutionSection": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolution": "Tirpalas",
+  "@dialysisSolution": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionIn": "Supilta tirpalo",
+  "@dialysisSolutionIn": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionOut": "Išpilta dializato",
+  "@dialysisSolutionOut": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionGreen": "Žalias",
+  "@dialysisSolutionGreen": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionGreenDescription": "Physioneal 2,27% gliukozės",
+  "@dialysisSolutionGreenDescription": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionYellow": "Geltonas",
+  "@dialysisSolutionYellow": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionYellowDescription": "Physioneal 1,36% gliukozės",
+  "@dialysisSolutionYellowDescription": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionOrange": "Oranžinis",
+  "@dialysisSolutionOrange": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionOrangeDescription": "Physioneal 1,36% gliukozės",
+  "@dialysisSolutionOrangeDescription": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionBlue": "Mėlynas",
+  "@dialysisSolutionBlue": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionBlueDescription": "Nutrineal 1,1% amino rūgščių",
+  "@dialysisSolutionBlueDescription": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionPurple": "Violetinis",
+  "@dialysisSolutionPurple": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionPurpleDescription": "Extraneal 7,5% ikodekstrino",
+  "@dialysisSolutionPurpleDescription": {
+    "context": "manualDialysis"
+  },
+  "dialysateColor": "Dializato spalva",
+  "@dialysateColor": {
+    "context": "manualDialysis"
+  },
+  "dialysateColorTransparent": "Skaidrus",
+  "@dialysateColorTransparent": {
+    "context": "manualDialysis"
+  },
+  "dialysateColorPink": "Rausvas",
+  "@dialysateColorPink": {
+    "context": "manualDialysis"
+  },
+  "dialysateColorCloudyYellowish": "Drumstas gelsvas",
+  "@dialysateColorCloudyYellowish": {
+    "context": "manualDialysis"
+  },
+  "dialysateColorGreenish": "Žalsvas",
+  "@dialysateColorGreenish": {
+    "context": "manualDialysis"
+  },
+  "dialysateColorBrown": "Ruda",
+  "@dialysateColorBrown": {
+    "context": "manualDialysis"
+  },
+  "dialysateColorCloudyWhite": "Drumstas baltas",
+  "@dialysateColorCloudyWhite": {
+    "context": "manualDialysis"
+  },
+  "notes": "Pastabos",
+  "@notes": {}
 }

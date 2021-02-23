@@ -17,6 +17,7 @@ import 'ui/onboarding/onboarding_screen.dart';
 import 'ui/start_screen.dart';
 import 'ui/tabs/health_status/health_status_creation_screen.dart';
 import 'ui/tabs/health_status/weekly_health_status_screen.dart';
+import 'ui/tabs/manual_peritoneal_dialysis/manual_peritoneal_dialysis_creation_screen.dart';
 import 'ui/tabs/nutrition/intake_create.dart';
 import 'ui/tabs/nutrition/product_search.dart';
 import 'ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
@@ -47,6 +48,9 @@ class Routes {
       'bloodPressureAndPulseCreation';
   static const routeBloodPressureEdit = 'bloodPressureEdit';
   static const routePulseEdit = 'pulseEdit';
+
+  static const routeManualPeritonealDialysisCreation =
+      'ManualPeritonealDialysisCreation';
 
   static const routeUserProfile = 'userProfile';
   static const routeGeneralRecommendations = 'generalRecommendations';
@@ -114,6 +118,10 @@ class Routes {
             dailyNutrientNormsAndTotals: arguments.dailyNutrientNormsAndTotals,
             intake: arguments.intake,
           );
+        });
+      case routeManualPeritonealDialysisCreation:
+        return MaterialPageRoute(builder: (context) {
+          return ManualPeritonealDialysisCreationScreen();
         });
       case routeProductSearch:
         return MaterialPageRoute<Product>(builder: (context) {

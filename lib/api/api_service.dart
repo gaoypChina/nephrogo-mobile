@@ -14,9 +14,12 @@ import 'package:nephrogo_api_client/api.dart';
 import 'package:nephrogo_api_client/api/general_recommendations_api.dart';
 import 'package:nephrogo_api_client/api/health_status_api.dart';
 import 'package:nephrogo_api_client/api/nutrition_api.dart';
+import 'package:nephrogo_api_client/api/peritoneal_dialysis_api.dart';
 import 'package:nephrogo_api_client/api/user_api.dart';
 import 'package:nephrogo_api_client/model/blood_pressure.dart';
 import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
+import 'package:nephrogo_api_client/model/create_manual_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/model/create_manual_peritoneal_dialysis_request.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
@@ -55,6 +58,7 @@ class ApiService {
 
   NutritionApi _nutritionApi;
   HealthStatusApi _healthStatusApi;
+  PeritonealDialysisApi _peritonealDialysisApi;
   UserApi _userApi;
   GeneralRecommendationsApi _generalRecommendationsApi;
 
@@ -72,6 +76,7 @@ class ApiService {
     _healthStatusApi = _apiClient.getHealthStatusApi();
     _userApi = _apiClient.getUserApi();
     _generalRecommendationsApi = _apiClient.getGeneralRecommendationsApi();
+    _peritonealDialysisApi = _apiClient.getPeritonealDialysisApi();
   }
 
   NephrogoApiClient _buildNephrogoApiClient() {
@@ -384,6 +389,17 @@ class ApiService {
 
   Future<Pulse> createPulse(PulseRequest pulseRequest) {
     return _healthStatusApi.healthStatusPulseCreate(pulseRequest).then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+
+        return r.data;
+      },
+    );
+  }
+
+  Future<CreateManualPeritonealDialysis> createManualPeritonealDialysis(
+      CreateManualPeritonealDialysisRequest request) {
+    return _peritonealDialysisApi.peritonealDialysisManualCreate(request).then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
 

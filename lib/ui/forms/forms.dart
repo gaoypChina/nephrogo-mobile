@@ -42,6 +42,7 @@ class AppTextFormField extends StatelessWidget {
   final TextInputAction textInputAction;
   final VoidCallback onEditingComplete;
   final ValueChanged<String> onFieldSubmitted;
+  final int maxLines;
 
   const AppTextFormField({
     Key key,
@@ -64,6 +65,7 @@ class AppTextFormField extends StatelessWidget {
     this.autoFocus = false,
     this.disabled = false,
     this.obscureText = false,
+    this.maxLines = 1,
     this.autofillHints,
     this.textInputAction,
     this.focusNode,
@@ -99,6 +101,7 @@ class AppTextFormField extends StatelessWidget {
         autofillHints: autofillHints,
         obscureText: obscureText,
         onTap: onTap,
+        maxLines: maxLines,
         textInputAction: textInputAction,
         onEditingComplete: onEditingComplete,
         onFieldSubmitted: onFieldSubmitted,
