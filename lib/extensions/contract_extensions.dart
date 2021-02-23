@@ -264,7 +264,7 @@ extension MealTypeExtensions on MealTypeEnum {
       case MealTypeEnum.lunch:
         return Icons.dinner_dining;
       case MealTypeEnum.dinner:
-        return Icons.ramen_dining;
+        return Icons.nights_stay;
       case MealTypeEnum.snack:
         return Icons.bakery_dining;
       case MealTypeEnum.unknown:
