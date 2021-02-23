@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
@@ -10,17 +11,21 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'date_time_numeric_chart.dart';
 
 class NutrientBarChart extends StatelessWidget {
+  final _percentFormat = NumberFormat.percentPattern();
+
   final Nutrient nutrient;
   final DateTime minimumDate;
   final DateTime maximumDate;
   final List<DailyIntakesLightReport> dailyIntakeLightReports;
+  final bool showDataLabels;
 
-  const NutrientBarChart({
+  NutrientBarChart({
     Key key,
     @required this.dailyIntakeLightReports,
     @required this.nutrient,
     @required this.minimumDate,
     @required this.maximumDate,
+    @required this.showDataLabels,
   }) : super(key: key);
 
   double get _dailyNorm {
@@ -66,7 +71,22 @@ class NutrientBarChart extends StatelessWidget {
 
         return total * nutrient.scale;
       },
+      dataLabelMapper: (report, _) {
+        final percent = report.nutrientNormsAndTotals
+            .getDailyNutrientConsumption(nutrient)
+            .normPercentage;
+        if (percent != null) {
+          return _percentFormat.format(percent);
+        }
+        return "";
+      },
       pointColorMapper: (report, _) => _barColor(report),
+      dataLabelSettings: DataLabelSettings(
+        isVisible: showDataLabels,
+        labelAlignment: ChartDataLabelAlignment.outer,
+        showZeroValue: false,
+        textStyle: const TextStyle(fontSize: 10),
+      ),
       name: nutrient.name(context.appLocalizations),
       color: Colors.teal,
       isVisibleInLegend: false,
