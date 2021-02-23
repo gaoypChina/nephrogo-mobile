@@ -343,6 +343,12 @@ extension DailyNutrientNormsWithTotalsExtensions
         .map(getDailyNutrientConsumption)
         .any((c) => c.total != 0);
   }
+
+  List<Nutrient> getSortedNutrientsByExistence() {
+    return Nutrient.values
+        .sortedBy((n) => getDailyNutrientConsumption(n).isNormExists ? 0 : 1)
+        .toList();
+  }
 }
 
 extension IntakeExtension on Intake {

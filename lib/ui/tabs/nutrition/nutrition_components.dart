@@ -121,6 +121,9 @@ class DailyIntakesReportSection extends StatelessWidget {
     final title = Text(
         _dateFormat.format(dailyIntakesLightReport.date).capitalizeFirst());
 
+    final sortedNutrients = dailyIntakesLightReport.nutrientNormsAndTotals
+        .getSortedNutrientsByExistence();
+
     return BasicSection(
       header: AppListTile(
         leading: _getLeadingIndicator(),
@@ -135,7 +138,7 @@ class DailyIntakesReportSection extends StatelessWidget {
       showDividers: true,
       showHeaderDivider: true,
       children: [
-        for (final nutrient in Nutrient.values)
+        for (final nutrient in sortedNutrients)
           DailyIntakesReportNutrientTile(
             dailyIntakesLightReport.nutrientNormsAndTotals,
             dailyIntakesLightReport.date.toDate(),
@@ -190,13 +193,16 @@ class IntakeWithNormsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sortedNutrients =
+        dailyNutrientNormsAndTotals.getSortedNutrientsByExistence();
+
     return BasicSection(
       header: IntakeTile(intake, dailyNutrientNormsAndTotals),
       margin: margin,
       showDividers: true,
       showHeaderDivider: true,
       children: [
-        for (final nutrient in Nutrient.values)
+        for (final nutrient in sortedNutrients)
           IntakeNutrientDenseTile(
             intake,
             nutrient,
@@ -270,6 +276,9 @@ class IntakeExpandableTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sortedNutrients =
+        dailyNutrientNormsAndTotals.getSortedNutrientsByExistence();
+
     return ListTileTheme(
       selectedColor: Colors.blue,
       child: AppExpansionTile(
@@ -282,7 +291,7 @@ class IntakeExpandableTile extends StatelessWidget {
         children: ListTile.divideTiles(
           context: context,
           tiles: [
-            for (final nutrient in Nutrient.values)
+            for (final nutrient in sortedNutrients)
               IntakeNutrientDenseTile(
                 intake,
                 nutrient,

@@ -141,6 +141,7 @@ class _NutritionMonthlySummaryTabBody extends StatelessWidget {
                   nutrient: nutrient,
                   dateFrom: from,
                   dateTo: to,
+                  showGraphDataLabels: false,
                 );
               }
 
@@ -210,6 +211,7 @@ class _NutritionWeeklySummaryTabBody extends StatelessWidget {
         dateFrom: dateFrom,
         dateTo: dateTo,
         nutrient: nutrient,
+        showGraphDataLabels: true,
       );
     }
 

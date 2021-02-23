@@ -40,6 +40,11 @@ class NutritionTab extends StatelessWidget {
       stream: apiService.getNutritionScreenStream(),
       builder: (context, data) {
         final latestIntakes = data.latestIntakes.toList();
+
+        if (latestIntakes.isEmpty) {
+          return EmptyStateContainer(text: appLocalizations.nutritionEmpty);
+        }
+
         final lastWeekLightNutritionReports =
             data.lastWeekLightNutritionReports.toList();
         final currentMonthNutritionReports =
@@ -50,18 +55,18 @@ class NutritionTab extends StatelessWidget {
         final dailyNutrientNormsWithTotals =
             todayIntakesReport.nutrientNormsAndTotals;
 
-        return Visibility(
-          visible: latestIntakes.isNotEmpty,
-          replacement: EmptyStateContainer(
-            text: appLocalizations.nutritionEmpty,
-          ),
-          child: ListView(
-            padding: const EdgeInsets.only(bottom: 64),
-            children: [
-              DailyNormsSection(
+        final nutrients =
+            dailyNutrientNormsWithTotals.getSortedNutrientsByExistence();
+
+        return CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: DailyNormsSection(
                 nutritionLightReport: todayIntakesReport,
               ),
-              DailyIntakesCard(
+            ),
+            SliverToBoxAdapter(
+              child: DailyIntakesCard(
                 title: appLocalizations.lastMealsSectionTitle,
                 intakes: latestIntakes,
                 dailyNutrientNormsWithTotals: dailyNutrientNormsWithTotals,
@@ -73,20 +78,31 @@ class NutritionTab extends StatelessWidget {
                   child: Text(appLocalizations.more.toUpperCase()),
                 ),
               ),
-              MonthlyNutritionSummarySection(
+            ),
+            SliverToBoxAdapter(
+              child: MonthlyNutritionSummarySection(
                 currentMonthNutritionReports,
                 nutritionSummaryStatistics,
               ),
-              for (final nutrient in Nutrient.values)
-                buildIndicatorChartSection(
-                  context,
-                  todayIntakesReport,
-                  lastWeekLightNutritionReports,
-                  nutritionSummaryStatistics,
-                  nutrient,
-                )
-            ],
-          ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final nutrient = nutrients[index];
+
+                  return buildIndicatorChartSection(
+                    context,
+                    todayIntakesReport,
+                    lastWeekLightNutritionReports,
+                    nutritionSummaryStatistics,
+                    nutrient,
+                  );
+                },
+                childCount: nutrients.length,
+              ),
+            ),
+            const SliverPadding(padding: EdgeInsets.only(bottom: 64)),
+          ],
         );
       },
     );

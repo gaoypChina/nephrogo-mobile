@@ -15,6 +15,7 @@ class NutritionNutrientReportsList extends StatelessWidget {
   final Date dateTo;
   final Widget header;
   final Nutrient nutrient;
+  final bool showGraphDataLabels;
 
   NutritionNutrientReportsList({
     Key key,
@@ -23,10 +24,12 @@ class NutritionNutrientReportsList extends StatelessWidget {
     @required this.nutrient,
     @required this.dateFrom,
     @required this.dateTo,
+    @required this.showGraphDataLabels,
   })  : assert(reports != null),
         assert(reports.isNotEmpty),
         assert(header != null),
         assert(nutrient != null),
+        assert(showGraphDataLabels != null),
         super(key: key);
 
   @override
@@ -48,6 +51,7 @@ class NutritionNutrientReportsList extends StatelessWidget {
                   nutrient: nutrient,
                   minimumDate: dateFrom,
                   maximumDate: dateTo,
+                  showDataLabels: showGraphDataLabels,
                 ),
               ),
             ],

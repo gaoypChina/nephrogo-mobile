@@ -36,21 +36,19 @@ class _HealthStatusTabBody extends StatelessWidget {
     return AppStreamBuilder<HealthStatusScreenResponse>(
       stream: apiService.getHealthStatusScreenStream(),
       builder: (context, response) {
-        return Visibility(
-          visible: response.hasAnyStatuses,
-          replacement: EmptyStateContainer(
+        if (!response.hasAnyStatuses) {
+          return EmptyStateContainer(
             text: appLocalizations.weeklyHealthStatusEmpty,
-          ),
-          child: Scrollbar(
-            child: ListView.builder(
-              padding: const EdgeInsets.only(bottom: 64),
-              itemCount: healthIndicators.length,
-              itemBuilder: (context, i) => buildIndicatorChartSection(
-                context,
-                response,
-                healthIndicators[i],
-              ),
-            ),
+          );
+        }
+
+        return ListView.builder(
+          padding: const EdgeInsets.only(bottom: 64),
+          itemCount: healthIndicators.length,
+          itemBuilder: (context, i) => buildIndicatorChartSection(
+            context,
+            response,
+            healthIndicators[i],
           ),
         );
       },
