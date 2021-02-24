@@ -252,6 +252,19 @@ class ApiService {
     );
   }
 
+  Future<DailyHealthStatus> partialUpdateDailyHealthStatus(
+    DailyHealthStatusRequest dailyHealthStatusRequest,
+  ) {
+    return _healthStatusApi
+        .healthStatusPartialUpdate(dailyHealthStatusRequest)
+        .then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+        return r.data;
+      },
+    );
+  }
+
   Future<DailyHealthStatus> getDailyHealthStatus(DateTime date) {
     return _healthStatusApi
         .healthStatusRetrieve(Date.from(date))
