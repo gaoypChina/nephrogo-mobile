@@ -5,12 +5,13 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
-import 'package:nephrogo/ui/general/app_future_builder.dart';
+import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/manual_peritoneal_dialysis/extensions/dialysis_contract_extensions.dart';
 import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report_response.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class ManualPeritonealDialysisTab extends StatelessWidget {
@@ -38,36 +39,49 @@ class ManualPeritonealDialysisList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppFutureBuilder<DailyManualPeritonealDialysisReportResponse>(
-      future: apiService.getManualPeritonealDialysisReports(
-          Date(2021, 1, 1), Date(2021, 10, 10)),
+    return AppStreamBuilder<DailyManualPeritonealDialysisReportResponse>(
+      stream: apiService.getManualPeritonealDialysisReportsStream(
+        Date(2021, 1, 1),
+        Date(2021, 10, 10),
+      ),
       builder: (context, data) {
-        final dialysis = data.manualPeritonealDialysisReports
-            .expand((r) => r.manualPeritonealDialysis);
+        final allDialysis = data.manualPeritonealDialysisReports
+            .expand((r) => r.manualPeritonealDialysis)
+            .sortedBy(
+              (e) => e.startedAt,
+              reverse: true,
+            )
+            .toList();
 
         return SfDataGrid(
           source: ManualPeritonealDialysisDataGridSource(
             context.appLocalizations,
-            dialysis,
+            allDialysis,
           ),
           columnWidthMode: ColumnWidthMode.auto,
-          allowSorting: true,
-          showSortNumbers: true,
+          onQueryCellStyle: (args) {
+            final dialysis = allDialysis[args.rowIndex];
 
-          // cellBuilder: getCellWidget,
-          // onQueryCellStyle: (QueryCellStyleArgs args) {
-          //   if (args.column.mappingName == 'status') {
-          //     if (args.cellValue == 'Active') {
-          //       return const DataGridCellStyle(
-          //           textStyle: TextStyle(color: Colors.green));
-          //     } else {
-          //       return DataGridCellStyle(
-          //           textStyle: TextStyle(color: Colors.red[500]));
-          //     }
-          //   } else {
-          //     return null;
-          //   }
-          // },
+            switch (args.column.mappingName) {
+              case 'dialysisSolution':
+                return DataGridCellStyle(
+                  backgroundColor: dialysis.dialysisSolution.color,
+                  textStyle: const TextStyle(color: Colors.white),
+                );
+              case 'dialysateColor':
+                if (dialysis.dialysateColor == null) {
+                  return null;
+                }
+                return DataGridCellStyle(
+                  backgroundColor: dialysis.dialysateColor.color,
+                  textStyle: TextStyle(
+                    color: dialysis.dialysateColor.textColor,
+                  ),
+                );
+            }
+
+            return null;
+          },
           columns: <GridColumn>[
             GridDateTimeColumn(
               mappingName: 'startedAt',
@@ -79,6 +93,7 @@ class ManualPeritonealDialysisList extends StatelessWidget {
               mappingName: 'dialysisSolution',
               headerText: context.appLocalizations.dialysisSolution,
               columnWidthMode: ColumnWidthMode.auto,
+              textAlignment: Alignment.center,
             ),
             GridTextColumn(
               mappingName: 'solutionInMl',
@@ -121,6 +136,7 @@ class ManualPeritonealDialysisList extends StatelessWidget {
               mappingName: 'dialysateColor',
               headerText: context.appLocalizations.dialysateColor,
               columnWidthMode: ColumnWidthMode.auto,
+              textAlignment: Alignment.center,
             ),
             GridTextColumn(
               mappingName: 'notes',

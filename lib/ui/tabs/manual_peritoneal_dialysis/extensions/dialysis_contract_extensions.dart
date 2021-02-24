@@ -118,6 +118,22 @@ extension DialysateColorExtensions on DialysateColorEnum {
 
     throw ArgumentError.value(this);
   }
+
+  Color get textColor {
+    switch (this) {
+      case DialysateColorEnum.transparent:
+      case DialysateColorEnum.cloudyWhite:
+        return Colors.black;
+      case DialysateColorEnum.pink:
+      case DialysateColorEnum.cloudyYellowish:
+      case DialysateColorEnum.greenish:
+      case DialysateColorEnum.brown:
+      case DialysateColorEnum.unknown:
+        return Colors.white;
+    }
+
+    throw ArgumentError.value(this);
+  }
 }
 
 extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {

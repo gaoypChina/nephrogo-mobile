@@ -433,6 +433,13 @@ class ApiService {
         .then((r) => r.data);
   }
 
+  Stream<DailyManualPeritonealDialysisReportResponse>
+      getManualPeritonealDialysisReportsStream(Date from, Date to) {
+    return _buildAppEventsStreamWithInitialEmit(
+            _AppStateChangeEvent.healthStatus)
+        .asyncMap((_) => getManualPeritonealDialysisReports(from, to));
+  }
+
   Future dispose() async {
     await _appEventsStreamController.close();
   }

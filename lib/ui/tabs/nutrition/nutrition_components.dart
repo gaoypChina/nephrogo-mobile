@@ -612,7 +612,7 @@ class NutrientDailyNutritionTile extends StatelessWidget {
 
     if (percentageRounded == null) {
       return CircleAvatar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.brown,
         child: Text(
           date.day.toString(),
           textAlign: TextAlign.center,

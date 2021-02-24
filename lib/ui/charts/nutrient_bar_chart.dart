@@ -129,7 +129,7 @@ class NutrientBarChart extends StatelessWidget {
         .normExceeded;
 
     if (normExceeded == null) {
-      return Colors.blueGrey;
+      return Colors.brown;
     } else if (normExceeded) {
       return Colors.redAccent;
     } else {
