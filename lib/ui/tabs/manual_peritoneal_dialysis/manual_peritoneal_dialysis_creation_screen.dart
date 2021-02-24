@@ -10,11 +10,11 @@ import 'package:nephrogo/ui/tabs/manual_peritoneal_dialysis/extensions/dialysis_
 import 'package:nephrogo/utils/form_utils.dart';
 import 'package:nephrogo_api_client/model/blood_pressure.dart';
 import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
-import 'package:nephrogo_api_client/model/create_manual_peritoneal_dialysis.dart';
-import 'package:nephrogo_api_client/model/create_manual_peritoneal_dialysis_request.dart';
 import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
+import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_request.dart';
 import 'package:nephrogo_api_client/model/pulse.dart';
 import 'package:nephrogo_api_client/model/pulse_request.dart';
 
@@ -31,7 +31,7 @@ class _ManualPeritonealDialysisCreationScreenState
   final _apiService = ApiService();
 
   final now = DateTime.now();
-  CreateManualPeritonealDialysisRequestBuilder _requestBuilder;
+  ManualPeritonealDialysisRequestBuilder _requestBuilder;
   int _systolicBloodPressure;
   int _diastolicBloodPressure;
   int _pulse;
@@ -48,7 +48,7 @@ class _ManualPeritonealDialysisCreationScreenState
   void initState() {
     super.initState();
 
-    _requestBuilder = CreateManualPeritonealDialysisRequestBuilder();
+    _requestBuilder = ManualPeritonealDialysisRequestBuilder();
 
     _requestBuilder.startedAt = DateTime.now().toUtc();
   }
@@ -363,7 +363,7 @@ class _ManualPeritonealDialysisCreationScreenState
     return false;
   }
 
-  Future<CreateManualPeritonealDialysis> _saveManualDialysis(
+  Future<ManualPeritonealDialysis> _saveManualDialysis(
     BloodPressure bloodPressure,
     Pulse pulse,
   ) {
@@ -375,7 +375,7 @@ class _ManualPeritonealDialysisCreationScreenState
     return _apiService.createManualPeritonealDialysis(request);
   }
 
-  Future<CreateManualPeritonealDialysis> _save() async {
+  Future<ManualPeritonealDialysis> _save() async {
     final pulse = await _savePulse();
     final bloodPressure = await _saveBloodPressure();
     await _saveWeightAndUrine();

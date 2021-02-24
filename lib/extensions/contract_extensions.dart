@@ -528,7 +528,11 @@ extension BloodPressureExtensions on BloodPressure {
   }
 
   String get formattedAmount {
-    return '$systolicBloodPressure / $diastolicBloodPressure mmHg';
+    return '$formattedAmountWithoutDimension mmHg';
+  }
+
+  String get formattedAmountWithoutDimension {
+    return '$systolicBloodPressure / $diastolicBloodPressure';
   }
 }
 

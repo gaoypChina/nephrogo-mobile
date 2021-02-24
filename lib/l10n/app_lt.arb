@@ -1104,5 +1104,11 @@
     "context": "manualDialysis"
   },
   "notes": "Pastabos",
-  "@notes": {}
+  "@notes": {},
+  "start": "Pradžia",
+  "@start": {},
+  "end": "Pabaiga",
+  "@end": {},
+  "balance": "Balansas",
+  "@balance": {}
 }

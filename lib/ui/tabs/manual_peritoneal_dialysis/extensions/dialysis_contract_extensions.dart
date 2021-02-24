@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
+import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
 
 extension DialysisSolutionExtension on DialysisSolutionEnum {
   String localizedName(AppLocalizations appLocalizations) {
@@ -117,4 +118,8 @@ extension DialysateColorExtensions on DialysateColorEnum {
 
     throw ArgumentError.value(this);
   }
+}
+
+extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {
+  int get balance => solutionOutMl - solutionInMl;
 }
