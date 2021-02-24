@@ -69,6 +69,7 @@ dependencies:
   in_app_review: ^1.0.4
   in_app_update: ^1.1.15
 
+  # https://firebase.flutter.dev/docs/migration
   firebase_core: ^0.7.0
   firebase_analytics: ^7.0.1
   firebase_crashlytics: ^0.4.0+1
