@@ -5,7 +5,6 @@ import 'package:nephrogo/utils/app_store_utils.dart';
 import 'general/app_bar_logo.dart';
 import 'tabs/account/account_tab.dart';
 import 'tabs/health_status/health_status_tab.dart';
-import 'tabs/manual_peritoneal_dialysis/manual_peritoneal_dialysis_tab.dart';
 import 'tabs/nutrition/nutrition_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -38,7 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: getTabBody(),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
-        type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
@@ -48,10 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: const Icon(Icons.analytics_outlined),
             label: AppLocalizations.of(context).tabHealthIndicators,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.water_damage),
-            label: AppLocalizations.of(context).tabPeritoneal,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.person),
@@ -69,8 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
         return HealthStatusTab();
       case 2:
-        return ManualPeritonealDialysisTab();
-      case 3:
         return AccountTab();
       default:
         throw ArgumentError("Tab with index $_currentIndex doesn't exist");
