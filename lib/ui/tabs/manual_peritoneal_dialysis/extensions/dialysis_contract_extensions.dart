@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
-import 'package:nephrogo_api_client/model/solution_enum.dart';
+import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
 
-extension DialysisSolutionExtension on SolutionEnum {
+extension DialysisSolutionExtension on DialysisSolutionEnum {
   String localizedName(AppLocalizations appLocalizations) {
     switch (this) {
-      case SolutionEnum.green:
+      case DialysisSolutionEnum.green:
         return appLocalizations.dialysisSolutionGreen;
-      case SolutionEnum.yellow:
+      case DialysisSolutionEnum.yellow:
         return appLocalizations.dialysisSolutionYellow;
 
-      case SolutionEnum.orange:
+      case DialysisSolutionEnum.orange:
         return appLocalizations.dialysisSolutionOrange;
 
-      case SolutionEnum.blue:
+      case DialysisSolutionEnum.blue:
         return appLocalizations.dialysisSolutionBlue;
 
-      case SolutionEnum.purple:
+      case DialysisSolutionEnum.purple:
         return appLocalizations.dialysisSolutionPurple;
 
-      case SolutionEnum.unknown:
+      case DialysisSolutionEnum.unknown:
         return appLocalizations.unknown;
     }
 
@@ -29,21 +29,21 @@ extension DialysisSolutionExtension on SolutionEnum {
 
   String localizedDescription(AppLocalizations appLocalizations) {
     switch (this) {
-      case SolutionEnum.green:
+      case DialysisSolutionEnum.green:
         return appLocalizations.dialysisSolutionGreenDescription;
-      case SolutionEnum.yellow:
+      case DialysisSolutionEnum.yellow:
         return appLocalizations.dialysisSolutionYellowDescription;
 
-      case SolutionEnum.orange:
+      case DialysisSolutionEnum.orange:
         return appLocalizations.dialysisSolutionOrangeDescription;
 
-      case SolutionEnum.blue:
+      case DialysisSolutionEnum.blue:
         return appLocalizations.dialysisSolutionBlueDescription;
 
-      case SolutionEnum.purple:
+      case DialysisSolutionEnum.purple:
         return appLocalizations.dialysisSolutionPurpleDescription;
 
-      case SolutionEnum.unknown:
+      case DialysisSolutionEnum.unknown:
         return appLocalizations.unknown;
     }
 
@@ -52,17 +52,17 @@ extension DialysisSolutionExtension on SolutionEnum {
 
   Color get color {
     switch (this) {
-      case SolutionEnum.green:
+      case DialysisSolutionEnum.green:
         return Colors.teal;
-      case SolutionEnum.yellow:
+      case DialysisSolutionEnum.yellow:
         return Colors.yellow;
-      case SolutionEnum.orange:
+      case DialysisSolutionEnum.orange:
         return Colors.deepOrange;
-      case SolutionEnum.blue:
+      case DialysisSolutionEnum.blue:
         return Colors.blue;
-      case SolutionEnum.purple:
+      case DialysisSolutionEnum.purple:
         return Colors.purple;
-      case SolutionEnum.unknown:
+      case DialysisSolutionEnum.unknown:
         return Colors.black;
     }
 

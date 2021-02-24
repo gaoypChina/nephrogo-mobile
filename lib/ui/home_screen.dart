@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.water_damage),
-            label: 'Peritorinė',
+            label: AppLocalizations.of(context).tabPeritoneal,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.person),

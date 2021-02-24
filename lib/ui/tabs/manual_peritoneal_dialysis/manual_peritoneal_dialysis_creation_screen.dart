@@ -14,9 +14,9 @@ import 'package:nephrogo_api_client/model/create_manual_peritoneal_dialysis.dart
 import 'package:nephrogo_api_client/model/create_manual_peritoneal_dialysis_request.dart';
 import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
+import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
 import 'package:nephrogo_api_client/model/pulse.dart';
 import 'package:nephrogo_api_client/model/pulse_request.dart';
-import 'package:nephrogo_api_client/model/solution_enum.dart';
 
 class ManualPeritonealDialysisCreationScreen extends StatefulWidget {
   @override
@@ -73,13 +73,13 @@ class _ManualPeritonealDialysisCreationScreenState
           },
           steps: [
             AppStep(
-              title: Text("Dializės pradžia"),
+              title: Text(appLocalizations.manualPeritonealDialysisStep1),
               isActive: _currentStep == 0,
               state: _currentStep == 0 ? StepState.indexed : StepState.complete,
               content: _getFirstStep(),
             ),
             AppStep(
-              title: Text("Dializės pabaiga"),
+              title: Text(appLocalizations.manualPeritonealDialysisStep2),
               isActive: _currentStep == 1,
               content: _getSecondStep(),
             ),
@@ -220,15 +220,15 @@ class _ManualPeritonealDialysisCreationScreenState
         SmallSection(
           title: appLocalizations.dialysisSolution,
           children: [
-            AppSelectFormField<SolutionEnum>(
+            AppSelectFormField<DialysisSolutionEnum>(
               labelText: appLocalizations.dialysisSolution,
-              initialValue: _requestBuilder.solution
-                  ?.enumWithoutDefault(SolutionEnum.unknown),
+              initialValue: _requestBuilder.dialysisSolution
+                  ?.enumWithoutDefault(DialysisSolutionEnum.unknown),
               focusNextOnSelection: true,
-              onChanged: (v) => _requestBuilder.solution = v?.value,
+              onChanged: (v) => _requestBuilder.dialysisSolution = v?.value,
               items: [
-                for (final solution in SolutionEnum.values
-                    .where((v) => v != SolutionEnum.unknown))
+                for (final solution in DialysisSolutionEnum.values
+                    .where((v) => v != DialysisSolutionEnum.unknown))
                   AppSelectFormFieldItem(
                     text: solution.localizedName(appLocalizations),
                     description:
@@ -254,224 +254,6 @@ class _ManualPeritonealDialysisCreationScreenState
   Widget _getSecondStep() {
     return Column(
       children: [
-        SmallSection(
-          title: appLocalizations.dialysisSolutionSection,
-          children: [
-            AppIntegerFormField(
-              labelText: appLocalizations.dialysisSolutionOut,
-              suffixText: "ml",
-              textInputAction: TextInputAction.next,
-              validator: _formValidators.numRangeValidator(1, 5000),
-              initialValue: _requestBuilder.solutionOutMl,
-              onChanged: (p) => _requestBuilder.solutionOutMl = p,
-            ),
-            AppSelectFormField<DialysateColorEnum>(
-              labelText: appLocalizations.dialysateColor,
-              initialValue: _requestBuilder.dialysateColor
-                  ?.enumWithoutDefault(DialysateColorEnum.unknown),
-              focusNextOnSelection: true,
-              onChanged: (v) => _requestBuilder.dialysateColor = v?.value,
-              items: [
-                for (final color in DialysateColorEnum.values
-                    .where((v) => v != DialysateColorEnum.unknown))
-                  AppSelectFormFieldItem(
-                    text: color.localizedName(appLocalizations),
-                    icon: Icon(Icons.circle, color: color.color),
-                    value: color,
-                  ),
-              ],
-            ),
-            AppTextFormField(
-              labelText: appLocalizations.notes,
-              textInputAction: TextInputAction.next,
-              maxLines: 3,
-            ),
-          ],
-        ),
-        SmallSection(
-          title: appLocalizations.dialysisEndDateTime,
-          children: [
-            Row(
-              children: [
-                Flexible(
-                  child: AppDatePickerFormField(
-                    initialDate: _requestBuilder.finishedAt?.toLocal() ?? now,
-                    selectedDate: _requestBuilder.finishedAt?.toLocal() ?? now,
-                    firstDate: _requestBuilder.startedAt,
-                    lastDate: now,
-                    validator: _formValidators.nonNull(),
-                    onDateChanged: (dt) {
-                      _requestBuilder.finishedAt = _requestBuilder.finishedAt
-                          .appliedDate(dt.toDate())
-                          .toUtc();
-                    },
-                    labelText: appLocalizations.mealCreationDate,
-                  ),
-                ),
-                Flexible(
-                  child: AppTimePickerFormField(
-                    initialTime: TimeOfDay.fromDateTime(
-                        _requestBuilder.finishedAt?.toLocal() ?? now),
-                    labelText: appLocalizations.mealCreationTime,
-                    onTimeChanged: (t) => _requestBuilder.finishedAt =
-                        _requestBuilder.finishedAt.applied(t).toUtc(),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _getList() {
-    return Column(
-      children: [
-        SmallSection(
-          title: appLocalizations.dialysisStartDateTime,
-          children: [
-            Row(
-              children: [
-                Flexible(
-                  child: AppDatePickerFormField(
-                    initialDate: _requestBuilder.startedAt.toLocal(),
-                    selectedDate: _requestBuilder.startedAt.toLocal(),
-                    firstDate: Constants.earliestDate,
-                    lastDate: DateTime.now(),
-                    validator: _formValidators.nonNull(),
-                    onDateChanged: (dt) {
-                      _requestBuilder.startedAt = _requestBuilder.startedAt
-                          .appliedDate(dt.toDate())
-                          .toUtc();
-                    },
-                    labelText: appLocalizations.mealCreationDate,
-                  ),
-                ),
-                Flexible(
-                  child: AppTimePickerFormField(
-                    initialTime: TimeOfDay.fromDateTime(
-                        _requestBuilder.startedAt.toLocal()),
-                    labelText: appLocalizations.mealCreationTime,
-                    onTimeChanged: (t) => _requestBuilder.startedAt =
-                        _requestBuilder.startedAt.applied(t).toUtc(),
-                    onTimeSaved: (t) => _requestBuilder.startedAt =
-                        _requestBuilder.startedAt.applied(t).toUtc(),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        SmallSection(
-          title: appLocalizations.healthStatusCreationBloodPressure,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: AppIntegerFormField(
-                    labelText: appLocalizations.healthStatusCreationSystolic,
-                    suffixText: 'mmHg',
-                    validator: _formValidators.and(
-                      _formValidators.numRangeValidator(1, 350),
-                      (v) {
-                        if (v == null && _diastolicBloodPressure != null) {
-                          return _formValidators.nonNull()(v);
-                        }
-                        return null;
-                      },
-                    ),
-                    textInputAction: TextInputAction.next,
-                    initialValue: _systolicBloodPressure,
-                    onChanged: (value) => _systolicBloodPressure = value,
-                  ),
-                ),
-                Flexible(
-                  child: AppIntegerFormField(
-                    labelText: appLocalizations.healthStatusCreationDiastolic,
-                    suffixText: 'mmHg',
-                    validator: _formValidators.and(
-                      _formValidators.numRangeValidator(1, 200),
-                      (v) {
-                        if (v == null && _systolicBloodPressure != null) {
-                          return _formValidators.nonNull()(v);
-                        }
-                        return null;
-                      },
-                    ),
-                    textInputAction: TextInputAction.next,
-                    initialValue: _diastolicBloodPressure,
-                    onChanged: (value) => _diastolicBloodPressure = value,
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 4,
-              ),
-              child: Text(
-                appLocalizations.healthStatusCreationBloodPressureHelper,
-                textAlign: TextAlign.justify,
-              ),
-            ),
-          ],
-        ),
-        SmallSection(
-          title: appLocalizations.mandatoryHealthStatusIndicators,
-          children: [
-            AppDoubleInputField(
-              labelText: appLocalizations.dryWeight,
-              fractionDigits: 1,
-              suffixText: 'kg',
-              textInputAction: TextInputAction.next,
-              helperText: appLocalizations.userProfileWeightHelper,
-              // initialValue: _builder.,
-              validator: _formValidators.numRangeValidator(30.0, 300.0),
-              // onChanged: (value) => _builder.weightKg = value,
-            ),
-            AppIntegerFormField(
-              labelText: appLocalizations.healthStatusCreationUrine,
-              suffixText: 'ml',
-              textInputAction: TextInputAction.next,
-              // initialValue: _builder.uri,
-              validator: _formValidators.numRangeValidator(0, 10000),
-              // onChanged: (value) => _requestBuilder.urineMl = value,
-            ),
-          ],
-        ),
-        SmallSection(
-          title: appLocalizations.dialysisSolutionSection,
-          children: [
-            AppSelectFormField<SolutionEnum>(
-              labelText: appLocalizations.dialysisSolution,
-              initialValue: _requestBuilder.solution
-                  ?.enumWithoutDefault(SolutionEnum.unknown),
-              focusNextOnSelection: true,
-              onChanged: (v) => _requestBuilder.solution = v?.value,
-              items: [
-                for (final solution in SolutionEnum.values
-                    .where((v) => v != SolutionEnum.unknown))
-                  AppSelectFormFieldItem(
-                    text: solution.localizedName(appLocalizations),
-                    description:
-                        solution.localizedDescription(appLocalizations),
-                    icon: Icon(Icons.circle, color: solution.color),
-                    value: solution,
-                  ),
-              ],
-            ),
-            AppIntegerFormField(
-              labelText: appLocalizations.dialysisSolutionIn,
-              suffixText: "ml",
-              validator: _formValidators.numRangeValidator(1, 5000),
-              initialValue: _requestBuilder.solutionInMl,
-              onChanged: (p) => _requestBuilder.solutionInMl = p,
-            ),
-          ],
-        ),
         SmallSection(
           title: appLocalizations.dialysisSolutionSection,
           children: [
