@@ -6,10 +6,9 @@ import 'package:nephrogo/ui/general/progress_dialog.dart';
 class FormUtils {
   FormUtils._();
 
-  static Future<bool> validateAndSave({
+  static Future<bool> validate({
     @required BuildContext context,
     @required GlobalKey<FormState> formKey,
-    @required Future Function() futureBuilder,
   }) async {
     FocusScope.of(context).unfocus();
 
@@ -20,6 +19,19 @@ class FormUtils {
         message: context.appLocalizations.formErrorDescription,
       );
 
+      return false;
+    }
+
+    return true;
+  }
+
+  static Future<bool> validateAndSave({
+    @required BuildContext context,
+    @required GlobalKey<FormState> formKey,
+    @required Future Function() futureBuilder,
+  }) async {
+    final valid = await validate(context: context, formKey: formKey);
+    if (!valid) {
       return false;
     }
 

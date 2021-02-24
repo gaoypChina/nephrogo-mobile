@@ -40,6 +40,8 @@ class _ManualPeritonealDialysisCreationScreenState
 
   int _currentStep = 0;
 
+  bool get _isSecondStep => _currentStep == 1;
+
   FormValidators get _formValidators => FormValidators(context);
 
   @override
@@ -68,9 +70,7 @@ class _ManualPeritonealDialysisCreationScreenState
         child: AppStepper(
           type: AppStepperType.horizontal,
           currentStep: _currentStep,
-          onStepTapped: (i) {
-            setState(() => _currentStep = i);
-          },
+          onStepTapped: _validateAndProceedToStep,
           steps: [
             AppStep(
               title: Text(appLocalizations.manualPeritonealDialysisStep1),
@@ -138,13 +138,8 @@ class _ManualPeritonealDialysisCreationScreenState
                     labelText: appLocalizations.healthStatusCreationSystolic,
                     suffixText: 'mmHg',
                     validator: _formValidators.and(
+                      _formValidators.nonNull(),
                       _formValidators.numRangeValidator(1, 350),
-                      (v) {
-                        if (v == null && _diastolicBloodPressure != null) {
-                          return _formValidators.nonNull()(v);
-                        }
-                        return null;
-                      },
                     ),
                     textInputAction: TextInputAction.next,
                     initialValue: _systolicBloodPressure,
@@ -156,13 +151,8 @@ class _ManualPeritonealDialysisCreationScreenState
                     labelText: appLocalizations.healthStatusCreationDiastolic,
                     suffixText: 'mmHg',
                     validator: _formValidators.and(
+                      _formValidators.nonNull(),
                       _formValidators.numRangeValidator(1, 200),
-                      (v) {
-                        if (v == null && _systolicBloodPressure != null) {
-                          return _formValidators.nonNull()(v);
-                        }
-                        return null;
-                      },
                     ),
                     textInputAction: TextInputAction.next,
                     initialValue: _diastolicBloodPressure,
@@ -186,7 +176,10 @@ class _ManualPeritonealDialysisCreationScreenState
               child: AppIntegerFormField(
                 labelText: appLocalizations.pulse,
                 suffixText: appLocalizations.pulseDimension,
-                validator: _formValidators.numRangeValidator(10, 200),
+                validator: _formValidators.and(
+                  _formValidators.nonNull(),
+                  _formValidators.numRangeValidator(10, 200),
+                ),
                 textInputAction: TextInputAction.next,
                 initialValue: _pulse,
                 onChanged: (p) => _pulse = p,
@@ -225,6 +218,7 @@ class _ManualPeritonealDialysisCreationScreenState
               initialValue: _requestBuilder.dialysisSolution
                   ?.enumWithoutDefault(DialysisSolutionEnum.unknown),
               focusNextOnSelection: true,
+              validator: _formValidators.nonNull(),
               onChanged: (v) => _requestBuilder.dialysisSolution = v?.value,
               items: [
                 for (final solution in DialysisSolutionEnum.values
@@ -241,7 +235,10 @@ class _ManualPeritonealDialysisCreationScreenState
             AppIntegerFormField(
               labelText: appLocalizations.dialysisSolutionIn,
               suffixText: "ml",
-              validator: _formValidators.numRangeValidator(1, 5000),
+              validator: _formValidators.and(
+                _formValidators.nonNull(),
+                _formValidators.numRangeValidator(1, 5000),
+              ),
               initialValue: _requestBuilder.solutionInMl,
               onChanged: (p) => _requestBuilder.solutionInMl = p,
             ),
@@ -261,7 +258,10 @@ class _ManualPeritonealDialysisCreationScreenState
               labelText: appLocalizations.dialysisSolutionOut,
               suffixText: "ml",
               textInputAction: TextInputAction.next,
-              validator: _formValidators.numRangeValidator(1, 5000),
+              validator: _formValidators.and(
+                _isSecondStep ? _formValidators.nonNull() : (v) => null,
+                _formValidators.numRangeValidator(1, 5000),
+              ),
               initialValue: _requestBuilder.solutionOutMl,
               onChanged: (p) => _requestBuilder.solutionOutMl = p,
             ),
@@ -389,5 +389,18 @@ class _ManualPeritonealDialysisCreationScreenState
       formKey: _formKey,
       futureBuilder: _save,
     );
+  }
+
+  Future<bool> _validateAndProceedToStep(int step) async {
+    final valid = await FormUtils.validate(
+      context: context,
+      formKey: _formKey,
+    );
+
+    if (valid) {
+      setState(() => _currentStep = step);
+      return true;
+    }
+    return false;
   }
 }
