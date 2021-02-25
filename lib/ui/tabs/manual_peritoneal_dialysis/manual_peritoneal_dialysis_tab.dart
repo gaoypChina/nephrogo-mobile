@@ -66,8 +66,18 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
         .where((r) => r.date == today)
         .firstOrNull();
 
+    var subtitle = context.appLocalizations.todayDialysisNotPerformed;
+
+    if (todayReport != null &&
+        todayReport.manualPeritonealDialysis.isNotEmpty) {
+      final performedCount = todayReport.manualPeritonealDialysis.length;
+      subtitle =
+          "${context.appLocalizations.todayPerformedDialysis}: $performedCount";
+    }
+
     return LargeSection(
       title: Text(context.appLocalizations.peritonealDialysisPlural),
+      subtitle: Text(subtitle),
       trailing: OutlinedButton(
         onPressed: () => Navigator.of(context)
             .pushNamed(Routes.routeManualPeritonealDialysisAllScreen),
@@ -75,7 +85,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
       ),
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.only(right: 16.0),
           child: ManualPeritonealDialysisDayBalanceChart(
             manualPeritonealDialysis:
                 todayReport?.manualPeritonealDialysis ?? [],
@@ -107,13 +117,10 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
         child: Text(context.appLocalizations.more.toUpperCase()),
       ),
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: ManualPeritonealDialysisTotalBalanceChart(
-            reports: response.lastWeekManualDialysisReports.toList(),
-            maximumDate: today,
-            minimumDate: today.subtract(const Duration(days: 6)),
-          ),
+        ManualPeritonealDialysisTotalBalanceChart(
+          reports: response.lastWeekManualDialysisReports.toList(),
+          maximumDate: today,
+          minimumDate: today.subtract(const Duration(days: 6)),
         ),
       ],
     );
