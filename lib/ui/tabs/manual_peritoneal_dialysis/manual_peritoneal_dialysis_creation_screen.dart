@@ -400,6 +400,12 @@ class _ManualPeritonealDialysisCreationScreenState
                     labelText: appLocalizations.mealCreationTime,
                     onTimeChanged: (t) => _requestBuilder.finishedAt =
                         _requestBuilder.finishedAt.applied(t).toUtc(),
+                    onTimeSaved: (t) {
+                      if (_isSecondStep) {
+                        _requestBuilder.finishedAt =
+                            _requestBuilder.finishedAt.applied(t).toUtc();
+                      }
+                    },
                   ),
                 ),
               ],
