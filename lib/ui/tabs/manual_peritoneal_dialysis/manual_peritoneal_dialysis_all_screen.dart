@@ -39,199 +39,10 @@ class ManualPeritonealDialysisDialysisScreen extends StatelessWidget {
   }
 }
 
-class _AllManualPeritonealDialysisList extends StatelessWidget {
-  final apiService = ApiService();
-
-  final _dateFormat = DateFormat.MMMMd().add_Hm();
-
-  @override
-  Widget build(BuildContext context) {
-    return AppStreamBuilder<DailyManualPeritonealDialysisReportResponse>(
-      stream: apiService.getManualPeritonealDialysisReportsStream(
-        Date(2021, 1, 1),
-        Date(2021, 10, 10),
-      ),
-      builder: (context, data) {
-        final allDialysis = data.manualPeritonealDialysisReports
-            .expand((r) => r.manualPeritonealDialysis)
-            .sortedBy((e) => e.startedAt, reverse: true)
-            .toList();
-
-        return SfDataGrid(
-          source: ManualPeritonealDialysisDataGridSource(
-            context.appLocalizations,
-            allDialysis,
-          ),
-          columnWidthMode: ColumnWidthMode.auto,
-          onQueryCellStyle: (args) {
-            final dialysis = allDialysis[args.rowIndex];
-
-            switch (args.column.mappingName) {
-              case 'dialysisSolution':
-                return DataGridCellStyle(
-                  backgroundColor: dialysis.dialysisSolution.color,
-                  textStyle: const TextStyle(color: Colors.white),
-                );
-              case 'dialysateColor':
-                if (dialysis.dialysateColor == null) {
-                  return null;
-                }
-                return DataGridCellStyle(
-                  backgroundColor: dialysis.dialysateColor.color,
-                  textStyle: TextStyle(
-                    color: dialysis.dialysateColor.textColor,
-                  ),
-                );
-            }
-
-            return null;
-          },
-          columns: <GridColumn>[
-            GridDateTimeColumn(
-              mappingName: 'startedAt',
-              columnWidthMode: ColumnWidthMode.auto,
-              headerText: context.appLocalizations.dialysisStart,
-              dateFormat: _dateFormat,
-            ),
-            GridTextColumn(
-              mappingName: 'dialysisSolution',
-              headerText: context.appLocalizations.dialysisSolution,
-              columnWidthMode: ColumnWidthMode.auto,
-              textAlignment: Alignment.center,
-            ),
-            GridTextColumn(
-              mappingName: 'balance',
-              headerText: context.appLocalizations.balance,
-              columnWidthMode: ColumnWidthMode.auto,
-            ),
-            GridTextColumn(
-              mappingName: 'solutionInMl',
-              headerText: context.appLocalizations.dialysisSolutionIn,
-              columnWidthMode: ColumnWidthMode.auto,
-            ),
-            GridTextColumn(
-              mappingName: 'solutionOutMl',
-              headerText: context.appLocalizations.dialysisSolutionOut,
-              columnWidthMode: ColumnWidthMode.auto,
-            ),
-            GridTextColumn(
-              mappingName: 'bloodPressure',
-              headerText:
-                  context.appLocalizations.healthStatusCreationBloodPressure,
-              columnWidthMode: ColumnWidthMode.auto,
-            ),
-            GridNumericColumn(
-              mappingName: 'pulse',
-              allowSorting: true,
-              headerText: context.appLocalizations.pulse,
-              columnWidthMode: ColumnWidthMode.auto,
-            ),
-            GridNumericColumn(
-              mappingName: 'weight',
-              headerText: context.appLocalizations.weight,
-              columnWidthMode: ColumnWidthMode.auto,
-            ),
-            GridNumericColumn(
-              mappingName: 'urine',
-              headerText: context.appLocalizations.healthStatusCreationUrine,
-              columnWidthMode: ColumnWidthMode.auto,
-            ),
-            GridTextColumn(
-              mappingName: 'dialysateColor',
-              headerText: context.appLocalizations.dialysateColor,
-              columnWidthMode: ColumnWidthMode.auto,
-              textAlignment: Alignment.center,
-            ),
-            GridTextColumn(
-              mappingName: 'notes',
-              headerText: context.appLocalizations.notes,
-              columnWidthMode: ColumnWidthMode.auto,
-            ),
-            GridDateTimeColumn(
-              mappingName: 'finishedAt',
-              columnWidthMode: ColumnWidthMode.auto,
-              headerText: context.appLocalizations.dialysisEnd,
-              dateFormat: _dateFormat,
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-class _ManualPeritonealDialysisDailyReportsList extends StatelessWidget {
-  final apiService = ApiService();
-
-  final _dateFormat = DateFormat.MMMMd();
-
-  @override
-  Widget build(BuildContext context) {
-    return AppStreamBuilder<DailyManualPeritonealDialysisReportResponse>(
-      stream: apiService.getManualPeritonealDialysisReportsStream(
-        Date(2021, 1, 1),
-        Date(2021, 10, 10),
-      ),
-      builder: (context, data) {
-        final allDialysis = data.manualPeritonealDialysisReports
-            .sortedBy((e) => e.date, reverse: true)
-            .toList();
-
-        return SfDataGrid(
-          source: ManualPeritonealDialysisDailyReportsDataGridSource(
-            context.appLocalizations,
-            allDialysis,
-          ),
-          columnWidthMode: ColumnWidthMode.auto,
-          columns: <GridColumn>[
-            GridDateTimeColumn(
-              mappingName: 'date',
-              columnWidthMode: ColumnWidthMode.auto,
-              headerText: context.appLocalizations.date,
-              dateFormat: _dateFormat,
-            ),
-            GridNumericColumn(
-              mappingName: 'dialysisPerformed',
-              headerText: context.appLocalizations.dialysisPerformed,
-              columnWidthMode: ColumnWidthMode.auto,
-              textAlignment: Alignment.center,
-            ),
-            GridTextColumn(
-              mappingName: 'balance',
-              headerText: context.appLocalizations.balance,
-              columnWidthMode: ColumnWidthMode.auto,
-            ),
-            GridTextColumn(
-              mappingName: 'bloodPressure',
-              headerText:
-                  context.appLocalizations.healthStatusCreationBloodPressure,
-              columnWidthMode: ColumnWidthMode.auto,
-            ),
-            GridNumericColumn(
-              mappingName: 'pulse',
-              allowSorting: true,
-              headerText: context.appLocalizations.pulse,
-              columnWidthMode: ColumnWidthMode.auto,
-            ),
-            GridNumericColumn(
-              mappingName: 'weight',
-              headerText: context.appLocalizations.weight,
-              columnWidthMode: ColumnWidthMode.auto,
-            ),
-            GridNumericColumn(
-              mappingName: 'urine',
-              headerText: context.appLocalizations.healthStatusCreationUrine,
-              columnWidthMode: ColumnWidthMode.auto,
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
 class ManualPeritonealDialysisDataGridSource
     extends DataGridSource<ManualPeritonealDialysis> {
+  final _dateFormat = DateFormat.MMMMd().add_Hm();
+
   final AppLocalizations appLocalizations;
   final List<ManualPeritonealDialysis> dialysis;
 
@@ -247,9 +58,11 @@ class ManualPeritonealDialysisDataGridSource
   Object getValue(ManualPeritonealDialysis dialysis, String columnName) {
     switch (columnName) {
       case 'startedAt':
-        return dialysis.startedAt;
+        return _dateFormat.format(dialysis.startedAt).capitalizeFirst();
       case 'finishedAt':
-        return dialysis.finishedAt;
+        return dialysis.finishedAt != null
+            ? _dateFormat.format(dialysis.finishedAt).capitalizeFirst()
+            : null;
       case 'bloodPressure':
         return dialysis.bloodPressure.formattedAmountWithoutDimension;
       case 'pulse':
@@ -275,6 +88,230 @@ class ManualPeritonealDialysisDataGridSource
       default:
         return 'empty';
     }
+  }
+}
+
+class _AllManualPeritonealDialysisList extends StatefulWidget {
+  @override
+  _AllManualPeritonealDialysisListState createState() =>
+      _AllManualPeritonealDialysisListState();
+}
+
+class _AllManualPeritonealDialysisListState
+    extends State<_AllManualPeritonealDialysisList> {
+  final apiService = ApiService();
+  final _numberFormat = NumberFormat.decimalPattern();
+
+  final ColumnSizer _columnSizer = ColumnSizer();
+
+  @override
+  Widget build(BuildContext context) {
+    return AppStreamBuilder<DailyManualPeritonealDialysisReportResponse>(
+      stream: apiService.getManualPeritonealDialysisReportsStream(
+        Date(2021, 1, 1),
+        Date(2021, 10, 10),
+      ),
+      builder: (context, data) {
+        final allDialysis = data.manualPeritonealDialysisReports
+            .expand((r) => r.manualPeritonealDialysis)
+            .sortedBy((e) => e.startedAt, reverse: true)
+            .toList();
+
+        return SfDataGrid(
+          source: ManualPeritonealDialysisDataGridSource(
+            context.appLocalizations,
+            allDialysis,
+          ),
+          gridLinesVisibility: GridLinesVisibility.both,
+          headerGridLinesVisibility: GridLinesVisibility.both,
+          columnSizer: _columnSizer,
+          onQueryRowHeight: (RowHeightDetails rowHeightDetails) {
+            final double height =
+                _columnSizer.getAutoRowHeight(rowHeightDetails.rowIndex);
+            return height;
+          },
+          columnWidthMode: ColumnWidthMode.auto,
+          onQueryCellStyle: (args) {
+            final dialysis = allDialysis[args.rowIndex];
+
+            switch (args.column.mappingName) {
+              case 'dialysisSolution':
+                return DataGridCellStyle(
+                  backgroundColor: dialysis.dialysisSolution.color,
+                  textStyle: const TextStyle(color: Colors.white),
+                );
+              case 'dialysateColor':
+                if (dialysis.dialysateColor == null) {
+                  return null;
+                }
+                return DataGridCellStyle(
+                  backgroundColor: dialysis.dialysateColor.color,
+                  textStyle: TextStyle(
+                    color: dialysis.dialysateColor.textColor,
+                  ),
+                );
+            }
+
+            return null;
+          },
+          columns: <GridColumn>[
+            GridTextColumn(
+              mappingName: 'startedAt',
+              columnWidthMode: ColumnWidthMode.auto,
+              headerText: context.appLocalizations.dialysisStart,
+            ),
+            GridTextColumn(
+              mappingName: 'dialysisSolution',
+              headerText: context.appLocalizations.dialysisSolution,
+              columnWidthMode: ColumnWidthMode.auto,
+              textAlignment: Alignment.center,
+            ),
+            GridNumericColumn(
+              mappingName: 'balance',
+              headerText: context.appLocalizations.balance,
+              columnWidthMode: ColumnWidthMode.auto,
+              numberFormat: _numberFormat,
+            ),
+            GridNumericColumn(
+              mappingName: 'solutionInMl',
+              headerText: context.appLocalizations.dialysisSolutionIn,
+              columnWidthMode: ColumnWidthMode.auto,
+              numberFormat: _numberFormat,
+            ),
+            GridNumericColumn(
+              mappingName: 'solutionOutMl',
+              headerText: context.appLocalizations.dialysisSolutionOut,
+              columnWidthMode: ColumnWidthMode.auto,
+              numberFormat: _numberFormat,
+            ),
+            GridTextColumn(
+              mappingName: 'bloodPressure',
+              headerText:
+              context.appLocalizations.healthStatusCreationBloodPressure,
+              columnWidthMode: ColumnWidthMode.auto,
+            ),
+            GridNumericColumn(
+              mappingName: 'pulse',
+              allowSorting: true,
+              headerText: context.appLocalizations.pulse,
+              columnWidthMode: ColumnWidthMode.auto,
+              numberFormat: _numberFormat,
+            ),
+            GridNumericColumn(
+              mappingName: 'weight',
+              headerText: context.appLocalizations.weight,
+              columnWidthMode: ColumnWidthMode.auto,
+              numberFormat: _numberFormat,
+            ),
+            GridNumericColumn(
+              mappingName: 'urine',
+              headerText: context.appLocalizations.healthStatusCreationUrine,
+              columnWidthMode: ColumnWidthMode.auto,
+              numberFormat: _numberFormat,
+            ),
+            GridTextColumn(
+              mappingName: 'dialysateColor',
+              headerText: context.appLocalizations.dialysateColor,
+              columnWidthMode: ColumnWidthMode.auto,
+              textAlignment: Alignment.center,
+            ),
+            GridTextColumn(
+              mappingName: 'notes',
+              headerText: context.appLocalizations.notes,
+              columnWidthMode: ColumnWidthMode.auto,
+            ),
+            GridTextColumn(
+              mappingName: 'finishedAt',
+              columnWidthMode: ColumnWidthMode.auto,
+              headerText: context.appLocalizations.dialysisEnd,
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _ManualPeritonealDialysisDailyReportsList extends StatefulWidget {
+  @override
+  _ManualPeritonealDialysisDailyReportsListState createState() =>
+      _ManualPeritonealDialysisDailyReportsListState();
+}
+
+class _ManualPeritonealDialysisDailyReportsListState
+    extends State<_ManualPeritonealDialysisDailyReportsList> {
+  final apiService = ApiService();
+
+  final _dateFormat = DateFormat.MMMMd();
+  final _columnSizer = ColumnSizer();
+
+  @override
+  Widget build(BuildContext context) {
+    return AppStreamBuilder<DailyManualPeritonealDialysisReportResponse>(
+      stream: apiService.getManualPeritonealDialysisReportsStream(
+        Date(2021, 1, 1),
+        Date(2021, 10, 10),
+      ),
+      builder: (context, data) {
+        final allDialysis = data.manualPeritonealDialysisReports
+            .sortedBy((e) => e.date, reverse: true)
+            .toList();
+
+        return SfDataGrid(
+          source: ManualPeritonealDialysisDailyReportsDataGridSource(
+            context.appLocalizations,
+            allDialysis,
+          ),
+          gridLinesVisibility: GridLinesVisibility.both,
+          headerGridLinesVisibility: GridLinesVisibility.both,
+          columnSizer: _columnSizer,
+          onQueryRowHeight: (RowHeightDetails rowHeightDetails) {
+            return _columnSizer.getAutoRowHeight(rowHeightDetails.rowIndex);
+          },
+          columnWidthMode: ColumnWidthMode.auto,
+          columns: <GridColumn>[
+            GridDateTimeColumn(
+              mappingName: 'date',
+              columnWidthMode: ColumnWidthMode.auto,
+              headerText: context.appLocalizations.date,
+              dateFormat: _dateFormat,
+            ),
+            GridNumericColumn(
+              mappingName: 'dialysisPerformed',
+              headerText: context.appLocalizations.dialysisPerformed,
+              columnWidthMode: ColumnWidthMode.auto,
+              textAlignment: Alignment.center,
+            ),
+            GridTextColumn(
+              mappingName: 'balance',
+              headerText: context.appLocalizations.balance,
+              columnWidthMode: ColumnWidthMode.auto,
+            ),
+            GridTextColumn(
+              mappingName: 'bloodPressure',
+              headerText:
+                  context.appLocalizations.healthStatusCreationBloodPressure,
+              columnWidthMode: ColumnWidthMode.auto,
+            ),
+            GridTextColumn(
+              mappingName: 'pulse',
+              headerText: context.appLocalizations.pulse,
+              columnWidthMode: ColumnWidthMode.auto,
+            ),
+            GridNumericColumn(
+              mappingName: 'weight',
+              headerText: context.appLocalizations.weight,
+              columnWidthMode: ColumnWidthMode.auto,
+            ),
+            GridNumericColumn(
+              mappingName: 'urine',
+              headerText: context.appLocalizations.healthStatusCreationUrine,
+              columnWidthMode: ColumnWidthMode.auto,
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 
