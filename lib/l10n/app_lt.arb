@@ -1116,5 +1116,7 @@
   "dialysisPerformed": "Atlikta dializių",
   "@dialysisPerformed": {},
   "dailyBalance": "Paros balansas",
-  "@dailyBalance": {}
+  "@dailyBalance": {},
+  "cumulativeDailyBalance": "Suminis paros balansas",
+  "@cumulativeDailyBalance": {}
 }

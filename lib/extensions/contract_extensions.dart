@@ -1082,7 +1082,7 @@ extension DialysateColorExtensions on DialysateColorEnum {
 }
 
 extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {
-  int get balance => solutionOutMl - solutionInMl;
+  int get balance => solutionOutMl != null ? solutionOutMl - solutionInMl : 0;
 }
 
 extension DailyManualPeritonealDialysisReportExtensions
