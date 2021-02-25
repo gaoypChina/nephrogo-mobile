@@ -21,6 +21,7 @@ import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_request.dart';
 import 'package:nephrogo_api_client/model/meal_type_enum.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 import 'package:nephrogo_api_client/model/product_kind_enum.dart';
@@ -1083,6 +1084,23 @@ extension DialysateColorExtensions on DialysateColorEnum {
 
 extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {
   int get balance => solutionOutMl != null ? solutionOutMl - solutionInMl : 0;
+
+  ManualPeritonealDialysisRequestBuilder toRequestBuilder() {
+    final builder = ManualPeritonealDialysisRequestBuilder();
+
+    builder.isCompleted = isCompleted;
+    builder.startedAt = startedAt;
+    builder.bloodPressureId = bloodPressure.id;
+    builder.pulseId = pulse.id;
+    builder.dialysisSolution = dialysisSolution;
+    builder.solutionInMl = solutionInMl;
+    builder.solutionOutMl = solutionOutMl;
+    builder.dialysateColor = dialysateColor;
+    builder.notes = notes;
+    builder.finishedAt = finishedAt;
+
+    return builder;
+  }
 }
 
 extension DailyManualPeritonealDialysisReportExtensions

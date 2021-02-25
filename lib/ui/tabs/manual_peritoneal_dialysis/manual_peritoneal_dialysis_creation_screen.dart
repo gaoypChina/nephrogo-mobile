@@ -59,9 +59,22 @@ class _ManualPeritonealDialysisCreationScreenState
   void initState() {
     super.initState();
 
-    _requestBuilder = ManualPeritonealDialysisRequestBuilder();
+    _requestBuilder = widget.initialDialysis?.toRequestBuilder() ??
+        ManualPeritonealDialysisRequestBuilder();
 
-    _requestBuilder.startedAt = DateTime.now().toUtc();
+    _requestBuilder.startedAt ??= DateTime.now().toUtc();
+    _currentStep = _requestBuilder.isCompleted == false ? 1 : 0;
+
+    _requestBuilder.isCompleted ??= false;
+
+    _systolicBloodPressure =
+        widget.initialDialysis?.bloodPressure?.systolicBloodPressure;
+    _diastolicBloodPressure =
+        widget.initialDialysis?.bloodPressure?.diastolicBloodPressure;
+    _pulse = widget.initialDialysis?.pulse?.pulse;
+
+    _weightKg = widget.initialDialysis?.weightKg;
+    _urineMl = widget.initialDialysis?.urineMl;
   }
 
   @override
@@ -70,10 +83,16 @@ class _ManualPeritonealDialysisCreationScreenState
       appBar: AppBar(
         title: Text(appLocalizations.addHealthStatus),
         actions: <Widget>[
-          AppBarTextButton(
-            onPressed: _submit,
-            child: Text(appLocalizations.save.toUpperCase()),
-          ),
+          if (_isSecondStep)
+            AppBarTextButton(
+              onPressed: _completeAndSubmit,
+              child: Text(appLocalizations.finish.toUpperCase()),
+            ),
+          if (!_isSecondStep)
+            AppBarTextButton(
+              onPressed: _submit,
+              child: Text(appLocalizations.save.toUpperCase()),
+            ),
         ],
       ),
       body: Form(
@@ -199,29 +218,6 @@ class _ManualPeritonealDialysisCreationScreenState
           ],
         ),
         SmallSection(
-          title: appLocalizations.dailyHealthStatusIndicators,
-          children: [
-            AppDoubleInputField(
-              labelText: appLocalizations.dryWeight,
-              fractionDigits: 1,
-              suffixText: 'kg',
-              textInputAction: TextInputAction.next,
-              helperText: appLocalizations.userProfileWeightHelper,
-              initialValue: _weightKg,
-              validator: _formValidators.numRangeValidator(30.0, 300.0),
-              onChanged: (value) => _weightKg = value,
-            ),
-            AppIntegerFormField(
-              labelText: appLocalizations.healthStatusCreationUrine,
-              suffixText: 'ml',
-              textInputAction: TextInputAction.next,
-              initialValue: _urineMl,
-              validator: _formValidators.numRangeValidator(0, 10000),
-              onChanged: (value) => _urineMl = value,
-            ),
-          ],
-        ),
-        SmallSection(
           title: appLocalizations.dialysisSolution,
           children: [
             AppSelectFormField<DialysisSolutionEnum>(
@@ -255,6 +251,29 @@ class _ManualPeritonealDialysisCreationScreenState
             ),
           ],
         ),
+        SmallSection(
+          title: appLocalizations.dailyHealthStatusIndicatorsNotRequired,
+          children: [
+            AppDoubleInputField(
+              labelText: appLocalizations.dryWeight,
+              fractionDigits: 1,
+              suffixText: 'kg',
+              textInputAction: TextInputAction.next,
+              helperText: appLocalizations.userProfileWeightHelper,
+              initialValue: _weightKg,
+              validator: _formValidators.numRangeValidator(30.0, 300.0),
+              onChanged: (value) => _weightKg = value,
+            ),
+            AppIntegerFormField(
+              labelText: appLocalizations.healthStatusCreationUrine,
+              suffixText: 'ml',
+              textInputAction: TextInputAction.next,
+              initialValue: _urineMl,
+              validator: _formValidators.numRangeValidator(0, 10000),
+              onChanged: (value) => _urineMl = value,
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -263,25 +282,20 @@ class _ManualPeritonealDialysisCreationScreenState
     return Column(
       children: [
         SmallSection(
-          title: appLocalizations.dialysisSolutionSection,
+          title: appLocalizations.dialysate,
           children: [
-            AppIntegerFormField(
-              labelText: appLocalizations.dialysisSolutionOut,
-              suffixText: "ml",
-              textInputAction: TextInputAction.next,
-              validator: _formValidators.and(
-                _isSecondStep ? _formValidators.nonNull() : (v) => null,
-                _formValidators.numRangeValidator(1, 5000),
-              ),
-              initialValue: _requestBuilder.solutionOutMl,
-              onChanged: (p) => _requestBuilder.solutionOutMl = p,
-            ),
             AppSelectFormField<DialysateColorEnum>(
               labelText: appLocalizations.dialysateColor,
               initialValue: _requestBuilder.dialysateColor
-                  ?.enumWithoutDefault(DialysateColorEnum.unknown),
+                      ?.enumWithoutDefault(DialysateColorEnum.unknown) ??
+                  DialysateColorEnum.transparent,
               focusNextOnSelection: true,
               onChanged: (v) => _requestBuilder.dialysateColor = v?.value,
+              onSaved: (v) {
+                if (_isSecondStep) {
+                  _requestBuilder.dialysateColor = v?.value;
+                }
+              },
               items: [
                 for (final color in DialysateColorEnum.values
                     .where((v) => v != DialysateColorEnum.unknown))
@@ -292,10 +306,16 @@ class _ManualPeritonealDialysisCreationScreenState
                   ),
               ],
             ),
-            AppTextFormField(
-              labelText: appLocalizations.notes,
+            AppIntegerFormField(
+              labelText: appLocalizations.dialysisSolutionOut,
+              suffixText: "ml",
               textInputAction: TextInputAction.next,
-              maxLines: 3,
+              validator: _formValidators.and(
+                _isSecondStep ? _formValidators.nonNull() : (v) => null,
+                _formValidators.numRangeValidator(1, 5000),
+              ),
+              initialValue: _requestBuilder.solutionOutMl,
+              onChanged: (p) => _requestBuilder.solutionOutMl = p,
             ),
           ],
         ),
@@ -329,6 +349,16 @@ class _ManualPeritonealDialysisCreationScreenState
                   ),
                 ),
               ],
+            ),
+          ],
+        ),
+        SmallSection(
+          title: appLocalizations.notes,
+          children: [
+            AppTextFormField(
+              labelText: appLocalizations.notes,
+              textInputAction: TextInputAction.next,
+              maxLines: 3,
             ),
           ],
         ),
@@ -383,7 +413,14 @@ class _ManualPeritonealDialysisCreationScreenState
 
     final request = _requestBuilder.build();
 
-    return _apiService.createManualPeritonealDialysis(request);
+    if (widget.initialDialysis == null) {
+      return _apiService.createManualPeritonealDialysis(request);
+    }
+
+    return _apiService.updateManualPeritonealDialysis(
+      widget.initialDialysis.id,
+      request,
+    );
   }
 
   Future<ManualPeritonealDialysis> _save() async {
@@ -392,6 +429,12 @@ class _ManualPeritonealDialysisCreationScreenState
     await _saveWeightAndUrine();
 
     return _saveManualDialysis(bloodPressure, pulse);
+  }
+
+  Future<bool> _completeAndSubmit() {
+    _requestBuilder.isCompleted = true;
+
+    return _submit();
   }
 
   Future<bool> _submit() {

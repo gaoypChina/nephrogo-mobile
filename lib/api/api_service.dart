@@ -427,6 +427,19 @@ class ApiService {
     );
   }
 
+  Future<ManualPeritonealDialysis> updateManualPeritonealDialysis(
+      int id, ManualPeritonealDialysisRequest request) {
+    return _peritonealDialysisApi
+        .peritonealDialysisManualUpdate(id, request)
+        .then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+
+        return r.data;
+      },
+    );
+  }
+
   Future<ManualPeritonealDialysisScreenResponse>
       getManualPeritonealDialysisScreen() {
     return _peritonealDialysisApi

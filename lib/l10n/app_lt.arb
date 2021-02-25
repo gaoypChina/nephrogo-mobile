@@ -80,8 +80,8 @@
   "@bloodPressureAndPulse": {},
   "otherHealthStatusIndicators": "Kiti sveikatos rodikliai",
   "@otherHealthStatusIndicators": {},
-  "dailyHealthStatusIndicators": "Dienos sveikatos rodikliai",
-  "@dailyHealthStatusIndicators": {},
+  "dailyHealthStatusIndicatorsNotRequired": "Dienos sveikatos rodikliai (neprivaloma)",
+  "@dailyHealthStatusIndicatorsNotRequired": {},
   "conditionsExplanation": "Norėdami naudotis NephroGo būtinai turite sutikti su visomis privalomomis sąlygomis.",
   "@conditionsExplanation": {},
   "loginConditionsAgree": "Susipažinau su",
@@ -1083,6 +1083,10 @@
   },
   "dialysisSolutionPurpleDescription": "Extraneal 7,5% ikodekstrino",
   "@dialysisSolutionPurpleDescription": {
+    "context": "manualDialysis"
+  },
+  "dialysate": "Dializatas",
+  "@dialysate": {
     "context": "manualDialysis"
   },
   "dialysateColor": "Dializato spalva",
