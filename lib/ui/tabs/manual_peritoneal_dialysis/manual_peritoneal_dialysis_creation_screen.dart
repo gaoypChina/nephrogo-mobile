@@ -365,7 +365,18 @@ class _ManualPeritonealDialysisCreationScreenState
               suffixText: "ml",
               textInputAction: TextInputAction.next,
               validator: _formValidators.and(
-                _isSecondStep ? _formValidators.nonNull() : (v) => null,
+                _isSecondStep
+                    ? _formValidators.and(
+                        _formValidators.nonNull(),
+                        (v) {
+                          if (v < _requestBuilder.solutionInMl) {
+                            return context
+                                .appLocalizations.errorDialisateOutIsSmaller;
+                          }
+                          return null;
+                        },
+                      )
+                    : (v) => null,
                 _formValidators.numRangeValidator(1, 5000),
               ),
               initialValue: _requestBuilder.solutionOutMl,
@@ -403,7 +414,9 @@ class _ManualPeritonealDialysisCreationScreenState
                     onTimeSaved: (t) {
                       if (_isSecondStep) {
                         _requestBuilder.finishedAt =
-                            _requestBuilder.finishedAt.applied(t).toUtc();
+                            (_requestBuilder.finishedAt ?? now)
+                                .applied(t)
+                                .toUtc();
                       }
                     },
                   ),

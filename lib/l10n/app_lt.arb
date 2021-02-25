@@ -1138,5 +1138,7 @@
   "saveAndContinueLater": "Išsaugoti ir tęsti vėliau",
   "@saveAndContinueLater": {},
   "continueToSecondStep": "Pildyti toliau",
-  "@continueToSecondStep": {}
+  "@continueToSecondStep": {},
+  "errorDialisateOutIsSmaller": "Išpilto dializato kiekis mažesnis už supilto tirpalo kiekį",
+  "@errorDialisateOutIsSmaller": {}
 }
