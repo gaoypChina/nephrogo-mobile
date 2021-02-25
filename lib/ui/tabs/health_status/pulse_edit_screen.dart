@@ -77,7 +77,7 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
                               .appliedDate(dt.toDate())
                               .toUtc();
                         },
-                        labelText: appLocalizations.mealCreationDate,
+                        labelText: appLocalizations.date,
                       ),
                     ),
                     Flexible(

@@ -92,7 +92,7 @@ class _BloodPressureAndPulseCreationScreenState
                           _measuredAt =
                               _measuredAt.appliedDate(dt.toDate()).toUtc();
                         },
-                        labelText: appLocalizations.mealCreationDate,
+                        labelText: appLocalizations.date,
                       ),
                     ),
                     Flexible(

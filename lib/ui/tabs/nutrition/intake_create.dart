@@ -212,7 +212,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                         );
                       });
                     },
-                    labelText: appLocalizations.mealCreationDate,
+                    labelText: appLocalizations.date,
                   ),
                   MealTypeSelectionFormField(
                     initialMealType: _mealType,

@@ -10,6 +10,8 @@
   "@tabProfile": {},
   "more": "Daugiau",
   "@more": {},
+  "allFeminine": "Visos",
+  "@allFeminine": {},
   "delete": "Pašalinti",
   "@delete": {},
   "deleteConfirmation": "Ar tikrai norite pašalinti?",
@@ -163,6 +165,8 @@
   },
   "searchUnableToFindProduct": "Nerandate maisto produkto?",
   "@searchUnableToFindProduct": {},
+  "peritonealDialysisPlural": "Peritoninės dializės",
+  "@peritonealDialysisPlural": {},
   "manualPeritonealDialysisStep1": "Dializės pradžia",
   "@manualPeritonealDialysisStep1": {},
   "manualPeritonealDialysisStep2": "Dializės pabaiga",
@@ -497,10 +501,8 @@
   "@mealCreationDatetimeSectionTitle": {
     "context": "mealCreation"
   },
-  "mealCreationDate": "Data",
-  "@mealCreationDate": {
-    "context": "mealCreation"
-  },
+  "date": "Data",
+  "@date": {},
   "mealCreationTime": "Laikas",
   "@mealCreationTime": {
     "context": "mealCreation"
@@ -1105,10 +1107,12 @@
   },
   "notes": "Pastabos",
   "@notes": {},
-  "start": "Pradžia",
-  "@start": {},
-  "end": "Pabaiga",
-  "@end": {},
+  "dialysisStart": "Dializės pradžia",
+  "@dialysisStart": {},
+  "dialysisEnd": "Dializės pabaiga",
+  "@dialysisEnd": {},
   "balance": "Balansas",
-  "@balance": {}
+  "@balance": {},
+  "dialysisPerformed": "Atlikta dializių",
+  "@dialysisPerformed": {}
 }

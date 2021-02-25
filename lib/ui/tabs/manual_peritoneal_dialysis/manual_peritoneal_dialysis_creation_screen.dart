@@ -109,7 +109,7 @@ class _ManualPeritonealDialysisCreationScreenState
                           .appliedDate(dt.toDate())
                           .toUtc();
                     },
-                    labelText: appLocalizations.mealCreationDate,
+                    labelText: appLocalizations.date,
                   ),
                 ),
                 Flexible(
@@ -305,7 +305,7 @@ class _ManualPeritonealDialysisCreationScreenState
                           .appliedDate(dt.toDate())
                           .toUtc();
                     },
-                    labelText: appLocalizations.mealCreationDate,
+                    labelText: appLocalizations.date,
                   ),
                 ),
                 Flexible(

@@ -181,7 +181,7 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
                       },
                       onDateSaved: (dt) =>
                           _intakeBuilder.consumedAt = _consumedAt.toUtc(),
-                      labelText: appLocalizations.mealCreationDate,
+                      labelText: appLocalizations.date,
                     ),
                     MealTypeSelectionFormField(
                       initialMealType: mealType,

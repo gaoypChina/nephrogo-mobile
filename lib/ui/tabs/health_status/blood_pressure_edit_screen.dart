@@ -78,7 +78,7 @@ class _BloodPressureEditScreenState extends State<BloodPressureEditScreen> {
                               .appliedDate(dt.toDate())
                               .toUtc();
                         },
-                        labelText: appLocalizations.mealCreationDate,
+                        labelText: appLocalizations.date,
                       ),
                     ),
                     Flexible(

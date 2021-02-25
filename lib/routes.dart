@@ -4,6 +4,7 @@ import 'package:nephrogo/ui/authentication/email_password_login_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_edit_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/pulse_edit_screen.dart';
+import 'package:nephrogo/ui/tabs/manual_peritoneal_dialysis/manual_peritoneal_dialysis_all_screen.dart';
 import 'package:nephrogo/ui/tabs/nutrition/intake_edit.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 
@@ -51,14 +52,14 @@ class Routes {
 
   static const routeManualPeritonealDialysisCreation =
       'ManualPeritonealDialysisCreation';
+  static const routeManualPeritonealDialysisAllScreen =
+      'ManualPeritonealDialysisList';
 
   static const routeUserProfile = 'userProfile';
   static const routeGeneralRecommendations = 'generalRecommendations';
   static const routeGeneralRecommendationsCategory =
       'generalRecommendationsCategory';
   static const routeLegal = 'legal';
-
-  static const routeFormSelect = 'formSelect';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -122,6 +123,10 @@ class Routes {
       case routeManualPeritonealDialysisCreation:
         return MaterialPageRoute(builder: (context) {
           return ManualPeritonealDialysisCreationScreen();
+        });
+      case routeManualPeritonealDialysisAllScreen:
+        return MaterialPageRoute(builder: (context) {
+          return ManualPeritonealDialysisDialysisScreen();
         });
       case routeProductSearch:
         return MaterialPageRoute<Product>(builder: (context) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
@@ -138,4 +140,18 @@ extension DialysateColorExtensions on DialysateColorEnum {
 
 extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {
   int get balance => solutionOutMl - solutionInMl;
+}
+
+extension DailyManualPeritonealDialysisReportExtensions
+    on DailyManualPeritonealDialysisReport {
+  int get totalBalance => manualPeritonealDialysis.sumBy((_, d) => d.balance);
+
+  Iterable<String> formattedPulses(AppLocalizations appLocalizations) {
+    return manualPeritonealDialysis
+        .map((d) => d.pulse.formattedAmount(appLocalizations));
+  }
+
+  Iterable<String> formattedBloodPressures(AppLocalizations appLocalizations) {
+    return manualPeritonealDialysis.map((d) => d.bloodPressure.formattedAmount);
+  }
 }
