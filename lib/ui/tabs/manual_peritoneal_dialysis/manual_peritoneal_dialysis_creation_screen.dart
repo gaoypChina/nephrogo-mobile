@@ -4,6 +4,7 @@ import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/stepper.dart';
 import 'package:nephrogo/utils/form_utils.dart';
@@ -81,7 +82,7 @@ class _ManualPeritonealDialysisCreationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLocalizations.addHealthStatus),
+        title: Text(appLocalizations.peritonealDialysis),
         actions: <Widget>[
           if (_isSecondStep)
             AppBarTextButton(
@@ -101,6 +102,58 @@ class _ManualPeritonealDialysisCreationScreenState
           type: AppStepperType.horizontal,
           currentStep: _currentStep,
           onStepTapped: _validateAndProceedToStep,
+          onStepContinue: () async {
+            if (_currentStep == 0) {
+              await _validateAndProceedToStep(_currentStep + 1);
+            } else {
+              await _completeAndSubmit();
+            }
+          },
+          onStepCancel: _submit,
+          controlsBuilder: (context, {onStepContinue, onStepCancel}) {
+            if (_isSecondStep) {
+              return BasicSection(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: AppElevatedButton(
+                        text: context.appLocalizations.finishDialysis,
+                        onPressed: onStepContinue,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }
+            return BasicSection(
+              innerPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: AppElevatedButton(
+                      text: context.appLocalizations.saveAndContinueLater,
+                      onPressed: onStepCancel,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: AppElevatedButton(
+                      color: Colors.blue,
+                      text: context.appLocalizations.continueToSecondStep,
+                      onPressed: onStepContinue,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
           steps: [
             AppStep(
               title: Text(appLocalizations.manualPeritonealDialysisStep1),
@@ -242,6 +295,7 @@ class _ManualPeritonealDialysisCreationScreenState
             AppIntegerFormField(
               labelText: appLocalizations.dialysisSolutionIn,
               suffixText: "ml",
+              textInputAction: TextInputAction.next,
               validator: _formValidators.and(
                 _formValidators.nonNull(),
                 _formValidators.numRangeValidator(1, 5000),

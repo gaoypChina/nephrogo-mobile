@@ -169,6 +169,8 @@
   "@todayPerformedDialysis": {},
   "todayDialysisNotPerformed": "Šiandien dializės neatliktos",
   "@todayDialysisNotPerformed": {},
+  "peritonealDialysis": "Peritoninė dializė",
+  "@peritonealDialysis": {},
   "peritonealDialysisPlural": "Peritoninės dializės",
   "@peritonealDialysisPlural": {},
   "manualPeritonealDialysisStep1": "Dializės pradžia",
@@ -1130,5 +1132,11 @@
   "dailyBalance": "Paros balansas",
   "@dailyBalance": {},
   "cumulativeDailyBalance": "Suminis paros balansas",
-  "@cumulativeDailyBalance": {}
+  "@cumulativeDailyBalance": {},
+  "finishDialysis": "Baigti dializę",
+  "@finishDialysis": {},
+  "saveAndContinueLater": "Išsaugoti ir tęsti vėliau",
+  "@saveAndContinueLater": {},
+  "continueToSecondStep": "Pildyti toliau",
+  "@continueToSecondStep": {}
 }
