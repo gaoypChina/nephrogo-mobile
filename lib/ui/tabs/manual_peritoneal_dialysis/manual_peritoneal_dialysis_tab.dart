@@ -11,6 +11,8 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/health_status/health_status_components.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_screen_response.dart';
 
+import 'manual_peritoneal_dialysis_creation_screen.dart';
+
 class ManualPeritonealDialysisTab extends StatelessWidget {
   final apiService = ApiService();
 
@@ -42,7 +44,10 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: SpeedDialFloatingActionButton(
-        label: "PRADĖTI DIALIZĘ",
+        label: _getCreateButtonLabel(context),
+        icon: response.peritonealDialysisInProgress == null
+            ? Icons.add
+            : Icons.play_arrow,
         onPress: () => _openDialysisCreation(context),
       ),
       body: ListView(
@@ -58,6 +63,14 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _getCreateButtonLabel(BuildContext context) {
+    if (response.peritonealDialysisInProgress == null) {
+      return context.appLocalizations.startDialysis;
+    }
+
+    return context.appLocalizations.continueDialysis;
   }
 
   Widget _buildMyDialysisSection(BuildContext context) {
@@ -129,7 +142,11 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
   }
 
   Future<void> _openDialysisCreation(BuildContext context) {
-    return Navigator.of(context)
-        .pushNamed(Routes.routeManualPeritonealDialysisCreation);
+    return Navigator.of(context).pushNamed(
+      Routes.routeManualPeritonealDialysisCreation,
+      arguments: ManualPeritonealDialysisCreationScreenArguments(
+        response.peritonealDialysisInProgress,
+      ),
+    );
   }
 }

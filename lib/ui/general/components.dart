@@ -7,11 +7,13 @@ class SpeedDialFloatingActionButton extends StatefulWidget {
   final String label;
   final List<SpeedDialChild> children;
   final VoidCallback onPress;
+  final IconData icon;
 
   const SpeedDialFloatingActionButton({
     Key key,
     this.label,
     this.onPress,
+    this.icon = Icons.add,
     this.children = const [],
   }) : super(key: key);
 
@@ -44,7 +46,7 @@ class _SpeedDialFloatingActionButtonState
       child: SpeedDial(
         overlayOpacity: 0.9,
         openCloseDial: _isDialOpen,
-        icon: Icons.add,
+        icon: widget.icon,
         activeIcon: Icons.close,
         backgroundColor: Colors.redAccent,
         label: Text(

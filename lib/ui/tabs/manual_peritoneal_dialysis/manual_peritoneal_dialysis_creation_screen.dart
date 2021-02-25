@@ -17,7 +17,19 @@ import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_request.dar
 import 'package:nephrogo_api_client/model/pulse.dart';
 import 'package:nephrogo_api_client/model/pulse_request.dart';
 
+class ManualPeritonealDialysisCreationScreenArguments {
+  final ManualPeritonealDialysis dialysis;
+
+  ManualPeritonealDialysisCreationScreenArguments(this.dialysis);
+}
+
 class ManualPeritonealDialysisCreationScreen extends StatefulWidget {
+  final ManualPeritonealDialysis initialDialysis;
+
+  const ManualPeritonealDialysisCreationScreen(
+      {Key key, @required this.initialDialysis})
+      : super(key: key);
+
   @override
   _ManualPeritonealDialysisCreationScreenState createState() =>
       _ManualPeritonealDialysisCreationScreenState();

@@ -122,7 +122,12 @@ class Routes {
         });
       case routeManualPeritonealDialysisCreation:
         return MaterialPageRoute(builder: (context) {
-          return ManualPeritonealDialysisCreationScreen();
+          final arguments = settings.arguments
+              as ManualPeritonealDialysisCreationScreenArguments;
+
+          return ManualPeritonealDialysisCreationScreen(
+            initialDialysis: arguments.dialysis,
+          );
         });
       case routeManualPeritonealDialysisAllScreen:
         return MaterialPageRoute(builder: (context) {
