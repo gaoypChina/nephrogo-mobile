@@ -5,7 +5,6 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
-import 'package:nephrogo/ui/tabs/manual_peritoneal_dialysis/extensions/dialysis_contract_extensions.dart';
 import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report.dart';
 import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report_response.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';

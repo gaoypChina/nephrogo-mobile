@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/utils/date_utils.dart';
@@ -83,6 +84,7 @@ class DateTimeNumericChart extends StatelessWidget {
         decimalPlaces: decimalPlaces,
         interval: interval,
         maximum: maximumY,
+        numberFormat: NumberFormat.decimalPattern(),
       ),
       series: _getSeries(),
       tooltipBehavior: TooltipBehavior(

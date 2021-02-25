@@ -1114,5 +1114,7 @@
   "balance": "Balansas",
   "@balance": {},
   "dialysisPerformed": "Atlikta dializių",
-  "@dialysisPerformed": {}
+  "@dialysisPerformed": {},
+  "dailyBalance": "Paros balansas",
+  "@dailyBalance": {}
 }
