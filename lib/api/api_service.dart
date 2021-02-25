@@ -31,6 +31,7 @@ import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/intake_request.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_request.dart';
+import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_screen_response.dart';
 import 'package:nephrogo_api_client/model/meal_type_enum.dart';
 import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
 import 'package:nephrogo_api_client/model/nutrition_screen_v2_response.dart';
@@ -424,6 +425,20 @@ class ApiService {
         return r.data;
       },
     );
+  }
+
+  Future<ManualPeritonealDialysisScreenResponse>
+      getManualPeritonealDialysisScreen() {
+    return _peritonealDialysisApi
+        .peritonealDialysisManualScreenRetrieve()
+        .then((r) => r.data);
+  }
+
+  Stream<ManualPeritonealDialysisScreenResponse>
+      getManualPeritonealDialysisScreenStream() {
+    return _buildAppEventsStreamWithInitialEmit(
+            _AppStateChangeEvent.healthStatus)
+        .asyncMap((_) => getManualPeritonealDialysisScreen());
   }
 
   Future<DailyManualPeritonealDialysisReportResponse>

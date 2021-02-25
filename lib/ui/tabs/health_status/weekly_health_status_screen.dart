@@ -175,7 +175,6 @@ class EmptyDailyHealthIndicatorsListWithChart extends StatelessWidget {
               child: HealthIndicatorBarChart(
                 dailyHealthStatuses: const [],
                 indicator: healthIndicator,
-                appLocalizations: context.appLocalizations,
                 from: date,
                 to: date,
               ),
@@ -229,7 +228,6 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
                 child: HealthIndicatorBarChart(
                   dailyHealthStatuses: dailyHealthStatuses,
                   indicator: healthIndicator,
-                  appLocalizations: appLocalizations,
                   from: from,
                   to: to,
                 ),

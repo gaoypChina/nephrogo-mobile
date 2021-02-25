@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo_api_client/model/blood_pressure.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
@@ -14,7 +13,6 @@ class HealthIndicatorBarChart extends StatelessWidget {
   final DateTime to;
   final HealthIndicator indicator;
   final List<DailyHealthStatus> dailyHealthStatuses;
-  final AppLocalizations appLocalizations;
 
   const HealthIndicatorBarChart({
     Key key,
@@ -22,7 +20,6 @@ class HealthIndicatorBarChart extends StatelessWidget {
     @required this.indicator,
     @required this.from,
     @required this.to,
-    @required this.appLocalizations,
   }) : super(key: key);
 
   @override
@@ -32,7 +29,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
       child: DateTimeNumericChart(
         series: _getGraphSeries(context),
         showLegend: false,
-        yAxisText: _getIndicatorNameAndDimensionParts().join(", "),
+        yAxisText: _getIndicatorNameAndDimensionParts(context).join(", "),
         from: from,
         to: to,
         decimalPlaces: indicator.decimalPlaces,
@@ -101,9 +98,9 @@ class HealthIndicatorBarChart extends StatelessWidget {
         xValueMapper: (s, _) => s.date.toDate(),
         yValueMapper: (s, _) => s.getHealthIndicatorValue(indicator),
         dataLabelMapper: (s, _) =>
-            s.getHealthIndicatorFormatted(indicator, appLocalizations),
+            s.getHealthIndicatorFormatted(indicator, context.appLocalizations),
         dataLabelSettings: DataLabelSettings(isVisible: _isShowingDataLabels()),
-        name: indicator.name(appLocalizations),
+        name: indicator.name(context.appLocalizations),
         markerSettings: MarkerSettings(isVisible: true),
       ),
     ];
@@ -122,10 +119,11 @@ class HealthIndicatorBarChart extends StatelessWidget {
     }
   }
 
-  Iterable<String> _getIndicatorNameAndDimensionParts() sync* {
-    yield indicator.name(appLocalizations);
+  Iterable<String> _getIndicatorNameAndDimensionParts(
+      BuildContext context) sync* {
+    yield indicator.name(context.appLocalizations);
 
-    final dimension = indicator.dimension(appLocalizations);
+    final dimension = indicator.dimension(context.appLocalizations);
     if (dimension != null) {
       yield dimension;
     }
