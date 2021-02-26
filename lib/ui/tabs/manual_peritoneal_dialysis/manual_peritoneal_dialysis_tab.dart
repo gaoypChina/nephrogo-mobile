@@ -11,6 +11,7 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/health_status/health_status_components.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_screen_response.dart';
 
+import 'beta_banner.dart';
 import 'manual_peritoneal_dialysis_creation_screen.dart';
 
 class ManualPeritonealDialysisTab extends StatelessWidget {
@@ -53,6 +54,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.only(bottom: 64),
         children: [
+          BetaBanner(),
           _buildMyDialysisSection(context),
           _buildTotalBalanceSection(context),
           for (final indicator in indicators)
