@@ -367,18 +367,7 @@ class _ManualPeritonealDialysisCreationScreenState
               suffixText: "ml",
               textInputAction: TextInputAction.next,
               validator: _formValidators.and(
-                _isSecondStep
-                    ? _formValidators.and(
-                        _formValidators.nonNull(),
-                        (v) {
-                          if (v < _requestBuilder.solutionInMl) {
-                            return context
-                                .appLocalizations.errorDialisateOutIsSmaller;
-                          }
-                          return null;
-                        },
-                      )
-                    : (v) => null,
+                _isSecondStep ? _formValidators.nonNull() : (v) => null,
                 _formValidators.numRangeValidator(1, 5000),
               ),
               initialValue: _requestBuilder.solutionOutMl,
