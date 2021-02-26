@@ -238,7 +238,9 @@ class _AllManualPeritonealDialysisListState
               textAlignment: Alignment.center,
             ),
             GridTextColumn(
+              maximumWidth: 150,
               mappingName: 'notes',
+              maxLines: 10,
               headerText: context.appLocalizations.notes,
               columnWidthMode: ColumnWidthMode.auto,
             ),

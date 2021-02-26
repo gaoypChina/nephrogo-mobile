@@ -43,6 +43,7 @@ class AppTextFormField extends StatelessWidget {
   final VoidCallback onEditingComplete;
   final ValueChanged<String> onFieldSubmitted;
   final int maxLines;
+  final TextCapitalization textCapitalization;
 
   const AppTextFormField({
     Key key,
@@ -71,6 +72,7 @@ class AppTextFormField extends StatelessWidget {
     this.focusNode,
     this.onEditingComplete,
     this.onFieldSubmitted,
+    this.textCapitalization = TextCapitalization.none,
   }) : super(key: key);
 
   @override
@@ -105,6 +107,7 @@ class AppTextFormField extends StatelessWidget {
         textInputAction: textInputAction,
         onEditingComplete: onEditingComplete,
         onFieldSubmitted: onFieldSubmitted,
+        textCapitalization: textCapitalization,
         autovalidateMode: AutovalidateMode.onUserInteraction,
       ),
     );

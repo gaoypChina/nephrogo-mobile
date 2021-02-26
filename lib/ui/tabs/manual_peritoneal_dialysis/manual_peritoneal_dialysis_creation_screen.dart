@@ -429,8 +429,12 @@ class _ManualPeritonealDialysisCreationScreenState
           title: appLocalizations.notes,
           children: [
             AppTextFormField(
+              textCapitalization: TextCapitalization.sentences,
               labelText: appLocalizations.notes,
+              initialValue: _requestBuilder.notes,
               textInputAction: TextInputAction.next,
+              onChanged: (s) => _requestBuilder.notes = s,
+              onSaved: (s) => _requestBuilder.notes = s,
               maxLines: 3,
             ),
           ],
