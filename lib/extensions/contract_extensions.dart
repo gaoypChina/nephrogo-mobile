@@ -56,7 +56,7 @@ extension ProductExtensions on Product {
       case Nutrient.phosphorus:
         return phosphorusMg;
       case Nutrient.liquids:
-        return liquidsG;
+        return liquidsMl;
       case Nutrient.energy:
         return energyKcal;
       case Nutrient.fat:
@@ -293,7 +293,7 @@ extension DailyNutrientNormsWithTotalsExtensions
       case Nutrient.phosphorus:
         return phosphorusMg;
       case Nutrient.liquids:
-        return liquidsG;
+        return liquidsMl;
       case Nutrient.energy:
         return energyKcal;
       case Nutrient.fat:
@@ -475,7 +475,6 @@ extension NutrientExtensions on Nutrient {
     switch (this) {
       case Nutrient.energy:
         return 'kcal';
-      case Nutrient.liquids:
       case Nutrient.proteins:
       case Nutrient.sodium:
       case Nutrient.potassium:
@@ -483,6 +482,8 @@ extension NutrientExtensions on Nutrient {
       case Nutrient.fat:
       case Nutrient.carbohydrate:
         return 'g';
+      case Nutrient.liquids:
+        return 'ml';
     }
     throw ArgumentError.value(
         this, 'nutrient', 'Unable to map nutrient to dimension');
