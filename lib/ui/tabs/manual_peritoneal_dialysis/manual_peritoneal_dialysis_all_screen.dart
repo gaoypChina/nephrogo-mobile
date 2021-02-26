@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
@@ -11,7 +12,7 @@ import 'package:nephrogo_api_client/model/paginated_daily_manual_peritoneal_dial
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-class ManualPeritonealDialysisDialysisScreen extends StatelessWidget {
+class ManualPeritonealDialysisAllScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -72,6 +73,8 @@ class ManualPeritonealDialysisDataGridSource
         return dialysis.pulse.pulse;
       case 'urine':
         return dialysis.urineMl;
+      case 'liquids':
+        return dialysis.liquidsMl;
       case 'dialysisSolution':
         return dialysis.dialysisSolution.localizedName(appLocalizations);
       case 'solutionInMl':
@@ -171,44 +174,53 @@ class _AllManualPeritonealDialysisListState
             ),
             GridNumericColumn(
               mappingName: 'balance',
-              headerText: context.appLocalizations.balance,
+              headerText: '${context.appLocalizations.balance}, ml',
               columnWidthMode: ColumnWidthMode.auto,
               numberFormat: _numberFormat,
             ),
             GridNumericColumn(
               mappingName: 'solutionInMl',
-              headerText: context.appLocalizations.dialysisSolutionIn,
+              headerText: '${context.appLocalizations.dialysisSolutionIn}, ml',
               columnWidthMode: ColumnWidthMode.auto,
               numberFormat: _numberFormat,
             ),
             GridNumericColumn(
               mappingName: 'solutionOutMl',
-              headerText: context.appLocalizations.dialysisSolutionOut,
+              headerText: '${context.appLocalizations.dialysisSolutionOut}, ml',
               columnWidthMode: ColumnWidthMode.auto,
               numberFormat: _numberFormat,
             ),
             GridTextColumn(
               mappingName: 'bloodPressure',
               headerText:
-                  context.appLocalizations.healthStatusCreationBloodPressure,
+                  '${context.appLocalizations.healthStatusCreationBloodPressure}, '
+                  '${HealthIndicator.bloodPressure.dimension(context.appLocalizations)}',
               columnWidthMode: ColumnWidthMode.auto,
             ),
             GridNumericColumn(
               mappingName: 'pulse',
-              allowSorting: true,
-              headerText: context.appLocalizations.pulse,
+              headerText: '${context.appLocalizations.pulse}, '
+                  '${HealthIndicator.pulse.dimension(context.appLocalizations)}',
               columnWidthMode: ColumnWidthMode.auto,
               numberFormat: _numberFormat,
             ),
             GridNumericColumn(
-              mappingName: 'weight',
-              headerText: context.appLocalizations.weight,
+              mappingName: 'liquids',
+              headerText: '${context.appLocalizations.liquids}, ml',
               columnWidthMode: ColumnWidthMode.auto,
               numberFormat: _numberFormat,
             ),
             GridNumericColumn(
               mappingName: 'urine',
-              headerText: context.appLocalizations.healthStatusCreationUrine,
+              headerText:
+                  '${context.appLocalizations.healthStatusCreationUrine}, ml',
+              columnWidthMode: ColumnWidthMode.auto,
+              numberFormat: _numberFormat,
+            ),
+            GridNumericColumn(
+              mappingName: 'weight',
+              headerText: '${context.appLocalizations.weight}, '
+                  '${HealthIndicator.weight.dimension(context.appLocalizations)}',
               columnWidthMode: ColumnWidthMode.auto,
               numberFormat: _numberFormat,
             ),
@@ -282,30 +294,43 @@ class _ManualPeritonealDialysisDailyReportsListState
             ),
             GridNumericColumn(
               mappingName: 'balance',
-              headerText: context.appLocalizations.balance,
+              headerText: '${context.appLocalizations.balance}, ml',
               columnWidthMode: ColumnWidthMode.auto,
               numberFormat: _numberFormat,
             ),
             GridTextColumn(
               mappingName: 'bloodPressure',
               headerText:
-                  context.appLocalizations.healthStatusCreationBloodPressure,
+                  '${context.appLocalizations.healthStatusCreationBloodPressure}, '
+                  '${HealthIndicator.bloodPressure.dimension(context.appLocalizations)}',
               columnWidthMode: ColumnWidthMode.auto,
             ),
             GridTextColumn(
               mappingName: 'pulse',
-              headerText: context.appLocalizations.pulse,
+              headerText: '${context.appLocalizations.pulse}, '
+                  '${HealthIndicator.pulse.dimension(context.appLocalizations)}',
               columnWidthMode: ColumnWidthMode.auto,
+            ),
+            GridNumericColumn(
+              mappingName: 'liquids',
+              headerText: '${context.appLocalizations.liquids}, ml',
+              columnWidthMode: ColumnWidthMode.auto,
+              numberFormat: _numberFormat,
             ),
             GridNumericColumn(
               mappingName: 'weight',
-              headerText: context.appLocalizations.weight,
+              headerText: '${context.appLocalizations.weight}, '
+                  '${HealthIndicator.weight.dimension(context.appLocalizations)}',
               columnWidthMode: ColumnWidthMode.auto,
+              numberFormat: _numberFormat,
             ),
             GridNumericColumn(
               mappingName: 'urine',
-              headerText: context.appLocalizations.healthStatusCreationUrine,
+              headerText:
+                  '${context.appLocalizations.healthStatusCreationUrine}, '
+                  '${HealthIndicator.urine.dimension(context.appLocalizations)}',
               columnWidthMode: ColumnWidthMode.auto,
+              numberFormat: _numberFormat,
             ),
           ],
         );
@@ -349,7 +374,9 @@ class ManualPeritonealDialysisDailyReportsDataGridSource
       case 'weight':
         return report.weightKg;
       case 'dialysisPerformed':
-        return report.manualPeritonealDialysis.length;
+        return report.completedDialysisCount;
+      case 'liquids':
+        return report.liquidsMl;
       default:
         return 'empty';
     }

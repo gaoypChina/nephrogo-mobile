@@ -134,7 +134,7 @@ class Routes {
         });
       case routeManualPeritonealDialysisAllScreen:
         return MaterialPageRoute(builder: (context) {
-          return ManualPeritonealDialysisDialysisScreen();
+          return ManualPeritonealDialysisAllScreen();
         });
       case routeManualPeritonealDialysisBalanceScreen:
         return MaterialPageRoute(

@@ -90,9 +90,8 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
 
     if (todayReport != null &&
         todayReport.manualPeritonealDialysis.isNotEmpty) {
-      final performedCount = todayReport.manualPeritonealDialysis.length;
-      subtitle =
-          "${context.appLocalizations.todayPerformedDialysis}: $performedCount";
+      subtitle = "${context.appLocalizations.todayPerformedDialysis}: "
+          "${todayReport.completedDialysisCount}";
     }
 
     return LargeSection(

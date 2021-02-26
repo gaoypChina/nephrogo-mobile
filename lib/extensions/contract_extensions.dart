@@ -1158,6 +1158,14 @@ extension DailyManualPeritonealDialysisReportExtensions
   Iterable<String> formattedBloodPressures(AppLocalizations appLocalizations) {
     return manualPeritonealDialysis.map((d) => d.bloodPressure.formattedAmount);
   }
+
+  int get liquidsMl {
+    return manualPeritonealDialysis.map((d) => d.liquidsMl).firstOrNull() ?? 0;
+  }
+
+  int get completedDialysisCount {
+    return manualPeritonealDialysis.where((d) => d.isCompleted).length;
+  }
 }
 
 extension EnumClassExtensions<E extends EnumClass> on E {
