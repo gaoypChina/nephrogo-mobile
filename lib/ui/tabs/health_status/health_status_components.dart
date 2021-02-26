@@ -114,11 +114,14 @@ class IndicatorChartSection extends StatelessWidget {
       ),
       children: [
         if (hasReports)
-          HealthIndicatorBarChart(
-            dailyHealthStatuses: dailyHealthStatuses,
-            indicator: indicator,
-            from: today.subtract(const Duration(days: 6)),
-            to: today,
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: HealthIndicatorBarChart(
+              dailyHealthStatuses: dailyHealthStatuses,
+              indicator: indicator,
+              from: today.subtract(const Duration(days: 6)),
+              to: today,
+            ),
           )
       ],
     );
