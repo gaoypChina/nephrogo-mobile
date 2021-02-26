@@ -138,7 +138,9 @@ class _AllManualPeritonealDialysisListState
               case 'dialysisSolution':
                 return DataGridCellStyle(
                   backgroundColor: dialysis.dialysisSolution.color,
-                  textStyle: const TextStyle(color: Colors.white),
+                  textStyle: TextStyle(
+                    color: dialysis.dialysisSolution.textColor,
+                  ),
                 );
               case 'dialysateColor':
                 if (dialysis.dialysateColor == null) {
@@ -187,7 +189,7 @@ class _AllManualPeritonealDialysisListState
             GridTextColumn(
               mappingName: 'bloodPressure',
               headerText:
-              context.appLocalizations.healthStatusCreationBloodPressure,
+                  context.appLocalizations.healthStatusCreationBloodPressure,
               columnWidthMode: ColumnWidthMode.auto,
             ),
             GridNumericColumn(
@@ -335,9 +337,11 @@ class ManualPeritonealDialysisDailyReportsDataGridSource
       case 'date':
         return report.date;
       case 'bloodPressure':
-        return report.formattedBloodPressures(appLocalizations).join('\n');
+        return report.manualPeritonealDialysis
+            .map((d) => d.bloodPressure.formattedAmountWithoutDimension)
+            .join('\n');
       case 'pulse':
-        return report.formattedPulses(appLocalizations).join('\n');
+        return report.manualPeritonealDialysis.map((d) => d.pulse).join('\n');
       case 'urine':
         return report.urineMl;
       case 'balance':

@@ -1015,6 +1015,21 @@ extension DialysisSolutionExtension on DialysisSolutionEnum {
 
     throw ArgumentError.value(this);
   }
+
+  Color get textColor {
+    switch (this) {
+      case DialysisSolutionEnum.yellow:
+        return Colors.black;
+      case DialysisSolutionEnum.green:
+      case DialysisSolutionEnum.orange:
+      case DialysisSolutionEnum.blue:
+      case DialysisSolutionEnum.purple:
+      case DialysisSolutionEnum.unknown:
+        return Colors.white;
+    }
+
+    throw ArgumentError.value(this);
+  }
 }
 
 extension DialysateColorExtensions on DialysateColorEnum {
@@ -1069,9 +1084,9 @@ extension DialysateColorExtensions on DialysateColorEnum {
     switch (this) {
       case DialysateColorEnum.transparent:
       case DialysateColorEnum.cloudyWhite:
+      case DialysateColorEnum.cloudyYellowish:
         return Colors.black;
       case DialysateColorEnum.pink:
-      case DialysateColorEnum.cloudyYellowish:
       case DialysateColorEnum.greenish:
       case DialysateColorEnum.brown:
       case DialysateColorEnum.unknown:
