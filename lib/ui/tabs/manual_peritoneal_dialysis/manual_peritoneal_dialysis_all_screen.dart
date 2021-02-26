@@ -5,6 +5,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
+import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
@@ -119,6 +120,12 @@ class _AllManualPeritonealDialysisListState
             .expand((r) => r.manualPeritonealDialysis)
             .sortedBy((e) => e.startedAt, reverse: true)
             .toList();
+
+        if (allDialysis.isEmpty) {
+          return EmptyStateContainer(
+            text: context.appLocalizations.manualPeritonealDialysisEmpty,
+          );
+        }
 
         return SfDataGrid(
           source: ManualPeritonealDialysisDataGridSource(
@@ -267,6 +274,12 @@ class _ManualPeritonealDialysisDailyReportsListState
       builder: (context, data) {
         final allDialysis =
             data.results.sortedBy((e) => e.date, reverse: true).toList();
+
+        if (allDialysis.isEmpty) {
+          return EmptyStateContainer(
+            text: context.appLocalizations.manualPeritonealDialysisEmpty,
+          );
+        }
 
         return SfDataGrid(
           source: ManualPeritonealDialysisDailyReportsDataGridSource(
