@@ -181,6 +181,7 @@ class _ManualPeritonealDialysisCreationScreenState
             Row(
               children: [
                 Flexible(
+                  flex: 3,
                   child: AppDatePickerFormField(
                     initialDate: _requestBuilder.startedAt.toLocal(),
                     selectedDate: _requestBuilder.startedAt.toLocal(),
@@ -196,6 +197,7 @@ class _ManualPeritonealDialysisCreationScreenState
                   ),
                 ),
                 Flexible(
+                  flex: 2,
                   child: AppTimePickerFormField(
                     initialTime: TimeOfDay.fromDateTime(
                         _requestBuilder.startedAt.toLocal()),
@@ -390,6 +392,7 @@ class _ManualPeritonealDialysisCreationScreenState
             Row(
               children: [
                 Flexible(
+                  flex: 3,
                   child: AppDatePickerFormField(
                     initialDate: _requestBuilder.finishedAt?.toLocal() ?? now,
                     selectedDate: _requestBuilder.finishedAt?.toLocal() ?? now,
@@ -405,6 +408,7 @@ class _ManualPeritonealDialysisCreationScreenState
                   ),
                 ),
                 Flexible(
+                  flex: 2,
                   child: AppTimePickerFormField(
                     initialTime: TimeOfDay.fromDateTime(
                         _requestBuilder.finishedAt?.toLocal() ?? now),
