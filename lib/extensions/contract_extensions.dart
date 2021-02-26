@@ -2,7 +2,6 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:collection_ext/iterables.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/collection_extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
@@ -1117,6 +1116,21 @@ extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {
 
     return builder;
   }
+
+  String get formattedBalance {
+    return _formatAmount(balance, 'ml');
+  }
+
+  String get formattedSolutionIn {
+    return _formatAmount(solutionInMl, 'ml');
+  }
+
+  String get formattedSolutionOut {
+    if (solutionOutMl == null) {
+      return "-";
+    }
+    return _formatAmount(solutionOutMl, 'ml');
+  }
 }
 
 extension DailyManualPeritonealDialysisReportExtensions
@@ -1124,9 +1138,7 @@ extension DailyManualPeritonealDialysisReportExtensions
   int get totalBalance => manualPeritonealDialysis.sumBy((_, d) => d.balance);
 
   String get formattedTotalBalance {
-    final formatted = NumberFormat.decimalPattern().format(totalBalance);
-
-    return '$formatted ml';
+    return _formatAmount(totalBalance, 'ml');
   }
 
   Iterable<String> formattedPulses(AppLocalizations appLocalizations) {

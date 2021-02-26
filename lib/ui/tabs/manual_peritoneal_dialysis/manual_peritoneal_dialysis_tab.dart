@@ -94,8 +94,9 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
       title: Text(context.appLocalizations.peritonealDialysisPlural),
       subtitle: Text(subtitle),
       trailing: OutlinedButton(
-        onPressed: () => Navigator.of(context)
-            .pushNamed(Routes.routeManualPeritonealDialysisAllScreen),
+        onPressed: () => Navigator.of(context).pushNamed(
+          Routes.routeManualPeritonealDialysisAllScreen,
+        ),
         child: Text(context.appLocalizations.allFeminine.toUpperCase()),
       ),
       children: [
@@ -129,7 +130,9 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
       title: Text(context.appLocalizations.dailyBalance),
       subtitle: Text(subtitle),
       trailing: OutlinedButton(
-        onPressed: null,
+        onPressed: () => Navigator.of(context).pushNamed(
+          Routes.routeManualPeritonealDialysisBalanceScreen,
+        ),
         child: Text(context.appLocalizations.more.toUpperCase()),
       ),
       children: [
