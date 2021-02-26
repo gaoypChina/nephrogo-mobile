@@ -352,7 +352,7 @@ extension DailyNutrientNormsWithTotalsExtensions
         .any((c) => c.normExceeded == true);
   }
 
-  bool isAtLeastTotalNonZeo() {
+  bool isAtLeastOneTotalNonZeo() {
     return Nutrient.values
         .map(getDailyNutrientConsumption)
         .any((c) => c.total != 0);

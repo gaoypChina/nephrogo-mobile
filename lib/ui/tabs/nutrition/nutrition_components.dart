@@ -8,14 +8,17 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
+import 'package:nephrogo/ui/charts/nutrient_bar_chart.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
 import 'package:nephrogo_api_client/model/meal_type_enum.dart';
+import 'package:nephrogo_api_client/model/nutrition_summary_statistics.dart';
 
 import 'intake_edit.dart';
 import 'product_search.dart';
@@ -727,5 +730,91 @@ class NutrientIntakeTile extends StatelessWidget {
     return [firstLine, _getConsumptionText(appLocalizations)]
         .where((t) => t != null && t.isNotEmpty)
         .join("\n");
+  }
+}
+
+class NutrientChartSection extends StatelessWidget {
+  final List<DailyIntakesLightReport> reports;
+  final NutritionSummaryStatistics nutritionSummaryStatistics;
+  final Nutrient nutrient;
+
+  const NutrientChartSection({
+    Key key,
+    @required this.reports,
+    @required this.nutrient,
+    this.nutritionSummaryStatistics,
+  }) : super(key: key);
+
+  Future openWeeklyNutritionScreen(
+    BuildContext context,
+    NutritionSummaryStatistics nutritionSummaryStatistics,
+    Nutrient nutrient,
+  ) {
+    return Navigator.pushNamed(
+      context,
+      Routes.routeNutritionSummary,
+      arguments: NutritionSummaryScreenArguments(
+        nutritionSummaryStatistics: nutritionSummaryStatistics,
+        nutrient: nutrient,
+        screenType: NutritionSummaryScreenType.weekly,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final today = Date.today();
+
+    final todaysReport = reports.where((r) => r.date == today).firstOrNull();
+
+    final dailyNormFormatted = todaysReport?.nutrientNormsAndTotals
+        ?.getNutrientNormFormatted(nutrient);
+    final todayConsumption = todaysReport?.nutrientNormsAndTotals
+        ?.getNutrientTotalAmountFormatted(nutrient);
+
+    final showGraph =
+        reports.any((r) => r.nutrientNormsAndTotals.isAtLeastOneTotalNonZeo());
+
+    String subtitle;
+    if (todaysReport == null) {
+      subtitle = context.appLocalizations.todayConsumptionWithoutNorm(
+        context.appLocalizations.noInfo,
+      );
+    } else if (dailyNormFormatted != null) {
+      subtitle = context.appLocalizations.todayConsumptionWithNorm(
+        todayConsumption,
+        dailyNormFormatted,
+      );
+    } else {
+      subtitle = context.appLocalizations.todayConsumptionWithoutNorm(
+        todayConsumption,
+      );
+    }
+
+    return LargeSection(
+      title: Text(nutrient.name(context.appLocalizations)),
+      subtitle: Text(subtitle),
+      trailing: OutlinedButton(
+        onPressed: () => openWeeklyNutritionScreen(
+          context,
+          nutritionSummaryStatistics,
+          nutrient,
+        ),
+        child: Text(context.appLocalizations.more.toUpperCase()),
+      ),
+      children: [
+        if (showGraph)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: NutrientBarChart(
+              dailyIntakeLightReports: reports,
+              nutrient: nutrient,
+              maximumDate: today,
+              minimumDate: today.subtract(const Duration(days: 6)),
+              showDataLabels: true,
+            ),
+          )
+      ],
+    );
   }
 }

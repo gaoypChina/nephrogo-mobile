@@ -3,11 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
-import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
-import 'package:nephrogo/ui/charts/nutrient_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
@@ -90,12 +88,10 @@ class NutritionTab extends StatelessWidget {
                 (context, index) {
                   final nutrient = nutrients[index];
 
-                  return buildIndicatorChartSection(
-                    context,
-                    todayIntakesReport,
-                    lastWeekLightNutritionReports,
-                    nutritionSummaryStatistics,
-                    nutrient,
+                  return NutrientChartSection(
+                    reports: lastWeekLightNutritionReports,
+                    nutritionSummaryStatistics: nutritionSummaryStatistics,
+                    nutrient: nutrient,
                   );
                 },
                 childCount: nutrients.length,
@@ -108,22 +104,6 @@ class NutritionTab extends StatelessWidget {
     );
   }
 
-  Future openWeeklyNutritionScreen(
-    BuildContext context,
-    NutritionSummaryStatistics nutritionSummaryStatistics,
-    Nutrient nutrient,
-  ) {
-    return Navigator.pushNamed(
-      context,
-      Routes.routeNutritionSummary,
-      arguments: NutritionSummaryScreenArguments(
-        nutritionSummaryStatistics: nutritionSummaryStatistics,
-        nutrient: nutrient,
-        screenType: NutritionSummaryScreenType.weekly,
-      ),
-    );
-  }
-
   Future _openNutritionDailySummary(
     BuildContext context,
     Date date,
@@ -132,62 +112,6 @@ class NutritionTab extends StatelessWidget {
       context,
       Routes.routeNutritionDailySummary,
       arguments: NutritionDailySummaryScreenArguments(date),
-    );
-  }
-
-  LargeSection buildIndicatorChartSection(
-    BuildContext context,
-    DailyIntakesLightReport todayIntakesReport,
-    List<DailyIntakesLightReport> dailyIntakesReports,
-    NutritionSummaryStatistics nutritionSummaryStatistics,
-    Nutrient nutrient,
-  ) {
-    final localizations = AppLocalizations.of(context);
-
-    final dailyNormFormatted = todayIntakesReport.nutrientNormsAndTotals
-        .getNutrientNormFormatted(nutrient);
-    final todayConsumption = todayIntakesReport.nutrientNormsAndTotals
-        .getNutrientTotalAmountFormatted(nutrient);
-
-    final showGraph = dailyIntakesReports
-        .any((r) => r.nutrientNormsAndTotals.isAtLeastTotalNonZeo());
-
-    String subtitle;
-    if (dailyNormFormatted != null) {
-      subtitle = localizations.todayConsumptionWithNorm(
-        todayConsumption,
-        dailyNormFormatted,
-      );
-    } else {
-      subtitle = localizations.todayConsumptionWithoutNorm(
-        todayConsumption,
-      );
-    }
-
-    return LargeSection(
-      title: Text(nutrient.name(localizations)),
-      subtitle: Text(subtitle),
-      trailing: OutlinedButton(
-        onPressed: () => openWeeklyNutritionScreen(
-          context,
-          nutritionSummaryStatistics,
-          nutrient,
-        ),
-        child: Text(localizations.more.toUpperCase()),
-      ),
-      children: [
-        if (showGraph)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: NutrientBarChart(
-              dailyIntakeLightReports: dailyIntakesReports,
-              nutrient: nutrient,
-              minimumDate: Date.today().subtract(const Duration(days: 6)),
-              maximumDate: Date.today(),
-              showDataLabels: true,
-            ),
-          )
-      ],
     );
   }
 }
