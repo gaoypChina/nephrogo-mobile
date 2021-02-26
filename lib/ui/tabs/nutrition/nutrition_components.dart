@@ -25,10 +25,10 @@ import 'product_search.dart';
 
 class IntakeCreationFloatingActionButton extends StatelessWidget {
   final _mealTypesWithColors = LinkedHashMap.fromEntries([
-    const MapEntry(MealTypeEnum.breakfast, Colors.indigo),
-    const MapEntry(MealTypeEnum.lunch, Colors.teal),
+    const MapEntry(MealTypeEnum.snack, Colors.indigo),
     const MapEntry(MealTypeEnum.dinner, Colors.blue),
-    const MapEntry(MealTypeEnum.snack, Colors.deepOrange),
+    const MapEntry(MealTypeEnum.lunch, Colors.teal),
+    const MapEntry(MealTypeEnum.breakfast, Colors.deepOrange),
   ]);
 
   @override
