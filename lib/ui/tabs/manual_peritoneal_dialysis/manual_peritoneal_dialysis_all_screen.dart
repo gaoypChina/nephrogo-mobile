@@ -3,12 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report.dart';
-import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report_response.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/model/paginated_daily_manual_peritoneal_dialysis_report_list.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -58,10 +57,14 @@ class ManualPeritonealDialysisDataGridSource
   Object getValue(ManualPeritonealDialysis dialysis, String columnName) {
     switch (columnName) {
       case 'startedAt':
-        return _dateFormat.format(dialysis.startedAt).capitalizeFirst();
+        return _dateFormat
+            .format(dialysis.startedAt.toLocal())
+            .capitalizeFirst();
       case 'finishedAt':
         return dialysis.finishedAt != null
-            ? _dateFormat.format(dialysis.finishedAt).capitalizeFirst()
+            ? _dateFormat
+                .format(dialysis.finishedAt.toLocal())
+                .capitalizeFirst()
             : null;
       case 'bloodPressure':
         return dialysis.bloodPressure.formattedAmountWithoutDimension;
@@ -106,13 +109,10 @@ class _AllManualPeritonealDialysisListState
 
   @override
   Widget build(BuildContext context) {
-    return AppStreamBuilder<DailyManualPeritonealDialysisReportResponse>(
-      stream: apiService.getManualPeritonealDialysisReportsStream(
-        Date(2021, 1, 1),
-        Date(2021, 10, 10),
-      ),
+    return AppStreamBuilder<PaginatedDailyManualPeritonealDialysisReportList>(
+      stream: apiService.getManualPeritonealDialysisReportsPaginatedStream(),
       builder: (context, data) {
-        final allDialysis = data.manualPeritonealDialysisReports
+        final allDialysis = data.results
             .expand((r) => r.manualPeritonealDialysis)
             .sortedBy((e) => e.startedAt, reverse: true)
             .toList();
@@ -143,7 +143,8 @@ class _AllManualPeritonealDialysisListState
                   ),
                 );
               case 'dialysateColor':
-                if (dialysis.dialysateColor == null) {
+                if (dialysis.dialysateColor == null ||
+                    dialysis.dialysateColor == DialysateColorEnum.unknown) {
                   return null;
                 }
                 return DataGridCellStyle(
@@ -243,21 +244,17 @@ class _ManualPeritonealDialysisDailyReportsList extends StatefulWidget {
 class _ManualPeritonealDialysisDailyReportsListState
     extends State<_ManualPeritonealDialysisDailyReportsList> {
   final apiService = ApiService();
+  final _numberFormat = NumberFormat.decimalPattern();
 
-  final _dateFormat = DateFormat.MMMMd();
   final _columnSizer = ColumnSizer();
 
   @override
   Widget build(BuildContext context) {
-    return AppStreamBuilder<DailyManualPeritonealDialysisReportResponse>(
-      stream: apiService.getManualPeritonealDialysisReportsStream(
-        Date(2021, 1, 1),
-        Date(2021, 10, 10),
-      ),
+    return AppStreamBuilder<PaginatedDailyManualPeritonealDialysisReportList>(
+      stream: apiService.getManualPeritonealDialysisReportsPaginatedStream(),
       builder: (context, data) {
-        final allDialysis = data.manualPeritonealDialysisReports
-            .sortedBy((e) => e.date, reverse: true)
-            .toList();
+        final allDialysis =
+            data.results.sortedBy((e) => e.date, reverse: true).toList();
 
         return SfDataGrid(
           source: ManualPeritonealDialysisDailyReportsDataGridSource(
@@ -272,11 +269,10 @@ class _ManualPeritonealDialysisDailyReportsListState
           },
           columnWidthMode: ColumnWidthMode.auto,
           columns: <GridColumn>[
-            GridDateTimeColumn(
+            GridTextColumn(
               mappingName: 'date',
               columnWidthMode: ColumnWidthMode.auto,
               headerText: context.appLocalizations.date,
-              dateFormat: _dateFormat,
             ),
             GridNumericColumn(
               mappingName: 'dialysisPerformed',
@@ -284,10 +280,11 @@ class _ManualPeritonealDialysisDailyReportsListState
               columnWidthMode: ColumnWidthMode.auto,
               textAlignment: Alignment.center,
             ),
-            GridTextColumn(
+            GridNumericColumn(
               mappingName: 'balance',
               headerText: context.appLocalizations.balance,
               columnWidthMode: ColumnWidthMode.auto,
+              numberFormat: _numberFormat,
             ),
             GridTextColumn(
               mappingName: 'bloodPressure',
@@ -321,6 +318,7 @@ class ManualPeritonealDialysisDailyReportsDataGridSource
     extends DataGridSource<DailyManualPeritonealDialysisReport> {
   final AppLocalizations appLocalizations;
   final List<DailyManualPeritonealDialysisReport> reports;
+  final _dateFormat = DateFormat.MMMMd();
 
   ManualPeritonealDialysisDailyReportsDataGridSource(
     this.appLocalizations,
@@ -335,13 +333,15 @@ class ManualPeritonealDialysisDailyReportsDataGridSource
       DailyManualPeritonealDialysisReport report, String columnName) {
     switch (columnName) {
       case 'date':
-        return report.date;
+        return _dateFormat.format(report.date).capitalizeFirst();
       case 'bloodPressure':
         return report.manualPeritonealDialysis
             .map((d) => d.bloodPressure.formattedAmountWithoutDimension)
             .join('\n');
       case 'pulse':
-        return report.manualPeritonealDialysis.map((d) => d.pulse).join('\n');
+        return report.manualPeritonealDialysis
+            .map((d) => d.pulse.pulse)
+            .join('\n');
       case 'urine':
         return report.urineMl;
       case 'balance':
