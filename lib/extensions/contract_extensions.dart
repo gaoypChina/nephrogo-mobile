@@ -130,7 +130,8 @@ extension ProductExtensions on Product {
         _calculateTotalNutrientAmount(Nutrient.phosphorus, amountG);
     builder.energyKcal =
         _calculateTotalNutrientAmount(Nutrient.energy, amountG);
-    builder.liquidsG = _calculateTotalNutrientAmount(Nutrient.liquids, amountG);
+    builder.liquidsMl =
+        _calculateTotalNutrientAmount(Nutrient.liquids, amountG);
     builder.carbohydratesMg =
         _calculateTotalNutrientAmount(Nutrient.carbohydrate, amountG);
     builder.fatMg = _calculateTotalNutrientAmount(Nutrient.fat, amountG);
@@ -370,7 +371,7 @@ extension IntakeExtension on Intake {
       case Nutrient.energy:
         return energyKcal;
       case Nutrient.liquids:
-        return liquidsG;
+        return liquidsMl;
       case Nutrient.proteins:
         return proteinsMg;
       case Nutrient.sodium:
