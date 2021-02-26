@@ -39,13 +39,9 @@ final _numberFormatter = NumberFormat.decimalPattern();
 
 String _formatAmount<T extends num>(T amount, String dim) {
   if (amount is double && amount < 1000) {
-    final formattedDouble = _numberFormatter.format(
-      double.parse(
-        amount.toStringAsExponential(2),
-      ),
-    );
+    final roundedDouble = (amount * 100).round() / 100;
 
-    return '$formattedDouble $dim';
+    return '${_numberFormatter.format(roundedDouble)} $dim';
   }
 
   return '${_numberFormatter.format(amount)} $dim';
