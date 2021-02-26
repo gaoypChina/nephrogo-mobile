@@ -2,6 +2,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:collection_ext/iterables.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/collection_extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
@@ -34,13 +35,20 @@ import 'package:nephrogo_api_client/model/swelling_request.dart';
 import 'package:nephrogo_api_client/model/well_feeling_enum.dart';
 import 'package:tuple/tuple.dart';
 
+final _numberFormatter = NumberFormat.decimalPattern();
+
 String _formatAmount<T extends num>(T amount, String dim) {
-  var precision = 0;
   if (amount is double && amount < 1000) {
-    precision = 2;
+    final formattedDouble = _numberFormatter.format(
+      double.parse(
+        amount.toStringAsExponential(2),
+      ),
+    );
+
+    return '$formattedDouble $dim';
   }
 
-  return '${amount.toStringAsFixed(precision)} $dim';
+  return '${_numberFormatter.format(amount)} $dim';
 }
 
 extension ProductExtensions on Product {
