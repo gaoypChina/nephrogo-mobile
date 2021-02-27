@@ -213,66 +213,6 @@ class _ManualPeritonealDialysisCreationScreenState
           ],
         ),
         SmallSection(
-          title: appLocalizations.bloodPressureAndPulse,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: AppIntegerFormField(
-                    labelText: appLocalizations.healthStatusCreationSystolic,
-                    suffixText: 'mmHg',
-                    validator: _formValidators.and(
-                      _formValidators.nonNull(),
-                      _formValidators.numRangeValidator(1, 350),
-                    ),
-                    textInputAction: TextInputAction.next,
-                    initialValue: _systolicBloodPressure,
-                    onChanged: (value) => _systolicBloodPressure = value,
-                  ),
-                ),
-                Flexible(
-                  child: AppIntegerFormField(
-                    labelText: appLocalizations.healthStatusCreationDiastolic,
-                    suffixText: 'mmHg',
-                    validator: _formValidators.and(
-                      _formValidators.nonNull(),
-                      _formValidators.numRangeValidator(1, 200),
-                    ),
-                    textInputAction: TextInputAction.next,
-                    initialValue: _diastolicBloodPressure,
-                    onChanged: (value) => _diastolicBloodPressure = value,
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 4,
-              ),
-              child: Text(
-                appLocalizations.healthStatusCreationBloodPressureHelper,
-                textAlign: TextAlign.justify,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: AppIntegerFormField(
-                labelText: appLocalizations.pulse,
-                suffixText: appLocalizations.pulseDimension,
-                validator: _formValidators.and(
-                  _formValidators.nonNull(),
-                  _formValidators.numRangeValidator(10, 200),
-                ),
-                textInputAction: TextInputAction.next,
-                initialValue: _pulse,
-                onChanged: (p) => _pulse = p,
-              ),
-            ),
-          ],
-        ),
-        SmallSection(
           title: appLocalizations.dialysisSolution,
           children: [
             AppSelectFormField<DialysisSolutionEnum>(
@@ -304,6 +244,73 @@ class _ManualPeritonealDialysisCreationScreenState
               ),
               initialValue: _requestBuilder.solutionInMl,
               onChanged: (p) => _requestBuilder.solutionInMl = p,
+            ),
+          ],
+        ),
+        SmallSection(
+          title: appLocalizations.bloodPressureAndPulse,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  child: AppIntegerFormField(
+                    labelText: appLocalizations.healthStatusCreationSystolic,
+                    suffixText: 'mmHg',
+                    validator: _formValidators.and(
+                      _formValidators.numRangeValidator(1, 350),
+                      (v) {
+                        if (v == null && _diastolicBloodPressure != null) {
+                          return _formValidators.nonNull()(v);
+                        }
+                        return null;
+                      },
+                    ),
+                    textInputAction: TextInputAction.next,
+                    initialValue: _systolicBloodPressure,
+                    onChanged: (value) => _systolicBloodPressure = value,
+                  ),
+                ),
+                Flexible(
+                  child: AppIntegerFormField(
+                    labelText: appLocalizations.healthStatusCreationDiastolic,
+                    suffixText: 'mmHg',
+                    validator: _formValidators.and(
+                      _formValidators.numRangeValidator(1, 200),
+                      (v) {
+                        if (v == null && _systolicBloodPressure != null) {
+                          return _formValidators.nonNull()(v);
+                        }
+                        return null;
+                      },
+                    ),
+                    textInputAction: TextInputAction.next,
+                    initialValue: _diastolicBloodPressure,
+                    onChanged: (value) => _diastolicBloodPressure = value,
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 4,
+              ),
+              child: Text(
+                appLocalizations.healthStatusCreationBloodPressureHelper,
+                textAlign: TextAlign.justify,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: AppIntegerFormField(
+                labelText: appLocalizations.pulse,
+                suffixText: appLocalizations.pulseDimension,
+                validator: _formValidators.numRangeValidator(10, 200),
+                textInputAction: TextInputAction.next,
+                initialValue: _pulse,
+                onChanged: (p) => _pulse = p,
+              ),
             ),
           ],
         ),
@@ -436,7 +443,11 @@ class _ManualPeritonealDialysisCreationScreenState
     );
   }
 
-  Future<BloodPressure> _saveBloodPressure() {
+  Future<BloodPressure> _saveBloodPressure() async {
+    if (_diastolicBloodPressure == null) {
+      return null;
+    }
+
     final builder = BloodPressureRequestBuilder();
     builder.diastolicBloodPressure = _diastolicBloodPressure;
     builder.systolicBloodPressure = _systolicBloodPressure;
@@ -447,7 +458,11 @@ class _ManualPeritonealDialysisCreationScreenState
     return _apiService.createBloodPressure(bloodPressureRequest);
   }
 
-  Future<Pulse> _savePulse() {
+  Future<Pulse> _savePulse() async {
+    if (_pulse == null) {
+      return null;
+    }
+
     final builder = PulseRequestBuilder();
     builder.pulse = _pulse;
     builder.measuredAt = _requestBuilder.startedAt.toUtc();
