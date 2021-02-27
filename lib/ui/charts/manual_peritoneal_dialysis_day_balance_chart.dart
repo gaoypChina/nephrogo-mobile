@@ -40,7 +40,7 @@ class ManualPeritonealDialysisDayBalanceChart extends StatelessWidget {
         labelAlignment: ChartDataLabelAlignment.outer,
       ),
       pointColorMapper: (d, _) => d.dialysisSolution.color,
-      name: context.appLocalizations.dailyBalance,
+      name: context.appLocalizations.balance,
     );
   }
 }
