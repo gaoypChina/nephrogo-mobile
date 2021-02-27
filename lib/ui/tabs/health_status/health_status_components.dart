@@ -34,7 +34,7 @@ class HealthStatusCreationFloatingActionButton extends StatelessWidget {
           icon: Icons.analytics,
           onTap: () => _createHealthStatus(context),
           backgroundColor: Colors.teal,
-          label: context.appLocalizations.otherHealthStatusIndicators,
+          label: context.appLocalizations.dailyHealthStatusIndicators,
         ),
       ],
     );

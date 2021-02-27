@@ -323,7 +323,7 @@ class _ManualPeritonealDialysisCreationScreenState
           ],
         ),
         SmallSection(
-          title: appLocalizations.dailyHealthStatusIndicatorsNotRequired,
+          title: appLocalizations.dailyHealthStatusIndicators,
           children: [
             AppDoubleInputField(
               labelText: appLocalizations.dryWeight,
