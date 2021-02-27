@@ -1110,8 +1110,8 @@ extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {
 
     builder.isCompleted = isCompleted;
     builder.startedAt = startedAt;
-    builder.bloodPressureId = bloodPressure.id;
-    builder.pulseId = pulse.id;
+    builder.bloodPressureId = bloodPressure?.id;
+    builder.pulseId = pulse?.id;
     builder.dialysisSolution = dialysisSolution;
     builder.solutionInMl = solutionInMl;
     builder.solutionOutMl = solutionOutMl;

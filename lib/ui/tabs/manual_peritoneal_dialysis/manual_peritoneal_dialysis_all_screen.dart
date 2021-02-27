@@ -381,7 +381,7 @@ class _ManualPeritonealDialysisDailyReportsListState
             GridNumericColumn(
               mappingName: 'urine',
               headerText:
-              '${context.appLocalizations.healthStatusCreationUrine}, '
+                  '${context.appLocalizations.healthStatusCreationUrine}, '
                   '${HealthIndicator.urine.dimension(context.appLocalizations)}',
               columnWidthMode: ColumnWidthMode.auto,
               numberFormat: _numberFormat,
