@@ -6,6 +6,8 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/general/dialogs.dart';
+import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
@@ -13,7 +15,11 @@ import 'package:nephrogo_api_client/model/paginated_daily_manual_peritoneal_dial
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
+import 'excel/manual_peritoneal_dialysis_excel_generator.dart';
+
 class ManualPeritonealDialysisAllScreen extends StatelessWidget {
+  final _apiService = ApiService();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -35,7 +41,37 @@ class ManualPeritonealDialysisAllScreen extends StatelessWidget {
             _ManualPeritonealDialysisDailyReportsList(),
           ],
         ),
+        floatingActionButton: SpeedDialFloatingActionButton(
+          onPress: () => _downloadAndExportDialysis(context),
+          label: context.appLocalizations.download.toUpperCase(),
+          icon: Icons.download_rounded,
+        ),
       ),
+    );
+  }
+
+  Future<void> _downloadAndExportDialysis(BuildContext context) {
+    final future = _downloadAndExportDialysisInternal(context).catchError(
+      (e, stackTrace) async {
+        await showAppDialog(
+          context: context,
+          title: context.appLocalizations.error,
+          message: context.appLocalizations.serverErrorDescription,
+        );
+      },
+    );
+
+    return ProgressDialog(context).showForFuture(future);
+  }
+
+  Future<void> _downloadAndExportDialysisInternal(BuildContext context) async {
+    final response =
+        await _apiService.getManualPeritonealDialysisReportsPaginated();
+
+    return ManualPeritonealDialysisExcelGenerator.generateAndOpenExcel(
+      context,
+      context.appLocalizations,
+      response.results,
     );
   }
 }
