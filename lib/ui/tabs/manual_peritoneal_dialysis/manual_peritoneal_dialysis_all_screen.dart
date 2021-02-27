@@ -53,7 +53,7 @@ class ManualPeritonealDialysisAllScreen extends StatelessWidget {
 
   Future<void> _downloadAndExportDialysis(BuildContext context) {
     final future = _downloadAndExportDialysisInternal(context).catchError(
-          (e, stackTrace) async {
+      (e, stackTrace) async {
         FirebaseCrashlytics.instance.recordError(e, stackTrace as StackTrace);
 
         await showAppDialog(
@@ -69,7 +69,7 @@ class ManualPeritonealDialysisAllScreen extends StatelessWidget {
 
   Future<void> _downloadAndExportDialysisInternal(BuildContext context) async {
     final response =
-    await _apiService.getManualPeritonealDialysisReportsPaginated();
+        await _apiService.getManualPeritonealDialysisReportsPaginated();
 
     return ManualPeritonealDialysisExcelGenerator.generateAndOpenExcel(
       context,
@@ -79,14 +79,17 @@ class ManualPeritonealDialysisAllScreen extends StatelessWidget {
   }
 }
 
-class ManualPeritonealDialysisDataGridSource extends DataGridSource<ManualPeritonealDialysis> {
+class ManualPeritonealDialysisDataGridSource
+    extends DataGridSource<ManualPeritonealDialysis> {
   final _dateFormat = DateFormat.MMMMd().add_Hm();
 
   final AppLocalizations appLocalizations;
   final List<ManualPeritonealDialysis> dialysis;
 
-  ManualPeritonealDialysisDataGridSource(this.appLocalizations,
-      Iterable<ManualPeritonealDialysis> dialysis,) : dialysis = dialysis.sortedBy((d) => d.startedAt, reverse: true);
+  ManualPeritonealDialysisDataGridSource(
+    this.appLocalizations,
+    Iterable<ManualPeritonealDialysis> dialysis,
+  ) : dialysis = dialysis.sortedBy((d) => d.startedAt, reverse: true);
 
   @override
   List<ManualPeritonealDialysis> get dataSource => dialysis;
@@ -101,8 +104,8 @@ class ManualPeritonealDialysisDataGridSource extends DataGridSource<ManualPerito
       case 'finishedAt':
         return dialysis.finishedAt != null
             ? _dateFormat
-            .format(dialysis.finishedAt.toLocal())
-            .capitalizeFirst()
+                .format(dialysis.finishedAt.toLocal())
+                .capitalizeFirst()
             : null;
       case 'bloodPressure':
         return dialysis.bloodPressure?.formattedAmountWithoutDimension;
@@ -140,7 +143,8 @@ class _AllManualPeritonealDialysisList extends StatefulWidget {
       _AllManualPeritonealDialysisListState();
 }
 
-class _AllManualPeritonealDialysisListState extends State<_AllManualPeritonealDialysisList> {
+class _AllManualPeritonealDialysisListState
+    extends State<_AllManualPeritonealDialysisList> {
   final apiService = ApiService();
   final _numberFormat = NumberFormat.decimalPattern();
 
@@ -172,7 +176,7 @@ class _AllManualPeritonealDialysisListState extends State<_AllManualPeritonealDi
           columnSizer: _columnSizer,
           onQueryRowHeight: (RowHeightDetails rowHeightDetails) {
             final double height =
-            _columnSizer.getAutoRowHeight(rowHeightDetails.rowIndex);
+                _columnSizer.getAutoRowHeight(rowHeightDetails.rowIndex);
             return height;
           },
           columnWidthMode: ColumnWidthMode.auto,
@@ -255,7 +259,7 @@ class _AllManualPeritonealDialysisListState extends State<_AllManualPeritonealDi
             GridNumericColumn(
               mappingName: 'urine',
               headerText:
-              '${context.appLocalizations.healthStatusCreationUrine}, ml',
+                  '${context.appLocalizations.healthStatusCreationUrine}, ml',
               columnWidthMode: ColumnWidthMode.auto,
               numberFormat: _numberFormat,
             ),
@@ -297,7 +301,8 @@ class _ManualPeritonealDialysisDailyReportsList extends StatefulWidget {
       _ManualPeritonealDialysisDailyReportsListState();
 }
 
-class _ManualPeritonealDialysisDailyReportsListState extends State<_ManualPeritonealDialysisDailyReportsList> {
+class _ManualPeritonealDialysisDailyReportsListState
+    extends State<_ManualPeritonealDialysisDailyReportsList> {
   final apiService = ApiService();
   final _numberFormat = NumberFormat.decimalPattern();
 
@@ -309,7 +314,7 @@ class _ManualPeritonealDialysisDailyReportsListState extends State<_ManualPerito
       stream: apiService.getManualPeritonealDialysisReportsPaginatedStream(),
       builder: (context, data) {
         final allDialysis =
-        data.results.sortedBy((e) => e.date, reverse: true).toList();
+            data.results.sortedBy((e) => e.date, reverse: true).toList();
 
         if (allDialysis.isEmpty) {
           return EmptyStateContainer(
@@ -388,19 +393,23 @@ class _ManualPeritonealDialysisDailyReportsListState extends State<_ManualPerito
   }
 }
 
-class ManualPeritonealDialysisDailyReportsDataGridSource extends DataGridSource<DailyManualPeritonealDialysisReport> {
+class ManualPeritonealDialysisDailyReportsDataGridSource
+    extends DataGridSource<DailyManualPeritonealDialysisReport> {
   final AppLocalizations appLocalizations;
   final List<DailyManualPeritonealDialysisReport> reports;
   final _dateFormat = DateFormat.MMMMd();
 
-  ManualPeritonealDialysisDailyReportsDataGridSource(this.appLocalizations,
-      Iterable<DailyManualPeritonealDialysisReport> reports,) : reports = reports.sortedBy((d) => d.date, reverse: true);
+  ManualPeritonealDialysisDailyReportsDataGridSource(
+    this.appLocalizations,
+    Iterable<DailyManualPeritonealDialysisReport> reports,
+  ) : reports = reports.sortedBy((d) => d.date, reverse: true);
 
   @override
   List<DailyManualPeritonealDialysisReport> get dataSource => reports;
 
   @override
-  Object getValue(DailyManualPeritonealDialysisReport report, String columnName) {
+  Object getValue(
+      DailyManualPeritonealDialysisReport report, String columnName) {
     switch (columnName) {
       case 'date':
         return _dateFormat.format(report.date).capitalizeFirst();

@@ -1135,8 +1135,6 @@
   "@dialysisPerformed": {},
   "dailyBalance": "Paros balansas",
   "@dailyBalance": {},
-  "cumulativeDailyBalance": "Suminis paros balansas",
-  "@cumulativeDailyBalance": {},
   "finishDialysis": "Baigti dializę",
   "@finishDialysis": {},
   "saveAndContinueLater": "Išsaugoti ir tęsti vėliau",
