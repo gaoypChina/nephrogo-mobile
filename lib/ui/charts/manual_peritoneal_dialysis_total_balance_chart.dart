@@ -35,7 +35,6 @@ class ManualPeritonealDialysisTotalBalanceChart extends StatelessWidget {
   Iterable<XyDataSeries> _getColumnSeries(BuildContext context) sync* {
     yield ColumnSeries<DailyManualPeritonealDialysisReport, DateTime>(
       dataSource: reports.sortedBy((e) => e.date).toList(),
-      borderRadius: DateTimeNumericChart.rodTopRadius,
       xValueMapper: (report, _) => report.date.toDate(),
       yValueMapper: (report, _) => report.totalBalance,
       name: context.appLocalizations.dailyBalance,
