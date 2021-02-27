@@ -39,7 +39,7 @@ class FormUtils {
     formKey.currentState.save();
 
     final future = futureBuilder().catchError(
-          (e, stackTrace) async {
+      (e, stackTrace) async {
         FirebaseCrashlytics.instance.recordError(e, stackTrace as StackTrace);
 
         await showAppDialog(

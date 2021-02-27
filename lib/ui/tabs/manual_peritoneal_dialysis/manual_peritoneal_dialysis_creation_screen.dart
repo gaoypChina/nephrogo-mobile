@@ -493,8 +493,8 @@ class _ManualPeritonealDialysisCreationScreenState
     BloodPressure bloodPressure,
     Pulse pulse,
   ) {
-    _requestBuilder.bloodPressureId = bloodPressure.id;
-    _requestBuilder.pulseId = pulse.id;
+    _requestBuilder.bloodPressureId = bloodPressure?.id;
+    _requestBuilder.pulseId = pulse?.id;
 
     final request = _requestBuilder.build();
 
