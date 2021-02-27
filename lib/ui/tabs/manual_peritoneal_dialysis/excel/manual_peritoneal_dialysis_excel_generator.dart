@@ -155,16 +155,15 @@ class ManualPeritonealDialysisExcelGenerator {
           .setNumber(report.weightKg);
     }
 
-    final bloodPressures = report.manualPeritonealDialysis
-        .map((d) => d.bloodPressure.formattedAmountWithoutDimension)
+    final bloodPressures = report.bloodPressures
+        .map((d) => d.formattedAmountWithoutDimension)
         .join('\n');
 
     sheet
         .getRangeByIndex(row, startDailyValuesColumn + 3)
         .setText(bloodPressures);
 
-    final pulses =
-        report.manualPeritonealDialysis.map((d) => d.pulse.pulse).join('\n');
+    final pulses = report.pulses.map((d) => d.pulse).join('\n');
 
     sheet.getRangeByIndex(row, startDailyValuesColumn + 4).setText(pulses);
 

@@ -1146,13 +1146,24 @@ extension DailyManualPeritonealDialysisReportExtensions
     return _formatAmount(totalBalance, 'ml');
   }
 
-  Iterable<String> formattedPulses(AppLocalizations appLocalizations) {
+  Iterable<BloodPressure> get bloodPressures {
     return manualPeritonealDialysis
-        .map((d) => d.pulse.formattedAmount(appLocalizations));
+        .where((d) => d.bloodPressure != null)
+        .map((d) => d.bloodPressure);
+  }
+
+  Iterable<Pulse> get pulses {
+    return manualPeritonealDialysis
+        .where((d) => d.pulse != null)
+        .map((d) => d.pulse);
+  }
+
+  Iterable<String> formattedPulses(AppLocalizations appLocalizations) {
+    return pulses.map((p) => p.formattedAmount(appLocalizations));
   }
 
   Iterable<String> formattedBloodPressures(AppLocalizations appLocalizations) {
-    return manualPeritonealDialysis.map((d) => d.bloodPressure.formattedAmount);
+    return bloodPressures.map((b) => b.formattedAmount);
   }
 
   int get liquidsMl {
