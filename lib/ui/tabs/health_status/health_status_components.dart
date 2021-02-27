@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
@@ -76,10 +77,14 @@ class HealthStatusCreationFloatingActionButton extends StatelessWidget {
 class IndicatorChartSection extends StatelessWidget {
   final HealthIndicator indicator;
   final List<DailyHealthStatus> dailyHealthStatuses;
+  final bool showAddButton;
 
-  const IndicatorChartSection(
-      {Key key, @required this.indicator, @required this.dailyHealthStatuses})
-      : assert(indicator != null),
+  const IndicatorChartSection({
+    Key key,
+    @required this.indicator,
+    @required this.dailyHealthStatuses,
+    this.showAddButton,
+  })  : assert(indicator != null),
         assert(dailyHealthStatuses != null),
         super(key: key);
 
@@ -109,7 +114,7 @@ class IndicatorChartSection extends StatelessWidget {
       showDividers: true,
       subtitle: Text(subtitle),
       trailing: OutlinedButton(
-        onPressed: () => openWeeklyHealthIndicatorScreen(context, indicator),
+        onPressed: () => _openWeeklyHealthIndicatorScreen(context, indicator),
         child: Text(context.appLocalizations.more.toUpperCase()),
       ),
       children: [
@@ -122,12 +127,71 @@ class IndicatorChartSection extends StatelessWidget {
               from: today.subtract(const Duration(days: 6)),
               to: today,
             ),
-          )
+          ),
+        if (showAddButton) _buildAddButton(context)
       ],
     );
   }
 
-  Future<void> openWeeklyHealthIndicatorScreen(
+  Widget _buildAddButton(BuildContext context) {
+    final text = _getAddButtonText(context.appLocalizations).toUpperCase();
+    return SizedBox(
+      width: double.infinity,
+      child: TextButton(
+        onPressed: () => _openAddIndicator(context),
+        child: Padding(
+          padding: const EdgeInsets.all(4),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _openAddIndicator(BuildContext context) {
+    switch (indicator) {
+      case HealthIndicator.bloodPressure:
+      case HealthIndicator.pulse:
+        return _createBloodPressureOrPulse(context);
+      default:
+        return _createHealthStatus(context);
+    }
+  }
+
+  String _getAddButtonText(AppLocalizations appLocalizations) {
+    switch (indicator) {
+      case HealthIndicator.bloodPressure:
+        return appLocalizations.createBloodPressure;
+      case HealthIndicator.pulse:
+        return appLocalizations.createPulse;
+      case HealthIndicator.weight:
+        return appLocalizations.createWeight;
+      case HealthIndicator.urine:
+        return appLocalizations.createUrine;
+      default:
+        throw ArgumentError.value(indicator);
+    }
+  }
+
+  Future<void> _createHealthStatus(BuildContext context) {
+    return Navigator.pushNamed(
+      context,
+      Routes.routeHealthStatusCreation,
+      arguments: HealthStatusCreationScreenArguments(),
+    );
+  }
+
+  Future<void> _createBloodPressureOrPulse(BuildContext context) {
+    return Navigator.pushNamed(
+      context,
+      Routes.routeBloodPressureAndPulseCreation,
+      arguments: BloodPressureAndPulseCreationScreenArguments(),
+    );
+  }
+
+  Future<void> _openWeeklyHealthIndicatorScreen(
     BuildContext context,
     HealthIndicator indicator,
   ) {

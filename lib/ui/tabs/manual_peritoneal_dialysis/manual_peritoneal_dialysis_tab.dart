@@ -76,6 +76,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
           IndicatorChartSection(
             indicator: indicator,
             dailyHealthStatuses: response.lastWeekHealthStatuses.toList(),
+            showAddButton: true,
           )
       ],
     );

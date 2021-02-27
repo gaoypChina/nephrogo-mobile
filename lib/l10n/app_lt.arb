@@ -1146,5 +1146,13 @@
   "manualPeritonealDialysisPeriodEmpty": "Pasirinktame laikotarpyje nėra įvesta nė vienos peritoninės dializės!",
   "@manualPeritonealDialysisPeriodEmpty": {},
   "manualPeritonealDialysisEmpty": "Nėra įvesta nė vienos peritoninės dializės!",
-  "@manualPeritonealDialysisEmpty": {}
+  "@manualPeritonealDialysisEmpty": {},
+  "createBloodPressure": "Pridėti kraujo spaudimą",
+  "@createBloodPressure": {},
+  "createPulse": "Pridėti pulsą",
+  "@createPulse": {},
+  "createUrine": "Pridėti šlapimo kiekį",
+  "@createUrine": {},
+  "createWeight": "Pridėti kūno svorį",
+  "@createWeight": {}
 }
