@@ -97,12 +97,10 @@ class _ManualPeritonealDialysisDialysisBalanceList extends StatelessWidget {
               return DateSwitcherHeaderSection(
                 header: header,
                 children: [
-                  BasicSection.single(
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: _getGraph(sortedReports, from, to),
-                    ),
-                  )
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _getGraph(sortedReports, from, to),
+                  ),
                 ],
               );
             } else {

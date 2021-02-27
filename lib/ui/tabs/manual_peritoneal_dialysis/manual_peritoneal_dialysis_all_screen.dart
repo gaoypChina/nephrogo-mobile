@@ -355,7 +355,7 @@ class _ManualPeritonealDialysisDailyReportsListState
             GridTextColumn(
               mappingName: 'bloodPressure',
               headerText:
-              '${context.appLocalizations.healthStatusCreationBloodPressure}, '
+                  '${context.appLocalizations.healthStatusCreationBloodPressure}, '
                   '${HealthIndicator.bloodPressure.dimension(context.appLocalizations)}',
               columnWidthMode: ColumnWidthMode.auto,
             ),
