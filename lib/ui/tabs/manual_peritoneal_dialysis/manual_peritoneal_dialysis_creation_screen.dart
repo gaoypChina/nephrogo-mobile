@@ -10,6 +10,7 @@ import 'package:nephrogo/ui/general/stepper.dart';
 import 'package:nephrogo/utils/form_utils.dart';
 import 'package:nephrogo_api_client/model/blood_pressure.dart';
 import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
+import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
@@ -20,16 +21,21 @@ import 'package:nephrogo_api_client/model/pulse_request.dart';
 
 class ManualPeritonealDialysisCreationScreenArguments {
   final ManualPeritonealDialysis dialysis;
+  final DailyHealthStatus dailyHealthStatus;
 
-  ManualPeritonealDialysisCreationScreenArguments(this.dialysis);
+  ManualPeritonealDialysisCreationScreenArguments(
+      this.dialysis, this.dailyHealthStatus);
 }
 
 class ManualPeritonealDialysisCreationScreen extends StatefulWidget {
   final ManualPeritonealDialysis initialDialysis;
+  final DailyHealthStatus dailyHealthStatus;
 
-  const ManualPeritonealDialysisCreationScreen(
-      {Key key, @required this.initialDialysis})
-      : super(key: key);
+  const ManualPeritonealDialysisCreationScreen({
+    Key key,
+    @required this.initialDialysis,
+    @required this.dailyHealthStatus,
+  }) : super(key: key);
 
   @override
   _ManualPeritonealDialysisCreationScreenState createState() =>
@@ -74,8 +80,10 @@ class _ManualPeritonealDialysisCreationScreenState
         widget.initialDialysis?.bloodPressure?.diastolicBloodPressure;
     _pulse = widget.initialDialysis?.pulse?.pulse;
 
-    _weightKg = widget.initialDialysis?.weightKg;
-    _urineMl = widget.initialDialysis?.urineMl;
+    _weightKg =
+        widget.initialDialysis?.weightKg ?? widget.dailyHealthStatus?.weightKg;
+    _urineMl =
+        widget.initialDialysis?.urineMl ?? widget.dailyHealthStatus?.urineMl;
   }
 
   @override
