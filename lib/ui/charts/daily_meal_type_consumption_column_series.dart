@@ -6,6 +6,7 @@ import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'date_time_numeric_chart.dart';
+import 'numeric_chart.dart';
 
 class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
   final DailyIntakesReport report;
@@ -44,34 +45,13 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
     final consumptionName = nutrient.consumptionName(context.appLocalizations);
     final scaledDimension = nutrient.scaledDimension;
 
-    return SfCartesianChart(
-      title: ChartTitle(text: _getTitleText(context.appLocalizations)),
-      plotAreaBorderWidth: 0,
-      palette: [
-        Colors.orange,
-        Colors.teal,
-      ],
-      legend: Legend(
-        isVisible: true,
-        position: LegendPosition.top,
-      ),
-      primaryXAxis: CategoryAxis(
-        majorGridLines: MajorGridLines(width: 0),
-      ),
-      primaryYAxis: NumericAxis(
-        title: AxisTitle(
-          text: "$consumptionName, $scaledDimension",
-          textStyle: const TextStyle(fontSize: 12),
-        ),
-        decimalPlaces: nutrient.decimalPlaces,
-      ),
+    return NumericChart(
+      chartTitleText: _getTitleText(context.appLocalizations),
+      primaryXAxis: CategoryAxis(),
       series: _getStackedColumnSeries(context).toList(),
-      tooltipBehavior: TooltipBehavior(
-        decimalPlaces: nutrient.decimalPlaces,
-        enable: true,
-        canShowMarker: true,
-        shared: true,
-      ),
+      yAxisText: "$consumptionName, $scaledDimension",
+      decimalPlaces: nutrient.decimalPlaces,
+      showLegend: true,
     );
   }
 
@@ -91,7 +71,7 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
             c.mealType.localizedName(context.appLocalizations),
         yValueMapper: (c, _) => c.drinksTotal * nutrient.scale,
         name: context.appLocalizations.drinks,
-        borderRadius: DateTimeNumericChart.rodTopRadius,
+        color: Colors.orange,
       ),
       StackedColumnSeries<DailyMealTypeNutrientConsumption, String>(
         dataSource: dailyMealTypeNutrientConsumptions,
@@ -100,6 +80,7 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
         yValueMapper: (c, _) => c.foodTotal * nutrient.scale,
         name: context.appLocalizations.meals,
         borderRadius: DateTimeNumericChart.rodTopRadius,
+        color: Colors.teal,
       ),
     ];
   }
