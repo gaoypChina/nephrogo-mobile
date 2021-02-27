@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
@@ -38,7 +39,9 @@ class FormUtils {
     formKey.currentState.save();
 
     final future = futureBuilder().catchError(
-      (e, stackTrace) async {
+          (e, stackTrace) async {
+        FirebaseCrashlytics.instance.recordError(e, stackTrace as StackTrace);
+
         await showAppDialog(
           context: context,
           title: context.appLocalizations.error,
