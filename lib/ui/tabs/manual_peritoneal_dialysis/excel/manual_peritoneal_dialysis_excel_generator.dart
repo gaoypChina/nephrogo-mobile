@@ -162,14 +162,18 @@ class ManualPeritonealDialysisExcelGenerator {
     }
 
     final bloodPressures = status.bloodPressures
-        .map((d) => d.formattedAmountWithoutDimension)
+        .sortedBy((e) => e.measuredAt, reverse: true)
+        .map((d) => d.formatAmountWithoutDimensionWithTime(context))
         .join('\n');
 
     sheet
         .getRangeByIndex(row, startDailyValuesColumn + 3)
         .setText(bloodPressures);
 
-    final pulses = status.pulses.map((d) => d.pulse).join('\n');
+    final pulses = status.pulses
+        .sortedBy((e) => e.measuredAt, reverse: true)
+        .map((d) => d.formatAmountWithoutDimensionWithTime(context))
+        .join('\n');
 
     sheet.getRangeByIndex(row, startDailyValuesColumn + 4).setText(pulses);
 

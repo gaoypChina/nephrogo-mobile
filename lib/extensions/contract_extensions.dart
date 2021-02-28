@@ -544,6 +544,11 @@ extension BloodPressureExtensions on BloodPressure {
   String get formattedAmountWithoutDimension {
     return '$systolicBloodPressure / $diastolicBloodPressure';
   }
+
+  String formatAmountWithoutDimensionWithTime(BuildContext context) {
+    final time = TimeOfDay.fromDateTime(measuredAt.toLocal()).format(context);
+    return '$formattedAmountWithoutDimension ($time)';
+  }
 }
 
 extension PulseExtensions on Pulse {
@@ -558,6 +563,11 @@ extension PulseExtensions on Pulse {
 
   String formattedAmount(AppLocalizations appLocalizations) {
     return '$pulse ${appLocalizations.pulseDimension}';
+  }
+
+  String formatAmountWithoutDimensionWithTime(BuildContext context) {
+    final time = TimeOfDay.fromDateTime(measuredAt.toLocal()).format(context);
+    return '$pulse ($time)';
   }
 }
 
