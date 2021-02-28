@@ -48,6 +48,8 @@ class _ManualPeritonealDialysisCreationScreenState
 
   FormValidators get _formValidators => FormValidators(context);
 
+  bool get _isCompleted => widget.initialDialysis?.isCompleted ?? false;
+
   @override
   void initState() {
     super.initState();
@@ -108,8 +110,7 @@ class _ManualPeritonealDialysisCreationScreenState
                       ),
                     ),
                   ),
-                  if (widget.initialDialysis != null &&
-                      widget.initialDialysis.isCompleted)
+                  if (_isCompleted)
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: SizedBox(
@@ -149,8 +150,7 @@ class _ManualPeritonealDialysisCreationScreenState
                     ),
                   ),
                 ),
-                if (widget.initialDialysis != null &&
-                    widget.initialDialysis.isCompleted)
+                if (_isCompleted)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: SizedBox(
@@ -175,6 +175,9 @@ class _ManualPeritonealDialysisCreationScreenState
             AppStep(
               title: Text(appLocalizations.manualPeritonealDialysisStep2),
               isActive: _currentStep == 1,
+              state: _isCompleted && _currentStep != 1
+                  ? StepState.complete
+                  : StepState.indexed,
               content: _getSecondStep(),
             ),
           ],
