@@ -1024,7 +1024,7 @@ extension DialysisSolutionExtension on DialysisSolutionEnum {
       case DialysisSolutionEnum.yellow:
         return Colors.yellow;
       case DialysisSolutionEnum.orange:
-        return Colors.deepOrange;
+        return Colors.orange;
       case DialysisSolutionEnum.blue:
         return Colors.blue;
       case DialysisSolutionEnum.purple:

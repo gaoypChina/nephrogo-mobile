@@ -166,16 +166,18 @@ class ManualPeritonealDialysisExcelGenerator {
         .map((d) => d.formatAmountWithoutDimensionWithTime(context))
         .join('\n');
 
-    sheet
-        .getRangeByIndex(row, startDailyValuesColumn + 3)
-        .setText(bloodPressures);
+    sheet.getRangeByIndex(row, startDailyValuesColumn + 3)
+      ..setText(bloodPressures)
+      ..columnWidth = 40;
 
     final pulses = status.pulses
         .sortedBy((e) => e.measuredAt, reverse: true)
         .map((d) => d.formatAmountWithoutDimensionWithTime(context))
         .join('\n');
 
-    sheet.getRangeByIndex(row, startDailyValuesColumn + 4).setText(pulses);
+    sheet.getRangeByIndex(row, startDailyValuesColumn + 4)
+      ..setText(pulses)
+      ..columnWidth = 30;
 
     final mergeCols = [
       1,
@@ -253,7 +255,7 @@ class ManualPeritonealDialysisExcelGenerator {
     }
 
     for (var colIndex = sheet.getFirstColumn();
-        colIndex <= sheet.getLastColumn();
+        colIndex <= sheet.getLastColumn() - 2;
         ++colIndex) {
       sheet.autoFitColumn(colIndex);
     }
