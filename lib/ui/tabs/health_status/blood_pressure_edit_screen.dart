@@ -5,6 +5,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/utils/form_utils.dart';
 import 'package:nephrogo_api_client/model/blood_pressure.dart';
 import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
@@ -152,6 +153,17 @@ class _BloodPressureEditScreenState extends State<BloodPressureEditScreen> {
                 ),
               ],
             ),
+            BasicSection.single(
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(primary: Colors.redAccent),
+                onPressed: _deleteBloodPressure,
+                child: Text(appLocalizations.delete.toUpperCase()),
+              ),
+              innerPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+            ),
           ],
         ),
       ),
@@ -163,6 +175,17 @@ class _BloodPressureEditScreenState extends State<BloodPressureEditScreen> {
       widget.bloodPressure.id,
       _requestBuilder.build(),
     );
+  }
+
+  Future<void> _deleteBloodPressure() async {
+    final isDeleted = await showDeleteDialog(
+      context: context,
+      onDelete: () => _apiService.deleteBloodPressure(widget.bloodPressure.id),
+    );
+
+    if (isDeleted) {
+      Navigator.pop(context);
+    }
   }
 
   Future<bool> _submit() {

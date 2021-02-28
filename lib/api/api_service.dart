@@ -399,6 +399,14 @@ class ApiService {
     );
   }
 
+  Future<void> deleteBloodPressure(int id) {
+    return _healthStatusApi.healthStatusBloodPressureDestroy(id).then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+      },
+    );
+  }
+
   Future<Pulse> updatePulse(int id, PulseRequest pulseRequest) {
     return _healthStatusApi.healthStatusPulseUpdate(id, pulseRequest).then(
       (r) {
