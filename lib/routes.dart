@@ -127,7 +127,6 @@ class Routes {
 
           return ManualPeritonealDialysisCreationScreen(
             initialDialysis: arguments.dialysis,
-            dailyHealthStatus: arguments.dailyHealthStatus,
           );
         });
       case routeManualPeritonealDialysisBalanceScreen:

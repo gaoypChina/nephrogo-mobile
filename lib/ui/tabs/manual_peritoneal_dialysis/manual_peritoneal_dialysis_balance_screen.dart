@@ -253,8 +253,7 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
       ),
       onTap: () => Navigator.of(context).pushNamed(
         Routes.routeManualPeritonealDialysisCreation,
-        arguments:
-            ManualPeritonealDialysisCreationScreenArguments(dialysis, null),
+        arguments: ManualPeritonealDialysisCreationScreenArguments(dialysis),
       ),
     );
   }

@@ -136,9 +136,6 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
       Routes.routeManualPeritonealDialysisCreation,
       arguments: ManualPeritonealDialysisCreationScreenArguments(
         response.peritonealDialysisInProgress,
-        response.lastWeekHealthStatuses
-            .where((s) => s.date == Date.today())
-            .firstOrNull(),
       ),
     );
   }

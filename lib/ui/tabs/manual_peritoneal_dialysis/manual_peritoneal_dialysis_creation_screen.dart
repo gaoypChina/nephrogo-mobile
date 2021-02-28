@@ -8,33 +8,23 @@ import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/stepper.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/blood_pressure.dart';
-import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
-import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_request.dart';
-import 'package:nephrogo_api_client/model/pulse.dart';
-import 'package:nephrogo_api_client/model/pulse_request.dart';
 
 class ManualPeritonealDialysisCreationScreenArguments {
   final ManualPeritonealDialysis dialysis;
-  final DailyHealthStatus dailyHealthStatus;
 
-  ManualPeritonealDialysisCreationScreenArguments(
-      this.dialysis, this.dailyHealthStatus);
+  ManualPeritonealDialysisCreationScreenArguments(this.dialysis);
 }
 
 class ManualPeritonealDialysisCreationScreen extends StatefulWidget {
   final ManualPeritonealDialysis initialDialysis;
-  final DailyHealthStatus dailyHealthStatus;
 
   const ManualPeritonealDialysisCreationScreen({
     Key key,
     @required this.initialDialysis,
-    @required this.dailyHealthStatus,
   }) : super(key: key);
 
   @override
@@ -50,11 +40,6 @@ class _ManualPeritonealDialysisCreationScreenState
 
   final now = DateTime.now();
   ManualPeritonealDialysisRequestBuilder _requestBuilder;
-  int _systolicBloodPressure;
-  int _diastolicBloodPressure;
-  int _pulse;
-  double _weightKg;
-  int _urineMl;
 
   int _currentStep = 0;
 
@@ -73,17 +58,6 @@ class _ManualPeritonealDialysisCreationScreenState
     _currentStep = _requestBuilder.isCompleted == false ? 1 : 0;
 
     _requestBuilder.isCompleted ??= false;
-
-    _systolicBloodPressure =
-        widget.initialDialysis?.bloodPressure?.systolicBloodPressure;
-    _diastolicBloodPressure =
-        widget.initialDialysis?.bloodPressure?.diastolicBloodPressure;
-    _pulse = widget.initialDialysis?.pulse?.pulse;
-
-    _weightKg =
-        widget.initialDialysis?.weightKg ?? widget.dailyHealthStatus?.weightKg;
-    _urineMl =
-        widget.initialDialysis?.urineMl ?? widget.dailyHealthStatus?.urineMl;
   }
 
   @override
@@ -255,96 +229,6 @@ class _ManualPeritonealDialysisCreationScreenState
             ),
           ],
         ),
-        SmallSection(
-          title: appLocalizations.bloodPressureAndPulse,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: AppIntegerFormField(
-                    labelText: appLocalizations.healthStatusCreationSystolic,
-                    suffixText: 'mmHg',
-                    validator: _formValidators.and(
-                      _formValidators.numRangeValidator(1, 350),
-                      (v) {
-                        if (v == null && _diastolicBloodPressure != null) {
-                          return _formValidators.nonNull()(v);
-                        }
-                        return null;
-                      },
-                    ),
-                    textInputAction: TextInputAction.next,
-                    initialValue: _systolicBloodPressure,
-                    onChanged: (value) => _systolicBloodPressure = value,
-                  ),
-                ),
-                Flexible(
-                  child: AppIntegerFormField(
-                    labelText: appLocalizations.healthStatusCreationDiastolic,
-                    suffixText: 'mmHg',
-                    validator: _formValidators.and(
-                      _formValidators.numRangeValidator(1, 200),
-                      (v) {
-                        if (v == null && _systolicBloodPressure != null) {
-                          return _formValidators.nonNull()(v);
-                        }
-                        return null;
-                      },
-                    ),
-                    textInputAction: TextInputAction.next,
-                    initialValue: _diastolicBloodPressure,
-                    onChanged: (value) => _diastolicBloodPressure = value,
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 4,
-              ),
-              child: Text(
-                appLocalizations.healthStatusCreationBloodPressureHelper,
-                textAlign: TextAlign.justify,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: AppIntegerFormField(
-                labelText: appLocalizations.pulse,
-                suffixText: appLocalizations.pulseDimension,
-                validator: _formValidators.numRangeValidator(10, 200),
-                textInputAction: TextInputAction.next,
-                initialValue: _pulse,
-                onChanged: (p) => _pulse = p,
-              ),
-            ),
-          ],
-        ),
-        SmallSection(
-          title: appLocalizations.dailyHealthStatusIndicators,
-          children: [
-            AppDoubleInputField(
-              labelText: appLocalizations.dryWeight,
-              fractionDigits: 1,
-              suffixText: 'kg',
-              textInputAction: TextInputAction.next,
-              helperText: appLocalizations.userProfileWeightHelper,
-              initialValue: _weightKg,
-              validator: _formValidators.numRangeValidator(30.0, 300.0),
-              onChanged: (value) => _weightKg = value,
-            ),
-            AppIntegerFormField(
-              labelText: appLocalizations.healthStatusCreationUrine,
-              suffixText: 'ml',
-              textInputAction: TextInputAction.next,
-              initialValue: _urineMl,
-              validator: _formValidators.numRangeValidator(0, 10000),
-              onChanged: (value) => _urineMl = value,
-            ),
-          ],
-        ),
       ],
     );
   }
@@ -451,59 +335,7 @@ class _ManualPeritonealDialysisCreationScreenState
     );
   }
 
-  Future<BloodPressure> _saveBloodPressure() async {
-    if (_diastolicBloodPressure == null) {
-      return null;
-    }
-
-    final builder = BloodPressureRequestBuilder();
-    builder.diastolicBloodPressure = _diastolicBloodPressure;
-    builder.systolicBloodPressure = _systolicBloodPressure;
-    builder.measuredAt = _requestBuilder.startedAt.toUtc();
-
-    final bloodPressureRequest = builder.build();
-
-    return _apiService.createBloodPressure(bloodPressureRequest);
-  }
-
-  Future<Pulse> _savePulse() async {
-    if (_pulse == null) {
-      return null;
-    }
-
-    final builder = PulseRequestBuilder();
-    builder.pulse = _pulse;
-    builder.measuredAt = _requestBuilder.startedAt.toUtc();
-
-    final pulseRequest = builder.build();
-
-    return _apiService.createPulse(pulseRequest);
-  }
-
-  Future<bool> _saveWeightAndUrine() async {
-    final builder = DailyHealthStatusRequestBuilder();
-    builder.date = _requestBuilder.startedAt.toLocal().toDate();
-    builder.weightKg = _weightKg;
-    builder.urineMl = _urineMl;
-
-    if (builder.weightKg != null || builder.urineMl != null) {
-      final healthStatusRequest = builder.build();
-
-      await _apiService.partialUpdateDailyHealthStatus(healthStatusRequest);
-
-      return true;
-    }
-
-    return false;
-  }
-
-  Future<ManualPeritonealDialysis> _saveManualDialysis(
-    BloodPressure bloodPressure,
-    Pulse pulse,
-  ) {
-    _requestBuilder.bloodPressureId = bloodPressure?.id;
-    _requestBuilder.pulseId = pulse?.id;
-
+  Future<ManualPeritonealDialysis> _save() {
     final request = _requestBuilder.build();
 
     if (widget.initialDialysis == null) {
@@ -514,14 +346,6 @@ class _ManualPeritonealDialysisCreationScreenState
       widget.initialDialysis.id,
       request,
     );
-  }
-
-  Future<ManualPeritonealDialysis> _save() async {
-    final pulse = await _savePulse();
-    final bloodPressure = await _saveBloodPressure();
-    await _saveWeightAndUrine();
-
-    return _saveManualDialysis(bloodPressure, pulse);
   }
 
   Future<bool> _completeAndSubmit() {
