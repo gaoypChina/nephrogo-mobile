@@ -219,15 +219,11 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isWarning =
-        dialysis.dialysateColor != DialysateColorEnum.transparent &&
-            dialysis.dialysateColor != DialysateColorEnum.unknown;
-
     return AppListTile(
       leading: CircleAvatar(
         backgroundColor: dialysis.dialysisSolution.color,
         foregroundColor: dialysis.dialysisSolution.textColor,
-        child: isWarning ? const Icon(Icons.error) : null,
+        child: _getIcon(),
       ),
       title: Text(_getTitle()),
       subtitle: Column(
@@ -252,7 +248,7 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
               Text(dialysis.formattedSolutionIn),
             ],
           ),
-          if (isWarning)
+          if (isDialysateColorWarning)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: Row(
@@ -276,10 +272,11 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: Text(dialysis.formattedBalance),
-          ),
+          if (dialysis.isCompleted)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(dialysis.formattedBalance),
+            ),
           const Icon(Icons.chevron_right),
         ],
       ),
@@ -288,6 +285,21 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
         arguments: ManualPeritonealDialysisCreationScreenArguments(dialysis),
       ),
     );
+  }
+
+  bool get isDialysateColorWarning {
+    return dialysis.dialysateColor != DialysateColorEnum.transparent &&
+        dialysis.dialysateColor != DialysateColorEnum.unknown;
+  }
+
+  Widget _getIcon() {
+    if (!dialysis.isCompleted) {
+      return const Icon(Icons.edit);
+    } else if (isDialysateColorWarning) {
+      return const Icon(Icons.error);
+    } else {
+      return null;
+    }
   }
 
   String _getTitle() {
