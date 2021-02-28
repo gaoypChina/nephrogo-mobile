@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
@@ -9,14 +10,20 @@ import 'package:nephrogo/ui/charts/manual_peritoneal_dialysis_day_balance_chart.
 import 'package:nephrogo/ui/charts/manual_peritoneal_dialysis_total_balance_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
+import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo/ui/tabs/manual_peritoneal_dialysis/manual_peritoneal_dialysis_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
 import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report.dart';
 import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report_response.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
 
+import 'excel/manual_peritoneal_dialysis_excel_generator.dart';
+
 class ManualPeritonealDialysisBalanceScreen extends StatelessWidget {
+  final _apiService = ApiService();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -32,6 +39,11 @@ class ManualPeritonealDialysisBalanceScreen extends StatelessWidget {
               Tab(text: context.appLocalizations.monthly.toUpperCase()),
             ],
           ),
+        ),
+        floatingActionButton: SpeedDialFloatingActionButton(
+          onPress: () => _downloadAndExportDialysis(context),
+          label: context.appLocalizations.summary.toUpperCase(),
+          icon: Icons.download_rounded,
         ),
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
@@ -50,14 +62,40 @@ class ManualPeritonealDialysisBalanceScreen extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> _downloadAndExportDialysisInternal(BuildContext context) async {
+    final response =
+        await _apiService.getManualPeritonealDialysisReportsPaginated();
+
+    return ManualPeritonealDialysisExcelGenerator.generateAndOpenExcel(
+      context,
+      context.appLocalizations,
+      response.results,
+    );
+  }
+
+  Future<void> _downloadAndExportDialysis(BuildContext context) {
+    final future = _downloadAndExportDialysisInternal(context).catchError(
+      (e, stackTrace) async {
+        FirebaseCrashlytics.instance.recordError(e, stackTrace as StackTrace);
+
+        await showAppDialog(
+          context: context,
+          title: context.appLocalizations.error,
+          message: context.appLocalizations.serverErrorDescription,
+        );
+      },
+    );
+
+    return ProgressDialog(context).showForFuture(future);
+  }
 }
 
 class _ManualPeritonealDialysisDialysisBalanceList extends StatelessWidget {
   final ApiService _apiService = ApiService();
   final PeriodPagerType pagerType;
 
-  _ManualPeritonealDialysisDialysisBalanceList(
-      {Key key, @required this.pagerType})
+  _ManualPeritonealDialysisDialysisBalanceList({Key key, @required this.pagerType})
       : super(key: key);
 
   @override
@@ -77,7 +115,7 @@ class _ManualPeritonealDialysisDialysisBalanceList extends StatelessWidget {
         final reports = data.manualPeritonealDialysisReports;
 
         final sortedReports =
-            reports.sortedBy((e) => e.date, reverse: true).toList();
+        reports.sortedBy((e) => e.date, reverse: true).toList();
 
         if (sortedReports.isEmpty) {
           return DateSwitcherHeaderSection(
@@ -115,11 +153,9 @@ class _ManualPeritonealDialysisDialysisBalanceList extends StatelessWidget {
     );
   }
 
-  Widget _getGraph(
-    Iterable<DailyManualPeritonealDialysisReport> reports,
-    Date from,
-    Date to,
-  ) {
+  Widget _getGraph(Iterable<DailyManualPeritonealDialysisReport> reports,
+      Date from,
+      Date to,) {
     if (pagerType == PeriodPagerType.daily) {
       final dialysis = reports
           .expand((e) => e.manualPeritonealDialysis)
@@ -215,7 +251,7 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
       onTap: () => Navigator.of(context).pushNamed(
         Routes.routeManualPeritonealDialysisCreation,
         arguments:
-            ManualPeritonealDialysisCreationScreenArguments(dialysis, null),
+        ManualPeritonealDialysisCreationScreenArguments(dialysis, null),
       ),
     );
   }

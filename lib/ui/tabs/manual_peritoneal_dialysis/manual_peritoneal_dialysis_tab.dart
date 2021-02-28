@@ -131,7 +131,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
     final today = Date.today();
 
     final todayDialysis = response.lastWeekManualDialysisReports
-        .where((r) => r.date == Date.today())
+        .where((r) => r.date == today)
         .firstOrNull();
 
     final todayFormatted = todayDialysis?.formattedTotalBalance ??
@@ -141,7 +141,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
         context.appLocalizations.healthIndicatorSubtitle(todayFormatted);
 
     return LargeSection(
-      title: Text(context.appLocalizations.dailyBalance),
+      title: Text(context.appLocalizations.balance),
       subtitle: Text(subtitle),
       trailing: OutlinedButton(
         onPressed: () => Navigator.of(context).pushNamed(
@@ -150,7 +150,16 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
         child: Text(context.appLocalizations.more.toUpperCase()),
       ),
       children: [
-        if (response.lastWeekManualDialysisReports.isNotEmpty)
+        if (todayDialysis != null)
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: ManualPeritonealDialysisDayBalanceChart(
+              manualPeritonealDialysis:
+                  todayDialysis.manualPeritonealDialysis ?? [],
+              date: today,
+            ),
+          )
+        else if (response.lastWeekManualDialysisReports.isNotEmpty)
           ManualPeritonealDialysisTotalBalanceChart(
             reports: response.lastWeekManualDialysisReports.toList(),
             maximumDate: today,
