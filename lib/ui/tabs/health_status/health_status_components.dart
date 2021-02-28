@@ -11,7 +11,7 @@ import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
 
 import 'health_status_creation_screen.dart';
-import 'weekly_health_status_screen.dart';
+import 'health_status_screen.dart';
 
 class HealthStatusCreationFloatingActionButton extends StatelessWidget {
   @override
@@ -197,8 +197,8 @@ class IndicatorChartSection extends StatelessWidget {
   ) {
     return Navigator.pushNamed(
       context,
-      Routes.routeWeeklyHealthStatusScreen,
-      arguments: WeeklyHealthStatusScreenArguments(indicator),
+      Routes.routeHealthStatusScreen,
+      arguments: HealthStatusScreenArguments(indicator),
     );
   }
 }

@@ -16,7 +16,7 @@ import 'ui/legal/legal_screen.dart';
 import 'ui/onboarding/onboarding_screen.dart';
 import 'ui/start_screen.dart';
 import 'ui/tabs/health_status/health_status_creation_screen.dart';
-import 'ui/tabs/health_status/weekly_health_status_screen.dart';
+import 'ui/tabs/health_status/health_status_screen.dart';
 import 'ui/tabs/manual_peritoneal_dialysis/manual_peritoneal_dialysis_creation_screen.dart';
 import 'ui/tabs/manual_peritoneal_dialysis/manual_peritoneal_dialysis_explore_screen.dart';
 import 'ui/tabs/nutrition/intake_create.dart';
@@ -43,7 +43,7 @@ class Routes {
   static const routeIntakeEdit = 'intakeEdit';
   static const routeProductSearch = 'productSearch';
 
-  static const routeWeeklyHealthStatusScreen = 'weeklyHealthStatusScreen';
+  static const routeHealthStatusScreen = 'weeklyHealthStatusScreen';
   static const routeHealthStatusCreation = 'healthStatusCreation';
   static const routeBloodPressureAndPulseCreation =
       'bloodPressureAndPulseCreation';
@@ -221,12 +221,11 @@ class Routes {
             nutritionSummaryStatistics: arguments.nutritionSummaryStatistics,
           );
         });
-      case routeWeeklyHealthStatusScreen:
+      case routeHealthStatusScreen:
         return MaterialPageRoute(builder: (context) {
-          final arguments =
-              settings.arguments as WeeklyHealthStatusScreenArguments;
+          final arguments = settings.arguments as HealthStatusScreenArguments;
 
-          return WeeklyHealthStatusScreen(
+          return HealthStatusScreen(
             healthIndicator: arguments.healthIndicator,
           );
         });

@@ -21,24 +21,23 @@ import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.d
 
 import 'blood_pressure_and_pulse_creation_screen.dart';
 
-class WeeklyHealthStatusScreenArguments {
+class HealthStatusScreenArguments {
   final HealthIndicator healthIndicator;
 
-  const WeeklyHealthStatusScreenArguments(this.healthIndicator);
+  const HealthStatusScreenArguments(this.healthIndicator);
 }
 
-class WeeklyHealthStatusScreen extends StatefulWidget {
+class HealthStatusScreen extends StatefulWidget {
   final HealthIndicator healthIndicator;
 
-  const WeeklyHealthStatusScreen({Key key, @required this.healthIndicator})
+  const HealthStatusScreen({Key key, @required this.healthIndicator})
       : super(key: key);
 
   @override
-  _WeeklyHealthStatusScreenState createState() =>
-      _WeeklyHealthStatusScreenState();
+  _HealthStatusScreenState createState() => _HealthStatusScreenState();
 }
 
-class _WeeklyHealthStatusScreenState extends State<WeeklyHealthStatusScreen> {
+class _HealthStatusScreenState extends State<HealthStatusScreen> {
   bool get _isDailyTabAvailable => widget.healthIndicator.isMultiValuesPerDay;
 
   @override
@@ -305,7 +304,7 @@ class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
 
 class DailyHealthStatusIndicatorMultiValueSectionWithTiles
     extends StatelessWidget {
-  final fullDateFormat = DateFormat.yMd().add_jm();
+  final fullDateFormat = DateFormat.MMMMd().add_jm();
 
   final DailyHealthStatus dailyHealthStatus;
   final HealthIndicator indicator;
@@ -331,7 +330,7 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
     @required GestureTapCallback onTap,
   }) {
     return AppListTile(
-      title: Text(fullDateFormat.format(dateTime.toLocal())),
+      title: Text(fullDateFormat.format(dateTime.toLocal()).capitalizeFirst()),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
