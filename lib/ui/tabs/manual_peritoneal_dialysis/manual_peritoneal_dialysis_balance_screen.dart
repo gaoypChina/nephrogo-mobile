@@ -95,7 +95,8 @@ class _ManualPeritonealDialysisDialysisBalanceList extends StatelessWidget {
   final ApiService _apiService = ApiService();
   final PeriodPagerType pagerType;
 
-  _ManualPeritonealDialysisDialysisBalanceList({Key key, @required this.pagerType})
+  _ManualPeritonealDialysisDialysisBalanceList(
+      {Key key, @required this.pagerType})
       : super(key: key);
 
   @override
@@ -115,7 +116,7 @@ class _ManualPeritonealDialysisDialysisBalanceList extends StatelessWidget {
         final reports = data.manualPeritonealDialysisReports;
 
         final sortedReports =
-        reports.sortedBy((e) => e.date, reverse: true).toList();
+            reports.sortedBy((e) => e.date, reverse: true).toList();
 
         if (sortedReports.isEmpty) {
           return DateSwitcherHeaderSection(
@@ -153,9 +154,11 @@ class _ManualPeritonealDialysisDialysisBalanceList extends StatelessWidget {
     );
   }
 
-  Widget _getGraph(Iterable<DailyManualPeritonealDialysisReport> reports,
-      Date from,
-      Date to,) {
+  Widget _getGraph(
+    Iterable<DailyManualPeritonealDialysisReport> reports,
+    Date from,
+    Date to,
+  ) {
     if (pagerType == PeriodPagerType.daily) {
       final dialysis = reports
           .expand((e) => e.manualPeritonealDialysis)
@@ -251,7 +254,7 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
       onTap: () => Navigator.of(context).pushNamed(
         Routes.routeManualPeritonealDialysisCreation,
         arguments:
-        ManualPeritonealDialysisCreationScreenArguments(dialysis, null),
+            ManualPeritonealDialysisCreationScreenArguments(dialysis, null),
       ),
     );
   }

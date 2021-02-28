@@ -4,7 +4,6 @@ import 'package:nephrogo/ui/authentication/email_password_login_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_edit_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/pulse_edit_screen.dart';
-import 'package:nephrogo/ui/tabs/manual_peritoneal_dialysis/manual_peritoneal_dialysis_all_screen.dart';
 import 'package:nephrogo/ui/tabs/nutrition/intake_edit.dart';
 import 'package:nephrogo_api_client/model/product.dart';
 
@@ -53,8 +52,6 @@ class Routes {
 
   static const routeManualPeritonealDialysisCreation =
       'ManualPeritonealDialysisCreation';
-  static const routeManualPeritonealDialysisAllScreen =
-      'ManualPeritonealDialysisList';
   static const routeManualPeritonealDialysisBalanceScreen =
       'ManualPeritonealDialysisDialysisBalance';
 
@@ -132,10 +129,6 @@ class Routes {
             initialDialysis: arguments.dialysis,
             dailyHealthStatus: arguments.dailyHealthStatus,
           );
-        });
-      case routeManualPeritonealDialysisAllScreen:
-        return MaterialPageRoute(builder: (context) {
-          return ManualPeritonealDialysisAllScreen();
         });
       case routeManualPeritonealDialysisBalanceScreen:
         return MaterialPageRoute(

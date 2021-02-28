@@ -66,7 +66,6 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 64),
       children: [
         BetaBanner(),
-        _buildMyDialysisSection(context),
         _buildTotalBalanceSection(context),
         NutrientChartSection(
           reports: response.lastWeekLightNutritionReports.toList(),
@@ -88,43 +87,6 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
     }
 
     return context.appLocalizations.continueDialysis;
-  }
-
-  Widget _buildMyDialysisSection(BuildContext context) {
-    final today = Date.today();
-    final todayReport = response.lastWeekManualDialysisReports
-        .where((r) => r.date == today)
-        .firstOrNull();
-
-    var subtitle = context.appLocalizations.todayDialysisNotPerformed;
-
-    if (todayReport != null &&
-        todayReport.manualPeritonealDialysis.isNotEmpty) {
-      subtitle = "${context.appLocalizations.todayPerformedDialysis}: "
-          "${todayReport.completedDialysisCount}";
-    }
-
-    return LargeSection(
-      title: Text(context.appLocalizations.peritonealDialysisPlural),
-      subtitle: Text(subtitle),
-      trailing: OutlinedButton(
-        onPressed: () => Navigator.of(context).pushNamed(
-          Routes.routeManualPeritonealDialysisAllScreen,
-        ),
-        child: Text(context.appLocalizations.allFeminine.toUpperCase()),
-      ),
-      children: [
-        if (todayReport != null)
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: ManualPeritonealDialysisDayBalanceChart(
-              manualPeritonealDialysis:
-                  todayReport?.manualPeritonealDialysis ?? [],
-              date: today,
-            ),
-          ),
-      ],
-    );
   }
 
   Widget _buildTotalBalanceSection(BuildContext context) {
