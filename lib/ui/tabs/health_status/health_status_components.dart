@@ -83,7 +83,7 @@ class IndicatorChartSection extends StatelessWidget {
     Key key,
     @required this.indicator,
     @required this.dailyHealthStatuses,
-    this.showAddButton,
+    this.showAddButton = false,
   })  : assert(indicator != null),
         assert(dailyHealthStatuses != null),
         super(key: key);
