@@ -261,21 +261,21 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
         children: [
           Row(
             children: [
+              const Padding(
+                padding: EdgeInsets.only(right: 4),
+                child: Icon(Icons.next_plan_outlined, size: 14),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Text(dialysis.formattedSolutionIn),
+              ),
               if (dialysis.solutionOutMl != null)
                 const Padding(
                   padding: EdgeInsets.only(right: 4),
                   child: Icon(Icons.outbond_outlined, size: 14),
                 ),
               if (dialysis.solutionOutMl != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Text(dialysis.formattedSolutionOut),
-                ),
-              const Padding(
-                padding: EdgeInsets.only(right: 4),
-                child: Icon(Icons.next_plan_outlined, size: 14),
-              ),
-              Text(dialysis.formattedSolutionIn),
+                Text(dialysis.formattedSolutionOut),
             ],
           ),
           if (isDialysateColorWarning)
