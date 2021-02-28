@@ -211,7 +211,7 @@ class ManualPeritonealDialysisReportSection extends StatelessWidget {
 
 class ManualPeritonealDialysisTile extends StatelessWidget {
   final ManualPeritonealDialysis dialysis;
-  final _timeFormat = DateFormat().add_Hm();
+  final _dateTimeFormat = DateFormat.MMMMd().add_Hm();
 
   ManualPeritonealDialysisTile(this.dialysis)
       : assert(dialysis != null),
@@ -225,7 +225,7 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
         foregroundColor: dialysis.dialysisSolution.textColor,
         child: _getIcon(),
       ),
-      title: Text(_getTitle()),
+      title: Text(_dateTimeFormat.format(dialysis.startedAt).capitalizeFirst()),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -300,13 +300,5 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
     } else {
       return null;
     }
-  }
-
-  String _getTitle() {
-    if (dialysis.finishedAt == null) {
-      return _timeFormat.format(dialysis.startedAt);
-    }
-
-    return '${_timeFormat.format(dialysis.startedAt)} – ${_timeFormat.format(dialysis.finishedAt)}';
   }
 }
