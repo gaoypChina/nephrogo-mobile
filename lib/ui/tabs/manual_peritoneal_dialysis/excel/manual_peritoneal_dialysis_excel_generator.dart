@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
@@ -120,10 +121,12 @@ class ManualPeritonealDialysisExcelGenerator {
     Worksheet sheet,
     int row,
     DailyHealthStatus status,
+    Map<Date, int> liquidsMap,
     BuildContext context,
     AppLocalizations appLocalizations,
   ) {
-    sheet.getRangeByIndex(row, 1).setText(status.date.toDate().toString());
+    final date = status.date.toDate();
+    sheet.getRangeByIndex(row, 1).setText(date.toString());
     sheet
         .getRangeByIndex(row, 2)
         .setNumber(status.totalManualPeritonealDialysisBalance.roundToDouble());
@@ -140,10 +143,11 @@ class ManualPeritonealDialysisExcelGenerator {
 
     const startDailyValuesColumn = 11;
 
-    // TODO
-    // sheet
-    //     .getRangeByIndex(row, startDailyValuesColumn)
-    //     .setNumber(status.liquidsMl.roundToDouble());
+    if (liquidsMap.containsKey(date)) {
+      sheet
+          .getRangeByIndex(row, startDailyValuesColumn)
+          .setNumber(liquidsMap[date].roundToDouble());
+    }
 
     if (status.urineMl != null) {
       sheet
@@ -219,6 +223,14 @@ class ManualPeritonealDialysisExcelGenerator {
     final sheet = workbook.worksheets[0];
     sheet.name = context.appLocalizations.peritonealDialysisPlural;
 
+    final liquidsMap =
+        lightDailyIntakeReports.groupBy((r) => r.date.toDate()).map(
+              (d, r) => MapEntry(
+                d,
+                r.first.nutrientNormsAndTotals.liquidsMl.total,
+              ),
+            );
+
     _writeHeader(sheet, 1, context.appLocalizations);
 
     final sortedReports =
@@ -226,8 +238,14 @@ class ManualPeritonealDialysisExcelGenerator {
 
     var writeToRow = 2;
     for (final r in sortedReports) {
-      writeToRow +=
-          _writeReport(sheet, writeToRow, r, context, context.appLocalizations);
+      writeToRow += _writeReport(
+        sheet,
+        writeToRow,
+        r,
+        liquidsMap,
+        context,
+        context.appLocalizations,
+      );
     }
 
     for (var colIndex = sheet.getFirstColumn();
