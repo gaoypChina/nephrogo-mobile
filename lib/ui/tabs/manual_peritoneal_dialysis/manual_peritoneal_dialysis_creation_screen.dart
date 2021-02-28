@@ -6,6 +6,7 @@ import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/stepper.dart';
 import 'package:nephrogo/utils/form_utils.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
@@ -95,9 +96,10 @@ class _ManualPeritonealDialysisCreationScreenState
           controlsBuilder: (context, {onStepContinue, onStepCancel}) {
             if (_isSecondStep) {
               return BasicSection(
+                innerPadding: const EdgeInsets.symmetric(horizontal: 16.0),
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: SizedBox(
                       width: double.infinity,
                       child: AppElevatedButton(
@@ -106,22 +108,36 @@ class _ManualPeritonealDialysisCreationScreenState
                       ),
                     ),
                   ),
+                  if (widget.initialDialysis != null &&
+                      widget.initialDialysis.isCompleted)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: AppElevatedButton(
+                          color: Colors.redAccent,
+                          text: context.appLocalizations.delete,
+                          onPressed: _delete,
+                        ),
+                      ),
+                    ),
                 ],
               );
             }
             return BasicSection(
               innerPadding: const EdgeInsets.symmetric(horizontal: 16.0),
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: AppElevatedButton(
-                      text: context.appLocalizations.saveAndContinueLater,
-                      onPressed: onStepCancel,
+                if (widget.initialDialysis == null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: AppElevatedButton(
+                        text: context.appLocalizations.saveAndContinueLater,
+                        onPressed: onStepCancel,
+                      ),
                     ),
                   ),
-                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: SizedBox(
@@ -133,6 +149,19 @@ class _ManualPeritonealDialysisCreationScreenState
                     ),
                   ),
                 ),
+                if (widget.initialDialysis != null &&
+                    widget.initialDialysis.isCompleted)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: AppElevatedButton(
+                        color: Colors.redAccent,
+                        text: context.appLocalizations.delete,
+                        onPressed: _delete,
+                      ),
+                    ),
+                  ),
               ],
             );
           },
@@ -373,5 +402,18 @@ class _ManualPeritonealDialysisCreationScreenState
       return true;
     }
     return false;
+  }
+
+  Future<void> _delete() async {
+    final isDeleted = await showDeleteDialog(
+      context: context,
+      onDelete: () => _apiService.deleteManualPeritonealDialysis(
+        widget.initialDialysis.id,
+      ),
+    );
+
+    if (isDeleted) {
+      Navigator.pop(context);
+    }
   }
 }

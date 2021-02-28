@@ -445,6 +445,16 @@ class ApiService {
     );
   }
 
+  Future<void> deleteManualPeritonealDialysis(int id) {
+    return _peritonealDialysisApi
+        .peritonealDialysisManualDialysisDestroy(id)
+        .then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+      },
+    );
+  }
+
   Future<ManualPeritonealDialysisScreenResponse>
       getManualPeritonealDialysisScreen() {
     return _peritonealDialysisApi

@@ -4,11 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
-import 'package:nephrogo/ui/general/progress_dialog.dart';
+import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/utils/form_utils.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
@@ -198,32 +197,13 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
     );
   }
 
-  Future deleteIntake(int id) async {
-    final appLocalizations = AppLocalizations.of(context);
-
-    final delete = await showDialog<bool>(
+  Future<void> deleteIntake(int id) async {
+    final isDeleted = await showDeleteDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(appLocalizations.delete),
-          content: Text(appLocalizations.deleteConfirmation),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text(appLocalizations.dialogCancel.toUpperCase()),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              child: Text(appLocalizations.delete.toUpperCase()),
-            ),
-          ],
-        );
-      },
+      onDelete: () => _apiService.deleteIntake(id),
     );
 
-    if (delete) {
-      final deletingFuture = _apiService.deleteIntake(id);
-      await ProgressDialog(context).showForFuture(deletingFuture);
+    if (isDeleted) {
       Navigator.pop(context);
     }
   }
