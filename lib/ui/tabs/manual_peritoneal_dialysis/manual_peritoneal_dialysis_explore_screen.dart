@@ -306,7 +306,7 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
 
   Widget _getIcon() {
     if (!dialysis.isCompleted) {
-      return const Icon(Icons.edit_outlined);
+      return const Icon(Icons.sync_outlined);
     } else if (isDialysateColorWarning) {
       return const Icon(Icons.error_outline);
     } else {
