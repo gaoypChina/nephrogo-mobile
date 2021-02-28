@@ -132,7 +132,12 @@ class Routes {
       case routeManualPeritonealDialysisScreen:
         return MaterialPageRoute(
           builder: (context) {
-            return ManualPeritonealDialysisScreen();
+            final arguments =
+                settings.arguments as ManualPeritonealDialysisScreenArguments;
+
+            return ManualPeritonealDialysisScreen(
+              initialDate: arguments.initialDate,
+            );
           },
         );
       case routeProductSearch:

@@ -22,8 +22,19 @@ import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
 
 import 'excel/manual_peritoneal_dialysis_excel_generator.dart';
 
+class ManualPeritonealDialysisScreenArguments {
+  final Date initialDate;
+
+  ManualPeritonealDialysisScreenArguments({@required this.initialDate});
+}
+
 class ManualPeritonealDialysisScreen extends StatelessWidget {
   final _apiService = ApiService();
+  final Date initialDate;
+
+  ManualPeritonealDialysisScreen({Key key, @required this.initialDate})
+      : assert(initialDate != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +62,15 @@ class ManualPeritonealDialysisScreen extends StatelessWidget {
           children: [
             _ManualPeritonealDialysisDialysisList(
               pagerType: PeriodPagerType.daily,
+              initialDate: initialDate,
             ),
             _ManualPeritonealDialysisDialysisList(
               pagerType: PeriodPagerType.weekly,
+              initialDate: initialDate,
             ),
             _ManualPeritonealDialysisDialysisList(
               pagerType: PeriodPagerType.monthly,
+              initialDate: initialDate,
             ),
           ],
         ),
@@ -107,15 +121,19 @@ class ManualPeritonealDialysisScreen extends StatelessWidget {
 class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
   final ApiService _apiService = ApiService();
   final PeriodPagerType pagerType;
+  final Date initialDate;
 
-  _ManualPeritonealDialysisDialysisList({Key key, @required this.pagerType})
-      : super(key: key);
+  _ManualPeritonealDialysisDialysisList({
+    Key key,
+    @required this.pagerType,
+    @required this.initialDate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return PeriodPager(
       pagerType: pagerType,
-      initialDate: Date.today(),
+      initialDate: initialDate,
       earliestDate: Constants.earliestDate,
       bodyBuilder: _bodyBuilder,
     );

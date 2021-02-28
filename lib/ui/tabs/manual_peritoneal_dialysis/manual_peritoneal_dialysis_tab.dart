@@ -105,6 +105,11 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
     final subtitle =
         '${context.appLocalizations.todayBalance}: $todayFormatted';
 
+    final initialDate = response.lastPeritonealDialysis
+            .map((d) => d.startedAt.toDate())
+            .maxBy((_, d) => d) ??
+        today;
+
     return LargeSection(
       title: Text(context.appLocalizations.peritonealDialysisPlural),
       showDividers: true,
@@ -112,6 +117,9 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
       trailing: OutlinedButton(
         onPressed: () => Navigator.of(context).pushNamed(
           Routes.routeManualPeritonealDialysisScreen,
+          arguments: ManualPeritonealDialysisScreenArguments(
+            initialDate: initialDate,
+          ),
         ),
         child: Text(context.appLocalizations.more.toUpperCase()),
       ),
