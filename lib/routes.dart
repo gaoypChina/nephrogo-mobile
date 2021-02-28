@@ -52,8 +52,8 @@ class Routes {
 
   static const routeManualPeritonealDialysisCreation =
       'ManualPeritonealDialysisCreation';
-  static const routeManualPeritonealDialysisBalanceScreen =
-      'ManualPeritonealDialysisDialysisBalance';
+  static const routeManualPeritonealDialysisScreen =
+      'ManualPeritonealDialysisDialysisScreen';
 
   static const routeUserProfile = 'userProfile';
   static const routeGeneralRecommendations = 'generalRecommendations';
@@ -129,10 +129,10 @@ class Routes {
             initialDialysis: arguments.dialysis,
           );
         });
-      case routeManualPeritonealDialysisBalanceScreen:
+      case routeManualPeritonealDialysisScreen:
         return MaterialPageRoute(
           builder: (context) {
-            return ManualPeritonealDialysisExploreScreen();
+            return ManualPeritonealDialysisScreen();
           },
         );
       case routeProductSearch:

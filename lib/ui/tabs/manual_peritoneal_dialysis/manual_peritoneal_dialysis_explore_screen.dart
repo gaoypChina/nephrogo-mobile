@@ -22,7 +22,7 @@ import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
 
 import 'excel/manual_peritoneal_dialysis_excel_generator.dart';
 
-class ManualPeritonealDialysisExploreScreen extends StatelessWidget {
+class ManualPeritonealDialysisScreen extends StatelessWidget {
   final _apiService = ApiService();
 
   @override

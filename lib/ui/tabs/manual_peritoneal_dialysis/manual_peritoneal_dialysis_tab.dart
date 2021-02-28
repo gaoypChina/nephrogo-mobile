@@ -110,7 +110,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
       subtitle: Text(subtitle),
       trailing: OutlinedButton(
         onPressed: () => Navigator.of(context).pushNamed(
-          Routes.routeManualPeritonealDialysisBalanceScreen,
+          Routes.routeManualPeritonealDialysisScreen,
         ),
         child: Text(context.appLocalizations.more.toUpperCase()),
       ),
