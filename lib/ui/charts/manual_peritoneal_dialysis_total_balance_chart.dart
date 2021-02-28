@@ -24,20 +24,21 @@ class ManualPeritonealDialysisTotalBalanceChart extends StatelessWidget {
 
   Widget _getChart(BuildContext context) {
     return DateTimeNumericChart(
-      series: _getColumnSeries(context).toList(),
       yAxisText: "${context.appLocalizations.dailyBalance}, ml",
       from: minimumDate,
       to: maximumDate,
       decimalPlaces: 0,
-    );
-  }
-
-  Iterable<XyDataSeries> _getColumnSeries(BuildContext context) sync* {
-    yield ColumnSeries<DailyHealthStatus, DateTime>(
-      dataSource: dailyHealthStatuses.sortedBy((e) => e.date).toList(),
-      xValueMapper: (s, _) => s.date.toDate(),
-      yValueMapper: (s, _) => s.totalManualPeritonealDialysisBalance,
-      name: context.appLocalizations.dailyBalance,
+      series: [
+        ColumnSeries<DailyHealthStatus, DateTime>(
+          dataSource: dailyHealthStatuses.sortedBy((e) => e.date).toList(),
+          xValueMapper: (s, _) => s.date.toDate(),
+          yValueMapper: (s, _) => s.totalManualPeritonealDialysisBalance,
+          pointColorMapper: (s, _) => s.totalManualPeritonealDialysisBalance < 0
+              ? Colors.teal
+              : Colors.redAccent,
+          name: context.appLocalizations.dailyBalance,
+        )
+      ],
     );
   }
 }
