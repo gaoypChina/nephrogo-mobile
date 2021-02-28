@@ -5,6 +5,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/utils/form_utils.dart';
 import 'package:nephrogo_api_client/model/pulse.dart';
 import 'package:nephrogo_api_client/model/pulse_request.dart';
@@ -115,6 +116,17 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
                 ),
               ],
             ),
+            BasicSection.single(
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(primary: Colors.redAccent),
+                onPressed: _deletePulse,
+                child: Text(appLocalizations.delete.toUpperCase()),
+              ),
+              innerPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+            ),
           ],
         ),
       ),
@@ -131,5 +143,16 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
       formKey: _formKey,
       futureBuilder: _updatePulse,
     );
+  }
+
+  Future<void> _deletePulse() async {
+    final isDeleted = await showDeleteDialog(
+      context: context,
+      onDelete: () => _apiService.deletePulse(widget.pulse.id),
+    );
+
+    if (isDeleted) {
+      Navigator.pop(context);
+    }
   }
 }

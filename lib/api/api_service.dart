@@ -427,6 +427,14 @@ class ApiService {
     );
   }
 
+  Future<void> deletePulse(int id) {
+    return _healthStatusApi.healthStatusPulseDestroy(id).then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+      },
+    );
+  }
+
   Future<ManualPeritonealDialysis> createManualPeritonealDialysis(
       ManualPeritonealDialysisRequest request) {
     return _peritonealDialysisApi
