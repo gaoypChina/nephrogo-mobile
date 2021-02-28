@@ -19,8 +19,8 @@ class RegistrationScreen extends StatelessWidget {
       appBar: AppBar(title: Text(appLocalizations.registration)),
       body: SingleChildScrollView(
         child: BasicSection.single(
-          _RegistrationForm(),
           innerPadding: const EdgeInsets.symmetric(vertical: 8),
+          child: _RegistrationForm(),
         ),
       ),
     );

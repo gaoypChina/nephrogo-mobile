@@ -60,7 +60,7 @@ class NutritionNutrientReportsList extends StatelessWidget {
         final dailyIntakesReport = reportsReverseSorted[index - 1];
 
         return BasicSection.single(
-          NutrientDailyNutritionTile.fromLightReport(
+          child: NutrientDailyNutritionTile.fromLightReport(
             nutrient,
             dailyIntakesReport,
           ),

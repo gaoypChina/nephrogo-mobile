@@ -154,14 +154,14 @@ class _BloodPressureEditScreenState extends State<BloodPressureEditScreen> {
               ],
             ),
             BasicSection.single(
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(primary: Colors.redAccent),
-                onPressed: _deleteBloodPressure,
-                child: Text(appLocalizations.delete.toUpperCase()),
-              ),
               innerPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 8,
+              ),
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(primary: Colors.redAccent),
+                onPressed: _deleteBloodPressure,
+                child: Text(appLocalizations.delete.toUpperCase()),
               ),
             ),
           ],

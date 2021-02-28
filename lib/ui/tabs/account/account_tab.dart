@@ -29,9 +29,9 @@ class AccountTab extends StatelessWidget {
     return Scrollbar(
       child: ListView(
         children: [
-          BasicSection.single(_buildUserProfileTile(context)),
+          BasicSection.single(child: _buildUserProfileTile(context)),
           BasicSection.single(
-            AppListTile(
+            child: AppListTile(
               title: Text(appLocalizations.userProfileScreenTitle),
               leading: const Icon(Icons.account_box),
               onTap: () => Navigator.pushNamed(
@@ -42,7 +42,7 @@ class AccountTab extends StatelessWidget {
             ),
           ),
           BasicSection.single(
-            AppListTile(
+            child: AppListTile(
               title: Text(appLocalizations.generalRecommendations),
               leading: const Icon(Icons.school),
               onTap: () => Navigator.pushNamed(
@@ -72,14 +72,14 @@ class AccountTab extends StatelessWidget {
             ],
           ),
           BasicSection.single(
-            AppListTile(
+            child: AppListTile(
               title: Text(appLocalizations.reportMissingProduct),
               leading: const Icon(Icons.feedback),
               onTap: () => launchURL(Constants.reportMissingProductUrl),
             ),
           ),
           BasicSection.single(
-            AppListTile(
+            child: AppListTile(
               title: Text(appLocalizations.rateApp),
               leading: const Icon(Icons.rate_review),
               onTap: () => AppReview().openStoreListing(),
@@ -107,7 +107,7 @@ class AccountTab extends StatelessWidget {
                   snapshot.hasData &&
                   snapshot.data) {
                 return BasicSection.single(
-                  AppListTile(
+                  child: AppListTile(
                     title: Text(appLocalizations.updateApp),
                     leading: const Icon(Icons.system_update),
                     onTap: () => _appUpdate.performImmediateUpdate(),
@@ -120,7 +120,7 @@ class AccountTab extends StatelessWidget {
           ),
           if (kDebugMode) DebugListCell(),
           BasicSection.single(
-            AppListTile(
+            child: AppListTile(
               title: Text(appLocalizations.logout),
               leading: const Icon(Icons.logout),
               onTap: () => _signOut(context),

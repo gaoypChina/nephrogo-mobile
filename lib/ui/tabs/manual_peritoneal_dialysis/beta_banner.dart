@@ -17,7 +17,7 @@ class _BetaBannerState extends State<BetaBanner> {
     return Visibility(
       visible: showBanner,
       child: BasicSection.single(
-        MaterialBanner(
+        child: MaterialBanner(
           backgroundColor: Colors.white,
           leading: const CircleAvatar(child: Icon(Icons.announcement)),
           content: Text(appLocalizations.manualDialysisBetaDisclaimer),

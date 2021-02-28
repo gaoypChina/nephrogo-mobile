@@ -160,7 +160,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
           child: ListView(
             children: <Widget>[
               BasicSection.single(
-                SizedBox(
+                child: SizedBox(
                   width: double.infinity,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),

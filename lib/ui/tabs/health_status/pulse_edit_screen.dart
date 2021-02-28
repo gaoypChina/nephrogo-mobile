@@ -117,14 +117,14 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
               ],
             ),
             BasicSection.single(
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(primary: Colors.redAccent),
-                onPressed: _deletePulse,
-                child: Text(appLocalizations.delete.toUpperCase()),
-              ),
               innerPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 8,
+              ),
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(primary: Colors.redAccent),
+                onPressed: _deletePulse,
+                child: Text(appLocalizations.delete.toUpperCase()),
               ),
             ),
           ],

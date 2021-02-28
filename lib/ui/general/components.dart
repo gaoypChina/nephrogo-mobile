@@ -92,8 +92,8 @@ class BasicSection extends StatelessWidget {
         margin = margin ?? const EdgeInsets.only(bottom: 16),
         super(key: key);
 
-  const BasicSection.single(
-    Widget child, {
+  const BasicSection.single({
+    @required Widget child,
     this.margin = const EdgeInsets.only(bottom: 16),
     this.innerPadding = EdgeInsets.zero,
   })
