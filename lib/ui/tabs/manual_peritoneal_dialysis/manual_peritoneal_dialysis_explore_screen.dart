@@ -22,7 +22,7 @@ import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
 
 import 'excel/manual_peritoneal_dialysis_excel_generator.dart';
 
-class ManualPeritonealDialysisBalanceScreen extends StatelessWidget {
+class ManualPeritonealDialysisExploreScreen extends StatelessWidget {
   final _apiService = ApiService();
 
   @override
@@ -49,13 +49,13 @@ class ManualPeritonealDialysisBalanceScreen extends StatelessWidget {
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
-            _ManualPeritonealDialysisDialysisBalanceList(
+            _ManualPeritonealDialysisDialysisList(
               pagerType: PeriodPagerType.daily,
             ),
-            _ManualPeritonealDialysisDialysisBalanceList(
+            _ManualPeritonealDialysisDialysisList(
               pagerType: PeriodPagerType.weekly,
             ),
-            _ManualPeritonealDialysisDialysisBalanceList(
+            _ManualPeritonealDialysisDialysisList(
               pagerType: PeriodPagerType.monthly,
             ),
           ],
@@ -66,8 +66,7 @@ class ManualPeritonealDialysisBalanceScreen extends StatelessWidget {
 
   Future<void> _downloadAndExportDialysisInternal(BuildContext context) async {
     final today = Date.today();
-    final dailyHealthStatusesResponse =
-        await _apiService.getWeeklyHealthStatusReport(
+    final dailyHealthStatusesResponse = await _apiService.getHealthStatuses(
       Constants.earliestDate,
       today,
     );
@@ -105,12 +104,11 @@ class ManualPeritonealDialysisBalanceScreen extends StatelessWidget {
   }
 }
 
-class _ManualPeritonealDialysisDialysisBalanceList extends StatelessWidget {
+class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
   final ApiService _apiService = ApiService();
   final PeriodPagerType pagerType;
 
-  _ManualPeritonealDialysisDialysisBalanceList(
-      {Key key, @required this.pagerType})
+  _ManualPeritonealDialysisDialysisList({Key key, @required this.pagerType})
       : super(key: key);
 
   @override
@@ -125,7 +123,7 @@ class _ManualPeritonealDialysisDialysisBalanceList extends StatelessWidget {
 
   Widget _bodyBuilder(BuildContext context, Widget header, Date from, Date to) {
     return AppStreamBuilder<HealthStatusWeeklyScreenResponse>(
-      stream: _apiService.getWeeklyHealthStatusReportsStream(from, to),
+      stream: _apiService.getHealthStatusesStream(from, to),
       builder: (context, data) {
         final sortedReports = data.dailyHealthStatuses
             .where((s) => s.manualPeritonealDialysis.isNotEmpty)

@@ -352,18 +352,22 @@ class ApiService {
         .asyncMap((_) => getHealthStatusScreen());
   }
 
-  Future<HealthStatusWeeklyScreenResponse> getWeeklyHealthStatusReport(
-      DateTime from, DateTime to) {
+  Future<HealthStatusWeeklyScreenResponse> getHealthStatuses(
+    Date from,
+    Date to,
+  ) {
     return _healthStatusApi
-        .healthStatusWeeklyRetrieve(Date.from(from), Date.from(to))
+        .healthStatusWeeklyRetrieve(from, to)
         .then((r) => r.data);
   }
 
-  Stream<HealthStatusWeeklyScreenResponse> getWeeklyHealthStatusReportsStream(
-      DateTime from, DateTime to) {
+  Stream<HealthStatusWeeklyScreenResponse> getHealthStatusesStream(
+    Date from,
+    Date to,
+  ) {
     return _buildAppEventsStreamWithInitialEmit(
             _AppStateChangeEvent.healthStatus)
-        .asyncMap((_) => getWeeklyHealthStatusReport(from, to));
+        .asyncMap((_) => getHealthStatuses(from, to));
   }
 
   Future<BloodPressure> createBloodPressure(
