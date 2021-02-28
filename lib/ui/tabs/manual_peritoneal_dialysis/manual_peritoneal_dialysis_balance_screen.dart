@@ -17,6 +17,7 @@ import 'package:nephrogo/ui/tabs/manual_peritoneal_dialysis/manual_peritoneal_di
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
 import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report.dart';
 import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report_response.dart';
+import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
 
 import 'excel/manual_peritoneal_dialysis_excel_generator.dart';
@@ -218,8 +219,16 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isWarning =
+        dialysis.dialysateColor != DialysateColorEnum.transparent &&
+            dialysis.dialysateColor != DialysateColorEnum.unknown;
+
     return AppListTile(
-      leading: CircleAvatar(backgroundColor: dialysis.dialysisSolution.color),
+      leading: CircleAvatar(
+        backgroundColor: dialysis.dialysisSolution.color,
+        foregroundColor: dialysis.dialysisSolution.textColor,
+        child: isWarning ? const Icon(Icons.error) : null,
+      ),
       title: Text(_getTitle()),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,11 +252,25 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
               Text(dialysis.formattedSolutionIn),
             ],
           ),
+          if (isWarning)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(right: 4),
+                    child: Icon(Icons.error_outline, size: 14),
+                  ),
+                  Text(dialysis.dialysateColor
+                      .localizedName(context.appLocalizations)),
+                ],
+              ),
+            ),
           if (dialysis.notes != null && dialysis.notes.isNotEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: Text(dialysis.notes),
-            )
+            ),
         ],
       ),
       trailing: Row(
