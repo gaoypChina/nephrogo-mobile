@@ -12,7 +12,7 @@ import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_screen_resp
 
 import 'beta_banner.dart';
 import 'manual_peritoneal_dialysis_creation_screen.dart';
-import 'manual_peritoneal_dialysis_explore_screen.dart';
+import 'manual_peritoneal_dialysis_screen.dart';
 
 class ManualPeritonealDialysisTab extends StatelessWidget {
   final apiService = ApiService();

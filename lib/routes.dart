@@ -18,7 +18,7 @@ import 'ui/start_screen.dart';
 import 'ui/tabs/health_status/health_status_creation_screen.dart';
 import 'ui/tabs/health_status/health_status_screen.dart';
 import 'ui/tabs/manual_peritoneal_dialysis/manual_peritoneal_dialysis_creation_screen.dart';
-import 'ui/tabs/manual_peritoneal_dialysis/manual_peritoneal_dialysis_explore_screen.dart';
+import 'ui/tabs/manual_peritoneal_dialysis/manual_peritoneal_dialysis_screen.dart';
 import 'ui/tabs/nutrition/intake_create.dart';
 import 'ui/tabs/nutrition/product_search.dart';
 import 'ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
