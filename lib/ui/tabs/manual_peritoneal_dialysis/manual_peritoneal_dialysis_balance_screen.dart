@@ -210,7 +210,7 @@ class ManualPeritonealDialysisReportSection extends StatelessWidget {
 
 class ManualPeritonealDialysisTile extends StatelessWidget {
   final ManualPeritonealDialysis dialysis;
-  final _dateFormat = DateFormat.MMMMd().add_Hm();
+  final _timeFormat = DateFormat().add_Hm();
 
   ManualPeritonealDialysisTile(this.dialysis)
       : assert(dialysis != null),
@@ -218,10 +218,9 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppListTile(
+    final dialysisTile = AppListTile(
       leading: CircleAvatar(backgroundColor: dialysis.dialysisSolution.color),
-      title: Text(
-          _dateFormat.format(dialysis.startedAt.toLocal()).capitalizeFirst()),
+      title: Text(_getTitle()),
       subtitle: Row(
         children: [
           if (dialysis.solutionOutMl != null)
@@ -256,5 +255,35 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
         arguments: ManualPeritonealDialysisCreationScreenArguments(dialysis),
       ),
     );
+
+    Widget notesTile;
+    if (dialysis.notes != null && dialysis.notes.isNotEmpty) {
+      notesTile = AppListTile(
+        leading: const CircleAvatar(
+          backgroundColor: Colors.transparent,
+        ),
+        title: Text(dialysis.notes),
+        dense: true,
+      );
+    }
+
+    if (notesTile == null) {
+      return dialysisTile;
+    }
+
+    return Column(
+      children: [
+        dialysisTile,
+        notesTile,
+      ],
+    );
+  }
+
+  String _getTitle() {
+    if (dialysis.finishedAt == null) {
+      return _timeFormat.format(dialysis.startedAt);
+    }
+
+    return '${_timeFormat.format(dialysis.startedAt)} – ${_timeFormat.format(dialysis.finishedAt)}';
   }
 }
