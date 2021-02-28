@@ -169,8 +169,6 @@
   "@searchUnableToFindProduct": {},
   "todayPerformedDialysis": "Šiandien atliktos dializės",
   "@todayPerformedDialysis": {},
-  "lastDialysis": "Paskutinės dializės",
-  "@lastDialysis": {},
   "todayBalance": "Balansas šiandien",
   "@todayBalance": {},
   "todayDialysisNotPerformed": "Šiandien dializės neatliktos",
