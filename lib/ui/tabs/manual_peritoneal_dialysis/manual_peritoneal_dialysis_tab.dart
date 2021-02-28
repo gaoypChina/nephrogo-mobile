@@ -4,8 +4,6 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
-import 'package:nephrogo/ui/charts/manual_peritoneal_dialysis_day_balance_chart.dart';
-import 'package:nephrogo/ui/charts/manual_peritoneal_dialysis_total_balance_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/health_status/health_status_components.dart';
@@ -14,6 +12,7 @@ import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_screen_resp
 
 import 'beta_banner.dart';
 import 'manual_peritoneal_dialysis_creation_screen.dart';
+import 'manual_peritoneal_dialysis_explore_screen.dart';
 
 class ManualPeritonealDialysisTab extends StatelessWidget {
   final apiService = ApiService();
@@ -100,14 +99,13 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
         healthStatusesWithDialysis.where((r) => r.date == today).firstOrNull();
 
     final todayFormatted =
-        todayDialysis?.totalManualPeritonealDialysisBalanceFormatted ??
-            context.appLocalizations.noInfo.toLowerCase();
+        todayDialysis?.totalManualPeritonealDialysisBalanceFormatted ?? "—";
 
     final subtitle =
-        context.appLocalizations.healthIndicatorSubtitle(todayFormatted);
+        '${context.appLocalizations.todayBalance}: $todayFormatted';
 
     return LargeSection(
-      title: Text(context.appLocalizations.balance),
+      title: Text(context.appLocalizations.lastDialysis),
       subtitle: Text(subtitle),
       trailing: OutlinedButton(
         onPressed: () => Navigator.of(context).pushNamed(
@@ -116,21 +114,8 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
         child: Text(context.appLocalizations.more.toUpperCase()),
       ),
       children: [
-        if (todayDialysis != null)
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: ManualPeritonealDialysisDayBalanceChart(
-              manualPeritonealDialysis:
-                  todayDialysis.manualPeritonealDialysis ?? [],
-              date: today,
-            ),
-          )
-        else if (healthStatusesWithDialysis.isNotEmpty)
-          ManualPeritonealDialysisTotalBalanceChart(
-            dailyHealthStatuses: healthStatusesWithDialysis,
-            maximumDate: today,
-            minimumDate: today.subtract(const Duration(days: 6)),
-          ),
+        for (final dialysis in response.lastPeritonealDialysis)
+          ManualPeritonealDialysisTile(dialysis)
       ],
     );
   }
