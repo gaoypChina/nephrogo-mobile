@@ -57,7 +57,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    if (!response.hasManualPeritonealDialysis) {
+    if (response.lastPeritonealDialysis.isEmpty) {
       return EmptyStateContainer(
           text: context.appLocalizations.weeklyHealthStatusEmpty);
     }
@@ -92,12 +92,16 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
   Widget _buildTotalBalanceSection(BuildContext context) {
     final today = Date.today();
 
-    final todayDialysis = response.lastWeekManualDialysisReports
-        .where((r) => r.date == today)
-        .firstOrNull();
+    final healthStatusesWithDialysis = response.lastWeekHealthStatuses
+        .where((s) => s.manualPeritonealDialysis.isNotEmpty)
+        .toList();
 
-    final todayFormatted = todayDialysis?.formattedTotalBalance ??
-        context.appLocalizations.noInfo.toLowerCase();
+    final todayDialysis =
+        healthStatusesWithDialysis.where((r) => r.date == today).firstOrNull();
+
+    final todayFormatted =
+        todayDialysis?.totalManualPeritonealDialysisBalanceFormatted ??
+            context.appLocalizations.noInfo.toLowerCase();
 
     final subtitle =
         context.appLocalizations.healthIndicatorSubtitle(todayFormatted);
@@ -121,9 +125,9 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
               date: today,
             ),
           )
-        else if (response.lastWeekManualDialysisReports.isNotEmpty)
+        else if (healthStatusesWithDialysis.isNotEmpty)
           ManualPeritonealDialysisTotalBalanceChart(
-            reports: response.lastWeekManualDialysisReports.toList(),
+            dailyHealthStatuses: healthStatusesWithDialysis,
             maximumDate: today,
             minimumDate: today.subtract(const Duration(days: 6)),
           ),

@@ -14,7 +14,6 @@ import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
-import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
@@ -848,6 +847,12 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
       'Unable to map indicator to formatted indicator',
     );
   }
+
+  int get totalManualPeritonealDialysisBalance =>
+      manualPeritonealDialysis.sumBy((_, d) => d.balance);
+
+  String get totalManualPeritonealDialysisBalanceFormatted =>
+      _formatAmount(totalManualPeritonealDialysisBalance, "ml");
 }
 
 extension HealthIndicatorExtensions on HealthIndicator {
@@ -1110,8 +1115,6 @@ extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {
 
     builder.isCompleted = isCompleted;
     builder.startedAt = startedAt;
-    builder.bloodPressureId = bloodPressure?.id;
-    builder.pulseId = pulse?.id;
     builder.dialysisSolution = dialysisSolution;
     builder.solutionInMl = solutionInMl;
     builder.solutionOutMl = solutionOutMl;
@@ -1135,43 +1138,6 @@ extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {
       return "-";
     }
     return _formatAmount(solutionOutMl, 'ml');
-  }
-}
-
-extension DailyManualPeritonealDialysisReportExtensions
-    on DailyManualPeritonealDialysisReport {
-  int get totalBalance => manualPeritonealDialysis.sumBy((_, d) => d.balance);
-
-  String get formattedTotalBalance {
-    return _formatAmount(totalBalance, 'ml');
-  }
-
-  Iterable<BloodPressure> get bloodPressures {
-    return manualPeritonealDialysis
-        .where((d) => d.bloodPressure != null)
-        .map((d) => d.bloodPressure);
-  }
-
-  Iterable<Pulse> get pulses {
-    return manualPeritonealDialysis
-        .where((d) => d.pulse != null)
-        .map((d) => d.pulse);
-  }
-
-  Iterable<String> formattedPulses(AppLocalizations appLocalizations) {
-    return pulses.map((p) => p.formattedAmount(appLocalizations));
-  }
-
-  Iterable<String> formattedBloodPressures(AppLocalizations appLocalizations) {
-    return bloodPressures.map((b) => b.formattedAmount);
-  }
-
-  int get liquidsMl {
-    return manualPeritonealDialysis.map((d) => d.liquidsMl).firstOrNull() ?? 0;
-  }
-
-  int get completedDialysisCount {
-    return manualPeritonealDialysis.where((d) => d.isCompleted).length;
   }
 }
 

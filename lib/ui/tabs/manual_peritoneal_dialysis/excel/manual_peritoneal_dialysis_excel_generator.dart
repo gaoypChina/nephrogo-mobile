@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report.dart';
+import 'package:nephrogo_api_client/model/daily_health_status.dart';
+import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
 import 'package:open_file/open_file.dart';
@@ -118,16 +119,16 @@ class ManualPeritonealDialysisExcelGenerator {
   static int _writeReport(
     Worksheet sheet,
     int row,
-    DailyManualPeritonealDialysisReport report,
+    DailyHealthStatus status,
     BuildContext context,
     AppLocalizations appLocalizations,
   ) {
-    sheet.getRangeByIndex(row, 1).setText(report.date.toDate().toString());
+    sheet.getRangeByIndex(row, 1).setText(status.date.toDate().toString());
     sheet
         .getRangeByIndex(row, 2)
-        .setNumber(report.totalBalance.roundToDouble());
+        .setNumber(status.totalManualPeritonealDialysisBalance.roundToDouble());
 
-    final sortedDialysis = report.manualPeritonealDialysis
+    final sortedDialysis = status.manualPeritonealDialysis
         .sortedBy((d) => d.startedAt, reverse: true)
         .toList();
 
@@ -139,23 +140,24 @@ class ManualPeritonealDialysisExcelGenerator {
 
     const startDailyValuesColumn = 11;
 
-    sheet
-        .getRangeByIndex(row, startDailyValuesColumn)
-        .setNumber(report.liquidsMl.roundToDouble());
+    // TODO
+    // sheet
+    //     .getRangeByIndex(row, startDailyValuesColumn)
+    //     .setNumber(status.liquidsMl.roundToDouble());
 
-    if (report.urineMl != null) {
+    if (status.urineMl != null) {
       sheet
           .getRangeByIndex(row, startDailyValuesColumn + 1)
-          .setNumber(report.urineMl.roundToDouble());
+          .setNumber(status.urineMl.roundToDouble());
     }
 
-    if (report.weightKg != null) {
+    if (status.weightKg != null) {
       sheet
           .getRangeByIndex(row, startDailyValuesColumn + 2)
-          .setNumber(report.weightKg);
+          .setNumber(status.weightKg);
     }
 
-    final bloodPressures = report.bloodPressures
+    final bloodPressures = status.bloodPressures
         .map((d) => d.formattedAmountWithoutDimension)
         .join('\n');
 
@@ -163,7 +165,7 @@ class ManualPeritonealDialysisExcelGenerator {
         .getRangeByIndex(row, startDailyValuesColumn + 3)
         .setText(bloodPressures);
 
-    final pulses = report.pulses.map((d) => d.pulse).join('\n');
+    final pulses = status.pulses.map((d) => d.pulse).join('\n');
 
     sheet.getRangeByIndex(row, startDailyValuesColumn + 4).setText(pulses);
 
@@ -207,25 +209,25 @@ class ManualPeritonealDialysisExcelGenerator {
     await OpenFile.open(fullPath);
   }
 
-  static Future<void> generateAndOpenExcel(
-    BuildContext context,
-    AppLocalizations appLocalizations,
-    Iterable<DailyManualPeritonealDialysisReport> reports,
-  ) {
+  static Future<void> generateAndOpenExcel({
+    @required BuildContext context,
+    @required Iterable<DailyHealthStatus> dailyHealthStatuses,
+    @required Iterable<DailyIntakesLightReport> lightDailyIntakeReports,
+  }) {
     final workbook = Workbook();
 
     final sheet = workbook.worksheets[0];
-    sheet.name = appLocalizations.peritonealDialysisPlural;
+    sheet.name = context.appLocalizations.peritonealDialysisPlural;
 
-    _writeHeader(sheet, 1, appLocalizations);
+    _writeHeader(sheet, 1, context.appLocalizations);
 
     final sortedReports =
-        reports.sortedBy((r) => r.date, reverse: true).toList();
+        dailyHealthStatuses.sortedBy((r) => r.date, reverse: true).toList();
 
     var writeToRow = 2;
     for (final r in sortedReports) {
       writeToRow +=
-          _writeReport(sheet, writeToRow, r, context, appLocalizations);
+          _writeReport(sheet, writeToRow, r, context, context.appLocalizations);
     }
 
     for (var colIndex = sheet.getFirstColumn();

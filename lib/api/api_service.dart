@@ -23,7 +23,6 @@ import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
-import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report_response.dart';
 import 'package:nephrogo_api_client/model/general_recommendations_response.dart';
 import 'package:nephrogo_api_client/model/health_status_screen_response.dart';
 import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
@@ -35,7 +34,6 @@ import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_screen_resp
 import 'package:nephrogo_api_client/model/meal_type_enum.dart';
 import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
 import 'package:nephrogo_api_client/model/nutrition_screen_v2_response.dart';
-import 'package:nephrogo_api_client/model/paginated_daily_manual_peritoneal_dialysis_report_list.dart';
 import 'package:nephrogo_api_client/model/product_search_response.dart';
 import 'package:nephrogo_api_client/model/pulse.dart';
 import 'package:nephrogo_api_client/model/pulse_request.dart';
@@ -419,7 +417,9 @@ class ApiService {
 
   Future<ManualPeritonealDialysis> createManualPeritonealDialysis(
       ManualPeritonealDialysisRequest request) {
-    return _peritonealDialysisApi.peritonealDialysisManualCreate(request).then(
+    return _peritonealDialysisApi
+        .peritonealDialysisManualDialysisCreateCreate(request)
+        .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
 
@@ -431,7 +431,7 @@ class ApiService {
   Future<ManualPeritonealDialysis> updateManualPeritonealDialysis(
       int id, ManualPeritonealDialysisRequest request) {
     return _peritonealDialysisApi
-        .peritonealDialysisManualUpdate(id, request)
+        .peritonealDialysisManualDialysisUpdate(id, request)
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
@@ -444,7 +444,7 @@ class ApiService {
   Future<ManualPeritonealDialysisScreenResponse>
       getManualPeritonealDialysisScreen() {
     return _peritonealDialysisApi
-        .peritonealDialysisManualScreenRetrieve()
+        .peritonealDialysisManualScreenV2Retrieve()
         .then((r) => r.data);
   }
 
@@ -453,34 +453,6 @@ class ApiService {
     return _buildAppEventsStreamWithInitialEmit(
             _AppStateChangeEvent.healthStatus)
         .asyncMap((_) => getManualPeritonealDialysisScreen());
-  }
-
-  Future<DailyManualPeritonealDialysisReportResponse>
-      getManualPeritonealDialysisReports(Date from, Date to) {
-    return _peritonealDialysisApi
-        .peritonealDialysisManualReportsRetrieve(from, to)
-        .then((r) => r.data);
-  }
-
-  Stream<DailyManualPeritonealDialysisReportResponse>
-      getManualPeritonealDialysisReportsStream(Date from, Date to) {
-    return _buildAppEventsStreamWithInitialEmit(
-            _AppStateChangeEvent.healthStatus)
-        .asyncMap((_) => getManualPeritonealDialysisReports(from, to));
-  }
-
-  Future<PaginatedDailyManualPeritonealDialysisReportList>
-      getManualPeritonealDialysisReportsPaginated([int page = 1]) {
-    return _peritonealDialysisApi
-        .peritonealDialysisManualReportsPaginatedList(page: page)
-        .then((r) => r.data);
-  }
-
-  Stream<PaginatedDailyManualPeritonealDialysisReportList>
-      getManualPeritonealDialysisReportsPaginatedStream([int page = 1]) {
-    return _buildAppEventsStreamWithInitialEmit(
-            _AppStateChangeEvent.healthStatus)
-        .asyncMap((_) => getManualPeritonealDialysisReportsPaginated(page));
   }
 
   Future dispose() async {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo_api_client/model/daily_manual_peritoneal_dialysis_report.dart';
+import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'date_time_numeric_chart.dart';
@@ -8,11 +8,11 @@ import 'date_time_numeric_chart.dart';
 class ManualPeritonealDialysisTotalBalanceChart extends StatelessWidget {
   final DateTime minimumDate;
   final DateTime maximumDate;
-  final List<DailyManualPeritonealDialysisReport> reports;
+  final List<DailyHealthStatus> dailyHealthStatuses;
 
   const ManualPeritonealDialysisTotalBalanceChart({
     Key key,
-    @required this.reports,
+    @required this.dailyHealthStatuses,
     @required this.minimumDate,
     @required this.maximumDate,
   }) : super(key: key);
@@ -33,10 +33,10 @@ class ManualPeritonealDialysisTotalBalanceChart extends StatelessWidget {
   }
 
   Iterable<XyDataSeries> _getColumnSeries(BuildContext context) sync* {
-    yield ColumnSeries<DailyManualPeritonealDialysisReport, DateTime>(
-      dataSource: reports.sortedBy((e) => e.date).toList(),
-      xValueMapper: (report, _) => report.date.toDate(),
-      yValueMapper: (report, _) => report.totalBalance,
+    yield ColumnSeries<DailyHealthStatus, DateTime>(
+      dataSource: dailyHealthStatuses.sortedBy((e) => e.date).toList(),
+      xValueMapper: (s, _) => s.date.toDate(),
+      yValueMapper: (s, _) => s.totalManualPeritonealDialysisBalance,
       name: context.appLocalizations.dailyBalance,
     );
   }
