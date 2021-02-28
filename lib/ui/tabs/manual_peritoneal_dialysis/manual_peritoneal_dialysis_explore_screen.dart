@@ -32,7 +32,7 @@ class ManualPeritonealDialysisExploreScreen extends StatelessWidget {
       initialIndex: 1,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(context.appLocalizations.balance),
+          title: Text(context.appLocalizations.peritonealDialysisPlural),
           bottom: TabBar(
             tabs: [
               Tab(text: context.appLocalizations.daily.toUpperCase()),
