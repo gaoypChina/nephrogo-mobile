@@ -218,26 +218,36 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dialysisTile = AppListTile(
+    return AppListTile(
       leading: CircleAvatar(backgroundColor: dialysis.dialysisSolution.color),
       title: Text(_getTitle()),
-      subtitle: Row(
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (dialysis.solutionOutMl != null)
-            const Padding(
-              padding: EdgeInsets.only(right: 4),
-              child: Icon(Icons.outbond_outlined, size: 14),
-            ),
-          if (dialysis.solutionOutMl != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Text(dialysis.formattedSolutionOut),
-            ),
-          const Padding(
-            padding: EdgeInsets.only(right: 4),
-            child: Icon(Icons.next_plan_outlined, size: 14),
+          Row(
+            children: [
+              if (dialysis.solutionOutMl != null)
+                const Padding(
+                  padding: EdgeInsets.only(right: 4),
+                  child: Icon(Icons.outbond_outlined, size: 14),
+                ),
+              if (dialysis.solutionOutMl != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text(dialysis.formattedSolutionOut),
+                ),
+              const Padding(
+                padding: EdgeInsets.only(right: 4),
+                child: Icon(Icons.next_plan_outlined, size: 14),
+              ),
+              Text(dialysis.formattedSolutionIn),
+            ],
           ),
-          Text(dialysis.formattedSolutionIn),
+          if (dialysis.notes != null && dialysis.notes.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Text(dialysis.notes),
+            )
         ],
       ),
       trailing: Row(
@@ -254,28 +264,6 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
         Routes.routeManualPeritonealDialysisCreation,
         arguments: ManualPeritonealDialysisCreationScreenArguments(dialysis),
       ),
-    );
-
-    Widget notesTile;
-    if (dialysis.notes != null && dialysis.notes.isNotEmpty) {
-      notesTile = AppListTile(
-        leading: const CircleAvatar(
-          backgroundColor: Colors.transparent,
-        ),
-        title: Text(dialysis.notes),
-        dense: true,
-      );
-    }
-
-    if (notesTile == null) {
-      return dialysisTile;
-    }
-
-    return Column(
-      children: [
-        dialysisTile,
-        notesTile,
-      ],
     );
   }
 
