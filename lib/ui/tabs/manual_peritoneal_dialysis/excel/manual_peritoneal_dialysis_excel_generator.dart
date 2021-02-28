@@ -39,7 +39,7 @@ class ManualPeritonealDialysisExcelGenerator {
 
     sheet.getRangeByIndex(row, 11).setText('${appLocalizations.liquids}, ml');
     sheet.getRangeByIndex(row, 12).setText(
-          '${appLocalizations.healthStatusCreationUrine},'
+          '${appLocalizations.healthStatusCreationUrine}, '
           '${HealthIndicator.urine.dimension(appLocalizations)}',
         );
     sheet.getRangeByIndex(row, 13).setText(
