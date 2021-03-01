@@ -17,6 +17,9 @@ import 'package:nephrogo_api_client/api/health_status_api.dart';
 import 'package:nephrogo_api_client/api/nutrition_api.dart';
 import 'package:nephrogo_api_client/api/peritoneal_dialysis_api.dart';
 import 'package:nephrogo_api_client/api/user_api.dart';
+import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_request.dart';
+import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_screen_response.dart';
 import 'package:nephrogo_api_client/model/blood_pressure.dart';
 import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
@@ -483,6 +486,56 @@ class ApiService {
     return _buildAppEventsStreamWithInitialEmit(
             _AppStateChangeEvent.healthStatus)
         .asyncMap((_) => getManualPeritonealDialysisScreen());
+  }
+
+  Future<AutomaticPeritonealDialysisScreenResponse>
+      getAutomaticPeritonealDialysisScreen() {
+    return _peritonealDialysisApi
+        .peritonealDialysisAutomaticScreenRetrieve()
+        .then((r) => r.data);
+  }
+
+  Stream<AutomaticPeritonealDialysisScreenResponse>
+      getAutomaticPeritonealDialysisScreenStream() {
+    return _buildAppEventsStreamWithInitialEmit(
+            _AppStateChangeEvent.healthStatus)
+        .asyncMap((_) => getAutomaticPeritonealDialysisScreen());
+  }
+
+  Future<AutomaticPeritonealDialysis> createAutomaticPeritonealDialysis(
+      AutomaticPeritonealDialysisRequest request) {
+    return _peritonealDialysisApi
+        .peritonealDialysisAutomaticDialysisCreateCreate(request)
+        .then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+
+        return r.data;
+      },
+    );
+  }
+
+  Future<AutomaticPeritonealDialysis> updateAutomaticPeritonealDialysis(
+      Date date, AutomaticPeritonealDialysisRequest request) {
+    return _peritonealDialysisApi
+        .peritonealDialysisAutomaticDialysisUpdate(date.toString(), request)
+        .then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+
+        return r.data;
+      },
+    );
+  }
+
+  Future<void> deleteAutomaticPeritonealDialysis(Date date) {
+    return _peritonealDialysisApi
+        .peritonealDialysisAutomaticDialysisDestroy(date.toString())
+        .then(
+      (r) {
+        _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+      },
+    );
   }
 
   Future dispose() async {

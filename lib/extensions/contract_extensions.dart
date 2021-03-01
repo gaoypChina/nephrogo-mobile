@@ -8,6 +8,8 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo_api_client/model/appetite_enum.dart';
+import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_request.dart';
 import 'package:nephrogo_api_client/model/blood_pressure.dart';
 import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
@@ -1148,6 +1150,34 @@ extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {
       return "-";
     }
     return _formatAmount(solutionOutMl, 'ml');
+  }
+}
+
+extension AutomaticPeritonealDialysisExtensions on AutomaticPeritonealDialysis {
+  AutomaticPeritonealDialysisRequestBuilder toRequestBuilder() {
+    final builder = AutomaticPeritonealDialysisRequestBuilder();
+
+    builder.isCompleted = isCompleted;
+    builder.startedAt = startedAt;
+
+    builder.solutionBlueInMl = solutionBlueInMl;
+    builder.solutionGreenInMl = solutionGreenInMl;
+    builder.solutionOrangeInMl = solutionOrangeInMl;
+    builder.solutionPurpleInMl = solutionPurpleInMl;
+    builder.solutionYellowInMl = solutionYellowInMl;
+
+    builder.initialDrainingMl = initialDrainingMl;
+    builder.totalDrainVolumeMl = totalDrainVolumeMl;
+    builder.lastFillMl = lastFillMl;
+    builder.totalUltrafiltrationMl = totalUltrafiltrationMl;
+    builder.additionalDrainMl = additionalDrainMl;
+
+    builder.dialysateColor = dialysateColor;
+
+    builder.notes = notes;
+    builder.finishedAt = finishedAt;
+
+    return builder;
   }
 }
 

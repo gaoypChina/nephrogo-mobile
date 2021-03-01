@@ -1023,6 +1023,58 @@
   "@unknown": {},
   "recommendationsSources": "Ikizler TA, Burrowes JD, Byham-Gray LD, et al; KDOQI Nutrition in CKD Guideline Work Group. KDOQI clinical practice guideline for nutrition in CKD: 2020 update. Am J Kidney Dis. 2020;76(3)(suppl 1):S1-S107.\n\nAlgirdas Tamošaitis, Regina Galubauskienė „Lėtinis inkstų nepakankamumas ir mityba“, 2013 m., Vilnius, ISBN 978-9955-721-07-9\n\nLaurynas Rimševičius, Marius Miglinas „Peritoninės dializės pagrindai ir gairės“, 2017 m., Vilnius, ISBN 978-609-459-844-9",
   "@recommendationsSources": {},
+  "dialysisSolutionVolumes": "Tirpalų kiekiai",
+  "@dialysisSolutionVolumes": {
+    "context": "automaticDialysis"
+  },
+  "machineReadings": "Aparato rodmenys",
+  "@machineReadings": {
+    "context": "automaticDialysis"
+  },
+  "initialDraining": "Pradinis drenavimas",
+  "@initialDraining": {
+    "context": "automaticDialysis"
+  },
+  "initialDrainingHelper": "Initial draining / I-DRAIN",
+  "@initialDrainingHelper": {
+    "context": "automaticDialysis"
+  },
+  "totalDrainVolume": "Visas drenavimas",
+  "@totalDrainVolume": {
+    "context": "automaticDialysis"
+  },
+  "totalDrainVolumeHelper": "Total drain volume",
+  "@totalDrainVolumeHelper": {
+    "context": "automaticDialysis"
+  },
+  "lastFill": "Paskutinis pildymas",
+  "@lastFill": {
+    "context": "automaticDialysis"
+  },
+  "lastFillHelper": "Last fill",
+  "@lastFillHelper": {
+    "context": "automaticDialysis"
+  },
+  "totalUltraFiltration": "Paros ultrafiltracija",
+  "@totalUltraFiltration": {
+    "context": "automaticDialysis"
+  },
+  "totalUltraFiltrationHelper": "Total UF",
+  "@totalUltraFiltrationHelper": {
+    "context": "automaticDialysis"
+  },
+  "additionalDrainSectionTitle": "Papildomi tirpalo pakeitimai",
+  "@additionalDrainSectionTitle": {
+    "context": "automaticDialysis"
+  },
+  "additionalDrain": "Papildomas pakeitimas",
+  "@additionalDrain": {
+    "context": "automaticDialysis"
+  },
+  "additionalDrainHelper": "Jeigu atliekate papildomus tirpalo pakeitimus dienos metu, užpildykite šį laukelį",
+  "@additionalDrainHelper": {
+    "context": "automaticDialysis"
+  },
   "dialysisStartDateTime": "Dializės pradžios data ir laikas",
   "@dialysisStartDateTime": {
     "context": "manualDialysis"
@@ -1071,7 +1123,7 @@
   "@dialysisSolutionOrange": {
     "context": "manualDialysis"
   },
-  "dialysisSolutionOrangeDescription": "Physioneal 1,36% gliukozės",
+  "dialysisSolutionOrangeDescription": "Physioneal 3,86% gliukozės",
   "@dialysisSolutionOrangeDescription": {
     "context": "manualDialysis"
   },

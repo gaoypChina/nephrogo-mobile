@@ -21,6 +21,7 @@ import 'ui/tabs/nutrition/intake_create.dart';
 import 'ui/tabs/nutrition/product_search.dart';
 import 'ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
 import 'ui/tabs/nutrition/summary/nutrition_summary.dart';
+import 'ui/tabs/peritoneal_dialysis/automatic_peritoneal_dialysis/automatic_peritoneal_dialysis_creation_screen.dart';
 import 'ui/tabs/peritoneal_dialysis/manual_peritoneal_dialysis/manual_peritoneal_dialysis_creation_screen.dart';
 import 'ui/tabs/peritoneal_dialysis/manual_peritoneal_dialysis/manual_peritoneal_dialysis_screen.dart';
 import 'ui/user_profile_screen.dart';
@@ -54,6 +55,9 @@ class Routes {
       'ManualPeritonealDialysisCreation';
   static const routeManualPeritonealDialysisScreen =
       'ManualPeritonealDialysisDialysisScreen';
+
+  static const routeAutomaticPeritonealDialysisCreation =
+      'AutomaticPeritonealDialysisCreation';
 
   static const routeUserProfile = 'userProfile';
   static const routeGeneralRecommendations = 'generalRecommendations';
@@ -137,6 +141,17 @@ class Routes {
 
             return ManualPeritonealDialysisScreen(
               initialDate: arguments.initialDate,
+            );
+          },
+        );
+      case routeAutomaticPeritonealDialysisCreation:
+        return MaterialPageRoute(
+          builder: (context) {
+            final arguments = settings.arguments
+                as AutomaticPeritonealDialysisCreationScreenArguments;
+
+            return AutomaticPeritonealDialysisCreationScreen(
+              initialDialysis: arguments.dialysis,
             );
           },
         );
