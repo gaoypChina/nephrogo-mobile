@@ -255,7 +255,9 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
         foregroundColor: dialysis.dialysisSolution.textColor,
         child: _getIcon(),
       ),
-      title: Text(_dateTimeFormat.format(dialysis.startedAt).capitalizeFirst()),
+      title: Text(_dateTimeFormat
+          .format(dialysis.startedAt.toLocal())
+          .capitalizeFirst()),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
