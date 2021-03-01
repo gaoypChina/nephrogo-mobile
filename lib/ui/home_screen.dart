@@ -5,8 +5,8 @@ import 'package:nephrogo/utils/app_store_utils.dart';
 import 'general/app_bar_logo.dart';
 import 'tabs/account/account_tab.dart';
 import 'tabs/health_status/health_status_tab.dart';
-import 'tabs/manual_peritoneal_dialysis/manual_peritoneal_dialysis_tab.dart';
 import 'tabs/nutrition/nutrition_tab.dart';
+import 'tabs/peritoneal_dialysis/manual_peritoneal_dialysis/manual_peritoneal_dialysis_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
