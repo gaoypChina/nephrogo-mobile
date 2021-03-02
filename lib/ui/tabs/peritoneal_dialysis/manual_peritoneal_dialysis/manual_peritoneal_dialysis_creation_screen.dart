@@ -46,6 +46,8 @@ class _ManualPeritonealDialysisCreationScreenState
 
   int _currentStep = 0;
 
+  bool _formChanged = false;
+
   bool get _isFirstStep => _currentStep == 0;
 
   bool get _isSecondStep => _currentStep == 1;
@@ -87,6 +89,9 @@ class _ManualPeritonealDialysisCreationScreenState
       ),
       body: Form(
         key: _formKey,
+        onChanged: () {
+          _formChanged = true;
+        },
         child: AppStepper(
           type: AppStepperType.horizontal,
           currentStep: _currentStep,
@@ -361,10 +366,13 @@ class _ManualPeritonealDialysisCreationScreenState
   }
 
   Future<bool> _validateAndProceedToStep(int step) async {
-    final valid = await FormUtils.validate(
-      context: context,
-      formKey: _formKey,
-    );
+    var valid = true;
+    if (_formChanged) {
+      valid = await FormUtils.validate(
+        context: context,
+        formKey: _formKey,
+      );
+    }
 
     if (valid) {
       setState(() => _currentStep = step);
