@@ -10,7 +10,6 @@ import 'package:nephrogo/ui/tabs/health_status/health_status_components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_screen_response.dart';
 
-import 'beta_banner.dart';
 import 'manual_peritoneal_dialysis_creation_screen.dart';
 import 'manual_peritoneal_dialysis_screen.dart';
 
@@ -65,7 +64,6 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.only(bottom: 64),
       children: [
-        BetaBanner(),
         _buildTotalBalanceSection(context),
         NutrientChartSection(
           reports: response.lastWeekLightNutritionReports.toList(),
