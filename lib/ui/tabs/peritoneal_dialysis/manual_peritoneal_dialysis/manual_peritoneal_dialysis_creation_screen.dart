@@ -92,13 +92,12 @@ class _ManualPeritonealDialysisCreationScreenState
           currentStep: _currentStep,
           onStepTapped: _validateAndProceedToStep,
           onStepContinue: () async {
-            if (_currentStep == 0) {
-              await _validateAndProceedToStep(_currentStep + 1);
+            if (_isFirstStep) {
+              await _submit();
             } else {
               await _completeAndSubmit();
             }
           },
-          onStepCancel: _submit,
           controlsBuilder: (context, {onStepContinue, onStepCancel}) {
             return BasicSection(
               innerPadding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -110,7 +109,7 @@ class _ManualPeritonealDialysisCreationScreenState
                       width: double.infinity,
                       child: AppElevatedButton(
                         text: context.appLocalizations.save.toUpperCase(),
-                        onPressed: onStepCancel,
+                        onPressed: onStepContinue,
                       ),
                     ),
                   )
