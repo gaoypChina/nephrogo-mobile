@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
@@ -38,6 +39,7 @@ class _ManualPeritonealDialysisCreationScreenState
   final _formKey = GlobalKey<FormState>();
 
   final _apiService = ApiService();
+  final _dateFormat = DateFormat("MMM d");
 
   final now = DateTime.now();
   ManualPeritonealDialysisRequestBuilder _requestBuilder;
@@ -195,12 +197,12 @@ class _ManualPeritonealDialysisCreationScreenState
             Row(
               children: [
                 Flexible(
-                  flex: 3,
                   child: AppDatePickerFormField(
                     initialDate: _requestBuilder.startedAt.toLocal(),
                     selectedDate: _requestBuilder.startedAt.toLocal(),
                     firstDate: Constants.earliestDate,
                     lastDate: DateTime.now(),
+                    dateFormat: _dateFormat,
                     validator: _formValidators.nonNull(),
                     onDateChanged: (dt) {
                       _requestBuilder.startedAt = _requestBuilder.startedAt
@@ -211,7 +213,6 @@ class _ManualPeritonealDialysisCreationScreenState
                   ),
                 ),
                 Flexible(
-                  flex: 2,
                   child: AppTimePickerFormField(
                     initialTime: TimeOfDay.fromDateTime(
                         _requestBuilder.startedAt.toLocal()),
@@ -312,12 +313,12 @@ class _ManualPeritonealDialysisCreationScreenState
             Row(
               children: [
                 Flexible(
-                  flex: 3,
                   child: AppDatePickerFormField(
                     initialDate: _requestBuilder.finishedAt?.toLocal() ?? now,
                     selectedDate: _requestBuilder.finishedAt?.toLocal() ?? now,
                     firstDate: _requestBuilder.startedAt,
                     lastDate: now,
+                    dateFormat: _dateFormat,
                     validator: _formValidators.nonNull(),
                     onDateChanged: (dt) {
                       _requestBuilder.finishedAt = _requestBuilder.finishedAt
@@ -328,7 +329,6 @@ class _ManualPeritonealDialysisCreationScreenState
                   ),
                 ),
                 Flexible(
-                  flex: 2,
                   child: AppTimePickerFormField(
                     initialTime: TimeOfDay.fromDateTime(
                         _requestBuilder.finishedAt?.toLocal() ?? now),

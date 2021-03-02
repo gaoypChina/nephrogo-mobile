@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 
 import 'app_form_multi_select_dialog.dart';
 import 'app_form_single_select_dialog.dart';
@@ -454,7 +455,7 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
   void initState() {
     super.initState();
 
-    selectedDateTime = widget.selectedDate;
+    selectedDateTime = widget.selectedDate?.toUtc();
   }
 
   @override
@@ -462,7 +463,9 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
     return AppSelectionScreenFormField<DateTime>(
       onTap: _onTap,
       itemToStringConverter: (date) {
-        return (widget.dateFormat ?? _defaultDateFormat).format(date);
+        return (widget.dateFormat ?? _defaultDateFormat)
+            .format(date.toLocal())
+            .capitalizeFirst();
       },
       labelText: widget.labelText,
       helperText: widget.helperText,
@@ -478,15 +481,15 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
   Future<DateTime> _onTap(BuildContext context) async {
     final dateTime = await showDatePicker(
       context: context,
-      firstDate: widget.firstDate,
-      lastDate: widget.lastDate,
-      initialDate: widget.initialDate,
+      firstDate: widget.firstDate.toLocal(),
+      lastDate: widget.lastDate.toLocal(),
+      initialDate: widget.initialDate.toLocal(),
       initialDatePickerMode: widget.initialDatePickerMode,
       initialEntryMode: widget.initialEntryMode,
       fieldHintText: _fieldHintText,
     );
 
-    selectedDateTime = dateTime ?? selectedDateTime;
+    selectedDateTime = (dateTime ?? selectedDateTime)?.toUtc();
 
     return dateTime;
   }
