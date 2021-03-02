@@ -46,6 +46,8 @@ class _ManualPeritonealDialysisCreationScreenState
 
   int _currentStep = 0;
 
+  bool get _isFirstStep => _currentStep == 0;
+
   bool get _isSecondStep => _currentStep == 1;
 
   FormValidators get _formValidators => FormValidators(context);
@@ -71,15 +73,15 @@ class _ManualPeritonealDialysisCreationScreenState
       appBar: AppBar(
         title: Text(appLocalizations.peritonealDialysis),
         actions: <Widget>[
+          if (_isFirstStep)
+            AppBarTextButton(
+              onPressed: _submit,
+              child: Text(appLocalizations.save.toUpperCase()),
+            ),
           if (_isSecondStep)
             AppBarTextButton(
               onPressed: _completeAndSubmit,
               child: Text(appLocalizations.finish.toUpperCase()),
-            ),
-          if (!_isSecondStep)
-            AppBarTextButton(
-              onPressed: _submit,
-              child: Text(appLocalizations.save.toUpperCase()),
             ),
         ],
       ),
@@ -98,68 +100,40 @@ class _ManualPeritonealDialysisCreationScreenState
           },
           onStepCancel: _submit,
           controlsBuilder: (context, {onStepContinue, onStepCancel}) {
-            if (_isSecondStep) {
-              return BasicSection(
-                innerPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-                children: [
+            return BasicSection(
+              innerPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+              children: [
+                if (_isFirstStep || _isCompleted)
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: SizedBox(
                       width: double.infinity,
                       child: AppElevatedButton(
-                        text: context.appLocalizations.finishDialysis,
+                        text: context.appLocalizations.save.toUpperCase(),
+                        onPressed: onStepCancel,
+                      ),
+                    ),
+                  )
+                else
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: AppElevatedButton(
+                        text: context.appLocalizations.finishDialysis
+                            .toUpperCase(),
                         onPressed: onStepContinue,
                       ),
                     ),
                   ),
-                  if (_isCompleted)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: AppElevatedButton(
-                          color: Colors.redAccent,
-                          text: context.appLocalizations.delete,
-                          onPressed: _delete,
-                        ),
-                      ),
-                    ),
-                ],
-              );
-            }
-            return BasicSection(
-              innerPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-              children: [
-                if (widget.initialDialysis == null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: AppElevatedButton(
-                        text: context.appLocalizations.saveAndContinueLater,
-                        onPressed: onStepCancel,
-                      ),
-                    ),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: AppElevatedButton(
-                      color: Colors.blue,
-                      text: context.appLocalizations.continueToSecondStep,
-                      onPressed: onStepContinue,
-                    ),
-                  ),
-                ),
                 if (_isCompleted)
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: SizedBox(
                       width: double.infinity,
                       child: AppElevatedButton(
                         color: Colors.redAccent,
-                        text: context.appLocalizations.delete,
+                        text: context.appLocalizations.delete.toUpperCase(),
                         onPressed: _delete,
                       ),
                     ),
