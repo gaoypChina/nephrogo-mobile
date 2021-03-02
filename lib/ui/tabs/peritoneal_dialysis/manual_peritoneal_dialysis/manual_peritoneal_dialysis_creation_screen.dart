@@ -67,6 +67,8 @@ class _ManualPeritonealDialysisCreationScreenState
     _currentStep = _requestBuilder.isCompleted == false ? 1 : 0;
 
     _requestBuilder.isCompleted ??= false;
+    _requestBuilder.dialysateColor ??= DialysateColorEnum.unknown;
+    _requestBuilder.notes ??= "";
   }
 
   @override
@@ -185,8 +187,7 @@ class _ManualPeritonealDialysisCreationScreenState
                 ),
                 Flexible(
                   child: AppTimePickerFormField(
-                    initialTime: TimeOfDay.fromDateTime(
-                        _requestBuilder.startedAt.toLocal()),
+                    initialTime: _requestBuilder.startedAt.timeOfDayLocal(),
                     labelText: appLocalizations.mealCreationTime,
                     onTimeChanged: (t) => _requestBuilder.startedAt =
                         _requestBuilder.startedAt.applied(t).toUtc(),
@@ -287,7 +288,7 @@ class _ManualPeritonealDialysisCreationScreenState
                   child: AppDatePickerFormField(
                     initialDate: _requestBuilder.finishedAt?.toLocal() ?? now,
                     selectedDate: _requestBuilder.finishedAt?.toLocal() ?? now,
-                    firstDate: _requestBuilder.startedAt,
+                    firstDate: _requestBuilder.startedAt ?? now,
                     lastDate: now,
                     dateFormat: _dateFormat,
                     validator: _formValidators.nonNull(),
@@ -301,8 +302,8 @@ class _ManualPeritonealDialysisCreationScreenState
                 ),
                 Flexible(
                   child: AppTimePickerFormField(
-                    initialTime: TimeOfDay.fromDateTime(
-                        _requestBuilder.finishedAt?.toLocal() ?? now),
+                    initialTime:
+                        (_requestBuilder.finishedAt ?? now).timeOfDayLocal(),
                     labelText: appLocalizations.mealCreationTime,
                     onTimeChanged: (t) => _requestBuilder.finishedAt =
                         _requestBuilder.finishedAt.applied(t).toUtc(),

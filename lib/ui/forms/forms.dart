@@ -533,9 +533,15 @@ class _AppTimePickerFormFieldState extends State<AppTimePickerFormField> {
       helperText: widget.helperText,
       prefixIcon: widget.prefixIcon,
       onSaved: widget.onTimeSaved,
-      onChanged: widget.onTimeChanged,
+      onChanged: _onTimeChanged,
       initialSelection: widget.initialTime,
     );
+  }
+
+  void _onTimeChanged(v) {
+    if (_selectedTimeOfDay != null) {
+      widget.onTimeChanged(_selectedTimeOfDay);
+    }
   }
 
   Future<TimeOfDay> _onTap(BuildContext _) async {

@@ -5,7 +5,13 @@ import 'package:tuple/tuple.dart';
 extension DateTimeExtension on DateTime {
   // https://stackoverflow.com/questions/50198891/how-to-convert-flutter-timeofday-to-datetime
   DateTime applied(TimeOfDay time) {
-    return DateTime(year, month, day, time.hour, time.minute);
+    final date = Date.from(this);
+
+    return DateTime(date.year, date.month, date.day, time.hour, time.minute);
+  }
+
+  TimeOfDay timeOfDayLocal() {
+    return TimeOfDay.fromDateTime(toLocal());
   }
 
   DateTime appliedDate(Date date) {
