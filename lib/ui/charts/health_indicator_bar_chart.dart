@@ -131,6 +131,8 @@ class HealthIndicatorBarChart extends StatelessWidget {
 
   double _getMaxY() {
     switch (indicator) {
+      case HealthIndicator.bloodPressure:
+        return 200;
       case HealthIndicator.severityOfSwelling:
       case HealthIndicator.wellBeing:
       case HealthIndicator.appetite:
