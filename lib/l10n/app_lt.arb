@@ -1023,6 +1023,10 @@
   "@unknown": {},
   "recommendationsSources": "Ikizler TA, Burrowes JD, Byham-Gray LD, et al; KDOQI Nutrition in CKD Guideline Work Group. KDOQI clinical practice guideline for nutrition in CKD: 2020 update. Am J Kidney Dis. 2020;76(3)(suppl 1):S1-S107.\n\nAlgirdas Tamošaitis, Regina Galubauskienė „Lėtinis inkstų nepakankamumas ir mityba“, 2013 m., Vilnius, ISBN 978-9955-721-07-9\n\nLaurynas Rimševičius, Marius Miglinas „Peritoninės dializės pagrindai ir gairės“, 2017 m., Vilnius, ISBN 978-609-459-844-9",
   "@recommendationsSources": {},
+  "dialysisActive": "Dializė vykdoma",
+  "@dialysisActive": {
+    "context": "automaticDialysis"
+  },
   "dialysisSolutionVolumes": "Tirpalų kiekiai",
   "@dialysisSolutionVolumes": {
     "context": "automaticDialysis"

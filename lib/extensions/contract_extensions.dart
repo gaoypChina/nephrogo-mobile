@@ -1179,6 +1179,26 @@ extension AutomaticPeritonealDialysisExtensions on AutomaticPeritonealDialysis {
 
     return builder;
   }
+
+  int get balance {
+    if (totalUltrafiltrationMl == null) {
+      return null;
+    }
+
+    final totalLiquidsMl =
+        dailyIntakesLightReport.nutrientNormsAndTotals.liquidsMl.total;
+    final totalUrineMl = dailyHealthStatus.urineMl ?? 0;
+
+    return totalLiquidsMl - totalUltrafiltrationMl - totalUrineMl;
+  }
+
+  String get formattedBalance {
+    if (balance == null) {
+      return null;
+    }
+
+    return _formatAmount(balance, 'ml');
+  }
 }
 
 extension EnumClassExtensions<E extends EnumClass> on E {
