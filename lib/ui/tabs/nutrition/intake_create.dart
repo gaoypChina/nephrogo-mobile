@@ -94,11 +94,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     _mealType = widget.mealType;
 
     if (widget.initialDate != null) {
-      _consumedAt = _consumedAt.copyWith(
-        year: widget.initialDate.year,
-        month: widget.initialDate.month,
-        day: widget.initialDate.day,
-      );
+      _consumedAt = _consumedAt.appliedDate(widget.initialDate);
     }
 
     final fakedIntake = widget.initialProduct.fakeIntake(
