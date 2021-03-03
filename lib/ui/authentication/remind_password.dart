@@ -5,6 +5,7 @@ import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
@@ -47,8 +48,9 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
             ),
             BasicSection(
               children: [
-                Form(
-                  key: _formKey,
+                AppForm(
+                  formKey: _formKey,
+                  save: () => _remindPassword(context),
                   child: AutofillGroup(
                     child: Column(
                       children: [
@@ -85,7 +87,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
     );
   }
 
-  Future _remindPassword(BuildContext context) async {
+  Future<bool> _remindPassword(BuildContext context) async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
@@ -98,6 +100,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
         );
 
         Navigator.pop(context);
+        return true;
       } catch (e, stacktrace) {
         developer.log(
           'Unable to remind password',
@@ -105,7 +108,9 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
         );
 
         await showAppDialog(context: context, message: e.toString());
+        return false;
       }
     }
+    return false;
   }
 }

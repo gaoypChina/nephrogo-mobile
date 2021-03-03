@@ -8,6 +8,7 @@ import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
@@ -151,8 +152,9 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
           ),
         ],
       ),
-      body: Form(
-        key: _formKey,
+      body: AppForm(
+        formKey: _formKey,
+        save: _validateAndSaveIntake,
         child: Scrollbar(
           child: ListView(
             children: <Widget>[

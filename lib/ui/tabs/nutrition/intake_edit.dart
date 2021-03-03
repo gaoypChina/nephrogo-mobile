@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/utils/form_utils.dart';
@@ -80,7 +80,6 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final formValidators = FormValidators(context);
     final title = product.name;
 
     final fakedIntake = product.fakeIntake(
@@ -96,13 +95,14 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
         actions: <Widget>[
           TextButton(
             style: TextButton.styleFrom(primary: Colors.white),
-            onPressed: () => validateAndSaveIntake(context),
+            onPressed: _validateAndSaveIntake,
             child: Text(appLocalizations.update.toUpperCase()),
           ),
         ],
       ),
-      body: Form(
-        key: _formKey,
+      body: AppForm(
+        formKey: _formKey,
+        save: _validateAndSaveIntake,
         child: Scrollbar(
           child: SingleChildScrollView(
             child: Column(
@@ -213,7 +213,7 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
     return _apiService.updateIntake(widget.intake.id, _intakeBuilder.build());
   }
 
-  Future validateAndSaveIntake(BuildContext context) {
+  Future<bool> _validateAndSaveIntake() {
     return FormUtils.validateAndSave(
       context: context,
       formKey: _formKey,

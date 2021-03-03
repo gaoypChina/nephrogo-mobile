@@ -6,8 +6,8 @@ import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/routes.dart';
-import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
@@ -61,10 +61,9 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final formValidators = FormValidators(context);
-
-    return Form(
-      key: _formKey,
+    return AppForm(
+      formKey: _formKey,
+      save: () => _login(context),
       child: AutofillGroup(
         child: Column(
           children: [
@@ -106,7 +105,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
     );
   }
 
-  Future _login(BuildContext context) async {
+  Future<bool> _login(BuildContext context) async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
@@ -137,7 +136,10 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
 
       if (userCredential != null) {
         Navigator.of(context).pop(userCredential);
+        return true;
       }
     }
+
+    return false;
   }
 }

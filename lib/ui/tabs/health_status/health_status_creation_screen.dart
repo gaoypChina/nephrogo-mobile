@@ -6,6 +6,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/app_future_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/form_utils.dart';
@@ -75,8 +76,9 @@ class _HealthStatusCreationScreenState
   Widget _buildBody() {
     final formValidators = FormValidators(context);
 
-    return Form(
-      key: _formKey,
+    return AppForm(
+      formKey: _formKey,
+      save: validateAndSave,
       child: Scrollbar(
         child: ListView(
           children: <Widget>[

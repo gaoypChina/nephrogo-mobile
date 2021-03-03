@@ -5,6 +5,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/form_utils.dart';
 import 'package:nephrogo_api_client/model/blood_pressure.dart';
@@ -72,8 +73,9 @@ class _BloodPressureAndPulseCreationScreenState
           ),
         ],
       ),
-      body: Form(
-        key: _formKey,
+      body: AppForm(
+        formKey: _formKey,
+        save: _submit,
         child: ListView(
           children: [
             SmallSection(

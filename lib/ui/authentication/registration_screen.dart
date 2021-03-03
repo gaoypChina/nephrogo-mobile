@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
-import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
@@ -42,10 +42,9 @@ class _RegistrationFormState extends State<_RegistrationForm> {
 
   @override
   Widget build(BuildContext context) {
-    final formValidators = FormValidators(context);
-
-    return Form(
-      key: _formKey,
+    return AppForm(
+      formKey: _formKey,
+      save: () => _register(context),
       child: AutofillGroup(
         child: Column(
           children: [
@@ -87,7 +86,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
     );
   }
 
-  Future _register(BuildContext context) async {
+  Future<bool> _register(BuildContext context) async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
@@ -124,7 +123,9 @@ class _RegistrationFormState extends State<_RegistrationForm> {
 
       if (userCredential != null) {
         Navigator.of(context).pop(userCredential);
+        return true;
       }
     }
+    return false;
   }
 }

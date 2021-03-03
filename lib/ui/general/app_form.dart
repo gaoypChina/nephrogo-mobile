@@ -3,6 +3,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 
 class AppForm extends StatefulWidget {
   final Widget child;
+  final VoidCallback onChanged;
   final GlobalKey<FormState> formKey;
   final Future<bool> Function() save;
 
@@ -10,6 +11,7 @@ class AppForm extends StatefulWidget {
     @required this.child,
     @required this.formKey,
     @required this.save,
+    this.onChanged,
   }) : super();
 
   @override
@@ -26,6 +28,10 @@ class _AppFormState extends State<AppForm> {
       onWillPop: _onWillPop,
       onChanged: () {
         _isChanged = true;
+
+        if (widget.onChanged != null) {
+          widget.onChanged();
+        }
       },
       child: widget.child,
     );
@@ -41,7 +47,8 @@ class _AppFormState extends State<AppForm> {
     if (shouldSave == null) {
       return false;
     } else if (shouldSave) {
-      return widget.save();
+      await widget.save();
+      return false;
     } else {
       return true;
     }

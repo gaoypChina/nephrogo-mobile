@@ -4,6 +4,7 @@ import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
+import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/utils/form_utils.dart';
@@ -56,8 +57,9 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
           ),
         ],
       ),
-      body: Form(
-        key: _formKey,
+      body: AppForm(
+        formKey: _formKey,
+        save: _submit,
         child: ListView(
           children: [
             SmallSection(
