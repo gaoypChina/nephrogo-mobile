@@ -1228,5 +1228,7 @@
   "createUrine": "Pridėti šlapimo kiekį",
   "@createUrine": {},
   "createWeight": "Pridėti kūno svorį",
-  "@createWeight": {}
+  "@createWeight": {},
+  "errorCheckDialysisDates": "Patikrinkite dializės pradžios ir pabaigos datas bei laikus",
+  "@errorCheckDialysisDates": {}
 }

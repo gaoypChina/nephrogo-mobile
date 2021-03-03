@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
@@ -52,8 +51,6 @@ class _ManualPeritonealDialysisCreationScreenState
   bool get _isFirstStep => _currentStep == 0;
 
   bool get _isSecondStep => _currentStep == 1;
-
-  FormValidators get _formValidators => FormValidators(context);
 
   bool get _isCompleted => widget.initialDialysis?.isCompleted ?? false;
 
@@ -191,9 +188,9 @@ class _ManualPeritonealDialysisCreationScreenState
                     initialDate: _requestBuilder.startedAt.toLocal(),
                     selectedDate: _requestBuilder.startedAt.toLocal(),
                     firstDate: Constants.earliestDate,
-                    lastDate: DateTime.now(),
+                    lastDate: now,
                     dateFormat: _dateFormat,
-                    validator: _formValidators.nonNull(),
+                    validator: formValidators.nonNull(),
                     onDateChanged: (dt) {
                       _requestBuilder.startedAt = _requestBuilder.startedAt
                           .appliedDate(dt.toDate())
@@ -224,7 +221,7 @@ class _ManualPeritonealDialysisCreationScreenState
               initialValue: _requestBuilder.dialysisSolution
                   ?.enumWithoutDefault(DialysisSolutionEnum.unknown),
               focusNextOnSelection: true,
-              validator: _formValidators.nonNull(),
+              validator: formValidators.nonNull(),
               onChanged: (v) => _requestBuilder.dialysisSolution = v?.value,
               items: [
                 for (final solution in DialysisSolutionEnum.values
@@ -242,9 +239,9 @@ class _ManualPeritonealDialysisCreationScreenState
               labelText: appLocalizations.dialysisSolutionIn,
               suffixText: 'ml',
               textInputAction: TextInputAction.next,
-              validator: _formValidators.and(
-                _formValidators.nonNull(),
-                _formValidators.numRangeValidator(1, 5000),
+              validator: formValidators.and(
+                formValidators.nonNull(),
+                formValidators.numRangeValidator(100, 5000),
               ),
               initialValue: _requestBuilder.solutionInMl,
               onChanged: (p) => _requestBuilder.solutionInMl = p,
@@ -287,9 +284,9 @@ class _ManualPeritonealDialysisCreationScreenState
               labelText: appLocalizations.dialysisSolutionOut,
               suffixText: 'ml',
               textInputAction: TextInputAction.next,
-              validator: _formValidators.and(
-                _isSecondStep ? _formValidators.nonNull() : (v) => null,
-                _formValidators.numRangeValidator(1, 5000),
+              validator: formValidators.and(
+                _isSecondStep ? formValidators.nonNull() : (v) => null,
+                formValidators.numRangeValidator(100, 5000),
               ),
               initialValue: _requestBuilder.solutionOutMl,
               onChanged: (p) => _requestBuilder.solutionOutMl = p,
@@ -308,7 +305,10 @@ class _ManualPeritonealDialysisCreationScreenState
                     firstDate: _requestBuilder.startedAt ?? now,
                     lastDate: now,
                     dateFormat: _dateFormat,
-                    validator: _formValidators.nonNull(),
+                    validator: formValidators.and(
+                      formValidators.nonNull(),
+                      (_) => _validateFinishedAtDuration(),
+                    ),
                     onDateChanged: (dt) {
                       _requestBuilder.finishedAt = _requestBuilder.finishedAt
                           .appliedDate(dt.toDate())
@@ -356,6 +356,21 @@ class _ManualPeritonealDialysisCreationScreenState
         ),
       ],
     );
+  }
+
+  String _validateFinishedAtDuration() {
+    if (_isFirstStep) {
+      return null;
+    }
+
+    final end = (_requestBuilder.finishedAt ?? now).toLocal();
+    final hours = end.difference(_requestBuilder.startedAt.toLocal()).inHours;
+
+    if (hours < 1) {
+      return appLocalizations.errorCheckDialysisDates;
+    }
+
+    return null;
   }
 
   Future<ManualPeritonealDialysis> _save() {
