@@ -297,6 +297,7 @@ class _ManualPeritonealDialysisCreationScreenState
           title: appLocalizations.dialysisEndDateTime,
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
                   child: AppDatePickerFormField(
@@ -320,7 +321,7 @@ class _ManualPeritonealDialysisCreationScreenState
                 Flexible(
                   child: AppTimePickerFormField(
                     initialTime:
-                        (_requestBuilder.finishedAt ?? now).timeOfDayLocal,
+                    (_requestBuilder.finishedAt ?? now).timeOfDayLocal,
                     labelText: appLocalizations.mealCreationTime,
                     onTimeChanged: (t) => _requestBuilder.finishedAt =
                         (_requestBuilder.finishedAt ?? now)
