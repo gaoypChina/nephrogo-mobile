@@ -1235,6 +1235,6 @@
   "@createUrine": {},
   "createWeight": "Pridėti kūno svorį",
   "@createWeight": {},
-  "errorCheckDialysisDates": "Patikrinkite dializės pradžios ir pabaigos datas bei laikus",
+  "errorCheckDialysisDates": "Tarp dializės pradžios ir pabaigos turi būti praėję bent viena valanda",
   "@errorCheckDialysisDates": {}
 }
