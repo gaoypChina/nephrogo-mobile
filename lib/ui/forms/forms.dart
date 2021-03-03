@@ -406,7 +406,6 @@ class _AppMultipleSelectFormFieldState<T>
 }
 
 class AppDatePickerFormField extends StatefulWidget {
-  final Date initialDate;
   final Date selectedDate;
   final Date firstDate;
   final Date lastDate;
@@ -424,10 +423,9 @@ class AppDatePickerFormField extends StatefulWidget {
 
   const AppDatePickerFormField({
     Key key,
-    @required this.initialDate,
     @required this.firstDate,
     @required this.lastDate,
-    this.selectedDate,
+    @required this.selectedDate,
     this.onDateSaved,
     this.onDateChanged,
     this.dateFormat,
@@ -450,13 +448,13 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
   // This is a bug with platform translation. Incorrect format is shown. Set to correct one.
   static const _fieldHintText = 'yyyy-mm-dd';
 
-  Date selectedDateTime;
+  Date selectedDate;
 
   @override
   void initState() {
     super.initState();
 
-    selectedDateTime = widget.selectedDate;
+    selectedDate = widget.selectedDate;
   }
 
   @override
@@ -474,7 +472,7 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
       prefixIcon: widget.prefixIcon,
       onSaved: widget.onDateSaved,
       onChanged: widget.onDateChanged,
-      initialSelection: selectedDateTime,
+      initialSelection: selectedDate,
       validator: widget.validator,
     );
   }
@@ -484,13 +482,13 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
       context: context,
       firstDate: widget.firstDate.toLocal(),
       lastDate: widget.lastDate.toLocal(),
-      initialDate: widget.initialDate.toLocal(),
+      initialDate: selectedDate.toLocal(),
       initialDatePickerMode: widget.initialDatePickerMode,
       initialEntryMode: widget.initialEntryMode,
       fieldHintText: _fieldHintText,
     );
 
-    return selectedDateTime = dateTime?.toDate() ?? selectedDateTime;
+    return selectedDate = dateTime?.toDate() ?? selectedDate;
   }
 }
 

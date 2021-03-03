@@ -163,7 +163,6 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
                 BasicSection(
                   children: [
                     AppDatePickerFormField(
-                      initialDate: _consumedAt.toDate(),
                       selectedDate: _consumedAt.toDate(),
                       firstDate: Constants.earliestDate,
                       lastDate: Date.today(),

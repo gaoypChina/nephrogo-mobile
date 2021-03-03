@@ -71,7 +71,6 @@ class _BloodPressureEditScreenState extends State<BloodPressureEditScreen> {
                   children: [
                     Flexible(
                       child: AppDatePickerFormField(
-                        initialDate: _requestBuilder.measuredAt.toDate(),
                         selectedDate: _requestBuilder.measuredAt.toDate(),
                         firstDate: Constants.earliestDate,
                         lastDate: Date.today(),
