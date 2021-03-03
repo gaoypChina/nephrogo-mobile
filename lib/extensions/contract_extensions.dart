@@ -4,6 +4,7 @@ import 'package:collection_ext/iterables.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/collection_extensions.dart';
+import 'package:nephrogo/extensions/date_extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
@@ -550,7 +551,7 @@ extension BloodPressureExtensions on BloodPressure {
   }
 
   String formatAmountWithoutDimensionWithTime(BuildContext context) {
-    final time = TimeOfDay.fromDateTime(measuredAt.toLocal()).format(context);
+    final time = measuredAt.timeOfDayLocal().format(context);
     return '$formattedAmountWithoutDimension ($time)';
   }
 }
@@ -570,7 +571,7 @@ extension PulseExtensions on Pulse {
   }
 
   String formatAmountWithoutDimensionWithTime(BuildContext context) {
-    final time = TimeOfDay.fromDateTime(measuredAt.toLocal()).format(context);
+    final time = measuredAt.timeOfDayLocal().format(context);
     return '$pulse ($time)';
   }
 }

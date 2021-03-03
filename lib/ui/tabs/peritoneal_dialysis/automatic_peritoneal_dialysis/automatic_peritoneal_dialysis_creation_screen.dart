@@ -214,8 +214,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
                 Flexible(
                   flex: 2,
                   child: AppTimePickerFormField(
-                    initialTime: TimeOfDay.fromDateTime(
-                        _requestBuilder.startedAt.toLocal()),
+                    initialTime: _requestBuilder.startedAt.timeOfDayLocal(),
                     labelText: appLocalizations.mealCreationTime,
                     onTimeChanged: (t) => _requestBuilder.startedAt =
                         _requestBuilder.startedAt.appliedLocalTime(t).toUtc(),
@@ -427,8 +426,8 @@ class _AutomaticPeritonealDialysisCreationScreenState
                 Flexible(
                   flex: 2,
                   child: AppTimePickerFormField(
-                    initialTime: TimeOfDay.fromDateTime(
-                        _requestBuilder.finishedAt?.toLocal() ?? now),
+                    initialTime:
+                        (_requestBuilder.finishedAt ?? now).timeOfDayLocal(),
                     labelText: appLocalizations.mealCreationTime,
                     onTimeChanged: (t) => _requestBuilder.finishedAt =
                         _requestBuilder.finishedAt.appliedLocalTime(t).toUtc(),

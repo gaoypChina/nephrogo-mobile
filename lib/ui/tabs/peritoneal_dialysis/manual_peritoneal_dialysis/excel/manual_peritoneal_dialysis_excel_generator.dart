@@ -67,7 +67,7 @@ class ManualPeritonealDialysisExcelGenerator {
     AppLocalizations appLocalizations,
   ) {
     sheet.getRangeByIndex(row, startCol).setText(
-          TimeOfDay.fromDateTime(dialysis.startedAt.toLocal()).format(context),
+          dialysis.startedAt.timeOfDayLocal().format(context),
         );
 
     final dialysisSolutionCellStyle = CellStyle(sheet.workbook)
