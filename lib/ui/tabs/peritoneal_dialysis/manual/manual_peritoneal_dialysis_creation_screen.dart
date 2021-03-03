@@ -193,10 +193,9 @@ class _ManualPeritonealDialysisCreationScreenState
                     lastDate: Date.today(),
                     dateFormat: _dateFormat,
                     validator: formValidators.nonNull(),
-                    onDateChanged: (dt) {
-                      _requestBuilder.startedAt = _requestBuilder.startedAt
-                          .appliedDate(dt.toDate())
-                          .toUtc();
+                    onDateChanged: (date) {
+                      _requestBuilder.startedAt =
+                          _requestBuilder.startedAt.appliedDate(date).toUtc();
                     },
                     labelText: appLocalizations.date,
                   ),
@@ -312,10 +311,10 @@ class _ManualPeritonealDialysisCreationScreenState
                       formValidators.nonNull(),
                       (_) => _validateFinishedAtDuration(),
                     ),
-                    onDateChanged: (dt) {
+                    onDateChanged: (date) {
                       _requestBuilder.finishedAt =
                           (_requestBuilder.finishedAt ?? now)
-                              .appliedDate(dt.toDate())
+                              .appliedDate(date)
                               .toUtc();
                     },
                     labelText: appLocalizations.date,

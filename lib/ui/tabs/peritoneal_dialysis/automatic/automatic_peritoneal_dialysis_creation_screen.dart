@@ -213,10 +213,9 @@ class _AutomaticPeritonealDialysisCreationScreenState
                     firstDate: Constants.earliestDate,
                     lastDate: Date.today(),
                     validator: _formValidators.nonNull(),
-                    onDateChanged: (dt) {
-                      _requestBuilder.startedAt = _requestBuilder.startedAt
-                          .appliedDate(dt.toDate())
-                          .toUtc();
+                    onDateChanged: (date) {
+                      _requestBuilder.startedAt =
+                          _requestBuilder.startedAt.appliedDate(date).toUtc();
                     },
                     labelText: appLocalizations.date,
                   ),
@@ -425,10 +424,9 @@ class _AutomaticPeritonealDialysisCreationScreenState
                     firstDate: _requestBuilder.startedAt.toDate(),
                     lastDate: today,
                     validator: _formValidators.nonNull(),
-                    onDateChanged: (dt) {
-                      _requestBuilder.finishedAt = _requestBuilder.finishedAt
-                          .appliedDate(dt.toDate())
-                          .toUtc();
+                    onDateChanged: (date) {
+                      _requestBuilder.finishedAt =
+                          _requestBuilder.finishedAt.appliedDate(date).toUtc();
                     },
                     labelText: appLocalizations.date,
                   ),

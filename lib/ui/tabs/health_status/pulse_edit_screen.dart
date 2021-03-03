@@ -75,10 +75,10 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
                         firstDate: Constants.earliestDate,
                         lastDate: Date.today(),
                         validator: _formValidators.nonNull(),
-                        onDateChanged: (dt) {
+                        onDateChanged: (date) {
                           _requestBuilder.measuredAt = _requestBuilder
                               .measuredAt
-                              .appliedDate(dt.toDate())
+                              .appliedDate(date)
                               .toUtc();
                         },
                         labelText: appLocalizations.date,

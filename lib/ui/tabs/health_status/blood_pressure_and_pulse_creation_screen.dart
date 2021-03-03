@@ -90,9 +90,8 @@ class _BloodPressureAndPulseCreationScreenState
                         firstDate: Constants.earliestDate,
                         lastDate: Date.today(),
                         validator: _formValidators.nonNull(),
-                        onDateChanged: (dt) {
-                          _measuredAt =
-                              _measuredAt.appliedDate(dt.toDate()).toUtc();
+                        onDateChanged: (date) {
+                          _measuredAt = _measuredAt.appliedDate(date).toUtc();
                         },
                         labelText: appLocalizations.date,
                       ),

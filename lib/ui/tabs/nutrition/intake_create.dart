@@ -198,16 +198,9 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                     validator: formValidators.nonNull(),
                     dateFormat: _calendarDateFormat,
                     prefixIcon: const Icon(Icons.calendar_today),
-                    onDateChanged: (dt) {
-                      final ldt = dt.toLocal();
+                    onDateChanged: (date) {
                       setState(() {
-                        _consumedAt = DateTime(
-                          ldt.year,
-                          ldt.month,
-                          ldt.day,
-                          _consumedAt.hour,
-                          _consumedAt.minute,
-                        );
+                        _consumedAt = _consumedAt.appliedDate(date);
                       });
                     },
                     labelText: appLocalizations.date,
