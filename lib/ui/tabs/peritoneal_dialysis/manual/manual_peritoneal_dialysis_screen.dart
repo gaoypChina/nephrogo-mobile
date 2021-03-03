@@ -1,5 +1,6 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
@@ -19,6 +20,8 @@ import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
+import 'package:open_file/open_file.dart';
+import 'package:share/share.dart';
 
 import 'excel/manual_peritoneal_dialysis_excel_generator.dart';
 
@@ -53,9 +56,26 @@ class ManualPeritonealDialysisScreen extends StatelessWidget {
           ),
         ),
         floatingActionButton: SpeedDialFloatingActionButton(
-          onPress: () => _downloadAndExportDialysis(context),
           label: context.appLocalizations.summary.toUpperCase(),
           icon: Icons.download_rounded,
+          children: [
+            SpeedDialChild(
+              child: const Icon(Icons.open_in_new),
+              backgroundColor: Colors.indigo,
+              labelStyle: const TextStyle(fontSize: 16),
+              foregroundColor: Colors.white,
+              label: context.appLocalizations.open,
+              onTap: () => _downloadAndExportDialysis(context, false),
+            ),
+            SpeedDialChild(
+              child: const Icon(Icons.share),
+              backgroundColor: Colors.teal,
+              labelStyle: const TextStyle(fontSize: 16),
+              foregroundColor: Colors.white,
+              label: context.appLocalizations.send,
+              onTap: () => _downloadAndExportDialysis(context, true),
+            ),
+          ],
         ),
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
@@ -78,7 +98,8 @@ class ManualPeritonealDialysisScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _downloadAndExportDialysisInternal(BuildContext context) async {
+  Future<void> _downloadAndExportDialysisInternal(
+      BuildContext context, bool share) async {
     final today = Date.today();
     final dailyHealthStatusesResponse = await _apiService.getHealthStatuses(
       Constants.earliestDate,
@@ -94,15 +115,26 @@ class ManualPeritonealDialysisScreen extends StatelessWidget {
     final lightDailyIntakeReports =
         lightDailyIntakeReportsResponse.dailyIntakesLightReports;
 
-    return ManualPeritonealDialysisExcelGenerator.generateAndOpenExcel(
+    final fullPath =
+        await ManualPeritonealDialysisExcelGenerator.generateAndSaveExcel(
       context: context,
       dailyHealthStatuses: dailyHealthStatuses,
       lightDailyIntakeReports: lightDailyIntakeReports,
     );
+
+    if (share) {
+      return Share.shareFiles(
+        [fullPath],
+        subject: context.appLocalizations.sendManualPeritonealDialysisSubject,
+      );
+    } else {
+      await OpenFile.open(fullPath);
+    }
   }
 
-  Future<void> _downloadAndExportDialysis(BuildContext context) {
-    final future = _downloadAndExportDialysisInternal(context).catchError(
+  Future<void> _downloadAndExportDialysis(BuildContext context, bool share) {
+    final future =
+        _downloadAndExportDialysisInternal(context, share).catchError(
       (e, stackTrace) async {
         FirebaseCrashlytics.instance.recordError(e, stackTrace as StackTrace);
 

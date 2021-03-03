@@ -9,7 +9,6 @@ import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
-import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
@@ -207,19 +206,30 @@ class ManualPeritonealDialysisExcelGenerator {
         true;
   }
 
-  static Future<void> _saveAndOpen(Workbook workbook) async {
+  static Future<String> generateAndSaveExcel({
+    @required BuildContext context,
+    @required Iterable<DailyHealthStatus> dailyHealthStatuses,
+    @required Iterable<DailyIntakesLightReport> lightDailyIntakeReports,
+  }) async {
+    final workbook = _generateExcel(
+      context: context,
+      dailyHealthStatuses: dailyHealthStatuses,
+      lightDailyIntakeReports: lightDailyIntakeReports,
+    );
+
     final directory = await getApplicationDocumentsDirectory();
-    final fullPath = '${directory.path}/rankines-peritorines-dializes.xlsx';
+    final fullPath =
+        '${directory.path}/nephrogo-rankines-peritorines-dializes.xlsx';
 
     final bytes = workbook.saveAsStream();
     File(fullPath).writeAsBytes(bytes, flush: true);
 
     workbook.dispose();
 
-    await OpenFile.open(fullPath);
+    return fullPath;
   }
 
-  static Future<void> generateAndOpenExcel({
+  static Workbook _generateExcel({
     @required BuildContext context,
     @required Iterable<DailyHealthStatus> dailyHealthStatuses,
     @required Iterable<DailyIntakesLightReport> lightDailyIntakeReports,
@@ -262,6 +272,6 @@ class ManualPeritonealDialysisExcelGenerator {
 
     _applyGlobalStyle(sheet);
 
-    return _saveAndOpen(workbook);
+    return workbook;
   }
 }
