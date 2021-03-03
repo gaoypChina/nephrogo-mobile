@@ -172,7 +172,7 @@ class ApiService {
 
   Future<DailyIntakesReportResponse> getDailyIntakesReport(Date date) {
     return _nutritionApi
-        .nutritionDailyReportsRetrieve(date.toString())
+        .nutritionDailyReportsRetrieve(date)
         .then((r) => r.data)
         .catchError(
           (e) => null,
@@ -518,7 +518,7 @@ class ApiService {
   Future<AutomaticPeritonealDialysis> updateAutomaticPeritonealDialysis(
       Date date, AutomaticPeritonealDialysisRequest request) {
     return _peritonealDialysisApi
-        .peritonealDialysisAutomaticDialysisUpdate(date.toString(), request)
+        .peritonealDialysisAutomaticDialysisUpdate(date, request)
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
@@ -530,7 +530,7 @@ class ApiService {
 
   Future<void> deleteAutomaticPeritonealDialysis(Date date) {
     return _peritonealDialysisApi
-        .peritonealDialysisAutomaticDialysisDestroy(date.toString())
+        .peritonealDialysisAutomaticDialysisDestroy(date)
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
