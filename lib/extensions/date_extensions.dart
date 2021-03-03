@@ -14,11 +14,11 @@ extension DateTimeExtension on DateTime {
   }
 
   DateTime appliedDate(Date date) {
-    if (isUtc) {
-      return DateTime.utc(date.year, date.month, date.day, hour, minute);
-    }
-
-    return DateTime(date.year, date.month, date.day, hour, minute);
+    return copyWith(
+      year: date.year,
+      month: date.month,
+      day: date.day,
+    );
   }
 
   DateTime startOfDay() {
@@ -52,6 +52,19 @@ extension DateTimeExtension on DateTime {
     int millisecond,
     int microsecond,
   }) {
+    if (isUtc) {
+      return DateTime.utc(
+        year ?? this.year,
+        month ?? this.month,
+        day ?? this.day,
+        hour ?? this.hour,
+        minute ?? this.minute,
+        second ?? this.second,
+        millisecond ?? this.millisecond,
+        microsecond ?? this.microsecond,
+      );
+    }
+
     return DateTime(
       year ?? this.year,
       month ?? this.month,
