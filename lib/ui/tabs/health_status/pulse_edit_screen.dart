@@ -88,12 +88,16 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
                         ),
                         labelText: appLocalizations.mealCreationTime,
                         onTimeChanged: (t) {
-                          _requestBuilder.measuredAt =
-                              _requestBuilder.measuredAt.applied(t).toUtc();
+                          _requestBuilder.measuredAt = _requestBuilder
+                              .measuredAt
+                              .appliedLocalTime(t)
+                              .toUtc();
                         },
                         onTimeSaved: (t) {
-                          _requestBuilder.measuredAt =
-                              _requestBuilder.measuredAt.applied(t).toUtc();
+                          _requestBuilder.measuredAt = _requestBuilder
+                              .measuredAt
+                              .appliedLocalTime(t)
+                              .toUtc();
                         },
                       ),
                     ),

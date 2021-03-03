@@ -190,9 +190,9 @@ class _ManualPeritonealDialysisCreationScreenState
                     initialTime: _requestBuilder.startedAt.timeOfDayLocal(),
                     labelText: appLocalizations.mealCreationTime,
                     onTimeChanged: (t) => _requestBuilder.startedAt =
-                        _requestBuilder.startedAt.applied(t).toUtc(),
+                        _requestBuilder.startedAt.appliedLocalTime(t).toUtc(),
                     onTimeSaved: (t) => _requestBuilder.startedAt =
-                        _requestBuilder.startedAt.applied(t).toUtc(),
+                        _requestBuilder.startedAt.appliedLocalTime(t).toUtc(),
                   ),
                 ),
               ],
@@ -306,12 +306,12 @@ class _ManualPeritonealDialysisCreationScreenState
                         (_requestBuilder.finishedAt ?? now).timeOfDayLocal(),
                     labelText: appLocalizations.mealCreationTime,
                     onTimeChanged: (t) => _requestBuilder.finishedAt =
-                        _requestBuilder.finishedAt.applied(t).toUtc(),
+                        _requestBuilder.finishedAt.appliedLocalTime(t).toUtc(),
                     onTimeSaved: (t) {
                       if (_isSecondStep) {
                         _requestBuilder.finishedAt =
                             (_requestBuilder.finishedAt ?? now)
-                                .applied(t)
+                                .appliedLocalTime(t)
                                 .toUtc();
                       }
                     },

@@ -3,14 +3,17 @@ import 'package:nephrogo/models/date.dart';
 
 extension DateTimeExtension on DateTime {
   // https://stackoverflow.com/questions/50198891/how-to-convert-flutter-timeofday-to-datetime
-  DateTime applied(TimeOfDay time) {
+  DateTime appliedLocalTime(TimeOfDay time) {
     final date = Date.from(this);
 
-    return DateTime(date.year, date.month, date.day, time.hour, time.minute);
-  }
+    final dt =
+        DateTime(date.year, date.month, date.day, time.hour, time.minute);
 
-  TimeOfDay timeOfDayLocal() {
-    return TimeOfDay.fromDateTime(toLocal());
+    if (isUtc) {
+      return dt.toUtc();
+    }
+
+    return dt;
   }
 
   DateTime appliedDate(Date date) {
@@ -19,6 +22,10 @@ extension DateTimeExtension on DateTime {
       month: date.month,
       day: date.day,
     );
+  }
+
+  TimeOfDay timeOfDayLocal() {
+    return TimeOfDay.fromDateTime(toLocal());
   }
 
   DateTime startOfDay() {
