@@ -155,6 +155,7 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
                       fakedIntake,
                       widget.dailyNutrientNormsAndTotals,
                       initiallyExpanded: true,
+                      allowLongClick: false,
                     )
                   ],
                 ),
