@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/models/date.dart';
 
 import 'app_form_multi_select_dialog.dart';
 import 'app_form_single_select_dialog.dart';
@@ -405,18 +406,18 @@ class _AppMultipleSelectFormFieldState<T>
 }
 
 class AppDatePickerFormField extends StatefulWidget {
-  final DateTime initialDate;
-  final DateTime selectedDate;
-  final DateTime firstDate;
-  final DateTime lastDate;
+  final Date initialDate;
+  final Date selectedDate;
+  final Date firstDate;
+  final Date lastDate;
 
   final String labelText;
   final String helperText;
   final Widget icon;
   final Widget prefixIcon;
-  final FormFieldValidator<DateTime> validator;
-  final FormFieldSetter<DateTime> onDateSaved;
-  final FormFieldSetter<DateTime> onDateChanged;
+  final FormFieldValidator<Date> validator;
+  final FormFieldSetter<Date> onDateSaved;
+  final FormFieldSetter<Date> onDateChanged;
   final DateFormat dateFormat;
   final DatePickerEntryMode initialEntryMode;
   final DatePickerMode initialDatePickerMode;
@@ -449,18 +450,18 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
   // This is a bug with platform translation. Incorrect format is shown. Set to correct one.
   static const _fieldHintText = 'yyyy-mm-dd';
 
-  DateTime selectedDateTime;
+  Date selectedDateTime;
 
   @override
   void initState() {
     super.initState();
 
-    selectedDateTime = widget.selectedDate?.toUtc();
+    selectedDateTime = widget.selectedDate;
   }
 
   @override
   Widget build(BuildContext context) {
-    return AppSelectionScreenFormField<DateTime>(
+    return AppSelectionScreenFormField<Date>(
       onTap: _onTap,
       itemToStringConverter: (date) {
         return (widget.dateFormat ?? _defaultDateFormat)
@@ -478,7 +479,7 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
     );
   }
 
-  Future<DateTime> _onTap(BuildContext context) async {
+  Future<Date> _onTap(BuildContext context) async {
     final dateTime = await showDatePicker(
       context: context,
       firstDate: widget.firstDate.toLocal(),
@@ -489,7 +490,7 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
       fieldHintText: _fieldHintText,
     );
 
-    return selectedDateTime = (dateTime ?? selectedDateTime)?.toUtc();
+    return selectedDateTime = dateTime?.toDate() ?? selectedDateTime;
   }
 }
 

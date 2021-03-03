@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
@@ -42,6 +43,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
   final _apiService = ApiService();
 
   final now = DateTime.now();
+  final today = Date.today();
   AutomaticPeritonealDialysisRequestBuilder _requestBuilder;
 
   int _currentStep = 0;
@@ -206,10 +208,10 @@ class _AutomaticPeritonealDialysisCreationScreenState
                 Flexible(
                   flex: 3,
                   child: AppDatePickerFormField(
-                    initialDate: _requestBuilder.startedAt.toLocal(),
-                    selectedDate: _requestBuilder.startedAt.toLocal(),
+                    initialDate: _requestBuilder.startedAt.toDate(),
+                    selectedDate: _requestBuilder.startedAt.toDate(),
                     firstDate: Constants.earliestDate,
-                    lastDate: DateTime.now(),
+                    lastDate: Date.today(),
                     validator: _formValidators.nonNull(),
                     onDateChanged: (dt) {
                       _requestBuilder.startedAt = _requestBuilder.startedAt
@@ -418,10 +420,10 @@ class _AutomaticPeritonealDialysisCreationScreenState
                 Flexible(
                   flex: 3,
                   child: AppDatePickerFormField(
-                    initialDate: _requestBuilder.finishedAt?.toLocal() ?? now,
-                    selectedDate: _requestBuilder.finishedAt?.toLocal() ?? now,
-                    firstDate: _requestBuilder.startedAt,
-                    lastDate: now,
+                    initialDate: _requestBuilder.finishedAt?.toDate() ?? today,
+                    selectedDate: _requestBuilder.finishedAt?.toDate() ?? today,
+                    firstDate: _requestBuilder.startedAt.toDate(),
+                    lastDate: today,
                     validator: _formValidators.nonNull(),
                     onDateChanged: (dt) {
                       _requestBuilder.finishedAt = _requestBuilder.finishedAt

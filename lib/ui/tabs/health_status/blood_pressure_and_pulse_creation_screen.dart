@@ -85,10 +85,10 @@ class _BloodPressureAndPulseCreationScreenState
                   children: [
                     Flexible(
                       child: AppDatePickerFormField(
-                        initialDate: _measuredAt.toLocal(),
-                        selectedDate: _measuredAt.toLocal(),
+                        initialDate: _measuredAt.toDate(),
+                        selectedDate: _measuredAt.toDate(),
                         firstDate: Constants.earliestDate,
-                        lastDate: DateTime.now(),
+                        lastDate: Date.today(),
                         validator: _formValidators.nonNull(),
                         onDateChanged: (dt) {
                           _measuredAt =

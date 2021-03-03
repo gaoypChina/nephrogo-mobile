@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
@@ -69,10 +70,10 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
                   children: [
                     Flexible(
                       child: AppDatePickerFormField(
-                        initialDate: _requestBuilder.measuredAt.toLocal(),
-                        selectedDate: _requestBuilder.measuredAt.toLocal(),
+                        initialDate: _requestBuilder.measuredAt.toDate(),
+                        selectedDate: _requestBuilder.measuredAt.toDate(),
                         firstDate: Constants.earliestDate,
-                        lastDate: DateTime.now(),
+                        lastDate: Date.today(),
                         validator: _formValidators.nonNull(),
                         onDateChanged: (dt) {
                           _requestBuilder.measuredAt = _requestBuilder

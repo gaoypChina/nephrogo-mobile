@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/components.dart';
@@ -162,22 +163,15 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
                 BasicSection(
                   children: [
                     AppDatePickerFormField(
-                      initialDate: _consumedAt,
-                      selectedDate: _consumedAt,
+                      initialDate: _consumedAt.toDate(),
+                      selectedDate: _consumedAt.toDate(),
                       firstDate: Constants.earliestDate,
-                      lastDate: DateTime.now(),
+                      lastDate: Date.today(),
                       validator: formValidators.nonNull(),
                       dateFormat: _dateFormat,
                       prefixIcon: const Icon(Icons.calendar_today),
-                      onDateChanged: (dt) {
-                        final ldt = dt.toLocal();
-                        _consumedAt = DateTime(
-                          ldt.year,
-                          ldt.month,
-                          ldt.day,
-                          _consumedAt.hour,
-                          _consumedAt.minute,
-                        );
+                      onDateChanged: (date) {
+                        _consumedAt = _consumedAt.appliedDate(date);
                       },
                       onDateSaved: (dt) =>
                           _intakeBuilder.consumedAt = _consumedAt.toUtc(),

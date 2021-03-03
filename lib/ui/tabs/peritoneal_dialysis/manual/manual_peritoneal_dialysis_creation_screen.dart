@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
@@ -42,6 +43,7 @@ class _ManualPeritonealDialysisCreationScreenState
   final _dateFormat = DateFormat('MMM d');
 
   final now = DateTime.now();
+  final today = Date.today();
   ManualPeritonealDialysisRequestBuilder _requestBuilder;
 
   int _currentStep = 0;
@@ -185,10 +187,10 @@ class _ManualPeritonealDialysisCreationScreenState
               children: [
                 Flexible(
                   child: AppDatePickerFormField(
-                    initialDate: _requestBuilder.startedAt.toLocal(),
-                    selectedDate: _requestBuilder.startedAt.toLocal(),
+                    initialDate: _requestBuilder.startedAt.toDate(),
+                    selectedDate: _requestBuilder.startedAt.toDate(),
                     firstDate: Constants.earliestDate,
-                    lastDate: now,
+                    lastDate: Date.today(),
                     dateFormat: _dateFormat,
                     validator: formValidators.nonNull(),
                     onDateChanged: (dt) {
@@ -301,10 +303,10 @@ class _ManualPeritonealDialysisCreationScreenState
               children: [
                 Flexible(
                   child: AppDatePickerFormField(
-                    initialDate: _requestBuilder.finishedAt?.toLocal() ?? now,
-                    selectedDate: _requestBuilder.finishedAt?.toLocal() ?? now,
-                    firstDate: _requestBuilder.startedAt ?? now,
-                    lastDate: now,
+                    initialDate: _requestBuilder.finishedAt?.toDate() ?? today,
+                    selectedDate: _requestBuilder.finishedAt?.toDate() ?? today,
+                    firstDate: _requestBuilder.startedAt.toDate() ?? today,
+                    lastDate: today,
                     dateFormat: _dateFormat,
                     validator: formValidators.and(
                       formValidators.nonNull(),

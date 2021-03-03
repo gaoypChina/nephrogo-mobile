@@ -139,7 +139,6 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final formValidators = FormValidators(context);
     final title = _titleDateFormat.format(_consumedAt).capitalizeFirst();
 
     return Scaffold(
@@ -192,10 +191,10 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
               BasicSection(
                 children: [
                   AppDatePickerFormField(
-                    initialDate: _consumedAt,
-                    selectedDate: _consumedAt,
+                    initialDate: _consumedAt.toDate(),
+                    selectedDate: _consumedAt.toDate(),
                     firstDate: Constants.earliestDate,
-                    lastDate: DateTime.now(),
+                    lastDate: Date.today(),
                     validator: formValidators.nonNull(),
                     dateFormat: _calendarDateFormat,
                     prefixIcon: const Icon(Icons.calendar_today),
