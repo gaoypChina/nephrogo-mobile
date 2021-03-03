@@ -102,6 +102,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     }
 
     final fakedIntake = widget.initialProduct.fakeIntake(
+      mealType: _mealType,
       consumedAt: _consumedAt,
     );
 
@@ -414,6 +415,7 @@ class _IntakeEditSectionState extends State<_IntakeEditSection> {
 
     return _product.fakeIntake(
       consumedAt: _consumedAt,
+      mealType: widget.initialFakedIntake.mealType,
       amountG: amountG,
       amountMl: amountMl,
     );
