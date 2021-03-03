@@ -133,7 +133,8 @@ class _ManualPeritonealDialysisCreationScreenState
                       ),
                     ),
                   ),
-                if (_isCompleted)
+                if (widget.initialDialysis != null &&
+                    (_isCompleted || _isFirstStep))
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: SizedBox(
