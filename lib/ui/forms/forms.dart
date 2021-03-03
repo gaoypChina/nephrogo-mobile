@@ -215,7 +215,7 @@ class _AppSelectionScreenFormFieldState<T>
     _selectedItem = item;
     _textEditingController.text = widget.itemToStringConverter(_selectedItem);
 
-    if (!initial && widget.onChanged != null) {
+    if (!initial && widget.onChanged != null && item != null) {
       widget.onChanged(item);
     }
   }
