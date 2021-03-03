@@ -489,9 +489,7 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
       fieldHintText: _fieldHintText,
     );
 
-    selectedDateTime = (dateTime ?? selectedDateTime)?.toUtc();
-
-    return dateTime;
+    return selectedDateTime = (dateTime ?? selectedDateTime)?.toUtc();
   }
 }
 

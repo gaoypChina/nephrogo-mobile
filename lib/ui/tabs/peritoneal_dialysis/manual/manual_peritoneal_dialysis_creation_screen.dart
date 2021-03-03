@@ -311,9 +311,10 @@ class _ManualPeritonealDialysisCreationScreenState
                       (_) => _validateFinishedAtDuration(),
                     ),
                     onDateChanged: (dt) {
-                      _requestBuilder.finishedAt = _requestBuilder.finishedAt
-                          .appliedDate(dt.toDate())
-                          .toUtc();
+                      _requestBuilder.finishedAt =
+                          (_requestBuilder.finishedAt ?? now)
+                              .appliedDate(dt.toDate())
+                              .toUtc();
                     },
                     labelText: appLocalizations.date,
                   ),
@@ -321,7 +322,7 @@ class _ManualPeritonealDialysisCreationScreenState
                 Flexible(
                   child: AppTimePickerFormField(
                     initialTime:
-                    (_requestBuilder.finishedAt ?? now).timeOfDayLocal,
+                        (_requestBuilder.finishedAt ?? now).timeOfDayLocal,
                     labelText: appLocalizations.mealCreationTime,
                     onTimeChanged: (t) => _requestBuilder.finishedAt =
                         (_requestBuilder.finishedAt ?? now)
