@@ -406,7 +406,7 @@ class _AppMultipleSelectFormFieldState<T>
 }
 
 class AppDatePickerFormField extends StatefulWidget {
-  final Date selectedDate;
+  final Date initialDate;
   final Date firstDate;
   final Date lastDate;
 
@@ -425,7 +425,7 @@ class AppDatePickerFormField extends StatefulWidget {
     Key key,
     @required this.firstDate,
     @required this.lastDate,
-    @required this.selectedDate,
+    @required this.initialDate,
     this.onDateSaved,
     this.onDateChanged,
     this.dateFormat,
@@ -454,7 +454,7 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
   void initState() {
     super.initState();
 
-    selectedDate = widget.selectedDate;
+    selectedDate = widget.initialDate;
   }
 
   @override

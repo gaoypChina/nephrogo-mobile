@@ -208,7 +208,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
                 Flexible(
                   flex: 3,
                   child: AppDatePickerFormField(
-                    selectedDate: _requestBuilder.startedAt.toDate(),
+                    initialDate: _requestBuilder.startedAt.toDate(),
                     firstDate: Constants.earliestDate,
                     lastDate: Date.today(),
                     validator: _formValidators.nonNull(),
@@ -418,7 +418,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
                 Flexible(
                   flex: 3,
                   child: AppDatePickerFormField(
-                    selectedDate: _requestBuilder.finishedAt?.toDate() ?? today,
+                    initialDate: _requestBuilder.finishedAt?.toDate() ?? today,
                     firstDate: _requestBuilder.startedAt.toDate(),
                     lastDate: today,
                     validator: _formValidators.nonNull(),

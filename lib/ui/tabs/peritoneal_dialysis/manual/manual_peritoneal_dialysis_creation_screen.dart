@@ -187,7 +187,7 @@ class _ManualPeritonealDialysisCreationScreenState
               children: [
                 Flexible(
                   child: AppDatePickerFormField(
-                    selectedDate: _requestBuilder.startedAt.toDate(),
+                    initialDate: _requestBuilder.startedAt.toDate(),
                     firstDate: Constants.earliestDate,
                     lastDate: Date.today(),
                     dateFormat: _dateFormat,
@@ -301,7 +301,7 @@ class _ManualPeritonealDialysisCreationScreenState
               children: [
                 Flexible(
                   child: AppDatePickerFormField(
-                    selectedDate: _requestBuilder.finishedAt?.toDate() ?? today,
+                    initialDate: _requestBuilder.finishedAt?.toDate() ?? today,
                     firstDate: _requestBuilder.startedAt.toDate() ?? today,
                     lastDate: today,
                     dateFormat: _dateFormat,

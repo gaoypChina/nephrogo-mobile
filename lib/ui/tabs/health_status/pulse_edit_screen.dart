@@ -70,7 +70,7 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
                   children: [
                     Flexible(
                       child: AppDatePickerFormField(
-                        selectedDate: _requestBuilder.measuredAt.toDate(),
+                        initialDate: _requestBuilder.measuredAt.toDate(),
                         firstDate: Constants.earliestDate,
                         lastDate: Date.today(),
                         validator: _formValidators.nonNull(),
