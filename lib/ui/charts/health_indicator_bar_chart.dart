@@ -29,7 +29,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
       child: DateTimeNumericChart(
         series: _getGraphSeries(context),
         showLegend: false,
-        yAxisText: _getIndicatorNameAndDimensionParts(context).join(", "),
+        yAxisText: _getIndicatorNameAndDimensionParts(context).join(', '),
         from: from,
         to: to,
         decimalPlaces: indicator.decimalPlaces,

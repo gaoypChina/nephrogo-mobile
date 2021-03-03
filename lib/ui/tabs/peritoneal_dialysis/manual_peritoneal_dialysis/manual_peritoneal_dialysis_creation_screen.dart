@@ -39,7 +39,7 @@ class _ManualPeritonealDialysisCreationScreenState
   final _formKey = GlobalKey<FormState>();
 
   final _apiService = ApiService();
-  final _dateFormat = DateFormat("MMM d");
+  final _dateFormat = DateFormat('MMM d');
 
   final now = DateTime.now();
   ManualPeritonealDialysisRequestBuilder _requestBuilder;
@@ -68,7 +68,7 @@ class _ManualPeritonealDialysisCreationScreenState
 
     _requestBuilder.isCompleted ??= false;
     _requestBuilder.dialysateColor ??= DialysateColorEnum.unknown;
-    _requestBuilder.notes ??= "";
+    _requestBuilder.notes ??= '';
   }
 
   @override
@@ -223,7 +223,7 @@ class _ManualPeritonealDialysisCreationScreenState
             ),
             AppIntegerFormField(
               labelText: appLocalizations.dialysisSolutionIn,
-              suffixText: "ml",
+              suffixText: 'ml',
               textInputAction: TextInputAction.next,
               validator: _formValidators.and(
                 _formValidators.nonNull(),
@@ -268,7 +268,7 @@ class _ManualPeritonealDialysisCreationScreenState
             ),
             AppIntegerFormField(
               labelText: appLocalizations.dialysisSolutionOut,
-              suffixText: "ml",
+              suffixText: 'ml',
               textInputAction: TextInputAction.next,
               validator: _formValidators.and(
                 _isSecondStep ? _formValidators.nonNull() : (v) => null,

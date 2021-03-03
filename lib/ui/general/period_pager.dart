@@ -116,7 +116,7 @@ class DailyPager extends StatelessWidget {
 
 class WeeklyPager extends StatelessWidget {
   final dateFormatter = DateFormat.MMMMd();
-  final _monthFormatter = DateFormat("MMMM ");
+  final _monthFormatter = DateFormat('MMMM ');
 
   final Date earliestDate;
   final Date initialDate;
@@ -157,7 +157,7 @@ class WeeklyPager extends StatelessWidget {
   Widget _buildHeaderText(BuildContext context, Date from, Date to) {
     if (from.month == to.month) {
       final formattedFrom = _monthFormatter.format(from).capitalizeFirst();
-      return Text("$formattedFrom${from.day} – ${to.day}");
+      return Text('$formattedFrom${from.day} – ${to.day}');
     }
 
     return Text('${dateFormatter.format(from).capitalizeFirst()} – '

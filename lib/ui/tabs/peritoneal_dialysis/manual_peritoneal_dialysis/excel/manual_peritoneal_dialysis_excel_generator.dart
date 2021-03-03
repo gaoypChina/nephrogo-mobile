@@ -209,7 +209,7 @@ class ManualPeritonealDialysisExcelGenerator {
 
   static Future<void> _saveAndOpen(Workbook workbook) async {
     final directory = await getApplicationDocumentsDirectory();
-    final fullPath = "${directory.path}/rankines-peritorines-dializes.xlsx";
+    final fullPath = '${directory.path}/rankines-peritorines-dializes.xlsx';
 
     final bytes = workbook.saveAsStream();
     File(fullPath).writeAsBytes(bytes, flush: true);

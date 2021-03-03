@@ -98,7 +98,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
         healthStatusesWithDialysis.where((r) => r.date == today).firstOrNull();
 
     final todayFormatted =
-        todayDialysis?.totalManualPeritonealDialysisBalanceFormatted ?? "—";
+        todayDialysis?.totalManualPeritonealDialysisBalanceFormatted ?? '—';
 
     final subtitle =
         '${context.appLocalizations.todayBalance}: $todayFormatted';
