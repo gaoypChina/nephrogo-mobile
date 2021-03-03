@@ -138,10 +138,18 @@ class _ManualPeritonealDialysisCreationScreenState
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: SizedBox(
                       width: double.infinity,
-                      child: AppElevatedButton(
-                        color: Colors.redAccent,
-                        text: context.appLocalizations.delete.toUpperCase(),
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          primary: Colors.redAccent,
+                          textStyle: const TextStyle(fontSize: 14),
+                        ),
                         onPressed: _delete,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            context.appLocalizations.delete.toUpperCase(),
+                          ),
+                        ),
                       ),
                     ),
                   ),
