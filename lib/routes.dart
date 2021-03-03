@@ -21,9 +21,9 @@ import 'ui/tabs/nutrition/intake_create.dart';
 import 'ui/tabs/nutrition/product_search.dart';
 import 'ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
 import 'ui/tabs/nutrition/summary/nutrition_summary.dart';
-import 'ui/tabs/peritoneal_dialysis/automatic_peritoneal_dialysis/automatic_peritoneal_dialysis_creation_screen.dart';
-import 'ui/tabs/peritoneal_dialysis/manual_peritoneal_dialysis/manual_peritoneal_dialysis_creation_screen.dart';
-import 'ui/tabs/peritoneal_dialysis/manual_peritoneal_dialysis/manual_peritoneal_dialysis_screen.dart';
+import 'ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_creation_screen.dart';
+import 'ui/tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_creation_screen.dart';
+import 'ui/tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_screen.dart';
 import 'ui/user_profile_screen.dart';
 
 class Routes {
