@@ -521,9 +521,14 @@ class _AppTimePickerFormFieldState extends State<AppTimePickerFormField> {
   TimeOfDay _selectedTimeOfDay;
 
   @override
-  Widget build(BuildContext context) {
-    _selectedTimeOfDay = widget.initialTime;
+  void initState() {
+    super.initState();
 
+    _selectedTimeOfDay = widget.initialTime;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AppSelectionScreenFormField<TimeOfDay>(
       onTap: _onTap,
       itemToStringConverter: (newlySelectedTimeOfDay) {
@@ -534,7 +539,7 @@ class _AppTimePickerFormFieldState extends State<AppTimePickerFormField> {
       prefixIcon: widget.prefixIcon,
       onSaved: widget.onTimeSaved,
       onChanged: _onTimeChanged,
-      initialSelection: widget.initialTime,
+      initialSelection: _selectedTimeOfDay,
     );
   }
 

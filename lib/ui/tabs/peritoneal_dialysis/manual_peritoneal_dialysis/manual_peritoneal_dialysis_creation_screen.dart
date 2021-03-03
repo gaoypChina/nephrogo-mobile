@@ -314,7 +314,9 @@ class _ManualPeritonealDialysisCreationScreenState
                         (_requestBuilder.finishedAt ?? now).timeOfDayLocal,
                     labelText: appLocalizations.mealCreationTime,
                     onTimeChanged: (t) => _requestBuilder.finishedAt =
-                        _requestBuilder.finishedAt.appliedLocalTime(t).toUtc(),
+                        (_requestBuilder.finishedAt ?? now)
+                            .appliedLocalTime(t)
+                            .toUtc(),
                     onTimeSaved: (t) {
                       if (_isSecondStep) {
                         _requestBuilder.finishedAt =
