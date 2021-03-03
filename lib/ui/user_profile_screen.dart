@@ -192,7 +192,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   onChanged: (v) {
                     _userProfileBuilder.chronicKidneyDiseaseStage = v.value;
                   },
-                  initialValue: _userProfileBuilder.chronicKidneyDiseaseStage,
+                  initialValue: _userProfileBuilder.chronicKidneyDiseaseStage
+                      ?.enumWithoutDefault(
+                    ChronicKidneyDiseaseStageEnum.unknown,
+                  ),
                   focusNextOnSelection: _isInitial,
                   validator: _formValidators.nonNull(),
                   items: [
