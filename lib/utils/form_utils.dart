@@ -30,6 +30,7 @@ class FormUtils {
     @required BuildContext context,
     @required GlobalKey<FormState> formKey,
     @required Future Function() futureBuilder,
+    Future Function() onSuccess,
   }) async {
     final valid = await validate(context: context, formKey: formKey);
     if (!valid) {
@@ -53,7 +54,11 @@ class FormUtils {
     final res = await ProgressDialog(context).showForFuture(future);
 
     if (res != null) {
-      Navigator.of(context).pop();
+      if (onSuccess != null) {
+        await onSuccess();
+      } else {
+        Navigator.of(context).pop();
+      }
 
       return true;
     }

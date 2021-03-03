@@ -34,6 +34,8 @@ import 'package:nephrogo_api_client/model/swelling.dart';
 import 'package:nephrogo_api_client/model/swelling_difficulty_enum.dart';
 import 'package:nephrogo_api_client/model/swelling_enum.dart';
 import 'package:nephrogo_api_client/model/swelling_request.dart';
+import 'package:nephrogo_api_client/model/user_profile.dart';
+import 'package:nephrogo_api_client/model/user_profile_request.dart';
 import 'package:nephrogo_api_client/model/well_feeling_enum.dart';
 import 'package:tuple/tuple.dart';
 
@@ -1201,6 +1203,27 @@ extension AutomaticPeritonealDialysisExtensions on AutomaticPeritonealDialysis {
     }
 
     return _formatAmount(balance, 'ml');
+  }
+}
+
+extension UserProfileExtensions on UserProfile {
+  UserProfileRequestBuilder toRequestBuilder() {
+    final builder = UserProfileRequestBuilder();
+
+    builder.gender = gender;
+    builder.yearOfBirth = yearOfBirth;
+    builder.heightCm = heightCm;
+    builder.chronicKidneyDiseaseYears = chronicKidneyDiseaseYears;
+    builder.chronicKidneyDiseaseStage = chronicKidneyDiseaseStage;
+
+    builder.dialysisType = dialysisType;
+    builder.periotonicDialysisType = periotonicDialysisType;
+
+    builder.diabetesType = diabetesType;
+    builder.diabetesYears = diabetesYears;
+    builder.diabetesComplications = diabetesComplications;
+
+    return builder;
   }
 }
 
