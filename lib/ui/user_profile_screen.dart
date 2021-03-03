@@ -17,6 +17,7 @@ import 'package:nephrogo_api_client/model/user_profile.dart';
 import 'package:nephrogo_api_client/model/user_profile_request.dart';
 
 import 'forms/forms.dart';
+import 'general/app_form.dart';
 import 'general/app_future_builder.dart';
 
 enum UserProfileNextScreenType {
@@ -93,8 +94,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   Widget _buildBody() {
-    return Form(
-      key: _formKey,
+    return AppForm(
+      formKey: _formKey,
+      save: () => validateAndSaveUserProfile(context),
       child: Scrollbar(
         child: ListView(
           children: <Widget>[
@@ -389,7 +391,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return _apiService.createOrUpdateUserProfile(userProfile);
   }
 
-  Future<void> validateAndSaveUserProfile(BuildContext context) {
+  Future<bool> validateAndSaveUserProfile(BuildContext context) {
     if (!_isDiabetic) {
       _userProfileBuilder.diabetesYears = 0;
       _userProfileBuilder.diabetesComplications =
