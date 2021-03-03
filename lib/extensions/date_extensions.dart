@@ -24,7 +24,7 @@ extension DateTimeExtension on DateTime {
     );
   }
 
-  TimeOfDay timeOfDayLocal() {
+  TimeOfDay get timeOfDayLocal {
     return TimeOfDay.fromDateTime(toLocal());
   }
 

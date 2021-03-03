@@ -551,7 +551,7 @@ extension BloodPressureExtensions on BloodPressure {
   }
 
   String formatAmountWithoutDimensionWithTime(BuildContext context) {
-    final time = measuredAt.timeOfDayLocal().format(context);
+    final time = measuredAt.timeOfDayLocal.format(context);
     return '$formattedAmountWithoutDimension ($time)';
   }
 }
@@ -571,7 +571,7 @@ extension PulseExtensions on Pulse {
   }
 
   String formatAmountWithoutDimensionWithTime(BuildContext context) {
-    final time = measuredAt.timeOfDayLocal().format(context);
+    final time = measuredAt.timeOfDayLocal.format(context);
     return '$pulse ($time)';
   }
 }

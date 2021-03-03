@@ -97,7 +97,7 @@ class _BloodPressureAndPulseCreationScreenState
                     ),
                     Flexible(
                       child: AppTimePickerFormField(
-                        initialTime: _measuredAt.timeOfDayLocal(),
+                        initialTime: _measuredAt.timeOfDayLocal,
                         labelText: appLocalizations.mealCreationTime,
                         onTimeChanged: (t) => _measuredAt =
                             _measuredAt.appliedLocalTime(t).toUtc(),

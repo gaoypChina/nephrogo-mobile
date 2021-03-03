@@ -84,8 +84,7 @@ class _BloodPressureEditScreenState extends State<BloodPressureEditScreen> {
                     ),
                     Flexible(
                       child: AppTimePickerFormField(
-                        initialTime:
-                            _requestBuilder.measuredAt.timeOfDayLocal(),
+                        initialTime: _requestBuilder.measuredAt.timeOfDayLocal,
                         labelText: appLocalizations.mealCreationTime,
                         onTimeChanged: (t) {
                           _requestBuilder.measuredAt = _requestBuilder

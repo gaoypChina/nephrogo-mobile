@@ -83,8 +83,7 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
                     ),
                     Flexible(
                       child: AppTimePickerFormField(
-                        initialTime:
-                            _requestBuilder.measuredAt.timeOfDayLocal(),
+                        initialTime: _requestBuilder.measuredAt.timeOfDayLocal,
                         labelText: appLocalizations.mealCreationTime,
                         onTimeChanged: (t) {
                           _requestBuilder.measuredAt = _requestBuilder
