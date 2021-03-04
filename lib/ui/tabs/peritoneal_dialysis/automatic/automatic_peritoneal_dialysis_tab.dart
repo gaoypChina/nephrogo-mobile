@@ -102,11 +102,11 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
 
     final subtitle =
         '${context.appLocalizations.todayBalance}: $todayFormatted';
-
-    final initialDate = response.lastPeritonealDialysis
-            .map((d) => d.startedAt.toDate())
-            .maxBy((_, d) => d) ??
-        today;
+    //
+    // final initialDate = response.lastPeritonealDialysis
+    //         .map((d) => d.startedAt.toDate())
+    //         .maxBy((_, d) => d) ??
+    //     today;
 
     return LargeSection(
       title: Text(context.appLocalizations.peritonealDialysisPlural),
