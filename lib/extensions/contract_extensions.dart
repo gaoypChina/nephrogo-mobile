@@ -1187,7 +1187,7 @@ extension AutomaticPeritonealDialysisExtensions on AutomaticPeritonealDialysis {
 
   int get balance {
     if (totalUltrafiltrationMl == null) {
-      return null;
+      return 0;
     }
 
     final totalLiquidsMl =
