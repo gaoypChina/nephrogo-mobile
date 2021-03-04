@@ -286,64 +286,16 @@ class ExcelReportBuilder {
       (status) => status.manualPeritonealDialysis.length,
     );
 
-    sheet.writeMergedColumn<DailyHealthStatus>(
-      header: '${_appLocalizations.healthStatusCreationUrine}, '
-          '${HealthIndicator.urine.dimension(_appLocalizations)}',
-      items: sortedReports,
-      writer: (range, status) {
-        if (status.urineMl != null) {
-          range.setNumber(status.urineMl.roundToDouble());
-        }
-
-        return status.manualPeritonealDialysis.length;
-      },
-    );
-
-    sheet.writeMergedColumn<DailyHealthStatus>(
-      header: '${_appLocalizations.weight}, '
-          '${HealthIndicator.weight.dimension(_appLocalizations)}',
-      items: sortedReports,
-      writer: (range, status) {
-        if (status.weightKg != null) {
-          range.setNumber(status.weightKg);
-        }
-
-        return status.manualPeritonealDialysis.length;
-      },
-    );
-
-    sheet.writeMergedColumn<DailyHealthStatus>(
-      header: '${_appLocalizations.healthStatusCreationBloodPressure}, '
-          '${HealthIndicator.bloodPressure.dimension(_appLocalizations)}',
-      columnWidth: 30,
-      items: sortedReports,
-      writer: (range, status) {
-        final text = status.bloodPressures
-            .sortedBy((e) => e.measuredAt, reverse: true)
-            .map((d) => d.formatAmountWithoutDimensionWithTime(context))
-            .join('\n');
-
-        range.setText(text);
-
-        return status.manualPeritonealDialysis.length;
-      },
-    );
-
-    sheet.writeMergedColumn<DailyHealthStatus>(
-      header: '${_appLocalizations.pulse}, '
-          '${HealthIndicator.pulse.dimension(_appLocalizations)}',
-      columnWidth: 30,
-      items: sortedReports,
-      writer: (range, status) {
-        final text = status.pulses
-            .sortedBy((e) => e.measuredAt, reverse: true)
-            .map((d) => d.formatAmountWithoutDimensionWithTime(context))
-            .join('\n');
-
-        range.setText(text);
-
-        return status.manualPeritonealDialysis.length;
-      },
+    _writeHealthIndicators(
+      sheet,
+      sortedReports,
+      [
+        HealthIndicator.urine,
+        HealthIndicator.weight,
+        HealthIndicator.bloodPressure,
+        HealthIndicator.pulse,
+      ],
+      (status) => status.manualPeritonealDialysis.length,
     );
 
     return sheet..applyGlobalStyle();
@@ -503,67 +455,79 @@ class ExcelReportBuilder {
       sortedIntakesLightReports,
       (status) => 1,
     );
-    //
-    // sheet.writeMergedColumn<DailyHealthStatus>(
-    //   header: '${_appLocalizations.healthStatusCreationUrine}, '
-    //       '${HealthIndicator.urine.dimension(_appLocalizations)}',
-    //   items: sortedReports,
-    //   writer: (range, status) {
-    //     if (status.urineMl != null) {
-    //       range.setNumber(status.urineMl.roundToDouble());
-    //     }
-    //
-    //     return status.manualPeritonealDialysis.length;
-    //   },
-    // );
-    //
-    // sheet.writeMergedColumn<DailyHealthStatus>(
-    //   header: '${_appLocalizations.weight}, '
-    //       '${HealthIndicator.weight.dimension(_appLocalizations)}',
-    //   items: sortedReports,
-    //   writer: (range, status) {
-    //     if (status.weightKg != null) {
-    //       range.setNumber(status.weightKg);
-    //     }
-    //
-    //     return status.manualPeritonealDialysis.length;
-    //   },
-    // );
-    //
-    // sheet.writeMergedColumn<DailyHealthStatus>(
-    //   header: '${_appLocalizations.healthStatusCreationBloodPressure}, '
-    //       '${HealthIndicator.bloodPressure.dimension(_appLocalizations)}',
-    //   columnWidth: 30,
-    //   items: sortedReports,
-    //   writer: (range, status) {
-    //     final text = status.bloodPressures
-    //         .sortedBy((e) => e.measuredAt, reverse: true)
-    //         .map((d) => d.formatAmountWithoutDimensionWithTime(context))
-    //         .join('\n');
-    //
-    //     range.setText(text);
-    //
-    //     return status.manualPeritonealDialysis.length;
-    //   },
-    // );
-    //
-    // sheet.writeMergedColumn<DailyHealthStatus>(
-    //   header: '${_appLocalizations.pulse}, '
-    //       '${HealthIndicator.pulse.dimension(_appLocalizations)}',
-    //   columnWidth: 30,
-    //   items: sortedReports,
-    //   writer: (range, status) {
-    //     final text = status.pulses
-    //         .sortedBy((e) => e.measuredAt, reverse: true)
-    //         .map((d) => d.formatAmountWithoutDimensionWithTime(context))
-    //         .join('\n');
-    //
-    //     range.setText(text);
-    //
-    //     return status.manualPeritonealDialysis.length;
-    //   },
-    // );
+
+    _writeHealthIndicators(
+      sheet,
+      sortedHealthStatuses,
+      [
+        HealthIndicator.urine,
+        HealthIndicator.weight,
+        HealthIndicator.bloodPressure,
+        HealthIndicator.pulse,
+      ],
+      (_) => 1,
+    );
 
     return sheet..applyGlobalStyle();
+  }
+
+  void _writeHealthIndicator(
+    Range range,
+    DailyHealthStatus status,
+    HealthIndicator indicator,
+  ) {
+    switch (indicator) {
+      case HealthIndicator.bloodPressure:
+        final text = status.bloodPressures
+            .sortedBy((e) => e.measuredAt, reverse: true)
+            .map((d) => d.formatAmountWithoutDimensionWithTime(context))
+            .join('\n');
+
+        range.setText(text);
+        break;
+      case HealthIndicator.pulse:
+        final text = status.pulses
+            .sortedBy((e) => e.measuredAt, reverse: true)
+            .map((d) => d.formatAmountWithoutDimensionWithTime(context))
+            .join('\n');
+
+        range.setText(text);
+        break;
+      case HealthIndicator.weight:
+        if (status.weightKg != null) {
+          range.setNumber(status.weightKg);
+        }
+        break;
+      case HealthIndicator.urine:
+        if (status.urineMl != null) {
+          range.setNumber(status.urineMl.toDouble());
+        }
+        break;
+      default:
+        throw ArgumentError.value(indicator);
+    }
+  }
+
+  void _writeHealthIndicators(
+    ExcelGeneratorSheet sheet,
+    Iterable<DailyHealthStatus> sortedReports,
+    Iterable<HealthIndicator> healthIndicators,
+    int Function(DailyHealthStatus status) rowCount,
+  ) {
+    for (final indicator in healthIndicators) {
+      final columnWidth = indicator.isMultiValuesPerDay ? 30.0 : null;
+
+      sheet.writeMergedColumn<DailyHealthStatus>(
+        header: '${indicator.name(_appLocalizations)}, '
+            '${indicator.dimension(_appLocalizations)}',
+        items: sortedReports,
+        columnWidth: columnWidth,
+        writer: (range, status) {
+          _writeHealthIndicator(range, status, indicator);
+
+          return rowCount(status);
+        },
+      );
+    }
   }
 }
