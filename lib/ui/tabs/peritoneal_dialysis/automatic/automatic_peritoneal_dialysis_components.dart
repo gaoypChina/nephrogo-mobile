@@ -22,55 +22,62 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
     final subtitleWidgets =
         _getSubtitleWidgets(context.appLocalizations).toList();
 
-    return BasicSection(
-      margin: EdgeInsets.zero,
-      showDividers: true,
-      showHeaderDivider: true,
-      header: AppListTile(
-        title: Text(_getTitle(context.appLocalizations)),
-        leading: _getIconAvatar(),
-        subtitle: subtitleWidgets.isNotEmpty
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: subtitleWidgets,
-              )
-            : null,
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (dialysis.isCompleted)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Text(dialysis.formattedBalance),
-              ),
-            const Icon(Icons.chevron_right),
-          ],
-        ),
-        onTap: () => Navigator.of(context).pushNamed(
-          Routes.routeAutomaticPeritonealDialysisCreation,
-          arguments:
-              AutomaticPeritonealDialysisCreationScreenArguments(dialysis),
-        ),
-      ),
-      children: [
-        for (final solution in dialysis.getSolutionsUsed())
+    final solutionTiles = _getSolutionTiles(context.appLocalizations).toList();
+
+    return Column(
+      children: ListTile.divideTiles(
+        context: context,
+        tiles: [
           AppListTile(
-            leading: SizedBox(
-              height: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: DialysisSolutionAvatar(
-                  dialysisSolution: solution,
-                  radius: 10.0,
-                ),
-              ),
+            title: Text(_getTitle(context.appLocalizations)),
+            leading: _getIconAvatar(),
+            subtitle: subtitleWidgets.isNotEmpty
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: subtitleWidgets,
+                  )
+                : null,
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (dialysis.isCompleted)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Text(dialysis.formattedBalance),
+                  ),
+                const Icon(Icons.chevron_right),
+              ],
             ),
-            title: Text(solution.localizedName(context.appLocalizations)),
-            dense: true,
-            trailing: Text(dialysis.getSolutionVolumeFormatted(solution)),
+            onTap: () => Navigator.of(context).pushNamed(
+              Routes.routeAutomaticPeritonealDialysisCreation,
+              arguments:
+                  AutomaticPeritonealDialysisCreationScreenArguments(dialysis),
+            ),
           ),
-      ],
+          ...solutionTiles
+        ],
+      ).toList(),
     );
+  }
+
+  Iterable<Widget> _getSolutionTiles(AppLocalizations appLocalizations) sync* {
+    for (final solution in dialysis.getSolutionsUsed()) {
+      yield AppListTile(
+        leading: SizedBox(
+          height: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: DialysisSolutionAvatar(
+              dialysisSolution: solution,
+              radius: 10.0,
+            ),
+          ),
+        ),
+        title: Text(solution.localizedName(appLocalizations)),
+        dense: true,
+        trailing: Text(dialysis.getSolutionVolumeFormatted(solution)),
+      );
+    }
   }
 
   CircleAvatar _getIconAvatar() {

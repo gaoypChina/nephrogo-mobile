@@ -174,6 +174,7 @@ class _AutomaticPeritonealDialysisPeriodsScreenBody extends StatelessWidget {
         }
 
         return ListView.builder(
+          padding: const EdgeInsets.only(bottom: 64),
           itemBuilder: (context, index) {
             if (index == 0) {
               return DateSwitcherHeaderSection(
@@ -190,8 +191,10 @@ class _AutomaticPeritonealDialysisPeriodsScreenBody extends StatelessWidget {
                 ],
               );
             } else {
-              return AutomaticPeritonealDialysisTile(
-                sortedDialysis[index - 1],
+              return BasicSection.single(
+                child: AutomaticPeritonealDialysisTile(
+                  sortedDialysis[index - 1],
+                ),
               );
             }
           },

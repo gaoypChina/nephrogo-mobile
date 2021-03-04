@@ -193,6 +193,7 @@ class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
         }
 
         return ListView.builder(
+          padding: const EdgeInsets.only(bottom: 64),
           itemBuilder: (context, index) {
             if (index == 0) {
               return DateSwitcherHeaderSection(
