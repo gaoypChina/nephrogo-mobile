@@ -62,6 +62,16 @@ class _AutomaticPeritonealDialysisCreationScreenState
         AutomaticPeritonealDialysisRequestBuilder();
 
     _requestBuilder.startedAt ??= DateTime.now().toUtc();
+
+    _requestBuilder.solutionBlueInMl ??= 0;
+    _requestBuilder.solutionGreenInMl ??= 0;
+    _requestBuilder.solutionOrangeInMl ??= 0;
+    _requestBuilder.solutionYellowInMl ??= 0;
+    _requestBuilder.solutionPurpleInMl ??= 0;
+
+    _requestBuilder.dialysateColor ??= DialysateColorEnum.unknown;
+    _requestBuilder.notes ??= '';
+
     _currentStep = _requestBuilder.isCompleted == false ? 1 : 0;
 
     _requestBuilder.isCompleted ??= false;

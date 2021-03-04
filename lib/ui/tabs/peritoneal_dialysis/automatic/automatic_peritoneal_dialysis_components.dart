@@ -19,8 +19,7 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final subtitleWidgets =
-        _getSubtitleWidgets(context.appLocalizations).toList();
+    final subtitleWidgets = _getSubtitleWidgets(context.appLocalizations);
 
     final solutionTiles = _getSolutionTiles(context.appLocalizations).toList();
 
@@ -31,12 +30,16 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
           AppListTile(
             title: Text(_getTitle(context.appLocalizations)),
             leading: _getIconAvatar(),
-            subtitle: subtitleWidgets.isNotEmpty
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: subtitleWidgets,
-                  )
-                : null,
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final child in subtitleWidgets)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2.0),
+                    child: child,
+                  ),
+              ],
+            ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -83,6 +86,8 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
   CircleAvatar _getIconAvatar() {
     if (!dialysis.isCompleted) {
       return const CircleAvatar(
+        backgroundColor: Colors.redAccent,
+        foregroundColor: Colors.white,
         child: Icon(Icons.sync_outlined),
       );
     } else if (dialysis.isDialysateColorNonRegular) {
@@ -101,26 +106,44 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
   Iterable<Widget> _getSubtitleWidgets(
     AppLocalizations appLocalizations,
   ) sync* {
+    if (dialysis.isCompleted) {
+      yield Row(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(right: 4),
+            child: Icon(Icons.update, size: 14),
+          ),
+          Text(_dateTimeFormat
+              .format(dialysis.finishedAt.toLocal())
+              .capitalizeFirst()),
+        ],
+      );
+    } else {
+      yield Row(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(right: 4),
+            child: Icon(Icons.info_outline, size: 14),
+          ),
+          Text(appLocalizations.dialysisActive),
+        ],
+      );
+    }
+
     if (dialysis.isDialysateColorNonRegular) {
-      yield Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: Row(
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(right: 4),
-              child: Icon(Icons.error_outline, size: 14),
-            ),
-            Text(dialysis.dialysateColor.localizedName(appLocalizations)),
-          ],
-        ),
+      yield Row(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(right: 4),
+            child: Icon(Icons.error_outline, size: 14),
+          ),
+          Text(dialysis.dialysateColor.localizedName(appLocalizations)),
+        ],
       );
     }
 
     if (dialysis.notes.isNotEmpty) {
-      yield Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: Text(dialysis.notes),
-      );
+      yield Text(dialysis.notes);
     }
   }
 
