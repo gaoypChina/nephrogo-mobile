@@ -247,8 +247,7 @@ class ExcelReportBuilder {
           if (dialysateColor.color != Colors.transparent) {
             range.cellStyle
               ..backColor = dialysateColor.color.toHexTriplet()
-              ..fontColor = dialysateColor.textColor.toHexTriplet()
-              ..wrapText = true;
+              ..fontColor = dialysateColor.textColor.toHexTriplet();
           }
         }
       },
@@ -260,9 +259,7 @@ class ExcelReportBuilder {
         (r) => r.manualPeritonealDialysisReverseSorted,
       ),
       writer: (range, dialysis) {
-        range
-          ..setText(dialysis.notes)
-          ..cellStyle.wrapText = true;
+        range.setText(dialysis.notes);
       },
     );
 
