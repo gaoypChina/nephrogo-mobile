@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
+import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'date_time_numeric_chart.dart';
 
-class ManualPeritonealDialysisTotalBalanceChart extends StatelessWidget {
+class AutomaticPeritonealDialysisBalanceChart extends StatelessWidget {
   final DateTime minimumDate;
   final DateTime maximumDate;
-  final List<DailyHealthStatus> dailyHealthStatuses;
+  final List<AutomaticPeritonealDialysis> dialysis;
 
-  const ManualPeritonealDialysisTotalBalanceChart({
+  const AutomaticPeritonealDialysisBalanceChart({
     Key key,
-    @required this.dailyHealthStatuses,
+    @required this.dialysis,
     @required this.minimumDate,
     @required this.maximumDate,
   }) : super(key: key);
@@ -29,13 +29,12 @@ class ManualPeritonealDialysisTotalBalanceChart extends StatelessWidget {
       to: maximumDate,
       decimalPlaces: 0,
       series: [
-        ColumnSeries<DailyHealthStatus, DateTime>(
-          dataSource: dailyHealthStatuses.sortedBy((e) => e.date).toList(),
+        ColumnSeries<AutomaticPeritonealDialysis, DateTime>(
+          dataSource: dialysis.sortedBy((e) => e.date).toList(),
           xValueMapper: (s, _) => s.date.toDate(),
-          yValueMapper: (s, _) => s.totalManualPeritonealDialysisBalance,
-          pointColorMapper: (s, _) => s.totalManualPeritonealDialysisBalance < 0
-              ? Colors.teal
-              : Colors.redAccent,
+          yValueMapper: (s, _) => s.balance,
+          pointColorMapper: (s, _) =>
+              s.balance < 0 ? Colors.teal : Colors.redAccent,
           name: context.appLocalizations.dailyBalance,
           color: Colors.teal,
         )

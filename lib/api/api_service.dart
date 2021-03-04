@@ -18,6 +18,7 @@ import 'package:nephrogo_api_client/api/nutrition_api.dart';
 import 'package:nephrogo_api_client/api/peritoneal_dialysis_api.dart';
 import 'package:nephrogo_api_client/api/user_api.dart';
 import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_period_response.dart';
 import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_request.dart';
 import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_screen_response.dart';
 import 'package:nephrogo_api_client/model/blood_pressure.dart';
@@ -498,8 +499,22 @@ class ApiService {
   Stream<AutomaticPeritonealDialysisScreenResponse>
       getAutomaticPeritonealDialysisScreenStream() {
     return _buildAppEventsStreamWithInitialEmit(
-            _AppStateChangeEvent.healthStatus)
-        .asyncMap((_) => getAutomaticPeritonealDialysisScreen());
+      _AppStateChangeEvent.healthStatus,
+    ).asyncMap((_) => getAutomaticPeritonealDialysisScreen());
+  }
+
+  Future<AutomaticPeritonealDialysisPeriodResponse>
+      getAutomaticPeritonealDialysisPeriod(Date from, Date to) {
+    return _peritonealDialysisApi
+        .peritonealDialysisAutomaticPeriodRetrieve(from, to)
+        .then((r) => r.data);
+  }
+
+  Stream<AutomaticPeritonealDialysisPeriodResponse>
+      getAutomaticPeritonealDialysisPeriodStream(Date from, Date to) {
+    return _buildAppEventsStreamWithInitialEmit(
+      _AppStateChangeEvent.healthStatus,
+    ).asyncMap((_) => getAutomaticPeritonealDialysisPeriod(from, to));
   }
 
   Future<AutomaticPeritonealDialysis> createAutomaticPeritonealDialysis(

@@ -8,6 +8,7 @@ import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/health_status/health_status_components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
+import 'package:nephrogo/ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_periods.dart';
 import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_screen_response.dart';
 
 import 'automatic_peritoneal_dialysis_components.dart';
@@ -90,37 +91,23 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
   Widget _buildTotalBalanceSection(BuildContext context) {
     final today = Date.today();
 
-    final healthStatusesWithDialysis = response.lastWeekHealthStatuses
-        .where((s) => s.manualPeritonealDialysis.isNotEmpty)
-        .toList();
-
-    final todayDialysis =
-        healthStatusesWithDialysis.where((r) => r.date == today).firstOrNull();
-
-    final todayFormatted =
-        todayDialysis?.totalManualPeritonealDialysisBalanceFormatted ?? '—';
-
-    final subtitle =
-        '${context.appLocalizations.todayBalance}: $todayFormatted';
-    //
-    // final initialDate = response.lastPeritonealDialysis
-    //         .map((d) => d.startedAt.toDate())
-    //         .maxBy((_, d) => d) ??
-    //     today;
+    final initialDate = response.lastPeritonealDialysis
+            .map((d) => d.startedAt.toDate())
+            .maxBy((_, d) => d) ??
+        today;
 
     return LargeSection(
       title: Text(context.appLocalizations.peritonealDialysisPlural),
       showDividers: true,
-      subtitle: Text(subtitle),
-      // trailing: OutlinedButton(
-      //   onPressed: () => Navigator.of(context).pushNamed(
-      //     Routes.routeManualPeritonealDialysisScreen,
-      //     arguments: ManualPeritonealDialysisScreenArguments(
-      //       initialDate: initialDate,
-      //     ),
-      //   ),
-      //   child: Text(context.appLocalizations.more.toUpperCase()),
-      // ),
+      trailing: OutlinedButton(
+        onPressed: () => Navigator.of(context).pushNamed(
+          Routes.routeAutomaticPeritonealDialysisPeriod,
+          arguments: AutomaticPeritonealDialysisPeriodsScreenArguments(
+            initialDate: initialDate,
+          ),
+        ),
+        child: Text(context.appLocalizations.more.toUpperCase()),
+      ),
       children: [
         for (final dialysis in response.lastPeritonealDialysis)
           AutomaticPeritonealDialysisTile(dialysis)
