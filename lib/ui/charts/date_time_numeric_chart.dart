@@ -102,8 +102,8 @@ class DateTimeNumericChart extends StatelessWidget {
   }
 
   DateTimeAxis _getDateTimeAxis() {
-    var minimum = from?.startOfDay();
-    var maximum = to?.endOfDay();
+    var minimum = from.startOfDay();
+    var maximum = to.endOfDay();
 
     double interval;
     var intervalType = DateTimeIntervalType.auto;
@@ -113,10 +113,13 @@ class DateTimeNumericChart extends StatelessWidget {
       maximum = from.add(const Duration(days: 1));
       intervalType = DateTimeIntervalType.hours;
       interval = 1;
-    } else if (daysDifference <= 7) {
-      intervalType = DateTimeIntervalType.days;
-      interval = 1;
+    } else {
       minimum = minimum.subtract(const Duration(hours: 12));
+
+      if (daysDifference <= 7) {
+        intervalType = DateTimeIntervalType.days;
+        interval = 1;
+      }
     }
 
     return DateTimeAxis(
