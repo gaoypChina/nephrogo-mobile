@@ -42,7 +42,7 @@ jobs:
 
       - run: flutter test
 
-      - run: flutter build apk --target-platform android-arm64 --analyze-size --build-number ${{ env.BUILD_NUMBER }}
+      - run: flutter build apk --target-platform android-arm64 --build-number ${{ env.BUILD_NUMBER }}
         env:
           KEY_STORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
@@ -60,12 +60,6 @@ jobs:
         with:
           name: pubspec.lock
           path: pubspec.lock
-
-      - uses: actions/upload-artifact@v2
-        name: Upload Size artifact
-        with:
-          name: apk-code-size-analysis.json
-          path: build/apk-code-size-analysis_01.json
 
   deploy_android_firebase_distribution:
     name: Firebase App Distribution publish for testing
