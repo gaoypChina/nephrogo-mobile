@@ -58,7 +58,7 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
             leading: SizedBox(
               height: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: DialysisSolutionAvatar(
                   dialysisSolution: solution,
                   radius: 10.0,
