@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
+import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis.dart';
 import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
@@ -115,6 +116,7 @@ class ExcelReportBuilder {
     ExcelGeneratorSheet sheet,
     Iterable<DailyHealthStatus> sortedDailyHealthStatuses,
     Iterable<DailyIntakesLightReport> lightDailyIntakeReports,
+    int Function(DailyHealthStatus status) rowCount,
   ) {
     final liquidsMap =
         lightDailyIntakeReports.groupBy((r) => r.date.toDate()).map(
@@ -134,7 +136,7 @@ class ExcelReportBuilder {
           range.setNumber(liquidsMap[date].roundToDouble());
         }
 
-        return status.manualPeritonealDialysis.length;
+        return rowCount(status);
       },
     );
   }
@@ -277,7 +279,12 @@ class ExcelReportBuilder {
       },
     );
 
-    _writeTotalLiquidsColumn(sheet, sortedReports, lightDailyIntakeReports);
+    _writeTotalLiquidsColumn(
+      sheet,
+      sortedReports,
+      lightDailyIntakeReports,
+      (status) => status.manualPeritonealDialysis.length,
+    );
 
     sheet.writeMergedColumn<DailyHealthStatus>(
       header: '${_appLocalizations.healthStatusCreationUrine}, '
@@ -338,6 +345,224 @@ class ExcelReportBuilder {
         return status.manualPeritonealDialysis.length;
       },
     );
+
+    return sheet..applyGlobalStyle();
+  }
+
+  ExcelGeneratorSheet appendAutomaticDialysisSheet({
+    @required Iterable<AutomaticPeritonealDialysis> peritonealDialysis,
+  }) {
+    final sortedDialysis =
+        peritonealDialysis.sortedBy((r) => r.date, reverse: true).toList();
+
+    final sortedIntakesLightReports =
+        sortedDialysis.map((d) => d.dailyIntakesLightReport).toList();
+
+    final sortedHealthStatuses =
+        sortedDialysis.map((d) => d.dailyHealthStatus).toList();
+
+    final sheet = ExcelGeneratorSheet(
+      _workbook,
+      _appLocalizations.peritonealDialysisPlural,
+    );
+
+    sheet.writeColumn<AutomaticPeritonealDialysis>(
+      header: _appLocalizations.date,
+      items: sortedDialysis,
+      writer: (range, dialysis) {
+        range.setText(dialysis.date.toString());
+      },
+    );
+
+    sheet.writeColumn<AutomaticPeritonealDialysis>(
+      header: '${_appLocalizations.dailyBalance}, ml',
+      items: sortedDialysis,
+      writer: (range, dialysis) {
+        range.setNumber(dialysis.balance.roundToDouble());
+      },
+    );
+
+    sheet.writeColumn<AutomaticPeritonealDialysis>(
+      header: _appLocalizations.dialysisStart,
+      columnWidth: 25,
+      items: sortedDialysis,
+      writer: (range, dialysis) {
+        range.setDateTime(dialysis.startedAt.toLocal());
+      },
+    );
+
+    final allSolutions = DialysisSolutionEnum.values
+        .where((s) => s != DialysisSolutionEnum.unknown);
+
+    for (final solution in allSolutions) {
+      sheet.writeColumn<AutomaticPeritonealDialysis>(
+        header: '${solution.localizedName(_appLocalizations)}, ml',
+        items: sortedDialysis,
+        writer: (range, dialysis) {
+          if (dialysis.hasVolume(solution)) {
+            range.setNumber(
+              dialysis.getSolutionVolumeInMl(solution).roundToDouble(),
+            );
+
+            range.cellStyle
+              ..backColor = solution.color.toHexTriplet()
+              ..fontColor = solution.textColor.toHexTriplet();
+          }
+        },
+      );
+    }
+
+    sheet.writeColumn<AutomaticPeritonealDialysis>(
+      header: '${_appLocalizations.initialDraining}, ml',
+      items: sortedDialysis,
+      writer: (range, dialysis) {
+        if (dialysis.initialDrainingMl != null) {
+          range.setNumber(dialysis.initialDrainingMl.roundToDouble());
+        }
+      },
+    );
+
+    sheet.writeColumn<AutomaticPeritonealDialysis>(
+      header: '${_appLocalizations.totalDrainVolume}, ml',
+      items: sortedDialysis,
+      writer: (range, dialysis) {
+        if (dialysis.totalDrainVolumeMl != null) {
+          range.setNumber(dialysis.totalDrainVolumeMl.roundToDouble());
+        }
+      },
+    );
+    sheet.writeColumn<AutomaticPeritonealDialysis>(
+      header: '${_appLocalizations.lastFill}, ml',
+      items: sortedDialysis,
+      writer: (range, dialysis) {
+        if (dialysis.lastFillMl != null) {
+          range.setNumber(dialysis.lastFillMl.roundToDouble());
+        }
+      },
+    );
+
+    sheet.writeColumn<AutomaticPeritonealDialysis>(
+      header: '${_appLocalizations.totalUltraFiltration}, ml',
+      items: sortedDialysis,
+      writer: (range, dialysis) {
+        if (dialysis.totalUltrafiltrationMl != null) {
+          range.setNumber(dialysis.totalUltrafiltrationMl.roundToDouble());
+        }
+      },
+    );
+
+    sheet.writeColumn<AutomaticPeritonealDialysis>(
+      header: '${_appLocalizations.additionalDrain}, ml',
+      items: sortedDialysis,
+      writer: (range, dialysis) {
+        if (dialysis.additionalDrainMl != null) {
+          range.setNumber(dialysis.additionalDrainMl.roundToDouble());
+        }
+      },
+    );
+
+    sheet.writeColumn<AutomaticPeritonealDialysis>(
+      header: _appLocalizations.dialysateColor,
+      items: sortedDialysis,
+      writer: (range, dialysis) {
+        final dialysateColor = dialysis.dialysateColor;
+        if (dialysateColor != DialysateColorEnum.unknown) {
+          range.setText(dialysateColor.localizedName(_appLocalizations));
+
+          if (dialysateColor.color != Colors.transparent) {
+            range.cellStyle
+              ..backColor = dialysateColor.color.toHexTriplet()
+              ..fontColor = dialysateColor.textColor.toHexTriplet();
+          }
+        }
+      },
+    );
+
+    sheet.writeColumn<AutomaticPeritonealDialysis>(
+      header: _appLocalizations.notes,
+      items: sortedDialysis,
+      writer: (range, dialysis) {
+        range.setText(dialysis.notes);
+      },
+    );
+
+    sheet.writeColumn<AutomaticPeritonealDialysis>(
+      columnWidth: 25,
+      header: _appLocalizations.dialysisEnd,
+      items: sortedDialysis,
+      writer: (range, dialysis) {
+        if (dialysis.finishedAt != null) {
+          range.setDateTime(dialysis.finishedAt.toLocal());
+        }
+      },
+    );
+
+    _writeTotalLiquidsColumn(
+      sheet,
+      sortedHealthStatuses,
+      sortedIntakesLightReports,
+      (status) => 1,
+    );
+    //
+    // sheet.writeMergedColumn<DailyHealthStatus>(
+    //   header: '${_appLocalizations.healthStatusCreationUrine}, '
+    //       '${HealthIndicator.urine.dimension(_appLocalizations)}',
+    //   items: sortedReports,
+    //   writer: (range, status) {
+    //     if (status.urineMl != null) {
+    //       range.setNumber(status.urineMl.roundToDouble());
+    //     }
+    //
+    //     return status.manualPeritonealDialysis.length;
+    //   },
+    // );
+    //
+    // sheet.writeMergedColumn<DailyHealthStatus>(
+    //   header: '${_appLocalizations.weight}, '
+    //       '${HealthIndicator.weight.dimension(_appLocalizations)}',
+    //   items: sortedReports,
+    //   writer: (range, status) {
+    //     if (status.weightKg != null) {
+    //       range.setNumber(status.weightKg);
+    //     }
+    //
+    //     return status.manualPeritonealDialysis.length;
+    //   },
+    // );
+    //
+    // sheet.writeMergedColumn<DailyHealthStatus>(
+    //   header: '${_appLocalizations.healthStatusCreationBloodPressure}, '
+    //       '${HealthIndicator.bloodPressure.dimension(_appLocalizations)}',
+    //   columnWidth: 30,
+    //   items: sortedReports,
+    //   writer: (range, status) {
+    //     final text = status.bloodPressures
+    //         .sortedBy((e) => e.measuredAt, reverse: true)
+    //         .map((d) => d.formatAmountWithoutDimensionWithTime(context))
+    //         .join('\n');
+    //
+    //     range.setText(text);
+    //
+    //     return status.manualPeritonealDialysis.length;
+    //   },
+    // );
+    //
+    // sheet.writeMergedColumn<DailyHealthStatus>(
+    //   header: '${_appLocalizations.pulse}, '
+    //       '${HealthIndicator.pulse.dimension(_appLocalizations)}',
+    //   columnWidth: 30,
+    //   items: sortedReports,
+    //   writer: (range, status) {
+    //     final text = status.pulses
+    //         .sortedBy((e) => e.measuredAt, reverse: true)
+    //         .map((d) => d.formatAmountWithoutDimensionWithTime(context))
+    //         .join('\n');
+    //
+    //     range.setText(text);
+    //
+    //     return status.manualPeritonealDialysis.length;
+    //   },
+    // );
 
     return sheet..applyGlobalStyle();
   }

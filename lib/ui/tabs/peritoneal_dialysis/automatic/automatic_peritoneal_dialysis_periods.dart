@@ -9,6 +9,8 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_components.dart';
+import 'package:nephrogo/ui/tabs/peritoneal_dialysis/peritoneal_dialysis_components.dart';
+import 'package:nephrogo/utils/excel_generator.dart';
 import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_period_response.dart';
 
 class AutomaticPeritonealDialysisPeriodsScreenArguments {
@@ -41,27 +43,8 @@ class AutomaticPeritonealDialysisPeriodsScreen extends StatelessWidget {
             ],
           ),
         ),
-        floatingActionButton: SpeedDialFloatingActionButton(
-          label: context.appLocalizations.summary.toUpperCase(),
-          icon: Icons.download_rounded,
-          children: [
-            // SpeedDialChild(
-            //   child: const Icon(Icons.open_in_new),
-            //   backgroundColor: Colors.indigo,
-            //   labelStyle: const TextStyle(fontSize: 16),
-            //   foregroundColor: Colors.white,
-            //   label: context.appLocalizations.open,
-            //   onTap: () => _downloadAndExportDialysis(context, false),
-            // ),
-            // SpeedDialChild(
-            //   child: const Icon(Icons.share),
-            //   backgroundColor: Colors.teal,
-            //   labelStyle: const TextStyle(fontSize: 16),
-            //   foregroundColor: Colors.white,
-            //   label: context.appLocalizations.send,
-            //   onTap: () => _downloadAndExportDialysis(context, true),
-            // ),
-          ],
+        floatingActionButton: PeritonealDialysisSummaryFloatingActionButton(
+          reportBuilder: _buildExcelReport,
         ),
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
@@ -80,56 +63,21 @@ class AutomaticPeritonealDialysisPeriodsScreen extends StatelessWidget {
     );
   }
 
-// Future<void> _downloadAndExportDialysisInternal(
-//     BuildContext context, bool share) async {
-//   final today = Date.today();
-//   final dailyHealthStatusesResponse = await _apiService.getHealthStatuses(
-//     Constants.earliestDate,
-//     today,
-//   );
-//
-//   final dailyHealthStatuses = dailyHealthStatusesResponse.dailyHealthStatuses
-//       .where((s) => s.manualPeritonealDialysis.isNotEmpty);
-//
-//   final lightDailyIntakeReportsResponse = await _apiService
-//       .getLightDailyIntakeReports(Constants.earliestDate, today);
-//
-//   final lightDailyIntakeReports =
-//       lightDailyIntakeReportsResponse.dailyIntakesLightReports;
-//
-//   final fullPath =
-//       await ManualPeritonealDialysisExcelGenerator.generateAndSaveExcel(
-//     context: context,
-//     dailyHealthStatuses: dailyHealthStatuses,
-//     lightDailyIntakeReports: lightDailyIntakeReports,
-//   );
-//
-//   if (share) {
-//     return Share.shareFiles(
-//       [fullPath],
-//       subject: context.appLocalizations.sendManualPeritonealDialysisSubject,
-//     );
-//   } else {
-//     await OpenFile.open(fullPath);
-//   }
-// }
-//
-// Future<void> _downloadAndExportDialysis(BuildContext context, bool share) {
-//   final future =
-//       _downloadAndExportDialysisInternal(context, share).catchError(
-//     (e, stackTrace) async {
-//       FirebaseCrashlytics.instance.recordError(e, stackTrace as StackTrace);
-//
-//       await showAppDialog(
-//         context: context,
-//         title: context.appLocalizations.error,
-//         message: context.appLocalizations.serverErrorDescription,
-//       );
-//     },
-//   );
-//
-//   return ProgressDialog(context).showForFuture(future);
-// }
+  Future<ExcelReportBuilder> _buildExcelReport(
+    ExcelReportBuilder builder,
+  ) async {
+    final dialysisResponse =
+        await _apiService.getAutomaticPeritonealDialysisPeriod(
+      Constants.earliestDate,
+      Date.today(),
+    );
+
+    builder.appendAutomaticDialysisSheet(
+      peritonealDialysis: dialysisResponse.peritonealDialysis,
+    );
+
+    return builder;
+  }
 }
 
 class _AutomaticPeritonealDialysisPeriodsScreenBody extends StatelessWidget {
