@@ -40,7 +40,7 @@ class ExcelGeneratorSheet {
 
     _currentRange
       ..setText(header)
-      ..columnWidth = columnWidth
+      ..columnWidth = columnWidth ?? 20
       ..cellStyle.bold = true;
 
     _advanceRow();
@@ -48,9 +48,9 @@ class ExcelGeneratorSheet {
 
   void writeMergedColumn<T>({
     @required String header,
-    @required double columnWidth,
     @required Iterable<T> items,
     @required int Function(Range range, T item) writer,
+    double columnWidth,
   }) {
     _writeHeader(header, columnWidth);
 
@@ -67,9 +67,9 @@ class ExcelGeneratorSheet {
 
   void writeColumn<T>({
     @required String header,
-    @required double columnWidth,
     @required Iterable<T> items,
     @required void Function(Range range, T item) writer,
+    double columnWidth,
   }) {
     return writeMergedColumn<T>(
       header: header,
@@ -111,6 +111,34 @@ class ExcelReportBuilder {
     return file;
   }
 
+  void _writeTotalLiquidsColumn(
+    ExcelGeneratorSheet sheet,
+    Iterable<DailyHealthStatus> sortedDailyHealthStatuses,
+    Iterable<DailyIntakesLightReport> lightDailyIntakeReports,
+  ) {
+    final liquidsMap =
+        lightDailyIntakeReports.groupBy((r) => r.date.toDate()).map(
+              (d, r) => MapEntry(
+                d,
+                r.first.nutrientNormsAndTotals.liquidsMl.total,
+              ),
+            );
+
+    sheet.writeMergedColumn<DailyHealthStatus>(
+      header: '${_appLocalizations.liquids}, ml',
+      items: sortedDailyHealthStatuses,
+      writer: (range, status) {
+        final date = status.date.toDate();
+
+        if (liquidsMap.containsKey(date)) {
+          range.setNumber(liquidsMap[date].roundToDouble());
+        }
+
+        return status.manualPeritonealDialysis.length;
+      },
+    );
+  }
+
   ExcelGeneratorSheet appendManualDialysisSheet({
     @required Iterable<DailyHealthStatus> dailyHealthStatuses,
     @required Iterable<DailyIntakesLightReport> lightDailyIntakeReports,
@@ -125,17 +153,8 @@ class ExcelReportBuilder {
       _appLocalizations.peritonealDialysisPlural,
     );
 
-    final liquidsMap =
-        lightDailyIntakeReports.groupBy((r) => r.date.toDate()).map(
-              (d, r) => MapEntry(
-                d,
-                r.first.nutrientNormsAndTotals.liquidsMl.total,
-              ),
-            );
-
     sheet.writeMergedColumn<DailyHealthStatus>(
       header: _appLocalizations.date,
-      columnWidth: 25,
       items: sortedReports,
       writer: (range, status) {
         range.setText(status.date.toString());
@@ -145,7 +164,6 @@ class ExcelReportBuilder {
     );
     sheet.writeMergedColumn<DailyHealthStatus>(
       header: '${_appLocalizations.dailyBalance}, ml',
-      columnWidth: 20,
       items: sortedReports,
       writer: (range, status) {
         range.setNumber(
@@ -158,7 +176,6 @@ class ExcelReportBuilder {
 
     sheet.writeColumn<ManualPeritonealDialysis>(
       header: _appLocalizations.dialysisStart,
-      columnWidth: 20,
       items: sortedReports.expand(
         (r) => r.manualPeritonealDialysisReverseSorted,
       ),
@@ -171,7 +188,6 @@ class ExcelReportBuilder {
 
     sheet.writeColumn<DialysisSolutionEnum>(
       header: _appLocalizations.dialysisSolution,
-      columnWidth: 20,
       items: sortedReports.expand(
         (r) => r.manualPeritonealDialysisReverseSorted
             .map((d) => d.dialysisSolution),
@@ -187,7 +203,6 @@ class ExcelReportBuilder {
 
     sheet.writeColumn<ManualPeritonealDialysis>(
       header: _appLocalizations.balance,
-      columnWidth: 20,
       items: sortedReports.expand(
         (r) => r.manualPeritonealDialysisReverseSorted,
       ),
@@ -198,7 +213,6 @@ class ExcelReportBuilder {
 
     sheet.writeColumn<ManualPeritonealDialysis>(
       header: '${_appLocalizations.dialysisSolutionOut}, ml',
-      columnWidth: 20,
       items: sortedReports.expand(
         (r) => r.manualPeritonealDialysisReverseSorted,
       ),
@@ -211,7 +225,6 @@ class ExcelReportBuilder {
 
     sheet.writeColumn<ManualPeritonealDialysis>(
       header: '${_appLocalizations.dialysisSolutionIn}, ml',
-      columnWidth: 20,
       items: sortedReports.expand(
         (r) => r.manualPeritonealDialysisReverseSorted,
       ),
@@ -222,7 +235,6 @@ class ExcelReportBuilder {
 
     sheet.writeColumn<DialysateColorEnum>(
       header: _appLocalizations.dialysateColor,
-      columnWidth: 20,
       items: sortedReports.expand(
         (r) => r.manualPeritonealDialysisReverseSorted.map(
           (d) => d.dialysateColor,
@@ -244,7 +256,6 @@ class ExcelReportBuilder {
 
     sheet.writeColumn<ManualPeritonealDialysis>(
       header: _appLocalizations.notes,
-      columnWidth: 20,
       items: sortedReports.expand(
         (r) => r.manualPeritonealDialysisReverseSorted,
       ),
@@ -257,7 +268,6 @@ class ExcelReportBuilder {
 
     sheet.writeColumn<ManualPeritonealDialysis>(
       header: _appLocalizations.dialysisEnd,
-      columnWidth: 20,
       items: sortedReports.expand(
         (r) => r.manualPeritonealDialysisReverseSorted,
       ),
@@ -270,24 +280,11 @@ class ExcelReportBuilder {
       },
     );
 
-    sheet.writeMergedColumn<DailyHealthStatus>(
-      header: '${_appLocalizations.liquids}, ml',
-      columnWidth: 20,
-      items: sortedReports,
-      writer: (range, status) {
-        final date = status.date.toDate();
+    _writeTotalLiquidsColumn(sheet, sortedReports, lightDailyIntakeReports);
 
-        if (liquidsMap.containsKey(date)) {
-          range.setNumber(liquidsMap[date].roundToDouble());
-        }
-
-        return status.manualPeritonealDialysis.length;
-      },
-    );
     sheet.writeMergedColumn<DailyHealthStatus>(
       header: '${_appLocalizations.healthStatusCreationUrine}, '
           '${HealthIndicator.urine.dimension(_appLocalizations)}',
-      columnWidth: 20,
       items: sortedReports,
       writer: (range, status) {
         if (status.urineMl != null) {
@@ -301,7 +298,6 @@ class ExcelReportBuilder {
     sheet.writeMergedColumn<DailyHealthStatus>(
       header: '${_appLocalizations.weight}, '
           '${HealthIndicator.weight.dimension(_appLocalizations)}',
-      columnWidth: 20,
       items: sortedReports,
       writer: (range, status) {
         if (status.weightKg != null) {
@@ -315,7 +311,7 @@ class ExcelReportBuilder {
     sheet.writeMergedColumn<DailyHealthStatus>(
       header: '${_appLocalizations.healthStatusCreationBloodPressure}, '
           '${HealthIndicator.bloodPressure.dimension(_appLocalizations)}',
-      columnWidth: 20,
+      columnWidth: 30,
       items: sortedReports,
       writer: (range, status) {
         final text = status.bloodPressures
@@ -323,9 +319,7 @@ class ExcelReportBuilder {
             .map((d) => d.formatAmountWithoutDimensionWithTime(context))
             .join('\n');
 
-        range
-          ..setText(text)
-          ..columnWidth = 40;
+        range.setText(text);
 
         return status.manualPeritonealDialysis.length;
       },
@@ -334,7 +328,7 @@ class ExcelReportBuilder {
     sheet.writeMergedColumn<DailyHealthStatus>(
       header: '${_appLocalizations.pulse}, '
           '${HealthIndicator.pulse.dimension(_appLocalizations)}',
-      columnWidth: 20,
+      columnWidth: 30,
       items: sortedReports,
       writer: (range, status) {
         final text = status.pulses
@@ -342,9 +336,7 @@ class ExcelReportBuilder {
             .map((d) => d.formatAmountWithoutDimensionWithTime(context))
             .join('\n');
 
-        range
-          ..setText(text)
-          ..columnWidth = 40;
+        range.setText(text);
 
         return status.manualPeritonealDialysis.length;
       },
