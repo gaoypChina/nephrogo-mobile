@@ -96,7 +96,7 @@ class BasicSection extends StatelessWidget {
     @required Widget child,
     this.margin = const EdgeInsets.only(bottom: 16),
     this.innerPadding = EdgeInsets.zero,
-  })
+  })  
   // ignore: prefer_initializing_formals
   : header = child,
         children = const [],
@@ -106,22 +106,13 @@ class BasicSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: margin,
-      child: Material(
-        color: Theme.of(context).dialogBackgroundColor,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              top: Divider.createBorderSide(context),
-              bottom: Divider.createBorderSide(context),
-            ),
-          ),
-          child: Padding(
-            padding: innerPadding,
-            child: _buildHeaderAndChildren(context),
-          ),
-        ),
+    return Card(
+      margin: margin,
+      shape: const RoundedRectangleBorder(),
+      elevation: 0,
+      child: Padding(
+        padding: innerPadding,
+        child: _buildHeaderAndChildren(context),
       ),
     );
   }
