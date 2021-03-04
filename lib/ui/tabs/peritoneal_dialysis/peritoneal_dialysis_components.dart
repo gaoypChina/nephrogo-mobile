@@ -1,6 +1,14 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/general/dialogs.dart';
+import 'package:nephrogo/ui/general/progress_dialog.dart';
+import 'package:nephrogo/utils/excel_generator.dart';
 import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
+import 'package:open_file/open_file.dart';
+import 'package:share/share.dart';
 
 class DialysisSolutionAvatar extends StatelessWidget {
   final DialysisSolutionEnum dialysisSolution;
@@ -38,5 +46,79 @@ class DialysisSolutionAvatar extends StatelessWidget {
     } else {
       return null;
     }
+  }
+}
+
+class PeritonealDialysisSummaryFloatingActionButton extends StatelessWidget {
+  final Future<ExcelReportBuilder> Function(ExcelReportBuilder builder)
+      reportBuilder;
+
+  const PeritonealDialysisSummaryFloatingActionButton({
+    Key key,
+    @required this.reportBuilder,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SpeedDialFloatingActionButton(
+      label: context.appLocalizations.summary.toUpperCase(),
+      icon: Icons.download_rounded,
+      children: [
+        SpeedDialChild(
+          child: const Icon(Icons.open_in_new),
+          backgroundColor: Colors.indigo,
+          labelStyle: const TextStyle(fontSize: 16),
+          foregroundColor: Colors.white,
+          label: context.appLocalizations.open,
+          onTap: () => _downloadAndExportDialysis(context, false),
+        ),
+        SpeedDialChild(
+          child: const Icon(Icons.share),
+          backgroundColor: Colors.teal,
+          labelStyle: const TextStyle(fontSize: 16),
+          foregroundColor: Colors.white,
+          label: context.appLocalizations.send,
+          onTap: () => _downloadAndExportDialysis(context, true),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _downloadAndExportDialysisInternal(
+    BuildContext context,
+    bool share,
+  ) async {
+    final name = 'NephroGo ${context.appLocalizations.summary}';
+
+    final builder = ExcelReportBuilder(context: context);
+    final finalReportBuilder = await reportBuilder(builder);
+
+    final file = await finalReportBuilder.buildFile('nephrogo.xlsx');
+
+    if (share) {
+      return Share.shareFiles(
+        [file.path],
+        subject: name,
+      );
+    } else {
+      return OpenFile.open(file.path);
+    }
+  }
+
+  Future<void> _downloadAndExportDialysis(BuildContext context, bool share) {
+    final future =
+        _downloadAndExportDialysisInternal(context, share).catchError(
+      (e, stackTrace) async {
+        FirebaseCrashlytics.instance.recordError(e, stackTrace as StackTrace);
+
+        await showAppDialog(
+          context: context,
+          title: context.appLocalizations.error,
+          message: context.appLocalizations.serverErrorDescription,
+        );
+      },
+    );
+
+    return ProgressDialog(context).showForFuture(future);
   }
 }

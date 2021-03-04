@@ -756,6 +756,10 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     );
   }
 
+  Iterable<ManualPeritonealDialysis> get manualPeritonealDialysisReverseSorted {
+    return manualPeritonealDialysis.sortedBy((d) => d.startedAt, reverse: true);
+  }
+
   num getHealthIndicatorValue(HealthIndicator indicator) {
     if (!isIndicatorExists(indicator)) {
       return null;
