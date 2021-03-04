@@ -1204,6 +1204,44 @@ extension AutomaticPeritonealDialysisExtensions on AutomaticPeritonealDialysis {
 
     return _formatAmount(balance, 'ml');
   }
+
+  Iterable<DialysisSolutionEnum> getSolutionsUsed() {
+    return DialysisSolutionEnum.values.where((s) => hasVolume(s));
+  }
+
+  int getSolutionVolumeInMl(DialysisSolutionEnum solution) {
+    switch (solution) {
+      case DialysisSolutionEnum.purple:
+        return solutionPurpleInMl;
+      case DialysisSolutionEnum.yellow:
+        return solutionYellowInMl;
+      case DialysisSolutionEnum.orange:
+        return solutionOrangeInMl;
+      case DialysisSolutionEnum.green:
+        return solutionGreenInMl;
+      case DialysisSolutionEnum.blue:
+        return solutionBlueInMl;
+      case DialysisSolutionEnum.unknown:
+        return 0;
+    }
+
+    throw ArgumentError.value(solution);
+  }
+
+  bool hasVolume(DialysisSolutionEnum solution) {
+    return getSolutionVolumeInMl(solution) != 0;
+  }
+
+  String getSolutionVolumeFormatted(DialysisSolutionEnum solution) {
+    final volume = getSolutionVolumeInMl(solution);
+
+    return _formatAmount(volume, 'ml');
+  }
+
+  bool get isDialysateColorNonRegular {
+    return dialysateColor != DialysateColorEnum.transparent &&
+        dialysateColor != DialysateColorEnum.unknown;
+  }
 }
 
 extension UserProfileExtensions on UserProfile {

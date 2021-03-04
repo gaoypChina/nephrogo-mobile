@@ -6,7 +6,7 @@ import 'general/app_bar_logo.dart';
 import 'tabs/account/account_tab.dart';
 import 'tabs/health_status/health_status_tab.dart';
 import 'tabs/nutrition/nutrition_tab.dart';
-import 'tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_tab.dart';
+import 'tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
         return HealthStatusTab();
       case 2:
-        return ManualPeritonealDialysisTab();
+        return AutomaticPeritonealDialysisTab();
       case 3:
         return AccountTab();
       default:
