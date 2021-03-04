@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
@@ -41,12 +42,15 @@ class _AutomaticPeritonealDialysisCreationScreenState
   final _formKey = GlobalKey<FormState>();
 
   final _apiService = ApiService();
+  final _dateFormat = DateFormat('MMM d');
 
   final now = DateTime.now();
   final today = Date.today();
   AutomaticPeritonealDialysisRequestBuilder _requestBuilder;
 
   int _currentStep = 0;
+
+  bool get _isFirstStep => _currentStep == 0;
 
   bool get _isSecondStep => _currentStep == 1;
 
@@ -117,69 +121,50 @@ class _AutomaticPeritonealDialysisCreationScreenState
           },
           onStepCancel: _submit,
           controlsBuilder: (context, {onStepContinue, onStepCancel}) {
-            if (_isSecondStep) {
-              return BasicSection(
-                innerPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-                children: [
+            return BasicSection(
+              innerPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+              children: [
+                if (_isFirstStep || _isCompleted)
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: SizedBox(
                       width: double.infinity,
                       child: AppElevatedButton(
-                        text: context.appLocalizations.finishDialysis,
-                        onPressed: onStepContinue,
+                        text: context.appLocalizations.save.toUpperCase(),
+                        onPressed: _submit,
+                      ),
+                    ),
+                  )
+                else
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: AppElevatedButton(
+                        text: context.appLocalizations.finishDialysis
+                            .toUpperCase(),
+                        onPressed: _completeAndSubmit,
                       ),
                     ),
                   ),
-                  if (_isCompleted)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: AppElevatedButton(
-                          color: Colors.redAccent,
-                          text: context.appLocalizations.delete,
-                          onPressed: _delete,
+                if (widget.initialDialysis != null &&
+                    (_isCompleted || _isFirstStep))
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          primary: Colors.redAccent,
+                          textStyle: const TextStyle(fontSize: 14),
                         ),
-                      ),
-                    ),
-                ],
-              );
-            }
-            return BasicSection(
-              innerPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-              children: [
-                if (widget.initialDialysis == null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: AppElevatedButton(
-                        text: context.appLocalizations.saveAndContinueLater,
-                        onPressed: onStepCancel,
-                      ),
-                    ),
-                  ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: AppElevatedButton(
-                      color: Colors.blue,
-                      text: context.appLocalizations.continueToSecondStep,
-                      onPressed: onStepContinue,
-                    ),
-                  ),
-                ),
-                if (_isCompleted)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: AppElevatedButton(
-                        color: Colors.redAccent,
-                        text: context.appLocalizations.delete,
                         onPressed: _delete,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            context.appLocalizations.delete.toUpperCase(),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -216,11 +201,11 @@ class _AutomaticPeritonealDialysisCreationScreenState
             Row(
               children: [
                 Flexible(
-                  flex: 3,
                   child: AppDatePickerFormField(
                     initialDate: _requestBuilder.startedAt.toDate(),
                     firstDate: Constants.earliestDate,
                     lastDate: Date.today(),
+                    dateFormat: _dateFormat,
                     validator: _formValidators.nonNull(),
                     onDateChanged: (date) {
                       _requestBuilder.startedAt =
@@ -230,7 +215,6 @@ class _AutomaticPeritonealDialysisCreationScreenState
                   ),
                 ),
                 Flexible(
-                  flex: 2,
                   child: AppTimePickerFormField(
                     initialTime: _requestBuilder.startedAt.timeOfDayLocal,
                     labelText: appLocalizations.mealCreationTime,
@@ -426,27 +410,30 @@ class _AutomaticPeritonealDialysisCreationScreenState
             Row(
               children: [
                 Flexible(
-                  flex: 3,
                   child: AppDatePickerFormField(
                     initialDate: _requestBuilder.finishedAt?.toDate() ?? today,
                     firstDate: _requestBuilder.startedAt.toDate(),
                     lastDate: today,
+                    dateFormat: _dateFormat,
                     validator: _formValidators.nonNull(),
                     onDateChanged: (date) {
                       _requestBuilder.finishedAt =
-                          _requestBuilder.finishedAt.appliedDate(date).toUtc();
+                          (_requestBuilder.finishedAt ?? now)
+                              .appliedDate(date)
+                              .toUtc();
                     },
                     labelText: appLocalizations.date,
                   ),
                 ),
                 Flexible(
-                  flex: 2,
                   child: AppTimePickerFormField(
                     initialTime:
                         (_requestBuilder.finishedAt ?? now).timeOfDayLocal,
                     labelText: appLocalizations.mealCreationTime,
                     onTimeChanged: (t) => _requestBuilder.finishedAt =
-                        _requestBuilder.finishedAt.appliedLocalTime(t).toUtc(),
+                        (_requestBuilder.finishedAt ?? now)
+                            .appliedLocalTime(t)
+                            .toUtc(),
                     onTimeSaved: (t) {
                       if (_isSecondStep) {
                         _requestBuilder.finishedAt =
