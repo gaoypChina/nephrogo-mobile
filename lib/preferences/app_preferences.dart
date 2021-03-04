@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:nephrogo_api_client/model/periotonic_dialysis_type_enum.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppPreferences {
@@ -9,6 +10,7 @@ class AppPreferences {
   static const _keyMarketingAllowed = 'MARKETING_ALLOWED';
   static const _keyInAppUpdateLastPromptedDate =
       'IN_APP_UPDATE_LAST_PROMPTED_DATE';
+  static const _keyPeritonealDialysisType = 'PERITONEAL_DIALYSIS_TYPE';
 
   static final AppPreferences _singleton = AppPreferences._internal();
 
@@ -93,6 +95,42 @@ class AppPreferences {
 
         return DateTime.parse(dateTimeStr);
       },
+    );
+  }
+
+  Future<bool> setPeritonealDialysisType(
+    PeriotonicDialysisTypeEnum dialysisType,
+  ) {
+    return _sharedPreferences.then(
+      (preferences) => preferences.setString(
+        _keyPeritonealDialysisType,
+        dialysisType.name,
+      ),
+    );
+  }
+
+  Future<PeriotonicDialysisTypeEnum> getPeritonealDialysisType() {
+    return _sharedPreferences.then<PeriotonicDialysisTypeEnum>(
+      (preferences) {
+        final typeStr =
+            preferences.getString(_keyPeritonealDialysisType)?.toLowerCase();
+
+        if (typeStr ==
+            PeriotonicDialysisTypeEnum.automatic.name.toLowerCase()) {
+          return PeriotonicDialysisTypeEnum.automatic;
+        } else if (typeStr ==
+            PeriotonicDialysisTypeEnum.manual.name.toLowerCase()) {
+          return PeriotonicDialysisTypeEnum.manual;
+        } else {
+          return PeriotonicDialysisTypeEnum.unknown;
+        }
+      },
+    );
+  }
+
+  Future<bool> hasPeritonealDialysisTypeSaved() {
+    return _sharedPreferences.then<bool>(
+      (preferences) => preferences.containsKey(_keyPeritonealDialysisType),
     );
   }
 }

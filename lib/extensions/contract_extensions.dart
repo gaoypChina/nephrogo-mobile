@@ -1198,10 +1198,6 @@ extension AutomaticPeritonealDialysisExtensions on AutomaticPeritonealDialysis {
   }
 
   String get formattedBalance {
-    if (balance == null) {
-      return null;
-    }
-
     return _formatAmount(balance, 'ml');
   }
 

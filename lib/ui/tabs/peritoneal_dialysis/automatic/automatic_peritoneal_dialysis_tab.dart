@@ -56,7 +56,7 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    if (response.lastPeritonealDialysis.isEmpty) {
+    if (response.lastPeritonealDialysis == null) {
       return EmptyStateContainer(
         text: context.appLocalizations.manualPeritonealDialysisEmpty,
       );
@@ -91,10 +91,8 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
   Widget _buildTotalBalanceSection(BuildContext context) {
     final today = Date.today();
 
-    final initialDate = response.lastPeritonealDialysis
-            .map((d) => d.startedAt.toDate())
-            .maxBy((_, d) => d) ??
-        today;
+    final initialDate =
+        response.lastPeritonealDialysis?.startedAt?.toDate() ?? today;
 
     return LargeSection(
       title: Text(context.appLocalizations.peritonealDialysisPlural),
@@ -109,8 +107,8 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
         child: Text(context.appLocalizations.more.toUpperCase()),
       ),
       children: [
-        for (final dialysis in response.lastPeritonealDialysis)
-          AutomaticPeritonealDialysisTile(dialysis)
+        if (response.lastPeritonealDialysis != null)
+          AutomaticPeritonealDialysisTile(response.lastPeritonealDialysis)
       ],
     );
   }

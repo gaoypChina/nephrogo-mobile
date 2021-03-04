@@ -414,6 +414,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Future<void> _onSavedSuccess() async {
     await _appPreferences.setProfileCreated();
 
+    await _appPreferences.setPeritonealDialysisType(
+      _userProfileBuilder.periotonicDialysisType,
+    );
+
     await _navigateToAnotherScreen();
   }
 
