@@ -108,17 +108,19 @@ class BasicSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: margin,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).dialogBackgroundColor,
-          border: Border(
-            top: Divider.createBorderSide(context),
-            bottom: Divider.createBorderSide(context),
+      child: Material(
+        color: Theme.of(context).dialogBackgroundColor,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: Divider.createBorderSide(context),
+              bottom: Divider.createBorderSide(context),
+            ),
           ),
-        ),
-        child: Padding(
-          padding: innerPadding,
-          child: _buildHeaderAndChildren(context),
+          child: Padding(
+            padding: innerPadding,
+            child: _buildHeaderAndChildren(context),
+          ),
         ),
       ),
     );
@@ -311,20 +313,16 @@ class AppListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Material is needed for workaround https://github.com/flutter/flutter/issues/3782
-    return Material(
-      color: Theme.of(context).dialogBackgroundColor,
-      child: ListTile(
-        leading: leading,
-        title: title,
-        subtitle: subtitle,
-        dense: dense,
-        isThreeLine: isThreeLine,
-        trailing: trailing ??
-            (onTap != null ? const Icon(Icons.chevron_right) : null),
-        onTap: onTap,
-        selected: selected,
-      ),
+    return ListTile(
+      leading: leading,
+      title: title,
+      subtitle: subtitle,
+      dense: dense,
+      isThreeLine: isThreeLine,
+      trailing:
+          trailing ?? (onTap != null ? const Icon(Icons.chevron_right) : null),
+      onTap: onTap,
+      selected: selected,
     );
   }
 }

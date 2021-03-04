@@ -118,7 +118,7 @@ class AccountTab extends StatelessWidget {
               return const SizedBox.shrink();
             },
           ),
-          if (kDebugMode) DebugListCell(),
+          if (kDebugMode) BasicSection.single(child: DebugListCell()),
           BasicSection.single(
             child: AppListTile(
               title: Text(appLocalizations.logout),
