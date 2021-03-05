@@ -229,7 +229,7 @@ class ExcelReportBuilder {
     sheet.writeColumn<ManualPeritonealDialysis>(
       header: '${_appLocalizations.dialysisSolutionIn}, ml',
       items: sortedReports.expand(
-            (r) => r.manualPeritonealDialysisReverseSorted,
+        (r) => r.manualPeritonealDialysisReverseSorted,
       ),
       writer: (range, dialysis) {
         range.setNumber(dialysis.solutionInMl.roundToDouble());

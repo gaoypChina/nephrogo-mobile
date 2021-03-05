@@ -1240,5 +1240,7 @@
   "errorCheckDialysisDates": "Tarp dializės pradžios ir pabaigos turi būti praėję bent viena valanda",
   "@errorCheckDialysisDates": {},
   "errorNoDialysisSolutionSelected": "Pasirinkite bent vieną tirpalą",
-  "@errorNoDialysisSolutionSelected": {}
+  "@errorNoDialysisSolutionSelected": {},
+  "errorAutomaticDialysisWithSameDateExists": "Automatinė peritoninė dializė su šia data jau sukurta!\nPrašome redaguoti jau egzistuojančią dializę.",
+  "@errorAutomaticDialysisWithSameDateExists": {}
 }

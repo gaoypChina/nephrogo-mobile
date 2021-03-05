@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
@@ -30,7 +31,8 @@ class FormUtils {
     @required BuildContext context,
     @required GlobalKey<FormState> formKey,
     @required Future Function() futureBuilder,
-    Future Function() onSuccess,
+    String Function(String data) onServerValidationError,
+    Future<void> Function() onSuccess,
   }) async {
     final valid = await validate(context: context, formKey: formKey);
     if (!valid) {
@@ -40,13 +42,22 @@ class FormUtils {
     formKey.currentState.save();
 
     final future = futureBuilder().catchError(
-      (e, stackTrace) async {
+          (e, stackTrace) async {
         FirebaseCrashlytics.instance.recordError(e, stackTrace as StackTrace);
+
+        String message;
+        if (e is DioError && e.response?.statusCode == 400) {
+          final data = e.response?.toString() ?? '';
+
+          if (onServerValidationError != null) {
+            message = onServerValidationError(data);
+          }
+        }
 
         await showAppDialog(
           context: context,
           title: context.appLocalizations.error,
-          message: context.appLocalizations.serverErrorDescription,
+          message: message ?? context.appLocalizations.serverErrorDescription,
         );
       },
     );

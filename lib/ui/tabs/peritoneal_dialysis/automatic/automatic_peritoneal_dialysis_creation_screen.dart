@@ -499,7 +499,15 @@ class _AutomaticPeritonealDialysisCreationScreenState
       context: context,
       formKey: _formKey,
       futureBuilder: _save,
+      onServerValidationError: _onServerValidationError,
     );
+  }
+
+  String _onServerValidationError(String data) {
+    if (data.contains('same date')) {
+      return appLocalizations.errorAutomaticDialysisWithSameDateExists;
+    }
+    return null;
   }
 
   Future<bool> _validateAndProceedToStep(int step) async {
