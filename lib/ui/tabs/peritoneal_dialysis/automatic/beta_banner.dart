@@ -20,7 +20,7 @@ class _BetaBannerState extends State<BetaBanner> {
         child: MaterialBanner(
           backgroundColor: Colors.white,
           leading: const CircleAvatar(child: Icon(Icons.announcement)),
-          content: Text(appLocalizations.manualDialysisBetaDisclaimer),
+          content: Text(appLocalizations.automaticDialysisBetaDisclaimer),
           actions: <Widget>[
             TextButton(
               onPressed: () => launchEmail(Constants.supportEmail),

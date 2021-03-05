@@ -18,6 +18,8 @@ import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_request.
 import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
 import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
 
+import 'beta_banner.dart';
+
 class AutomaticPeritonealDialysisCreationScreenArguments {
   final AutomaticPeritonealDialysis dialysis;
 
@@ -195,6 +197,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
   Widget _getFirstStep() {
     return Column(
       children: [
+        BetaBanner(),
         SmallSection(
           title: appLocalizations.dialysisStartDateTime,
           children: [
