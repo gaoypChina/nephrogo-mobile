@@ -54,11 +54,12 @@ class FormUtils {
           message = onServerValidationError(data);
         }
 
-        await showAppDialog(
+        await showAppErrorDialog(
           context: context,
-          title: context.appLocalizations.error,
           message: message ?? context.appLocalizations.serverErrorDescription,
         );
+
+        return null;
       },
     );
 

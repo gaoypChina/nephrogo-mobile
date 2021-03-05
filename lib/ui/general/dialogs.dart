@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
+import 'package:nephrogo/utils/utils.dart';
+
+import 'components.dart';
 
 Future<void> showAppDialog({
   @required BuildContext context,
@@ -21,9 +24,75 @@ Future<void> showAppDialog({
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text(AppLocalizations.of(context).ok.toUpperCase()),
+            child: Text(context.appLocalizations.ok.toUpperCase()),
           ),
         ],
+      );
+    },
+  );
+}
+
+Future<void> showAppErrorDialog({
+  @required BuildContext context,
+  @required String message,
+}) async {
+  final showHelp = await showDialog<bool>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(context.appLocalizations.error),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: Text(context.appLocalizations.help.toUpperCase()),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: Text(context.appLocalizations.ok.toUpperCase()),
+          ),
+        ],
+      );
+    },
+  ).then((v) => v ?? false);
+
+  if (showHelp) {
+    await showContactDialog(context);
+  }
+}
+
+Future<void> showContactDialog(BuildContext context) {
+  final appLocalizations = context.appLocalizations;
+
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppListTile(
+                title: Text(appLocalizations.supportEmail),
+                leading: const Icon(Icons.email),
+                onTap: () => launchEmail(Constants.supportEmail),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppListTile(
+                title: Text(appLocalizations.supportPhone),
+                leading: const Icon(Icons.phone),
+                onTap: () => launchPhone(Constants.supportPhone),
+              ),
+            ),
+          ],
+        ),
       );
     },
   );

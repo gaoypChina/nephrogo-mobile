@@ -269,7 +269,7 @@ class ExcelReportBuilder {
     sheet.writeColumn<ManualPeritonealDialysis>(
       header: _appLocalizations.dialysisEnd,
       items: sortedReports.expand(
-            (r) => r.manualPeritonealDialysisReverseSorted,
+        (r) => r.manualPeritonealDialysisReverseSorted,
       ),
       writer: (range, dialysis) {
         if (dialysis.finishedAt != null) {
