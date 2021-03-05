@@ -192,7 +192,7 @@ class ExcelReportBuilder {
     sheet.writeColumn<DialysisSolutionEnum>(
       header: _appLocalizations.dialysisSolution,
       items: sortedReports.expand(
-            (r) => r.manualPeritonealDialysisReverseSorted
+        (r) => r.manualPeritonealDialysisReverseSorted
             .map((d) => d.dialysisSolution),
       ),
       writer: (range, solution) {
