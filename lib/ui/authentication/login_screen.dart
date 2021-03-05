@@ -178,7 +178,12 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
     await _appPreferences.setMarketingAllowed(marketingAllowed);
 
-    return _apiService.getUserProfile();
+    final userProfile = await _apiService.getUserProfile();
+
+    await _appPreferences
+        .setPeritonealDialysisType(userProfile.periotonicDialysisType);
+
+    return userProfile;
   }
 
   Future navigateToNextScreen(
