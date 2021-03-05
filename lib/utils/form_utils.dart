@@ -42,16 +42,16 @@ class FormUtils {
     formKey.currentState.save();
 
     final future = futureBuilder().catchError(
-          (e, stackTrace) async {
+      (e, stackTrace) async {
         FirebaseCrashlytics.instance.recordError(e, stackTrace as StackTrace);
 
         String message;
-        if (e is DioError && e.response?.statusCode == 400) {
+        if (onServerValidationError != null &&
+            e is DioError &&
+            e.response?.statusCode == 400) {
           final data = e.response?.toString() ?? '';
 
-          if (onServerValidationError != null) {
-            message = onServerValidationError(data);
-          }
+          message = onServerValidationError(data);
         }
 
         await showAppDialog(
