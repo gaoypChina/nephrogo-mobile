@@ -207,7 +207,7 @@ class ExcelReportBuilder {
     sheet.writeColumn<ManualPeritonealDialysis>(
       header: _appLocalizations.balance,
       items: sortedReports.expand(
-            (r) => r.manualPeritonealDialysisReverseSorted,
+        (r) => r.manualPeritonealDialysisReverseSorted,
       ),
       writer: (range, dialysis) {
         range.setNumber(dialysis.balance.roundToDouble());
@@ -400,16 +400,6 @@ class ExcelReportBuilder {
       writer: (range, dialysis) {
         if (dialysis.totalUltrafiltrationMl != null) {
           range.setNumber(dialysis.totalUltrafiltrationMl.roundToDouble());
-        }
-      },
-    );
-
-    sheet.writeColumn<AutomaticPeritonealDialysis>(
-      header: '${_appLocalizations.additionalDrain}, ml',
-      items: sortedDialysis,
-      writer: (range, dialysis) {
-        if (dialysis.additionalDrainMl != null) {
-          range.setNumber(dialysis.additionalDrainMl.roundToDouble());
         }
       },
     );

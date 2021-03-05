@@ -384,20 +384,6 @@ class _AutomaticPeritonealDialysisCreationScreenState
           ],
         ),
         SmallSection(
-          title: appLocalizations.additionalDrainSectionTitle,
-          children: [
-            AppIntegerFormField(
-              labelText: appLocalizations.additionalDrain,
-              helperText: appLocalizations.additionalDrainHelper,
-              suffixText: 'ml',
-              textInputAction: TextInputAction.next,
-              validator: _formValidators.numRangeValidator(1, 10000),
-              initialValue: _requestBuilder.additionalDrainMl,
-              onChanged: (p) => _requestBuilder.additionalDrainMl = p,
-            ),
-          ],
-        ),
-        SmallSection(
           title: appLocalizations.dialysate,
           children: [
             AppSelectFormField<DialysateColorEnum>(

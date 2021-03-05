@@ -1179,7 +1179,6 @@ extension AutomaticPeritonealDialysisExtensions on AutomaticPeritonealDialysis {
     builder.totalDrainVolumeMl = totalDrainVolumeMl;
     builder.lastFillMl = lastFillMl;
     builder.totalUltrafiltrationMl = totalUltrafiltrationMl;
-    builder.additionalDrainMl = additionalDrainMl;
 
     builder.dialysateColor = dialysateColor;
 
