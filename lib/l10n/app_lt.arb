@@ -1238,5 +1238,7 @@
   "createWeight": "Pridėti kūno svorį",
   "@createWeight": {},
   "errorCheckDialysisDates": "Tarp dializės pradžios ir pabaigos turi būti praėję bent viena valanda",
-  "@errorCheckDialysisDates": {}
+  "@errorCheckDialysisDates": {},
+  "errorNoDialysisSolutionSelected": "Pasirinkite bent vieną tirpalą",
+  "@errorNoDialysisSolutionSelected": {}
 }

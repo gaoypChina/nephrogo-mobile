@@ -239,11 +239,11 @@ class _AutomaticPeritonealDialysisCreationScreenState
               helperText: appLocalizations.dialysisSolutionYellowDescription,
               suffixText: 'ml',
               textInputAction: TextInputAction.next,
-              validator: _formValidators.numRangeValidator(1, 10000),
+              validator: _validateSolution,
               initialValue: _requestBuilder.solutionYellowInMl != 0
                   ? _requestBuilder.solutionYellowInMl
                   : null,
-              onChanged: (p) => _requestBuilder.solutionYellowInMl = p,
+              onChanged: (p) => _requestBuilder.solutionYellowInMl = p ?? 0,
             ),
             AppIntegerFormField(
               icon: const DialysisSolutionAvatar(
@@ -253,11 +253,11 @@ class _AutomaticPeritonealDialysisCreationScreenState
               helperText: appLocalizations.dialysisSolutionGreenDescription,
               suffixText: 'ml',
               textInputAction: TextInputAction.next,
-              validator: _formValidators.numRangeValidator(1, 10000),
+              validator: _validateSolution,
               initialValue: _requestBuilder.solutionGreenInMl != 0
                   ? _requestBuilder.solutionGreenInMl
                   : null,
-              onChanged: (p) => _requestBuilder.solutionGreenInMl = p,
+              onChanged: (p) => _requestBuilder.solutionGreenInMl = p ?? 0,
             ),
             AppIntegerFormField(
               icon: const DialysisSolutionAvatar(
@@ -267,11 +267,11 @@ class _AutomaticPeritonealDialysisCreationScreenState
               helperText: appLocalizations.dialysisSolutionOrangeDescription,
               suffixText: 'ml',
               textInputAction: TextInputAction.next,
-              validator: _formValidators.numRangeValidator(1, 10000),
+              validator: _validateSolution,
               initialValue: _requestBuilder.solutionOrangeInMl != 0
                   ? _requestBuilder.solutionOrangeInMl
                   : null,
-              onChanged: (p) => _requestBuilder.solutionOrangeInMl = p,
+              onChanged: (p) => _requestBuilder.solutionOrangeInMl = p ?? 0,
             ),
             AppIntegerFormField(
               icon: const DialysisSolutionAvatar(
@@ -281,11 +281,11 @@ class _AutomaticPeritonealDialysisCreationScreenState
               helperText: appLocalizations.dialysisSolutionBlueDescription,
               suffixText: 'ml',
               textInputAction: TextInputAction.next,
-              validator: _formValidators.numRangeValidator(1, 10000),
+              validator: _validateSolution,
               initialValue: _requestBuilder.solutionBlueInMl != 0
                   ? _requestBuilder.solutionBlueInMl
                   : null,
-              onChanged: (p) => _requestBuilder.solutionBlueInMl = p,
+              onChanged: (p) => _requestBuilder.solutionBlueInMl = p ?? 0,
             ),
             AppIntegerFormField(
               icon: const DialysisSolutionAvatar(
@@ -295,16 +295,36 @@ class _AutomaticPeritonealDialysisCreationScreenState
               helperText: appLocalizations.dialysisSolutionPurpleDescription,
               suffixText: 'ml',
               textInputAction: TextInputAction.next,
-              validator: _formValidators.numRangeValidator(1, 10000),
+              validator: _validateSolution,
               initialValue: _requestBuilder.solutionPurpleInMl != 0
                   ? _requestBuilder.solutionPurpleInMl
                   : null,
-              onChanged: (p) => _requestBuilder.solutionPurpleInMl = p,
+              onChanged: (p) => _requestBuilder.solutionPurpleInMl = p ?? 0,
             ),
           ],
         ),
       ],
     );
+  }
+
+  FormFieldValidator<int> get _validateSolution {
+    return _formValidators.and(
+      _formValidators.numRangeValidator(100, 10000),
+      _validateAtLeastOneSolutionSelected,
+    );
+  }
+
+  String _validateAtLeastOneSolutionSelected(int v) {
+    final totalSolution = _requestBuilder.solutionGreenInMl +
+        _requestBuilder.solutionPurpleInMl +
+        _requestBuilder.solutionYellowInMl +
+        _requestBuilder.solutionOrangeInMl +
+        _requestBuilder.solutionBlueInMl;
+
+    if (totalSolution == 0) {
+      return appLocalizations.errorNoDialysisSolutionSelected;
+    }
+    return null;
   }
 
   Widget _getSecondStep() {
