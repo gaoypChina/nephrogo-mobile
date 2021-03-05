@@ -29,13 +29,7 @@ class HealthStatusCreationFloatingActionButton extends StatelessWidget {
           icon: Icons.favorite,
           onTap: () => _createBloodPressureOrPulse(context),
           backgroundColor: Colors.deepPurple,
-          label: context.appLocalizations.healthStatusCreationBloodPressure,
-        ),
-        _createDialButton(
-          icon: Icons.timeline,
-          onTap: () => _createBloodPressureOrPulse(context),
-          backgroundColor: Colors.blue,
-          label: context.appLocalizations.pulse,
+          label: context.appLocalizations.bloodPressureAndPulse,
         ),
       ],
     );
@@ -57,7 +51,7 @@ class HealthStatusCreationFloatingActionButton extends StatelessWidget {
     );
   }
 
-  Future _createHealthStatus(BuildContext context) {
+  Future<void> _createHealthStatus(BuildContext context) {
     return Navigator.pushNamed(
       context,
       Routes.routeHealthStatusCreation,
@@ -65,7 +59,7 @@ class HealthStatusCreationFloatingActionButton extends StatelessWidget {
     );
   }
 
-  Future _createBloodPressureOrPulse(BuildContext context) {
+  Future<void> _createBloodPressureOrPulse(BuildContext context) {
     return Navigator.pushNamed(
       context,
       Routes.routeBloodPressureAndPulseCreation,

@@ -181,7 +181,7 @@ class ExcelReportBuilder {
     sheet.writeColumn<ManualPeritonealDialysis>(
       header: _appLocalizations.dialysisStart,
       items: sortedReports.expand(
-            (r) => r.manualPeritonealDialysisReverseSorted,
+        (r) => r.manualPeritonealDialysisReverseSorted,
       ),
       writer: (range, dialysis) {
         range.setDateTime(dialysis.startedAt.toLocal());

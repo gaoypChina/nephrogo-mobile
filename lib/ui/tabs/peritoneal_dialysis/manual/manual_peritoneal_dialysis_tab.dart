@@ -8,6 +8,7 @@ import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/health_status/health_status_components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
+import 'package:nephrogo/ui/tabs/peritoneal_dialysis/peritoneal_dialysis_components.dart';
 import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_screen_response.dart';
 
 import 'manual_peritoneal_dialysis_creation_screen.dart';
@@ -43,12 +44,9 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: SpeedDialFloatingActionButton(
-        label: _getCreateButtonLabel(context),
-        icon: response.peritonealDialysisInProgress == null
-            ? Icons.add
-            : Icons.play_arrow,
-        onPress: () => _openDialysisCreation(context),
+      floatingActionButton: PeritonealDialysisCreationFloatingActionButton(
+        dialysisInProgress: response.peritonealDialysisInProgress != null,
+        dialysisOnTap: _openDialysisCreation,
       ),
       body: _buildBody(context),
     );
@@ -77,14 +75,6 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
           )
       ],
     );
-  }
-
-  String _getCreateButtonLabel(BuildContext context) {
-    if (response.peritonealDialysisInProgress == null) {
-      return context.appLocalizations.startDialysis;
-    }
-
-    return context.appLocalizations.continueDialysis;
   }
 
   Widget _buildTotalBalanceSection(BuildContext context) {
