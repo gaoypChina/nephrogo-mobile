@@ -4,38 +4,20 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/utils.dart';
 
-class BetaBanner extends StatefulWidget {
-  @override
-  _BetaBannerState createState() => _BetaBannerState();
-}
-
-class _BetaBannerState extends State<BetaBanner> {
-  bool showBanner = true;
-
+class BetaBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: showBanner,
-      child: BasicSection.single(
-        child: MaterialBanner(
-          backgroundColor: Colors.white,
-          leading: const CircleAvatar(child: Icon(Icons.announcement)),
-          content: Text(appLocalizations.automaticDialysisBetaDisclaimer),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => launchEmail(Constants.supportEmail),
-              child: Text(
-                appLocalizations.feedback.toUpperCase(),
-              ),
-            ),
-            TextButton(
-              onPressed: () => setState(() {
-                showBanner = false;
-              }),
-              child: Text(appLocalizations.ok.toUpperCase()),
-            ),
-          ],
-        ),
+    return BasicSection.single(
+      child: MaterialBanner(
+        leading: const CircleAvatar(child: Icon(Icons.announcement)),
+        content: Text(context.appLocalizations.automaticDialysisBetaDisclaimer),
+        forceActionsBelow: true,
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => launchEmail(Constants.supportEmail),
+            child: Text(context.appLocalizations.feedback.toUpperCase()),
+          ),
+        ],
       ),
     );
   }
