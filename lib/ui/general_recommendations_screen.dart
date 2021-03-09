@@ -198,6 +198,7 @@ class GeneralRecommendationScreen extends StatelessWidget {
             child: HtmlWidget(
               recommendation.body,
               webView: true,
+              webViewMediaPlaybackAlwaysAllow: true,
               textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
                     fontSize: 16,
                   ),
