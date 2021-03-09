@@ -25,7 +25,7 @@ class GeneralRecommendationsTab extends StatelessWidget {
             SliverToBoxAdapter(
               child: BasicSection.single(
                 child: MaterialBanner(
-                  leading: const CircleAvatar(child: Icon(Icons.announcement)),
+                  leading: const CircleAvatar(child: Icon(Icons.info_outline)),
                   content: const Text(
                       'TODO: Kažkoks disclaimeris, kad tai bendrojo pobūdžio '
                       'rekomendacijos ir būtina pasitarti su gydytoju'),
