@@ -49,6 +49,7 @@ class GeneralRecommendationsTab extends StatelessWidget {
                     children: [
                       if (index != 0) const Divider(height: 1),
                       _GeneralRecommendationListTile(
+                        key: ObjectKey(category),
                         name: category.name,
                         onTap: () => Navigator.of(context).pushNamed(
                           Routes.routeGeneralRecommendationsCategory,
@@ -105,6 +106,7 @@ class GeneralRecommendationCategoryScreen extends StatelessWidget {
           final subcategory = subcategories[index];
 
           return _GeneralRecommendationListTile(
+            key: ObjectKey(subcategory),
             name: subcategory.name,
             onTap: () => Navigator.of(context).pushNamed(
               Routes.routeGeneralRecommendationsSubcategory,
@@ -146,11 +148,13 @@ class GeneralRecommendationSubcategoryScreen extends StatelessWidget {
           final recommendation = recommendations[index];
 
           return _GeneralRecommendationListTile(
+            key: ObjectKey(recommendation),
             name: recommendation.name,
             onTap: () => Navigator.of(context).pushNamed(
               Routes.routeGeneralRecommendation,
               arguments: GeneralRecommendationScreenArguments(
                 recommendation,
+                subcategory,
               ),
             ),
           );
@@ -163,22 +167,28 @@ class GeneralRecommendationSubcategoryScreen extends StatelessWidget {
 
 class GeneralRecommendationScreenArguments {
   final GeneralRecommendation recommendation;
+  final GeneralRecommendationSubcategory subcategory;
 
-  GeneralRecommendationScreenArguments(this.recommendation);
+  GeneralRecommendationScreenArguments(this.recommendation, this.subcategory);
 }
 
 class GeneralRecommendationScreen extends StatelessWidget {
   final GeneralRecommendation recommendation;
+  final GeneralRecommendationSubcategory subcategory;
 
-  const GeneralRecommendationScreen({Key key, @required this.recommendation})
-      : assert(recommendation != null),
+  const GeneralRecommendationScreen({
+    Key key,
+    @required this.recommendation,
+    @required this.subcategory,
+  })  : assert(recommendation != null),
+        assert(subcategory != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.appLocalizations.generalRecommendations),
+        title: Text(subcategory.name),
       ),
       body: BasicSection.single(
         margin: EdgeInsets.zero,

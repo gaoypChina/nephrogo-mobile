@@ -250,6 +250,7 @@ class Routes {
 
           return GeneralRecommendationScreen(
             recommendation: arguments.recommendation,
+            subcategory: arguments.subcategory,
           );
         });
       case routeUserProfile:
