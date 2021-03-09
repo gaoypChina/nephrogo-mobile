@@ -227,6 +227,7 @@ class _GeneralRecommendationListTile extends StatelessWidget {
     return BasicSection.single(
       margin: EdgeInsets.zero,
       child: AppListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         title: Text(name),
         onTap: onTap,
       ),
