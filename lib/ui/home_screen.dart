@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const AppBarLogo(),
+        title: _getText(),
         centerTitle: true,
       ),
       body: getTabBody(),
@@ -70,6 +70,21 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  Widget _getText() {
+    switch (_currentIndex) {
+      case 1:
+        return Text(appLocalizations.generalRecommendations);
+      case 2:
+        return const Text('Sveikatos rodikliai');
+      case 3:
+        return const Text('Peritoninė dializė');
+      case 4:
+        return const Text('Mano paskyra');
+    }
+
+    return const AppBarLogo();
   }
 
   Widget getTabBody() {
