@@ -61,7 +61,7 @@ dependencies:
   nephrogo_api_client:
     git:
       url: https://github.com/nephrogo/nephrogo-api-dart-client.git
-      ref: release/v0.8.6
+      ref: release/v0.8.7
 
   flutter_speed_dial:
     git:

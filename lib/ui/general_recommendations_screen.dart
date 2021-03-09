@@ -5,8 +5,8 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo_api_client/model/general_recommendation.dart';
 import 'package:nephrogo_api_client/model/general_recommendation_category.dart';
-import 'package:nephrogo_api_client/model/general_recommendation_response.dart';
 import 'package:nephrogo_api_client/model/general_recommendation_subcategory.dart';
+import 'package:nephrogo_api_client/model/general_recommendations_response.dart';
 
 import 'general/app_future_builder.dart';
 import 'general/components.dart';
@@ -15,7 +15,7 @@ import 'general/dialogs.dart';
 class GeneralRecommendationsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return AppFutureBuilder<GeneralRecommendationResponse>(
+    return AppFutureBuilder<GeneralRecommendationsResponse>(
       future: ApiService().getGeneralRecommendations(),
       builder: (context, response) {
         final categories = response.categories.toList();
@@ -180,23 +180,17 @@ class GeneralRecommendationScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(context.appLocalizations.generalRecommendations),
       ),
-      body: ListView(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        children: [
-          HtmlWidget(
-            _recommendationHtmlBody(),
-            webView: true,
-            textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                  fontSize: 16,
-                ),
-          ),
-        ],
+        child: HtmlWidget(
+          recommendation.body,
+          webView: true,
+          textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
+                fontSize: 16,
+              ),
+        ),
       ),
     );
-  }
-
-  String _recommendationHtmlBody() {
-    return '<h1>${recommendation.name}</h1>${recommendation.body}';
   }
 }
 
