@@ -10,6 +10,7 @@ import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, required;
 import 'package:logging/logging.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
+import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo_api_client/api.dart';
 import 'package:nephrogo_api_client/api/general_recommendations_api.dart';
@@ -52,7 +53,6 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 enum _AppStateChangeEvent { healthStatus, nutrition }
 
 class ApiService {
-  static const _baseApiUrl = 'https://api.nephrogo.com/';
   static const _connectionIdleTimeout = Duration(minutes: 1);
 
   static final ApiService _singleton = ApiService._internal();
@@ -89,7 +89,7 @@ class ApiService {
     final timeZoneName = DateTime.now().timeZoneName;
 
     final dio = Dio(BaseOptions(
-      baseUrl: _baseApiUrl,
+      baseUrl: Constants.apiUrl,
       connectTimeout: 8000,
       receiveTimeout: 5000,
       headers: {
@@ -104,7 +104,7 @@ class ApiService {
 
     return NephrogoApiClient(
       dio: dio,
-      basePathOverride: _baseApiUrl,
+      basePathOverride: Constants.apiUrl,
       serializers: _buildDioSerializers(),
       interceptors: _buildDioInterceptors(dio),
     );

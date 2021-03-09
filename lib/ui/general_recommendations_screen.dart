@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:nephrogo/api/api_service.dart';
+import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo_api_client/model/general_recommendation.dart';
@@ -199,6 +200,7 @@ class GeneralRecommendationScreen extends StatelessWidget {
               recommendation.body,
               webView: true,
               webViewMediaPlaybackAlwaysAllow: true,
+              baseUrl: Uri.parse(Constants.apiUrl),
               textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
                     fontSize: 16,
                   ),

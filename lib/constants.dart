@@ -3,6 +3,7 @@ import 'models/date.dart';
 class Constants {
   Constants._();
 
+  static const apiUrl = 'https://api.nephrogo.com/';
   static const privacyPolicyUrl =
       'https://www.nephrogo.com/documents/lt/privacy-policy.pdf';
   static const healthDataProcessingPolicyUrl =
