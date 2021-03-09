@@ -54,8 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             label: appLocalizations.tabHealthIndicators,
-            icon: const Icon(Icons.analytics_outlined),
-            activeIcon: const Icon(Icons.analytics),
+            icon: const Icon(Icons.assessment_outlined),
+            activeIcon: const Icon(Icons.assessment),
           ),
           BottomNavigationBarItem(
             label: appLocalizations.tabPeritoneal,
