@@ -48,15 +48,14 @@ class _HomeScreenState extends State<HomeScreen> {
             activeIcon: const Icon(Icons.restaurant),
           ),
           BottomNavigationBarItem(
-            label: appLocalizations.tabHealthIndicators,
-            icon: const Icon(Icons.analytics_outlined),
-            activeIcon: const Icon(Icons.analytics),
-          ),
-          // Good choices assistant_outlined medical_services_outlined
-          BottomNavigationBarItem(
             label: appLocalizations.tabGeneralRecommendations,
             icon: const Icon(Icons.explore_outlined),
             activeIcon: const Icon(Icons.explore),
+          ),
+          BottomNavigationBarItem(
+            label: appLocalizations.tabHealthIndicators,
+            icon: const Icon(Icons.analytics_outlined),
+            activeIcon: const Icon(Icons.analytics),
           ),
           BottomNavigationBarItem(
             label: appLocalizations.tabPeritoneal,
@@ -78,9 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
       case 0:
         return NutritionTab();
       case 1:
-        return HealthStatusTab();
-      case 2:
         return GeneralRecommendationsTab();
+      case 2:
+        return HealthStatusTab();
       case 3:
         return PeritonealDialysisTab();
       case 4:
