@@ -1229,7 +1229,7 @@
   "@continueToSecondStep": {},
   "errorDialisateOutIsSmaller": "Išpilto dializato kiekis mažesnis už supilto tirpalo kiekį",
   "@errorDialisateOutIsSmaller": {},
-  "automaticDialysisBetaDisclaimer": "Siekiame tobulinti automatinės peritorinės dializės režimą.\nPrašome pateikti savo grįžtamąjį ryšį kūrėjams.",
+  "automaticDialysisBetaDisclaimer": "Siekiame tobulinti automatinės peritoninės dializės režimą.\nPrašome pateikti savo grįžtamąjį ryšį kūrėjams.",
   "@automaticDialysisBetaDisclaimer": {},
   "manualPeritonealDialysisPeriodEmpty": "Pasirinktame laikotarpyje nėra įvesta nė vienos peritoninės dializės!",
   "@manualPeritonealDialysisPeriodEmpty": {},
