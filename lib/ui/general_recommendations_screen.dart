@@ -78,7 +78,7 @@ class GeneralRecommendationsTab extends StatelessWidget {
     return showAppDialog(
       context: context,
       title: context.appLocalizations.sources,
-      message: Linkify(
+      content: Linkify(
         text: context.appLocalizations.recommendationsSources,
         onOpen: (link) => launchURL(link.url),
       ),

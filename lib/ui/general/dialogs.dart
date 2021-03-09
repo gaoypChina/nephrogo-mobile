@@ -8,7 +8,7 @@ import 'components.dart';
 
 Future<void> showAppDialog({
   @required BuildContext context,
-  @required Widget message,
+  @required Widget content,
   String title,
 }) {
   return showDialog<void>(
@@ -17,7 +17,7 @@ Future<void> showAppDialog({
       return AlertDialog(
         title: title != null ? Text(title) : null,
         scrollable: true,
-        content: message,
+        content: content,
         actions: [
           TextButton(
             onPressed: () {

@@ -281,7 +281,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
       await showAppDialog(
         context: context,
         title: appLocalizations.error,
-        message: Text(appLocalizations.formErrorNoMealsAdded),
+        content: Text(appLocalizations.formErrorNoMealsAdded),
       );
 
       return false;

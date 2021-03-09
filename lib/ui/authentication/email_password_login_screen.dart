@@ -118,20 +118,20 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
         await showAppDialog(
           context: context,
           title: appLocalizations.error,
-          message: Text(appLocalizations.errorUserNotFound),
+          content: Text(appLocalizations.errorUserNotFound),
         );
       } on InvalidPasswordException catch (_) {
         await showAppDialog(
           context: context,
           title: appLocalizations.error,
-          message: Text(appLocalizations.errorInvalidPassword),
+          content: Text(appLocalizations.errorInvalidPassword),
         );
       } catch (e, stacktrace) {
         developer.log(
           'Unable to to to login using regular login',
           stackTrace: stacktrace,
         );
-        await showAppDialog(context: context, message: Text(e.toString()));
+        await showAppDialog(context: context, content: Text(e.toString()));
       }
 
       if (userCredential != null) {

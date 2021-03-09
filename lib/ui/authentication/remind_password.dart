@@ -96,7 +96,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
 
         await showAppDialog(
           context: context,
-          message: Text(appLocalizations.passwordRecoveryEmailSent(email)),
+          content: Text(appLocalizations.passwordRecoveryEmailSent(email)),
         );
 
         Navigator.pop(context);
@@ -107,7 +107,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
           stackTrace: stacktrace,
         );
 
-        await showAppDialog(context: context, message: Text(e.toString()));
+        await showAppDialog(context: context, content: Text(e.toString()));
         return false;
       }
     }

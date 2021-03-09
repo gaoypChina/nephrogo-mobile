@@ -18,7 +18,7 @@ class FormUtils {
       await showAppDialog(
         context: context,
         title: context.appLocalizations.error,
-        message: Text(context.appLocalizations.formErrorDescription),
+        content: Text(context.appLocalizations.formErrorDescription),
       );
 
       return false;
