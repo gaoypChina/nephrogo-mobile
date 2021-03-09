@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/utils/app_store_utils.dart';
 
 import 'general/app_bar_logo.dart';
@@ -43,30 +43,30 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
+            label: appLocalizations.tabNutrition,
             icon: const Icon(Icons.restaurant_outlined),
             activeIcon: const Icon(Icons.restaurant),
-            label: AppLocalizations.of(context).tabNutrition,
           ),
           BottomNavigationBarItem(
+            label: appLocalizations.tabHealthIndicators,
             icon: const Icon(Icons.analytics_outlined),
             activeIcon: const Icon(Icons.analytics),
-            label: AppLocalizations.of(context).tabHealthIndicators,
           ),
           // Good choices assistant_outlined medical_services_outlined
           BottomNavigationBarItem(
+            label: appLocalizations.tabGeneralRecommendations,
             icon: const Icon(Icons.explore_outlined),
             activeIcon: const Icon(Icons.explore),
-            label: AppLocalizations.of(context).tabGeneralRecommendations,
           ),
           BottomNavigationBarItem(
+            label: appLocalizations.tabPeritoneal,
             icon: const Icon(Icons.water_damage_outlined),
             activeIcon: const Icon(Icons.water_damage),
-            label: AppLocalizations.of(context).tabPeritoneal,
           ),
           BottomNavigationBarItem(
+            label: appLocalizations.tabProfile,
             icon: const Icon(Icons.person_outline),
             activeIcon: const Icon(Icons.person),
-            label: AppLocalizations.of(context).tabProfile,
           ),
         ],
       ),
