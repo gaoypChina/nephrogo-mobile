@@ -16,6 +16,7 @@ Future<void> showAppDialog({
     builder: (BuildContext context) {
       return AlertDialog(
         title: title != null ? Text(title) : null,
+        scrollable: true,
         content: message,
         actions: [
           TextButton(
