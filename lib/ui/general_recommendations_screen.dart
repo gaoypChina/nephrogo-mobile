@@ -182,14 +182,16 @@ class GeneralRecommendationScreen extends StatelessWidget {
       ),
       body: BasicSection.single(
         margin: EdgeInsets.zero,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: HtmlWidget(
-            recommendation.body,
-            webView: true,
-            textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
-                  fontSize: 16,
-                ),
+        child: Scrollbar(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: HtmlWidget(
+              recommendation.body,
+              webView: true,
+              textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
+                    fontSize: 16,
+                  ),
+            ),
           ),
         ),
       ),
