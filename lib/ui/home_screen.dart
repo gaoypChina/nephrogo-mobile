@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: _getText(),
+        title: _getTitle(),
         centerTitle: true,
       ),
       body: getTabBody(),
@@ -72,19 +72,21 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _getText() {
+  Widget _getTitle() {
     switch (_currentIndex) {
+      case 0:
+        return const AppBarLogo();
       case 1:
         return Text(appLocalizations.generalRecommendations);
       case 2:
-        return const Text('Sveikatos rodikliai');
+        return Text(appLocalizations.healthStatusIndicators);
       case 3:
-        return const Text('Peritoninė dializė');
+        return Text(appLocalizations.peritonealDialysisPlural);
       case 4:
-        return const Text('Mano paskyra');
+        return Text(appLocalizations.myProfile);
+      default:
+        throw ArgumentError("Tab with index $_currentIndex doesn't exist");
     }
-
-    return const AppBarLogo();
   }
 
   Widget getTabBody() {
