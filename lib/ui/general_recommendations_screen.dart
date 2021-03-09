@@ -27,9 +27,9 @@ class GeneralRecommendationsTab extends StatelessWidget {
               child: BasicSection.single(
                 child: MaterialBanner(
                   leading: const CircleAvatar(child: Icon(Icons.info_outline)),
-                  content: const Text(
-                      'TODO: Kažkoks disclaimeris, kad tai bendrojo pobūdžio '
-                      'rekomendacijos ir būtina pasitarti su gydytoju'),
+                  content: Text(
+                    context.appLocalizations.generalRecommendationsDisclaimer,
+                  ),
                   forceActionsBelow: true,
                   actions: <Widget>[
                     TextButton(

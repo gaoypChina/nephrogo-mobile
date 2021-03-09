@@ -451,6 +451,8 @@
   },
   "generalRecommendations": "Bendrieji patarimai",
   "@generalRecommendations": {},
+  "generalRecommendationsDisclaimer": "Patarimai yra bendrojo pobūdžio ir tai nėra gydymo pakaitalas. Visada vadovaukitės Jūsų gydytojo nurodymais.",
+  "@generalRecommendationsDisclaimer": {},
   "formValidatorNonEmptyText": "Laukelis yra privalomas.",
   "@formValidatorNonEmptyText": {
     "context": "form:validator"
