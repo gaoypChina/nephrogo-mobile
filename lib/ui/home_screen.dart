@@ -50,16 +50,17 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(Icons.analytics_outlined),
             label: AppLocalizations.of(context).tabHealthIndicators,
           ),
+          // Good choices assistant_outlined medical_services_outlined
           BottomNavigationBarItem(
-            icon: const Icon(Icons.fact_check_outlined),
+            icon: const Icon(Icons.explore_outlined),
             label: AppLocalizations.of(context).tabGeneralRecommendations,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.water_damage),
+            icon: const Icon(Icons.water_damage_outlined),
             label: AppLocalizations.of(context).tabPeritoneal,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.person),
+            icon: const Icon(Icons.person_outline),
             label: AppLocalizations.of(context).tabProfile,
           ),
         ],
