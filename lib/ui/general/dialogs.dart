@@ -74,21 +74,23 @@ Future<void> showContactDialog(BuildContext context) {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AppListTile(
-                title: Text(appLocalizations.supportEmail),
-                leading: const Icon(Icons.email),
-                onTap: () => launchEmail(Constants.supportEmail),
+            AppListTile(
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 4.0,
+                horizontal: 16,
               ),
+              title: Text(appLocalizations.supportEmail),
+              leading: const Icon(Icons.email),
+              onTap: () => launchEmail(Constants.supportEmail),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AppListTile(
-                title: Text(appLocalizations.supportPhone),
-                leading: const Icon(Icons.phone),
-                onTap: () => launchPhone(Constants.supportPhone),
+            AppListTile(
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 16,
               ),
+              title: Text(appLocalizations.supportPhone),
+              leading: const Icon(Icons.phone),
+              onTap: () => launchPhone(Constants.supportPhone),
             ),
           ],
         ),
