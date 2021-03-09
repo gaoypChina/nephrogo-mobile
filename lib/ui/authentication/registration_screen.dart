@@ -99,26 +99,26 @@ class _RegistrationFormState extends State<_RegistrationForm> {
         await showAppDialog(
           context: context,
           title: appLocalizations.error,
-          message: appLocalizations.errorEmailAlreadyInUse,
+          message: Text(appLocalizations.errorEmailAlreadyInUse),
         );
       } on InvalidEmailException catch (_) {
         await showAppDialog(
           context: context,
           title: appLocalizations.error,
-          message: appLocalizations.errorInvalidEmail,
+          message: Text(appLocalizations.errorInvalidEmail),
         );
       } on WeakPasswordException catch (_) {
         await showAppDialog(
           context: context,
           title: appLocalizations.error,
-          message: appLocalizations.errorWeakPassword,
+          message: Text(appLocalizations.errorWeakPassword),
         );
       } catch (e, stacktrace) {
         developer.log(
           'Unable to to to register',
           stackTrace: stacktrace,
         );
-        await showAppDialog(context: context, message: e.toString());
+        await showAppDialog(context: context, message: Text(e.toString()));
       }
 
       if (userCredential != null) {

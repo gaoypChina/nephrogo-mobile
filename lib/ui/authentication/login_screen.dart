@@ -160,7 +160,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
         error: e,
       );
 
-      await showAppDialog(context: context, message: e.toString());
+      await showAppDialog(context: context, message: Text(e.toString()));
     }
 
     if (userCredential != null) {

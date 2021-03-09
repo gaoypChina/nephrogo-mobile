@@ -76,7 +76,7 @@ class GeneralRecommendationsTab extends StatelessWidget {
     return showAppDialog(
       context: context,
       title: context.appLocalizations.sources,
-      message: context.appLocalizations.recommendationsSources,
+      message: Text(context.appLocalizations.recommendationsSources),
     );
   }
 }

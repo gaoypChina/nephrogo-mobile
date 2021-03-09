@@ -223,7 +223,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
         await showAppDialog(
           context: context,
           title: appLocalizations.error,
-          message: appLocalizations.serverErrorDescription,
+          message: Text(appLocalizations.serverErrorDescription),
         );
       },
     );

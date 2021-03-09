@@ -196,7 +196,7 @@ class PeritonealDialysisSummaryFloatingActionButton extends StatelessWidget {
         await showAppDialog(
           context: context,
           title: context.appLocalizations.error,
-          message: context.appLocalizations.serverErrorDescription,
+          message: Text(context.appLocalizations.serverErrorDescription),
         );
       },
     );
