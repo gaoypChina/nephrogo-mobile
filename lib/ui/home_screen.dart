@@ -44,23 +44,28 @@ class _HomeScreenState extends State<HomeScreen> {
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.restaurant_outlined),
+            activeIcon: const Icon(Icons.restaurant),
             label: AppLocalizations.of(context).tabNutrition,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.analytics_outlined),
+            activeIcon: const Icon(Icons.analytics),
             label: AppLocalizations.of(context).tabHealthIndicators,
           ),
           // Good choices assistant_outlined medical_services_outlined
           BottomNavigationBarItem(
             icon: const Icon(Icons.explore_outlined),
+            activeIcon: const Icon(Icons.explore),
             label: AppLocalizations.of(context).tabGeneralRecommendations,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.water_damage_outlined),
+            activeIcon: const Icon(Icons.water_damage),
             label: AppLocalizations.of(context).tabPeritoneal,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.person_outline),
+            activeIcon: const Icon(Icons.person),
             label: AppLocalizations.of(context).tabProfile,
           ),
         ],
