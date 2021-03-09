@@ -3,6 +3,7 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/utils/app_store_utils.dart';
 
 import 'general/app_bar_logo.dart';
+import 'general_recommendations_screen.dart';
 import 'tabs/account/account_tab.dart';
 import 'tabs/health_status/health_status_tab.dart';
 import 'tabs/nutrition/nutrition_tab.dart';
@@ -50,6 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
             label: AppLocalizations.of(context).tabHealthIndicators,
           ),
           BottomNavigationBarItem(
+            icon: const Icon(Icons.fact_check_outlined),
+            label: AppLocalizations.of(context).tabGeneralRecommendations,
+          ),
+          BottomNavigationBarItem(
             icon: const Icon(Icons.water_damage),
             label: AppLocalizations.of(context).tabPeritoneal,
           ),
@@ -69,8 +74,10 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
         return HealthStatusTab();
       case 2:
-        return PeritonealDialysisTab();
+        return GeneralRecommendationsTab();
       case 3:
+        return PeritonealDialysisTab();
+      case 4:
         return AccountTab();
       default:
         throw ArgumentError("Tab with index $_currentIndex doesn't exist");

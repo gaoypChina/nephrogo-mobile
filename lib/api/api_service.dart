@@ -27,7 +27,7 @@ import 'package:nephrogo_api_client/model/daily_health_status.dart';
 import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
-import 'package:nephrogo_api_client/model/general_recommendations_response.dart';
+import 'package:nephrogo_api_client/model/general_recommendation_response.dart';
 import 'package:nephrogo_api_client/model/health_status_screen_response.dart';
 import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
@@ -340,9 +340,9 @@ class ApiService {
         );
   }
 
-  Future<GeneralRecommendationsResponse> getGeneralRecommendations() {
+  Future<GeneralRecommendationResponse> getGeneralRecommendations() {
     return _generalRecommendationsApi
-        .generalRecommendationsRetrieve()
+        .generalRecommendationsV2Retrieve()
         .then((r) => r.data);
   }
 

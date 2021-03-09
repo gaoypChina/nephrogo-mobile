@@ -289,6 +289,7 @@ class AppListTile extends StatelessWidget {
   final bool selected;
   final bool dense;
   final bool isThreeLine;
+  final EdgeInsetsGeometry contentPadding;
 
   const AppListTile({
     Key key,
@@ -297,6 +298,7 @@ class AppListTile extends StatelessWidget {
     this.leading,
     this.trailing,
     this.onTap,
+    this.contentPadding,
     this.selected = false,
     this.dense = false,
     this.isThreeLine = false,
@@ -308,6 +310,7 @@ class AppListTile extends StatelessWidget {
       leading: leading,
       title: title,
       subtitle: subtitle,
+      contentPadding: contentPadding,
       dense: dense,
       isThreeLine: isThreeLine,
       trailing:

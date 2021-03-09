@@ -61,18 +61,7 @@ class _NutritionDailySummaryScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_getTitle()),
-        actions: [
-          TextButton(
-            onPressed: () => _openGeneralRecommendations(),
-            child: Text(
-              appLocalizations.tips.toUpperCase(),
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
-      ),
+      appBar: AppBar(title: Text(_getTitle())),
       body: DailyPager(
         earliestDate: Constants.earliestDate,
         initialDate: date,
@@ -117,10 +106,6 @@ class _NutritionDailySummaryScreenState
     }
 
     return widget.nutrient.consumptionName(appLocalizations);
-  }
-
-  Future _openGeneralRecommendations() {
-    return Navigator.pushNamed(context, Routes.routeGeneralRecommendations);
   }
 }
 

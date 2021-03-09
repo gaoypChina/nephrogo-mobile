@@ -41,16 +41,6 @@ class AccountTab extends StatelessWidget {
               ),
             ),
           ),
-          BasicSection.single(
-            child: AppListTile(
-              title: Text(appLocalizations.generalRecommendations),
-              leading: const Icon(Icons.school),
-              onTap: () => Navigator.pushNamed(
-                context,
-                Routes.routeGeneralRecommendations,
-              ),
-            ),
-          ),
           BasicSection(
             showDividers: true,
             children: [

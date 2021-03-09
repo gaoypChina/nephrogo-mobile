@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/ui/authentication/email_password_login_screen.dart';
+import 'package:nephrogo/ui/general_recommendations_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_edit_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/pulse_edit_screen.dart';
@@ -63,9 +64,13 @@ class Routes {
       'AutomaticPeritonealDialysisPeriod';
 
   static const routeUserProfile = 'userProfile';
-  static const routeGeneralRecommendations = 'generalRecommendations';
+
   static const routeGeneralRecommendationsCategory =
       'generalRecommendationsCategory';
+  static const routeGeneralRecommendationsSubcategory =
+      'generalRecommendationsSubcategory';
+  static const routeGeneralRecommendation = 'generalRecommendation';
+
   static const routeLegal = 'legal';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -221,16 +226,30 @@ class Routes {
 
           return PulseEditScreen(pulse: arguments.pulse);
         });
-      case routeGeneralRecommendations:
-        return MaterialPageRoute(builder: (context) {
-          return GeneralRecommendationsScreen();
-        });
+
       case routeGeneralRecommendationsCategory:
         return MaterialPageRoute(builder: (context) {
           final arguments = settings.arguments
-              as GeneralRecommendationsCategoryScreenArguments;
-          return GeneralRecommendationsCategoryScreen(
+              as GeneralRecommendationCategoryScreenArguments;
+          return GeneralRecommendationCategoryScreen(
             category: arguments.category,
+          );
+        });
+      case routeGeneralRecommendationsSubcategory:
+        return MaterialPageRoute(builder: (context) {
+          final arguments = settings.arguments
+              as GeneralRecommendationSubcategoryScreenArguments;
+          return GeneralRecommendationSubcategoryScreen(
+            subcategory: arguments.subcategory,
+          );
+        });
+      case routeGeneralRecommendation:
+        return MaterialPageRoute(builder: (context) {
+          final arguments =
+              settings.arguments as GeneralRecommendationScreenArguments;
+
+          return GeneralRecommendationScreen(
+            recommendation: arguments.recommendation,
           );
         });
       case routeUserProfile:
