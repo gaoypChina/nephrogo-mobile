@@ -977,7 +977,7 @@
   "@onboardingStep6Title": {
     "context": "onboarding"
   },
-  "onboardingStep6Description": "Gaukite atsakymus į svarbiausius klausimus, sergant lėtine inkstų liga",
+  "onboardingStep6Description": "Gaukite atsakymus į svarbiausius klausimus, kylančius sergant lėtine inkstų liga",
   "@onboardingStep6Description": {
     "context": "onboarding"
   },
