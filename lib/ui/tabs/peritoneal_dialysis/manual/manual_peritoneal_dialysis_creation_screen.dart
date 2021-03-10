@@ -241,7 +241,7 @@ class _ManualPeritonealDialysisCreationScreenState
               textInputAction: TextInputAction.next,
               validator: formValidators.and(
                 formValidators.nonNull(),
-                formValidators.numRangeValidator(100, 5000),
+                formValidators.numRangeValidator(0, 15000),
               ),
               initialValue: _requestBuilder.solutionInMl,
               onChanged: (p) => _requestBuilder.solutionInMl = p,
@@ -286,7 +286,7 @@ class _ManualPeritonealDialysisCreationScreenState
               textInputAction: TextInputAction.next,
               validator: formValidators.and(
                 _isSecondStep ? formValidators.nonNull() : (v) => null,
-                formValidators.numRangeValidator(100, 5000),
+                formValidators.numRangeValidator(0, 20000),
               ),
               initialValue: _requestBuilder.solutionOutMl,
               onChanged: (p) => _requestBuilder.solutionOutMl = p,

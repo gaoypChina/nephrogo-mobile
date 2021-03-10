@@ -312,7 +312,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
 
   FormFieldValidator<int> get _validateSolution {
     return _formValidators.and(
-      _formValidators.numRangeValidator(100, 10000),
+      _formValidators.numRangeValidator(100, 15000),
       _validateAtLeastOneSolutionSelected,
     );
   }
@@ -343,7 +343,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
               textInputAction: TextInputAction.next,
               validator: _formValidators.and(
                 _formValidators.nonNull(),
-                _formValidators.numRangeValidator(1, 10000),
+                _formValidators.numRangeValidator(0, 20000),
               ),
               initialValue: _requestBuilder.initialDrainingMl,
               onChanged: (p) => _requestBuilder.initialDrainingMl = p,
@@ -355,7 +355,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
               textInputAction: TextInputAction.next,
               validator: _formValidators.and(
                 _formValidators.nonNull(),
-                _formValidators.numRangeValidator(1, 15000),
+                _formValidators.numRangeValidator(0, 20000),
               ),
               initialValue: _requestBuilder.totalDrainVolumeMl,
               onChanged: (p) => _requestBuilder.totalDrainVolumeMl = p,
@@ -367,7 +367,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
               textInputAction: TextInputAction.next,
               validator: _formValidators.and(
                 _formValidators.nonNull(),
-                _formValidators.numRangeValidator(1, 10000),
+                _formValidators.numRangeValidator(0, 15000),
               ),
               initialValue: _requestBuilder.lastFillMl,
               onChanged: (p) => _requestBuilder.lastFillMl = p,
@@ -379,7 +379,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
               textInputAction: TextInputAction.next,
               validator: _formValidators.and(
                 _formValidators.nonNull(),
-                _formValidators.numRangeValidator(1, 10000),
+                _formValidators.numRangeValidator(0, 40000),
               ),
               initialValue: _requestBuilder.totalUltrafiltrationMl,
               onChanged: (p) => _requestBuilder.totalUltrafiltrationMl = p,
