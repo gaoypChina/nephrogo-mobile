@@ -50,83 +50,98 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16, right: 8, left: 8),
-      child: Column(
-        children: [
-          Expanded(
-            child: Image.asset(
-              'assets/logo/logo-with-title.png',
-              fit: BoxFit.scaleDown,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minWidth: constraints.maxWidth,
+              minHeight: constraints.maxHeight,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: SizedBox(
-              width: double.infinity,
-              child: SignInButton(
-                Buttons.Google,
-                padding: const EdgeInsets.all(8),
-                text: appLocalizations.loginGoogle,
-                onPressed: () => _loginWithSocial(
-                  context,
-                  SocialAuthenticationProvider.google,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16, right: 8, left: 8),
+              child: IntrinsicHeight(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Image.asset(
+                        'assets/logo/logo-with-title.png',
+                        fit: BoxFit.scaleDown,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: SignInButton(
+                          Buttons.Google,
+                          padding: const EdgeInsets.all(8),
+                          text: appLocalizations.loginGoogle,
+                          onPressed: () => _loginWithSocial(
+                            context,
+                            SocialAuthenticationProvider.google,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: SignInButton(
+                          Buttons.Facebook,
+                          padding: const EdgeInsets.all(16),
+                          text: appLocalizations.loginFacebook,
+                          onPressed: () => _loginWithSocial(
+                            context,
+                            SocialAuthenticationProvider.facebook,
+                          ),
+                        ),
+                      ),
+                    ),
+                    if (Theme.of(context).platform == TargetPlatform.iOS)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: SignInButton(
+                            Buttons.AppleDark,
+                            padding: const EdgeInsets.all(16),
+                            text: appLocalizations.loginApple,
+                            onPressed: () => _loginWithSocial(
+                              context,
+                              SocialAuthenticationProvider.apple,
+                            ),
+                          ),
+                        ),
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: SignInButton(
+                          Buttons.Email,
+                          padding: const EdgeInsets.all(16),
+                          text: appLocalizations.registerUsingEmail,
+                          onPressed: () => _registerAndLoginUsingEmail(context),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 32),
+                      child: EmailLoginButtonComponent(
+                        onCredentialsRetrieved: (userCredential) =>
+                            navigateToNextScreen(context, userCredential),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: SignInButton(
-                Buttons.Facebook,
-                padding: const EdgeInsets.all(16),
-                text: appLocalizations.loginFacebook,
-                onPressed: () => _loginWithSocial(
-                  context,
-                  SocialAuthenticationProvider.facebook,
-                ),
-              ),
-            ),
-          ),
-          if (Theme.of(context).platform == TargetPlatform.iOS)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: SignInButton(
-                  Buttons.AppleDark,
-                  padding: const EdgeInsets.all(16),
-                  text: appLocalizations.loginApple,
-                  onPressed: () => _loginWithSocial(
-                    context,
-                    SocialAuthenticationProvider.apple,
-                  ),
-                ),
-              ),
-            ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: double.infinity,
-              child: SignInButton(
-                Buttons.Email,
-                padding: const EdgeInsets.all(16),
-                text: appLocalizations.registerUsingEmail,
-                onPressed: () => _registerAndLoginUsingEmail(context),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 32),
-            child: EmailLoginButtonComponent(
-              onCredentialsRetrieved: (userCredential) =>
-                  navigateToNextScreen(context, userCredential),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
