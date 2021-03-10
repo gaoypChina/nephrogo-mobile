@@ -355,7 +355,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
               textInputAction: TextInputAction.next,
               validator: _formValidators.and(
                 _formValidators.nonNull(),
-                _formValidators.numRangeValidator(1, 10000),
+                _formValidators.numRangeValidator(1, 15000),
               ),
               initialValue: _requestBuilder.totalDrainVolumeMl,
               onChanged: (p) => _requestBuilder.totalDrainVolumeMl = p,
