@@ -267,7 +267,7 @@ class ExcelReportBuilder {
     );
 
     sheet.writeColumn<ManualPeritonealDialysis>(
-      header: _appLocalizations.dialysisEndDateTime,
+      header: _appLocalizations.manualDialysisEndDateTime,
       items: sortedReports.expand(
         (r) => r.manualPeritonealDialysisReverseSorted,
       ),

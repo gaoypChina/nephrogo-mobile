@@ -294,7 +294,7 @@ class _ManualPeritonealDialysisCreationScreenState
           ],
         ),
         SmallSection(
-          title: appLocalizations.dialysisEndDateTime,
+          title: appLocalizations.manualDialysisEndDateTime,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -1117,6 +1117,10 @@
   "@manualDialysisStartDateTime": {
     "context": "manualDialysis"
   },
+  "manualDialysisEndDateTime": "Tirpalo išpylimo data ir laikas",
+  "@manualDialysisEndDateTime": {
+    "context": "manualDialysis"
+  },
   "automaticDialysisStartDateTime": "Tirpalų įpylimo data ir laikas",
   "@automaticDialysisStartDateTime": {
     "context": "autoamticDialysis"
@@ -1124,10 +1128,6 @@
   "automaticDialysisEndDateTime": "Tirpalų išpylimo data ir laikas",
   "@automaticDialysisEndDateTime": {
     "context": "autoamticDialysis"
-  },
-  "dialysisEndDateTime": "Tirpalo išpylimo data ir laikas",
-  "@dialysisEndDateTime": {
-    "context": "manualDialysis"
   },
   "mandatoryHealthStatusIndicators": "Privalomi sveikatos rodikliai",
   "@mandatoryHealthStatusIndicators": {
