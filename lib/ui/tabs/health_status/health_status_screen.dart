@@ -144,6 +144,7 @@ class _HealthStatusScreenTab extends StatelessWidget {
           from: from,
           to: to,
           appLocalizations: context.appLocalizations,
+          smallMarkers: pagerType == PeriodPagerType.monthly,
         );
       },
     );
@@ -197,6 +198,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
   final DateTime from;
   final DateTime to;
   final Widget header;
+  final bool smallMarkers;
 
   const HealthIndicatorsListWithChart({
     Key key,
@@ -206,6 +208,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
     @required this.from,
     @required this.to,
     @required this.header,
+    @required this.smallMarkers,
   }) : super(key: key);
 
   @override
@@ -229,6 +232,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
                   indicator: healthIndicator,
                   from: from,
                   to: to,
+                  smallMarkers: smallMarkers,
                 ),
               ),
             ],

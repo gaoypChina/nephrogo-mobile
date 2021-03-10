@@ -13,6 +13,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
   final DateTime to;
   final HealthIndicator indicator;
   final List<DailyHealthStatus> dailyHealthStatuses;
+  final bool smallMarkers;
 
   const HealthIndicatorBarChart({
     Key key,
@@ -20,6 +21,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
     @required this.indicator,
     @required this.from,
     @required this.to,
+    this.smallMarkers = false,
   }) : super(key: key);
 
   @override
@@ -61,14 +63,14 @@ class HealthIndicatorBarChart extends StatelessWidget {
         dataSource: sortedBloodPressures,
         xValueMapper: (c, _) => c.measuredAt.toLocal(),
         yValueMapper: (c, _) => c.systolicBloodPressure,
-        markerSettings: MarkerSettings(isVisible: true),
+        markerSettings: _getMarkerSettings(),
         name: context.appLocalizations.healthStatusCreationSystolic,
       ),
       LineSeries<BloodPressure, DateTime>(
         dataSource: sortedBloodPressures,
         xValueMapper: (c, _) => c.measuredAt.toLocal(),
         yValueMapper: (c, _) => c.diastolicBloodPressure,
-        markerSettings: MarkerSettings(isVisible: true),
+        markerSettings: _getMarkerSettings(),
         name: context.appLocalizations.healthStatusCreationDiastolic,
       ),
     ];
@@ -86,7 +88,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
         xValueMapper: (c, _) => c.measuredAt.toLocal(),
         yValueMapper: (c, _) => c.pulse,
         name: context.appLocalizations.pulse,
-        markerSettings: MarkerSettings(isVisible: true),
+        markerSettings: _getMarkerSettings(),
       ),
     ];
   }
@@ -101,9 +103,19 @@ class HealthIndicatorBarChart extends StatelessWidget {
             s.getHealthIndicatorFormatted(indicator, context.appLocalizations),
         dataLabelSettings: DataLabelSettings(isVisible: _isShowingDataLabels()),
         name: indicator.name(context.appLocalizations),
-        markerSettings: MarkerSettings(isVisible: true),
+        markerSettings: _getMarkerSettings(),
       ),
     ];
+  }
+
+  MarkerSettings _getMarkerSettings() {
+    final markerSize = smallMarkers ? 4.0 : 8.0;
+
+    return MarkerSettings(
+      isVisible: true,
+      width: markerSize,
+      height: markerSize,
+    );
   }
 
   bool _isShowingDataLabels() {
