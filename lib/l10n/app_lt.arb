@@ -973,11 +973,11 @@
   "@onboardingStep5Description": {
     "context": "onboarding"
   },
-  "onboardingStep6Title": "Gydytojų rekomendacijos",
+  "onboardingStep6Title": "Patarimai",
   "@onboardingStep6Title": {
     "context": "onboarding"
   },
-  "onboardingStep6Description": "Gaukite inkstams palankios mitybos gydytojų rekomendacijas Dažniausiai užduodamuose klausimuose",
+  "onboardingStep6Description": "Gaukite atsakymus į svarbiausius klausimus, sergant lėtine inkstų liga",
   "@onboardingStep6Description": {
     "context": "onboarding"
   },
