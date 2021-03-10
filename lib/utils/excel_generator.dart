@@ -179,7 +179,7 @@ class ExcelReportBuilder {
     );
 
     sheet.writeColumn<ManualPeritonealDialysis>(
-      header: _appLocalizations.dialysisStart,
+      header: _appLocalizations.manualDialysisStartDateTime,
       items: sortedReports.expand(
         (r) => r.manualPeritonealDialysisReverseSorted,
       ),
@@ -267,7 +267,7 @@ class ExcelReportBuilder {
     );
 
     sheet.writeColumn<ManualPeritonealDialysis>(
-      header: _appLocalizations.dialysisEnd,
+      header: _appLocalizations.dialysisEndDateTime,
       items: sortedReports.expand(
         (r) => r.manualPeritonealDialysisReverseSorted,
       ),
@@ -335,7 +335,7 @@ class ExcelReportBuilder {
     );
 
     sheet.writeColumn<AutomaticPeritonealDialysis>(
-      header: _appLocalizations.dialysisStart,
+      header: _appLocalizations.automaticDialysisStartDateTime,
       columnWidth: 25,
       items: sortedDialysis,
       writer: (range, dialysis) {
@@ -431,7 +431,7 @@ class ExcelReportBuilder {
 
     sheet.writeColumn<AutomaticPeritonealDialysis>(
       columnWidth: 25,
-      header: _appLocalizations.dialysisEnd,
+      header: _appLocalizations.automaticDialysisEndDateTime,
       items: sortedDialysis,
       writer: (range, dialysis) {
         if (dialysis.finishedAt != null) {

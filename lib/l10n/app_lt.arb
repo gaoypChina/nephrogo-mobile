@@ -1113,7 +1113,19 @@
   "@dialysisStartDateTime": {
     "context": "manualDialysis"
   },
-  "dialysisEndDateTime": "Dializės pabaigos data ir laikas",
+  "manualDialysisStartDateTime": "Tirpalo įpylimo data ir laikas",
+  "@manualDialysisStartDateTime": {
+    "context": "manualDialysis"
+  },
+  "automaticDialysisStartDateTime": "Tirpalų įpylimo data ir laikas",
+  "@automaticDialysisStartDateTime": {
+    "context": "autoamticDialysis"
+  },
+  "automaticDialysisEndDateTime": "Tirpalų išpylimo data ir laikas",
+  "@automaticDialysisEndDateTime": {
+    "context": "autoamticDialysis"
+  },
+  "dialysisEndDateTime": "Tirpalo išpylimo data ir laikas",
   "@dialysisEndDateTime": {
     "context": "manualDialysis"
   },
@@ -1211,10 +1223,6 @@
   },
   "notes": "Pastabos",
   "@notes": {},
-  "dialysisStart": "Dializės pradžia",
-  "@dialysisStart": {},
-  "dialysisEnd": "Dializės pabaiga",
-  "@dialysisEnd": {},
   "balance": "Balansas",
   "@balance": {},
   "dialysisPerformed": "Atlikta dializių",

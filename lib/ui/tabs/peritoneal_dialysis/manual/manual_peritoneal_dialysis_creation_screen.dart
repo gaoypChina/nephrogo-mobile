@@ -181,7 +181,7 @@ class _ManualPeritonealDialysisCreationScreenState
     return Column(
       children: [
         SmallSection(
-          title: appLocalizations.dialysisStartDateTime,
+          title: appLocalizations.manualDialysisStartDateTime,
           children: [
             Row(
               children: [

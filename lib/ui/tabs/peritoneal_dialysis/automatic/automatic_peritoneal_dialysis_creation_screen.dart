@@ -199,7 +199,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
       children: [
         BetaBanner(),
         SmallSection(
-          title: appLocalizations.dialysisStartDateTime,
+          title: appLocalizations.automaticDialysisStartDateTime,
           children: [
             Row(
               children: [
@@ -414,7 +414,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
           ],
         ),
         SmallSection(
-          title: appLocalizations.dialysisEndDateTime,
+          title: appLocalizations.automaticDialysisEndDateTime,
           children: [
             Row(
               children: [
