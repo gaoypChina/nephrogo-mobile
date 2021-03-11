@@ -1117,7 +1117,7 @@
   "@manualDialysisStartDateTime": {
     "context": "manualDialysis"
   },
-  "manualDialysisEndDateTime": "Tirpalo išpylimo data ir laikas",
+  "manualDialysisEndDateTime": "Dializato išpylimo data ir laikas",
   "@manualDialysisEndDateTime": {
     "context": "manualDialysis"
   },
@@ -1125,7 +1125,7 @@
   "@automaticDialysisStartDateTime": {
     "context": "autoamticDialysis"
   },
-  "automaticDialysisEndDateTime": "Tirpalų išpylimo data ir laikas",
+  "automaticDialysisEndDateTime": "Dializato išpylimo data ir laikas",
   "@automaticDialysisEndDateTime": {
     "context": "autoamticDialysis"
   },
