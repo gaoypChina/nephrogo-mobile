@@ -241,7 +241,7 @@ class _ManualPeritonealDialysisCreationScreenState
               textInputAction: TextInputAction.next,
               validator: formValidators.and(
                 formValidators.nonNull(),
-                formValidators.numRangeValidator(0, 15000),
+                formValidators.numRangeValidator(500, 15000),
               ),
               initialValue: _requestBuilder.solutionInMl,
               onChanged: (p) => _requestBuilder.solutionInMl = p,

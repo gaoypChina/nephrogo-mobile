@@ -312,7 +312,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
 
   FormFieldValidator<int> get _validateSolution {
     return _formValidators.and(
-      _formValidators.numRangeValidator(100, 15000),
+      _formValidators.numRangeValidator(0, 15000),
       _validateAtLeastOneSolutionSelected,
     );
   }
