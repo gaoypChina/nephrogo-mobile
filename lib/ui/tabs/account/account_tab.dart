@@ -150,7 +150,10 @@ class AccountTab extends StatelessWidget {
   Widget getUserProfilePhoto() {
     final photoURL = _authenticationProvider.currentUserPhotoURL;
     if (photoURL == null) {
-      return Image.asset(anonymousPhotoPath);
+      return Image.asset(
+        anonymousPhotoPath,
+        excludeFromSemantics: true,
+      );
     }
 
     return AppNetworkImage(

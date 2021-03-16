@@ -96,7 +96,7 @@ class BasicSection extends StatelessWidget {
     @required Widget child,
     this.margin = const EdgeInsets.only(bottom: 16),
     this.innerPadding = EdgeInsets.zero,
-  })  
+  })
   // ignore: prefer_initializing_formals
   : header = child,
         children = const [],
@@ -446,7 +446,10 @@ class EmptyStateContainer extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Image.asset('assets/empty.png'),
+            child: Image.asset(
+              'assets/empty.png',
+              excludeFromSemantics: true,
+            ),
           ),
           Text(
             text,
