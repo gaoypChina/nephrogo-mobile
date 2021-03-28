@@ -266,22 +266,16 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
                   ),
                   semanticLabel: context.appLocalizations.duration,
                 ),
+              if (isDialysateColorWarning)
+                TextWithLeadingIcon(
+                  text: Text(
+                    dialysis.dialysateColor
+                        .localizedName(context.appLocalizations),
+                  ),
+                  icon: Icons.error_outline,
+                ),
             ],
           ),
-          if (isDialysateColorWarning)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Row(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(right: 4),
-                    child: Icon(Icons.error_outline, size: 14),
-                  ),
-                  Text(dialysis.dialysateColor
-                      .localizedName(context.appLocalizations)),
-                ],
-              ),
-            ),
           if (dialysis.notes != null && dialysis.notes.isNotEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),

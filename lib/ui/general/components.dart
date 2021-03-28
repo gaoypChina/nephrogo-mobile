@@ -491,7 +491,7 @@ class TextWithLeadingIcon extends StatelessWidget {
     Key key,
     @required this.text,
     @required this.icon,
-    @required this.semanticLabel,
+    this.semanticLabel,
   }) : super(key: key);
 
   @override
@@ -501,7 +501,11 @@ class TextWithLeadingIcon extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(right: 4),
-          child: Icon(icon, semanticLabel: semanticLabel, size: 14),
+          child: Icon(
+            icon,
+            semanticLabel: semanticLabel,
+            size: 14,
+          ),
         ),
         text
       ],
