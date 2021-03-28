@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
@@ -29,7 +30,7 @@ class NutritionDailySummaryScreenArguments {
   NutritionDailySummaryScreenArguments(this.date, {this.nutrient});
 }
 
-class NutritionDailySummaryScreen extends StatefulWidget {
+class NutritionDailySummaryScreen extends StatelessWidget {
   final Date date;
   final Nutrient nutrient;
 
@@ -41,12 +42,42 @@ class NutritionDailySummaryScreen extends StatefulWidget {
         super(key: key);
 
   @override
-  _NutritionDailySummaryScreenState createState() =>
-      _NutritionDailySummaryScreenState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(_getTitle(context.appLocalizations))),
+      body: NutritionDailySummaryBody(
+        date: date,
+        nutrient: nutrient,
+      ),
+    );
+  }
+
+  String _getTitle(AppLocalizations appLocalizations) {
+    if (nutrient == null) {
+      return appLocalizations.dailyNutritionSummary;
+    }
+
+    return nutrient.consumptionName(appLocalizations);
+  }
 }
 
-class _NutritionDailySummaryScreenState
-    extends State<NutritionDailySummaryScreen> {
+class NutritionDailySummaryBody extends StatefulWidget {
+  final Date date;
+  final Nutrient nutrient;
+
+  const NutritionDailySummaryBody({
+    Key key,
+    @required this.date,
+    @required this.nutrient,
+  })  : assert(date != null),
+        super(key: key);
+
+  @override
+  _NutritionDailySummaryBodyState createState() =>
+      _NutritionDailySummaryBodyState();
+}
+
+class _NutritionDailySummaryBodyState extends State<NutritionDailySummaryBody> {
   final _apiService = ApiService();
 
   Date date;
@@ -60,52 +91,41 @@ class _NutritionDailySummaryScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(_getTitle())),
-      body: DailyPager(
-        earliestDate: Constants.earliestDate,
-        initialDate: date,
-        onPageChanged: (from, to) {
-          date = from;
-        },
-        bodyBuilder: (context, header, from, to) {
-          return AppStreamBuilder<DailyIntakesReportResponse>(
-            stream: _apiService.getDailyIntakesReportStream(from),
-            builder: (context, data) {
-              final report = data?.dailyIntakesReport;
+    return DailyPager(
+      earliestDate: Constants.earliestDate,
+      initialDate: date,
+      onPageChanged: (from, to) {
+        date = from;
+      },
+      bodyBuilder: (context, header, from, to) {
+        return AppStreamBuilder<DailyIntakesReportResponse>(
+          stream: _apiService.getDailyIntakesReportStream(from),
+          builder: (context, data) {
+            final report = data?.dailyIntakesReport;
 
-              if (report == null || report.intakes.isEmpty) {
-                return NutritionDailyListWithHeaderEmpty(
-                  header: header,
-                  date: from,
-                );
-              }
+            if (report == null || report.intakes.isEmpty) {
+              return NutritionDailyListWithHeaderEmpty(
+                header: header,
+                date: from,
+              );
+            }
 
-              if (widget.nutrient != null) {
-                return _DailyNutritionNutrientList(
-                  report,
-                  widget.nutrient,
-                  header: header,
-                );
-              }
-
-              return _NutritionDailySummaryList(
+            if (widget.nutrient != null) {
+              return _DailyNutritionNutrientList(
                 report,
+                widget.nutrient,
                 header: header,
               );
-            },
-          );
-        },
-      ),
+            }
+
+            return _NutritionDailySummaryList(
+              report,
+              header: header,
+            );
+          },
+        );
+      },
     );
-  }
-
-  String _getTitle() {
-    if (widget.nutrient == null) {
-      return appLocalizations.dailyNutritionSummary;
-    }
-
-    return widget.nutrient.consumptionName(appLocalizations);
   }
 }
 

@@ -10,11 +10,12 @@ import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
 import 'package:nephrogo_api_client/model/nutrition_summary_statistics.dart';
 
+import 'nutrition_daily_summary.dart';
 import 'nutrition_nutrient_summary_list.dart';
 import 'nutrition_summary_components.dart';
 import 'nutrition_summary_list.dart';
 
-enum NutritionSummaryScreenType { weekly, monthly }
+enum NutritionSummaryScreenType { daily, weekly, monthly }
 
 class NutritionSummaryScreenArguments {
   final Nutrient nutrient;
@@ -49,13 +50,14 @@ class _NutritionSummaryScreenState extends State<NutritionSummaryScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       initialIndex: _getInitialTabIndex(),
       child: Scaffold(
         appBar: AppBar(
           title: Text(_tabTitle),
           bottom: TabBar(
             tabs: [
+              Tab(text: appLocalizations.daily.toUpperCase()),
               Tab(text: appLocalizations.weekly.toUpperCase()),
               Tab(text: appLocalizations.monthly.toUpperCase()),
             ],
@@ -64,6 +66,12 @@ class _NutritionSummaryScreenState extends State<NutritionSummaryScreen> {
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
+            NutritionDailySummaryBody(
+              nutrient: widget.nutrient,
+              date:
+                  widget.nutritionSummaryStatistics?.maxReportDate?.toDate() ??
+                      Date.today(),
+            ),
             _NutritionWeeklySummaryTabBody(
               nutrient: widget.nutrient,
               nutritionSummaryStatistics: widget.nutritionSummaryStatistics,
@@ -80,10 +88,12 @@ class _NutritionSummaryScreenState extends State<NutritionSummaryScreen> {
 
   int _getInitialTabIndex() {
     switch (widget.screenType) {
-      case NutritionSummaryScreenType.weekly:
+      case NutritionSummaryScreenType.daily:
         return 0;
-      case NutritionSummaryScreenType.monthly:
+      case NutritionSummaryScreenType.weekly:
         return 1;
+      case NutritionSummaryScreenType.monthly:
+        return 2;
     }
 
     throw ArgumentError.value(widget.screenType);

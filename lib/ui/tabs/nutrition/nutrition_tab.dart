@@ -3,12 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
-import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
 import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
 import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
 import 'package:nephrogo_api_client/model/intake.dart';
@@ -71,7 +69,7 @@ class NutritionTab extends StatelessWidget {
                 leading: OutlinedButton(
                   onPressed: () => _openNutritionDailySummary(
                     context,
-                    latestIntakes.first.consumedAt.toDate(),
+                    nutritionSummaryStatistics,
                   ),
                   child: Text(appLocalizations.more.toUpperCase()),
                 ),
@@ -104,14 +102,17 @@ class NutritionTab extends StatelessWidget {
     );
   }
 
-  Future _openNutritionDailySummary(
+  Future<void> _openNutritionDailySummary(
     BuildContext context,
-    Date date,
+    NutritionSummaryStatistics nutritionSummaryStatistics,
   ) {
     return Navigator.pushNamed(
       context,
-      Routes.routeNutritionDailySummary,
-      arguments: NutritionDailySummaryScreenArguments(date),
+      Routes.routeNutritionSummary,
+      arguments: NutritionSummaryScreenArguments(
+        screenType: NutritionSummaryScreenType.daily,
+        nutritionSummaryStatistics: nutritionSummaryStatistics,
+      ),
     );
   }
 }
@@ -214,7 +215,7 @@ class MonthlyNutritionSummarySection extends StatelessWidget {
     );
   }
 
-  Future _openNutritionSummary(
+  Future<void> _openNutritionSummary(
     BuildContext context,
     NutritionSummaryStatistics nutritionSummaryStatistics,
   ) {
