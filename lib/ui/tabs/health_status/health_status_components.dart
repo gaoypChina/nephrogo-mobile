@@ -71,13 +71,11 @@ class HealthStatusCreationFloatingActionButton extends StatelessWidget {
 class IndicatorChartSection extends StatelessWidget {
   final HealthIndicator indicator;
   final List<DailyHealthStatus> dailyHealthStatuses;
-  final bool showAddButton;
 
   const IndicatorChartSection({
     Key key,
     @required this.indicator,
     @required this.dailyHealthStatuses,
-    this.showAddButton = false,
   })  : assert(indicator != null),
         assert(dailyHealthStatuses != null),
         super(key: key);
@@ -111,6 +109,7 @@ class IndicatorChartSection extends StatelessWidget {
         onPressed: () => _openWeeklyHealthIndicatorScreen(context, indicator),
         child: Text(context.appLocalizations.more.toUpperCase()),
       ),
+      footer: _buildAddButton(context),
       children: [
         if (hasReports)
           Padding(
@@ -122,7 +121,6 @@ class IndicatorChartSection extends StatelessWidget {
               to: today,
             ),
           ),
-        if (showAddButton) _buildAddButton(context)
       ],
     );
   }
@@ -164,9 +162,20 @@ class IndicatorChartSection extends StatelessWidget {
         return appLocalizations.createWeight;
       case HealthIndicator.urine:
         return appLocalizations.createUrine;
-      default:
-        throw ArgumentError.value(indicator);
+      case HealthIndicator.glucose:
+        return appLocalizations.createBloodConcentration;
+      case HealthIndicator.swellings:
+        return appLocalizations.createSwellings;
+      case HealthIndicator.severityOfSwelling:
+        return appLocalizations.createSeverityOfSwelling;
+      case HealthIndicator.wellBeing:
+        return appLocalizations.createWellBeing;
+      case HealthIndicator.appetite:
+        return appLocalizations.createAppetite;
+      case HealthIndicator.shortnessOfBreath:
+        return appLocalizations.createShortnessOfBreath;
     }
+    throw ArgumentError.value(indicator);
   }
 
   Future<void> _createHealthStatus(BuildContext context) {

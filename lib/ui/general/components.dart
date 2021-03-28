@@ -70,6 +70,7 @@ class _SpeedDialFloatingActionButtonState
 
 class BasicSection extends StatelessWidget {
   final Widget header;
+  final Widget footer;
   final List<Widget> children;
   final EdgeInsetsGeometry margin;
   final EdgeInsetsGeometry innerPadding;
@@ -80,6 +81,7 @@ class BasicSection extends StatelessWidget {
   BasicSection({
     Key key,
     this.header,
+    this.footer,
     this.children = const [],
     this.showDividers = false,
     this.showHeaderDivider = false,
@@ -96,6 +98,7 @@ class BasicSection extends StatelessWidget {
     @required Widget child,
     this.margin = const EdgeInsets.only(bottom: 16),
     this.innerPadding = EdgeInsets.zero,
+    this.footer,
   })
   // ignore: prefer_initializing_formals
   : header = child,
@@ -118,9 +121,6 @@ class BasicSection extends StatelessWidget {
   }
 
   Widget _buildHeaderAndChildren(BuildContext context) {
-    if (children.isEmpty) {
-      return header;
-    }
     return Column(
       crossAxisAlignment: crossAxisAlignment,
       children: _getPreparedChildren(context).toList(),
@@ -145,6 +145,11 @@ class BasicSection extends StatelessWidget {
     } else {
       yield* children;
     }
+
+    if (footer != null) {
+      yield const Divider(height: 1);
+      yield footer;
+    }
   }
 }
 
@@ -154,6 +159,7 @@ class LargeSection extends StatelessWidget {
   final Widget subtitle;
   final Widget leading;
   final Widget trailing;
+  final Widget footer;
   final bool showDividers;
   final bool showHeaderDivider;
   final GestureTapCallback onTap;
@@ -165,6 +171,7 @@ class LargeSection extends StatelessWidget {
     this.subtitle,
     this.leading,
     this.trailing,
+    this.footer,
     this.onTap,
     this.showDividers = false,
     this.showHeaderDivider = false,
@@ -182,6 +189,7 @@ class LargeSection extends StatelessWidget {
         trailing: trailing,
         onTap: onTap,
       ),
+      footer: footer,
       children: children,
     );
   }
