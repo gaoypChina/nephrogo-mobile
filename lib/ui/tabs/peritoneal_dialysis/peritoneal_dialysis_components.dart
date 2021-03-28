@@ -25,30 +25,37 @@ class PeritonealDialysisCreationFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SpeedDialFloatingActionButton(
-      label: _getCreateButtonLabel(context),
-      icon: dialysisInProgress ? Icons.play_arrow : Icons.add,
-      children: [
-        _createDialButton(
-          icon: Icons.water_damage,
-          onTap: () => dialysisOnTap(context),
-          backgroundColor: Colors.teal,
-          label: context.appLocalizations.peritonealDialysis,
-        ),
-        _createDialButton(
-          icon: Icons.favorite,
-          onTap: () => _createBloodPressureOrPulse(context),
-          backgroundColor: Colors.deepPurple,
-          label: context.appLocalizations.bloodPressureAndPulse,
-        ),
-        _createDialButton(
-          icon: Icons.timeline,
-          onTap: () => _createHealthStatus(context),
-          backgroundColor: Colors.blue,
-          label: context.appLocalizations.weightAndUrine,
-        ),
-      ],
-    );
+    if (dialysisInProgress) {
+      return SpeedDialFloatingActionButton(
+        label: _getCreateButtonLabel(context),
+        icon: Icons.play_arrow,
+        onPress: () => dialysisOnTap(context),
+      );
+    } else {
+      return SpeedDialFloatingActionButton(
+        label: _getCreateButtonLabel(context),
+        children: [
+          _createDialButton(
+            icon: Icons.water_damage,
+            onTap: () => dialysisOnTap(context),
+            backgroundColor: Colors.teal,
+            label: context.appLocalizations.peritonealDialysis,
+          ),
+          _createDialButton(
+            icon: Icons.favorite,
+            onTap: () => _createBloodPressureOrPulse(context),
+            backgroundColor: Colors.deepPurple,
+            label: context.appLocalizations.bloodPressureAndPulse,
+          ),
+          _createDialButton(
+            icon: Icons.timeline,
+            onTap: () => _createHealthStatus(context),
+            backgroundColor: Colors.blue,
+            label: context.appLocalizations.weightAndUrine,
+          ),
+        ],
+      );
+    }
   }
 
   String _getCreateButtonLabel(BuildContext context) {
