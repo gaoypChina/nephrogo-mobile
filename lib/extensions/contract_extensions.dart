@@ -1141,9 +1141,22 @@ extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {
     builder.solutionOutMl = solutionOutMl;
     builder.dialysateColor = dialysateColor;
     builder.notes = notes;
-    builder.finishedAt = finishedAt;
 
     return builder;
+  }
+
+  bool get hasValidDuration {
+    if (isCompleted && finishedAt == null) {
+      return false;
+    }
+
+    return true;
+  }
+
+  Duration get duration {
+    final finish = finishedAt ?? DateTime.now();
+
+    return finish.toUtc().difference(startedAt.toUtc());
   }
 
   String get formattedBalance {

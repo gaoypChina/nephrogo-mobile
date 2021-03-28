@@ -294,54 +294,6 @@ class _ManualPeritonealDialysisCreationScreenState
           ],
         ),
         SmallSection(
-          title: appLocalizations.manualDialysisEndDateTime,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: AppDatePickerFormField(
-                    initialDate: _requestBuilder.finishedAt?.toDate() ?? today,
-                    firstDate: _requestBuilder.startedAt.toDate() ?? today,
-                    lastDate: today,
-                    dateFormat: _dateFormat,
-                    validator: formValidators.and(
-                      formValidators.nonNull(),
-                      (_) => _validateFinishedAtDuration(),
-                    ),
-                    onDateChanged: (date) {
-                      _requestBuilder.finishedAt =
-                          (_requestBuilder.finishedAt ?? now)
-                              .appliedDate(date)
-                              .toUtc();
-                    },
-                    labelText: appLocalizations.date,
-                  ),
-                ),
-                Flexible(
-                  child: AppTimePickerFormField(
-                    initialTime:
-                        (_requestBuilder.finishedAt ?? now).timeOfDayLocal,
-                    labelText: appLocalizations.mealCreationTime,
-                    onTimeChanged: (t) => _requestBuilder.finishedAt =
-                        (_requestBuilder.finishedAt ?? now)
-                            .appliedLocalTime(t)
-                            .toUtc(),
-                    onTimeSaved: (t) {
-                      if (_isSecondStep) {
-                        _requestBuilder.finishedAt =
-                            (_requestBuilder.finishedAt ?? now)
-                                .appliedLocalTime(t)
-                                .toUtc();
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        SmallSection(
           title: appLocalizations.notes,
           children: [
             AppTextFormField(
@@ -357,21 +309,6 @@ class _ManualPeritonealDialysisCreationScreenState
         ),
       ],
     );
-  }
-
-  String _validateFinishedAtDuration() {
-    if (_isFirstStep) {
-      return null;
-    }
-
-    final end = (_requestBuilder.finishedAt ?? now).toLocal();
-    final hours = end.difference(_requestBuilder.startedAt.toLocal()).inHours;
-
-    if (hours < 1) {
-      return appLocalizations.errorCheckDialysisDates;
-    }
-
-    return null;
   }
 
   Future<ManualPeritonealDialysis> _save() {
