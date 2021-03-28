@@ -267,6 +267,20 @@ class ExcelReportBuilder {
     );
 
     sheet.writeColumn<ManualPeritonealDialysis>(
+      header: _appLocalizations.duration,
+      items: sortedReports.expand(
+        (r) => r.manualPeritonealDialysisReverseSorted,
+      ),
+      writer: (range, dialysis) {
+        if (dialysis.isCompleted && dialysis.hasValidDuration != null) {
+          range.setText(
+            dialysis.duration.formatHoursAndMinutes(_appLocalizations),
+          );
+        }
+      },
+    );
+
+    sheet.writeColumn<ManualPeritonealDialysis>(
       header: _appLocalizations.manualDialysisEndDateTime,
       items: sortedReports.expand(
         (r) => r.manualPeritonealDialysisReverseSorted,

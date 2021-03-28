@@ -481,3 +481,30 @@ class AppBarTextButton extends StatelessWidget {
     );
   }
 }
+
+class TextWithLeadingIcon extends StatelessWidget {
+  final Text text;
+  final IconData icon;
+  final String semanticLabel;
+
+  const TextWithLeadingIcon({
+    Key key,
+    @required this.text,
+    @required this.icon,
+    @required this.semanticLabel,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 4),
+          child: Icon(icon, semanticLabel: semanticLabel, size: 14),
+        ),
+        text
+      ],
+    );
+  }
+}

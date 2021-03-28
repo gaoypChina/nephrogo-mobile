@@ -1262,5 +1262,7 @@
   "hoursShortSuffix": "val.",
   "@hoursShortSuffix": {},
   "minutesShortSuffix": "min.",
-  "@minutesShortSuffix": {}
+  "@minutesShortSuffix": {},
+  "duration": "Trukmė",
+  "@duration": {}
 }

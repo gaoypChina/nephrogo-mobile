@@ -248,11 +248,13 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
               TextWithLeadingIcon(
                 icon: Icons.next_plan_outlined,
                 text: Text(dialysis.formattedSolutionIn),
+                semanticLabel: context.appLocalizations.dialysisSolutionIn,
               ),
               if (dialysis.solutionOutMl != null)
                 TextWithLeadingIcon(
                   icon: Icons.outbond_outlined,
                   text: Text(dialysis.formattedSolutionOut),
+                  semanticLabel: context.appLocalizations.dialysisSolutionOut,
                 ),
               if (dialysis.hasValidDuration)
                 TextWithLeadingIcon(
@@ -262,6 +264,7 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
                       context.appLocalizations,
                     ),
                   ),
+                  semanticLabel: context.appLocalizations.duration,
                 ),
             ],
           ),
@@ -317,30 +320,5 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
     } else {
       return null;
     }
-  }
-}
-
-class TextWithLeadingIcon extends StatelessWidget {
-  final Text text;
-  final IconData icon;
-
-  const TextWithLeadingIcon({
-    Key key,
-    @required this.text,
-    @required this.icon,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 4),
-          child: Icon(icon, size: 14),
-        ),
-        text
-      ],
-    );
   }
 }
