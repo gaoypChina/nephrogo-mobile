@@ -239,6 +239,7 @@ class _ManualPeritonealDialysisCreationScreenState
               labelText: appLocalizations.dialysisSolutionIn,
               suffixText: 'ml',
               textInputAction: TextInputAction.next,
+              prefixIcon: const Icon(Icons.next_plan_outlined),
               validator: formValidators.and(
                 formValidators.nonNull(),
                 formValidators.numRangeValidator(500, 15000),
@@ -284,6 +285,7 @@ class _ManualPeritonealDialysisCreationScreenState
               labelText: appLocalizations.dialysisSolutionOut,
               suffixText: 'ml',
               textInputAction: TextInputAction.next,
+              prefixIcon: const Icon(Icons.outbond_outlined),
               validator: formValidators.and(
                 _isSecondStep ? formValidators.nonNull() : (v) => null,
                 formValidators.numRangeValidator(0, 20000),

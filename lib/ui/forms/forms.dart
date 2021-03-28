@@ -564,6 +564,7 @@ class AppIntegerFormField extends StatelessWidget {
   final String hintText;
   final int initialValue;
   final Widget icon;
+  final Widget prefixIcon;
   final FormFieldValidator<int> validator;
   final FormFieldSetter<int> onSaved;
   final FormFieldSetter<int> onChanged;
@@ -579,6 +580,7 @@ class AppIntegerFormField extends StatelessWidget {
     this.helperText,
     this.initialValue,
     this.icon,
+    this.prefixIcon,
     this.validator,
     this.suffixText,
     this.hintText,
@@ -595,6 +597,7 @@ class AppIntegerFormField extends StatelessWidget {
       helperText: helperText,
       hintText: hintText,
       icon: icon,
+      prefixIcon: prefixIcon,
       validator: _validator,
       autoFocus: autoFocus,
       initialValue: initialValue?.toString(),
