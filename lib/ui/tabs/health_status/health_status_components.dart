@@ -131,12 +131,10 @@ class IndicatorChartSection extends StatelessWidget {
       width: double.infinity,
       child: TextButton(
         onPressed: () => _openAddIndicator(context),
-        child: Padding(
-          padding: const EdgeInsets.all(4),
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-          ),
+        child: Text(
+          text,
+          style: const TextStyle(fontSize: 12),
+          textAlign: TextAlign.center,
         ),
       ),
     );
