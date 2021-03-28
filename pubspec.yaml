@@ -28,6 +28,9 @@ dependencies:
 
   intl: ^0.16.1
 
+  animations: ^1.1.2
+
+
   logging: ^0.11.4
   package_info: ^0.4.3+2
   tuple: ^1.0.3

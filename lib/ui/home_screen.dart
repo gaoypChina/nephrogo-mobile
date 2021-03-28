@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/utils/app_store_utils.dart';
@@ -25,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _currentIndex = 0;
 
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => _appReview.requestReviewConditionally(),
+          (_) => _appReview.requestReviewConditionally(),
     );
   }
 
@@ -36,7 +37,20 @@ class _HomeScreenState extends State<HomeScreen> {
         title: _getTitle(),
         centerTitle: true,
       ),
-      body: getTabBody(),
+      body: PageTransitionSwitcher(
+        transitionBuilder: (
+          Widget child,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+        ) {
+          return FadeThroughTransition(
+            animation: animation,
+            secondaryAnimation: secondaryAnimation,
+            child: child,
+          );
+        },
+        child: getTabBody(),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         type: BottomNavigationBarType.fixed,
