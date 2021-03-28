@@ -74,12 +74,15 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
 
   final _queryStreamController = StreamController<_Query>.broadcast();
 
+  final _isLoadingNotifier = ValueNotifier(true);
+
   @override
   void dispose() {
     super.dispose();
 
     focusNode.dispose();
     _queryStreamController.close();
+    _isLoadingNotifier.dispose();
   }
 
   Stream<ProductSearchResponse> _buildStream() {
@@ -94,6 +97,11 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
           return q;
         })
         .where((q) => q.query == currentQuery)
+        .map((q) {
+          _isLoadingNotifier.value = true;
+
+          return q;
+        })
         .asyncMap<ProductSearchResponse>(
           (q) => _apiService.getProducts(
             q.query,
@@ -102,6 +110,11 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
             mealType: widget.mealType,
           ),
         )
+        .map((p) {
+          _isLoadingNotifier.value = false;
+
+          return p;
+        })
         .where((p) => p.query == currentQuery);
   }
 
@@ -151,6 +164,23 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
           ),
           cursorColor: Colors.white.withOpacity(0.9),
         ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: ValueListenableBuilder<bool>(
+            valueListenable: _isLoadingNotifier,
+            builder: (context, isLoading, child) {
+              return Visibility(
+                visible: isLoading,
+                maintainState: true,
+                maintainAnimation: true,
+                maintainSize: true,
+                child: const LinearProgressIndicator(),
+              );
+            },
+          ),
+        ),
+
+        // bottom: ,
       ),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
