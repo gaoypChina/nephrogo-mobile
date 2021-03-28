@@ -1258,5 +1258,9 @@
   "errorNoDialysisSolutionSelected": "Pasirinkite bent vieną tirpalą",
   "@errorNoDialysisSolutionSelected": {},
   "errorAutomaticDialysisWithSameDateExists": "Automatinė peritoninė dializė su šia data jau sukurta!\nPrašome redaguoti jau egzistuojančią dializę.",
-  "@errorAutomaticDialysisWithSameDateExists": {}
+  "@errorAutomaticDialysisWithSameDateExists": {},
+  "hoursShortSuffix": "val.",
+  "@hoursShortSuffix": {},
+  "minutesShortSuffix": "min.",
+  "@minutesShortSuffix": {}
 }

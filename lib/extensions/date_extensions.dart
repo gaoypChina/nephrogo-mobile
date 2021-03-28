@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/date.dart';
 
 extension DateTimeExtension on DateTime {
@@ -90,5 +91,14 @@ extension DateTimeExtension on DateTime {
       millisecond ?? this.millisecond,
       microsecond ?? this.microsecond,
     );
+  }
+}
+
+extension DurationExtensions on Duration {
+  String formatHoursAndMinutes(AppLocalizations appLocalizations) {
+    if (inMinutes >= 60) {
+      return '${inMinutes ~/ 60} ${appLocalizations.hoursShortSuffix} ${inMinutes % 60} ${appLocalizations.minutesShortSuffix}';
+    }
+    return '$inMinutes ${appLocalizations.minutesShortSuffix}';
   }
 }

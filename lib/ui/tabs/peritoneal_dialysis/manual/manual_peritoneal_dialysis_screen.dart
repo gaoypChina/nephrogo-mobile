@@ -237,26 +237,32 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
       title: Text(_dateTimeFormat
           .format(dialysis.startedAt.toLocal())
           .capitalizeFirst()),
+      // isThreeLine: true,
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          Wrap(
+            spacing: 4,
+            runSpacing: 2,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(right: 4),
-                child: Icon(Icons.next_plan_outlined, size: 14),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Text(dialysis.formattedSolutionIn),
+              TextWithLeadingIcon(
+                icon: Icons.next_plan_outlined,
+                text: Text(dialysis.formattedSolutionIn),
               ),
               if (dialysis.solutionOutMl != null)
-                const Padding(
-                  padding: EdgeInsets.only(right: 4),
-                  child: Icon(Icons.outbond_outlined, size: 14),
+                TextWithLeadingIcon(
+                  icon: Icons.outbond_outlined,
+                  text: Text(dialysis.formattedSolutionOut),
                 ),
-              if (dialysis.solutionOutMl != null)
-                Text(dialysis.formattedSolutionOut),
+              if (dialysis.hasValidDuration)
+                TextWithLeadingIcon(
+                  icon: Icons.timer,
+                  text: Text(
+                    dialysis.duration.formatHoursAndMinutes(
+                      context.appLocalizations,
+                    ),
+                  ),
+                ),
             ],
           ),
           if (isDialysateColorWarning)
@@ -311,5 +317,30 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
     } else {
       return null;
     }
+  }
+}
+
+class TextWithLeadingIcon extends StatelessWidget {
+  final Text text;
+  final IconData icon;
+
+  const TextWithLeadingIcon({
+    Key key,
+    @required this.text,
+    @required this.icon,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 4),
+          child: Icon(icon, size: 14),
+        ),
+        text
+      ],
+    );
   }
 }
