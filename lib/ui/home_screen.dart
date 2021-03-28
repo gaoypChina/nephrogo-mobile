@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _currentIndex = 0;
 
     WidgetsBinding.instance.addPostFrameCallback(
-          (_) => _appReview.requestReviewConditionally(),
+      (_) => _appReview.requestReviewConditionally(),
     );
   }
 
