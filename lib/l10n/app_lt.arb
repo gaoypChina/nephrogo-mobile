@@ -1197,6 +1197,8 @@
   "@dialysateColor": {
     "context": "manualDialysis"
   },
+  "dialysateColorWarning": "Jeigu dializato spalva nėra skaidri, daugiau skaitykite skiltyje \"Patarimai\" ir kreipkitės į gydytoją!",
+  "@dialysateColorWarning": {},
   "dialysateColorTransparent": "Skaidrus",
   "@dialysateColorTransparent": {
     "context": "manualDialysis"

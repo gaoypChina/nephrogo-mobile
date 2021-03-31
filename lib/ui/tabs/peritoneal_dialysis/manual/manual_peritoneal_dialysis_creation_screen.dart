@@ -265,6 +265,7 @@ class _ManualPeritonealDialysisCreationScreenState
                       ?.enumWithoutDefault(DialysateColorEnum.unknown) ??
                   DialysateColorEnum.transparent,
               focusNextOnSelection: true,
+              dialogHelpText: appLocalizations.dialysateColorWarning,
               onChanged: (v) => _requestBuilder.dialysateColor = v?.value,
               onSaved: (v) {
                 if (_isSecondStep) {
