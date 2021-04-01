@@ -14,10 +14,7 @@ import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/peritoneal_dialysis_components.dart';
 import 'package:nephrogo/utils/excel_generator.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
-import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
-import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
-import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class ManualPeritonealDialysisScreenArguments {
   final Date initialDate;
@@ -123,7 +120,7 @@ class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
       builder: (context, data) {
         final sortedReports = data.dailyHealthStatuses
             .where((s) => s.manualPeritonealDialysis.isNotEmpty)
-            .sortedBy((e) => e.date, reverse: true)
+            .orderBy((e) => e.date, reverse: true)
             .toList();
 
         if (sortedReports.isEmpty) {
@@ -171,7 +168,7 @@ class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
     if (pagerType == PeriodPagerType.daily) {
       final dialysis = dailyHealthStatus
           .expand((e) => e.manualPeritonealDialysis)
-          .sortedBy((e) => e.startedAt, reverse: true)
+          .orderBy((e) => e.startedAt, reverse: true)
           .toList();
 
       return ManualPeritonealDialysisDayBalanceChart(
@@ -201,7 +198,7 @@ class ManualPeritonealDialysisReportSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sortedDialysis = dailyHealthStatus.manualPeritonealDialysis
-        .sortedBy((d) => d.startedAt, reverse: true);
+        .orderBy((d) => d.startedAt, reverse: true);
 
     return LargeSection(
       title: Text(_dateFormat.format(dailyHealthStatus.date).capitalizeFirst()),

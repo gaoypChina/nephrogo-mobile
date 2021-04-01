@@ -10,10 +10,7 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/utils.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
-import 'package:nephrogo_api_client/model/product.dart';
-import 'package:nephrogo_api_client/model/product_search_response.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'intake_create.dart';
 

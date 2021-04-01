@@ -4,7 +4,7 @@ import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class NutritionDailyListWithHeaderEmpty extends StatelessWidget {
   final Widget header;

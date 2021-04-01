@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/charts/numeric_chart.dart';
-import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ManualPeritonealDialysisDayBalanceChart extends StatelessWidget {
@@ -28,7 +28,7 @@ class ManualPeritonealDialysisDayBalanceChart extends StatelessWidget {
 
   Iterable<XyDataSeries> _getColumnSeries(BuildContext context) sync* {
     final dialysis =
-        manualPeritonealDialysis.sortedBy((e) => e.startedAt).toList();
+        manualPeritonealDialysis.orderBy((e) => e.startedAt).toList();
 
     yield BarSeries<ManualPeritonealDialysis, String>(
       dataSource: dialysis,

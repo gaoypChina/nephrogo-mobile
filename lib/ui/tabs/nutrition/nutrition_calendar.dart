@@ -3,7 +3,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class NutritionCalendar extends StatefulWidget {
@@ -29,7 +29,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
 
   CalendarController _calendarController;
 
-  List<DailyIntakesLightReport> _reportsSortedByDateReverse;
+  List<DailyIntakesLightReport> _reportsorderByDateReverse;
 
   Set<DateTime> _dailyNormExceededDatesSet;
   Set<DateTime> _dailyNormUnavailableDatesSet;
@@ -41,21 +41,21 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
 
     _calendarController = CalendarController();
 
-    _reportsSortedByDateReverse = widget.dailyIntakesLightReports
-        .sortedBy((e) => e.date, reverse: true)
+    _reportsorderByDateReverse = widget.dailyIntakesLightReports
+        .orderBy((e) => e.date, reverse: true)
         .toList();
 
-    _minDate = _reportsSortedByDateReverse.lastOrNull()?.date;
-    _maxDate = _reportsSortedByDateReverse.firstOrNull()?.date;
+    _minDate = _reportsorderByDateReverse.lastOrNull()?.date;
+    _maxDate = _reportsorderByDateReverse.firstOrNull()?.date;
 
     _availableDatesSet =
-        _reportsSortedByDateReverse.map((r) => Date.from(r.date)).toSet();
+        _reportsorderByDateReverse.map((r) => Date.from(r.date)).toSet();
 
     _dailyNormExceededDatesSet =
-        generateDailyNormExceededDates(_reportsSortedByDateReverse).toSet();
+        generateDailyNormExceededDates(_reportsorderByDateReverse).toSet();
 
     _dailyNormUnavailableDatesSet =
-        generateDailyNormUnavailableDates(_reportsSortedByDateReverse).toSet();
+        generateDailyNormUnavailableDates(_reportsorderByDateReverse).toSet();
 
     super.initState();
   }
@@ -64,12 +64,12 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     List<DailyIntakesLightReport> reports,
   ) {
     if (widget.nutrient == null) {
-      return _reportsSortedByDateReverse
+      return _reportsorderByDateReverse
           .where((r) => r.nutrientNormsAndTotals.isAtLeastOneNormExceeded())
           .map((r) => r.date);
     }
 
-    return _reportsSortedByDateReverse.where(
+    return _reportsorderByDateReverse.where(
       (r) {
         final consumption = r.nutrientNormsAndTotals
             .getDailyNutrientConsumption(widget.nutrient);
@@ -86,7 +86,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
       return [];
     }
 
-    return _reportsSortedByDateReverse.where(
+    return _reportsorderByDateReverse.where(
       (r) {
         final consumption = r.nutrientNormsAndTotals
             .getDailyNutrientConsumption(widget.nutrient);
@@ -171,7 +171,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
   }
 
   int getReportPosition(DateTime dateTime) {
-    return _reportsSortedByDateReverse
+    return _reportsorderByDateReverse
             .mapIndexed((i, r) => r.date == Date.from(dateTime) ? i : null)
             .firstWhere((i) => i != null) +
         1;

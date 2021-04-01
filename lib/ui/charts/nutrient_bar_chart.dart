@@ -5,7 +5,7 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/utils/date_utils.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'date_time_numeric_chart.dart';
@@ -63,7 +63,7 @@ class NutrientBarChart extends StatelessWidget {
     final lastReport = dailyIntakeLightReports.maxBy((_, r) => r.date);
 
     yield ColumnSeries<DailyIntakesLightReport, DateTime>(
-      dataSource: dailyIntakeLightReports.sortedBy((e) => e.date).toList(),
+      dataSource: dailyIntakeLightReports.orderBy((e) => e.date).toList(),
       borderRadius: DateTimeNumericChart.rodTopRadius,
       xValueMapper: (report, _) => report.date.toDate(),
       yValueMapper: (report, _) {

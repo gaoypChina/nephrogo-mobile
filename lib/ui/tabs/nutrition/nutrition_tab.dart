@@ -7,11 +7,7 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
-import 'package:nephrogo_api_client/model/intake.dart';
-import 'package:nephrogo_api_client/model/nutrition_screen_v2_response.dart';
-import 'package:nephrogo_api_client/model/nutrition_summary_statistics.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'nutrition_calendar.dart';
 import 'nutrition_components.dart';

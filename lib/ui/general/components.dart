@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:nephrogo_api_client/model/product_kind_enum.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class SpeedDialFloatingActionButton extends StatefulWidget {
   final String label;

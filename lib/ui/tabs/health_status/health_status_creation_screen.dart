@@ -10,14 +10,7 @@ import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/app_future_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/appetite_enum.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
-import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
-import 'package:nephrogo_api_client/model/shortness_of_breath_enum.dart';
-import 'package:nephrogo_api_client/model/swelling_difficulty_enum.dart';
-import 'package:nephrogo_api_client/model/swelling_enum.dart';
-import 'package:nephrogo_api_client/model/swelling_request.dart';
-import 'package:nephrogo_api_client/model/well_feeling_enum.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class HealthStatusCreationScreenArguments {
   final Date date;

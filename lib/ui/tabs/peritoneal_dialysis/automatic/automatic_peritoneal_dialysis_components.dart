@@ -5,7 +5,7 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/peritoneal_dialysis_components.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'automatic_peritoneal_dialysis_creation_screen.dart';
 

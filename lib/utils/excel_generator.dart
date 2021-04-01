@@ -4,12 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
-import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
-import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
-import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
@@ -149,7 +144,7 @@ class ExcelReportBuilder {
   }) {
     final sortedReports = dailyHealthStatuses
         .where((s) => s.manualPeritonealDialysis.isNotEmpty)
-        .sortedBy((r) => r.date, reverse: true)
+        .orderBy((r) => r.date, reverse: true)
         .toList();
 
     final sheet = ExcelGeneratorSheet(
@@ -319,7 +314,7 @@ class ExcelReportBuilder {
     @required Iterable<AutomaticPeritonealDialysis> peritonealDialysis,
   }) {
     final sortedDialysis =
-        peritonealDialysis.sortedBy((r) => r.date, reverse: true).toList();
+        peritonealDialysis.orderBy((r) => r.date, reverse: true).toList();
 
     final sortedIntakesLightReports =
         sortedDialysis.map((d) => d.dailyIntakesLightReport).toList();
@@ -485,7 +480,7 @@ class ExcelReportBuilder {
     switch (indicator) {
       case HealthIndicator.bloodPressure:
         final text = status.bloodPressures
-            .sortedBy((e) => e.measuredAt, reverse: true)
+            .orderBy((e) => e.measuredAt, reverse: true)
             .map((d) => d.formatAmountWithoutDimensionWithTime(context))
             .join('\n');
 
@@ -493,7 +488,7 @@ class ExcelReportBuilder {
         break;
       case HealthIndicator.pulse:
         final text = status.pulses
-            .sortedBy((e) => e.measuredAt, reverse: true)
+            .orderBy((e) => e.measuredAt, reverse: true)
             .map((d) => d.formatAmountWithoutDimensionWithTime(context))
             .join('\n');
 

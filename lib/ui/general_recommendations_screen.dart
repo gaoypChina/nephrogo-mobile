@@ -6,10 +6,7 @@ import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/utils/utils.dart';
-import 'package:nephrogo_api_client/model/general_recommendation.dart';
-import 'package:nephrogo_api_client/model/general_recommendation_category.dart';
-import 'package:nephrogo_api_client/model/general_recommendation_subcategory.dart';
-import 'package:nephrogo_api_client/model/general_recommendations_response.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'general/app_future_builder.dart';
 import 'general/components.dart';

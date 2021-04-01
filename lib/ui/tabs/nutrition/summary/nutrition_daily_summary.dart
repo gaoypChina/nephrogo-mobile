@@ -15,11 +15,7 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
-import 'package:nephrogo_api_client/model/intake.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'nutrition_summary_components.dart';
 

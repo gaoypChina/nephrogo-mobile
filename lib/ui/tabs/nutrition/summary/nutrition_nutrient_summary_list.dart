@@ -5,7 +5,7 @@ import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/charts/nutrient_bar_chart.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'nutrition_summary_components.dart';
 
@@ -35,7 +35,7 @@ class NutritionNutrientReportsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reportsReverseSorted =
-        reports.sortedBy((e) => e.date, reverse: true).toList();
+        reports.orderBy((e) => e.date, reverse: true).toList();
 
     return ListView.builder(
       itemCount: reportsReverseSorted.length + 1,

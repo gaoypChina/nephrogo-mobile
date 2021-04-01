@@ -13,10 +13,7 @@ import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/stepper.dart';
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/peritoneal_dialysis_components.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_request.dart';
-import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
-import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'beta_banner.dart';
 

@@ -7,14 +7,7 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/chronic_kidney_disease_stage_enum.dart';
-import 'package:nephrogo_api_client/model/diabetes_complications_enum.dart';
-import 'package:nephrogo_api_client/model/diabetes_type_enum.dart';
-import 'package:nephrogo_api_client/model/dialysis_type_enum.dart';
-import 'package:nephrogo_api_client/model/gender_enum.dart';
-import 'package:nephrogo_api_client/model/periotonic_dialysis_type_enum.dart';
-import 'package:nephrogo_api_client/model/user_profile.dart';
-import 'package:nephrogo_api_client/model/user_profile_request.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'forms/forms.dart';
 import 'general/app_form.dart';

@@ -13,12 +13,7 @@ import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
-import 'package:nephrogo_api_client/model/intake.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
-import 'package:nephrogo_api_client/model/nutrition_summary_statistics.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'intake_edit.dart';
 import 'product_search.dart';

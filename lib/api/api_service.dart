@@ -4,50 +4,14 @@ import 'package:async/async.dart';
 import 'package:built_value/iso_8601_date_time_serializer.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_brotli_transformer/dio_brotli_transformer.dart';
 import 'package:dio_firebase_performance/dio_firebase_performance.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
-import 'package:flutter/foundation.dart' show kDebugMode, required;
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:logging/logging.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/models/date.dart';
-import 'package:nephrogo_api_client/api.dart';
-import 'package:nephrogo_api_client/api/general_recommendations_api.dart';
-import 'package:nephrogo_api_client/api/health_status_api.dart';
-import 'package:nephrogo_api_client/api/nutrition_api.dart';
-import 'package:nephrogo_api_client/api/peritoneal_dialysis_api.dart';
-import 'package:nephrogo_api_client/api/user_api.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_period_response.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_request.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_screen_response.dart';
-import 'package:nephrogo_api_client/model/blood_pressure.dart';
-import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
-import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
-import 'package:nephrogo_api_client/model/general_recommendations_response.dart';
-import 'package:nephrogo_api_client/model/health_status_screen_response.dart';
-import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
-import 'package:nephrogo_api_client/model/intake.dart';
-import 'package:nephrogo_api_client/model/intake_request.dart';
-import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
-import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_request.dart';
-import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_screen_response.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
-import 'package:nephrogo_api_client/model/nutrient_weekly_screen_response.dart';
-import 'package:nephrogo_api_client/model/nutrition_screen_v2_response.dart';
-import 'package:nephrogo_api_client/model/product_search_response.dart';
-import 'package:nephrogo_api_client/model/pulse.dart';
-import 'package:nephrogo_api_client/model/pulse_request.dart';
-import 'package:nephrogo_api_client/model/user.dart';
-import 'package:nephrogo_api_client/model/user_app_review.dart';
-import 'package:nephrogo_api_client/model/user_profile.dart';
-import 'package:nephrogo_api_client/model/user_profile_request.dart';
-import 'package:nephrogo_api_client/model/user_request.dart';
-import 'package:nephrogo_api_client/serializers.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 enum _AppStateChangeEvent { healthStatus, nutrition }
@@ -60,13 +24,13 @@ class ApiService {
   final _appEventsStreamController =
       StreamController<_AppStateChangeEvent>.broadcast();
 
-  NephrogoApiClient _apiClient;
+  late NephrogoApiClient _apiClient;
 
-  NutritionApi _nutritionApi;
-  HealthStatusApi _healthStatusApi;
-  PeritonealDialysisApi _peritonealDialysisApi;
-  UserApi _userApi;
-  GeneralRecommendationsApi _generalRecommendationsApi;
+  late NutritionApi _nutritionApi;
+  late HealthStatusApi _healthStatusApi;
+  late PeritonealDialysisApi _peritonealDialysisApi;
+  late UserApi _userApi;
+  late GeneralRecommendationsApi _generalRecommendationsApi;
 
   Stream<_AppStateChangeEvent> get appEventsStreamRemove =>
       _appEventsStreamController.stream;
@@ -98,7 +62,7 @@ class ApiService {
       },
     ));
 
-    dio.transformer = DioBrotliTransformer();
+    // dio.transformer = DioBrotliTransformer();
     dio.httpClientAdapter = Http2Adapter(
         ConnectionManager(idleTimeout: _connectionIdleTimeout.inMilliseconds));
 
@@ -146,7 +110,7 @@ class ApiService {
   }
 
   Future<NutritionScreenV2Response> getNutritionScreen() {
-    return _nutritionApi.nutritionScreenV2Retrieve().then((r) => r.data);
+    return _nutritionApi.nutritionScreenV2Retrieve().then((r) => r.data!);
   }
 
   Stream<NutritionScreenV2Response> getNutritionScreenStream() {
@@ -160,7 +124,7 @@ class ApiService {
   ) {
     return _nutritionApi
         .nutritionDailyReportsLightRetrieve(from: from, to: to)
-        .then((r) => r.data);
+        .then((r) => r.data!);
   }
 
   Stream<DailyIntakesReportsResponse> getLightDailyIntakeReportsStream(
@@ -171,9 +135,9 @@ class ApiService {
         .asyncMap((_) => getLightDailyIntakeReports(from, to));
   }
 
-  Future<DailyIntakesReportResponse> getDailyIntakesReport(Date date) {
+  Future<DailyIntakesReportResponse?> getDailyIntakesReport(Date date) {
     return _nutritionApi
-        .nutritionDailyReportsRetrieve(date)
+        .nutritionDailyReportsRetrieve(date: date)
         .then((r) => r.data)
         .catchError(
           (e) => null,
@@ -181,31 +145,31 @@ class ApiService {
         );
   }
 
-  Stream<DailyIntakesReportResponse> getDailyIntakesReportStream(Date date) {
+  Stream<DailyIntakesReportResponse?> getDailyIntakesReportStream(Date date) {
     return _buildAppEventsStreamWithInitialEmit(_AppStateChangeEvent.nutrition)
         .asyncMap((_) => getDailyIntakesReport(date));
   }
 
   Future<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReport(
-      DateTime from, DateTime to) {
+      Date from, Date to) {
     return _nutritionApi
-        .nutritionWeeklyRetrieve(Date.from(from), Date.from(to))
-        .then((r) => r.data);
+        .nutritionWeeklyRetrieve(from: from, to: to)
+        .then((r) => r.data!);
   }
 
   Stream<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReportStream(
-      DateTime from, DateTime to) {
+      Date from, Date to) {
     return _buildAppEventsStreamWithInitialEmit(_AppStateChangeEvent.nutrition)
         .asyncMap((_) => getWeeklyDailyIntakesReport(from, to));
   }
 
   Future<ProductSearchResponse> getProducts(
     String query, {
-    @required bool submit,
-    @required List<int> excludeProductIds,
-    @required MealTypeEnum mealType,
+    required bool submit,
+    required List<int> excludeProductIds,
+    required MealTypeEnum mealType,
   }) {
-    final excludeProductIdsStr = excludeProductIds?.join(',');
+    final excludeProductIdsStr = excludeProductIds.join(',');
 
     return _nutritionApi
         .nutritionProductsSearchRetrieve(
@@ -214,29 +178,33 @@ class ApiService {
           excludeProducts: excludeProductIdsStr,
           mealType: mealType.name,
         )
-        .then((r) => r.data);
+        .then((r) => r.data!);
   }
 
   Future<Intake> createIntake(IntakeRequest intakeRequest) {
-    return _nutritionApi.nutritionIntakeCreate(intakeRequest).then(
+    return _nutritionApi
+        .nutritionIntakeCreate(intakeRequest: intakeRequest)
+        .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
-        return r.data;
+        return r.data!;
       },
     );
   }
 
   Future<Intake> updateIntake(int intakeId, IntakeRequest intakeRequest) {
-    return _nutritionApi.nutritionIntakeUpdate(intakeId, intakeRequest).then(
+    return _nutritionApi
+        .nutritionIntakeUpdate(id: intakeId, intakeRequest: intakeRequest)
+        .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
-        return r.data;
+        return r.data!;
       },
     );
   }
 
   Future<void> deleteIntake(int intakeId) {
-    return _nutritionApi.nutritionIntakeDestroy(intakeId).then(
+    return _nutritionApi.nutritionIntakeDestroy(id: intakeId).then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
       },
@@ -245,16 +213,21 @@ class ApiService {
 
   Future<DailyHealthStatus> createOrUpdateDailyHealthStatus(
       DailyHealthStatusRequest dailyHealthStatusRequest) {
-    return _healthStatusApi.healthStatusUpdate(dailyHealthStatusRequest).then(
+    return _healthStatusApi
+        .healthStatusUpdate(dailyHealthStatusRequest: dailyHealthStatusRequest)
+        .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
-        return r.data;
+        return r.data!;
       },
     ).catchError(
-      (e) => _healthStatusApi.healthStatusCreate(dailyHealthStatusRequest).then(
+      (e) => _healthStatusApi
+          .healthStatusCreate(
+              dailyHealthStatusRequest: dailyHealthStatusRequest)
+          .then(
         (r) {
           _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
-          return r.data;
+          return r.data!;
         },
       ),
       test: (e) => e is DioError && e.response?.statusCode == 404,
@@ -265,18 +238,19 @@ class ApiService {
     DailyHealthStatusRequest dailyHealthStatusRequest,
   ) {
     return _healthStatusApi
-        .healthStatusPartialUpdate(dailyHealthStatusRequest)
+        .healthStatusPartialUpdate(
+            dailyHealthStatusRequest: dailyHealthStatusRequest)
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
-        return r.data;
+        return r.data!;
       },
     );
   }
 
-  Future<DailyHealthStatus> getDailyHealthStatus(DateTime date) {
+  Future<DailyHealthStatus?> getDailyHealthStatus(Date date) {
     return _healthStatusApi
-        .healthStatusRetrieve(Date.from(date))
+        .healthStatusRetrieve(date: date)
         .then((r) => r.data)
         .catchError(
           (e) => null,
@@ -285,7 +259,7 @@ class ApiService {
   }
 
   Future<User> getUser() {
-    return _userApi.userRetrieve().then((r) => r.data);
+    return _userApi.userRetrieve().then((r) => r.data!);
   }
 
   Stream<User> getUserStream() {
@@ -293,48 +267,48 @@ class ApiService {
         .asyncMap((_) => getUser());
   }
 
-  Future<User> updateUser({@required bool marketingAllowed}) {
+  Future<User> updateUser({required bool marketingAllowed}) {
     final userRequestBuilder = UserRequestBuilder();
 
     userRequestBuilder.isMarketingAllowed = marketingAllowed;
 
     return _userApi
         .userUpdate(userRequest: userRequestBuilder.build())
-        .then((r) => r.data);
+        .then((r) => r.data!);
   }
 
   Future<UserAppReview> getUserAppReview() {
-    return _userApi.userAppReviewRetrieve().then((r) => r.data);
+    return _userApi.userAppReviewRetrieve().then((r) => r.data!);
   }
 
   Future<UserProfile> createOrUpdateUserProfile(
-    UserProfileRequest userProfile,
+    UserProfileRequest userProfileRequest,
   ) {
-    return _userApi.userProfileUpdate(userProfile).then(
+    return _userApi
+        .userProfileUpdate(userProfileRequest: userProfileRequest)
+        .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
         _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
 
-        return r.data;
+        return r.data!;
       },
     ).catchError(
       (e) => _userApi
-          .userProfileCreate(
-        userProfile,
-      )
+          .userProfileCreate(userProfileRequest: userProfileRequest)
           .then(
         (r) {
           _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
           _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
 
-          return r.data;
+          return r.data!;
         },
       ),
       test: (e) => e is DioError && e.response?.statusCode == 404,
     );
   }
 
-  Future<UserProfile> getUserProfile() {
+  Future<UserProfile?> getUserProfile() {
     return _userApi.userProfileRetrieve().then((r) => r.data).catchError(
           (e) => null,
         );
@@ -343,11 +317,11 @@ class ApiService {
   Future<GeneralRecommendationsResponse> getGeneralRecommendations() {
     return _generalRecommendationsApi
         .generalRecommendationsV2Retrieve()
-        .then((r) => r.data);
+        .then((r) => r.data!);
   }
 
   Future<HealthStatusScreenResponse> getHealthStatusScreen() {
-    return _healthStatusApi.healthStatusScreenRetrieve().then((r) => r.data);
+    return _healthStatusApi.healthStatusScreenRetrieve().then((r) => r.data!);
   }
 
   Stream<HealthStatusScreenResponse> getHealthStatusScreenStream() {
@@ -361,8 +335,8 @@ class ApiService {
     Date to,
   ) {
     return _healthStatusApi
-        .healthStatusWeeklyRetrieve(from, to)
-        .then((r) => r.data);
+        .healthStatusWeeklyRetrieve(from: from, to: to)
+        .then((r) => r.data!);
   }
 
   Stream<HealthStatusWeeklyScreenResponse> getHealthStatusesStream(
@@ -378,12 +352,13 @@ class ApiService {
     BloodPressureRequest bloodPressureRequest,
   ) {
     return _healthStatusApi
-        .healthStatusBloodPressureCreate(bloodPressureRequest)
+        .healthStatusBloodPressureCreate(
+            bloodPressureRequest: bloodPressureRequest)
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
 
-        return r.data;
+        return r.data!;
       },
     );
   }
@@ -393,18 +368,21 @@ class ApiService {
     BloodPressureRequest bloodPressureRequest,
   ) {
     return _healthStatusApi
-        .healthStatusBloodPressureUpdate(id, bloodPressureRequest)
+        .healthStatusBloodPressureUpdate(
+      id: id,
+      bloodPressureRequest: bloodPressureRequest,
+    )
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
 
-        return r.data;
+        return r.data!;
       },
     );
   }
 
   Future<void> deleteBloodPressure(int id) {
-    return _healthStatusApi.healthStatusBloodPressureDestroy(id).then(
+    return _healthStatusApi.healthStatusBloodPressureDestroy(id: id).then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
       },
@@ -412,27 +390,31 @@ class ApiService {
   }
 
   Future<Pulse> updatePulse(int id, PulseRequest pulseRequest) {
-    return _healthStatusApi.healthStatusPulseUpdate(id, pulseRequest).then(
+    return _healthStatusApi
+        .healthStatusPulseUpdate(id: id, pulseRequest: pulseRequest)
+        .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
 
-        return r.data;
+        return r.data!;
       },
     );
   }
 
   Future<Pulse> createPulse(PulseRequest pulseRequest) {
-    return _healthStatusApi.healthStatusPulseCreate(pulseRequest).then(
+    return _healthStatusApi
+        .healthStatusPulseCreate(pulseRequest: pulseRequest)
+        .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
 
-        return r.data;
+        return r.data!;
       },
     );
   }
 
   Future<void> deletePulse(int id) {
-    return _healthStatusApi.healthStatusPulseDestroy(id).then(
+    return _healthStatusApi.healthStatusPulseDestroy(id: id).then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
       },
@@ -442,12 +424,13 @@ class ApiService {
   Future<ManualPeritonealDialysis> createManualPeritonealDialysis(
       ManualPeritonealDialysisRequest request) {
     return _peritonealDialysisApi
-        .peritonealDialysisManualDialysisCreateCreate(request)
+        .peritonealDialysisManualDialysisCreateCreate(
+            manualPeritonealDialysisRequest: request)
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
 
-        return r.data;
+        return r.data!;
       },
     );
   }
@@ -455,19 +438,20 @@ class ApiService {
   Future<ManualPeritonealDialysis> updateManualPeritonealDialysis(
       int id, ManualPeritonealDialysisRequest request) {
     return _peritonealDialysisApi
-        .peritonealDialysisManualDialysisUpdate(id, request)
+        .peritonealDialysisManualDialysisUpdate(
+            id: id, manualPeritonealDialysisRequest: request)
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
 
-        return r.data;
+        return r.data!;
       },
     );
   }
 
   Future<void> deleteManualPeritonealDialysis(int id) {
     return _peritonealDialysisApi
-        .peritonealDialysisManualDialysisDestroy(id)
+        .peritonealDialysisManualDialysisDestroy(id: id)
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
@@ -479,7 +463,7 @@ class ApiService {
       getManualPeritonealDialysisScreen() {
     return _peritonealDialysisApi
         .peritonealDialysisManualScreenV2Retrieve()
-        .then((r) => r.data);
+        .then((r) => r.data!);
   }
 
   Stream<ManualPeritonealDialysisScreenResponse>
@@ -493,7 +477,7 @@ class ApiService {
       getAutomaticPeritonealDialysisScreen() {
     return _peritonealDialysisApi
         .peritonealDialysisAutomaticScreenRetrieve()
-        .then((r) => r.data);
+        .then((r) => r.data!);
   }
 
   Stream<AutomaticPeritonealDialysisScreenResponse>
@@ -506,8 +490,8 @@ class ApiService {
   Future<AutomaticPeritonealDialysisPeriodResponse>
       getAutomaticPeritonealDialysisPeriod(Date from, Date to) {
     return _peritonealDialysisApi
-        .peritonealDialysisAutomaticPeriodRetrieve(from, to)
-        .then((r) => r.data);
+        .peritonealDialysisAutomaticPeriodRetrieve(from: from, to: to)
+        .then((r) => r.data!);
   }
 
   Stream<AutomaticPeritonealDialysisPeriodResponse>
@@ -520,12 +504,14 @@ class ApiService {
   Future<AutomaticPeritonealDialysis> createAutomaticPeritonealDialysis(
       AutomaticPeritonealDialysisRequest request) {
     return _peritonealDialysisApi
-        .peritonealDialysisAutomaticDialysisCreateCreate(request)
+        .peritonealDialysisAutomaticDialysisCreateCreate(
+      automaticPeritonealDialysisRequest: request,
+    )
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
 
-        return r.data;
+        return r.data!;
       },
     );
   }
@@ -533,19 +519,20 @@ class ApiService {
   Future<AutomaticPeritonealDialysis> updateAutomaticPeritonealDialysis(
       Date date, AutomaticPeritonealDialysisRequest request) {
     return _peritonealDialysisApi
-        .peritonealDialysisAutomaticDialysisUpdate(date, request)
+        .peritonealDialysisAutomaticDialysisUpdate(
+            date: date, automaticPeritonealDialysisRequest: request)
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
 
-        return r.data;
+        return r.data!;
       },
     );
   }
 
   Future<void> deleteAutomaticPeritonealDialysis(Date date) {
     return _peritonealDialysisApi
-        .peritonealDialysisAutomaticDialysisDestroy(date)
+        .peritonealDialysisAutomaticDialysisDestroy(date: date)
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
@@ -573,7 +560,10 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
   }
 
   @override
-  Future onRequest(RequestOptions options) async {
+  Future<void> onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     try {
       dio.interceptors.requestLock.lock();
       final forceRegenerateToken =
@@ -586,30 +576,34 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
       dio.interceptors.requestLock.unlock();
     }
 
-    return options;
+    super.onRequest(options, handler);
   }
 
   @override
-  Future onError(DioError err) async {
+  Future onError(
+    DioError err,
+    ErrorInterceptorHandler handler,
+  ) async {
     final statusCode = err.response?.statusCode;
     if (statusCode == 403 || statusCode == 401) {
-      if (err.request.extra.containsKey(_tokenRegeneratedKey)) {
+      if (err.requestOptions.extra.containsKey(_tokenRegeneratedKey)) {
         logger.severe('Authentication error after regenerating token.');
       } else {
         logger.warning('Authentication error. Regenerating user id token.');
 
-        err.request.extra.addAll({_tokenRegeneratedKey: true});
+        err.requestOptions.extra.addAll({_tokenRegeneratedKey: true});
 
         try {
           // We retry with the updated options
           return await dio.request(
-            err.request.path,
-            cancelToken: err.request.cancelToken,
-            data: err.request.data,
-            onReceiveProgress: err.request.onReceiveProgress,
-            onSendProgress: err.request.onSendProgress,
-            queryParameters: err.request.queryParameters,
-            options: err.request,
+            err.requestOptions.path,
+            cancelToken: err.requestOptions.cancelToken,
+            data: err.requestOptions.data,
+            onReceiveProgress: err.requestOptions.onReceiveProgress,
+            onSendProgress: err.requestOptions.onSendProgress,
+            queryParameters: err.requestOptions.queryParameters,
+            // TODO: check for solution
+            // options: err.requestOptions.,
           );
         } catch (e) {
           return e;
@@ -623,11 +617,11 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
 // Hack start
 class DateAndDateTimeUtcSerializer extends Iso8601DateTimeSerializer {
   @override
-  DateTime deserialize(Serializers serializers, Object serialized,
+  DateTime deserialize(Serializers serializers, Object? serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final s = serialized as String;
+    final s = serialized as String?;
 
-    if (s.contains('T')) {
+    if (s == null || s.contains('T')) {
       return super.deserialize(serializers, serialized);
     }
 

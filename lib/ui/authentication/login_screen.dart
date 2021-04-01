@@ -12,8 +12,7 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo/ui/user_profile_screen.dart';
-import 'package:nephrogo_api_client/model/periotonic_dialysis_type_enum.dart';
-import 'package:nephrogo_api_client/model/user_profile.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class LoginScreen extends StatelessWidget {
   @override

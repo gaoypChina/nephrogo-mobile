@@ -6,9 +6,7 @@ import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
-import 'package:nephrogo_api_client/model/nutrition_summary_statistics.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'nutrition_daily_summary.dart';
 import 'nutrition_nutrient_summary_list.dart';

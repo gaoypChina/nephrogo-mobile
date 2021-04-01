@@ -1,6 +1,5 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
-import 'package:collection_ext/iterables.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/collection_extensions.dart';
@@ -8,35 +7,7 @@ import 'package:nephrogo/extensions/date_extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
-import 'package:nephrogo_api_client/model/appetite_enum.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_request.dart';
-import 'package:nephrogo_api_client/model/blood_pressure.dart';
-import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
-import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
-import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
-import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
-import 'package:nephrogo_api_client/model/intake.dart';
-import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
-import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_request.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
-import 'package:nephrogo_api_client/model/product.dart';
-import 'package:nephrogo_api_client/model/product_kind_enum.dart';
-import 'package:nephrogo_api_client/model/pulse.dart';
-import 'package:nephrogo_api_client/model/pulse_request.dart';
-import 'package:nephrogo_api_client/model/shortness_of_breath_enum.dart';
-import 'package:nephrogo_api_client/model/swelling.dart';
-import 'package:nephrogo_api_client/model/swelling_difficulty_enum.dart';
-import 'package:nephrogo_api_client/model/swelling_enum.dart';
-import 'package:nephrogo_api_client/model/swelling_request.dart';
-import 'package:nephrogo_api_client/model/user_profile.dart';
-import 'package:nephrogo_api_client/model/user_profile_request.dart';
-import 'package:nephrogo_api_client/model/well_feeling_enum.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:tuple/tuple.dart';
 
 final _numberFormatter = NumberFormat.decimalPattern();
@@ -71,8 +42,6 @@ extension ProductExtensions on Product {
       case Nutrient.carbohydrate:
         return carbohydratesMg;
     }
-    throw ArgumentError.value(
-        nutrient, 'nutrient', 'Unable to map indicator to amount');
   }
 
   int _calculateTotalNutrientAmount(Nutrient nutrient, int amountG) {
@@ -98,14 +67,12 @@ extension ProductExtensions on Product {
   // This is used for generating intakes required to show nutrient amounts
   // after searching for a product
   Intake fakeIntake({
-    @required DateTime consumedAt,
-    @required MealTypeEnum mealType,
-    int id,
+    required DateTime consumedAt,
+    required MealTypeEnum mealType,
+    int? id,
     int amountG = 0,
-    int amountMl,
+    int? amountMl,
   }) {
-    assert(amountG != null);
-
     final builder = IntakeBuilder();
 
     builder.id = id ?? 0;
@@ -119,7 +86,7 @@ extension ProductExtensions on Product {
       if (amountMl != null) {
         builder.amountMl = amountMl;
       } else {
-        builder.amountMl = (amountG / densityGMl).round();
+        builder.amountMl = (amountG / densityGMl!).round();
       }
     }
 
@@ -145,38 +112,38 @@ extension ProductExtensions on Product {
 }
 
 extension DailyNutrientConsumptionExtensions on DailyNutrientConsumption {
-  int totalConsumptionRoundedPercentage() {
+  int? totalConsumptionRoundedPercentage() {
     if (norm == null) {
       return null;
     }
 
-    return ((total / norm) * 100).round();
+    return ((total / norm!) * 100).round();
   }
 
-  double get normPercentage {
+  double? get normPercentage {
     if (norm == null) {
       return null;
     }
 
-    return total / norm;
+    return total / norm!;
   }
 
-  int normPercentageRounded(int nutrientAmount) {
+  int? normPercentageRounded(int nutrientAmount) {
     if (norm == null) {
       return null;
     }
 
-    return ((nutrientAmount / norm) * 100).round();
+    return ((nutrientAmount / norm!) * 100).round();
   }
 
   bool get isNormExists => norm != null;
 
-  bool get normExceeded {
+  bool? get normExceeded {
     if (norm == null) {
       return null;
     }
 
-    return total > norm;
+    return total > norm!;
   }
 }
 
@@ -192,7 +159,7 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
 
   Iterable<Tuple2<MealTypeEnum, List<Intake>>>
       getIntakesGroupedByMealType() sync* {
-    final sortedIntakes = intakes.sortedBy((i) => i.consumedAt, reverse: true);
+    final sortedIntakes = intakes.orderBy((i) => i.consumedAt, reverse: true);
     final groups = sortedIntakes.groupBy((intake) => intake.mealType);
 
     final mealTypes = [
@@ -205,7 +172,7 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
 
     for (final mealType in mealTypes) {
       if (groups.containsKey(mealType)) {
-        yield Tuple2(mealType, groups[mealType]);
+        yield Tuple2(mealType, groups[mealType]!);
       } else if (mealType != MealTypeEnum.unknown) {
         yield Tuple2(mealType, []);
       }
@@ -213,10 +180,11 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
   }
 
   Iterable<DailyMealTypeNutrientConsumption> dailyMealTypeNutrientConsumptions({
-    @required Nutrient nutrient,
+    required Nutrient nutrient,
     bool includeEmpty = false,
   }) sync* {
-    final dailyTotal = intakes.sumBy((_, e) => e.getNutrientAmount(nutrient));
+    final dailyTotal =
+        intakes.sumBy((e) => e.getNutrientAmount(nutrient)).toInt();
     final groups = intakes.groupBy((intake) => intake.mealType);
 
     final mealTypes = [
@@ -226,13 +194,16 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
 
     for (final mealType in mealTypes) {
       if (groups.containsKey(mealType)) {
-        final drinksTotal = groups[mealType]
-            .where((i) => i.product.isDrink)
-            .sumBy((_, e) => e.getNutrientAmount(nutrient));
+        final group = groups[mealType]!;
 
-        final foodTotal = groups[mealType]
+        final drinksTotal = group
+            .where((i) => i.product.isDrink)
+            .sumBy((e) => e.getNutrientAmount(nutrient))
+            .toInt();
+        final foodTotal = group
             .where((i) => !i.product.isDrink)
-            .sumBy((_, e) => e.getNutrientAmount(nutrient));
+            .sumBy((e) => e.getNutrientAmount(nutrient))
+            .toInt();
 
         yield DailyMealTypeNutrientConsumption(
           date: Date.from(date),
@@ -311,18 +282,15 @@ extension DailyNutrientNormsWithTotalsExtensions
       case Nutrient.carbohydrate:
         return carbohydratesMg;
     }
-    throw ArgumentError.value(
-        nutrient, 'nutrient', 'Unable to map indicator to amount');
   }
 
   String getNutrientTotalAmountFormatted(Nutrient nutrient) {
     final amount = getDailyNutrientConsumption(nutrient).total;
-    assert(amount != null);
 
     return nutrient.formatAmount(amount);
   }
 
-  String getNutrientNormFormatted(Nutrient nutrient) {
+  String? getNutrientNormFormatted(Nutrient nutrient) {
     final norm = getDailyNutrientConsumption(nutrient).norm;
     if (norm == null) {
       return null;
@@ -331,14 +299,14 @@ extension DailyNutrientNormsWithTotalsExtensions
     return nutrient.formatAmount(norm);
   }
 
-  int getRoundedNormPercentage(Nutrient nutrient) {
+  int? getRoundedNormPercentage(Nutrient nutrient) {
     final consumption = getDailyNutrientConsumption(nutrient);
 
     if (consumption.norm == null) {
       return null;
     }
 
-    return ((consumption.total / consumption.norm) * 100).round();
+    return ((consumption.total / consumption.norm!) * 100).round();
   }
 
   int normsExceededCount() {
@@ -362,7 +330,7 @@ extension DailyNutrientNormsWithTotalsExtensions
 
   List<Nutrient> getSortedNutrientsByExistence() {
     return Nutrient.values
-        .sortedBy((n) => getDailyNutrientConsumption(n).isNormExists ? 0 : 1)
+        .orderBy((n) => getDailyNutrientConsumption(n).isNormExists ? 0 : 1)
         .toList();
   }
 }
@@ -387,8 +355,6 @@ extension IntakeExtension on Intake {
       case Nutrient.carbohydrate:
         return carbohydratesMg;
     }
-    throw ArgumentError.value(
-        nutrient, 'nutrient', 'Unable to map indicator to amount');
   }
 
   String getNutrientAmountFormatted(Nutrient nutrient) {
@@ -399,7 +365,7 @@ extension IntakeExtension on Intake {
 
   String getAmountFormatted() {
     if (amountMl != null) {
-      return _formatAmount(amountMl, 'ml');
+      return _formatAmount(amountMl!, 'ml');
     }
 
     return _formatAmount(amountG, 'g');
@@ -426,8 +392,6 @@ extension NutrientExtensions on Nutrient {
       case Nutrient.carbohydrate:
         return appLocalizations.carbohydrate;
     }
-    throw ArgumentError.value(
-        this, 'nutrient', 'Unable to map nutrient to name');
   }
 
   String consumptionName(AppLocalizations appLocalizations) {
@@ -449,12 +413,6 @@ extension NutrientExtensions on Nutrient {
       case Nutrient.carbohydrate:
         return appLocalizations.consumptionCarbohydrate;
     }
-
-    throw ArgumentError.value(
-      this,
-      'nutrient',
-      'Unable to map nutrient to name',
-    );
   }
 
   String formatAmount(int amount) {
@@ -495,13 +453,11 @@ extension NutrientExtensions on Nutrient {
       case Nutrient.liquids:
         return 'ml';
     }
-    throw ArgumentError.value(
-        this, 'nutrient', 'Unable to map nutrient to dimension');
   }
 }
 
 extension SwellingExtension on Swelling {
-  String getLocalizedName(AppLocalizations appLocalizations) {
+  String? getLocalizedName(AppLocalizations appLocalizations) {
     switch (swelling) {
       case SwellingEnum.eyes:
         return appLocalizations.healthStatusCreationSwellingsLocalizationEyes;
@@ -596,10 +552,9 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         return swellingDifficulty != null &&
             swellingDifficulty != SwellingDifficultyEnum.unknown;
       case HealthIndicator.swellings:
-        return swellings != null &&
-            swellings
-                .where((e) => e.swelling != SwellingEnum.unknown)
-                .isNotEmpty;
+        return swellings
+            .where((e) => e.swelling != SwellingEnum.unknown)
+            .isNotEmpty;
       case HealthIndicator.wellBeing:
         return wellFeeling != null && wellFeeling != WellFeelingEnum.unknown;
       case HealthIndicator.appetite:
@@ -608,11 +563,6 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         return shortnessOfBreath != null &&
             shortnessOfBreath != ShortnessOfBreathEnum.unknown;
     }
-    throw ArgumentError.value(
-      this,
-      'healthIndicator',
-      'Unable to map indicator and check for indicator existance',
-    );
   }
 
   DailyHealthStatusRequest toRequest() {
@@ -642,7 +592,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     return builder.build();
   }
 
-  String getHealthIndicatorFormatted(
+  String? getHealthIndicatorFormatted(
     HealthIndicator indicator,
     AppLocalizations appLocalizations,
   ) {
@@ -652,18 +602,17 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
 
     switch (indicator) {
       case HealthIndicator.bloodPressure:
-        final latestBloodPressure =
-            bloodPressures.maxBy((_, p) => p.measuredAt);
+        final latestBloodPressure = bloodPressures.maxBy((p) => p!.measuredAt)!;
         return '${latestBloodPressure.systolicBloodPressure} / ${latestBloodPressure.diastolicBloodPressure} mmHg';
       case HealthIndicator.pulse:
-        final latestPulse = pulses.maxBy((_, p) => p.measuredAt);
+        final latestPulse = pulses.maxBy((p) => p!.measuredAt)!;
         return '${latestPulse.pulse} ${appLocalizations.pulseDimension}';
       case HealthIndicator.weight:
         return '$weightKg kg';
       case HealthIndicator.glucose:
-        return '${glucose.toStringAsFixed(2)} mmol/l';
+        return '${glucose!.toStringAsFixed(2)} mmol/l';
       case HealthIndicator.urine:
-        return _formatAmount(urineMl, 'ml');
+        return _formatAmount(urineMl!, 'ml');
       case HealthIndicator.severityOfSwelling:
         switch (swellingDifficulty) {
           case SwellingDifficultyEnum.n0plus:
@@ -749,18 +698,13 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
           'Invalid shortnessOfBreath value',
         );
     }
-    throw ArgumentError.value(
-      this,
-      'healthIndicator',
-      'Unable to map indicator to formatted indicator',
-    );
   }
 
   Iterable<ManualPeritonealDialysis> get manualPeritonealDialysisReverseSorted {
-    return manualPeritonealDialysis.sortedBy((d) => d.startedAt, reverse: true);
+    return manualPeritonealDialysis.orderBy((d) => d.startedAt, reverse: true);
   }
 
-  num getHealthIndicatorValue(HealthIndicator indicator) {
+  num? getHealthIndicatorValue(HealthIndicator indicator) {
     if (!isIndicatorExists(indicator)) {
       return null;
     }
@@ -770,7 +714,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         throw ArgumentError(
             'Unable to get blood pressure indicator value. Please use different method');
       case HealthIndicator.pulse:
-        return pulses.maxBy((_, p) => p.measuredAt).pulse;
+        return pulses.maxBy((p) => p!.measuredAt)!.pulse;
       case HealthIndicator.weight:
         return weightKg;
       case HealthIndicator.glucose:
@@ -862,15 +806,10 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
           'Invalid shortnessOfBreath value',
         );
     }
-    throw ArgumentError.value(
-      this,
-      'healthIndicator',
-      'Unable to map indicator to formatted indicator',
-    );
   }
 
   int get totalManualPeritonealDialysisBalance =>
-      manualPeritonealDialysis.sumBy((_, d) => d.balance);
+      manualPeritonealDialysis.sumBy((d) => d.balance).toInt();
 
   String get totalManualPeritonealDialysisBalanceFormatted =>
       _formatAmount(totalManualPeritonealDialysisBalance, 'ml');
@@ -900,11 +839,6 @@ extension HealthIndicatorExtensions on HealthIndicator {
       case HealthIndicator.shortnessOfBreath:
         return appLocalizations.healthStatusCreationShortnessOfBreath;
     }
-    throw ArgumentError.value(
-      this,
-      'healthIndicator',
-      'Unable to map indicator to name',
-    );
   }
 
   bool get isMultiValuesPerDay {
@@ -922,11 +856,6 @@ extension HealthIndicatorExtensions on HealthIndicator {
       case HealthIndicator.shortnessOfBreath:
         return false;
     }
-    throw ArgumentError.value(
-      this,
-      'healthIndicator',
-      'Unable to map indicator to isMultiValuesPerDay',
-    );
   }
 
   int get decimalPlaces {
@@ -947,14 +876,9 @@ extension HealthIndicatorExtensions on HealthIndicator {
       case HealthIndicator.shortnessOfBreath:
         return 1;
     }
-    throw ArgumentError.value(
-      this,
-      'healthIndicator',
-      'Unable to map indicator to name',
-    );
   }
 
-  String dimension(AppLocalizations appLocalizations) {
+  String? dimension(AppLocalizations appLocalizations) {
     switch (this) {
       case HealthIndicator.bloodPressure:
         return 'mmHg';
@@ -973,11 +897,6 @@ extension HealthIndicatorExtensions on HealthIndicator {
       case HealthIndicator.shortnessOfBreath:
         return null;
     }
-    throw ArgumentError.value(
-      this,
-      'healthIndicator',
-      'Unable to map indicator to name',
-    );
   }
 }
 
@@ -1129,7 +1048,7 @@ extension DialysateColorExtensions on DialysateColorEnum {
 }
 
 extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {
-  int get balance => solutionOutMl != null ? solutionInMl - solutionOutMl : 0;
+  int get balance => solutionOutMl != null ? solutionInMl - solutionOutMl! : 0;
 
   ManualPeritonealDialysisRequestBuilder toRequestBuilder() {
     final builder = ManualPeritonealDialysisRequestBuilder();
@@ -1146,7 +1065,7 @@ extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {
   }
 
   bool get hasValidDuration {
-    if (isCompleted && finishedAt == null) {
+    if (isCompleted! && finishedAt == null) {
       return false;
     }
 
@@ -1171,7 +1090,7 @@ extension ManualPeritonealDialysisExtensions on ManualPeritonealDialysis {
     if (solutionOutMl == null) {
       return '-';
     }
-    return _formatAmount(solutionOutMl, 'ml');
+    return _formatAmount(solutionOutMl!, 'ml');
   }
 }
 
@@ -1210,7 +1129,7 @@ extension AutomaticPeritonealDialysisExtensions on AutomaticPeritonealDialysis {
         dailyIntakesLightReport.nutrientNormsAndTotals.liquidsMl.total;
     final totalUrineMl = dailyHealthStatus.urineMl ?? 0;
 
-    return totalLiquidsMl - totalUltrafiltrationMl - totalUrineMl;
+    return totalLiquidsMl - totalUltrafiltrationMl! - totalUrineMl;
   }
 
   String get formattedBalance {
@@ -1221,7 +1140,7 @@ extension AutomaticPeritonealDialysisExtensions on AutomaticPeritonealDialysis {
     return DialysisSolutionEnum.values.where((s) => hasVolume(s));
   }
 
-  int getSolutionVolumeInMl(DialysisSolutionEnum solution) {
+  int? getSolutionVolumeInMl(DialysisSolutionEnum solution) {
     switch (solution) {
       case DialysisSolutionEnum.purple:
         return solutionPurpleInMl;
@@ -1245,7 +1164,7 @@ extension AutomaticPeritonealDialysisExtensions on AutomaticPeritonealDialysis {
   }
 
   String getSolutionVolumeFormatted(DialysisSolutionEnum solution) {
-    final volume = getSolutionVolumeInMl(solution);
+    final volume = getSolutionVolumeInMl(solution) ?? 0;
 
     return _formatAmount(volume, 'ml');
   }
@@ -1278,5 +1197,5 @@ extension UserProfileExtensions on UserProfile {
 }
 
 extension EnumClassExtensions<E extends EnumClass> on E {
-  E enumWithoutDefault(E defaultValue) => (this == defaultValue) ? null : this;
+  E? enumWithoutDefault(E defaultValue) => (this == defaultValue) ? null : this;
 }

@@ -3,7 +3,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_calendar.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'nutrition_summary_components.dart';
@@ -38,7 +38,7 @@ class NutritionMonthlyReportsListState
 
     _itemScrollController = ItemScrollController();
     reportsReverseSorted = widget.reports
-        .sortedBy(
+        .orderBy(
           (e) => e.date,
           reverse: true,
         )
@@ -109,7 +109,7 @@ class NutritionWeeklyReportsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reportsReverseSorted =
-        reports.sortedBy((e) => e.date, reverse: true).toList();
+        reports.orderBy((e) => e.date, reverse: true).toList();
 
     return ListView.builder(
       itemCount: reportsReverseSorted.length + 1,

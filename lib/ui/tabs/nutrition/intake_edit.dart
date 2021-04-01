@@ -10,11 +10,7 @@ import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
-import 'package:nephrogo_api_client/model/intake.dart';
-import 'package:nephrogo_api_client/model/intake_request.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
-import 'package:nephrogo_api_client/model/product.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'nutrition_components.dart';
 

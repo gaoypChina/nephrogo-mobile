@@ -11,7 +11,7 @@ import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_components.dart';
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/peritoneal_dialysis_components.dart';
 import 'package:nephrogo/utils/excel_generator.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_period_response.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class AutomaticPeritonealDialysisPeriodsScreenArguments {
   final Date initialDate;
@@ -106,7 +106,7 @@ class _AutomaticPeritonealDialysisPeriodsScreenBody extends StatelessWidget {
       stream: _apiService.getAutomaticPeritonealDialysisPeriodStream(from, to),
       builder: (context, data) {
         final sortedDialysis = data.peritonealDialysis
-            .sortedBy((e) => e.date, reverse: true)
+            .orderBy((e) => e.date, reverse: true)
             .toList();
 
         if (sortedDialysis.isEmpty) {

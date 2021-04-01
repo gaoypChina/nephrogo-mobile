@@ -9,8 +9,7 @@ import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/pulse.dart';
-import 'package:nephrogo_api_client/model/pulse_request.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class PulseEditScreenArguments {
   final Pulse pulse;

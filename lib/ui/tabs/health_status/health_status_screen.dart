@@ -16,8 +16,7 @@ import 'package:nephrogo/ui/tabs/health_status/blood_pressure_edit_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/health_status_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/pulse_edit_screen.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
-import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'blood_pressure_and_pulse_creation_screen.dart';
 
@@ -215,7 +214,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final sortedHealthStatusesWithIndicators = dailyHealthStatuses
         .where((dhs) => dhs.isIndicatorExists(healthIndicator))
-        .sortedBy((e) => e.date, reverse: true)
+        .orderBy((e) => e.date, reverse: true)
         .toList();
 
     return ListView.builder(
@@ -352,7 +351,7 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
 
   Iterable<Widget> _buildBloodPressureChildren(BuildContext context) {
     return dailyHealthStatus.bloodPressures
-        .sortedBy((e) => e.measuredAt, reverse: true)
+        .orderBy((e) => e.measuredAt, reverse: true)
         .map(
       (b) {
         return _buildValueTile(
@@ -370,7 +369,7 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
 
   Iterable<Widget> _buildPulseChildren(BuildContext context) {
     return dailyHealthStatus.pulses
-        .sortedBy((e) => e.measuredAt, reverse: true)
+        .orderBy((e) => e.measuredAt, reverse: true)
         .map(
       (p) {
         return _buildValueTile(

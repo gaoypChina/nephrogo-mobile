@@ -255,7 +255,7 @@ class _PeriodPagerState extends State<_PeriodPager> {
   void initState() {
     super.initState();
 
-    _dates = widget.allFromDates.sortedBy((e) => e, reverse: true).toList();
+    _dates = widget.allFromDates.orderBy((e) => e, reverse: true).toList();
 
     final initialIndex = _dates.indexOf(widget.initialFromDate);
     assert(initialIndex != -1);

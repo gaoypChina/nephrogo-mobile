@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'date_time_numeric_chart.dart';

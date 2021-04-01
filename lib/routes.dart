@@ -6,7 +6,7 @@ import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_edit_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/pulse_edit_screen.dart';
 import 'package:nephrogo/ui/tabs/nutrition/intake_edit.dart';
-import 'package:nephrogo_api_client/model/product.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'ui/authentication/login_screen.dart';
 import 'ui/authentication/registration_screen.dart';
@@ -107,13 +107,13 @@ class Routes {
         });
       case routeLegal:
         return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments as LegalScreenArguments;
+          final arguments = settings.arguments! as LegalScreenArguments;
 
           return LegalScreen(exitType: arguments.exitType);
         });
       case routeIntakeCreate:
         return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments as IntakeCreateScreenArguments;
+          final arguments = settings.arguments! as IntakeCreateScreenArguments;
 
           return IntakeCreateScreen(
             dailyNutrientNormsAndTotals: arguments.dailyNutrientNormsAndTotals,
@@ -125,7 +125,7 @@ class Routes {
         });
       case routeIntakeEdit:
         return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments as IntakeEditScreenArguments;
+          final arguments = settings.arguments! as IntakeEditScreenArguments;
 
           return IntakeEditScreen(
             dailyNutrientNormsAndTotals: arguments.dailyNutrientNormsAndTotals,
@@ -134,7 +134,7 @@ class Routes {
         });
       case routeManualPeritonealDialysisCreation:
         return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments
+          final arguments = settings.arguments!
               as ManualPeritonealDialysisCreationScreenArguments;
 
           return ManualPeritonealDialysisCreationScreen(
@@ -145,7 +145,7 @@ class Routes {
         return MaterialPageRoute(
           builder: (context) {
             final arguments =
-                settings.arguments as ManualPeritonealDialysisScreenArguments;
+                settings.arguments! as ManualPeritonealDialysisScreenArguments;
 
             return ManualPeritonealDialysisScreen(
               initialDate: arguments.initialDate,
@@ -155,7 +155,7 @@ class Routes {
       case routeAutomaticPeritonealDialysisCreation:
         return MaterialPageRoute(
           builder: (context) {
-            final arguments = settings.arguments
+            final arguments = settings.arguments!
                 as AutomaticPeritonealDialysisCreationScreenArguments;
 
             return AutomaticPeritonealDialysisCreationScreen(
@@ -166,7 +166,7 @@ class Routes {
       case routeAutomaticPeritonealDialysisPeriod:
         return MaterialPageRoute(
           builder: (context) {
-            final arguments = settings.arguments
+            final arguments = settings.arguments!
                 as AutomaticPeritonealDialysisPeriodsScreenArguments;
 
             return AutomaticPeritonealDialysisPeriodsScreen(
@@ -176,7 +176,7 @@ class Routes {
         );
       case routeProductSearch:
         return MaterialPageRoute<Product>(builder: (context) {
-          final arguments = settings.arguments as ProductSearchScreenArguments;
+          final arguments = settings.arguments! as ProductSearchScreenArguments;
 
           return ProductSearchScreen(
             searchType: arguments.searchType,
@@ -188,7 +188,7 @@ class Routes {
       case routeNutritionDailySummary:
         return MaterialPageRoute(builder: (context) {
           final arguments =
-              settings.arguments as NutritionDailySummaryScreenArguments;
+              settings.arguments! as NutritionDailySummaryScreenArguments;
 
           return NutritionDailySummaryScreen(
             arguments.date,
@@ -198,13 +198,13 @@ class Routes {
       case routeHealthStatusCreation:
         return MaterialPageRoute(builder: (context) {
           final arguments =
-              settings.arguments as HealthStatusCreationScreenArguments;
+              settings.arguments! as HealthStatusCreationScreenArguments;
 
           return HealthStatusCreationScreen(date: arguments.date);
         });
       case routeBloodPressureAndPulseCreation:
         return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments
+          final arguments = settings.arguments!
               as BloodPressureAndPulseCreationScreenArguments;
 
           return BloodPressureAndPulseCreationScreen(
@@ -214,7 +214,7 @@ class Routes {
       case routeBloodPressureEdit:
         return MaterialPageRoute(builder: (context) {
           final arguments =
-              settings.arguments as BloodPressureEditScreenArguments;
+              settings.arguments! as BloodPressureEditScreenArguments;
 
           return BloodPressureEditScreen(
             bloodPressure: arguments.bloodPressure,
@@ -222,14 +222,14 @@ class Routes {
         });
       case routePulseEdit:
         return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments as PulseEditScreenArguments;
+          final arguments = settings.arguments! as PulseEditScreenArguments;
 
           return PulseEditScreen(pulse: arguments.pulse);
         });
 
       case routeGeneralRecommendationsCategory:
         return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments
+          final arguments = settings.arguments!
               as GeneralRecommendationCategoryScreenArguments;
           return GeneralRecommendationCategoryScreen(
             category: arguments.category,
@@ -237,7 +237,7 @@ class Routes {
         });
       case routeGeneralRecommendationsSubcategory:
         return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments
+          final arguments = settings.arguments!
               as GeneralRecommendationSubcategoryScreenArguments;
           return GeneralRecommendationSubcategoryScreen(
             subcategory: arguments.subcategory,
@@ -246,7 +246,7 @@ class Routes {
       case routeGeneralRecommendation:
         return MaterialPageRoute(builder: (context) {
           final arguments =
-              settings.arguments as GeneralRecommendationScreenArguments;
+              settings.arguments! as GeneralRecommendationScreenArguments;
 
           return GeneralRecommendationScreen(
             recommendation: arguments.recommendation,
@@ -256,7 +256,7 @@ class Routes {
       case routeUserProfile:
         return MaterialPageRoute(builder: (context) {
           final nextScreenType =
-              settings.arguments as UserProfileNextScreenType;
+              settings.arguments! as UserProfileNextScreenType;
 
           return UserProfileScreen(
             nextScreenType: nextScreenType,
@@ -267,7 +267,7 @@ class Routes {
           assert(settings.arguments is NutritionSummaryScreenArguments);
 
           final arguments =
-              settings.arguments as NutritionSummaryScreenArguments;
+              settings.arguments! as NutritionSummaryScreenArguments;
 
           return NutritionSummaryScreen(
             screenType: arguments.screenType,
@@ -277,7 +277,7 @@ class Routes {
         });
       case routeHealthStatusScreen:
         return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments as HealthStatusScreenArguments;
+          final arguments = settings.arguments! as HealthStatusScreenArguments;
 
           return HealthStatusScreen(
             healthIndicator: arguments.healthIndicator,

@@ -13,29 +13,24 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
-import 'package:nephrogo_api_client/model/intake.dart';
-import 'package:nephrogo_api_client/model/intake_request.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
-import 'package:nephrogo_api_client/model/product.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'nutrition_components.dart';
 
 class IntakeCreateScreenArguments extends Equatable {
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
-  final Product product;
-  final Intake intake;
-  final Date initialDate;
+  final Product? product;
+  final Intake? intake;
+  final Date? initialDate;
   final MealTypeEnum mealType;
 
   const IntakeCreateScreenArguments({
-    @required this.dailyNutrientNormsAndTotals,
-    @required this.mealType,
+    required this.dailyNutrientNormsAndTotals,
+    required this.mealType,
     this.product,
     this.intake,
     this.initialDate,
-  })  : assert(dailyNutrientNormsAndTotals != null),
-        assert(product != null || intake != null, 'Pass intake or product');
+  }) : assert(product != null || intake != null, 'Pass intake or product');
 
   @override
   List<Object> get props => [product, dailyNutrientNormsAndTotals];
@@ -44,19 +39,19 @@ class IntakeCreateScreenArguments extends Equatable {
 class IntakeCreateScreen extends StatefulWidget {
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
   final Intake intake;
-  final Product initialProduct;
-  final Date initialDate;
+
+  final Product? initialProduct;
+  final Date? initialDate;
   final MealTypeEnum mealType;
 
   const IntakeCreateScreen({
-    Key key,
-    @required this.dailyNutrientNormsAndTotals,
-    @required this.mealType,
+    Key? key,
+    required this.dailyNutrientNormsAndTotals,
+    required this.mealType,
     this.initialProduct,
     this.intake,
     this.initialDate,
-  })  : assert(dailyNutrientNormsAndTotals != null),
-        assert(
+  })  : assert(
             initialProduct != null || intake != null, 'Pass intake or product'),
         super(key: key);
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DailyNormsBarChart extends StatelessWidget {
