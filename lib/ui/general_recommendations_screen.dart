@@ -5,13 +5,20 @@ import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/routes.dart';
-import 'package:nephrogo/utils/utilseralRecommendationsTab extends StatelessWidget {
+import 'package:nephrogo/utils/utils.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
+
+import 'general/app_future_builder.dart';
+import 'general/components.dart';
+import 'general/dialogs.dart';
+
+class GeneralRecommendationsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppFutureBuilder<GeneralRecommendationsResponse>(
       future: ApiService().getGeneralRecommendations(),
       builder: (context, response) {
-        final categories = response.categories.toList();
+        final categories = response!.categories.toList();
 
         return CustomScrollView(
           slivers: [
@@ -86,7 +93,7 @@ class GeneralRecommendationCategoryScreen extends StatelessWidget {
   final GeneralRecommendationCategory category;
 
   const GeneralRecommendationCategoryScreen({
-    Key key,
+    Key? key,
     required this.category,
   }) : super(key: key);
 
@@ -128,7 +135,7 @@ class GeneralRecommendationSubcategoryScreen extends StatelessWidget {
   final GeneralRecommendationSubcategory subcategory;
 
   const GeneralRecommendationSubcategoryScreen({
-    Key key,
+    Key? key,
     required this.subcategory,
   }) : super(key: key);
 
@@ -173,12 +180,10 @@ class GeneralRecommendationScreen extends StatelessWidget {
   final GeneralRecommendationSubcategory subcategory;
 
   const GeneralRecommendationScreen({
-    Key key,
+    Key? key,
     required this.recommendation,
     required this.subcategory,
-  })  : assert(recommendation != null),
-        assert(subcategory != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +201,7 @@ class GeneralRecommendationScreen extends StatelessWidget {
               webView: true,
               webViewMediaPlaybackAlwaysAllow: true,
               baseUrl: Uri.parse(Constants.apiUrl),
-              textStyle: Theme.of(context).textTheme.bodyText2.copyWith(
+              textStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
                     fontSize: 16,
                   ),
             ),
@@ -212,7 +217,7 @@ class _GeneralRecommendationListTile extends StatelessWidget {
   final GestureTapCallback onTap;
 
   const _GeneralRecommendationListTile({
-    Key key,
+    Key? key,
     required this.name,
     required this.onTap,
   }) : super(key: key);

@@ -14,7 +14,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
   final bool smallMarkers;
 
   const HealthIndicatorBarChart({
-    Key key,
+    Key? key,
     required this.dailyHealthStatuses,
     required this.indicator,
     required this.from,
@@ -28,7 +28,6 @@ class HealthIndicatorBarChart extends StatelessWidget {
       aspectRatio: 1.5,
       child: DateTimeNumericChart(
         series: _getGraphSeries(context),
-        showLegend: false,
         yAxisText: _getIndicatorNameAndDimensionParts(context).join(', '),
         from: from,
         to: to,
@@ -139,7 +138,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
     }
   }
 
-  double _getMaxY() {
+  double? _getMaxY() {
     switch (indicator) {
       case HealthIndicator.bloodPressure:
         return 200;
@@ -153,7 +152,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
     }
   }
 
-  double _getInterval() {
+  double? _getInterval() {
     switch (indicator) {
       case HealthIndicator.swellings:
       case HealthIndicator.severityOfSwelling:

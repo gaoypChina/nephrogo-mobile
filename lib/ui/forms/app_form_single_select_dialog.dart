@@ -4,14 +4,14 @@ import 'package:nephrogo/ui/general/components.dart';
 
 class AppFormSingleSelectDialog<T> extends StatelessWidget {
   final List<AppSelectFormFieldItem> items;
-  final T selectedValue;
   final String title;
-  final String helpText;
+  final T? selectedValue;
+  final String? helpText;
 
   const AppFormSingleSelectDialog({
-    Key key,
+    Key? key,
     required this.items,
-    this.title,
+    required this.title,
     this.selectedValue,
     this.helpText,
   }) : super(key: key);
@@ -31,7 +31,7 @@ class AppFormSingleSelectDialog<T> extends StatelessWidget {
                 title: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Text(
-                    helpText,
+                    helpText!,
                     textAlign: TextAlign.justify,
                   ),
                 ),
@@ -58,11 +58,11 @@ class AppFormSingleSelectDialog<T> extends StatelessWidget {
 
     return AppListTile(
       title: Text(item.text),
-      subtitle: item.description != null ? Text(item.description) : null,
+      subtitle: item.description != null ? Text(item.description!) : null,
       leading: item.icon != null
           ? IconButton(
               color: selected ? Colors.teal : null,
-              icon: item.icon,
+              icon: item.icon!,
               onPressed: null,
             )
           : null,

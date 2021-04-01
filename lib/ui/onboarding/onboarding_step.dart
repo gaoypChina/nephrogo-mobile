@@ -6,14 +6,11 @@ class OnboardingStepComponent extends StatelessWidget {
   final String description;
 
   const OnboardingStepComponent({
-    Key key,
+    Key? key,
     required this.assetName,
     required this.title,
     required this.description,
-  })   : assert(assetName != null),
-        assert(title != null),
-        assert(description != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +29,7 @@ class OnboardingStepComponent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text(
               title,
-              style: Theme.of(context).textTheme.headline4.copyWith(
+              style: Theme.of(context).textTheme.headline4!.copyWith(
                     color: Colors.white,
                   ),
               textAlign: TextAlign.center,
@@ -42,7 +39,7 @@ class OnboardingStepComponent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: Text(
               description,
-              style: Theme.of(context).textTheme.bodyText1.copyWith(
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     color: Colors.white,
                     fontSize: 16,
                   ),

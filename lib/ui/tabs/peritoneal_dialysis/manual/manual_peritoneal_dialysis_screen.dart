@@ -26,7 +26,7 @@ class ManualPeritonealDialysisScreen extends StatelessWidget {
   final _apiService = ApiService();
   final Date initialDate;
 
-  ManualPeritonealDialysisScreen({Key key, required this.initialDate})
+  ManualPeritonealDialysisScreen({Key? key, required this.initialDate})
       : assert(initialDate != null),
         super(key: key);
 
@@ -99,7 +99,7 @@ class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
   final Date initialDate;
 
   _ManualPeritonealDialysisDialysisList({
-    Key key,
+    Key? key,
     required this.pagerType,
     required this.initialDate,
   }) : super(key: key);
@@ -191,7 +191,7 @@ class ManualPeritonealDialysisReportSection extends StatelessWidget {
   final DailyHealthStatus dailyHealthStatus;
 
   ManualPeritonealDialysisReportSection({
-    Key key,
+    Key? key,
     required this.dailyHealthStatus,
   }) : super(key: key);
 
@@ -219,16 +219,14 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
   final ManualPeritonealDialysis dialysis;
   final _dateTimeFormat = DateFormat.MMMMd().add_Hm();
 
-  ManualPeritonealDialysisTile(this.dialysis)
-      : assert(dialysis != null),
-        super(key: ObjectKey(dialysis));
+  ManualPeritonealDialysisTile(this.dialysis) : super(key: ObjectKey(dialysis));
 
   @override
   Widget build(BuildContext context) {
     return AppListTile(
       leading: CircleAvatar(
-        backgroundColor: dialysis.dialysisSolution.color,
-        foregroundColor: dialysis.dialysisSolution.textColor,
+        backgroundColor: dialysis.dialysisSolution?.color,
+        foregroundColor: dialysis.dialysisSolution?.textColor,
         child: _getIcon(),
       ),
       title: Text(_dateTimeFormat
@@ -266,24 +264,24 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
               if (isDialysateColorWarning)
                 TextWithLeadingIcon(
                   text: Text(
-                    dialysis.dialysateColor
+                    dialysis.dialysateColor!
                         .localizedName(context.appLocalizations),
                   ),
                   icon: Icons.error_outline,
                 ),
             ],
           ),
-          if (dialysis.notes != null && dialysis.notes.isNotEmpty)
+          if (dialysis.notes != null && dialysis.notes!.isNotEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text(dialysis.notes),
+              child: Text(dialysis.notes!),
             ),
         ],
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (dialysis.isCompleted)
+          if (dialysis.isCompleted!)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: Text(dialysis.formattedBalance),
@@ -303,8 +301,8 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
         dialysis.dialysateColor != DialysateColorEnum.unknown;
   }
 
-  Widget _getIcon() {
-    if (!dialysis.isCompleted) {
+  Widget? _getIcon() {
+    if (!dialysis.isCompleted!) {
       return const Icon(Icons.sync_outlined);
     } else if (isDialysateColorWarning) {
       return const Icon(Icons.error_outline);

@@ -30,7 +30,10 @@ extension IndexedIterable<E> on Iterable<E> {
   }
 
   // TODO null operator is possibly not needed
-  E? maxBy<T>(T Function(E? e) func) {
-    return collection.maxBy<E, T>(this, func);
+  E? maxBy<T>(T Function(E e) func) {
+    // ignore: null_check_on_nullable_type_parameter
+    return collection.maxBy<E, T>(this, (e) => func(e!));
   }
+
+  E? get max => collection.maxBy(this, (e) => e);
 }

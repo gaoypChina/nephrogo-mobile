@@ -11,7 +11,7 @@ class NutritionDailyListWithHeaderEmpty extends StatelessWidget {
   final Date date;
 
   const NutritionDailyListWithHeaderEmpty({
-    Key key,
+    Key? key,
     required this.header,
     required this.date,
   })   : assert(header != null),
@@ -57,7 +57,7 @@ class NutritionListWithHeaderEmpty extends StatelessWidget {
   final Widget header;
 
   const NutritionListWithHeaderEmpty({
-    Key key,
+    Key? key,
     required this.header,
   })   : assert(header != null),
         super(key: key);
@@ -82,7 +82,7 @@ class DateSwitcherHeaderSection extends StatelessWidget {
   final List<Widget> children;
 
   const DateSwitcherHeaderSection({
-    Key key,
+    Key? key,
     required this.header,
     this.children,
   })  : assert(header != null),

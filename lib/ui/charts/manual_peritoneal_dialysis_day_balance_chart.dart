@@ -10,7 +10,7 @@ class ManualPeritonealDialysisDayBalanceChart extends StatelessWidget {
   final Iterable<ManualPeritonealDialysis> manualPeritonealDialysis;
 
   const ManualPeritonealDialysisDayBalanceChart({
-    Key key,
+    Key? key,
     required this.manualPeritonealDialysis,
     required this.date,
   }) : super(key: key);
@@ -38,7 +38,7 @@ class ManualPeritonealDialysisDayBalanceChart extends StatelessWidget {
         isVisible: true,
         labelAlignment: ChartDataLabelAlignment.outer,
       ),
-      pointColorMapper: (d, _) => d.dialysisSolution.color,
+      pointColorMapper: (d, _) => d.dialysisSolution?.color,
       name: context.appLocalizations.balance,
     );
   }

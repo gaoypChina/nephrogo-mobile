@@ -5,7 +5,7 @@ class AppNetworkImage extends StatelessWidget {
   final String fallbackAssetImage;
 
   const AppNetworkImage({
-    Key key,
+    Key? key,
     required this.url,
     required this.fallbackAssetImage,
   })   : assert(url != null),

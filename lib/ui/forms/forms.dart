@@ -10,7 +10,7 @@ import 'app_form_single_select_dialog.dart';
 typedef FormFieldItemSetter<T> = void Function(T newItem);
 
 class AppDropdownMenuItem<T> {
-  final Key key;
+  final Key? key;
   final String text;
   final T value;
 
@@ -20,35 +20,37 @@ class AppDropdownMenuItem<T> {
 const _defaultFieldPadding = EdgeInsets.symmetric(horizontal: 16, vertical: 12);
 
 class AppTextFormField extends StatelessWidget {
-  final TextEditingController controller;
-  final FocusNode focusNode;
   final String labelText;
-  final String helperText;
-  final String hintText;
-  final String initialValue;
-  final Widget icon;
-  final Widget prefixIcon;
-  final FormFieldValidator<String> validator;
-  final FormFieldSetter<String> onSaved;
-  final FormFieldSetter<String> onChanged;
-  final TextInputType keyboardType;
-  final List<TextInputFormatter> inputFormatters;
-  final String suffixText;
-  final GestureTapCallback onTap;
+
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final String? helperText;
+  final String? hintText;
+  final String? initialValue;
+  final Widget? icon;
+  final Widget? prefixIcon;
+  final FormFieldValidator<String>? validator;
+  final FormFieldSetter<String>? onSaved;
+  final FormFieldSetter<String>? onChanged;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
+  final String? suffixText;
+  final Widget? suffixIcon;
+  final Iterable<String>? autofillHints;
+  final TextInputAction? textInputAction;
+  final VoidCallback? onEditingComplete;
+  final ValueChanged<String>? onFieldSubmitted;
+  final GestureTapCallback? onTap;
+
   final EdgeInsets padding;
   final bool disabled;
   final bool autoFocus;
-  final Widget suffixIcon;
   final bool obscureText;
-  final Iterable<String> autofillHints;
-  final TextInputAction textInputAction;
-  final VoidCallback onEditingComplete;
-  final ValueChanged<String> onFieldSubmitted;
   final int maxLines;
   final TextCapitalization textCapitalization;
 
   const AppTextFormField({
-    Key key,
+    Key? key,
     required this.labelText,
     this.onSaved,
     this.onChanged,
@@ -118,35 +120,36 @@ class AppTextFormField extends StatelessWidget {
 
 class AppSelectFormFieldItem<T> {
   final String text;
-  final String description;
-  final Widget icon;
+  final String? description;
+  final Widget? icon;
   final T value;
 
   const AppSelectFormFieldItem({
     required this.text,
+    required this.value,
     this.description,
     this.icon,
-    required this.value,
   });
 }
 
 class AppSelectionScreenFormField<T> extends StatefulWidget {
   final String labelText;
-  final String helperText;
-  final T initialSelection;
+  final String? helperText;
   final String Function(T item) itemToStringConverter;
-  final Future<T> Function(BuildContext context) onTap;
-  final Widget icon;
-  final Widget prefixIcon;
-  final FormFieldItemSetter<T> onChanged;
-  final FormFieldItemSetter<T> onSaved;
-  final FormFieldValidator<T> validator;
+
+  final T? initialSelection;
+  final Future<T?> Function(BuildContext context) onTap;
+  final Widget? icon;
+  final Widget? prefixIcon;
+  final FormFieldItemSetter<T>? onChanged;
+  final FormFieldItemSetter<T>? onSaved;
+  final FormFieldValidator<T>? validator;
 
   const AppSelectionScreenFormField({
-    Key key,
+    Key? key,
     required this.onTap,
     required this.itemToStringConverter,
-    this.labelText,
+    required this.labelText,
     this.helperText,
     this.initialSelection,
     this.icon,
@@ -164,14 +167,14 @@ class AppSelectionScreenFormField<T> extends StatefulWidget {
 class _AppSelectionScreenFormFieldState<T>
     extends State<AppSelectionScreenFormField<T>> {
   final TextEditingController _textEditingController = TextEditingController();
-  T _selectedItem;
+  T? _selectedItem;
 
   @override
   void initState() {
     super.initState();
 
     if (widget.initialSelection != null) {
-      _setItem(widget.initialSelection, initial: true);
+      _setItem(widget.initialSelection!, initial: true);
     }
   }
 
@@ -191,16 +194,16 @@ class _AppSelectionScreenFormFieldState<T>
     );
   }
 
-  String _validator(String value) {
+  String? _validator(String? value) {
     if (widget.validator != null) {
-      return widget.validator(_selectedItem);
+      return widget.validator!(_selectedItem);
     }
     return null;
   }
 
-  void _onSaved(String s) {
-    if (widget.onSaved != null) {
-      widget.onSaved(_selectedItem);
+  void _onSaved(String? s) {
+    if (widget.onSaved != null && _selectedItem != null) {
+      widget.onSaved!(_selectedItem!);
     }
   }
 
@@ -214,10 +217,10 @@ class _AppSelectionScreenFormFieldState<T>
 
   void _setItem(T item, {bool initial = false}) {
     _selectedItem = item;
-    _textEditingController.text = widget.itemToStringConverter(_selectedItem);
+    _textEditingController.text = widget.itemToStringConverter(item);
 
     if (!initial && widget.onChanged != null && item != null) {
-      widget.onChanged(item);
+      widget.onChanged!(item);
     }
   }
 
@@ -232,19 +235,20 @@ class _AppSelectionScreenFormFieldState<T>
 class AppSelectFormField<T> extends StatefulWidget {
   final List<AppSelectFormFieldItem<T>> items;
   final String labelText;
-  final String dialogHelpText;
-  final String helperText;
-  final Icon icon;
-  final FormFieldValidator<AppSelectFormFieldItem<T>> validator;
-  final FormFieldSetter<AppSelectFormFieldItem<T>> onChanged;
-  final FormFieldSetter<AppSelectFormFieldItem<T>> onSaved;
+
+  final String? dialogHelpText;
+  final String? helperText;
+  final Icon? icon;
+  final FormFieldValidator<AppSelectFormFieldItem<T>>? validator;
+  final FormFieldSetter<AppSelectFormFieldItem<T>>? onChanged;
+  final FormFieldSetter<AppSelectFormFieldItem<T>>? onSaved;
   final bool focusNextOnSelection;
-  final T initialValue;
+  final T? initialValue;
 
   const AppSelectFormField({
-    Key key,
+    Key? key,
     required this.items,
-    this.labelText,
+    required this.labelText,
     this.helperText,
     this.icon,
     this.initialValue,
@@ -260,7 +264,7 @@ class AppSelectFormField<T> extends StatefulWidget {
 }
 
 class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
-  AppSelectFormFieldItem<T> selectedItem;
+  AppSelectFormFieldItem<T>? selectedItem;
 
   @override
   void initState() {
@@ -285,13 +289,13 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
     );
   }
 
-  AppSelectFormFieldItem<T> _getInitialSelection() {
+  AppSelectFormFieldItem<T>? _getInitialSelection() {
     if (widget.initialValue == null) {
       return null;
     }
 
     final initialSelection =
-        widget.items.firstWhere((e) => e.value == widget.initialValue);
+        widget.items.where((e) => e.value == widget.initialValue).firstOrNull();
     if (initialSelection == null) {
       throw ArgumentError.value('initialValue',
           'Unable to find initial value in AppSelectFormField items');
@@ -300,7 +304,7 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
     return initialSelection;
   }
 
-  Future<AppSelectFormFieldItem<T>> onTap(BuildContext context) async {
+  Future<AppSelectFormFieldItem<T>?> onTap(BuildContext context) async {
     final item = await showDialog<AppSelectFormFieldItem<T>>(
         context: context,
         builder: (BuildContext context) {
@@ -326,17 +330,17 @@ class AppMultipleSelectFormField<T> extends StatefulWidget {
   final List<AppSelectFormFieldItem<T>> items;
   final List<T> initialValues;
   final String labelText;
-  final String helperText;
-  final Icon icon;
-  final FormFieldSetter<List<AppSelectFormFieldItem<T>>> onChanged;
-  final FormFieldSetter<List<AppSelectFormFieldItem<T>>> onSaved;
+  final String? helperText;
+  final Icon? icon;
+  final FormFieldSetter<List<AppSelectFormFieldItem<T>>>? onChanged;
+  final FormFieldSetter<List<AppSelectFormFieldItem<T>>>? onSaved;
   final bool focusNextOnSelection;
 
   const AppMultipleSelectFormField({
-    Key key,
+    Key? key,
     required this.items,
-    this.initialValues,
-    this.labelText,
+    required this.initialValues,
+    required this.labelText,
     this.helperText,
     this.icon,
     this.onChanged,
@@ -351,7 +355,7 @@ class AppMultipleSelectFormField<T> extends StatefulWidget {
 
 class _AppMultipleSelectFormFieldState<T>
     extends State<AppMultipleSelectFormField<T>> {
-  List<AppSelectFormFieldItem<T>> _selectedItems;
+  late List<AppSelectFormFieldItem<T>> _selectedItems;
 
   @override
   void initState() {
@@ -361,10 +365,6 @@ class _AppMultipleSelectFormFieldState<T>
   }
 
   List<AppSelectFormFieldItem<T>> _getInitialSelections() {
-    if (widget.initialValues == null) {
-      return null;
-    }
-
     return widget.items
         .where((e) => widget.initialValues.contains(e.value))
         .toList();
@@ -401,7 +401,7 @@ class _AppMultipleSelectFormFieldState<T>
       FocusScope.of(context).nextFocus();
     }
 
-    return items;
+    return _selectedItems;
   }
 }
 
@@ -409,27 +409,27 @@ class AppDatePickerFormField extends StatefulWidget {
   final Date initialDate;
   final Date firstDate;
   final Date lastDate;
-
   final String labelText;
-  final String helperText;
-  final Widget icon;
-  final Widget prefixIcon;
-  final FormFieldValidator<Date> validator;
-  final FormFieldSetter<Date> onDateSaved;
-  final FormFieldSetter<Date> onDateChanged;
-  final DateFormat dateFormat;
+
+  final String? helperText;
+  final Widget? icon;
+  final Widget? prefixIcon;
+  final FormFieldValidator<Date>? validator;
+  final void Function(Date date)? onDateSaved;
+  final void Function(Date date)? onDateChanged;
+  final DateFormat? dateFormat;
   final DatePickerEntryMode initialEntryMode;
   final DatePickerMode initialDatePickerMode;
 
   const AppDatePickerFormField({
-    Key key,
+    Key? key,
     required this.firstDate,
     required this.lastDate,
     required this.initialDate,
+    required this.labelText,
     this.onDateSaved,
     this.onDateChanged,
     this.dateFormat,
-    this.labelText,
     this.helperText,
     this.icon,
     this.prefixIcon,
@@ -448,13 +448,13 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
   // This is a bug with platform translation. Incorrect format is shown. Set to correct one.
   static const _fieldHintText = 'yyyy-mm-dd';
 
-  Date selectedDate;
+  late Date _selectedDate;
 
   @override
   void initState() {
     super.initState();
 
-    selectedDate = widget.initialDate;
+    _selectedDate = widget.initialDate;
   }
 
   @override
@@ -472,7 +472,7 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
       prefixIcon: widget.prefixIcon,
       onSaved: widget.onDateSaved,
       onChanged: widget.onDateChanged,
-      initialSelection: selectedDate,
+      initialSelection: _selectedDate,
       validator: widget.validator,
     );
   }
@@ -482,30 +482,31 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
       context: context,
       firstDate: widget.firstDate.toLocal(),
       lastDate: widget.lastDate.toLocal(),
-      initialDate: selectedDate.toLocal(),
+      initialDate: _selectedDate.toLocal(),
       initialDatePickerMode: widget.initialDatePickerMode,
       initialEntryMode: widget.initialEntryMode,
       fieldHintText: _fieldHintText,
     );
 
-    return selectedDate = dateTime?.toDate() ?? selectedDate;
+    return _selectedDate = dateTime?.toDate() ?? _selectedDate;
   }
 }
 
 class AppTimePickerFormField extends StatefulWidget {
   final TimeOfDay initialTime;
   final String labelText;
-  final String helperText;
-  final Widget prefixIcon;
-  final FormFieldSetter<TimeOfDay> onTimeSaved;
-  final FormFieldSetter<TimeOfDay> onTimeChanged;
+
+  final String? helperText;
+  final Widget? prefixIcon;
+  final void Function(TimeOfDay timeOfDay)? onTimeSaved;
+  final void Function(TimeOfDay timeOfDay)? onTimeChanged;
 
   const AppTimePickerFormField({
-    Key key,
+    Key? key,
     required this.initialTime,
+    required this.labelText,
     this.onTimeSaved,
     this.onTimeChanged,
-    this.labelText,
     this.helperText,
     this.prefixIcon,
   }) : super(key: key);
@@ -515,7 +516,7 @@ class AppTimePickerFormField extends StatefulWidget {
 }
 
 class _AppTimePickerFormFieldState extends State<AppTimePickerFormField> {
-  TimeOfDay _selectedTimeOfDay;
+  late TimeOfDay _selectedTimeOfDay;
 
   @override
   void initState() {
@@ -541,40 +542,39 @@ class _AppTimePickerFormFieldState extends State<AppTimePickerFormField> {
   }
 
   void _onTimeChanged(v) {
-    if (_selectedTimeOfDay != null) {
-      widget.onTimeChanged(_selectedTimeOfDay);
+    if (widget.onTimeChanged != null) {
+      widget.onTimeChanged!(_selectedTimeOfDay);
     }
   }
 
   Future<TimeOfDay> _onTap(BuildContext _) async {
     final timeOfDay = await showTimePicker(
       context: context,
-      initialTime: _selectedTimeOfDay ?? TimeOfDay.now(),
+      initialTime: _selectedTimeOfDay,
     );
 
-    _selectedTimeOfDay = timeOfDay ?? _selectedTimeOfDay;
-
-    return timeOfDay;
+    return _selectedTimeOfDay = timeOfDay ?? _selectedTimeOfDay;
   }
 }
 
 class AppIntegerFormField extends StatelessWidget {
   final String labelText;
-  final String helperText;
-  final String hintText;
-  final int initialValue;
-  final Widget icon;
-  final Widget prefixIcon;
-  final FormFieldValidator<int> validator;
-  final FormFieldSetter<int> onSaved;
-  final FormFieldSetter<int> onChanged;
-  final String suffixText;
+
+  final String? helperText;
+  final String? hintText;
+  final int? initialValue;
+  final Widget? icon;
+  final Widget? prefixIcon;
+  final FormFieldValidator<int>? validator;
+  final FormFieldSetter<int>? onSaved;
+  final FormFieldSetter<int>? onChanged;
+  final String? suffixText;
   final bool autoFocus;
-  final FocusNode focusNode;
-  final TextInputAction textInputAction;
+  final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
 
   const AppIntegerFormField({
-    Key key,
+    Key? key,
     required this.labelText,
     this.onSaved,
     this.helperText,
@@ -601,8 +601,8 @@ class AppIntegerFormField extends StatelessWidget {
       validator: _validator,
       autoFocus: autoFocus,
       initialValue: initialValue?.toString(),
-      onSaved: onSaved != null ? _onSaved : null,
-      onChanged: onChanged != null ? _onChanged : null,
+      onSaved: _onSaved,
+      onChanged: _onChanged,
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       suffixText: suffixText,
@@ -611,28 +611,32 @@ class AppIntegerFormField extends StatelessWidget {
     );
   }
 
-  String _validator(String text) {
-    if (validator == null) {
-      return null;
+  String? _validator(String? text) {
+    if (validator != null && text != null) {
+      return validator!(int.tryParse(text));
     }
 
-    return validator(int.tryParse(text));
+    return null;
   }
 
-  int _parseToInt(String v) {
+  int? _parseToInt(String? v) {
     return (v != null && v.isNotEmpty) ? int.parse(v) : null;
   }
 
-  void _onSaved(String v) {
-    final n = _parseToInt(v);
+  void _onSaved(String? v) {
+    if (onSaved != null) {
+      final n = _parseToInt(v);
 
-    onSaved(n);
+      onSaved!(n);
+    }
   }
 
-  void _onChanged(String v) {
-    final n = _parseToInt(v);
+  void _onChanged(String? v) {
+    if (onChanged != null) {
+      final n = _parseToInt(v);
 
-    onChanged(n);
+      onChanged!(n);
+    }
   }
 }
 
@@ -641,19 +645,20 @@ class AppDoubleInputField extends StatelessWidget {
       RegExp(r'^((0|([1-9][0-9]{0,3}))(\.|,)?\d*)$');
 
   final String labelText;
-  final String helperText;
-  final String hintText;
-  final double initialValue;
-  final Widget icon;
-  final FormFieldValidator<double> validator;
-  final FormFieldSetter<double> onSaved;
-  final FormFieldSetter<double> onChanged;
-  final String suffixText;
   final int fractionDigits;
-  final TextInputAction textInputAction;
+
+  final String? helperText;
+  final String? hintText;
+  final double? initialValue;
+  final Widget? icon;
+  final FormFieldValidator<double>? validator;
+  final FormFieldSetter<double?>? onSaved;
+  final FormFieldSetter<double?>? onChanged;
+  final String? suffixText;
+  final TextInputAction? textInputAction;
 
   const AppDoubleInputField({
-    Key key,
+    Key? key,
     required this.labelText,
     required this.fractionDigits,
     this.onSaved,
@@ -676,8 +681,8 @@ class AppDoubleInputField extends StatelessWidget {
       initialValue: initialValue?.toStringAsFixed(fractionDigits),
       validator: _validator,
       hintText: hintText,
-      onChanged: onChanged != null ? _onChanged : null,
-      onSaved: onSaved != null ? _onSaved : null,
+      onChanged: _onChanged,
+      onSaved: _onSaved,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: [FilteringTextInputFormatter.allow(floatRegexPattern)],
       suffixText: suffixText,
@@ -685,15 +690,19 @@ class AppDoubleInputField extends StatelessWidget {
     );
   }
 
-  String _validator(String text) {
+  String? _validator(String? text) {
     if (validator == null) {
       return null;
     }
 
-    return validator(double.tryParse(text.replaceFirst(',', '.')));
+    if (text == null) {
+      return validator!(null);
+    }
+
+    return validator!(double.tryParse(text.replaceFirst(',', '.')));
   }
 
-  double _parseDouble(String v) {
+  double? _parseDouble(String? v) {
     if (v == null || v.isEmpty) {
       return null;
     }
@@ -701,15 +710,19 @@ class AppDoubleInputField extends StatelessWidget {
         double.parse(v.replaceFirst(',', '.')).toStringAsFixed(fractionDigits));
   }
 
-  void _onSaved(String v) {
-    final n = _parseDouble(v);
+  void _onSaved(String? v) {
+    if (onSaved != null) {
+      final n = _parseDouble(v);
 
-    onSaved(n);
+      onSaved!(n);
+    }
   }
 
-  void _onChanged(String v) {
-    final n = _parseDouble(v);
+  void _onChanged(String? v) {
+    if (onChanged != null) {
+      final n = _parseDouble(v);
 
-    onChanged(n);
+      onChanged!(n);
+    }
   }
 }

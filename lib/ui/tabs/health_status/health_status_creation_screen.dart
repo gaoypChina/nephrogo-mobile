@@ -23,7 +23,7 @@ class HealthStatusCreationScreen extends StatefulWidget {
   final Date date;
 
   const HealthStatusCreationScreen({
-    Key key,
+    Key? key,
     required this.date,
   }) : super(key: key);
 
@@ -54,8 +54,8 @@ class _HealthStatusCreationScreenState
       ),
       body: AppFutureBuilder<DailyHealthStatus>(
         future: _apiService.getDailyHealthStatus(widget.date),
-        builder: (context, healthStatus) {
-          _requestBuilder = healthStatus?.toRequest()?.toBuilder() ??
+        nullableBuilder: (context, healthStatus) {
+          _requestBuilder = healthStatus?.toRequest().toBuilder() ??
               DailyHealthStatusRequestBuilder();
 
           _requestBuilder.date = widget.date;

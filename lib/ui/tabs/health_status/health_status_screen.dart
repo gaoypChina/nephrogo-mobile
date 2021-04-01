@@ -29,7 +29,7 @@ class HealthStatusScreenArguments {
 class HealthStatusScreen extends StatefulWidget {
   final HealthIndicator healthIndicator;
 
-  const HealthStatusScreen({Key key, required this.healthIndicator})
+  const HealthStatusScreen({Key? key, required this.healthIndicator})
       : super(key: key);
 
   @override
@@ -90,7 +90,7 @@ class _HealthStatusScreenTab extends StatelessWidget {
   final PeriodPagerType pagerType;
 
   _HealthStatusScreenTab({
-    Key key,
+    Key? key,
     required this.healthIndicator,
     required this.pagerType,
   }) : super(key: key);
@@ -156,7 +156,7 @@ class EmptyDailyHealthIndicatorsListWithChart extends StatelessWidget {
   final Widget header;
 
   const EmptyDailyHealthIndicatorsListWithChart({
-    Key key,
+    Key? key,
     required this.date,
     required this.healthIndicator,
     required this.header,
@@ -200,7 +200,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
   final bool smallMarkers;
 
   const HealthIndicatorsListWithChart({
-    Key key,
+    Key? key,
     required this.dailyHealthStatuses,
     required this.healthIndicator,
     required this.appLocalizations,
@@ -272,7 +272,7 @@ class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
   final List<Widget> children;
 
   DailyHealthStatusIndicatorMultiValueSection({
-    Key key,
+    Key? key,
     required this.date,
     required this.indicator,
     required this.children,
@@ -313,7 +313,7 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
   final HealthIndicator indicator;
 
   DailyHealthStatusIndicatorMultiValueSectionWithTiles({
-    Key key,
+    Key? key,
     required this.dailyHealthStatus,
     required this.indicator,
   }) : super(key: key);
@@ -404,7 +404,7 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
   final HealthIndicator indicator;
 
   const DailyHealthStatusIndicatorTile({
-    Key key,
+    Key? key,
     required this.dailyHealthStatus,
     required this.indicator,
   }) : super(key: key);

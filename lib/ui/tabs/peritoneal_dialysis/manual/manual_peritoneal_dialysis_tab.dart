@@ -38,7 +38,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
 
   final ManualPeritonealDialysisScreenResponse response;
 
-  const _ManualPeritonealDialysisTabBody({Key key, required this.response})
+  const _ManualPeritonealDialysisTabBody({Key? key, required this.response})
       : super(key: key);
 
   @override
@@ -94,7 +94,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
 
     final initialDate = response.lastPeritonealDialysis
             .map((d) => d.startedAt.toDate())
-            .maxBy((_, d) => d) ??
+            .maxBy((d) => d) ??
         today;
 
     return LargeSection(

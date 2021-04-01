@@ -18,7 +18,7 @@ class PeritonealDialysisCreationFloatingActionButton extends StatelessWidget {
   final Future<void> Function(BuildContext context) dialysisOnTap;
 
   const PeritonealDialysisCreationFloatingActionButton({
-    Key key,
+    Key? key,
     required this.dialysisInProgress,
     required this.dialysisOnTap,
   }) : super(key: key);
@@ -103,16 +103,15 @@ class DialysisSolutionAvatar extends StatelessWidget {
   final DialysisSolutionEnum dialysisSolution;
   final bool isCompleted;
   final bool isDialysateColorNonRegular;
-  final double radius;
+  final double? radius;
 
   const DialysisSolutionAvatar({
-    Key key,
+    Key? key,
     required this.dialysisSolution,
     this.isCompleted = true,
     this.isDialysateColorNonRegular = false,
     this.radius,
-  })  : assert(dialysisSolution != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +126,7 @@ class DialysisSolutionAvatar extends StatelessWidget {
     );
   }
 
-  Widget _getIcon() {
+  Widget? _getIcon() {
     if (!isCompleted) {
       return const Icon(Icons.sync_outlined);
     } else if (isDialysateColorNonRegular) {
@@ -143,7 +142,7 @@ class PeritonealDialysisSummaryFloatingActionButton extends StatelessWidget {
       reportBuilder;
 
   const PeritonealDialysisSummaryFloatingActionButton({
-    Key key,
+    Key? key,
     required this.reportBuilder,
   }) : super(key: key);
 
@@ -173,7 +172,7 @@ class PeritonealDialysisSummaryFloatingActionButton extends StatelessWidget {
     );
   }
 
-  Future<void> _downloadAndExportDialysisInternal(
+  Future _downloadAndExportDialysisInternal(
     BuildContext context,
     bool share,
   ) async {

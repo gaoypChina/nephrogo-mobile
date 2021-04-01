@@ -73,7 +73,7 @@ class IndicatorChartSection extends StatelessWidget {
   final List<DailyHealthStatus> dailyHealthStatuses;
 
   const IndicatorChartSection({
-    Key key,
+    Key? key,
     required this.indicator,
     required this.dailyHealthStatuses,
   })   : assert(indicator != null),

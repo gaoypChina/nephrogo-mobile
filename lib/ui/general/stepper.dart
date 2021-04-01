@@ -122,7 +122,7 @@ class AppStepper extends StatefulWidget {
   ///
   /// The [steps], [type], and [currentStep] arguments must not be null.
   const AppStepper({
-    Key key,
+    Key? key,
     required this.steps,
     this.physics,
     this.type = AppStepperType.vertical,

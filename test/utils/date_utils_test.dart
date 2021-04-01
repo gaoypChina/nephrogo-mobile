@@ -6,7 +6,7 @@ void main() {
   group('getFirstDayOfNextMonth', () {
     test('returns correct date', () {
       final today = DateTime.parse('2020-12-12T14:34:16.798918');
-      final date = DateUtils.getFirstDayOfNextMonth(today);
+      final date = DateHelper.getFirstDayOfNextMonth(today);
 
       expect(date, Date(2021, 1, 1));
     });
@@ -15,7 +15,7 @@ void main() {
     test('returns correct dates', () {
       final from = Date(2020, 1, 5);
       final to = Date(2021, 2, 28);
-      final dates = DateUtils.generateMonthDates(from, to).toList();
+      final dates = DateHelper.generateMonthDates(from, to).toList();
 
       expect(dates.length, 14);
       expect(dates[0], Date(2020, 1, 1));

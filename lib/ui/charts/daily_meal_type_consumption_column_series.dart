@@ -13,12 +13,10 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
   final Nutrient nutrient;
 
   const DailyMealTypeConsumptionColumnSeries({
-    Key key,
+    Key? key,
     required this.report,
     required this.nutrient,
-  })   : assert(report != null),
-        assert(nutrient != null),
-        super(key: key);
+  }) : super(key: key);
 
   String _getTitleText(AppLocalizations appLocalizations) {
     final nutrientNorms = report.dailyNutrientNormsAndTotals;
@@ -29,7 +27,7 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
         nutrientNorms.getNutrientTotalAmountFormatted(nutrient);
 
     if (nutrientConsumption.isNormExists) {
-      final normFormatted = nutrientNorms.getNutrientNormFormatted(nutrient);
+      final normFormatted = nutrientNorms.getNutrientNormFormatted(nutrient)!;
 
       return appLocalizations.consumptionWithNorm(
         totalFormatted,

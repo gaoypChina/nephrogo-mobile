@@ -21,7 +21,7 @@ class PulseEditScreen extends StatefulWidget {
   final Pulse pulse;
 
   const PulseEditScreen({
-    Key key,
+    Key? key,
     required this.pulse,
   }) : super(key: key);
 

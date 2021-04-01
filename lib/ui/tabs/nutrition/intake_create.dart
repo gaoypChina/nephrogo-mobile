@@ -299,7 +299,7 @@ class _IntakeEditSection extends StatefulWidget {
   final bool initiallyExpanded;
 
   const _IntakeEditSection({
-    Key key,
+    Key? key,
     required this.initialFakedIntake,
     required this.dailyNutrientNormsAndTotals,
     required this.onChanged,

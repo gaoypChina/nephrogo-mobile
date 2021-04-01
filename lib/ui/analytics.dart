@@ -6,7 +6,7 @@ class Analytics {
 
   static const eventOnboardingSkipped = 'tutorial_skipped';
 
-  FirebaseAnalytics _analytics;
+  late FirebaseAnalytics _analytics;
 
   factory Analytics() {
     return _singleton;

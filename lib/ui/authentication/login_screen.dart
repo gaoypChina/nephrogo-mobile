@@ -229,7 +229,7 @@ class EmailLoginButtonComponent extends StatelessWidget {
   final void Function(UserCredential userCredential) onCredentialsRetrieved;
 
   const EmailLoginButtonComponent({
-    Key key,
+    Key? key,
     required this.onCredentialsRetrieved,
   })   : assert(onCredentialsRetrieved != null),
         super(key: key);

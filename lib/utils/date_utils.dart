@@ -1,8 +1,8 @@
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
 
-class DateUtils {
-  DateUtils._();
+class DateHelper {
+  DateHelper._();
 
   static Iterable<Date> generateDates(
     Date startDate,

@@ -3,7 +3,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 
 class AppForm extends StatefulWidget {
   final Widget child;
-  final VoidCallback onChanged;
+  final VoidCallback? onChanged;
   final GlobalKey<FormState> formKey;
   final Future<bool> Function() save;
 
@@ -30,7 +30,7 @@ class _AppFormState extends State<AppForm> {
         _isChanged = true;
 
         if (widget.onChanged != null) {
-          widget.onChanged();
+          widget.onChanged!();
         }
       },
       child: widget.child,
@@ -54,7 +54,7 @@ class _AppFormState extends State<AppForm> {
     }
   }
 
-  Future<bool> _showChangesNotSavedDialog() {
+  Future<bool?> _showChangesNotSavedDialog() {
     return showDialog<bool>(
       context: context,
       builder: (BuildContext context) {

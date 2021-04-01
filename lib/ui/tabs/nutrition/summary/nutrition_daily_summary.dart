@@ -32,9 +32,9 @@ class NutritionDailySummaryScreen extends StatelessWidget {
 
   const NutritionDailySummaryScreen(
     this.date, {
-    Key key,
+    Key? key,
     required this.nutrient,
-  })  : assert(date != null),
+  })   : assert(date != null),
         super(key: key);
 
   @override
@@ -59,14 +59,13 @@ class NutritionDailySummaryScreen extends StatelessWidget {
 
 class NutritionDailySummaryBody extends StatefulWidget {
   final Date date;
-  final Nutrient nutrient;
+  final Nutrient? nutrient;
 
   const NutritionDailySummaryBody({
-    Key key,
+    Key? key,
     required this.date,
-    required this.nutrient,
-  })  : assert(date != null),
-        super(key: key);
+    this.nutrient,
+  }) : super(key: key);
 
   @override
   _NutritionDailySummaryBodyState createState() =>
@@ -131,9 +130,9 @@ class _NutritionDailySummaryList extends StatelessWidget {
 
   const _NutritionDailySummaryList(
     this.dailyIntakesReport, {
-    Key key,
+    Key? key,
     required this.header,
-  })  : assert(header != null),
+  })   : assert(header != null),
         super(key: key);
 
   @override
@@ -179,7 +178,7 @@ class _NutritionDailySummaryListNutritionSection extends StatelessWidget {
   final Date date;
 
   const _NutritionDailySummaryListNutritionSection({
-    Key key,
+    Key? key,
     required this.mealType,
     required this.intakes,
     required this.date,
@@ -225,9 +224,9 @@ class _DailyNutritionNutrientList extends StatelessWidget {
   const _DailyNutritionNutrientList(
     this.dailyIntakesReport,
     this.nutrient, {
-    Key key,
+    Key? key,
     required this.header,
-  })  : assert(header != null),
+  })   : assert(header != null),
         assert(dailyIntakesReport != null),
         super(key: key);
 
@@ -272,7 +271,7 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
   final DailyIntakesReport dailyIntakesReport;
 
   const _DailyNutritionNutrientSection({
-    Key key,
+    Key? key,
     required this.nutrient,
     required this.mealType,
     required this.intakes,

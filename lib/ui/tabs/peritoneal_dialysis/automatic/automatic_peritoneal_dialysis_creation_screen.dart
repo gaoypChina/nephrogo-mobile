@@ -27,7 +27,7 @@ class AutomaticPeritonealDialysisCreationScreen extends StatefulWidget {
   final AutomaticPeritonealDialysis initialDialysis;
 
   const AutomaticPeritonealDialysisCreationScreen({
-    Key key,
+    Key? key,
     required this.initialDialysis,
   }) : super(key: key);
 

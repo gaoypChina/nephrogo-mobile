@@ -24,7 +24,8 @@ class AutomaticPeritonealDialysisPeriodsScreen extends StatelessWidget {
   final _apiService = ApiService();
   final Date initialDate;
 
-  AutomaticPeritonealDialysisPeriodsScreen({Key key, required this.initialDate})
+  AutomaticPeritonealDialysisPeriodsScreen(
+      {Key? key, required this.initialDate})
       : assert(initialDate != null),
         super(key: key);
 
@@ -85,7 +86,7 @@ class _AutomaticPeritonealDialysisPeriodsScreenBody extends StatelessWidget {
   final Date initialDate;
 
   _AutomaticPeritonealDialysisPeriodsScreenBody({
-    Key key,
+    Key? key,
     required this.pagerType,
     required this.initialDate,
   }) : super(key: key);

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 
 class FormValidators {
   final AppLocalizations appLocalizations;
 
   FormValidators(BuildContext context)
-      : appLocalizations = AppLocalizations.of(context);
+      : appLocalizations = context.appLocalizations;
 
   FormFieldValidator<T> and<T>(
     FormFieldValidator<T> validator1,
@@ -54,7 +55,7 @@ class FormValidators {
   }
 
   FormFieldValidator<String> lengthValidator(int min) {
-    return (String value) {
+    return (String? value) {
       if (value == null) {
         return null;
       }
@@ -66,7 +67,7 @@ class FormValidators {
   }
 
   FormFieldValidator<T> numRangeValidator<T extends num>(T min, T max) {
-    return (T value) {
+    return (T? value) {
       if (value == null) {
         return null;
       }

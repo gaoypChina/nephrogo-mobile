@@ -11,7 +11,7 @@ class ManualPeritonealDialysisTotalBalanceChart extends StatelessWidget {
   final List<DailyHealthStatus> dailyHealthStatuses;
 
   const ManualPeritonealDialysisTotalBalanceChart({
-    Key key,
+    Key? key,
     required this.dailyHealthStatuses,
     required this.minimumDate,
     required this.maximumDate,

@@ -39,7 +39,7 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
 
   final AutomaticPeritonealDialysisScreenResponse response;
 
-  const _AutomaticPeritonealDialysisTabBody({Key key, required this.response})
+  const _AutomaticPeritonealDialysisTabBody({Key? key, required this.response})
       : super(key: key);
 
   @override

@@ -9,7 +9,7 @@ import 'components.dart';
 Future<void> showAppDialog({
   required BuildContext context,
   required Widget content,
-  String title,
+  String? title,
 }) {
   return showDialog<void>(
     context: context,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
@@ -26,7 +25,7 @@ class NutritionTab extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = context.appLocalizations;
 
     return AppStreamBuilder<NutritionScreenV2Response>(
       stream: apiService.getNutritionScreenStream(),
@@ -117,13 +116,14 @@ class DailyNormsSection extends StatelessWidget {
   final DailyIntakesLightReport nutritionLightReport;
 
   const DailyNormsSection({
-    Key key,
+    Key? key,
     required this.nutritionLightReport,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = context.appLocalizations;
+
     return LargeSection(
       title: Text(appLocalizations.dailyNormsSectionTitle),
       subtitle: Text(appLocalizations.dailyNormsSectionSubtitle),
@@ -136,25 +136,25 @@ class DailyNormsSection extends StatelessWidget {
 
 class DailyIntakesCard extends StatelessWidget {
   final String title;
-  final String subTitle;
-  final Widget leading;
+  final String? subTitle;
+  final Widget? leading;
   final List<Intake> intakes;
   final DailyNutrientNormsWithTotals dailyNutrientNormsWithTotals;
 
   const DailyIntakesCard({
-    Key key,
-    this.title,
-    this.subTitle,
-    this.leading,
+    Key? key,
+    required this.title,
     required this.intakes,
     required this.dailyNutrientNormsWithTotals,
+    this.subTitle,
+    this.leading,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LargeSection(
       title: Text(title),
-      subtitle: subTitle != null ? Text(subTitle) : null,
+      subtitle: subTitle != null ? Text(subTitle!) : null,
       trailing: leading,
       showDividers: true,
       children: [
@@ -176,12 +176,12 @@ class MonthlyNutritionSummarySection extends StatelessWidget {
   MonthlyNutritionSummarySection(
     this.reports,
     this.nutritionSummaryStatistics, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = context.appLocalizations;
     final monthFormatted = _monthFormat.format(DateTime.now());
 
     final title = '$monthFormatted${appLocalizations.summary.toLowerCase()}'

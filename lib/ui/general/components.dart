@@ -6,12 +6,12 @@ import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 class SpeedDialFloatingActionButton extends StatefulWidget {
   final String label;
   final List<SpeedDialChild> children;
-  final VoidCallback onPress;
+  final VoidCallback? onPress;
   final IconData icon;
 
   const SpeedDialFloatingActionButton({
-    Key key,
-    this.label,
+    Key? key,
+    required this.label,
     this.onPress,
     this.icon = Icons.add,
     this.children = const [],
@@ -24,7 +24,7 @@ class SpeedDialFloatingActionButton extends StatefulWidget {
 
 class _SpeedDialFloatingActionButtonState
     extends State<SpeedDialFloatingActionButton> {
-  ValueNotifier<bool> _isDialOpen;
+  late ValueNotifier<bool> _isDialOpen;
 
   @override
   void initState() {
@@ -69,8 +69,8 @@ class _SpeedDialFloatingActionButtonState
 }
 
 class BasicSection extends StatelessWidget {
-  final Widget header;
-  final Widget footer;
+  final Widget? header;
+  final Widget? footer;
   final List<Widget> children;
   final EdgeInsetsGeometry margin;
   final EdgeInsetsGeometry innerPadding;
@@ -79,13 +79,13 @@ class BasicSection extends StatelessWidget {
   final CrossAxisAlignment crossAxisAlignment;
 
   BasicSection({
-    Key key,
+    Key? key,
     this.header,
     this.footer,
     this.children = const [],
     this.showDividers = false,
     this.showHeaderDivider = false,
-    EdgeInsetsGeometry margin,
+    EdgeInsetsGeometry? margin,
     this.innerPadding = EdgeInsets.zero,
     this.crossAxisAlignment = CrossAxisAlignment.start,
   })  : assert(header != null || children.isNotEmpty,
@@ -129,12 +129,12 @@ class BasicSection extends StatelessWidget {
 
   Iterable<Widget> _getPreparedChildren(BuildContext context) sync* {
     if (header != null && !showHeaderDivider) {
-      yield header;
+      yield header!;
     }
 
     if (showDividers) {
-      final allChildren = [
-        if (header != null && showHeaderDivider) header,
+      final allChildren = <Widget>[
+        if (header != null && showHeaderDivider) header!,
         ...children
       ];
 
@@ -148,7 +148,7 @@ class BasicSection extends StatelessWidget {
 
     if (footer != null) {
       yield const Divider(height: 1);
-      yield footer;
+      yield footer!;
     }
   }
 }
@@ -156,16 +156,16 @@ class BasicSection extends StatelessWidget {
 class LargeSection extends StatelessWidget {
   final List<Widget> children;
   final Widget title;
-  final Widget subtitle;
-  final Widget leading;
-  final Widget trailing;
-  final Widget footer;
+  final Widget? subtitle;
+  final Widget? leading;
+  final Widget? trailing;
+  final Widget? footer;
   final bool showDividers;
   final bool showHeaderDivider;
-  final GestureTapCallback onTap;
+  final GestureTapCallback? onTap;
 
   const LargeSection({
-    Key key,
+    Key? key,
     required this.title,
     required this.children,
     this.subtitle,
@@ -197,13 +197,13 @@ class LargeSection extends StatelessWidget {
 
 class SmallSection extends StatelessWidget {
   final String title;
-  final Widget trailing;
+  final Widget? trailing;
   final List<Widget> children;
   final bool showDividers;
   final EdgeInsets innerPadding;
 
   const SmallSection({
-    Key key,
+    Key? key,
     required this.title,
     required this.children,
     this.trailing,
@@ -220,7 +220,7 @@ class SmallSection extends StatelessWidget {
           title,
           style: Theme.of(context)
               .textTheme
-              .subtitle1
+              .subtitle1!
               .copyWith(color: Colors.grey),
         ),
         trailing: trailing,
@@ -233,15 +233,15 @@ class SmallSection extends StatelessWidget {
 }
 
 class LargeAppListTile extends StatelessWidget {
-  final Widget leading;
   final Widget title;
-  final Widget subtitle;
-  final Widget trailing;
-  final GestureTapCallback onTap;
+  final Widget? leading;
+  final Widget? subtitle;
+  final Widget? trailing;
+  final GestureTapCallback? onTap;
 
   const LargeAppListTile({
-    Key key,
-    this.title,
+    Key? key,
+    required this.title,
     this.subtitle,
     this.leading,
     this.trailing,
@@ -260,10 +260,6 @@ class LargeAppListTile extends StatelessWidget {
   }
 
   Widget get titleWithStyleApplied {
-    if (title == null) {
-      return null;
-    }
-
     return DefaultTextStyle.merge(
       style: const TextStyle(
         fontSize: 24,
@@ -273,7 +269,7 @@ class LargeAppListTile extends StatelessWidget {
     );
   }
 
-  Widget get subtitleWithStyleApplied {
+  Widget? get subtitleWithStyleApplied {
     if (subtitle == null) {
       return null;
     }
@@ -283,25 +279,26 @@ class LargeAppListTile extends StatelessWidget {
         fontSize: 16,
         fontWeight: FontWeight.bold,
       ),
-      child: subtitle,
+      child: subtitle!,
     );
   }
 }
 
 class AppListTile extends StatelessWidget {
-  final Widget leading;
   final Widget title;
-  final Widget subtitle;
-  final Widget trailing;
-  final GestureTapCallback onTap;
+
+  final Widget? leading;
+  final Widget? subtitle;
+  final Widget? trailing;
+  final GestureTapCallback? onTap;
   final bool selected;
   final bool dense;
   final bool isThreeLine;
-  final EdgeInsetsGeometry contentPadding;
+  final EdgeInsetsGeometry? contentPadding;
 
   const AppListTile({
-    Key key,
-    this.title,
+    Key? key,
+    required this.title,
     this.subtitle,
     this.leading,
     this.trailing,
@@ -331,25 +328,23 @@ class AppListTile extends StatelessWidget {
 
 class AppExpansionTile extends StatelessWidget {
   final Widget title;
-  final Widget leading;
-  final Widget subtitle;
+  final Widget? leading;
+  final Widget? subtitle;
   final List<Widget> children;
 
   final bool initiallyExpanded;
 
-  final GestureLongPressCallback onLongPress;
+  final GestureLongPressCallback? onLongPress;
 
   const AppExpansionTile({
-    Key key,
+    Key? key,
     required this.title,
     required this.children,
     this.subtitle,
     this.leading,
     this.onLongPress,
     this.initiallyExpanded = false,
-  })  : assert(title != null),
-        assert(children != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -365,7 +360,7 @@ class AppExpansionTile extends StatelessWidget {
             leading: leading,
             title: DefaultTextStyle.merge(
               style: TextStyle(
-                color: Theme.of(context).textTheme.bodyText1.color,
+                color: Theme.of(context).textTheme.bodyText1!.color,
               ),
               child: title,
             ),
@@ -377,14 +372,14 @@ class AppExpansionTile extends StatelessWidget {
     );
   }
 
-  Widget _getSubtitle(BuildContext context) {
+  Widget? _getSubtitle(BuildContext context) {
     if (subtitle == null) {
       return null;
     }
 
     return DefaultTextStyle.merge(
-      style: TextStyle(color: Theme.of(context).textTheme.caption.color),
-      child: subtitle,
+      style: TextStyle(color: Theme.of(context).textTheme.caption!.color),
+      child: subtitle!,
     );
   }
 }
@@ -394,14 +389,14 @@ class AppCheckboxListTile extends StatelessWidget {
   final ValueChanged<bool> onChanged;
 
   final Widget title;
-  final Widget subtitle;
+  final Widget? subtitle;
   final bool dense;
 
   const AppCheckboxListTile({
-    Key key,
+    Key? key,
+    required this.title,
     required this.value,
     required this.onChanged,
-    this.title,
     this.subtitle,
     this.dense = false,
   }) : super(key: key);
@@ -415,12 +410,16 @@ class AppCheckboxListTile extends StatelessWidget {
         value: value,
         activeColor: Colors.teal,
         controlAffinity: ListTileControlAffinity.leading,
-        onChanged: onChanged,
+        onChanged: _onChanged,
         title: title,
         subtitle: subtitle,
         dense: dense,
       ),
     );
+  }
+
+  void _onChanged(bool? b) {
+    onChanged(b ?? false);
   }
 }
 
@@ -443,7 +442,7 @@ class ProductKindIcon extends StatelessWidget {
 class EmptyStateContainer extends StatelessWidget {
   final String text;
 
-  const EmptyStateContainer({Key key, required this.text}) : super(key: key);
+  const EmptyStateContainer({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -475,7 +474,7 @@ class AppBarTextButton extends StatelessWidget {
   final Widget child;
 
   const AppBarTextButton({
-    Key key,
+    Key? key,
     required this.onPressed,
     required this.child,
   }) : super(key: key);
@@ -493,10 +492,10 @@ class AppBarTextButton extends StatelessWidget {
 class TextWithLeadingIcon extends StatelessWidget {
   final Text text;
   final IconData icon;
-  final String semanticLabel;
+  final String? semanticLabel;
 
   const TextWithLeadingIcon({
-    Key key,
+    Key? key,
     required this.text,
     required this.icon,
     this.semanticLabel,

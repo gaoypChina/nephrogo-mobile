@@ -31,15 +31,12 @@ class PeriodPager extends StatelessWidget {
   final PagerBodyBuilder bodyBuilder;
 
   const PeriodPager({
-    Key key,
+    Key? key,
     required this.pagerType,
     required this.earliestDate,
     required this.initialDate,
     required this.bodyBuilder,
-  })   : assert(earliestDate != null),
-        assert(initialDate != null),
-        assert(bodyBuilder != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,15 +60,13 @@ class PeriodPager extends StatelessWidget {
           bodyBuilder: bodyBuilder,
         );
     }
-
-    throw ArgumentError.value(pagerType);
   }
 }
 
 class DailyPager extends StatelessWidget {
   final _dayFormatter = DateFormat('EEEE, MMMM d');
 
-  final OnPageChanged onPageChanged;
+  final OnPageChanged? onPageChanged;
 
   final Date earliestDate;
   final Date initialDate;
@@ -79,20 +74,17 @@ class DailyPager extends StatelessWidget {
   final PagerBodyBuilder bodyBuilder;
 
   DailyPager({
-    Key key,
+    Key? key,
     required this.earliestDate,
     required this.initialDate,
     required this.bodyBuilder,
     this.onPageChanged,
-  })  : assert(earliestDate != null),
-        assert(initialDate != null),
-        assert(bodyBuilder != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final today = Date.today();
-    final dates = DateUtils.generateDates(earliestDate, today).toList();
+    final dates = DateHelper.generateDates(earliestDate, today).toList();
 
     final initialFromDateIndex = dates.indexOf(initialDate);
     assert(initialFromDateIndex != -1);
@@ -124,19 +116,16 @@ class WeeklyPager extends StatelessWidget {
   final PagerBodyBuilder bodyBuilder;
 
   WeeklyPager({
-    Key key,
+    Key? key,
     required this.earliestDate,
     required this.initialDate,
     required this.bodyBuilder,
-  })   : assert(earliestDate != null),
-        assert(initialDate != null),
-        assert(bodyBuilder != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final today = Date.today();
-    final dates = DateUtils.generateWeekDates(earliestDate, today).toList();
+    final dates = DateHelper.generateWeekDates(earliestDate, today).toList();
 
     final initialFromDateIndex = dates.indexOf(initialDate.firstDayOfWeek());
     assert(initialFromDateIndex != -1);
@@ -174,19 +163,16 @@ class MonthlyPager extends StatelessWidget {
   final PagerBodyBuilder bodyBuilder;
 
   const MonthlyPager({
-    Key key,
+    Key? key,
     required this.earliestDate,
     required this.initialDate,
     required this.bodyBuilder,
-  })   : assert(earliestDate != null),
-        assert(initialDate != null),
-        assert(bodyBuilder != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final today = Date.today();
-    final dates = DateUtils.generateMonthDates(earliestDate, today).toList();
+    final dates = DateHelper.generateMonthDates(earliestDate, today).toList();
 
     final initialFromDateIndex =
         dates.indexOf(Date(initialDate.year, initialDate.month, 1));
@@ -203,7 +189,7 @@ class MonthlyPager extends StatelessWidget {
   }
 
   Date _dateFromToDateTo(Date from) {
-    return DateUtils.getLastDayOfCurrentMonth(from);
+    return DateHelper.getLastDayOfCurrentMonth(from);
   }
 
   Widget _buildHeaderText(BuildContext context, Date from, Date to) {
@@ -217,7 +203,7 @@ class _PeriodPager extends StatefulWidget {
 
   final Date Function(Date from) dateFromToDateTo;
 
-  final OnPageChanged onPageChanged;
+  final OnPageChanged? onPageChanged;
   final PagerBodyBuilder bodyBuilder;
   final Widget Function(
     BuildContext context,
@@ -226,19 +212,14 @@ class _PeriodPager extends StatefulWidget {
   ) headerTextBuilder;
 
   const _PeriodPager({
-    Key key,
+    Key? key,
     required this.allFromDates,
     required this.initialFromDate,
     required this.bodyBuilder,
     required this.headerTextBuilder,
     required this.dateFromToDateTo,
     this.onPageChanged,
-  })  : assert(initialFromDate != null),
-        assert(allFromDates != null),
-        assert(bodyBuilder != null),
-        assert(headerTextBuilder != null),
-        assert(dateFromToDateTo != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _PeriodPagerState createState() => _PeriodPagerState();
@@ -247,9 +228,9 @@ class _PeriodPager extends StatefulWidget {
 class _PeriodPagerState extends State<_PeriodPager> {
   static const _animationDuration = Duration(milliseconds: 400);
 
-  List<Date> _dates;
+  late List<Date> _dates;
 
-  PageController _pageController;
+  late PageController _pageController;
 
   @override
   void initState() {
@@ -274,10 +255,10 @@ class _PeriodPagerState extends State<_PeriodPager> {
       itemCount: _dates.length,
       onPageChanged: widget.onPageChanged != null
           ? (index) {
-              final from = _dates[index];
+        final from = _dates[index];
               final to = widget.dateFromToDateTo(from);
 
-              widget.onPageChanged(from, to);
+              widget.onPageChanged!(from, to);
             }
           : null,
       itemBuilder: (context, index) {

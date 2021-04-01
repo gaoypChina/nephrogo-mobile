@@ -13,7 +13,7 @@ class NutritionMonthlyReportsList extends StatefulWidget {
   final Widget header;
 
   NutritionMonthlyReportsList({
-    Key key,
+    Key? key,
     required this.reports,
     required this.header,
   })   : assert(reports != null),
@@ -98,7 +98,7 @@ class NutritionWeeklyReportsList extends StatelessWidget {
   final Widget header;
 
   NutritionWeeklyReportsList({
-    Key key,
+    Key? key,
     required this.reports,
     required this.header,
   })   : assert(reports != null),

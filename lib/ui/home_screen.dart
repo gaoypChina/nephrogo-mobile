@@ -17,15 +17,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _appReview = AppReview();
-  int _currentIndex;
+  int _currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
 
-    _currentIndex = 0;
-
-    WidgetsBinding.instance.addPostFrameCallback(
+    WidgetsBinding.instance!.addPostFrameCallback(
       (_) => _appReview.requestReviewConditionally(),
     );
   }
