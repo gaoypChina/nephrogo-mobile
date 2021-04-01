@@ -22,7 +22,7 @@ class OnboardingScreenArguments {
 class OnboardingScreen extends StatefulWidget {
   final OnboardingScreenExitType exitType;
 
-  const OnboardingScreen({Key key, @required this.exitType})
+  const OnboardingScreen({Key key, required this.exitType})
       : assert(exitType != null),
         super(key: key);
 
@@ -156,7 +156,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Future advancePageOrFinish(
-      {@required bool isDone, bool skippedOnboarding = false}) async {
+      {required bool isDone, bool skippedOnboarding = false}) async {
     if (isDone) {
       await AppPreferences().setOnboardingPassed();
 

@@ -12,9 +12,9 @@ class NutritionDailyListWithHeaderEmpty extends StatelessWidget {
 
   const NutritionDailyListWithHeaderEmpty({
     Key key,
-    @required this.header,
-    @required this.date,
-  })  : assert(header != null),
+    required this.header,
+    required this.date,
+  })   : assert(header != null),
         super(key: key);
 
   @override
@@ -58,8 +58,8 @@ class NutritionListWithHeaderEmpty extends StatelessWidget {
 
   const NutritionListWithHeaderEmpty({
     Key key,
-    @required this.header,
-  })  : assert(header != null),
+    required this.header,
+  })   : assert(header != null),
         super(key: key);
 
   @override
@@ -83,7 +83,7 @@ class DateSwitcherHeaderSection extends StatelessWidget {
 
   const DateSwitcherHeaderSection({
     Key key,
-    @required this.header,
+    required this.header,
     this.children,
   })  : assert(header != null),
         super(key: key);

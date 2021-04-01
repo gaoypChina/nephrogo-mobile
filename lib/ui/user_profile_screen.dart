@@ -23,7 +23,7 @@ class UserProfileScreen extends StatefulWidget {
 
   const UserProfileScreen({
     Key key,
-    @required this.nextScreenType,
+    required this.nextScreenType,
   }) : super(key: key);
 
   @override

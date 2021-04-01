@@ -24,9 +24,9 @@ class DateTimeNumericChart extends StatelessWidget {
 
   const DateTimeNumericChart({
     Key key,
-    @required this.series,
-    @required this.from,
-    @required this.to,
+    required this.series,
+    required this.from,
+    required this.to,
     this.chartTitleText,
     this.yAxisText,
     this.singlePointPerDay = true,

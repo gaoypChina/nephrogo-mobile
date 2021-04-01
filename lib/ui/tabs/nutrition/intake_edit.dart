@@ -34,9 +34,9 @@ class IntakeEditScreen extends StatefulWidget {
 
   const IntakeEditScreen({
     Key key,
-    @required this.dailyNutrientNormsAndTotals,
-    @required this.intake,
-  })  : assert(dailyNutrientNormsAndTotals != null),
+    required this.dailyNutrientNormsAndTotals,
+    required this.intake,
+  })   : assert(dailyNutrientNormsAndTotals != null),
         assert(intake != null),
         super(key: key);
 

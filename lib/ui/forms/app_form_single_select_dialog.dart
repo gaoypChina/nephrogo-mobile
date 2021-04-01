@@ -10,7 +10,7 @@ class AppFormSingleSelectDialog<T> extends StatelessWidget {
 
   const AppFormSingleSelectDialog({
     Key key,
-    @required this.items,
+    required this.items,
     this.title,
     this.selectedValue,
     this.helpText,

@@ -24,7 +24,7 @@ class ManualPeritonealDialysisCreationScreen extends StatefulWidget {
 
   const ManualPeritonealDialysisCreationScreen({
     Key key,
-    @required this.initialDialysis,
+    required this.initialDialysis,
   }) : super(key: key);
 
   @override

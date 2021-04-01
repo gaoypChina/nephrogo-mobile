@@ -38,7 +38,7 @@ class _Query {
   final bool submit;
   final bool wait;
 
-  _Query(this.query, {@required this.wait, @required this.submit});
+  _Query(this.query, {required this.wait, required this.submit});
 }
 
 class ProductSearchScreen extends StatefulWidget {
@@ -49,9 +49,9 @@ class ProductSearchScreen extends StatefulWidget {
 
   const ProductSearchScreen({
     Key key,
-    @required this.searchType,
-    @required this.excludeProductsIds,
-    @required this.mealType,
+    required this.searchType,
+    required this.excludeProductsIds,
+    required this.mealType,
     this.date,
   })  : assert(searchType != null),
         assert(mealType != null),
@@ -115,7 +115,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
         .where((p) => p.query == currentQuery);
   }
 
-  void _changeQuery(String query, {@required bool submit}) {
+  void _changeQuery(String query, {required bool submit}) {
     final trimmedQuery = query.trim();
     if (currentQuery == trimmedQuery) {
       return;
@@ -267,8 +267,8 @@ class ProductTile extends StatelessWidget {
   final GestureTapCallback onTap;
 
   ProductTile({
-    @required this.product,
-    @required this.onTap,
+    required this.product,
+    required this.onTap,
   }) : super(key: ObjectKey(product));
 
   @override

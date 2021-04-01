@@ -14,9 +14,9 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
 
   const DailyMealTypeConsumptionColumnSeries({
     Key key,
-    @required this.report,
-    @required this.nutrient,
-  })  : assert(report != null),
+    required this.report,
+    required this.nutrient,
+  })   : assert(report != null),
         assert(nutrient != null),
         super(key: key);
 

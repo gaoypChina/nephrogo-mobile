@@ -8,9 +8,9 @@ class AppForm extends StatefulWidget {
   final Future<bool> Function() save;
 
   const AppForm({
-    @required this.child,
-    @required this.formKey,
-    @required this.save,
+    required this.child,
+    required this.formKey,
+    required this.save,
     this.onChanged,
   }) : super();
 

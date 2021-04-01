@@ -32,11 +32,11 @@ class PeriodPager extends StatelessWidget {
 
   const PeriodPager({
     Key key,
-    @required this.pagerType,
-    @required this.earliestDate,
-    @required this.initialDate,
-    @required this.bodyBuilder,
-  })  : assert(earliestDate != null),
+    required this.pagerType,
+    required this.earliestDate,
+    required this.initialDate,
+    required this.bodyBuilder,
+  })   : assert(earliestDate != null),
         assert(initialDate != null),
         assert(bodyBuilder != null),
         super(key: key);
@@ -80,9 +80,9 @@ class DailyPager extends StatelessWidget {
 
   DailyPager({
     Key key,
-    @required this.earliestDate,
-    @required this.initialDate,
-    @required this.bodyBuilder,
+    required this.earliestDate,
+    required this.initialDate,
+    required this.bodyBuilder,
     this.onPageChanged,
   })  : assert(earliestDate != null),
         assert(initialDate != null),
@@ -125,10 +125,10 @@ class WeeklyPager extends StatelessWidget {
 
   WeeklyPager({
     Key key,
-    @required this.earliestDate,
-    @required this.initialDate,
-    @required this.bodyBuilder,
-  })  : assert(earliestDate != null),
+    required this.earliestDate,
+    required this.initialDate,
+    required this.bodyBuilder,
+  })   : assert(earliestDate != null),
         assert(initialDate != null),
         assert(bodyBuilder != null),
         super(key: key);
@@ -175,10 +175,10 @@ class MonthlyPager extends StatelessWidget {
 
   const MonthlyPager({
     Key key,
-    @required this.earliestDate,
-    @required this.initialDate,
-    @required this.bodyBuilder,
-  })  : assert(earliestDate != null),
+    required this.earliestDate,
+    required this.initialDate,
+    required this.bodyBuilder,
+  })   : assert(earliestDate != null),
         assert(initialDate != null),
         assert(bodyBuilder != null),
         super(key: key);
@@ -227,11 +227,11 @@ class _PeriodPager extends StatefulWidget {
 
   const _PeriodPager({
     Key key,
-    @required this.allFromDates,
-    @required this.initialFromDate,
-    @required this.bodyBuilder,
-    @required this.headerTextBuilder,
-    @required this.dateFromToDateTo,
+    required this.allFromDates,
+    required this.initialFromDate,
+    required this.bodyBuilder,
+    required this.headerTextBuilder,
+    required this.dateFromToDateTo,
     this.onPageChanged,
   })  : assert(initialFromDate != null),
         assert(allFromDates != null),

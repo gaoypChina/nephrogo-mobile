@@ -69,9 +69,9 @@ class AppStep {
   ///
   /// The [title], [content], and [state] arguments must not be null.
   const AppStep({
-    @required this.title,
+    required this.title,
     this.subtitle,
-    @required this.content,
+    required this.content,
     this.state = StepState.indexed,
     this.isActive = false,
   })  : assert(title != null),
@@ -123,7 +123,7 @@ class AppStepper extends StatefulWidget {
   /// The [steps], [type], and [currentStep] arguments must not be null.
   const AppStepper({
     Key key,
-    @required this.steps,
+    required this.steps,
     this.physics,
     this.type = AppStepperType.vertical,
     this.currentStep = 0,

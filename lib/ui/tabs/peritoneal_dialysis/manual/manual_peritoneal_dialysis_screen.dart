@@ -19,14 +19,14 @@ import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 class ManualPeritonealDialysisScreenArguments {
   final Date initialDate;
 
-  ManualPeritonealDialysisScreenArguments({@required this.initialDate});
+  ManualPeritonealDialysisScreenArguments({required this.initialDate});
 }
 
 class ManualPeritonealDialysisScreen extends StatelessWidget {
   final _apiService = ApiService();
   final Date initialDate;
 
-  ManualPeritonealDialysisScreen({Key key, @required this.initialDate})
+  ManualPeritonealDialysisScreen({Key key, required this.initialDate})
       : assert(initialDate != null),
         super(key: key);
 
@@ -100,8 +100,8 @@ class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
 
   _ManualPeritonealDialysisDialysisList({
     Key key,
-    @required this.pagerType,
-    @required this.initialDate,
+    required this.pagerType,
+    required this.initialDate,
   }) : super(key: key);
 
   @override
@@ -192,7 +192,7 @@ class ManualPeritonealDialysisReportSection extends StatelessWidget {
 
   ManualPeritonealDialysisReportSection({
     Key key,
-    @required this.dailyHealthStatus,
+    required this.dailyHealthStatus,
   }) : super(key: key);
 
   @override

@@ -29,7 +29,7 @@ class LegalScreen extends StatelessWidget {
 
   final LegalScreenExitType exitType;
 
-  LegalScreen({Key key, @required this.exitType})
+  LegalScreen({Key key, required this.exitType})
       : assert(exitType != null),
         super(key: key);
 
@@ -58,9 +58,9 @@ class LegalScreenContent extends StatefulWidget {
 
   const LegalScreenContent({
     Key key,
-    @required this.exitType,
-    @required this.initialMarketingAllowed,
-  })  : assert(exitType != null),
+    required this.exitType,
+    required this.initialMarketingAllowed,
+  })   : assert(exitType != null),
         assert(initialMarketingAllowed != null),
         super(key: key);
 

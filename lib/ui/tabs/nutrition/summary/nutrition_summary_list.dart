@@ -14,9 +14,9 @@ class NutritionMonthlyReportsList extends StatefulWidget {
 
   NutritionMonthlyReportsList({
     Key key,
-    @required this.reports,
-    @required this.header,
-  })  : assert(reports != null),
+    required this.reports,
+    required this.header,
+  })   : assert(reports != null),
         assert(reports.isNotEmpty),
         assert(header != null),
         super(key: key);
@@ -99,9 +99,9 @@ class NutritionWeeklyReportsList extends StatelessWidget {
 
   NutritionWeeklyReportsList({
     Key key,
-    @required this.reports,
-    @required this.header,
-  })  : assert(reports != null),
+    required this.reports,
+    required this.header,
+  })   : assert(reports != null),
         assert(reports.isNotEmpty),
         assert(header != null),
         super(key: key);

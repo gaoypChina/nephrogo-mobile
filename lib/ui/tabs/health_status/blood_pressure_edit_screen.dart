@@ -22,7 +22,7 @@ class BloodPressureEditScreen extends StatefulWidget {
 
   const BloodPressureEditScreen({
     Key key,
-    @required this.bloodPressure,
+    required this.bloodPressure,
   }) : super(key: key);
 
   @override

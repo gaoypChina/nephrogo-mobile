@@ -54,11 +54,11 @@ class AuthenticationProvider {
     _auth.authStateChanges().forEach(_onAuthStateChange);
   }
 
-  User get currentUser => _auth.currentUser;
+  User? get currentUser => _auth.currentUser;
 
   bool get isUserLoggedIn => currentUser != null;
 
-  String get currentUserPhotoURL {
+  String? get currentUserPhotoURL {
     final photoURL =
         _auth.currentUser?.photoURL?.replaceFirst('/s96-c/', '/s300-c/');
     if (photoURL == null) {
@@ -68,16 +68,24 @@ class AuthenticationProvider {
     return '$photoURL?height=300';
   }
 
-  Future<void> _onAuthStateChange(User user) async {
-    await _analytics.setUserId(user?.uid);
+  Future<void> _onAuthStateChange(User? user) async {
+    final uid = user?.uid;
+    if (uid != null) {
+      await _analytics.setUserId(uid);
+    }
 
     if (user != null) {
       await _analytics.logUserLogin();
     }
   }
 
-  Future<String> idToken({bool forceRefresh = false}) =>
-      currentUser.getIdToken(forceRefresh);
+  Future<String> idToken({bool forceRefresh = false}) {
+    if (currentUser == null) {
+      throw Exception('User should be logged in in order to retrieve id token');
+    }
+
+    return currentUser!.getIdToken(forceRefresh);
+  }
 
   Future<void> signOut() async {
     await _appPreferences.clear();
@@ -148,8 +156,17 @@ class AuthenticationProvider {
     final email = authException.email;
     final pendingCredential = authException.credential;
 
+    if (email == null) {
+      throw Exception('Unable to get user e-mail for linking');
+    }
+
+    if (pendingCredential == null) {
+      throw Exception('Unable to get pendingCredential for linking');
+    }
+
     // Fetch a list of what sign-in methods exist for the conflicting user
     var userSignInMethods = await _auth.fetchSignInMethodsForEmail(email);
+
     userSignInMethods =
         userSignInMethods.where((e) => e != 'password').toList();
 
@@ -175,7 +192,7 @@ class AuthenticationProvider {
     final userCredential = await _auth.signInWithCredential(oAuthCredential);
 
     // Link the pending credential with the existing account
-    return userCredential.user.linkWithCredential(pendingCredential);
+    return userCredential.user!.linkWithCredential(pendingCredential);
   }
 
   Future<UserCredential> _signInWithCredential(
@@ -229,11 +246,11 @@ class AuthenticationProvider {
   Future<OAuthCredential> _triggerFacebookLogin() async {
     final result = await FacebookAuth.instance.login();
 
-    if (result == null) {
+    if (result.accessToken == null) {
       throw LoginCancelledException();
     }
 
-    return FacebookAuthProvider.credential(result.token);
+    return FacebookAuthProvider.credential(result.accessToken!.token);
   }
 
   // https://firebase.flutter.dev/docs/auth/social

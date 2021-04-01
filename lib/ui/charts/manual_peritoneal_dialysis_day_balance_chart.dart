@@ -11,8 +11,8 @@ class ManualPeritonealDialysisDayBalanceChart extends StatelessWidget {
 
   const ManualPeritonealDialysisDayBalanceChart({
     Key key,
-    @required this.manualPeritonealDialysis,
-    @required this.date,
+    required this.manualPeritonealDialysis,
+    required this.date,
   }) : super(key: key);
 
   @override

@@ -21,8 +21,8 @@ class NutritionSummaryScreenArguments {
   final NutritionSummaryStatistics nutritionSummaryStatistics;
 
   NutritionSummaryScreenArguments({
-    @required this.screenType,
-    @required this.nutritionSummaryStatistics,
+    required this.screenType,
+    required this.nutritionSummaryStatistics,
     this.nutrient,
   }) : assert(screenType != null);
 }
@@ -34,10 +34,10 @@ class NutritionSummaryScreen extends StatefulWidget {
 
   const NutritionSummaryScreen({
     Key key,
-    @required this.screenType,
-    @required this.nutrient,
-    @required this.nutritionSummaryStatistics,
-  })  : assert(screenType != null),
+    required this.screenType,
+    required this.nutrient,
+    required this.nutritionSummaryStatistics,
+  })   : assert(screenType != null),
         super(key: key);
 
   @override
@@ -114,8 +114,8 @@ class _NutritionMonthlySummaryTabBody extends StatelessWidget {
 
   _NutritionMonthlySummaryTabBody({
     Key key,
-    @required this.nutritionSummaryStatistics,
-    @required this.nutrient,
+    required this.nutritionSummaryStatistics,
+    required this.nutrient,
   }) : super(key: key);
 
   @override
@@ -165,8 +165,8 @@ class _NutritionWeeklySummaryTabBody extends StatelessWidget {
 
   _NutritionWeeklySummaryTabBody({
     Key key,
-    @required this.nutrient,
-    @required this.nutritionSummaryStatistics,
+    required this.nutrient,
+    required this.nutritionSummaryStatistics,
   }) : super(key: key);
 
   @override

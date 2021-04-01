@@ -22,7 +22,7 @@ class PulseEditScreen extends StatefulWidget {
 
   const PulseEditScreen({
     Key key,
-    @required this.pulse,
+    required this.pulse,
   }) : super(key: key);
 
   @override

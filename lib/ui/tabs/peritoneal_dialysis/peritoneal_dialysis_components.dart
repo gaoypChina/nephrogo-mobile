@@ -19,8 +19,8 @@ class PeritonealDialysisCreationFloatingActionButton extends StatelessWidget {
 
   const PeritonealDialysisCreationFloatingActionButton({
     Key key,
-    @required this.dialysisInProgress,
-    @required this.dialysisOnTap,
+    required this.dialysisInProgress,
+    required this.dialysisOnTap,
   }) : super(key: key);
 
   @override
@@ -83,10 +83,10 @@ class PeritonealDialysisCreationFloatingActionButton extends StatelessWidget {
   }
 
   SpeedDialChild _createDialButton({
-    @required IconData icon,
-    @required Color backgroundColor,
-    @required String label,
-    @required VoidCallback onTap,
+    required IconData icon,
+    required Color backgroundColor,
+    required String label,
+    required VoidCallback onTap,
   }) {
     return SpeedDialChild(
       child: Icon(icon),
@@ -107,7 +107,7 @@ class DialysisSolutionAvatar extends StatelessWidget {
 
   const DialysisSolutionAvatar({
     Key key,
-    @required this.dialysisSolution,
+    required this.dialysisSolution,
     this.isCompleted = true,
     this.isDialysateColorNonRegular = false,
     this.radius,
@@ -144,7 +144,7 @@ class PeritonealDialysisSummaryFloatingActionButton extends StatelessWidget {
 
   const PeritonealDialysisSummaryFloatingActionButton({
     Key key,
-    @required this.reportBuilder,
+    required this.reportBuilder,
   }) : super(key: key);
 
   @override

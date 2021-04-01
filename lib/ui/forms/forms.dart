@@ -14,7 +14,7 @@ class AppDropdownMenuItem<T> {
   final String text;
   final T value;
 
-  AppDropdownMenuItem({this.key, @required this.text, @required this.value});
+  AppDropdownMenuItem({this.key, required this.text, required this.value});
 }
 
 const _defaultFieldPadding = EdgeInsets.symmetric(horizontal: 16, vertical: 12);
@@ -49,7 +49,7 @@ class AppTextFormField extends StatelessWidget {
 
   const AppTextFormField({
     Key key,
-    @required this.labelText,
+    required this.labelText,
     this.onSaved,
     this.onChanged,
     this.helperText,
@@ -123,10 +123,10 @@ class AppSelectFormFieldItem<T> {
   final T value;
 
   const AppSelectFormFieldItem({
-    @required this.text,
+    required this.text,
     this.description,
     this.icon,
-    @required this.value,
+    required this.value,
   });
 }
 
@@ -144,8 +144,8 @@ class AppSelectionScreenFormField<T> extends StatefulWidget {
 
   const AppSelectionScreenFormField({
     Key key,
-    @required this.onTap,
-    @required this.itemToStringConverter,
+    required this.onTap,
+    required this.itemToStringConverter,
     this.labelText,
     this.helperText,
     this.initialSelection,
@@ -243,7 +243,7 @@ class AppSelectFormField<T> extends StatefulWidget {
 
   const AppSelectFormField({
     Key key,
-    @required this.items,
+    required this.items,
     this.labelText,
     this.helperText,
     this.icon,
@@ -334,7 +334,7 @@ class AppMultipleSelectFormField<T> extends StatefulWidget {
 
   const AppMultipleSelectFormField({
     Key key,
-    @required this.items,
+    required this.items,
     this.initialValues,
     this.labelText,
     this.helperText,
@@ -423,9 +423,9 @@ class AppDatePickerFormField extends StatefulWidget {
 
   const AppDatePickerFormField({
     Key key,
-    @required this.firstDate,
-    @required this.lastDate,
-    @required this.initialDate,
+    required this.firstDate,
+    required this.lastDate,
+    required this.initialDate,
     this.onDateSaved,
     this.onDateChanged,
     this.dateFormat,
@@ -502,7 +502,7 @@ class AppTimePickerFormField extends StatefulWidget {
 
   const AppTimePickerFormField({
     Key key,
-    @required this.initialTime,
+    required this.initialTime,
     this.onTimeSaved,
     this.onTimeChanged,
     this.labelText,
@@ -575,7 +575,7 @@ class AppIntegerFormField extends StatelessWidget {
 
   const AppIntegerFormField({
     Key key,
-    @required this.labelText,
+    required this.labelText,
     this.onSaved,
     this.helperText,
     this.initialValue,
@@ -654,8 +654,8 @@ class AppDoubleInputField extends StatelessWidget {
 
   const AppDoubleInputField({
     Key key,
-    @required this.labelText,
-    @required this.fractionDigits,
+    required this.labelText,
+    required this.fractionDigits,
     this.onSaved,
     this.onChanged,
     this.hintText,

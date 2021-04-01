@@ -52,7 +52,8 @@ class AppUpdate {
 
     final appUpdateInfo = await InAppUpdate.checkForUpdate();
 
-    return appUpdateInfo.updateAvailable;
+    return appUpdateInfo.immediateUpdateAllowed ||
+        appUpdateInfo.flexibleUpdateAllowed;
   }
 
   Future<bool> _isUpdateAllowedForUser() async {
@@ -79,7 +80,8 @@ class AppUpdate {
 
     final appUpdateInfo = await InAppUpdate.checkForUpdate();
 
-    if (!appUpdateInfo.updateAvailable) {
+    if (!appUpdateInfo.flexibleUpdateAllowed &&
+        !appUpdateInfo.immediateUpdateAllowed) {
       return AppUpdateState.no;
     }
 

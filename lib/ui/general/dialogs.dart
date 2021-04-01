@@ -7,8 +7,8 @@ import 'package:nephrogo/utils/utils.dart';
 import 'components.dart';
 
 Future<void> showAppDialog({
-  @required BuildContext context,
-  @required Widget content,
+  required BuildContext context,
+  required Widget content,
   String title,
 }) {
   return showDialog<void>(
@@ -32,8 +32,8 @@ Future<void> showAppDialog({
 }
 
 Future<void> showAppErrorDialog({
-  @required BuildContext context,
-  @required String message,
+  required BuildContext context,
+  required String message,
 }) async {
   final showHelp = await showDialog<bool>(
     context: context,
@@ -100,8 +100,8 @@ Future<void> showContactDialog(BuildContext context) {
 }
 
 Future<bool> showDeleteDialog({
-  @required BuildContext context,
-  @required Future<void> Function() onDelete,
+  required BuildContext context,
+  required Future<void> Function() onDelete,
 }) {
   return showDialog<bool>(
     context: context,

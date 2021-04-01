@@ -29,7 +29,7 @@ class HealthStatusScreenArguments {
 class HealthStatusScreen extends StatefulWidget {
   final HealthIndicator healthIndicator;
 
-  const HealthStatusScreen({Key key, @required this.healthIndicator})
+  const HealthStatusScreen({Key key, required this.healthIndicator})
       : super(key: key);
 
   @override
@@ -91,8 +91,8 @@ class _HealthStatusScreenTab extends StatelessWidget {
 
   _HealthStatusScreenTab({
     Key key,
-    @required this.healthIndicator,
-    @required this.pagerType,
+    required this.healthIndicator,
+    required this.pagerType,
   }) : super(key: key);
 
   @override
@@ -157,9 +157,9 @@ class EmptyDailyHealthIndicatorsListWithChart extends StatelessWidget {
 
   const EmptyDailyHealthIndicatorsListWithChart({
     Key key,
-    @required this.date,
-    @required this.healthIndicator,
-    @required this.header,
+    required this.date,
+    required this.healthIndicator,
+    required this.header,
   }) : super(key: key);
 
   @override
@@ -201,13 +201,13 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
 
   const HealthIndicatorsListWithChart({
     Key key,
-    @required this.dailyHealthStatuses,
-    @required this.healthIndicator,
-    @required this.appLocalizations,
-    @required this.from,
-    @required this.to,
-    @required this.header,
-    @required this.smallMarkers,
+    required this.dailyHealthStatuses,
+    required this.healthIndicator,
+    required this.appLocalizations,
+    required this.from,
+    required this.to,
+    required this.header,
+    required this.smallMarkers,
   }) : super(key: key);
 
   @override
@@ -273,9 +273,9 @@ class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
 
   DailyHealthStatusIndicatorMultiValueSection({
     Key key,
-    @required this.date,
-    @required this.indicator,
-    @required this.children,
+    required this.date,
+    required this.indicator,
+    required this.children,
   }) : super(key: key);
 
   @override
@@ -314,8 +314,8 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
 
   DailyHealthStatusIndicatorMultiValueSectionWithTiles({
     Key key,
-    @required this.dailyHealthStatus,
-    @required this.indicator,
+    required this.dailyHealthStatus,
+    required this.indicator,
   }) : super(key: key);
 
   @override
@@ -328,9 +328,9 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
   }
 
   Widget _buildValueTile({
-    @required DateTime dateTime,
-    @required String formattedAmount,
-    @required GestureTapCallback onTap,
+    required DateTime dateTime,
+    required String formattedAmount,
+    required GestureTapCallback onTap,
   }) {
     return AppListTile(
       title: Text(fullDateFormat.format(dateTime.toLocal()).capitalizeFirst()),
@@ -405,8 +405,8 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
 
   const DailyHealthStatusIndicatorTile({
     Key key,
-    @required this.dailyHealthStatus,
-    @required this.indicator,
+    required this.dailyHealthStatus,
+    required this.indicator,
   }) : super(key: key);
 
   String getSubtitle(AppLocalizations appLocalizations) {

@@ -81,9 +81,9 @@ class MealTypeSelectionFormField extends StatelessWidget {
 
   const MealTypeSelectionFormField({
     Key key,
-    @required this.initialMealType,
-    @required this.onChanged,
-    @required this.onSaved,
+    required this.initialMealType,
+    required this.onChanged,
+    required this.onSaved,
   }) : super(key: key);
 
   @override
@@ -737,8 +737,8 @@ class NutrientChartSection extends StatelessWidget {
 
   const NutrientChartSection({
     Key key,
-    @required this.reports,
-    @required this.nutrient,
+    required this.reports,
+    required this.nutrient,
     this.nutritionSummaryStatistics,
   }) : super(key: key);
 

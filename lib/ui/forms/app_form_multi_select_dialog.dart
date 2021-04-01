@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
@@ -11,7 +10,7 @@ class AppFormMultipleSelectDialog<T> extends StatefulWidget {
 
   const AppFormMultipleSelectDialog({
     Key key,
-    @required this.items,
+    required this.items,
     this.title,
     this.selectedItems,
   }) : super(key: key);

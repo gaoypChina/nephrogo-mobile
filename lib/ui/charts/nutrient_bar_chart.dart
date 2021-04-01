@@ -21,11 +21,11 @@ class NutrientBarChart extends StatelessWidget {
 
   NutrientBarChart({
     Key key,
-    @required this.dailyIntakeLightReports,
-    @required this.nutrient,
-    @required this.minimumDate,
-    @required this.maximumDate,
-    @required this.showDataLabels,
+    required this.dailyIntakeLightReports,
+    required this.nutrient,
+    required this.minimumDate,
+    required this.maximumDate,
+    required this.showDataLabels,
   }) : super(key: key);
 
   double get _dailyNorm {

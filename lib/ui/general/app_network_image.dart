@@ -6,9 +6,9 @@ class AppNetworkImage extends StatelessWidget {
 
   const AppNetworkImage({
     Key key,
-    @required this.url,
-    @required this.fallbackAssetImage,
-  })  : assert(url != null),
+    required this.url,
+    required this.fallbackAssetImage,
+  })   : assert(url != null),
         super(key: key);
 
   @override

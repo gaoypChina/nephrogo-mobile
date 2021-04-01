@@ -10,8 +10,8 @@ class AppElevatedButton extends StatelessWidget {
 
   const AppElevatedButton({
     Key key,
-    @required this.text,
-    @required this.onPressed,
+    required this.text,
+    required this.onPressed,
     this.color,
     this.textColor,
     this.innerPadding = const EdgeInsets.all(16.0),

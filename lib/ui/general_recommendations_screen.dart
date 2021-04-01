@@ -5,14 +5,7 @@ import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/routes.dart';
-import 'package:nephrogo/utils/utils.dart';
-import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'general/app_future_builder.dart';
-import 'general/components.dart';
-import 'general/dialogs.dart';
-
-class GeneralRecommendationsTab extends StatelessWidget {
+import 'package:nephrogo/utils/utilseralRecommendationsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppFutureBuilder<GeneralRecommendationsResponse>(
@@ -94,7 +87,7 @@ class GeneralRecommendationCategoryScreen extends StatelessWidget {
 
   const GeneralRecommendationCategoryScreen({
     Key key,
-    @required this.category,
+    required this.category,
   }) : super(key: key);
 
   @override
@@ -136,7 +129,7 @@ class GeneralRecommendationSubcategoryScreen extends StatelessWidget {
 
   const GeneralRecommendationSubcategoryScreen({
     Key key,
-    @required this.subcategory,
+    required this.subcategory,
   }) : super(key: key);
 
   @override
@@ -181,8 +174,8 @@ class GeneralRecommendationScreen extends StatelessWidget {
 
   const GeneralRecommendationScreen({
     Key key,
-    @required this.recommendation,
-    @required this.subcategory,
+    required this.recommendation,
+    required this.subcategory,
   })  : assert(recommendation != null),
         assert(subcategory != null),
         super(key: key);
@@ -220,8 +213,8 @@ class _GeneralRecommendationListTile extends StatelessWidget {
 
   const _GeneralRecommendationListTile({
     Key key,
-    @required this.name,
-    @required this.onTap,
+    required this.name,
+    required this.onTap,
   }) : super(key: key);
 
   @override

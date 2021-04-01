@@ -33,7 +33,7 @@ class NutritionDailySummaryScreen extends StatelessWidget {
   const NutritionDailySummaryScreen(
     this.date, {
     Key key,
-    @required this.nutrient,
+    required this.nutrient,
   })  : assert(date != null),
         super(key: key);
 
@@ -63,8 +63,8 @@ class NutritionDailySummaryBody extends StatefulWidget {
 
   const NutritionDailySummaryBody({
     Key key,
-    @required this.date,
-    @required this.nutrient,
+    required this.date,
+    required this.nutrient,
   })  : assert(date != null),
         super(key: key);
 
@@ -132,7 +132,7 @@ class _NutritionDailySummaryList extends StatelessWidget {
   const _NutritionDailySummaryList(
     this.dailyIntakesReport, {
     Key key,
-    @required this.header,
+    required this.header,
   })  : assert(header != null),
         super(key: key);
 
@@ -180,10 +180,10 @@ class _NutritionDailySummaryListNutritionSection extends StatelessWidget {
 
   const _NutritionDailySummaryListNutritionSection({
     Key key,
-    @required this.mealType,
-    @required this.intakes,
-    @required this.date,
-    @required this.norms,
+    required this.mealType,
+    required this.intakes,
+    required this.date,
+    required this.norms,
   }) : super(key: key);
 
   @override
@@ -226,7 +226,7 @@ class _DailyNutritionNutrientList extends StatelessWidget {
     this.dailyIntakesReport,
     this.nutrient, {
     Key key,
-    @required this.header,
+    required this.header,
   })  : assert(header != null),
         assert(dailyIntakesReport != null),
         super(key: key);
@@ -273,10 +273,10 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
 
   const _DailyNutritionNutrientSection({
     Key key,
-    @required this.nutrient,
-    @required this.mealType,
-    @required this.intakes,
-    @required this.dailyIntakesReport,
+    required this.nutrient,
+    required this.mealType,
+    required this.intakes,
+    required this.dailyIntakesReport,
   }) : super(key: key);
 
   @override

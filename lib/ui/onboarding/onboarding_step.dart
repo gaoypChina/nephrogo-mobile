@@ -7,10 +7,10 @@ class OnboardingStepComponent extends StatelessWidget {
 
   const OnboardingStepComponent({
     Key key,
-    @required this.assetName,
-    @required this.title,
-    @required this.description,
-  })  : assert(assetName != null),
+    required this.assetName,
+    required this.title,
+    required this.description,
+  })   : assert(assetName != null),
         assert(title != null),
         assert(description != null),
         super(key: key);

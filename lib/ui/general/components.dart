@@ -95,7 +95,7 @@ class BasicSection extends StatelessWidget {
         super(key: key);
 
   const BasicSection.single({
-    @required Widget child,
+    required Widget child,
     this.margin = const EdgeInsets.only(bottom: 16),
     this.innerPadding = EdgeInsets.zero,
     this.footer,
@@ -166,8 +166,8 @@ class LargeSection extends StatelessWidget {
 
   const LargeSection({
     Key key,
-    @required this.title,
-    @required this.children,
+    required this.title,
+    required this.children,
     this.subtitle,
     this.leading,
     this.trailing,
@@ -204,8 +204,8 @@ class SmallSection extends StatelessWidget {
 
   const SmallSection({
     Key key,
-    @required this.title,
-    @required this.children,
+    required this.title,
+    required this.children,
     this.trailing,
     this.showDividers = false,
     this.innerPadding = const EdgeInsets.only(bottom: 4),
@@ -341,8 +341,8 @@ class AppExpansionTile extends StatelessWidget {
 
   const AppExpansionTile({
     Key key,
-    @required this.title,
-    @required this.children,
+    required this.title,
+    required this.children,
     this.subtitle,
     this.leading,
     this.onLongPress,
@@ -399,8 +399,8 @@ class AppCheckboxListTile extends StatelessWidget {
 
   const AppCheckboxListTile({
     Key key,
-    @required this.value,
-    @required this.onChanged,
+    required this.value,
+    required this.onChanged,
     this.title,
     this.subtitle,
     this.dense = false,
@@ -427,7 +427,7 @@ class AppCheckboxListTile extends StatelessWidget {
 class ProductKindIcon extends StatelessWidget {
   final ProductKindEnum productKind;
 
-  ProductKindIcon({@required this.productKind})
+  ProductKindIcon({required this.productKind})
       : super(key: ObjectKey(productKind));
 
   @override
@@ -443,7 +443,7 @@ class ProductKindIcon extends StatelessWidget {
 class EmptyStateContainer extends StatelessWidget {
   final String text;
 
-  const EmptyStateContainer({Key key, @required this.text}) : super(key: key);
+  const EmptyStateContainer({Key key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -476,8 +476,8 @@ class AppBarTextButton extends StatelessWidget {
 
   const AppBarTextButton({
     Key key,
-    @required this.onPressed,
-    @required this.child,
+    required this.onPressed,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -497,8 +497,8 @@ class TextWithLeadingIcon extends StatelessWidget {
 
   const TextWithLeadingIcon({
     Key key,
-    @required this.text,
-    @required this.icon,
+    required this.text,
+    required this.icon,
     this.semanticLabel,
   }) : super(key: key);
 

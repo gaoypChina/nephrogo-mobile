@@ -6,8 +6,8 @@ class ErrorStateWidget extends StatelessWidget {
 
   const ErrorStateWidget({
     Key key,
-    @required this.errorText,
-  })  : assert(errorText != null),
+    required this.errorText,
+  })   : assert(errorText != null),
         super(key: key);
 
   @override

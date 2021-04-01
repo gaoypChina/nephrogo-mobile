@@ -36,10 +36,10 @@ class HealthStatusCreationFloatingActionButton extends StatelessWidget {
   }
 
   SpeedDialChild _createDialButton({
-    @required IconData icon,
-    @required Color backgroundColor,
-    @required String label,
-    @required VoidCallback onTap,
+    required IconData icon,
+    required Color backgroundColor,
+    required String label,
+    required VoidCallback onTap,
   }) {
     return SpeedDialChild(
       child: Icon(icon),
@@ -74,9 +74,9 @@ class IndicatorChartSection extends StatelessWidget {
 
   const IndicatorChartSection({
     Key key,
-    @required this.indicator,
-    @required this.dailyHealthStatuses,
-  })  : assert(indicator != null),
+    required this.indicator,
+    required this.dailyHealthStatuses,
+  })   : assert(indicator != null),
         assert(dailyHealthStatuses != null),
         super(key: key);
 

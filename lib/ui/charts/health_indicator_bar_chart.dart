@@ -15,10 +15,10 @@ class HealthIndicatorBarChart extends StatelessWidget {
 
   const HealthIndicatorBarChart({
     Key key,
-    @required this.dailyHealthStatuses,
-    @required this.indicator,
-    @required this.from,
-    @required this.to,
+    required this.dailyHealthStatuses,
+    required this.indicator,
+    required this.from,
+    required this.to,
     this.smallMarkers = false,
   }) : super(key: key);
 

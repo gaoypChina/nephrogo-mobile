@@ -24,7 +24,7 @@ class HealthStatusCreationScreen extends StatefulWidget {
 
   const HealthStatusCreationScreen({
     Key key,
-    @required this.date,
+    required this.date,
   }) : super(key: key);
 
   @override

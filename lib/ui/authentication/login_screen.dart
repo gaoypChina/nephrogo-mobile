@@ -230,8 +230,8 @@ class EmailLoginButtonComponent extends StatelessWidget {
 
   const EmailLoginButtonComponent({
     Key key,
-    @required this.onCredentialsRetrieved,
-  })  : assert(onCredentialsRetrieved != null),
+    required this.onCredentialsRetrieved,
+  })   : assert(onCredentialsRetrieved != null),
         super(key: key);
 
   @override

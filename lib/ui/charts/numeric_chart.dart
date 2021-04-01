@@ -16,8 +16,8 @@ class NumericChart extends StatelessWidget {
 
   const NumericChart({
     Key key,
-    @required this.primaryXAxis,
-    @required this.series,
+    required this.primaryXAxis,
+    required this.series,
     this.chartTitleText,
     this.yAxisText,
     this.decimalPlaces,

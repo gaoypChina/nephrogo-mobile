@@ -118,7 +118,7 @@ class DailyNormsSection extends StatelessWidget {
 
   const DailyNormsSection({
     Key key,
-    @required this.nutritionLightReport,
+    required this.nutritionLightReport,
   }) : super(key: key);
 
   @override
@@ -146,8 +146,8 @@ class DailyIntakesCard extends StatelessWidget {
     this.title,
     this.subTitle,
     this.leading,
-    @required this.intakes,
-    @required this.dailyNutrientNormsWithTotals,
+    required this.intakes,
+    required this.dailyNutrientNormsWithTotals,
   }) : super(key: key);
 
   @override
