@@ -57,7 +57,8 @@ dependencies:
   dio_brotli_transformer: ^1.0.1
 
   flutter_linkify: ^5.0.0
-  flutter_widget_from_html: ^0.6.0-rc.2021031201
+  flutter_widget_from_html_core: ^0.6.0-rc.2021031201
+  fwfh_url_launcher: ^0.6.0-rc.2021022601
 
   nephrogo_api_client:
     git:

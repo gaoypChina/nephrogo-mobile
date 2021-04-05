@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:fwfh_url_launcher/fwfh_url_launcher.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
@@ -198,8 +199,7 @@ class GeneralRecommendationScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: HtmlWidget(
               recommendation.body,
-              webView: true,
-              webViewMediaPlaybackAlwaysAllow: true,
+              factoryBuilder: () => _HtmlWidgetFactory(),
               baseUrl: Uri.parse(Constants.apiUrl),
               textStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
                     fontSize: 16,
@@ -234,3 +234,5 @@ class _GeneralRecommendationListTile extends StatelessWidget {
     );
   }
 }
+
+class _HtmlWidgetFactory extends WidgetFactory with UrlLauncherFactory {}
