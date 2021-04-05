@@ -11,11 +11,12 @@ class NutritionCalendar extends StatefulWidget {
   final void Function(Date date) onDaySelected;
   final Nutrient? nutrient;
 
-  NutritionCalendar(
+  const NutritionCalendar(
     this.dailyIntakesLightReports, {
+    Key? key,
     required this.onDaySelected,
     this.nutrient,
-  }) : super(key: UniqueKey());
+  }) : super(key: key);
 
   @override
   _NutritionCalendarState createState() => _NutritionCalendarState();
@@ -26,7 +27,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
   DateTime? _minDate;
   DateTime? _maxDate;
 
-  late List<DailyIntakesLightReport> _reportsorderByDateReverse;
+  late List<DailyIntakesLightReport> _reportsSortedByDateReverse;
 
   late Set<DateTime> _dailyNormExceededDatesSet;
   late Set<DateTime> _dailyNormUnavailableDatesSet;
@@ -36,21 +37,21 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
   void initState() {
     _today = Date.today();
 
-    _reportsorderByDateReverse = widget.dailyIntakesLightReports
+    _reportsSortedByDateReverse = widget.dailyIntakesLightReports
         .orderBy((e) => e.date, reverse: true)
         .toList();
 
-    _minDate = _reportsorderByDateReverse.lastOrNull()?.date;
-    _maxDate = _reportsorderByDateReverse.firstOrNull()?.date;
+    _minDate = _reportsSortedByDateReverse.lastOrNull()?.date;
+    _maxDate = _reportsSortedByDateReverse.firstOrNull()?.date;
 
     _availableDatesSet =
-        _reportsorderByDateReverse.map((r) => Date.from(r.date)).toSet();
+        _reportsSortedByDateReverse.map((r) => Date.from(r.date)).toSet();
 
     _dailyNormExceededDatesSet =
-        generateDailyNormExceededDates(_reportsorderByDateReverse).toSet();
+        generateDailyNormExceededDates(_reportsSortedByDateReverse).toSet();
 
     _dailyNormUnavailableDatesSet =
-        generateDailyNormUnavailableDates(_reportsorderByDateReverse).toSet();
+        generateDailyNormUnavailableDates(_reportsSortedByDateReverse).toSet();
 
     super.initState();
   }
@@ -59,12 +60,12 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     List<DailyIntakesLightReport> reports,
   ) {
     if (widget.nutrient == null) {
-      return _reportsorderByDateReverse
+      return _reportsSortedByDateReverse
           .where((r) => r.nutrientNormsAndTotals.isAtLeastOneNormExceeded())
           .map((r) => r.date);
     }
 
-    return _reportsorderByDateReverse.where(
+    return _reportsSortedByDateReverse.where(
       (r) {
         final consumption = r.nutrientNormsAndTotals
             .getDailyNutrientConsumption(widget.nutrient!);
@@ -81,7 +82,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
       return [];
     }
 
-    return _reportsorderByDateReverse.where(
+    return _reportsSortedByDateReverse.where(
       (r) {
         final consumption = r.nutrientNormsAndTotals
             .getDailyNutrientConsumption(widget.nutrient!);
@@ -105,9 +106,11 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
       onDaySelected: _onDaySelected,
       headerVisible: false,
       calendarBuilders: CalendarBuilders(
-        defaultBuilder: (context, dateTime, _) {
-          final date = Date.from(dateTime);
-          return _buildCalendarCell(date);
+        todayBuilder: (context, dt, _) {
+          return _buildCalendarCell(dt.toDate());
+        },
+        defaultBuilder: (context, dt, _) {
+          return _buildCalendarCell(dt.toDate());
         },
       ),
     );
@@ -152,6 +155,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
       child: Container(
         alignment: Alignment.center,
         decoration: boxDecoration,
+        constraints: const BoxConstraints(maxHeight: 128, maxWidth: 128),
         child: Text(
           date.day.toString(),
           style: TextStyle(color: fontColor, fontWeight: fontWeight),
@@ -165,7 +169,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
   }
 
   int getReportPosition(DateTime dateTime) {
-    final position = _reportsorderByDateReverse
+    final position = _reportsSortedByDateReverse
         .indexWhere((r) => r.date == Date.from(dateTime));
 
     if (position == -1) {

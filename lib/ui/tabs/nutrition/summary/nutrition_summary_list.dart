@@ -54,7 +54,7 @@ class NutritionMonthlyReportsListState
             header: widget.header,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 16.0),
+                padding: const EdgeInsets.only(top: 16.0, right: 8, left: 8),
                 child: NutritionCalendar(
                   reportsReverseSorted,
                   onDaySelected: (dt) =>

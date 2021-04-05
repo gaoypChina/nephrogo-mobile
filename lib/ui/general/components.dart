@@ -112,6 +112,7 @@ class BasicSection extends StatelessWidget {
     return Card(
       margin: margin,
       shape: const RoundedRectangleBorder(),
+      clipBehavior: Clip.none,
       elevation: 0,
       child: Padding(
         padding: innerPadding,
