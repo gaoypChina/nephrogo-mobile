@@ -1,6 +1,5 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:nephrogo/ui/general/progress_indicator.dart';
 
 import 'error_state.dart';
 
@@ -36,7 +35,7 @@ class AppStreamBuilder<T> extends StatelessWidget {
           // }
         }
 
-        return const Center(child: AppProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }

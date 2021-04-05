@@ -1,7 +1,7 @@
 import 'package:ars_dialog/ars_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nephrogo/ui/general/progress_indicator.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 
 class AppProgressDialog {
   late ProgressDialog dialog;
@@ -10,7 +10,7 @@ class AppProgressDialog {
     dialog = ProgressDialog(
       context,
       backgroundColor: const Color(0x33000000),
-      defaultLoadingWidget: const AppProgressIndicator(),
+      message: Text(context.appLocalizations.pleaseWait),
       dismissable: false,
     );
   }
