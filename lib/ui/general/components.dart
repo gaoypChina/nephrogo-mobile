@@ -138,10 +138,12 @@ class BasicSection extends StatelessWidget {
         ...children
       ];
 
-      yield* ListTile.divideTiles(
-        context: context,
-        tiles: allChildren,
-      );
+      if (allChildren.isNotEmpty) {
+        yield* ListTile.divideTiles(
+          context: context,
+          tiles: allChildren,
+        );
+      }
     } else {
       yield* children;
     }
