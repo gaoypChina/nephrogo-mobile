@@ -8,7 +8,7 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/health_indicator_bar_chart.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation_screen.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'health_status_creation_screen.dart';
 import 'health_status_screen.dart';
@@ -36,10 +36,10 @@ class HealthStatusCreationFloatingActionButton extends StatelessWidget {
   }
 
   SpeedDialChild _createDialButton({
-    @required IconData icon,
-    @required Color backgroundColor,
-    @required String label,
-    @required VoidCallback onTap,
+    required IconData icon,
+    required Color backgroundColor,
+    required String label,
+    required VoidCallback onTap,
   }) {
     return SpeedDialChild(
       child: Icon(icon),
@@ -73,12 +73,10 @@ class IndicatorChartSection extends StatelessWidget {
   final List<DailyHealthStatus> dailyHealthStatuses;
 
   const IndicatorChartSection({
-    Key key,
-    @required this.indicator,
-    @required this.dailyHealthStatuses,
-  })  : assert(indicator != null),
-        assert(dailyHealthStatuses != null),
-        super(key: key);
+    Key? key,
+    required this.indicator,
+    required this.dailyHealthStatuses,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +171,6 @@ class IndicatorChartSection extends StatelessWidget {
       case HealthIndicator.shortnessOfBreath:
         return appLocalizations.createShortnessOfBreath;
     }
-    throw ArgumentError.value(indicator);
   }
 
   Future<void> _createHealthStatus(BuildContext context) {

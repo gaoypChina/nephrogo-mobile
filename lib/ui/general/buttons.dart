@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class AppElevatedButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String text;
 
-  final Color color;
-  final Color textColor;
+  final Color? color;
+  final Color? textColor;
   final EdgeInsets innerPadding;
 
   const AppElevatedButton({
-    Key key,
-    @required this.text,
-    @required this.onPressed,
+    Key? key,
+    required this.text,
+    required this.onPressed,
     this.color,
     this.textColor,
     this.innerPadding = const EdgeInsets.all(16.0),

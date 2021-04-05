@@ -4,17 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
-import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
-import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
-import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 class ExcelGeneratorSheet {
-  Worksheet sheet;
+  late Worksheet sheet;
 
   int row = 1;
   int column = 1;
@@ -34,7 +29,7 @@ class ExcelGeneratorSheet {
     row = 1;
   }
 
-  void _writeHeader(String header, double columnWidth) {
+  void _writeHeader(String header, double? columnWidth) {
     if (column != 1 || row != 1) {
       _nextCol();
     }
@@ -48,10 +43,10 @@ class ExcelGeneratorSheet {
   }
 
   void writeMergedColumn<T>({
-    @required String header,
-    @required Iterable<T> items,
-    @required int Function(Range range, T item) writer,
-    double columnWidth,
+    required String header,
+    required Iterable<T> items,
+    required int Function(Range range, T item) writer,
+    double? columnWidth,
   }) {
     _writeHeader(header, columnWidth);
 
@@ -67,10 +62,10 @@ class ExcelGeneratorSheet {
   }
 
   void writeColumn<T>({
-    @required String header,
-    @required Iterable<T> items,
-    @required void Function(Range range, T item) writer,
-    double columnWidth,
+    required String header,
+    required Iterable<T> items,
+    required void Function(Range range, T item) writer,
+    double? columnWidth,
   }) {
     return writeMergedColumn<T>(
       header: header,
@@ -98,7 +93,7 @@ class ExcelReportBuilder {
   final BuildContext context;
   final Workbook _workbook;
 
-  ExcelReportBuilder({@required this.context}) : _workbook = Workbook(0);
+  ExcelReportBuilder({required this.context}) : _workbook = Workbook(0);
 
   AppLocalizations get _appLocalizations => context.appLocalizations;
 
@@ -106,7 +101,7 @@ class ExcelReportBuilder {
     final directory = await getApplicationDocumentsDirectory();
     final fullPath = '${directory.path}/$fileName';
 
-    final bytes = _workbook.saveAsStream();
+    final bytes = _workbook.saveAsStream()!;
     final file = File(fullPath)..writeAsBytes(bytes, flush: true);
 
     _workbook.dispose();
@@ -135,7 +130,7 @@ class ExcelReportBuilder {
         final date = status.date.toDate();
 
         if (liquidsMap.containsKey(date)) {
-          range.setNumber(liquidsMap[date].roundToDouble());
+          range.setNumber(liquidsMap[date]!.roundToDouble());
         }
 
         return rowCount(status);
@@ -144,12 +139,12 @@ class ExcelReportBuilder {
   }
 
   ExcelGeneratorSheet appendManualDialysisSheet({
-    @required Iterable<DailyHealthStatus> dailyHealthStatuses,
-    @required Iterable<DailyIntakesLightReport> lightDailyIntakeReports,
+    required Iterable<DailyHealthStatus> dailyHealthStatuses,
+    required Iterable<DailyIntakesLightReport> lightDailyIntakeReports,
   }) {
     final sortedReports = dailyHealthStatuses
         .where((s) => s.manualPeritonealDialysis.isNotEmpty)
-        .sortedBy((r) => r.date, reverse: true)
+        .orderBy((r) => r.date, reverse: true)
         .toList();
 
     final sheet = ExcelGeneratorSheet(
@@ -193,7 +188,9 @@ class ExcelReportBuilder {
       header: _appLocalizations.dialysisSolution,
       items: sortedReports.expand(
         (r) => r.manualPeritonealDialysisReverseSorted
-            .map((d) => d.dialysisSolution),
+            .map((d) => d.dialysisSolution)
+            .where((d) => d != null)
+            .cast(),
       ),
       writer: (range, solution) {
         range.setText(solution.localizedName(_appLocalizations));
@@ -221,7 +218,7 @@ class ExcelReportBuilder {
       ),
       writer: (range, dialysis) {
         if (dialysis.solutionOutMl != null) {
-          range.setNumber(dialysis.solutionOutMl.roundToDouble());
+          range.setNumber(dialysis.solutionOutMl!.roundToDouble());
         }
       },
     );
@@ -239,9 +236,12 @@ class ExcelReportBuilder {
     sheet.writeColumn<DialysateColorEnum>(
       header: _appLocalizations.dialysateColor,
       items: sortedReports.expand(
-        (r) => r.manualPeritonealDialysisReverseSorted.map(
-          (d) => d.dialysateColor,
-        ),
+        (r) => r.manualPeritonealDialysisReverseSorted
+            .map(
+              (d) => d.dialysateColor,
+            )
+            .where((d) => d != null)
+            .cast(),
       ),
       writer: (range, dialysateColor) {
         if (dialysateColor != DialysateColorEnum.unknown) {
@@ -272,7 +272,7 @@ class ExcelReportBuilder {
         (r) => r.manualPeritonealDialysisReverseSorted,
       ),
       writer: (range, dialysis) {
-        if (dialysis.isCompleted && dialysis.hasValidDuration != null) {
+        if (dialysis.isCompleted! && dialysis.hasValidDuration) {
           range.setText(
             dialysis.duration.formatHoursAndMinutes(_appLocalizations),
           );
@@ -287,7 +287,7 @@ class ExcelReportBuilder {
       ),
       writer: (range, dialysis) {
         if (dialysis.finishedAt != null) {
-          range.setDateTime(dialysis.finishedAt.toLocal());
+          range.setDateTime(dialysis.finishedAt!.toLocal());
           range.numberFormat = _dateTimeFormat;
         }
       },
@@ -316,10 +316,10 @@ class ExcelReportBuilder {
   }
 
   ExcelGeneratorSheet appendAutomaticDialysisSheet({
-    @required Iterable<AutomaticPeritonealDialysis> peritonealDialysis,
+    required Iterable<AutomaticPeritonealDialysis> peritonealDialysis,
   }) {
     final sortedDialysis =
-        peritonealDialysis.sortedBy((r) => r.date, reverse: true).toList();
+        peritonealDialysis.orderBy((r) => r.date, reverse: true).toList();
 
     final sortedIntakesLightReports =
         sortedDialysis.map((d) => d.dailyIntakesLightReport).toList();
@@ -368,7 +368,7 @@ class ExcelReportBuilder {
         writer: (range, dialysis) {
           if (dialysis.hasVolume(solution)) {
             range.setNumber(
-              dialysis.getSolutionVolumeInMl(solution).roundToDouble(),
+              dialysis.getSolutionVolumeInMl(solution)!.roundToDouble(),
             );
 
             range.cellStyle
@@ -384,7 +384,7 @@ class ExcelReportBuilder {
       items: sortedDialysis,
       writer: (range, dialysis) {
         if (dialysis.initialDrainingMl != null) {
-          range.setNumber(dialysis.initialDrainingMl.roundToDouble());
+          range.setNumber(dialysis.initialDrainingMl!.roundToDouble());
         }
       },
     );
@@ -394,7 +394,7 @@ class ExcelReportBuilder {
       items: sortedDialysis,
       writer: (range, dialysis) {
         if (dialysis.totalDrainVolumeMl != null) {
-          range.setNumber(dialysis.totalDrainVolumeMl.roundToDouble());
+          range.setNumber(dialysis.totalDrainVolumeMl!.roundToDouble());
         }
       },
     );
@@ -403,7 +403,7 @@ class ExcelReportBuilder {
       items: sortedDialysis,
       writer: (range, dialysis) {
         if (dialysis.lastFillMl != null) {
-          range.setNumber(dialysis.lastFillMl.roundToDouble());
+          range.setNumber(dialysis.lastFillMl!.roundToDouble());
         }
       },
     );
@@ -413,7 +413,7 @@ class ExcelReportBuilder {
       items: sortedDialysis,
       writer: (range, dialysis) {
         if (dialysis.totalUltrafiltrationMl != null) {
-          range.setNumber(dialysis.totalUltrafiltrationMl.roundToDouble());
+          range.setNumber(dialysis.totalUltrafiltrationMl!.roundToDouble());
         }
       },
     );
@@ -423,7 +423,8 @@ class ExcelReportBuilder {
       items: sortedDialysis,
       writer: (range, dialysis) {
         final dialysateColor = dialysis.dialysateColor;
-        if (dialysateColor != DialysateColorEnum.unknown) {
+        if (dialysateColor != null &&
+            dialysateColor != DialysateColorEnum.unknown) {
           range.setText(dialysateColor.localizedName(_appLocalizations));
 
           if (dialysateColor.color != Colors.transparent) {
@@ -449,7 +450,7 @@ class ExcelReportBuilder {
       items: sortedDialysis,
       writer: (range, dialysis) {
         if (dialysis.finishedAt != null) {
-          range.setDateTime(dialysis.finishedAt.toLocal());
+          range.setDateTime(dialysis.finishedAt!.toLocal());
           range.numberFormat = _dateTimeFormat;
         }
       },
@@ -485,7 +486,7 @@ class ExcelReportBuilder {
     switch (indicator) {
       case HealthIndicator.bloodPressure:
         final text = status.bloodPressures
-            .sortedBy((e) => e.measuredAt, reverse: true)
+            .orderBy((e) => e.measuredAt, reverse: true)
             .map((d) => d.formatAmountWithoutDimensionWithTime(context))
             .join('\n');
 
@@ -493,7 +494,7 @@ class ExcelReportBuilder {
         break;
       case HealthIndicator.pulse:
         final text = status.pulses
-            .sortedBy((e) => e.measuredAt, reverse: true)
+            .orderBy((e) => e.measuredAt, reverse: true)
             .map((d) => d.formatAmountWithoutDimensionWithTime(context))
             .join('\n');
 
@@ -506,7 +507,7 @@ class ExcelReportBuilder {
         break;
       case HealthIndicator.urine:
         if (status.urineMl != null) {
-          range.setNumber(status.urineMl.toDouble());
+          range.setNumber(status.urineMl!.toDouble());
         }
         break;
       default:

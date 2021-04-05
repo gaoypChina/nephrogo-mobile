@@ -4,18 +4,17 @@ import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class NutritionDailyListWithHeaderEmpty extends StatelessWidget {
   final Widget header;
   final Date date;
 
   const NutritionDailyListWithHeaderEmpty({
-    Key key,
-    @required this.header,
-    @required this.date,
-  })  : assert(header != null),
-        super(key: key);
+    Key? key,
+    required this.header,
+    required this.date,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +56,9 @@ class NutritionListWithHeaderEmpty extends StatelessWidget {
   final Widget header;
 
   const NutritionListWithHeaderEmpty({
-    Key key,
-    @required this.header,
-  })  : assert(header != null),
-        super(key: key);
+    Key? key,
+    required this.header,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,11 +80,10 @@ class DateSwitcherHeaderSection extends StatelessWidget {
   final List<Widget> children;
 
   const DateSwitcherHeaderSection({
-    Key key,
-    @required this.header,
-    this.children,
-  })  : assert(header != null),
-        super(key: key);
+    Key? key,
+    required this.header,
+    this.children = const [],
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +95,7 @@ class DateSwitcherHeaderSection extends StatelessWidget {
       showHeaderDivider: true,
       showDividers: true,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: children ?? [],
+      children: children,
     );
   }
 }

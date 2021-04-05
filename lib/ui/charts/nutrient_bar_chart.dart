@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/utils/date_utils.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'date_time_numeric_chart.dart';
@@ -20,20 +19,20 @@ class NutrientBarChart extends StatelessWidget {
   final bool showDataLabels;
 
   NutrientBarChart({
-    Key key,
-    @required this.dailyIntakeLightReports,
-    @required this.nutrient,
-    @required this.minimumDate,
-    @required this.maximumDate,
-    @required this.showDataLabels,
+    Key? key,
+    required this.dailyIntakeLightReports,
+    required this.nutrient,
+    required this.minimumDate,
+    required this.maximumDate,
+    required this.showDataLabels,
   }) : super(key: key);
 
-  double get _dailyNorm {
+  double? get _dailyNorm {
     return dailyIntakeLightReports
-        .maxBy((index, e) => e.date)
+        .maxBy((e) => e.date)
         ?.nutrientNormsAndTotals
-        ?.getDailyNutrientConsumption(nutrient)
-        ?.norm
+        .getDailyNutrientConsumption(nutrient)
+        .norm
         ?.toDouble();
   }
 
@@ -43,7 +42,7 @@ class NutrientBarChart extends StatelessWidget {
   }
 
   Widget _cherChart(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = context.appLocalizations;
 
     final nutrientConsumptionName = nutrient.consumptionName(appLocalizations);
 
@@ -60,10 +59,10 @@ class NutrientBarChart extends StatelessWidget {
   }
 
   Iterable<XyDataSeries> _getColumnSeries(BuildContext context) sync* {
-    final lastReport = dailyIntakeLightReports.maxBy((_, r) => r.date);
+    final lastReport = dailyIntakeLightReports.maxBy((r) => r.date);
 
     yield ColumnSeries<DailyIntakesLightReport, DateTime>(
-      dataSource: dailyIntakeLightReports.sortedBy((e) => e.date).toList(),
+      dataSource: dailyIntakeLightReports.orderBy((e) => e.date).toList(),
       borderRadius: DateTimeNumericChart.rodTopRadius,
       xValueMapper: (report, _) => report.date.toDate(),
       yValueMapper: (report, _) {
@@ -100,13 +99,13 @@ class NutrientBarChart extends StatelessWidget {
     }
   }
 
-  XyDataSeries _getDailyNormLineSeries(BuildContext context) {
+  XyDataSeries? _getDailyNormLineSeries(BuildContext context) {
     if (_dailyNorm == null) {
       return null;
     }
 
-    final scaledDailyNorm = _dailyNorm * nutrient.scale;
-    final dates = DateUtils.generateDates(
+    final scaledDailyNorm = _dailyNorm! * nutrient.scale;
+    final dates = DateHelper.generateDates(
       minimumDate.subtract(const Duration(days: 1)).toDate(),
       maximumDate.add(const Duration(days: 1)).toDate(),
     ).toList();

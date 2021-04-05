@@ -1,8 +1,8 @@
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
 
-class DateUtils {
-  DateUtils._();
+class DateHelper {
+  DateHelper._();
 
   static Iterable<Date> generateDates(
     Date startDate,
@@ -31,11 +31,15 @@ class DateUtils {
     Date endDate,
   ) sync* {
     final finalEndDate = getLastDayOfCurrentMonth(endDate);
-    for (var date = Date(startDate.year, startDate.month, 1);
+    for (var date = getFirstDayOfCurrentMonth(startDate);
         date.isBefore(finalEndDate);
         date = getFirstDayOfNextMonth(date)) {
       yield date;
     }
+  }
+
+  static Date getFirstDayOfCurrentMonth(DateTime dateTime) {
+    return Date(dateTime.year, dateTime.month, 1);
   }
 
   static Date getLastDayOfCurrentMonth(DateTime dateTime) {

@@ -4,16 +4,13 @@ import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
-import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/utils.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
-import 'package:nephrogo_api_client/model/product.dart';
-import 'package:nephrogo_api_client/model/product_search_response.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'intake_create.dart';
 
@@ -25,13 +22,13 @@ enum ProductSearchType {
 class ProductSearchScreenArguments {
   final ProductSearchType searchType;
   final List<int> excludeProductsIds;
-  final Date date;
+  final Date? date;
   final MealTypeEnum mealType;
 
   ProductSearchScreenArguments(
     this.searchType,
     this.mealType, {
-    this.excludeProductsIds,
+    this.excludeProductsIds = const [],
     this.date,
   });
 }
@@ -41,24 +38,22 @@ class _Query {
   final bool submit;
   final bool wait;
 
-  _Query(this.query, {@required this.wait, @required this.submit});
+  _Query(this.query, {required this.wait, required this.submit});
 }
 
 class ProductSearchScreen extends StatefulWidget {
   final ProductSearchType searchType;
   final List<int> excludeProductsIds;
-  final Date date;
+  final Date? date;
   final MealTypeEnum mealType;
 
   const ProductSearchScreen({
-    Key key,
-    @required this.searchType,
-    @required this.excludeProductsIds,
-    @required this.mealType,
+    Key? key,
+    required this.searchType,
+    required this.excludeProductsIds,
+    required this.mealType,
     this.date,
-  })  : assert(searchType != null),
-        assert(mealType != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ProductSearchScreenState();
@@ -118,7 +113,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
         .where((p) => p.query == currentQuery);
   }
 
-  void _changeQuery(String query, {@required bool submit}) {
+  void _changeQuery(String query, {required bool submit}) {
     final trimmedQuery = query.trim();
     if (currentQuery == trimmedQuery) {
       return;
@@ -143,7 +138,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = context.appLocalizations;
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -153,7 +148,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
           onChanged: (q) => _changeQuery(q, submit: false),
           onSubmitted: (q) => _changeQuery(q, submit: true),
           focusNode: focusNode,
-          style: theme.textTheme.headline6.copyWith(color: Colors.white),
+          style: theme.textTheme.headline6!.copyWith(color: Colors.white),
           textInputAction: TextInputAction.search,
           keyboardType: TextInputType.text,
           autofocus: true,
@@ -270,15 +265,15 @@ class ProductTile extends StatelessWidget {
   final GestureTapCallback onTap;
 
   ProductTile({
-    @required this.product,
-    @required this.onTap,
+    required this.product,
+    required this.onTap,
   }) : super(key: ObjectKey(product));
 
   @override
   Widget build(BuildContext context) {
     return AppListTile(
       title: Text(product.name),
-      leading: ProductKindIcon(productKind: product.productKind),
+      leading: ProductKindIcon(productKind: product.productKind!),
       onTap: onTap,
     );
   }

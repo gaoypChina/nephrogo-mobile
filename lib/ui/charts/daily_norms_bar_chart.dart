@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DailyNormsBarChart extends StatelessWidget {
   final DailyIntakesLightReport dailyIntakeReport;
 
   const DailyNormsBarChart({
-    Key key,
-    this.dailyIntakeReport,
+    Key? key,
+    required this.dailyIntakeReport,
   }) : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class DailyNormsBarChart extends StatelessWidget {
       child: SfCartesianChart(
         plotAreaBorderWidth: 0,
         primaryXAxis: CategoryAxis(
-          majorGridLines: MajorGridLines(width: 0),
+          majorGridLines: const MajorGridLines(width: 0),
         ),
         primaryYAxis: NumericAxis(
           // majorGridLines: MajorGridLines(width: 0),
@@ -32,7 +32,7 @@ class DailyNormsBarChart extends StatelessWidget {
           ),
           minimum: 0,
           maximum: _getGraphMax(),
-          majorTickLines: MajorTickLines(size: 0),
+          majorTickLines: const MajorTickLines(size: 0),
           numberFormat: NumberFormat.percentPattern(),
         ),
         series: _getTrackerBarSeries(context),
@@ -42,14 +42,13 @@ class DailyNormsBarChart extends StatelessWidget {
 
   double _getGraphMax() {
     final maximumConsumption = Nutrient.values
-            .map((n) => dailyIntakeReport.nutrientNormsAndTotals
-                .getDailyNutrientConsumption(n)
-                .normPercentage)
-            .where((n) => n != null)
-            .max() ??
-        0;
+        .map((n) => dailyIntakeReport.nutrientNormsAndTotals
+            .getDailyNutrientConsumption(n)
+            .normPercentage)
+        .where((n) => n != null)
+        .max;
 
-    return max(maximumConsumption, 1.0);
+    return max(maximumConsumption ?? 0.0, 1.0);
   }
 
   List<XyDataSeries> _getTrackerBarSeries(BuildContext context) {
@@ -72,7 +71,10 @@ class DailyNormsBarChart extends StatelessWidget {
         sortFieldValueMapper: (_, i) => i,
         sortingOrder: SortingOrder.descending,
         pointColorMapper: (n, _) {
-          if (norms.getDailyNutrientConsumption(n).normPercentage > 1) {
+          final percentage =
+              norms.getDailyNutrientConsumption(n).normPercentage!;
+
+          if (percentage > 1) {
             return Colors.redAccent;
           }
           return Colors.teal;

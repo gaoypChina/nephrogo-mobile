@@ -20,7 +20,7 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
 
   final _authProvider = AuthenticationProvider();
 
-  String email;
+  String? email;
 
   @override
   Widget build(BuildContext context) {
@@ -88,15 +88,15 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
   }
 
   Future<bool> _remindPassword(BuildContext context) async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
       try {
-        await _authProvider.sendPasswordResetEmail(email);
+        await _authProvider.sendPasswordResetEmail(email!);
 
         await showAppDialog(
           context: context,
-          content: Text(appLocalizations.passwordRecoveryEmailSent(email)),
+          content: Text(appLocalizations.passwordRecoveryEmailSent(email!)),
         );
 
         Navigator.pop(context);

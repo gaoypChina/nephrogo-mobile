@@ -6,9 +6,7 @@ import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/general/app_steam_builder.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_reports_response.dart';
-import 'package:nephrogo_api_client/model/nutrition_summary_statistics.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'nutrition_daily_summary.dart';
 import 'nutrition_nutrient_summary_list.dart';
@@ -18,29 +16,28 @@ import 'nutrition_summary_list.dart';
 enum NutritionSummaryScreenType { daily, weekly, monthly }
 
 class NutritionSummaryScreenArguments {
-  final Nutrient nutrient;
   final NutritionSummaryScreenType screenType;
-  final NutritionSummaryStatistics nutritionSummaryStatistics;
+  final Nutrient? nutrient;
+  final NutritionSummaryStatistics? nutritionSummaryStatistics;
 
   NutritionSummaryScreenArguments({
-    @required this.screenType,
-    @required this.nutritionSummaryStatistics,
+    required this.screenType,
+    required this.nutritionSummaryStatistics,
     this.nutrient,
-  }) : assert(screenType != null);
+  });
 }
 
 class NutritionSummaryScreen extends StatefulWidget {
-  final Nutrient nutrient;
   final NutritionSummaryScreenType screenType;
-  final NutritionSummaryStatistics nutritionSummaryStatistics;
+  final Nutrient? nutrient;
+  final NutritionSummaryStatistics? nutritionSummaryStatistics;
 
   const NutritionSummaryScreen({
-    Key key,
-    @required this.screenType,
-    @required this.nutrient,
-    @required this.nutritionSummaryStatistics,
-  })  : assert(screenType != null),
-        super(key: key);
+    Key? key,
+    required this.screenType,
+    required this.nutrient,
+    required this.nutritionSummaryStatistics,
+  }) : super(key: key);
 
   @override
   _NutritionSummaryScreenState createState() => _NutritionSummaryScreenState();
@@ -95,8 +92,6 @@ class _NutritionSummaryScreenState extends State<NutritionSummaryScreen> {
       case NutritionSummaryScreenType.monthly:
         return 2;
     }
-
-    throw ArgumentError.value(widget.screenType);
   }
 
   String get _tabTitle {
@@ -104,20 +99,20 @@ class _NutritionSummaryScreenState extends State<NutritionSummaryScreen> {
       return appLocalizations.nutritionSummary;
     }
 
-    return widget.nutrient.consumptionName(appLocalizations);
+    return widget.nutrient!.consumptionName(appLocalizations);
   }
 }
 
 class _NutritionMonthlySummaryTabBody extends StatelessWidget {
   final _apiService = ApiService();
 
-  final Nutrient nutrient;
-  final NutritionSummaryStatistics nutritionSummaryStatistics;
+  final Nutrient? nutrient;
+  final NutritionSummaryStatistics? nutritionSummaryStatistics;
 
   _NutritionMonthlySummaryTabBody({
-    Key key,
-    @required this.nutritionSummaryStatistics,
-    @required this.nutrient,
+    Key? key,
+    required this.nutritionSummaryStatistics,
+    required this.nutrient,
   }) : super(key: key);
 
   @override
@@ -141,7 +136,7 @@ class _NutritionMonthlySummaryTabBody extends StatelessWidget {
               return NutritionNutrientReportsList(
                 header: header,
                 reports: reports,
-                nutrient: nutrient,
+                nutrient: nutrient!,
                 dateFrom: from,
                 dateTo: to,
                 showGraphDataLabels: false,
@@ -162,13 +157,13 @@ class _NutritionMonthlySummaryTabBody extends StatelessWidget {
 class _NutritionWeeklySummaryTabBody extends StatelessWidget {
   final _apiService = ApiService();
 
-  final Nutrient nutrient;
-  final NutritionSummaryStatistics nutritionSummaryStatistics;
+  final Nutrient? nutrient;
+  final NutritionSummaryStatistics? nutritionSummaryStatistics;
 
   _NutritionWeeklySummaryTabBody({
-    Key key,
-    @required this.nutrient,
-    @required this.nutritionSummaryStatistics,
+    Key? key,
+    this.nutrient,
+    this.nutritionSummaryStatistics,
   }) : super(key: key);
 
   @override
@@ -207,7 +202,7 @@ class _NutritionWeeklySummaryTabBody extends StatelessWidget {
         reports: reports,
         dateFrom: dateFrom,
         dateTo: dateTo,
-        nutrient: nutrient,
+        nutrient: nutrient!,
         showGraphDataLabels: true,
       );
     }

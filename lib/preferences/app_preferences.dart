@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:nephrogo_api_client/model/periotonic_dialysis_type_enum.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppPreferences {
@@ -20,11 +20,11 @@ class AppPreferences {
 
   AppPreferences._internal();
 
-  SharedPreferences _sharedPreferencesInternal;
+  SharedPreferences? _sharedPreferencesInternal;
 
   Future<SharedPreferences> get _sharedPreferences async {
     if (_sharedPreferencesInternal != null) {
-      return _sharedPreferencesInternal;
+      return _sharedPreferencesInternal!;
     }
     return _sharedPreferencesInternal = await SharedPreferences.getInstance();
   }
@@ -63,9 +63,14 @@ class AppPreferences {
         (preferences) => preferences.setBool(_keyLegalConditionsAgreed, true));
   }
 
-  Future<bool> isMarketingAllowed() {
+  Future<bool> hasMarketingAllowed() {
     return _sharedPreferences
-        .then((preferences) => preferences.getBool(_keyMarketingAllowed));
+        .then((preferences) => preferences.containsKey(_keyMarketingAllowed));
+  }
+
+  Future<bool> isMarketingAllowed() {
+    return _sharedPreferences.then(
+        (preferences) => preferences.getBool(_keyMarketingAllowed) ?? false);
   }
 
   // ignore: avoid_positional_boolean_parameters
@@ -83,8 +88,8 @@ class AppPreferences {
     );
   }
 
-  Future<DateTime> getInAppUpdateLastPromptedDate() {
-    return _sharedPreferences.then<DateTime>(
+  Future<DateTime?> getInAppUpdateLastPromptedDate() {
+    return _sharedPreferences.then<DateTime?>(
       (preferences) {
         final dateTimeStr =
             preferences.getString(_keyInAppUpdateLastPromptedDate);

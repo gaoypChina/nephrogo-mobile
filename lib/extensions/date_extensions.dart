@@ -59,14 +59,14 @@ extension DateTimeExtension on DateTime {
 
   // https://stackoverflow.com/questions/52627973/dart-how-to-set-the-hour-and-minute-of-datetime-object
   DateTime copyWith({
-    int year,
-    int month,
-    int day,
-    int hour,
-    int minute,
-    int second,
-    int millisecond,
-    int microsecond,
+    int? year,
+    int? month,
+    int? day,
+    int? hour,
+    int? minute,
+    int? second,
+    int? millisecond,
+    int? microsecond,
   }) {
     if (isUtc) {
       return DateTime.utc(
@@ -97,7 +97,8 @@ extension DateTimeExtension on DateTime {
 extension DurationExtensions on Duration {
   String formatHoursAndMinutes(AppLocalizations appLocalizations) {
     if (inMinutes >= 60) {
-      return '${inMinutes ~/ 60} ${appLocalizations.hoursShortSuffix} ${inMinutes % 60} ${appLocalizations.minutesShortSuffix}';
+      return '${inMinutes ~/ 60} ${appLocalizations.hoursShortSuffix} '
+          '${inMinutes % 60} ${appLocalizations.minutesShortSuffix}';
     }
     return '$inMinutes ${appLocalizations.minutesShortSuffix}';
   }

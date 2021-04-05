@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 
 class ErrorStateWidget extends StatelessWidget {
   final String errorText;
 
   const ErrorStateWidget({
-    Key key,
-    @required this.errorText,
-  })  : assert(errorText != null),
-        super(key: key);
+    Key? key,
+    required this.errorText,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class ErrorStateWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              AppLocalizations.of(context).serverErrorDescription,
+              context.appLocalizations.serverErrorDescription,
               style: const TextStyle(fontSize: 22),
               textAlign: TextAlign.center,
             ),

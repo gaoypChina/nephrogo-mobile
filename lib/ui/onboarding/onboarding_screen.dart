@@ -22,9 +22,7 @@ class OnboardingScreenArguments {
 class OnboardingScreen extends StatefulWidget {
   final OnboardingScreenExitType exitType;
 
-  const OnboardingScreen({Key key, @required this.exitType})
-      : assert(exitType != null),
-        super(key: key);
+  const OnboardingScreen({Key? key, required this.exitType}) : super(key: key);
 
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
@@ -142,7 +140,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           : appLocalizations.further.toUpperCase(),
                       style: Theme.of(context)
                           .textTheme
-                          .button
+                          .button!
                           .copyWith(fontSize: 18, color: Colors.white),
                     ),
                   ),
@@ -156,7 +154,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Future advancePageOrFinish(
-      {@required bool isDone, bool skippedOnboarding = false}) async {
+      {required bool isDone, bool skippedOnboarding = false}) async {
     if (isDone) {
       await AppPreferences().setOnboardingPassed();
 

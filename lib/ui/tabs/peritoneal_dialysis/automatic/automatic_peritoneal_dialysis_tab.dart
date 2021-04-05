@@ -10,7 +10,7 @@ import 'package:nephrogo/ui/tabs/health_status/health_status_components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_periods.dart';
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/peritoneal_dialysis_components.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis_screen_response.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'automatic_peritoneal_dialysis_components.dart';
 import 'automatic_peritoneal_dialysis_creation_screen.dart';
@@ -39,7 +39,7 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
 
   final AutomaticPeritonealDialysisScreenResponse response;
 
-  const _AutomaticPeritonealDialysisTabBody({Key key, @required this.response})
+  const _AutomaticPeritonealDialysisTabBody({Key? key, required this.response})
       : super(key: key);
 
   @override
@@ -81,7 +81,7 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
     final today = Date.today();
 
     final initialDate =
-        response.lastPeritonealDialysis?.startedAt?.toDate() ?? today;
+        response.lastPeritonealDialysis?.startedAt.toDate() ?? today;
 
     return LargeSection(
       title: Text(context.appLocalizations.peritonealDialysisPlural),
@@ -97,7 +97,7 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
       ),
       children: [
         if (response.lastPeritonealDialysis != null)
-          AutomaticPeritonealDialysisTile(response.lastPeritonealDialysis)
+          AutomaticPeritonealDialysisTile(response.lastPeritonealDialysis!),
       ],
     );
   }

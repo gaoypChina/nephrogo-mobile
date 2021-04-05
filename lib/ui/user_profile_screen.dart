@@ -7,14 +7,7 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/chronic_kidney_disease_stage_enum.dart';
-import 'package:nephrogo_api_client/model/diabetes_complications_enum.dart';
-import 'package:nephrogo_api_client/model/diabetes_type_enum.dart';
-import 'package:nephrogo_api_client/model/dialysis_type_enum.dart';
-import 'package:nephrogo_api_client/model/gender_enum.dart';
-import 'package:nephrogo_api_client/model/periotonic_dialysis_type_enum.dart';
-import 'package:nephrogo_api_client/model/user_profile.dart';
-import 'package:nephrogo_api_client/model/user_profile_request.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'forms/forms.dart';
 import 'general/app_form.dart';
@@ -29,8 +22,8 @@ class UserProfileScreen extends StatefulWidget {
   final UserProfileNextScreenType nextScreenType;
 
   const UserProfileScreen({
-    Key key,
-    @required this.nextScreenType,
+    Key? key,
+    required this.nextScreenType,
   }) : super(key: key);
 
   @override
@@ -45,11 +38,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   FormValidators get _formValidators => FormValidators(context);
 
-  final _userProfileMemoizer = AsyncMemoizer<UserProfile>();
+  final _userProfileMemoizer =
+      AsyncMemoizer<NullableApiResponse<UserProfile>>();
 
-  UserProfileRequestBuilder _userProfileBuilder;
+  late UserProfileRequestBuilder _userProfileBuilder;
 
-  bool _isInitial;
+  bool _isInitial = true;
 
   bool get _isDiabetic =>
       _userProfileBuilder.diabetesType == DiabetesTypeEnum.type1 ||
@@ -79,12 +73,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ),
         ],
       ),
-      body: AppFutureBuilder<UserProfile>(
+      body: AppFutureBuilder<NullableApiResponse<UserProfile>>(
         future: _userProfileMemoizer.future,
-        builder: (context, userProfile) {
+        builder: (context, data) {
+          final userProfile = data.data;
           _isInitial = userProfile == null;
 
-          _userProfileBuilder ??=
+          _userProfileBuilder =
               userProfile?.toRequestBuilder() ?? UserProfileRequestBuilder();
 
           return _buildBody();
@@ -123,8 +118,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   labelText: appLocalizations.gender,
                   initialValue: _userProfileBuilder.gender,
                   validator: _formValidators.nonNull(),
-                  onSaved: (v) => _userProfileBuilder.gender = v.value,
-                  onChanged: (v) => _userProfileBuilder.gender = v.value,
+                  onSaved: (v) => _userProfileBuilder.gender = v?.value,
+                  onChanged: (v) => _userProfileBuilder.gender = v?.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: appLocalizations.male,
@@ -189,10 +184,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   helperText: appLocalizations
                       .userProfileSectionChronicKidneyDiseaseStageHelper,
                   onSaved: (v) {
-                    _userProfileBuilder.chronicKidneyDiseaseStage = v.value;
+                    _userProfileBuilder.chronicKidneyDiseaseStage =
+                        v?.value ?? ChronicKidneyDiseaseStageEnum.unknown;
                   },
                   onChanged: (v) {
-                    _userProfileBuilder.chronicKidneyDiseaseStage = v.value;
+                    _userProfileBuilder.chronicKidneyDiseaseStage =
+                        v?.value ?? ChronicKidneyDiseaseStageEnum.unknown;
                   },
                   initialValue: _userProfileBuilder.chronicKidneyDiseaseStage
                       ?.enumWithoutDefault(
@@ -238,10 +235,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   initialValue: _userProfileBuilder.dialysisType
                       ?.enumWithoutDefault(DialysisTypeEnum.unknown),
                   focusNextOnSelection: _isInitial,
-                  onSaved: (v) => _userProfileBuilder.dialysisType = v.value,
+                  onSaved: (v) => _userProfileBuilder.dialysisType =
+                      v?.value ?? DialysisTypeEnum.unknown,
                   onChanged: (v) {
                     setState(() {
-                      _userProfileBuilder.dialysisType = v.value;
+                      _userProfileBuilder.dialysisType =
+                          v?.value ?? DialysisTypeEnum.unknown;
                     });
                   },
                   items: [
@@ -278,11 +277,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       PeriotonicDialysisTypeEnum.unknown,
                     ),
                     focusNextOnSelection: _isInitial,
-                    onSaved: (v) =>
-                        _userProfileBuilder.periotonicDialysisType = v.value,
+                    onSaved: (v) => _userProfileBuilder.periotonicDialysisType =
+                        v?.value ?? PeriotonicDialysisTypeEnum.unknown,
                     onChanged: (v) {
                       setState(() {
-                        _userProfileBuilder.periotonicDialysisType = v.value;
+                        _userProfileBuilder.periotonicDialysisType =
+                            v?.value ?? PeriotonicDialysisTypeEnum.unknown;
                       });
                     },
                     items: [
@@ -305,18 +305,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   labelText: appLocalizations.userProfileSectionDiabetesType,
                   validator: _formValidators.nonNull(),
                   initialValue: _userProfileBuilder.diabetesType
-                          .enumWithoutDefault(DiabetesTypeEnum.unknown) ??
+                          ?.enumWithoutDefault(DiabetesTypeEnum.unknown) ??
                       DiabetesTypeEnum.no,
                   onChanged: (dt) {
                     setState(() {
-                      _userProfileBuilder.diabetesType = dt.value;
+                      _userProfileBuilder.diabetesType =
+                          dt?.value ?? DiabetesTypeEnum.no;
                     });
 
                     if (_isDiabetic) {
                       FocusScope.of(context).nextFocus();
                     }
                   },
-                  onSaved: (v) => _userProfileBuilder.diabetesType = v.value,
+                  onSaved: (v) => _userProfileBuilder.diabetesType =
+                      v?.value ?? DiabetesTypeEnum.no,
                   items: [
                     AppSelectFormFieldItem(
                       text: appLocalizations.userProfileSectionDiabetesType1,
@@ -415,13 +417,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     await _appPreferences.setProfileCreated();
 
     await _appPreferences.setPeritonealDialysisType(
-      _userProfileBuilder.periotonicDialysisType,
+      _userProfileBuilder.periotonicDialysisType ??
+          PeriotonicDialysisTypeEnum.unknown,
     );
 
     await _navigateToAnotherScreen();
   }
 
-  Future<void> _navigateToAnotherScreen() async {
+  Future _navigateToAnotherScreen() async {
     switch (widget.nextScreenType) {
       case UserProfileNextScreenType.close:
         Navigator.pop(context);

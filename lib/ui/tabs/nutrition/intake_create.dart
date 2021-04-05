@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
@@ -13,52 +12,38 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
-import 'package:nephrogo_api_client/model/intake.dart';
-import 'package:nephrogo_api_client/model/intake_request.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
-import 'package:nephrogo_api_client/model/product.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'nutrition_components.dart';
 
-class IntakeCreateScreenArguments extends Equatable {
+class IntakeCreateScreenArguments {
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
   final Product product;
-  final Intake intake;
-  final Date initialDate;
+  final Date? initialDate;
   final MealTypeEnum mealType;
 
   const IntakeCreateScreenArguments({
-    @required this.dailyNutrientNormsAndTotals,
-    @required this.mealType,
-    this.product,
-    this.intake,
+    required this.dailyNutrientNormsAndTotals,
+    required this.mealType,
+    required this.product,
     this.initialDate,
-  })  : assert(dailyNutrientNormsAndTotals != null),
-        assert(product != null || intake != null, 'Pass intake or product');
-
-  @override
-  List<Object> get props => [product, dailyNutrientNormsAndTotals];
+  });
 }
 
 class IntakeCreateScreen extends StatefulWidget {
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
-  final Intake intake;
+
   final Product initialProduct;
-  final Date initialDate;
+  final Date? initialDate;
   final MealTypeEnum mealType;
 
   const IntakeCreateScreen({
-    Key key,
-    @required this.dailyNutrientNormsAndTotals,
-    @required this.mealType,
-    this.initialProduct,
-    this.intake,
+    Key? key,
+    required this.dailyNutrientNormsAndTotals,
+    required this.mealType,
+    required this.initialProduct,
     this.initialDate,
-  })  : assert(dailyNutrientNormsAndTotals != null),
-        assert(
-            initialProduct != null || intake != null, 'Pass intake or product'),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _IntakeCreateScreenState createState() => _IntakeCreateScreenState();
@@ -78,11 +63,11 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
   final _formKey = GlobalKey<FormState>();
   final _apiService = ApiService();
 
-  List<_IntakeSectionOption> _intakeSectionsOptions;
+  late List<_IntakeSectionOption> _intakeSectionsOptions;
 
-  DateTime _consumedAt;
+  late DateTime _consumedAt;
 
-  MealTypeEnum _mealType;
+  late MealTypeEnum _mealType;
 
   bool get _isAddNewProductButtonActive =>
       !_intakeSectionsOptions.any((e) => e.fakeIntake.amountG == 0);
@@ -95,7 +80,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     _mealType = widget.mealType;
 
     if (widget.initialDate != null) {
-      _consumedAt = _consumedAt.appliedDate(widget.initialDate);
+      _consumedAt = _consumedAt.appliedDate(widget.initialDate!);
     }
 
     final fakedIntake = widget.initialProduct.fakeIntake(
@@ -106,7 +91,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
     _intakeSectionsOptions = [_IntakeSectionOption(fakedIntake, FocusNode())];
   }
 
-  Future<Product> _showProductSearch() async {
+  Future<Product?> _showProductSearch() async {
     final excludeProductIds =
         _intakeSectionsOptions.map((e) => e.fakeIntake.product.id).toList();
 
@@ -206,8 +191,8 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                   ),
                   MealTypeSelectionFormField(
                     initialMealType: _mealType,
-                    onChanged: (v) => _mealType = v,
-                    onSaved: (v) => _mealType = v,
+                    onChanged: (v) => _mealType = v!,
+                    onSaved: (v) => _mealType = v!,
                   ),
                 ],
               ),
@@ -304,25 +289,21 @@ class _IntakeEditSection extends StatefulWidget {
   final bool initiallyExpanded;
 
   const _IntakeEditSection({
-    Key key,
-    @required this.initialFakedIntake,
-    @required this.dailyNutrientNormsAndTotals,
-    @required this.onChanged,
-    @required this.onDelete,
-    @required this.focusNode,
-    @required this.initiallyExpanded,
-  })  : assert(initialFakedIntake != null),
-        assert(dailyNutrientNormsAndTotals != null),
-        assert(onChanged != null),
-        assert(onDelete != null),
-        super(key: key);
+    Key? key,
+    required this.initialFakedIntake,
+    required this.dailyNutrientNormsAndTotals,
+    required this.onChanged,
+    required this.onDelete,
+    required this.focusNode,
+    required this.initiallyExpanded,
+  }) : super(key: key);
 
   @override
   _IntakeEditSectionState createState() => _IntakeEditSectionState();
 }
 
 class _IntakeEditSectionState extends State<_IntakeEditSection> {
-  Intake intake;
+  late Intake intake;
 
   bool get isAmountInMilliliters => intake.product.densityGMl != null;
 
@@ -393,27 +374,27 @@ class _IntakeEditSectionState extends State<_IntakeEditSection> {
 
   Intake _createFakeIntake(int amount) {
     int amountG;
-    int amountMl;
+    int? amountMl;
 
-    if (amount != null && isAmountInMilliliters) {
+    if (isAmountInMilliliters) {
       amountMl = amount;
-      amountG = (amount * _product.densityGMl).round();
+      amountG = (amount * _product.densityGMl!).round();
     } else {
-      amountG = amount ?? 0;
+      amountG = amount;
       amountMl = null;
     }
 
     return _product.fakeIntake(
       consumedAt: _consumedAt,
-      mealType: widget.initialFakedIntake.mealType,
+      mealType: widget.initialFakedIntake.mealType ?? MealTypeEnum.unknown,
       amountG: amountG,
       amountMl: amountMl,
     );
   }
 
-  void _onChanged(int amount) {
+  void _onChanged(int? amount) {
     setState(() {
-      intake = _createFakeIntake(amount);
+      intake = _createFakeIntake(amount ?? 0);
     });
 
     widget.onChanged(intake);

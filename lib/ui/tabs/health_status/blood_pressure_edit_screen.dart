@@ -9,8 +9,7 @@ import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/blood_pressure.dart';
-import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class BloodPressureEditScreenArguments {
   final BloodPressure bloodPressure;
@@ -22,8 +21,8 @@ class BloodPressureEditScreen extends StatefulWidget {
   final BloodPressure bloodPressure;
 
   const BloodPressureEditScreen({
-    Key key,
-    @required this.bloodPressure,
+    Key? key,
+    required this.bloodPressure,
   }) : super(key: key);
 
   @override
@@ -36,7 +35,7 @@ class _BloodPressureEditScreenState extends State<BloodPressureEditScreen> {
 
   final _apiService = ApiService();
 
-  BloodPressureRequestBuilder _requestBuilder;
+  late BloodPressureRequestBuilder _requestBuilder;
 
   FormValidators get _formValidators => FormValidators(context);
 
@@ -71,13 +70,13 @@ class _BloodPressureEditScreenState extends State<BloodPressureEditScreen> {
                   children: [
                     Flexible(
                       child: AppDatePickerFormField(
-                        initialDate: _requestBuilder.measuredAt.toDate(),
+                        initialDate: _requestBuilder.measuredAt!.toDate(),
                         firstDate: Constants.earliestDate,
                         lastDate: Date.today(),
                         validator: _formValidators.nonNull(),
                         onDateChanged: (date) {
                           _requestBuilder.measuredAt = _requestBuilder
-                              .measuredAt
+                              .measuredAt!
                               .appliedDate(date)
                               .toUtc();
                         },
@@ -86,17 +85,17 @@ class _BloodPressureEditScreenState extends State<BloodPressureEditScreen> {
                     ),
                     Flexible(
                       child: AppTimePickerFormField(
-                        initialTime: _requestBuilder.measuredAt.timeOfDayLocal,
+                        initialTime: _requestBuilder.measuredAt!.timeOfDayLocal,
                         labelText: appLocalizations.mealCreationTime,
                         onTimeChanged: (t) {
                           _requestBuilder.measuredAt = _requestBuilder
-                              .measuredAt
+                              .measuredAt!
                               .appliedLocalTime(t)
                               .toUtc();
                         },
                         onTimeSaved: (t) {
                           _requestBuilder.measuredAt = _requestBuilder
-                              .measuredAt
+                              .measuredAt!
                               .appliedLocalTime(t)
                               .toUtc();
                         },

@@ -9,25 +9,21 @@ import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
-import 'package:nephrogo/ui/general/stepper.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
-import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
-import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
-import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_request.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class ManualPeritonealDialysisCreationScreenArguments {
-  final ManualPeritonealDialysis dialysis;
+  final ManualPeritonealDialysis? dialysis;
 
   ManualPeritonealDialysisCreationScreenArguments(this.dialysis);
 }
 
 class ManualPeritonealDialysisCreationScreen extends StatefulWidget {
-  final ManualPeritonealDialysis initialDialysis;
+  final ManualPeritonealDialysis? initialDialysis;
 
   const ManualPeritonealDialysisCreationScreen({
-    Key key,
-    @required this.initialDialysis,
+    Key? key,
+    required this.initialDialysis,
   }) : super(key: key);
 
   @override
@@ -44,7 +40,7 @@ class _ManualPeritonealDialysisCreationScreenState
 
   final now = DateTime.now();
   final today = Date.today();
-  ManualPeritonealDialysisRequestBuilder _requestBuilder;
+  late ManualPeritonealDialysisRequestBuilder _requestBuilder;
 
   int _currentStep = 0;
 
@@ -101,8 +97,8 @@ class _ManualPeritonealDialysisCreationScreenState
         onChanged: () {
           _formChanged = true;
         },
-        child: AppStepper(
-          type: AppStepperType.horizontal,
+        child: Stepper(
+          type: StepperType.horizontal,
           currentStep: _currentStep,
           onStepTapped: _validateAndProceedToStep,
           controlsBuilder: (context, {onStepContinue, onStepCancel}) {
@@ -157,13 +153,13 @@ class _ManualPeritonealDialysisCreationScreenState
             );
           },
           steps: [
-            AppStep(
+            Step(
               title: Text(appLocalizations.manualPeritonealDialysisStep1),
               isActive: _currentStep == 0,
               state: _currentStep == 0 ? StepState.indexed : StepState.complete,
               content: _getFirstStep(),
             ),
-            AppStep(
+            Step(
               title: Text(appLocalizations.manualPeritonealDialysisStep2),
               isActive: _currentStep == 1,
               state: _isCompleted && _currentStep != 1
@@ -187,26 +183,26 @@ class _ManualPeritonealDialysisCreationScreenState
               children: [
                 Flexible(
                   child: AppDatePickerFormField(
-                    initialDate: _requestBuilder.startedAt.toDate(),
+                    initialDate: _requestBuilder.startedAt!.toDate(),
                     firstDate: Constants.earliestDate,
                     lastDate: Date.today(),
                     dateFormat: _dateFormat,
                     validator: formValidators.nonNull(),
                     onDateChanged: (date) {
                       _requestBuilder.startedAt =
-                          _requestBuilder.startedAt.appliedDate(date).toUtc();
+                          _requestBuilder.startedAt!.appliedDate(date).toUtc();
                     },
                     labelText: appLocalizations.date,
                   ),
                 ),
                 Flexible(
                   child: AppTimePickerFormField(
-                    initialTime: _requestBuilder.startedAt.timeOfDayLocal,
+                    initialTime: _requestBuilder.startedAt!.timeOfDayLocal,
                     labelText: appLocalizations.mealCreationTime,
                     onTimeChanged: (t) => _requestBuilder.startedAt =
-                        _requestBuilder.startedAt.appliedLocalTime(t).toUtc(),
+                        _requestBuilder.startedAt!.appliedLocalTime(t).toUtc(),
                     onTimeSaved: (t) => _requestBuilder.startedAt =
-                        _requestBuilder.startedAt.appliedLocalTime(t).toUtc(),
+                        _requestBuilder.startedAt!.appliedLocalTime(t).toUtc(),
                   ),
                 ),
               ],
@@ -319,12 +315,12 @@ class _ManualPeritonealDialysisCreationScreenState
 
     if (widget.initialDialysis == null) {
       return _apiService.createManualPeritonealDialysis(request);
+    } else {
+      return _apiService.updateManualPeritonealDialysis(
+        widget.initialDialysis!.id,
+        request,
+      );
     }
-
-    return _apiService.updateManualPeritonealDialysis(
-      widget.initialDialysis.id,
-      request,
-    );
   }
 
   Future<bool> _completeAndSubmit() {
@@ -361,7 +357,7 @@ class _ManualPeritonealDialysisCreationScreenState
     final isDeleted = await showDeleteDialog(
       context: context,
       onDelete: () => _apiService.deleteManualPeritonealDialysis(
-        widget.initialDialysis.id,
+        widget.initialDialysis!.id,
       ),
     );
 

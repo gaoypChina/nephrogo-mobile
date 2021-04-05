@@ -16,8 +16,7 @@ import 'package:nephrogo/ui/tabs/health_status/blood_pressure_edit_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/health_status_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/pulse_edit_screen.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
-import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'blood_pressure_and_pulse_creation_screen.dart';
 
@@ -30,7 +29,7 @@ class HealthStatusScreenArguments {
 class HealthStatusScreen extends StatefulWidget {
   final HealthIndicator healthIndicator;
 
-  const HealthStatusScreen({Key key, @required this.healthIndicator})
+  const HealthStatusScreen({Key? key, required this.healthIndicator})
       : super(key: key);
 
   @override
@@ -91,9 +90,9 @@ class _HealthStatusScreenTab extends StatelessWidget {
   final PeriodPagerType pagerType;
 
   _HealthStatusScreenTab({
-    Key key,
-    @required this.healthIndicator,
-    @required this.pagerType,
+    Key? key,
+    required this.healthIndicator,
+    required this.pagerType,
   }) : super(key: key);
 
   @override
@@ -157,10 +156,10 @@ class EmptyDailyHealthIndicatorsListWithChart extends StatelessWidget {
   final Widget header;
 
   const EmptyDailyHealthIndicatorsListWithChart({
-    Key key,
-    @required this.date,
-    @required this.healthIndicator,
-    @required this.header,
+    Key? key,
+    required this.date,
+    required this.healthIndicator,
+    required this.header,
   }) : super(key: key);
 
   @override
@@ -201,21 +200,21 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
   final bool smallMarkers;
 
   const HealthIndicatorsListWithChart({
-    Key key,
-    @required this.dailyHealthStatuses,
-    @required this.healthIndicator,
-    @required this.appLocalizations,
-    @required this.from,
-    @required this.to,
-    @required this.header,
-    @required this.smallMarkers,
+    Key? key,
+    required this.dailyHealthStatuses,
+    required this.healthIndicator,
+    required this.appLocalizations,
+    required this.from,
+    required this.to,
+    required this.header,
+    required this.smallMarkers,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final sortedHealthStatusesWithIndicators = dailyHealthStatuses
         .where((dhs) => dhs.isIndicatorExists(healthIndicator))
-        .sortedBy((e) => e.date, reverse: true)
+        .orderBy((e) => e.date, reverse: true)
         .toList();
 
     return ListView.builder(
@@ -273,10 +272,10 @@ class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
   final List<Widget> children;
 
   DailyHealthStatusIndicatorMultiValueSection({
-    Key key,
-    @required this.date,
-    @required this.indicator,
-    @required this.children,
+    Key? key,
+    required this.date,
+    required this.indicator,
+    required this.children,
   }) : super(key: key);
 
   @override
@@ -314,9 +313,9 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
   final HealthIndicator indicator;
 
   DailyHealthStatusIndicatorMultiValueSectionWithTiles({
-    Key key,
-    @required this.dailyHealthStatus,
-    @required this.indicator,
+    Key? key,
+    required this.dailyHealthStatus,
+    required this.indicator,
   }) : super(key: key);
 
   @override
@@ -329,9 +328,9 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
   }
 
   Widget _buildValueTile({
-    @required DateTime dateTime,
-    @required String formattedAmount,
-    @required GestureTapCallback onTap,
+    required DateTime dateTime,
+    required String formattedAmount,
+    required GestureTapCallback onTap,
   }) {
     return AppListTile(
       title: Text(fullDateFormat.format(dateTime.toLocal()).capitalizeFirst()),
@@ -352,7 +351,7 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
 
   Iterable<Widget> _buildBloodPressureChildren(BuildContext context) {
     return dailyHealthStatus.bloodPressures
-        .sortedBy((e) => e.measuredAt, reverse: true)
+        .orderBy((e) => e.measuredAt, reverse: true)
         .map(
       (b) {
         return _buildValueTile(
@@ -370,7 +369,7 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
 
   Iterable<Widget> _buildPulseChildren(BuildContext context) {
     return dailyHealthStatus.pulses
-        .sortedBy((e) => e.measuredAt, reverse: true)
+        .orderBy((e) => e.measuredAt, reverse: true)
         .map(
       (p) {
         return _buildValueTile(
@@ -405,12 +404,12 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
   final HealthIndicator indicator;
 
   const DailyHealthStatusIndicatorTile({
-    Key key,
-    @required this.dailyHealthStatus,
-    @required this.indicator,
+    Key? key,
+    required this.dailyHealthStatus,
+    required this.indicator,
   }) : super(key: key);
 
-  String getSubtitle(AppLocalizations appLocalizations) {
+  String? getSubtitle(AppLocalizations appLocalizations) {
     if (indicator == HealthIndicator.swellings) {
       return dailyHealthStatus.swellings
           .map((s) => s.getLocalizedName(appLocalizations))
@@ -440,10 +439,11 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: Text(formattedAmount),
-          ),
+          if (formattedAmount != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(formattedAmount),
+            ),
           const Icon(Icons.chevron_right),
         ],
       ),

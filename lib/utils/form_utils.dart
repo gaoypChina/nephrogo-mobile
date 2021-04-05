@@ -9,12 +9,12 @@ class FormUtils {
   FormUtils._();
 
   static Future<bool> validate({
-    @required BuildContext context,
-    @required GlobalKey<FormState> formKey,
+    required BuildContext context,
+    required GlobalKey<FormState> formKey,
   }) async {
     FocusScope.of(context).unfocus();
 
-    if (!formKey.currentState.validate()) {
+    if (!formKey.currentState!.validate()) {
       await showAppDialog(
         context: context,
         title: context.appLocalizations.error,
@@ -28,24 +28,24 @@ class FormUtils {
   }
 
   static Future<bool> validateAndSave({
-    @required BuildContext context,
-    @required GlobalKey<FormState> formKey,
-    @required Future Function() futureBuilder,
-    String Function(String data) onServerValidationError,
-    Future<void> Function() onSuccess,
+    required BuildContext context,
+    required GlobalKey<FormState> formKey,
+    required Future Function() futureBuilder,
+    String Function(String data)? onServerValidationError,
+    Future<void> Function()? onSuccess,
   }) async {
     final valid = await validate(context: context, formKey: formKey);
     if (!valid) {
       return false;
     }
 
-    formKey.currentState.save();
+    formKey.currentState!.save();
 
     final future = futureBuilder().catchError(
       (e, stackTrace) async {
         FirebaseCrashlytics.instance.recordError(e, stackTrace as StackTrace);
 
-        String message;
+        String? message;
         if (onServerValidationError != null &&
             e is DioError &&
             e.response?.statusCode == 400) {
@@ -63,7 +63,7 @@ class FormUtils {
       },
     );
 
-    final res = await ProgressDialog(context).showForFuture(future);
+    final res = await AppProgressDialog(context).showForFuture(future);
 
     if (res != null) {
       if (onSuccess != null) {

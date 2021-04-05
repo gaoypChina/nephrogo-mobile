@@ -13,12 +13,7 @@ import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_consumption.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
-import 'package:nephrogo_api_client/model/intake.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
-import 'package:nephrogo_api_client/model/nutrition_summary_statistics.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'intake_edit.dart';
 import 'product_search.dart';
@@ -85,10 +80,10 @@ class MealTypeSelectionFormField extends StatelessWidget {
   final FormFieldSetter<MealTypeEnum> onSaved;
 
   const MealTypeSelectionFormField({
-    Key key,
-    @required this.initialMealType,
-    @required this.onChanged,
-    @required this.onSaved,
+    Key? key,
+    required this.initialMealType,
+    required this.onChanged,
+    required this.onSaved,
   }) : super(key: key);
 
   @override
@@ -96,8 +91,8 @@ class MealTypeSelectionFormField extends StatelessWidget {
     return AppSelectFormField<MealTypeEnum>(
       labelText: context.appLocalizations.mealType,
       initialValue: initialMealType.enumWithoutDefault(MealTypeEnum.unknown),
-      onChanged: (dt) => onChanged(dt.value),
-      onSaved: (v) => onSaved(v.value),
+      onChanged: (dt) => onChanged(dt!.value),
+      onSaved: (v) => onSaved(v!.value),
       items: [
         for (final mealType in MealTypeEnum.values)
           if (mealType != MealTypeEnum.unknown)
@@ -152,7 +147,7 @@ class DailyIntakesReportSection extends StatelessWidget {
   }
 
   String _getSubtitleText(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = context.appLocalizations;
 
     final exceededCount =
         dailyIntakesLightReport.nutrientNormsAndTotals.normsExceededCount();
@@ -186,7 +181,7 @@ class DailyIntakesReportSection extends StatelessWidget {
 class IntakeWithNormsSection extends StatelessWidget {
   final Intake intake;
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
-  final EdgeInsets margin;
+  final EdgeInsets? margin;
 
   IntakeWithNormsSection(
     this.intake,
@@ -232,7 +227,7 @@ class IntakeTile extends StatelessWidget {
     return AppListTile(
       title: Text(intake.product.name),
       subtitle: Text(_getSubtitleParts(context).join(' | ')),
-      leading: ProductKindIcon(productKind: intake.product.productKind),
+      leading: ProductKindIcon(productKind: intake.product.productKind!),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -257,7 +252,7 @@ class IntakeTile extends StatelessWidget {
     yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
 
     if (intake.mealType != MealTypeEnum.unknown) {
-      yield intake.mealType.localizedName(context.appLocalizations);
+      yield intake.mealType!.localizedName(context.appLocalizations);
     }
   }
 }
@@ -292,7 +287,7 @@ class IntakeExpandableTile extends StatelessWidget {
         onLongPress:
             allowLongClick ? () => _showLongClickDialog(context) : null,
         initiallyExpanded: initiallyExpanded,
-        leading: ProductKindIcon(productKind: intake.product.productKind),
+        leading: ProductKindIcon(productKind: intake.product.productKind!),
         children: ListTile.divideTiles(
           context: context,
           tiles: [
@@ -315,7 +310,7 @@ class IntakeExpandableTile extends StatelessWidget {
       yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
 
       if (intake.mealType != MealTypeEnum.unknown) {
-        yield intake.mealType.localizedName(context.appLocalizations);
+        yield intake.mealType!.localizedName(context.appLocalizations);
       }
     }
   }
@@ -331,7 +326,7 @@ class IntakeExpandableTile extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppListTile(
-                  title: Text(AppLocalizations.of(context).edit),
+                  title: Text(context.appLocalizations.edit),
                   onTap: () => _editIntake(context),
                 ),
               ),
@@ -355,22 +350,22 @@ class IntakeExpandableTile extends StatelessWidget {
 
 class IntakeNutrientDenseTile extends StatelessWidget {
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
-  final Intake intake;
+  final Intake? intake;
   final Nutrient nutrient;
 
   const IntakeNutrientDenseTile(
     this.intake,
     this.nutrient,
     this.dailyNutrientNormsAndTotals, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = context.appLocalizations;
     final nutrientName = nutrient.name(appLocalizations);
 
-    if (intake == null || intake.amountG == 0) {
+    if (intake == null || intake!.amountG == 0) {
       return AppListTile(
         title: Text(nutrientName),
         trailing: const Text('–'),
@@ -379,11 +374,11 @@ class IntakeNutrientDenseTile extends StatelessWidget {
     }
 
     final amountText =
-        intake.product.getFormattedTotalAmount(nutrient, intake.amountG);
+        intake!.product.getFormattedTotalAmount(nutrient, intake!.amountG);
 
     final subtitle = _getSubtitle(appLocalizations);
 
-    final clickable = intake.id != null;
+    final clickable = intake!.id != 0;
 
     return AppListTile(
       title: Text(nutrientName),
@@ -407,14 +402,14 @@ class IntakeNutrientDenseTile extends StatelessWidget {
     return Navigator.of(context).pushNamed(
       Routes.routeNutritionDailySummary,
       arguments: NutritionDailySummaryScreenArguments(
-        intake.consumedAt.toDate(),
+        intake!.consumedAt.toDate(),
         nutrient: nutrient,
       ),
     );
   }
 
-  String _getSubtitle(AppLocalizations appLocalizations) {
-    final nutrientAmount = intake.getNutrientAmount(nutrient);
+  String? _getSubtitle(AppLocalizations appLocalizations) {
+    final nutrientAmount = intake!.getNutrientAmount(nutrient);
 
     final percentage = dailyNutrientNormsAndTotals
         .getDailyNutrientConsumption(nutrient)
@@ -438,14 +433,12 @@ class DailyIntakesReportNutrientTile extends StatelessWidget {
     this.dailyNutrientNormsAndTotals,
     this.date,
     this.nutrient, {
-    Key key,
-  })  : assert(dailyNutrientNormsAndTotals != null),
-        assert(nutrient != null),
-        super(key: key);
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = context.appLocalizations;
     final nutrientName = nutrient.name(appLocalizations);
 
     final percentage = dailyNutrientNormsAndTotals
@@ -496,7 +489,7 @@ class DailyIntakesReportNutrientTile extends StatelessWidget {
     return appLocalizations.consumptionWithoutNorm(totalFormatted);
   }
 
-  Widget _leadingTotalConsumptionIndicator(int percentageRounded) {
+  Widget _leadingTotalConsumptionIndicator(int? percentageRounded) {
     if (percentageRounded == null) {
       return const SizedBox();
     }
@@ -526,11 +519,8 @@ class NutrientDailyNutritionTile extends StatelessWidget {
     this.date,
     this.dailyNutrientNormsAndTotals,
     this.nutrient, {
-    Key key,
-  })  : assert(dailyNutrientNormsAndTotals != null),
-        assert(nutrient != null),
-        assert(date != null),
-        super(key: key);
+    Key? key,
+  }) : super(key: key);
 
   NutrientDailyNutritionTile.fromLightReport(
     this.nutrient,
@@ -543,7 +533,7 @@ class NutrientDailyNutritionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = context.appLocalizations;
 
     final percentageRounded = consumption.totalConsumptionRoundedPercentage();
 
@@ -591,12 +581,12 @@ class NutrientDailyNutritionTile extends StatelessWidget {
     return appLocalizations.consumptionWithoutNorm(totalFormatted);
   }
 
-  String _getNormExceededText(AppLocalizations appLocalizations) {
+  String? _getNormExceededText(AppLocalizations appLocalizations) {
     if (consumption.normExceeded == null) {
       return null;
     }
 
-    if (consumption.normExceeded) {
+    if (consumption.normExceeded ?? false) {
       return appLocalizations.dailyNormExplanationExceeded;
     } else {
       return appLocalizations.dailyNormExplanationNotExceeded;
@@ -654,13 +644,11 @@ class NutrientIntakeTile extends StatelessWidget {
     this.intake,
     this.nutrient,
     this.dailyNutrientNormsAndTotals, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
-
     final nutrientAmountFormatted = intake.getNutrientAmountFormatted(nutrient);
 
     final normExists = dailyNutrientNormsAndTotals
@@ -669,10 +657,10 @@ class NutrientIntakeTile extends StatelessWidget {
 
     return AppListTile(
       title: Text(intake.product.name),
-      subtitle: Text(_getSubtitle(appLocalizations)),
+      subtitle: Text(_getSubtitle(context.appLocalizations)),
       leading: SizedBox(
         height: double.infinity,
-        child: ProductKindIcon(productKind: intake.product.productKind),
+        child: ProductKindIcon(productKind: intake.product.productKind!),
       ),
       trailing: SizedBox(
         height: double.infinity,
@@ -699,7 +687,7 @@ class NutrientIntakeTile extends StatelessWidget {
     );
   }
 
-  String _getConsumptionText(AppLocalizations appLocalizations) {
+  String? _getConsumptionText(AppLocalizations appLocalizations) {
     final nutrientAmount = intake.getNutrientAmount(nutrient);
 
     final percentage = dailyNutrientNormsAndTotals
@@ -722,7 +710,7 @@ class NutrientIntakeTile extends StatelessWidget {
     yield dateFormat.format(intake.consumedAt.toLocal()).capitalizeFirst();
 
     if (intake.mealType != MealTypeEnum.unknown) {
-      yield intake.mealType.localizedName(appLocalizations);
+      yield intake.mealType!.localizedName(appLocalizations);
     }
   }
 
@@ -737,19 +725,19 @@ class NutrientIntakeTile extends StatelessWidget {
 
 class NutrientChartSection extends StatelessWidget {
   final List<DailyIntakesLightReport> reports;
-  final NutritionSummaryStatistics nutritionSummaryStatistics;
+  final NutritionSummaryStatistics? nutritionSummaryStatistics;
   final Nutrient nutrient;
 
   const NutrientChartSection({
-    Key key,
-    @required this.reports,
-    @required this.nutrient,
+    Key? key,
+    required this.reports,
+    required this.nutrient,
     this.nutritionSummaryStatistics,
   }) : super(key: key);
 
   Future openWeeklyNutritionScreen(
     BuildContext context,
-    NutritionSummaryStatistics nutritionSummaryStatistics,
+    NutritionSummaryStatistics? nutritionSummaryStatistics,
     Nutrient nutrient,
   ) {
     return Navigator.pushNamed(
@@ -769,16 +757,16 @@ class NutrientChartSection extends StatelessWidget {
 
     final todaysReport = reports.where((r) => r.date == today).firstOrNull();
 
-    final dailyNormFormatted = todaysReport?.nutrientNormsAndTotals
-        ?.getNutrientNormFormatted(nutrient);
+    final dailyNormFormatted =
+        todaysReport?.nutrientNormsAndTotals.getNutrientNormFormatted(nutrient);
     final todayConsumption = todaysReport?.nutrientNormsAndTotals
-        ?.getNutrientTotalAmountFormatted(nutrient);
+        .getNutrientTotalAmountFormatted(nutrient);
 
     final showGraph =
         reports.any((r) => r.nutrientNormsAndTotals.isAtLeastOneTotalNonZeo());
 
     String subtitle;
-    if (todaysReport == null) {
+    if (todaysReport == null || todayConsumption == null) {
       subtitle = context.appLocalizations.todayConsumptionWithoutNorm(
         context.appLocalizations.noInfo,
       );

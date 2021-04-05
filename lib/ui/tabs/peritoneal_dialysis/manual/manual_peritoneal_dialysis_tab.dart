@@ -9,7 +9,7 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/health_status/health_status_components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/peritoneal_dialysis_components.dart';
-import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis_screen_response.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'manual_peritoneal_dialysis_creation_screen.dart';
 import 'manual_peritoneal_dialysis_screen.dart';
@@ -38,7 +38,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
 
   final ManualPeritonealDialysisScreenResponse response;
 
-  const _ManualPeritonealDialysisTabBody({Key key, @required this.response})
+  const _ManualPeritonealDialysisTabBody({Key? key, required this.response})
       : super(key: key);
 
   @override
@@ -94,7 +94,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
 
     final initialDate = response.lastPeritonealDialysis
             .map((d) => d.startedAt.toDate())
-            .maxBy((_, d) => d) ??
+            .maxBy((d) => d) ??
         today;
 
     return LargeSection(

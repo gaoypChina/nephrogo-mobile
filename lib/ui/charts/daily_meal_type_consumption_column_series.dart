@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'date_time_numeric_chart.dart';
@@ -13,12 +13,10 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
   final Nutrient nutrient;
 
   const DailyMealTypeConsumptionColumnSeries({
-    Key key,
-    @required this.report,
-    @required this.nutrient,
-  })  : assert(report != null),
-        assert(nutrient != null),
-        super(key: key);
+    Key? key,
+    required this.report,
+    required this.nutrient,
+  }) : super(key: key);
 
   String _getTitleText(AppLocalizations appLocalizations) {
     final nutrientNorms = report.dailyNutrientNormsAndTotals;
@@ -29,7 +27,7 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
         nutrientNorms.getNutrientTotalAmountFormatted(nutrient);
 
     if (nutrientConsumption.isNormExists) {
-      final normFormatted = nutrientNorms.getNutrientNormFormatted(nutrient);
+      final normFormatted = nutrientNorms.getNutrientNormFormatted(nutrient)!;
 
       return appLocalizations.consumptionWithNorm(
         totalFormatted,

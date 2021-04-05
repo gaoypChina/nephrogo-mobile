@@ -5,30 +5,32 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 class NumericChart extends StatelessWidget {
   final ChartAxis primaryXAxis;
   final List<XyDataSeries> series;
-  final String chartTitleText;
-  final String yAxisText;
+  final String? chartTitleText;
+  final String? yAxisText;
   final bool showLegend;
   final int decimalPlaces;
-  final double interval;
-  final double maximumY;
+  final double? interval;
+  final double? maximumY;
   final bool legendToggleSeriesVisibility;
   final LegendPosition legendPosition;
 
   const NumericChart({
-    Key key,
-    @required this.primaryXAxis,
-    @required this.series,
+    Key? key,
+    required this.primaryXAxis,
+    required this.series,
     this.chartTitleText,
     this.yAxisText,
-    this.decimalPlaces,
+    int? decimalPlaces,
     this.interval,
     this.maximumY,
-    bool showLegend,
-    LegendPosition legendPosition,
-    bool legendToggleSeriesVisibility,
-  })  : showLegend = showLegend ?? true,
+    bool? showLegend,
+    LegendPosition? legendPosition,
+    bool? legendToggleSeriesVisibility,
+  })
+      : showLegend = showLegend ?? true,
         legendPosition = legendPosition ?? LegendPosition.top,
         legendToggleSeriesVisibility = legendToggleSeriesVisibility ?? true,
+        decimalPlaces = decimalPlaces ?? 3,
         super(key: key);
 
   @override
@@ -60,14 +62,14 @@ class NumericChart extends StatelessWidget {
     );
   }
 
-  ChartTitle _getChartTitle() {
+  ChartTitle? _getChartTitle() {
     if (chartTitleText != null) {
-      return ChartTitle(text: chartTitleText);
+      return ChartTitle(text: chartTitleText!);
     }
     return null;
   }
 
-  AxisTitle _getYAxisTitle() {
+  AxisTitle? _getYAxisTitle() {
     if (yAxisText != null) {
       return AxisTitle(
         text: yAxisText,

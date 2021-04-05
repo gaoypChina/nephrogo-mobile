@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'date.dart';
 
@@ -43,16 +42,11 @@ class DailyMealTypeNutrientConsumption {
   double get drinksPercentage => dailyTotal != 0 ? drinksTotal / dailyTotal : 0;
 
   DailyMealTypeNutrientConsumption({
-    @required this.nutrient,
-    @required this.date,
-    @required this.mealType,
-    @required this.drinksTotal,
-    @required this.foodTotal,
-    @required this.dailyTotal,
-  })  : assert(mealType != null),
-        assert(nutrient != null),
-        assert(date != null),
-        assert(drinksTotal != null),
-        assert(foodTotal != null),
-        assert(dailyTotal != null);
+    required this.nutrient,
+    required this.date,
+    required this.mealType,
+    required this.drinksTotal,
+    required this.foodTotal,
+    required this.dailyTotal,
+  });
 }

@@ -1,5 +1,3 @@
-import 'package:collection_ext/all.dart';
-import 'package:collection_ext/iterables.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
@@ -15,31 +13,26 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_report.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_report_response.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
-import 'package:nephrogo_api_client/model/intake.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'nutrition_summary_components.dart';
 
 class NutritionDailySummaryScreenArguments {
   final Date date;
-  final Nutrient nutrient;
+  final Nutrient? nutrient;
 
   NutritionDailySummaryScreenArguments(this.date, {this.nutrient});
 }
 
 class NutritionDailySummaryScreen extends StatelessWidget {
   final Date date;
-  final Nutrient nutrient;
+  final Nutrient? nutrient;
 
   const NutritionDailySummaryScreen(
     this.date, {
-    Key key,
-    @required this.nutrient,
-  })  : assert(date != null),
-        super(key: key);
+    Key? key,
+    required this.nutrient,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,24 +46,20 @@ class NutritionDailySummaryScreen extends StatelessWidget {
   }
 
   String _getTitle(AppLocalizations appLocalizations) {
-    if (nutrient == null) {
-      return appLocalizations.dailyNutritionSummary;
-    }
-
-    return nutrient.consumptionName(appLocalizations);
+    return nutrient?.consumptionName(appLocalizations) ??
+        appLocalizations.dailyNutritionSummary;
   }
 }
 
 class NutritionDailySummaryBody extends StatefulWidget {
   final Date date;
-  final Nutrient nutrient;
+  final Nutrient? nutrient;
 
   const NutritionDailySummaryBody({
-    Key key,
-    @required this.date,
-    @required this.nutrient,
-  })  : assert(date != null),
-        super(key: key);
+    Key? key,
+    required this.date,
+    this.nutrient,
+  }) : super(key: key);
 
   @override
   _NutritionDailySummaryBodyState createState() =>
@@ -80,7 +69,7 @@ class NutritionDailySummaryBody extends StatefulWidget {
 class _NutritionDailySummaryBodyState extends State<NutritionDailySummaryBody> {
   final _apiService = ApiService();
 
-  Date date;
+  late Date date;
 
   @override
   void initState() {
@@ -98,10 +87,11 @@ class _NutritionDailySummaryBodyState extends State<NutritionDailySummaryBody> {
         date = from;
       },
       bodyBuilder: (context, header, from, to) {
-        return AppStreamBuilder<DailyIntakesReportResponse>(
+        return AppStreamBuilder<
+            NullableApiResponse<DailyIntakesReportResponse>>(
           stream: _apiService.getDailyIntakesReportStream(from),
           builder: (context, data) {
-            final report = data?.dailyIntakesReport;
+            final report = data.data?.dailyIntakesReport;
 
             if (report == null || report.intakes.isEmpty) {
               return NutritionDailyListWithHeaderEmpty(
@@ -113,7 +103,7 @@ class _NutritionDailySummaryBodyState extends State<NutritionDailySummaryBody> {
             if (widget.nutrient != null) {
               return _DailyNutritionNutrientList(
                 report,
-                widget.nutrient,
+                widget.nutrient!,
                 header: header,
               );
             }
@@ -135,10 +125,9 @@ class _NutritionDailySummaryList extends StatelessWidget {
 
   const _NutritionDailySummaryList(
     this.dailyIntakesReport, {
-    Key key,
-    @required this.header,
-  })  : assert(header != null),
-        super(key: key);
+    Key? key,
+    required this.header,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -183,11 +172,11 @@ class _NutritionDailySummaryListNutritionSection extends StatelessWidget {
   final Date date;
 
   const _NutritionDailySummaryListNutritionSection({
-    Key key,
-    @required this.mealType,
-    @required this.intakes,
-    @required this.date,
-    @required this.norms,
+    Key? key,
+    required this.mealType,
+    required this.intakes,
+    required this.date,
+    required this.norms,
   }) : super(key: key);
 
   @override
@@ -229,11 +218,9 @@ class _DailyNutritionNutrientList extends StatelessWidget {
   const _DailyNutritionNutrientList(
     this.dailyIntakesReport,
     this.nutrient, {
-    Key key,
-    @required this.header,
-  })  : assert(header != null),
-        assert(dailyIntakesReport != null),
-        super(key: key);
+    Key? key,
+    required this.header,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -276,11 +263,11 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
   final DailyIntakesReport dailyIntakesReport;
 
   const _DailyNutritionNutrientSection({
-    Key key,
-    @required this.nutrient,
-    @required this.mealType,
-    @required this.intakes,
-    @required this.dailyIntakesReport,
+    Key? key,
+    required this.nutrient,
+    required this.mealType,
+    required this.intakes,
+    required this.dailyIntakesReport,
   }) : super(key: key);
 
   @override
@@ -289,9 +276,7 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
       showDividers: true,
       showHeaderDivider: true,
       title: Text(mealType.localizedName(context.appLocalizations)),
-      subtitle: intakes?.isNotEmpty ?? false
-          ? Text(_getMealTotalText(context))
-          : null,
+      subtitle: intakes.isNotEmpty ? Text(_getMealTotalText(context)) : null,
       trailing: mealType != MealTypeEnum.unknown
           ? OutlinedButton(
               onPressed: () => Navigator.pushNamed(
@@ -318,7 +303,7 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
   }
 
   String _getMealTotalText(BuildContext context) {
-    final total = intakes.sumBy((i, e) => e.getNutrientAmount(nutrient));
+    final total = intakes.sumBy((e) => e.getNutrientAmount(nutrient)).toInt();
     final formattedAmount = nutrient.formatAmount(total);
 
     return context.appLocalizations.consumptionWithoutNorm(formattedAmount);

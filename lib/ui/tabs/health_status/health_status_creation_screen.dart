@@ -10,19 +10,12 @@ import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/app_future_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/appetite_enum.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
-import 'package:nephrogo_api_client/model/daily_health_status_request.dart';
-import 'package:nephrogo_api_client/model/shortness_of_breath_enum.dart';
-import 'package:nephrogo_api_client/model/swelling_difficulty_enum.dart';
-import 'package:nephrogo_api_client/model/swelling_enum.dart';
-import 'package:nephrogo_api_client/model/swelling_request.dart';
-import 'package:nephrogo_api_client/model/well_feeling_enum.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class HealthStatusCreationScreenArguments {
   final Date date;
 
-  HealthStatusCreationScreenArguments({Date date})
+  HealthStatusCreationScreenArguments({Date? date})
       : date = date ?? Date.today();
 }
 
@@ -30,8 +23,8 @@ class HealthStatusCreationScreen extends StatefulWidget {
   final Date date;
 
   const HealthStatusCreationScreen({
-    Key key,
-    @required this.date,
+    Key? key,
+    required this.date,
   }) : super(key: key);
 
   @override
@@ -45,7 +38,7 @@ class _HealthStatusCreationScreenState
   final _dateFormat = DateFormat.MMMMd();
 
   final _apiService = ApiService();
-  DailyHealthStatusRequestBuilder _requestBuilder;
+  late DailyHealthStatusRequestBuilder _requestBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +52,10 @@ class _HealthStatusCreationScreenState
           ),
         ],
       ),
-      body: AppFutureBuilder<DailyHealthStatus>(
+      body: AppFutureBuilder<NullableApiResponse<DailyHealthStatus>>(
         future: _apiService.getDailyHealthStatus(widget.date),
         builder: (context, healthStatus) {
-          _requestBuilder = healthStatus?.toRequest()?.toBuilder() ??
+          _requestBuilder = healthStatus.data?.toRequest().toBuilder() ??
               DailyHealthStatusRequestBuilder();
 
           _requestBuilder.date = widget.date;
@@ -177,7 +170,7 @@ class _HealthStatusCreationScreenState
                       swellingBuilder.swelling = e.value;
 
                       return swellingBuilder.build();
-                    })?.toList();
+                    }).toList();
                     _requestBuilder.swellings = ListBuilder(swellings ?? []);
                   },
                   focusNextOnSelection: true,
@@ -269,7 +262,7 @@ class _HealthStatusCreationScreenState
                 ),
                 AppSelectFormField<AppetiteEnum>(
                   labelText: appLocalizations.healthStatusCreationAppetite,
-                  initialValue: _requestBuilder?.appetite
+                  initialValue: _requestBuilder.appetite
                       ?.enumWithoutDefault(AppetiteEnum.unknown),
                   onChanged: (v) => _requestBuilder.appetite = v?.value,
                   focusNextOnSelection: true,

@@ -9,7 +9,7 @@ import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/health_status_creation_screen.dart';
 import 'package:nephrogo/utils/excel_generator.dart';
-import 'package:nephrogo_api_client/model/dialysis_solution_enum.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:open_file/open_file.dart';
 import 'package:share/share.dart';
 
@@ -18,9 +18,9 @@ class PeritonealDialysisCreationFloatingActionButton extends StatelessWidget {
   final Future<void> Function(BuildContext context) dialysisOnTap;
 
   const PeritonealDialysisCreationFloatingActionButton({
-    Key key,
-    @required this.dialysisInProgress,
-    @required this.dialysisOnTap,
+    Key? key,
+    required this.dialysisInProgress,
+    required this.dialysisOnTap,
   }) : super(key: key);
 
   @override
@@ -83,10 +83,10 @@ class PeritonealDialysisCreationFloatingActionButton extends StatelessWidget {
   }
 
   SpeedDialChild _createDialButton({
-    @required IconData icon,
-    @required Color backgroundColor,
-    @required String label,
-    @required VoidCallback onTap,
+    required IconData icon,
+    required Color backgroundColor,
+    required String label,
+    required VoidCallback onTap,
   }) {
     return SpeedDialChild(
       child: Icon(icon),
@@ -103,16 +103,15 @@ class DialysisSolutionAvatar extends StatelessWidget {
   final DialysisSolutionEnum dialysisSolution;
   final bool isCompleted;
   final bool isDialysateColorNonRegular;
-  final double radius;
+  final double? radius;
 
   const DialysisSolutionAvatar({
-    Key key,
-    @required this.dialysisSolution,
+    Key? key,
+    required this.dialysisSolution,
     this.isCompleted = true,
     this.isDialysateColorNonRegular = false,
     this.radius,
-  })  : assert(dialysisSolution != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +126,7 @@ class DialysisSolutionAvatar extends StatelessWidget {
     );
   }
 
-  Widget _getIcon() {
+  Widget? _getIcon() {
     if (!isCompleted) {
       return const Icon(Icons.sync_outlined);
     } else if (isDialysateColorNonRegular) {
@@ -143,8 +142,8 @@ class PeritonealDialysisSummaryFloatingActionButton extends StatelessWidget {
       reportBuilder;
 
   const PeritonealDialysisSummaryFloatingActionButton({
-    Key key,
-    @required this.reportBuilder,
+    Key? key,
+    required this.reportBuilder,
   }) : super(key: key);
 
   @override
@@ -173,7 +172,7 @@ class PeritonealDialysisSummaryFloatingActionButton extends StatelessWidget {
     );
   }
 
-  Future<void> _downloadAndExportDialysisInternal(
+  Future _downloadAndExportDialysisInternal(
     BuildContext context,
     bool share,
   ) async {
@@ -208,6 +207,6 @@ class PeritonealDialysisSummaryFloatingActionButton extends StatelessWidget {
       },
     );
 
-    return ProgressDialog(context).showForFuture(future);
+    return AppProgressDialog(context).showForFuture(future);
   }
 }

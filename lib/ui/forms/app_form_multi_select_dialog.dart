@@ -1,6 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
 
@@ -10,10 +10,10 @@ class AppFormMultipleSelectDialog<T> extends StatefulWidget {
   final List<AppSelectFormFieldItem<T>> selectedItems;
 
   const AppFormMultipleSelectDialog({
-    Key key,
-    @required this.items,
-    this.title,
-    this.selectedItems,
+    Key? key,
+    required this.items,
+    required this.title,
+    required this.selectedItems,
   }) : super(key: key);
 
   @override
@@ -21,9 +21,8 @@ class AppFormMultipleSelectDialog<T> extends StatefulWidget {
       _AppFormMultipleSelectDialogState<T>();
 }
 
-class _AppFormMultipleSelectDialogState<T>
-    extends State<AppFormMultipleSelectDialog<T>> {
-  List<bool> _itemsSelection;
+class _AppFormMultipleSelectDialogState<T> extends State<AppFormMultipleSelectDialog<T>> {
+  late List<bool> _itemsSelection;
 
   @override
   void initState() {
@@ -31,16 +30,12 @@ class _AppFormMultipleSelectDialogState<T>
 
     _itemsSelection = widget.items
         .map((e) =>
-            widget.selectedItems
-                .firstWhere((s) => e.value == s.value, orElse: () => null) !=
-            null)
+            widget.selectedItems.where((s) => e.value == s.value).isNotEmpty)
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
-
     return AlertDialog(
       title: Text(widget.title),
       scrollable: true,
@@ -70,13 +65,12 @@ class _AppFormMultipleSelectDialogState<T>
     );
   }
 
-  Widget _generateItemCell(
-      BuildContext context, AppSelectFormFieldItem item, int index) {
+  Widget _generateItemCell(BuildContext context, AppSelectFormFieldItem item, int index) {
     final selected = _itemsSelection[index];
 
     return AppCheckboxListTile(
       title: Text(item.text),
-      subtitle: item.description != null ? Text(item.description) : null,
+      subtitle: item.description != null ? Text(item.description!) : null,
       value: selected,
       onChanged: (b) => onChanged(index, b),
     );

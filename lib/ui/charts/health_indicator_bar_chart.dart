@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo_api_client/model/blood_pressure.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
-import 'package:nephrogo_api_client/model/pulse.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'date_time_numeric_chart.dart';
@@ -16,11 +14,11 @@ class HealthIndicatorBarChart extends StatelessWidget {
   final bool smallMarkers;
 
   const HealthIndicatorBarChart({
-    Key key,
-    @required this.dailyHealthStatuses,
-    @required this.indicator,
-    @required this.from,
-    @required this.to,
+    Key? key,
+    required this.dailyHealthStatuses,
+    required this.indicator,
+    required this.from,
+    required this.to,
     this.smallMarkers = false,
   }) : super(key: key);
 
@@ -30,7 +28,6 @@ class HealthIndicatorBarChart extends StatelessWidget {
       aspectRatio: 1.5,
       child: DateTimeNumericChart(
         series: _getGraphSeries(context),
-        showLegend: false,
         yAxisText: _getIndicatorNameAndDimensionParts(context).join(', '),
         from: from,
         to: to,
@@ -55,7 +52,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
   List<XyDataSeries> _getBloodPressureSeries(BuildContext context) {
     final sortedBloodPressures = dailyHealthStatuses
         .expand((e) => e.bloodPressures)
-        .sortedBy((e) => e.measuredAt)
+        .orderBy((e) => e.measuredAt)
         .toList();
 
     return [
@@ -79,7 +76,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
   List<XyDataSeries> _getPulseSeries(BuildContext context) {
     final sortedPulses = dailyHealthStatuses
         .expand((s) => s.pulses)
-        .sortedBy((e) => e.measuredAt)
+        .orderBy((e) => e.measuredAt)
         .toList();
 
     return [
@@ -96,7 +93,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
   List<XyDataSeries> _getDefaultLineSeries(BuildContext context) {
     return [
       LineSeries<DailyHealthStatus, DateTime>(
-        dataSource: dailyHealthStatuses.sortedBy((e) => e.date).toList(),
+        dataSource: dailyHealthStatuses.orderBy((e) => e.date).toList(),
         xValueMapper: (s, _) => s.date.toDate(),
         yValueMapper: (s, _) => s.getHealthIndicatorValue(indicator),
         dataLabelMapper: (s, _) =>
@@ -141,7 +138,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
     }
   }
 
-  double _getMaxY() {
+  double? _getMaxY() {
     switch (indicator) {
       case HealthIndicator.bloodPressure:
         return 200;
@@ -155,7 +152,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
     }
   }
 
-  double _getInterval() {
+  double? _getInterval() {
     switch (indicator) {
       case HealthIndicator.swellings:
       case HealthIndicator.severityOfSwelling:

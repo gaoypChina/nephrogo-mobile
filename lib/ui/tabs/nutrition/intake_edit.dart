@@ -10,11 +10,7 @@ import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/daily_nutrient_norms_with_totals.dart';
-import 'package:nephrogo_api_client/model/intake.dart';
-import 'package:nephrogo_api_client/model/intake_request.dart';
-import 'package:nephrogo_api_client/model/meal_type_enum.dart';
-import 'package:nephrogo_api_client/model/product.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'nutrition_components.dart';
 
@@ -25,8 +21,7 @@ class IntakeEditScreenArguments extends Equatable {
   const IntakeEditScreenArguments(
     this.intake,
     this.dailyNutrientNormsAndTotals,
-  )   : assert(dailyNutrientNormsAndTotals != null),
-        assert(intake != null);
+  );
 
   @override
   List<Object> get props => [intake, dailyNutrientNormsAndTotals];
@@ -37,12 +32,10 @@ class IntakeEditScreen extends StatefulWidget {
   final Intake intake;
 
   const IntakeEditScreen({
-    Key key,
-    @required this.dailyNutrientNormsAndTotals,
-    @required this.intake,
-  })  : assert(dailyNutrientNormsAndTotals != null),
-        assert(intake != null),
-        super(key: key);
+    Key? key,
+    required this.dailyNutrientNormsAndTotals,
+    required this.intake,
+  }) : super(key: key);
 
   @override
   _IntakeEditScreenState createState() => _IntakeEditScreenState();
@@ -55,14 +48,14 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
   final _apiService = ApiService();
   final _intakeBuilder = IntakeRequestBuilder();
 
-  int amountG;
-  int amountMl;
+  late int amountG;
+  late int? amountMl;
 
-  MealTypeEnum mealType;
+  late MealTypeEnum mealType;
+
+  late DateTime _consumedAt;
 
   Product get product => widget.intake.product;
-
-  DateTime _consumedAt;
 
   bool get isAmountInMilliliters => product.densityGMl != null;
 
@@ -70,7 +63,7 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
   void initState() {
     super.initState();
 
-    mealType = widget.intake.mealType;
+    mealType = widget.intake.mealType ?? MealTypeEnum.unknown;
     amountG = widget.intake.amountG;
     amountMl = widget.intake.amountMl;
 
@@ -140,7 +133,7 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
                         setState(() {
                           if (v != null && isAmountInMilliliters) {
                             amountMl = amount;
-                            amountG = (amount * product.densityGMl).round();
+                            amountG = (amount * product.densityGMl!).round();
                           } else {
                             amountG = amount;
                             amountMl = null;
@@ -178,8 +171,8 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
                     ),
                     MealTypeSelectionFormField(
                       initialMealType: mealType,
-                      onChanged: (v) => mealType = v,
-                      onSaved: (v) => _intakeBuilder.mealType = mealType = v,
+                      onChanged: (v) => mealType = v!,
+                      onSaved: (v) => _intakeBuilder.mealType = mealType = v!,
                     ),
                   ],
                 ),

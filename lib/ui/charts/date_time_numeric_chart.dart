@@ -10,27 +10,27 @@ class DateTimeNumericChart extends StatelessWidget {
   static const rodTopRadius = BorderRadius.vertical(top: Radius.circular(6));
 
   final List<XyDataSeries> series;
-  final String chartTitleText;
-  final String yAxisText;
+  final String? chartTitleText;
+  final String? yAxisText;
   final DateTime from;
   final DateTime to;
   final bool singlePointPerDay;
   final bool showLegend;
-  final int decimalPlaces;
-  final double interval;
-  final double maximumY;
-  final bool legendToggleSeriesVisibility;
-  final LegendPosition legendPosition;
+  final int? decimalPlaces;
+  final double? interval;
+  final double? maximumY;
+  final bool? legendToggleSeriesVisibility;
+  final LegendPosition? legendPosition;
 
   const DateTimeNumericChart({
-    Key key,
-    @required this.series,
-    @required this.from,
-    @required this.to,
+    Key? key,
+    required this.series,
+    required this.from,
+    required this.to,
     this.chartTitleText,
     this.yAxisText,
     this.singlePointPerDay = true,
-    this.showLegend,
+    this.showLegend = false,
     this.decimalPlaces,
     this.interval,
     this.maximumY,
@@ -88,7 +88,7 @@ class DateTimeNumericChart extends StatelessWidget {
     return [
       ...series,
       LineSeries<Date, DateTime>(
-        dataSource: DateUtils.generateDates(
+        dataSource: DateHelper.generateDates(
           from.toDate(),
           to.toDate(),
         ).toList(),
@@ -105,7 +105,7 @@ class DateTimeNumericChart extends StatelessWidget {
     var minimum = from.startOfDay();
     var maximum = to.endOfDay();
 
-    double interval;
+    double? interval;
     var intervalType = DateTimeIntervalType.auto;
 
     final daysDifference = maximum.difference(minimum).inDays;

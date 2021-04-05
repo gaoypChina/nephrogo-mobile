@@ -3,7 +3,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_calendar.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
-import 'package:nephrogo_api_client/model/daily_intakes_light_report.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import 'nutrition_summary_components.dart';
@@ -13,12 +13,10 @@ class NutritionMonthlyReportsList extends StatefulWidget {
   final Widget header;
 
   NutritionMonthlyReportsList({
-    Key key,
-    @required this.reports,
-    @required this.header,
-  })  : assert(reports != null),
-        assert(reports.isNotEmpty),
-        assert(header != null),
+    Key? key,
+    required this.reports,
+    required this.header,
+  })   : assert(reports.isNotEmpty),
         super(key: key);
 
   @override
@@ -28,9 +26,9 @@ class NutritionMonthlyReportsList extends StatefulWidget {
 
 class NutritionMonthlyReportsListState
     extends State<NutritionMonthlyReportsList> {
-  ItemScrollController _itemScrollController;
+  late ItemScrollController _itemScrollController;
 
-  List<DailyIntakesLightReport> reportsReverseSorted;
+  late List<DailyIntakesLightReport> reportsReverseSorted;
 
   @override
   void initState() {
@@ -38,7 +36,7 @@ class NutritionMonthlyReportsListState
 
     _itemScrollController = ItemScrollController();
     reportsReverseSorted = widget.reports
-        .sortedBy(
+        .orderBy(
           (e) => e.date,
           reverse: true,
         )
@@ -56,7 +54,7 @@ class NutritionMonthlyReportsListState
             header: widget.header,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 16.0),
+                padding: const EdgeInsets.only(top: 16.0, right: 8, left: 8),
                 child: NutritionCalendar(
                   reportsReverseSorted,
                   onDaySelected: (dt) =>
@@ -86,10 +84,12 @@ class NutritionMonthlyReportsListState
     DateTime dateTime,
     List<DailyIntakesLightReport> reports,
   ) {
-    return reports
-            .mapIndexed((i, r) => r.date == Date.from(dateTime) ? i : null)
-            .firstWhere((i) => i != null) +
-        1;
+    final index = reports.indexWhere((r) => r.date == Date.from(dateTime));
+
+    if (index == -1) {
+      return 1;
+    }
+    return index;
   }
 }
 
@@ -98,18 +98,16 @@ class NutritionWeeklyReportsList extends StatelessWidget {
   final Widget header;
 
   NutritionWeeklyReportsList({
-    Key key,
-    @required this.reports,
-    @required this.header,
-  })  : assert(reports != null),
-        assert(reports.isNotEmpty),
-        assert(header != null),
+    Key? key,
+    required this.reports,
+    required this.header,
+  })   : assert(reports.isNotEmpty),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final reportsReverseSorted =
-        reports.sortedBy((e) => e.date, reverse: true).toList();
+        reports.orderBy((e) => e.date, reverse: true).toList();
 
     return ListView.builder(
       itemCount: reportsReverseSorted.length + 1,

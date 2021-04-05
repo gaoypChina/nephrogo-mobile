@@ -14,24 +14,20 @@ import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/peritoneal_dialysis_components.dart';
 import 'package:nephrogo/utils/excel_generator.dart';
-import 'package:nephrogo_api_client/model/daily_health_status.dart';
-import 'package:nephrogo_api_client/model/dialysate_color_enum.dart';
-import 'package:nephrogo_api_client/model/health_status_weekly_screen_response.dart';
-import 'package:nephrogo_api_client/model/manual_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class ManualPeritonealDialysisScreenArguments {
   final Date initialDate;
 
-  ManualPeritonealDialysisScreenArguments({@required this.initialDate});
+  ManualPeritonealDialysisScreenArguments({required this.initialDate});
 }
 
 class ManualPeritonealDialysisScreen extends StatelessWidget {
   final _apiService = ApiService();
   final Date initialDate;
 
-  ManualPeritonealDialysisScreen({Key key, @required this.initialDate})
-      : assert(initialDate != null),
-        super(key: key);
+  ManualPeritonealDialysisScreen({Key? key, required this.initialDate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -102,9 +98,9 @@ class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
   final Date initialDate;
 
   _ManualPeritonealDialysisDialysisList({
-    Key key,
-    @required this.pagerType,
-    @required this.initialDate,
+    Key? key,
+    required this.pagerType,
+    required this.initialDate,
   }) : super(key: key);
 
   @override
@@ -123,7 +119,7 @@ class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
       builder: (context, data) {
         final sortedReports = data.dailyHealthStatuses
             .where((s) => s.manualPeritonealDialysis.isNotEmpty)
-            .sortedBy((e) => e.date, reverse: true)
+            .orderBy((e) => e.date, reverse: true)
             .toList();
 
         if (sortedReports.isEmpty) {
@@ -171,7 +167,7 @@ class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
     if (pagerType == PeriodPagerType.daily) {
       final dialysis = dailyHealthStatus
           .expand((e) => e.manualPeritonealDialysis)
-          .sortedBy((e) => e.startedAt, reverse: true)
+          .orderBy((e) => e.startedAt, reverse: true)
           .toList();
 
       return ManualPeritonealDialysisDayBalanceChart(
@@ -194,14 +190,14 @@ class ManualPeritonealDialysisReportSection extends StatelessWidget {
   final DailyHealthStatus dailyHealthStatus;
 
   ManualPeritonealDialysisReportSection({
-    Key key,
-    @required this.dailyHealthStatus,
+    Key? key,
+    required this.dailyHealthStatus,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final sortedDialysis = dailyHealthStatus.manualPeritonealDialysis
-        .sortedBy((d) => d.startedAt, reverse: true);
+        .orderBy((d) => d.startedAt, reverse: true);
 
     return LargeSection(
       title: Text(_dateFormat.format(dailyHealthStatus.date).capitalizeFirst()),
@@ -222,16 +218,14 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
   final ManualPeritonealDialysis dialysis;
   final _dateTimeFormat = DateFormat.MMMMd().add_Hm();
 
-  ManualPeritonealDialysisTile(this.dialysis)
-      : assert(dialysis != null),
-        super(key: ObjectKey(dialysis));
+  ManualPeritonealDialysisTile(this.dialysis) : super(key: ObjectKey(dialysis));
 
   @override
   Widget build(BuildContext context) {
     return AppListTile(
       leading: CircleAvatar(
-        backgroundColor: dialysis.dialysisSolution.color,
-        foregroundColor: dialysis.dialysisSolution.textColor,
+        backgroundColor: dialysis.dialysisSolution?.color,
+        foregroundColor: dialysis.dialysisSolution?.textColor,
         child: _getIcon(),
       ),
       title: Text(_dateTimeFormat
@@ -269,24 +263,24 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
               if (isDialysateColorWarning)
                 TextWithLeadingIcon(
                   text: Text(
-                    dialysis.dialysateColor
+                    dialysis.dialysateColor!
                         .localizedName(context.appLocalizations),
                   ),
                   icon: Icons.error_outline,
                 ),
             ],
           ),
-          if (dialysis.notes != null && dialysis.notes.isNotEmpty)
+          if (dialysis.notes != null && dialysis.notes!.isNotEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text(dialysis.notes),
+              child: Text(dialysis.notes!),
             ),
         ],
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (dialysis.isCompleted)
+          if (dialysis.isCompleted!)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: Text(dialysis.formattedBalance),
@@ -306,8 +300,8 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
         dialysis.dialysateColor != DialysateColorEnum.unknown;
   }
 
-  Widget _getIcon() {
-    if (!dialysis.isCompleted) {
+  Widget? _getIcon() {
+    if (!dialysis.isCompleted!) {
       return const Icon(Icons.sync_outlined);
     } else if (isDialysateColorWarning) {
       return const Icon(Icons.error_outline);

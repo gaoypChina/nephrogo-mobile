@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo_api_client/model/automatic_peritoneal_dialysis.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'date_time_numeric_chart.dart';
@@ -11,10 +11,10 @@ class AutomaticPeritonealDialysisBalanceChart extends StatelessWidget {
   final List<AutomaticPeritonealDialysis> dialysis;
 
   const AutomaticPeritonealDialysisBalanceChart({
-    Key key,
-    @required this.dialysis,
-    @required this.minimumDate,
-    @required this.maximumDate,
+    Key? key,
+    required this.dialysis,
+    required this.minimumDate,
+    required this.maximumDate,
   }) : super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class AutomaticPeritonealDialysisBalanceChart extends StatelessWidget {
       decimalPlaces: 0,
       series: [
         ColumnSeries<AutomaticPeritonealDialysis, DateTime>(
-          dataSource: dialysis.sortedBy((e) => e.date).toList(),
+          dataSource: dialysis.orderBy((e) => e.date).toList(),
           xValueMapper: (s, _) => s.date.toDate(),
           yValueMapper: (s, _) => s.balance,
           pointColorMapper: (s, _) =>

@@ -8,23 +8,20 @@ import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/form_utils.dart';
-import 'package:nephrogo_api_client/model/blood_pressure.dart';
-import 'package:nephrogo_api_client/model/blood_pressure_request.dart';
-import 'package:nephrogo_api_client/model/pulse.dart';
-import 'package:nephrogo_api_client/model/pulse_request.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class BloodPressureAndPulseCreationScreenArguments {
-  final Date date;
+  final Date? date;
 
   BloodPressureAndPulseCreationScreenArguments({this.date});
 }
 
 class BloodPressureAndPulseCreationScreen extends StatefulWidget {
-  final Date initialDate;
+  final Date? initialDate;
 
   const BloodPressureAndPulseCreationScreen({
-    Key key,
-    @required this.initialDate,
+    Key? key,
+    required this.initialDate,
   }) : super(key: key);
 
   @override
@@ -38,10 +35,10 @@ class _BloodPressureAndPulseCreationScreenState
 
   final _apiService = ApiService();
 
-  DateTime _measuredAt;
-  int _systolicBloodPressure;
-  int _diastolicBloodPressure;
-  int _pulse;
+  late DateTime _measuredAt;
+  int? _systolicBloodPressure;
+  int? _diastolicBloodPressure;
+  int? _pulse;
 
   FormValidators get _formValidators => FormValidators(context);
 
@@ -57,7 +54,7 @@ class _BloodPressureAndPulseCreationScreenState
     _measuredAt = DateTime.now();
 
     if (widget.initialDate != null) {
-      _measuredAt = _measuredAt.appliedDate(widget.initialDate);
+      _measuredAt = _measuredAt.appliedDate(widget.initialDate!);
     }
   }
 

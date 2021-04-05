@@ -74,6 +74,8 @@
   "@flexibleAppUpdateCompleted": {},
   "reload": "Perkrauti",
   "@reload": {},
+  "pleaseWait": "Prašome palaukti...",
+  "@pleaseWait": {},
   "sources": "Šaltiniai",
   "@sources": {},
   "agree": "Sutinku",
