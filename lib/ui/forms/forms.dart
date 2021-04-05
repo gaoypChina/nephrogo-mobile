@@ -174,6 +174,7 @@ class _AppSelectionScreenFormFieldState<T>
     super.initState();
 
     if (widget.initialSelection != null) {
+      // ignore: null_check_on_nullable_type_parameter
       _setItem(widget.initialSelection!, initial: true);
     }
   }
@@ -203,6 +204,7 @@ class _AppSelectionScreenFormFieldState<T>
 
   void _onSaved(String? s) {
     if (widget.onSaved != null && _selectedItem != null) {
+      // ignore: null_check_on_nullable_type_parameter
       widget.onSaved!(_selectedItem!);
     }
   }

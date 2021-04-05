@@ -21,8 +21,7 @@ class IntakeEditScreenArguments extends Equatable {
   const IntakeEditScreenArguments(
     this.intake,
     this.dailyNutrientNormsAndTotals,
-  )   : assert(dailyNutrientNormsAndTotals != null),
-        assert(intake != null);
+  );
 
   @override
   List<Object> get props => [intake, dailyNutrientNormsAndTotals];
@@ -36,9 +35,7 @@ class IntakeEditScreen extends StatefulWidget {
     Key? key,
     required this.dailyNutrientNormsAndTotals,
     required this.intake,
-  })   : assert(dailyNutrientNormsAndTotals != null),
-        assert(intake != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _IntakeEditScreenState createState() => _IntakeEditScreenState();
@@ -51,14 +48,14 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
   final _apiService = ApiService();
   final _intakeBuilder = IntakeRequestBuilder();
 
-  int amountG;
-  int amountMl;
+  late int amountG;
+  late int? amountMl;
 
-  MealTypeEnum mealType;
+  late MealTypeEnum mealType;
+
+  late DateTime _consumedAt;
 
   Product get product => widget.intake.product;
-
-  DateTime _consumedAt;
 
   bool get isAmountInMilliliters => product.densityGMl != null;
 
@@ -66,7 +63,7 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
   void initState() {
     super.initState();
 
-    mealType = widget.intake.mealType;
+    mealType = widget.intake.mealType ?? MealTypeEnum.unknown;
     amountG = widget.intake.amountG;
     amountMl = widget.intake.amountMl;
 
@@ -136,7 +133,7 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
                         setState(() {
                           if (v != null && isAmountInMilliliters) {
                             amountMl = amount;
-                            amountG = (amount * product.densityGMl).round();
+                            amountG = (amount * product.densityGMl!).round();
                           } else {
                             amountG = amount;
                             amountMl = null;
@@ -174,8 +171,8 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
                     ),
                     MealTypeSelectionFormField(
                       initialMealType: mealType,
-                      onChanged: (v) => mealType = v,
-                      onSaved: (v) => _intakeBuilder.mealType = mealType = v,
+                      onChanged: (v) => mealType = v!,
+                      onSaved: (v) => _intakeBuilder.mealType = mealType = v!,
                     ),
                   ],
                 ),

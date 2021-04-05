@@ -76,9 +76,7 @@ class IndicatorChartSection extends StatelessWidget {
     Key? key,
     required this.indicator,
     required this.dailyHealthStatuses,
-  })   : assert(indicator != null),
-        assert(dailyHealthStatuses != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +171,6 @@ class IndicatorChartSection extends StatelessWidget {
       case HealthIndicator.shortnessOfBreath:
         return appLocalizations.createShortnessOfBreath;
     }
-    throw ArgumentError.value(indicator);
   }
 
   Future<void> _createHealthStatus(BuildContext context) {

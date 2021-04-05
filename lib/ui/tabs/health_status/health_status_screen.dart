@@ -409,7 +409,7 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
     required this.indicator,
   }) : super(key: key);
 
-  String getSubtitle(AppLocalizations appLocalizations) {
+  String? getSubtitle(AppLocalizations appLocalizations) {
     if (indicator == HealthIndicator.swellings) {
       return dailyHealthStatus.swellings
           .map((s) => s.getLocalizedName(appLocalizations))
@@ -439,10 +439,11 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: Text(formattedAmount),
-          ),
+          if (formattedAmount != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text(formattedAmount),
+            ),
           const Icon(Icons.chevron_right),
         ],
       ),

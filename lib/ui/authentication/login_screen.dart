@@ -6,7 +6,6 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
@@ -17,8 +16,6 @@ import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -26,7 +23,7 @@ class LoginScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.contact_support_outlined),
-            tooltip: appLocalizations.support,
+            tooltip: context.appLocalizations.support,
             onPressed: () => showContactDialog(context),
           ),
         ],
@@ -160,7 +157,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
     BuildContext context,
     SocialAuthenticationProvider provider,
   ) async {
-    UserCredential userCredential;
+    UserCredential? userCredential;
 
     try {
       userCredential = await _authenticationProvider.signIn(provider);
@@ -183,10 +180,13 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
     }
   }
 
-  Future<UserProfile> getUserProfileAndUpdateUser() async {
+  Future<UserProfile?> getUserProfileAndUpdateUser() async {
     final user = await _apiService.getUser();
-    final marketingAllowed =
-        await _appPreferences.isMarketingAllowed() ?? user.isMarketingAllowed;
+    var marketingAllowed = await _appPreferences.isMarketingAllowed();
+
+    if (!await _appPreferences.hasMarketingAllowed()) {
+      marketingAllowed = user.isMarketingAllowed ?? false;
+    }
 
     if (marketingAllowed != user.isMarketingAllowed) {
       await _apiService.updateUser(marketingAllowed: marketingAllowed);
@@ -194,7 +194,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
     await _appPreferences.setMarketingAllowed(marketingAllowed);
 
-    final userProfile = await _apiService.getUserProfile();
+    final userProfile = await _apiService.getUserProfile().then((r) => r.data);
 
     await _appPreferences.setPeritonealDialysisType(
       userProfile?.periotonicDialysisType ?? PeriotonicDialysisTypeEnum.unknown,
@@ -205,7 +205,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
   Future navigateToNextScreen(
       BuildContext context, UserCredential userCredential) async {
-    final userProfile = await ProgressDialog(context)
+    final userProfile = await AppProgressDialog(context)
         .showForFuture(getUserProfileAndUpdateUser());
 
     if (userProfile != null) {
@@ -231,12 +231,11 @@ class EmailLoginButtonComponent extends StatelessWidget {
   const EmailLoginButtonComponent({
     Key? key,
     required this.onCredentialsRetrieved,
-  })   : assert(onCredentialsRetrieved != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = context.appLocalizations;
 
     return Column(
       mainAxisSize: MainAxisSize.min,

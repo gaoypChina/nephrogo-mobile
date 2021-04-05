@@ -211,7 +211,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
     final userFuture =
         _apiService.updateUser(marketingAllowed: _marketingAllowed);
 
-    await ProgressDialog(context).showForFuture(userFuture).catchError(
+    await AppProgressDialog(context).showForFuture(userFuture).catchError(
       (e, stackTrace) async {
         await showAppDialog(
           context: context,

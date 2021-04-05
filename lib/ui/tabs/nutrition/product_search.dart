@@ -28,7 +28,7 @@ class ProductSearchScreenArguments {
   ProductSearchScreenArguments(
     this.searchType,
     this.mealType, {
-    this.excludeProductsIds = [],
+    this.excludeProductsIds = const [],
     this.date,
   });
 }

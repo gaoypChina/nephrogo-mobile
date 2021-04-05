@@ -81,7 +81,7 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
     final today = Date.today();
 
     final initialDate =
-        response.lastPeritonealDialysis?.startedAt?.toDate() ?? today;
+        response.lastPeritonealDialysis?.startedAt.toDate() ?? today;
 
     return LargeSection(
       title: Text(context.appLocalizations.peritonealDialysisPlural),
@@ -97,7 +97,7 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
       ),
       children: [
         if (response.lastPeritonealDialysis != null)
-          AutomaticPeritonealDialysisTile(response.lastPeritonealDialysis)
+          AutomaticPeritonealDialysisTile(response.lastPeritonealDialysis!),
       ],
     );
   }

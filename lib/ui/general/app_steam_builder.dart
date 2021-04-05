@@ -30,7 +30,10 @@ class AppStreamBuilder<T> extends StatelessWidget {
             return ErrorStateWidget(errorText: snapshot.error.toString());
           }
 
-          return builder(context, snapshot.data!);
+          if (snapshot.hasData) {
+            // ignore: null_check_on_nullable_type_parameter
+            return builder(context, snapshot.data!);
+          }
         }
 
         return const Center(child: AppProgressIndicator());

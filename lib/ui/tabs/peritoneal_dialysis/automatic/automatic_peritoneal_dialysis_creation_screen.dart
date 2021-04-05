@@ -10,7 +10,6 @@ import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
-import 'package:nephrogo/ui/general/stepper.dart';
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/peritoneal_dialysis_components.dart';
 import 'package:nephrogo/utils/form_utils.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
@@ -18,13 +17,13 @@ import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'beta_banner.dart';
 
 class AutomaticPeritonealDialysisCreationScreenArguments {
-  final AutomaticPeritonealDialysis dialysis;
+  final AutomaticPeritonealDialysis? dialysis;
 
   AutomaticPeritonealDialysisCreationScreenArguments(this.dialysis);
 }
 
 class AutomaticPeritonealDialysisCreationScreen extends StatefulWidget {
-  final AutomaticPeritonealDialysis initialDialysis;
+  final AutomaticPeritonealDialysis? initialDialysis;
 
   const AutomaticPeritonealDialysisCreationScreen({
     Key? key,
@@ -45,7 +44,8 @@ class _AutomaticPeritonealDialysisCreationScreenState
 
   final now = DateTime.now();
   final today = Date.today();
-  AutomaticPeritonealDialysisRequestBuilder _requestBuilder;
+
+  late AutomaticPeritonealDialysisRequestBuilder _requestBuilder;
 
   int _currentStep = 0;
 
@@ -107,8 +107,8 @@ class _AutomaticPeritonealDialysisCreationScreenState
             return _submit();
           }
         },
-        child: AppStepper(
-          type: AppStepperType.horizontal,
+        child: Stepper(
+          type: StepperType.horizontal,
           currentStep: _currentStep,
           onStepTapped: _validateAndProceedToStep,
           onStepContinue: () async {
@@ -171,13 +171,13 @@ class _AutomaticPeritonealDialysisCreationScreenState
             );
           },
           steps: [
-            AppStep(
+            Step(
               title: Text(appLocalizations.manualPeritonealDialysisStep1),
               isActive: _currentStep == 0,
               state: _currentStep == 0 ? StepState.indexed : StepState.complete,
               content: _getFirstStep(),
             ),
-            AppStep(
+            Step(
               title: Text(appLocalizations.manualPeritonealDialysisStep2),
               isActive: _currentStep == 1,
               state: _isCompleted && _currentStep != 1
@@ -202,26 +202,33 @@ class _AutomaticPeritonealDialysisCreationScreenState
               children: [
                 Flexible(
                   child: AppDatePickerFormField(
-                    initialDate: _requestBuilder.startedAt.toDate(),
+                    initialDate: _requestBuilder.startedAt?.toDate() ?? today,
                     firstDate: Constants.earliestDate,
                     lastDate: Date.today(),
                     dateFormat: _dateFormat,
                     validator: _formValidators.nonNull(),
                     onDateChanged: (date) {
                       _requestBuilder.startedAt =
-                          _requestBuilder.startedAt.appliedDate(date).toUtc();
+                          (_requestBuilder.startedAt ?? now)
+                              .appliedDate(date)
+                              .toUtc();
                     },
                     labelText: appLocalizations.date,
                   ),
                 ),
                 Flexible(
                   child: AppTimePickerFormField(
-                    initialTime: _requestBuilder.startedAt.timeOfDayLocal,
+                    initialTime: _requestBuilder.startedAt?.timeOfDayLocal ??
+                        TimeOfDay.now(),
                     labelText: appLocalizations.mealCreationTime,
                     onTimeChanged: (t) => _requestBuilder.startedAt =
-                        _requestBuilder.startedAt.appliedLocalTime(t).toUtc(),
+                        (_requestBuilder.startedAt ?? now)
+                            .appliedLocalTime(t)
+                            .toUtc(),
                     onTimeSaved: (t) => _requestBuilder.startedAt =
-                        _requestBuilder.startedAt.appliedLocalTime(t).toUtc(),
+                        (_requestBuilder.startedAt ?? now)
+                            .appliedLocalTime(t)
+                            .toUtc(),
                   ),
                 ),
               ],
@@ -314,12 +321,12 @@ class _AutomaticPeritonealDialysisCreationScreenState
     );
   }
 
-  String _validateAtLeastOneSolutionSelected(int v) {
-    final totalSolution = _requestBuilder.solutionGreenInMl +
-        _requestBuilder.solutionPurpleInMl +
-        _requestBuilder.solutionYellowInMl +
-        _requestBuilder.solutionOrangeInMl +
-        _requestBuilder.solutionBlueInMl;
+  String? _validateAtLeastOneSolutionSelected(int? v) {
+    final totalSolution = (_requestBuilder.solutionGreenInMl ?? 0) +
+        (_requestBuilder.solutionPurpleInMl ?? 0) +
+        (_requestBuilder.solutionYellowInMl ?? 0) +
+        (_requestBuilder.solutionOrangeInMl ?? 0) +
+        (_requestBuilder.solutionBlueInMl ?? 0);
 
     if (totalSolution == 0) {
       return appLocalizations.errorNoDialysisSolutionSelected;
@@ -419,7 +426,8 @@ class _AutomaticPeritonealDialysisCreationScreenState
                 Flexible(
                   child: AppDatePickerFormField(
                     initialDate: _requestBuilder.finishedAt?.toDate() ?? today,
-                    firstDate: _requestBuilder.startedAt.toDate(),
+                    firstDate: _requestBuilder.startedAt?.toDate() ??
+                        Constants.earliestDate,
                     lastDate: today,
                     dateFormat: _dateFormat,
                     validator: _formValidators.nonNull(),
@@ -481,7 +489,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
     }
 
     return _apiService.updateAutomaticPeritonealDialysis(
-      widget.initialDialysis.date.toDate(),
+      widget.initialDialysis?.date.toDate() ?? today,
       request,
     );
   }
@@ -505,7 +513,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
     if (data.contains('same date')) {
       return appLocalizations.errorAutomaticDialysisWithSameDateExists;
     }
-    return null;
+    return appLocalizations.serverErrorDescription;
   }
 
   Future<bool> _validateAndProceedToStep(int step) async {
@@ -525,7 +533,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
     final isDeleted = await showDeleteDialog(
       context: context,
       onDelete: () => _apiService.deleteAutomaticPeritonealDialysis(
-        widget.initialDialysis.date.toDate(),
+        widget.initialDialysis!.date.toDate(),
       ),
     );
 

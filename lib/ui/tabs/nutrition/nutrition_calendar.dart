@@ -1,45 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
+import 'package:nephrogo/utils/date_utils.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class NutritionCalendar extends StatefulWidget {
   final List<DailyIntakesLightReport> dailyIntakesLightReports;
   final void Function(Date date) onDaySelected;
-  final Nutrient nutrient;
+  final Nutrient? nutrient;
 
   NutritionCalendar(
     this.dailyIntakesLightReports, {
-    this.onDaySelected,
+    required this.onDaySelected,
     this.nutrient,
-  })  : assert(dailyIntakesLightReports != null),
-        super(key: UniqueKey());
+  }) : super(key: UniqueKey());
 
   @override
   _NutritionCalendarState createState() => _NutritionCalendarState();
 }
 
 class _NutritionCalendarState extends State<NutritionCalendar> {
-  Date _today;
-  DateTime _minDate;
-  DateTime _maxDate;
+  late Date _today;
+  DateTime? _minDate;
+  DateTime? _maxDate;
 
-  CalendarController _calendarController;
+  late List<DailyIntakesLightReport> _reportsorderByDateReverse;
 
-  List<DailyIntakesLightReport> _reportsorderByDateReverse;
-
-  Set<DateTime> _dailyNormExceededDatesSet;
-  Set<DateTime> _dailyNormUnavailableDatesSet;
-  Set<DateTime> _availableDatesSet;
+  late Set<DateTime> _dailyNormExceededDatesSet;
+  late Set<DateTime> _dailyNormUnavailableDatesSet;
+  late Set<DateTime> _availableDatesSet;
 
   @override
   void initState() {
     _today = Date.today();
-
-    _calendarController = CalendarController();
 
     _reportsorderByDateReverse = widget.dailyIntakesLightReports
         .orderBy((e) => e.date, reverse: true)
@@ -72,7 +67,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     return _reportsorderByDateReverse.where(
       (r) {
         final consumption = r.nutrientNormsAndTotals
-            .getDailyNutrientConsumption(widget.nutrient);
+            .getDailyNutrientConsumption(widget.nutrient!);
 
         return consumption.normExceeded == true;
       },
@@ -89,7 +84,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     return _reportsorderByDateReverse.where(
       (r) {
         final consumption = r.nutrientNormsAndTotals
-            .getDailyNutrientConsumption(widget.nutrient);
+            .getDailyNutrientConsumption(widget.nutrient!);
 
         return !consumption.isNormExists;
       },
@@ -99,19 +94,18 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
-      calendarController: _calendarController,
-      startDay: _minDate,
-      endDay: _maxDate,
-      initialSelectedDay: _minDate,
+      firstDay: _minDate ?? DateHelper.getFirstDayOfCurrentMonth(_today),
+      lastDay: _maxDate ?? DateHelper.getLastDayOfCurrentMonth(_today),
+      focusedDay: _minDate ?? _today,
       startingDayOfWeek: StartingDayOfWeek.monday,
       availableGestures: AvailableGestures.none,
       calendarStyle: const CalendarStyle(
         outsideDaysVisible: false,
       ),
-      onDaySelected: (widget.onDaySelected != null) ? _onDaySelected : null,
+      onDaySelected: _onDaySelected,
       headerVisible: false,
-      builders: CalendarBuilders(
-        dayBuilder: (context, dateTime, _) {
+      calendarBuilders: CalendarBuilders(
+        defaultBuilder: (context, dateTime, _) {
           final date = Date.from(dateTime);
           return _buildCalendarCell(date);
         },
@@ -120,9 +114,9 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
   }
 
   Widget _buildCalendarCell(Date date) {
-    Color fontColor;
+    Color? fontColor;
     FontWeight fontWeight = FontWeight.normal;
-    BoxDecoration boxDecoration;
+    BoxDecoration boxDecoration = const BoxDecoration();
 
     if (_dailyNormUnavailableDatesSet.contains(date)) {
       fontColor = Colors.white;
@@ -166,22 +160,18 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     );
   }
 
-  void _onDaySelected(DateTime day, List events, List holidays) {
-    widget.onDaySelected(Date.from(day));
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    widget.onDaySelected(Date.from(selectedDay));
   }
 
   int getReportPosition(DateTime dateTime) {
-    return _reportsorderByDateReverse
-            .mapIndexed((i, r) => r.date == Date.from(dateTime) ? i : null)
-            .firstWhere((i) => i != null) +
-        1;
-  }
+    final position = _reportsorderByDateReverse
+        .indexWhere((r) => r.date == Date.from(dateTime));
 
-  @override
-  void dispose() {
-    _calendarController.dispose();
-
-    super.dispose();
+    if (position == -1) {
+      return 1;
+    }
+    return position;
   }
 }
 
@@ -191,7 +181,7 @@ class NutrientCalendarExplanation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = context.appLocalizations;
 
     return Column(
       mainAxisSize: MainAxisSize.min,

@@ -34,7 +34,7 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
 
   final _apiService = ApiService();
 
-  PulseRequestBuilder _requestBuilder;
+  late PulseRequestBuilder _requestBuilder;
 
   FormValidators get _formValidators => FormValidators(context);
 
@@ -69,34 +69,37 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
                   children: [
                     Flexible(
                       child: AppDatePickerFormField(
-                        initialDate: _requestBuilder.measuredAt.toDate(),
+                        initialDate: _requestBuilder.measuredAt?.toDate() ??
+                            Date.today(),
                         firstDate: Constants.earliestDate,
                         lastDate: Date.today(),
                         validator: _formValidators.nonNull(),
                         onDateChanged: (date) {
-                          _requestBuilder.measuredAt = _requestBuilder
-                              .measuredAt
-                              .appliedDate(date)
-                              .toUtc();
+                          _requestBuilder.measuredAt =
+                              (_requestBuilder.measuredAt ?? DateTime.now())
+                                  .appliedDate(date)
+                                  .toUtc();
                         },
                         labelText: appLocalizations.date,
                       ),
                     ),
                     Flexible(
                       child: AppTimePickerFormField(
-                        initialTime: _requestBuilder.measuredAt.timeOfDayLocal,
+                        initialTime:
+                            _requestBuilder.measuredAt?.timeOfDayLocal ??
+                                TimeOfDay.now(),
                         labelText: appLocalizations.mealCreationTime,
                         onTimeChanged: (t) {
-                          _requestBuilder.measuredAt = _requestBuilder
-                              .measuredAt
-                              .appliedLocalTime(t)
-                              .toUtc();
+                          _requestBuilder.measuredAt =
+                              (_requestBuilder.measuredAt ?? DateTime.now())
+                                  .appliedLocalTime(t)
+                                  .toUtc();
                         },
                         onTimeSaved: (t) {
-                          _requestBuilder.measuredAt = _requestBuilder
-                              .measuredAt
-                              .appliedLocalTime(t)
-                              .toUtc();
+                          _requestBuilder.measuredAt =
+                              (_requestBuilder.measuredAt ?? DateTime.now())
+                                  .appliedLocalTime(t)
+                                  .toUtc();
                         },
                       ),
                     ),

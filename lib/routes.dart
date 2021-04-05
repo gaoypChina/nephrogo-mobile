@@ -81,7 +81,14 @@ class Routes {
         });
       case routeOnboarding:
         return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments as OnboardingScreenArguments;
+          final arguments = settings.arguments as OnboardingScreenArguments?;
+
+          if (arguments == null) {
+            throw ArgumentError.value(
+              arguments,
+              'Pass OnboardingScreenArguments',
+            );
+          }
 
           return OnboardingScreen(exitType: arguments.exitType);
         });
@@ -117,8 +124,7 @@ class Routes {
 
           return IntakeCreateScreen(
             dailyNutrientNormsAndTotals: arguments.dailyNutrientNormsAndTotals,
-            initialProduct: arguments.product ?? arguments.intake.product,
-            intake: arguments.intake,
+            initialProduct: arguments.product,
             initialDate: arguments.initialDate,
             mealType: arguments.mealType,
           );

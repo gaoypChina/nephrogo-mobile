@@ -63,7 +63,7 @@ class FormUtils {
       },
     );
 
-    final res = await ProgressDialog(context).showForFuture(future);
+    final res = await AppProgressDialog(context).showForFuture(future);
 
     if (res != null) {
       if (onSuccess != null) {

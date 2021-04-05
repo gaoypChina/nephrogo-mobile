@@ -18,7 +18,7 @@ class GeneralRecommendationsTab extends StatelessWidget {
     return AppFutureBuilder<GeneralRecommendationsResponse>(
       future: ApiService().getGeneralRecommendations(),
       builder: (context, response) {
-        final categories = response!.categories.toList();
+        final categories = response.categories.toList();
 
         return CustomScrollView(
           slivers: [

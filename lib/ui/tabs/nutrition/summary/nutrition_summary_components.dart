@@ -14,8 +14,7 @@ class NutritionDailyListWithHeaderEmpty extends StatelessWidget {
     Key? key,
     required this.header,
     required this.date,
-  })   : assert(header != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +58,7 @@ class NutritionListWithHeaderEmpty extends StatelessWidget {
   const NutritionListWithHeaderEmpty({
     Key? key,
     required this.header,
-  })   : assert(header != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +82,8 @@ class DateSwitcherHeaderSection extends StatelessWidget {
   const DateSwitcherHeaderSection({
     Key? key,
     required this.header,
-    this.children,
-  })  : assert(header != null),
-        super(key: key);
+    this.children = const [],
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +95,7 @@ class DateSwitcherHeaderSection extends StatelessWidget {
       showHeaderDivider: true,
       showDividers: true,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: children ?? [],
+      children: children,
     );
   }
 }

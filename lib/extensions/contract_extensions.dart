@@ -602,10 +602,10 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
 
     switch (indicator) {
       case HealthIndicator.bloodPressure:
-        final latestBloodPressure = bloodPressures.maxBy((p) => p!.measuredAt)!;
+        final latestBloodPressure = bloodPressures.maxBy((p) => p.measuredAt)!;
         return '${latestBloodPressure.systolicBloodPressure} / ${latestBloodPressure.diastolicBloodPressure} mmHg';
       case HealthIndicator.pulse:
-        final latestPulse = pulses.maxBy((p) => p!.measuredAt)!;
+        final latestPulse = pulses.maxBy((p) => p.measuredAt)!;
         return '${latestPulse.pulse} ${appLocalizations.pulseDimension}';
       case HealthIndicator.weight:
         return '$weightKg kg';
@@ -714,7 +714,7 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
         throw ArgumentError(
             'Unable to get blood pressure indicator value. Please use different method');
       case HealthIndicator.pulse:
-        return pulses.maxBy((p) => p!.measuredAt)!.pulse;
+        return pulses.maxBy((p) => p.measuredAt)!.pulse;
       case HealthIndicator.weight:
         return weightKg;
       case HealthIndicator.glucose:

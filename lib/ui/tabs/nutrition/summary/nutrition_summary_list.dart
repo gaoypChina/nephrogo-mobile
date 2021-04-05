@@ -16,9 +16,7 @@ class NutritionMonthlyReportsList extends StatefulWidget {
     Key? key,
     required this.reports,
     required this.header,
-  })   : assert(reports != null),
-        assert(reports.isNotEmpty),
-        assert(header != null),
+  })   : assert(reports.isNotEmpty),
         super(key: key);
 
   @override
@@ -28,9 +26,9 @@ class NutritionMonthlyReportsList extends StatefulWidget {
 
 class NutritionMonthlyReportsListState
     extends State<NutritionMonthlyReportsList> {
-  ItemScrollController _itemScrollController;
+  late ItemScrollController _itemScrollController;
 
-  List<DailyIntakesLightReport> reportsReverseSorted;
+  late List<DailyIntakesLightReport> reportsReverseSorted;
 
   @override
   void initState() {
@@ -86,10 +84,12 @@ class NutritionMonthlyReportsListState
     DateTime dateTime,
     List<DailyIntakesLightReport> reports,
   ) {
-    return reports
-            .mapIndexed((i, r) => r.date == Date.from(dateTime) ? i : null)
-            .firstWhere((i) => i != null) +
-        1;
+    final index = reports.indexWhere((r) => r.date == Date.from(dateTime));
+
+    if (index == -1) {
+      return 1;
+    }
+    return index;
   }
 }
 
@@ -101,9 +101,7 @@ class NutritionWeeklyReportsList extends StatelessWidget {
     Key? key,
     required this.reports,
     required this.header,
-  })   : assert(reports != null),
-        assert(reports.isNotEmpty),
-        assert(header != null),
+  })   : assert(reports.isNotEmpty),
         super(key: key);
 
   @override

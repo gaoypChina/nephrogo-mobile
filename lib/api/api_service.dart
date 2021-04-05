@@ -135,17 +135,19 @@ class ApiService {
         .asyncMap((_) => getLightDailyIntakeReports(from, to));
   }
 
-  Future<DailyIntakesReportResponse?> getDailyIntakesReport(Date date) {
+  Future<NullableApiResponse<DailyIntakesReportResponse>> getDailyIntakesReport(
+      Date date) {
     return _nutritionApi
         .nutritionDailyReportsRetrieve(date: date)
-        .then((r) => r.data)
+        .then((r) => NullableApiResponse<DailyIntakesReportResponse>(r.data))
         .catchError(
-          (e) => null,
+          (e) => NullableApiResponse<DailyIntakesReportResponse>(null),
           test: (e) => e is DioError && e.response?.statusCode == 404,
         );
   }
 
-  Stream<DailyIntakesReportResponse?> getDailyIntakesReportStream(Date date) {
+  Stream<NullableApiResponse<DailyIntakesReportResponse>>
+      getDailyIntakesReportStream(Date date) {
     return _buildAppEventsStreamWithInitialEmit(_AppStateChangeEvent.nutrition)
         .asyncMap((_) => getDailyIntakesReport(date));
   }
@@ -248,12 +250,13 @@ class ApiService {
     );
   }
 
-  Future<DailyHealthStatus?> getDailyHealthStatus(Date date) {
+  Future<NullableApiResponse<DailyHealthStatus>> getDailyHealthStatus(
+      Date date) {
     return _healthStatusApi
         .healthStatusRetrieve(date: date)
-        .then((r) => r.data)
+        .then((r) => NullableApiResponse<DailyHealthStatus>(r.data))
         .catchError(
-          (e) => null,
+          (e) => NullableApiResponse<DailyHealthStatus>(null),
           test: (e) => e is DioError && e.response?.statusCode == 404,
         );
   }
@@ -308,9 +311,12 @@ class ApiService {
     );
   }
 
-  Future<UserProfile?> getUserProfile() {
-    return _userApi.userProfileRetrieve().then((r) => r.data).catchError(
-          (e) => null,
+  Future<NullableApiResponse<UserProfile>> getUserProfile() {
+    return _userApi
+        .userProfileRetrieve()
+        .then((r) => NullableApiResponse<UserProfile>(r.data))
+        .catchError(
+          (e) => NullableApiResponse<UserProfile>(null),
         );
   }
 
@@ -543,6 +549,12 @@ class ApiService {
   Future dispose() async {
     await _appEventsStreamController.close();
   }
+}
+
+class NullableApiResponse<T> {
+  final T? data;
+
+  NullableApiResponse(this.data);
 }
 
 class _FirebaseAuthenticationInterceptor extends Interceptor {

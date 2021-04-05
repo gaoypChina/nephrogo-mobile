@@ -14,8 +14,7 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
   final _dateTimeFormat = DateFormat.MMMMd().add_Hm();
 
   AutomaticPeritonealDialysisTile(this.dialysis)
-      : assert(dialysis != null),
-        super(key: ObjectKey(dialysis));
+      : super(key: ObjectKey(dialysis));
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,7 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (dialysis.isCompleted)
+                if (dialysis.isCompleted == true)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: Text(dialysis.formattedBalance),
@@ -84,7 +83,7 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
   }
 
   CircleAvatar _getIconAvatar() {
-    if (!dialysis.isCompleted) {
+    if (dialysis.isCompleted != true) {
       return const CircleAvatar(
         backgroundColor: Colors.redAccent,
         foregroundColor: Colors.white,
@@ -106,7 +105,7 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
   Iterable<Widget> _getSubtitleWidgets(
     AppLocalizations appLocalizations,
   ) sync* {
-    if (dialysis.isCompleted) {
+    if (dialysis.isCompleted == true && dialysis.finishedAt != null) {
       yield Row(
         children: [
           const Padding(
@@ -114,7 +113,7 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
             child: Icon(Icons.update, size: 14),
           ),
           Text(_dateTimeFormat
-              .format(dialysis.finishedAt.toLocal())
+              .format(dialysis.finishedAt!.toLocal())
               .capitalizeFirst()),
         ],
       );
@@ -137,13 +136,13 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
             padding: EdgeInsets.only(right: 4),
             child: Icon(Icons.error_outline, size: 14),
           ),
-          Text(dialysis.dialysateColor.localizedName(appLocalizations)),
+          Text(dialysis.dialysateColor!.localizedName(appLocalizations)),
         ],
       );
     }
 
-    if (dialysis.notes.isNotEmpty) {
-      yield Text(dialysis.notes);
+    if (dialysis.notes != null && dialysis.notes!.isNotEmpty) {
+      yield Text(dialysis.notes!);
     }
   }
 

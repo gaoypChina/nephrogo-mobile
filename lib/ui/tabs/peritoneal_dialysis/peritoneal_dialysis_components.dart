@@ -207,6 +207,6 @@ class PeritonealDialysisSummaryFloatingActionButton extends StatelessWidget {
       },
     );
 
-    return ProgressDialog(context).showForFuture(future);
+    return AppProgressDialog(context).showForFuture(future);
   }
 }

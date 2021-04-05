@@ -1,5 +1,3 @@
-import 'package:collection_ext/all.dart';
-import 'package:collection_ext/iterables.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
@@ -21,21 +19,20 @@ import 'nutrition_summary_components.dart';
 
 class NutritionDailySummaryScreenArguments {
   final Date date;
-  final Nutrient nutrient;
+  final Nutrient? nutrient;
 
   NutritionDailySummaryScreenArguments(this.date, {this.nutrient});
 }
 
 class NutritionDailySummaryScreen extends StatelessWidget {
   final Date date;
-  final Nutrient nutrient;
+  final Nutrient? nutrient;
 
   const NutritionDailySummaryScreen(
     this.date, {
     Key? key,
     required this.nutrient,
-  })   : assert(date != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +46,8 @@ class NutritionDailySummaryScreen extends StatelessWidget {
   }
 
   String _getTitle(AppLocalizations appLocalizations) {
-    if (nutrient == null) {
-      return appLocalizations.dailyNutritionSummary;
-    }
-
-    return nutrient.consumptionName(appLocalizations);
+    return nutrient?.consumptionName(appLocalizations) ??
+        appLocalizations.dailyNutritionSummary;
   }
 }
 
@@ -75,7 +69,7 @@ class NutritionDailySummaryBody extends StatefulWidget {
 class _NutritionDailySummaryBodyState extends State<NutritionDailySummaryBody> {
   final _apiService = ApiService();
 
-  Date date;
+  late Date date;
 
   @override
   void initState() {
@@ -93,10 +87,11 @@ class _NutritionDailySummaryBodyState extends State<NutritionDailySummaryBody> {
         date = from;
       },
       bodyBuilder: (context, header, from, to) {
-        return AppStreamBuilder<DailyIntakesReportResponse>(
+        return AppStreamBuilder<
+            NullableApiResponse<DailyIntakesReportResponse>>(
           stream: _apiService.getDailyIntakesReportStream(from),
           builder: (context, data) {
-            final report = data?.dailyIntakesReport;
+            final report = data.data?.dailyIntakesReport;
 
             if (report == null || report.intakes.isEmpty) {
               return NutritionDailyListWithHeaderEmpty(
@@ -108,7 +103,7 @@ class _NutritionDailySummaryBodyState extends State<NutritionDailySummaryBody> {
             if (widget.nutrient != null) {
               return _DailyNutritionNutrientList(
                 report,
-                widget.nutrient,
+                widget.nutrient!,
                 header: header,
               );
             }
@@ -132,8 +127,7 @@ class _NutritionDailySummaryList extends StatelessWidget {
     this.dailyIntakesReport, {
     Key? key,
     required this.header,
-  })   : assert(header != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -226,9 +220,7 @@ class _DailyNutritionNutrientList extends StatelessWidget {
     this.nutrient, {
     Key? key,
     required this.header,
-  })   : assert(header != null),
-        assert(dailyIntakesReport != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -284,9 +276,7 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
       showDividers: true,
       showHeaderDivider: true,
       title: Text(mealType.localizedName(context.appLocalizations)),
-      subtitle: intakes?.isNotEmpty ?? false
-          ? Text(_getMealTotalText(context))
-          : null,
+      subtitle: intakes.isNotEmpty ? Text(_getMealTotalText(context)) : null,
       trailing: mealType != MealTypeEnum.unknown
           ? OutlinedButton(
               onPressed: () => Navigator.pushNamed(
@@ -313,7 +303,7 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
   }
 
   String _getMealTotalText(BuildContext context) {
-    final total = intakes.sumBy((i, e) => e.getNutrientAmount(nutrient));
+    final total = intakes.sumBy((e) => e.getNutrientAmount(nutrient)).toInt();
     final formattedAmount = nutrient.formatAmount(total);
 
     return context.appLocalizations.consumptionWithoutNorm(formattedAmount);

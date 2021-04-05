@@ -26,8 +26,7 @@ class AutomaticPeritonealDialysisPeriodsScreen extends StatelessWidget {
 
   AutomaticPeritonealDialysisPeriodsScreen(
       {Key? key, required this.initialDate})
-      : assert(initialDate != null),
-        super(key: key);
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

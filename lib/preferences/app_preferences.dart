@@ -63,6 +63,11 @@ class AppPreferences {
         (preferences) => preferences.setBool(_keyLegalConditionsAgreed, true));
   }
 
+  Future<bool> hasMarketingAllowed() {
+    return _sharedPreferences
+        .then((preferences) => preferences.containsKey(_keyMarketingAllowed));
+  }
+
   Future<bool> isMarketingAllowed() {
     return _sharedPreferences.then(
         (preferences) => preferences.getBool(_keyMarketingAllowed) ?? false);

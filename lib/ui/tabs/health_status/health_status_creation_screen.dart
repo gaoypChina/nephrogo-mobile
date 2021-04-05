@@ -15,7 +15,7 @@ import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 class HealthStatusCreationScreenArguments {
   final Date date;
 
-  HealthStatusCreationScreenArguments({Date date})
+  HealthStatusCreationScreenArguments({Date? date})
       : date = date ?? Date.today();
 }
 
@@ -38,7 +38,7 @@ class _HealthStatusCreationScreenState
   final _dateFormat = DateFormat.MMMMd();
 
   final _apiService = ApiService();
-  DailyHealthStatusRequestBuilder _requestBuilder;
+  late DailyHealthStatusRequestBuilder _requestBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +52,10 @@ class _HealthStatusCreationScreenState
           ),
         ],
       ),
-      body: AppFutureBuilder<DailyHealthStatus>(
+      body: AppFutureBuilder<NullableApiResponse<DailyHealthStatus>>(
         future: _apiService.getDailyHealthStatus(widget.date),
-        nullableBuilder: (context, healthStatus) {
-          _requestBuilder = healthStatus?.toRequest().toBuilder() ??
+        builder: (context, healthStatus) {
+          _requestBuilder = healthStatus.data?.toRequest().toBuilder() ??
               DailyHealthStatusRequestBuilder();
 
           _requestBuilder.date = widget.date;
@@ -170,7 +170,7 @@ class _HealthStatusCreationScreenState
                       swellingBuilder.swelling = e.value;
 
                       return swellingBuilder.build();
-                    })?.toList();
+                    }).toList();
                     _requestBuilder.swellings = ListBuilder(swellings ?? []);
                   },
                   focusNextOnSelection: true,
@@ -262,7 +262,7 @@ class _HealthStatusCreationScreenState
                 ),
                 AppSelectFormField<AppetiteEnum>(
                   labelText: appLocalizations.healthStatusCreationAppetite,
-                  initialValue: _requestBuilder?.appetite
+                  initialValue: _requestBuilder.appetite
                       ?.enumWithoutDefault(AppetiteEnum.unknown),
                   onChanged: (v) => _requestBuilder.appetite = v?.value,
                   focusNextOnSelection: true,

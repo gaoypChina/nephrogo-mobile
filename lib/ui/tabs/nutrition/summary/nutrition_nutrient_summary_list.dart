@@ -25,11 +25,7 @@ class NutritionNutrientReportsList extends StatelessWidget {
     required this.dateFrom,
     required this.dateTo,
     required this.showGraphDataLabels,
-  })   : assert(reports != null),
-        assert(reports.isNotEmpty),
-        assert(header != null),
-        assert(nutrient != null),
-        assert(showGraphDataLabels != null),
+  })   : assert(reports.isNotEmpty),
         super(key: key);
 
   @override

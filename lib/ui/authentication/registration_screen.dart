@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
@@ -14,9 +13,8 @@ import 'package:nephrogo/ui/general/dialogs.dart';
 class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(appLocalizations.registration)),
+      appBar: AppBar(title: Text(context.appLocalizations.registration)),
       body: SingleChildScrollView(
         child: BasicSection.single(
           innerPadding: const EdgeInsets.symmetric(vertical: 8),
@@ -37,8 +35,8 @@ class _RegistrationFormState extends State<_RegistrationForm> {
 
   final _authProvider = AuthenticationProvider();
 
-  String email;
-  String password;
+  String? email;
+  String? password;
 
   @override
   Widget build(BuildContext context) {
@@ -87,14 +85,16 @@ class _RegistrationFormState extends State<_RegistrationForm> {
   }
 
   Future<bool> _register(BuildContext context) async {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
-      UserCredential userCredential;
+      UserCredential? userCredential;
 
       try {
-        userCredential =
-            await _authProvider.createUserWithEmailAndPassword(email, password);
+        userCredential = await _authProvider.createUserWithEmailAndPassword(
+          email!,
+          password!,
+        );
       } on EmailAlreadyInUseException catch (_) {
         await showAppDialog(
           context: context,

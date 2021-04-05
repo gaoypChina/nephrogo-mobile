@@ -1,17 +1,16 @@
-import 'package:ars_progress_dialog/ars_progress_dialog.dart';
+import 'package:ars_dialog/ars_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/ui/general/progress_indicator.dart';
 
-class ProgressDialog {
-  ArsProgressDialog dialog;
+class AppProgressDialog {
+  late ProgressDialog dialog;
 
-  ProgressDialog(BuildContext context) {
-    dialog = ArsProgressDialog(
+  AppProgressDialog(BuildContext context) {
+    dialog = ProgressDialog(
       context,
-      blur: 2,
       backgroundColor: const Color(0x33000000),
-      loadingWidget: const AppProgressIndicator(),
+      defaultLoadingWidget: const AppProgressIndicator(),
       dismissable: false,
     );
   }

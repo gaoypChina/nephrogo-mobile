@@ -56,7 +56,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     super.initState();
 
     _userProfileMemoizer.runOnce(() async {
-      return _apiService.getUserProfile();
+      return _apiService.getUserProfile().then((r) => r.data);
     });
   }
 

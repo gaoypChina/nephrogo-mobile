@@ -9,7 +9,6 @@ import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
-import 'package:nephrogo/ui/general/stepper.dart';
 import 'package:nephrogo/utils/form_utils.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
@@ -98,8 +97,8 @@ class _ManualPeritonealDialysisCreationScreenState
         onChanged: () {
           _formChanged = true;
         },
-        child: AppStepper(
-          type: AppStepperType.horizontal,
+        child: Stepper(
+          type: StepperType.horizontal,
           currentStep: _currentStep,
           onStepTapped: _validateAndProceedToStep,
           controlsBuilder: (context, {onStepContinue, onStepCancel}) {
@@ -154,13 +153,13 @@ class _ManualPeritonealDialysisCreationScreenState
             );
           },
           steps: [
-            AppStep(
+            Step(
               title: Text(appLocalizations.manualPeritonealDialysisStep1),
               isActive: _currentStep == 0,
               state: _currentStep == 0 ? StepState.indexed : StepState.complete,
               content: _getFirstStep(),
             ),
-            AppStep(
+            Step(
               title: Text(appLocalizations.manualPeritonealDialysisStep2),
               isActive: _currentStep == 1,
               state: _isCompleted && _currentStep != 1
