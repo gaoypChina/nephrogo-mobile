@@ -38,7 +38,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   FormValidators get _formValidators => FormValidators(context);
 
-  final _userProfileMemoizer = AsyncMemoizer<UserProfile?>();
+  final _userProfileMemoizer =
+      AsyncMemoizer<NullableApiResponse<UserProfile>>();
 
   late UserProfileRequestBuilder _userProfileBuilder;
 
@@ -56,7 +57,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     super.initState();
 
     _userProfileMemoizer.runOnce(() async {
-      return _apiService.getUserProfile().then((r) => r.data);
+      return _apiService.getUserProfile();
     });
   }
 
@@ -72,9 +73,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ),
         ],
       ),
-      body: AppNullableFutureBuilder<UserProfile>(
+      body: AppFutureBuilder<NullableApiResponse<UserProfile>>(
         future: _userProfileMemoizer.future,
-        builder: (context, userProfile) {
+        builder: (context, data) {
+          final userProfile = data.data;
           _isInitial = userProfile == null;
 
           _userProfileBuilder =
