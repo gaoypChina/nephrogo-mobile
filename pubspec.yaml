@@ -40,7 +40,6 @@ dependencies:
 
   async: ^2.5.0
   collection: ^1.15.0
-  #  collection_ext: ^0.3.0
 
   syncfusion_flutter_charts: ^19.1.54+1
   syncfusion_flutter_xlsio: ^19.1.54-beta.1
@@ -55,7 +54,7 @@ dependencies:
 
   dio: ^4.0.0-prev2
   dio_http2_adapter: ^2.0.0-prev1
-  #  dio_brotli_transformer: ^0.2.0
+  dio_brotli_transformer: ^1.0.1
 
   flutter_linkify: ^5.0.0
   flutter_widget_from_html: ^0.6.0-rc.2021031201
@@ -94,12 +93,13 @@ dev_dependencies:
   lint: ^1.5.3
   test: ^1.16.5
 
+dependency_overrides:
+  dio: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
-modulesContent:
 flutter:
   generate: true
 

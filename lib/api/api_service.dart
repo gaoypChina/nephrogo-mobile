@@ -4,6 +4,7 @@ import 'package:async/async.dart';
 import 'package:built_value/iso_8601_date_time_serializer.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_brotli_transformer/dio_brotli_transformer.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:logging/logging.dart';
@@ -61,7 +62,7 @@ class ApiService {
       },
     ));
 
-    // dio.transformer = DioBrotliTransformer();
+    dio.transformer = DioBrotliTransformer();
     dio.httpClientAdapter = Http2Adapter(
         ConnectionManager(idleTimeout: _connectionIdleTimeout.inMilliseconds));
 
