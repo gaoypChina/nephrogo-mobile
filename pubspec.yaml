@@ -56,7 +56,6 @@ dependencies:
   dio: ^4.0.0-prev2
   dio_http2_adapter: ^2.0.0-prev1
   #  dio_brotli_transformer: ^0.2.0
-  dio_firebase_performance: ^0.3.1-dev.1
 
   flutter_linkify: ^5.0.0
   flutter_widget_from_html: ^0.6.0-rc.2021031201
@@ -80,7 +79,6 @@ dependencies:
   firebase_analytics: ^8.0.0-dev.0
   firebase_crashlytics: ^1.0.0
   firebase_messaging: ^9.1.0
-  firebase_performance: ^0.6.0+1
 
   firebase_auth: ^1.0.1
   flutter_signin_button: ^2.0.0
@@ -101,6 +99,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
+modulesContent:
 flutter:
   generate: true
 
