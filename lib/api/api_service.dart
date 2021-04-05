@@ -603,22 +603,13 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
 
         try {
           // We retry with the updated options
-          return await dio.request(
-            err.requestOptions.path,
-            cancelToken: err.requestOptions.cancelToken,
-            data: err.requestOptions.data,
-            onReceiveProgress: err.requestOptions.onReceiveProgress,
-            onSendProgress: err.requestOptions.onSendProgress,
-            queryParameters: err.requestOptions.queryParameters,
-            // TODO: check for solution
-            // options: err.requestOptions.,
-          );
+          return await dio.fetch(err.requestOptions);
         } catch (e) {
-          return e;
+          return super.onError(err, handler);
         }
       }
     }
-    return err;
+    return super.onError(err, handler);
   }
 }
 
