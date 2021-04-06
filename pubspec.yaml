@@ -26,66 +26,57 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  # https://firebase.flutter.dev/docs/migration
   animations: ^2.0.0
-
-  intl: ^0.17.0
-
-  logging: ^1.0.1
-  package_info: ^2.0.0
-  tuple: ^2.0.0
-  equatable: ^2.0.0
-
-  shared_preferences: ^2.0.5
-  url_launcher: ^6.0.3
-
+  ars_dialog: 1.0.7
   async: ^2.5.0
   collection: ^1.15.0
-
-  syncfusion_flutter_charts: ^19.1.54+1
-  syncfusion_flutter_xlsio: ^19.1.54-beta.1
-  path_provider: ^2.0.1
-  open_file: ^3.1.0
-  table_calendar: ^3.0.0-nullsafety.1
-  share: ^2.0.1
-
-  smooth_page_indicator: ^0.3.0-nullsafety.0
-
-  scrollable_positioned_list: ^0.2.0-nullsafety.0
-
-  dio: ^4.0.0-prev2
-  dio_http2_adapter: ^2.0.0-prev1
+  crypto: ^3.0.1
+  dio: ^4.0.0
   dio_brotli_transformer: ^1.0.1
+  dio_http2_adapter: ^2.0.0
+  equatable: ^2.0.0
+
+  # https://firebase.flutter.dev/docs/migration
+  firebase_analytics: ^8.0.0-dev.0
+  firebase_auth: ^1.0.1
+  firebase_core: ^1.0.2
+  firebase_crashlytics: ^1.0.0
+  firebase_messaging: ^9.1.0
+  flutter_facebook_auth: ^3.3.2
 
   flutter_linkify: ^5.0.0
+  flutter_signin_button: ^2.0.0
+  flutter_speed_dial: ^3.0.5
   flutter_widget_from_html_core: ^0.6.0-rc.2021031201
   fwfh_url_launcher: ^0.6.0-rc.2021022601
+  google_sign_in: ^5.0.1
+  in_app_review: ^2.0.1
+  in_app_update: ^2.0.0
+  intl: ^0.17.0
+  logging: ^1.0.1
 
   nephrogo_api_client:
     git:
       url: https://github.com/nephrogo/nephrogo-api-dart-client.git
-      ref: release/v1.0.2
+      ref: release/v1.0.3
 
-  flutter_speed_dial: ^3.0.5
-
-  ars_dialog: 1.0.7
-
+  open_file: ^3.1.0
+  package_info: ^2.0.0
+  path_provider: ^2.0.1
   pretty_dio_logger: ^1.2.0-beta-1
-
-  in_app_review: ^2.0.1
-  in_app_update: ^2.0.0
-
-  # https://firebase.flutter.dev/docs/migration
-  firebase_core: ^1.0.2
-  firebase_analytics: ^8.0.0-dev.0
-  firebase_crashlytics: ^1.0.0
-  firebase_messaging: ^9.1.0
-
-  firebase_auth: ^1.0.1
-  flutter_signin_button: ^2.0.0
-  google_sign_in: ^5.0.1
-  flutter_facebook_auth: ^3.3.2
+  scrollable_positioned_list: ^0.2.0-nullsafety.0
+  share: ^2.0.1
+  shared_preferences: ^2.0.5
   sign_in_with_apple: ^3.0.0
-  crypto: ^3.0.0
+  smooth_page_indicator: ^0.3.0-nullsafety.0
+
+  syncfusion_flutter_charts: ^19.1.54+1
+  syncfusion_flutter_xlsio: ^19.1.54-beta.1
+
+  table_calendar: ^3.0.0-nullsafety.1
+  tuple: ^2.0.0
+  url_launcher: ^6.0.3
 
 dev_dependencies:
   flutter_test:
