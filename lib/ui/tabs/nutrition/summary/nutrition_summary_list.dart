@@ -75,21 +75,16 @@ class NutritionMonthlyReportsListState
     DateTime dateTime,
     List<DailyIntakesLightReport> reports,
   ) {
-    final position = getReportPosition(dateTime, reports);
+    final position = getReportPosition(dateTime.toDate(), reports);
 
     _itemScrollController.jumpTo(index: position);
   }
 
   int getReportPosition(
-    DateTime dateTime,
+    Date date,
     List<DailyIntakesLightReport> reports,
   ) {
-    final index = reports.indexWhere((r) => r.date == Date.from(dateTime));
-
-    if (index == -1) {
-      return 1;
-    }
-    return index;
+    return reports.indexWhere((r) => r.date == date) + 1;
   }
 }
 

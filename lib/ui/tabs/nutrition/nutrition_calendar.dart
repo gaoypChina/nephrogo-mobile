@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
-import 'package:nephrogo/utils/date_utils.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -24,8 +24,7 @@ class NutritionCalendar extends StatefulWidget {
 
 class _NutritionCalendarState extends State<NutritionCalendar> {
   late Date _today;
-  DateTime? _minDate;
-  DateTime? _maxDate;
+  late Date _focusDate;
 
   late List<DailyIntakesLightReport> _reportsSortedByDateReverse;
 
@@ -41,8 +40,8 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
         .orderBy((e) => e.date, reverse: true)
         .toList();
 
-    _minDate = _reportsSortedByDateReverse.lastOrNull()?.date;
-    _maxDate = _reportsSortedByDateReverse.firstOrNull()?.date;
+    _focusDate =
+        _reportsSortedByDateReverse.firstOrNull()?.date.toDate() ?? _today;
 
     _availableDatesSet =
         _reportsSortedByDateReverse.map((r) => Date.from(r.date)).toSet();
@@ -95,9 +94,9 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
-      firstDay: _minDate ?? DateHelper.getFirstDayOfCurrentMonth(_today),
-      lastDay: _maxDate ?? DateHelper.getLastDayOfCurrentMonth(_today),
-      focusedDay: _minDate ?? _today,
+      firstDay: Constants.earliestDate,
+      lastDay: _today,
+      focusedDay: _focusDate,
       startingDayOfWeek: StartingDayOfWeek.monday,
       availableGestures: AvailableGestures.none,
       calendarStyle: const CalendarStyle(
@@ -120,8 +119,14 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     Color? fontColor;
     FontWeight fontWeight = FontWeight.normal;
     BoxDecoration boxDecoration = const BoxDecoration();
-
-    if (_dailyNormUnavailableDatesSet.contains(date)) {
+    if (date == _today) {
+      fontColor = Colors.white;
+      fontWeight = FontWeight.bold;
+      boxDecoration = const BoxDecoration(
+        color: Colors.blue,
+        shape: BoxShape.circle,
+      );
+    } else if (_dailyNormUnavailableDatesSet.contains(date)) {
       fontColor = Colors.white;
       fontWeight = FontWeight.bold;
       boxDecoration = const BoxDecoration(
