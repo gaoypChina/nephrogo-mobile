@@ -93,7 +93,7 @@ class _RegularLoginFormState extends State<_RegularLoginForm> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: AppElevatedButton(
-                  text: appLocalizations.loginAction,
+                  label: Text(appLocalizations.loginAction),
                   onPressed: () => _login(context),
                 ),
               ),

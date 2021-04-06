@@ -129,7 +129,8 @@ class _AutomaticPeritonealDialysisCreationScreenState
                     child: SizedBox(
                       width: double.infinity,
                       child: AppElevatedButton(
-                        text: context.appLocalizations.save.toUpperCase(),
+                        label:
+                            Text(context.appLocalizations.save.toUpperCase()),
                         onPressed: _submit,
                       ),
                     ),
@@ -140,8 +141,8 @@ class _AutomaticPeritonealDialysisCreationScreenState
                     child: SizedBox(
                       width: double.infinity,
                       child: AppElevatedButton(
-                        text: context.appLocalizations.finishDialysis
-                            .toUpperCase(),
+                        label: Text(context.appLocalizations.finishDialysis
+                            .toUpperCase()),
                         onPressed: _completeAndSubmit,
                       ),
                     ),

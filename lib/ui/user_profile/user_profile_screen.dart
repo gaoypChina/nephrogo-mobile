@@ -5,13 +5,15 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
+import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/form_utils.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
-import 'forms/forms.dart';
-import 'general/app_form.dart';
-import 'general/app_future_builder.dart';
+import '../forms/forms.dart';
+import '../general/app_form.dart';
+import '../general/app_future_builder.dart';
+import 'user_profile_steps.dart';
 
 enum UserProfileNextScreenType {
   close,
@@ -21,16 +23,132 @@ enum UserProfileNextScreenType {
 class UserProfileScreen extends StatefulWidget {
   final UserProfileNextScreenType nextScreenType;
 
-  const UserProfileScreen({
-    Key? key,
-    required this.nextScreenType,
-  }) : super(key: key);
+  const UserProfileScreen({Key? key, required this.nextScreenType})
+      : super(key: key);
 
   @override
   _UserProfileScreenState createState() => _UserProfileScreenState();
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  final _controller = PageController(viewportFraction: 0.9999999);
+
+  final _apiService = ApiService();
+  final _appPreferences = AppPreferences();
+
+  final _userProfileMemoizer =
+      AsyncMemoizer<NullableApiResponse<UserProfile>>();
+
+  final UserProfileRequestBuilder _userProfileBuilder =
+      UserProfileRequestBuilder();
+
+  bool get _isDiabetic =>
+      _userProfileBuilder.diabetesType == DiabetesTypeEnum.type1 ||
+      _userProfileBuilder.diabetesType == DiabetesTypeEnum.type2;
+
+  bool get _isPeritonealDialysis =>
+      _userProfileBuilder.dialysisType == DialysisTypeEnum.periotonicDialysis;
+
+  int page = 0;
+
+  final List<UserProfileStep> _steps = [
+    ChronicKidneyDiseaseStageStep(),
+    GenderStep(),
+  ];
+
+  List<UserProfileStep> get _activeSteps {
+    return _steps;
+  }
+
+  int get _totalSteps => _activeSteps.length;
+
+  bool get isDone => page + 1 == _totalSteps;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: close,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: CloseButton(onPressed: close),
+          title: Text('${page + 1} / $_totalSteps'),
+          centerTitle: true,
+        ),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: PageView.builder(
+                controller: _controller,
+                itemCount: _totalSteps,
+                itemBuilder: (BuildContext context, int index) {
+                  return _activeSteps[index].build(
+                    context,
+                    _userProfileBuilder,
+                    setState,
+                  );
+                },
+                onPageChanged: (int p) {
+                  setState(() {
+                    page = p;
+                  });
+                },
+              ),
+            ),
+            BasicSection.single(
+              margin: EdgeInsets.zero,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: AppElevatedButton(
+                    onPressed: _steps[page].validate(_userProfileBuilder)
+                        ? () => advancePageOrFinish(isDone: isDone)
+                        : null,
+                    label: isDone
+                        ? Text(appLocalizations.finish.toUpperCase())
+                        : Text(appLocalizations.further.toUpperCase()),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future advancePageOrFinish({required bool isDone}) async {
+    if (page + 1 == _totalSteps || isDone) {
+    } else {
+      await _controller.animateToPage(page + 1,
+          duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+    }
+  }
+
+  Future<bool> close() {
+    return advancePageOrFinish(isDone: true).then((value) => true);
+  }
+}
+
+class UserProfileScreenLegacy extends StatefulWidget {
+  final UserProfileNextScreenType nextScreenType;
+
+  const UserProfileScreenLegacy({
+    Key? key,
+    required this.nextScreenType,
+  }) : super(key: key);
+
+  @override
+  _UserProfileScreenStateLegacy createState() =>
+      _UserProfileScreenStateLegacy();
+}
+
+class _UserProfileScreenStateLegacy extends State<UserProfileScreenLegacy> {
   final _formKey = GlobalKey<FormState>();
 
   final _apiService = ApiService();

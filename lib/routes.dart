@@ -26,7 +26,7 @@ import 'ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_crea
 import 'ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_periods.dart';
 import 'ui/tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_creation_screen.dart';
 import 'ui/tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_screen.dart';
-import 'ui/user_profile_screen.dart';
+import 'ui/user_profile/user_profile_screen.dart';
 
 class Routes {
   static const routeStart = 'start';

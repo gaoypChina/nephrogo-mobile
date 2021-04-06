@@ -522,3 +522,84 @@ class TextWithLeadingIcon extends StatelessWidget {
     );
   }
 }
+
+class AppRadioListTile<T> extends StatelessWidget {
+  final T value;
+  final T? groupValue;
+  final ValueChanged<T?>? onChanged;
+  final Widget title;
+  final Widget? leading;
+
+  const AppRadioListTile({
+    Key? key,
+    required this.title,
+    required this.value,
+    required this.groupValue,
+    required this.onChanged,
+    this.leading,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RadioListTile<T>(
+      title: title,
+      secondary: _leadingWithStyle(leading),
+      value: value,
+      groupValue: groupValue,
+      onChanged: onChanged,
+      controlAffinity: ListTileControlAffinity.trailing,
+    );
+  }
+
+  Widget? _leadingWithStyle(Widget? leading) {
+    if (leading == null) {
+      return null;
+    }
+
+    return DefaultTextStyle(
+      style: const TextStyle(fontWeight: FontWeight.bold),
+      child: leading,
+    );
+  }
+}
+
+class RadioButtonGroup<T> extends StatefulWidget {
+  final ValueChanged<T?> onChanged;
+
+  final List<AppRadioListTile<T>> Function(
+    BuildContext context,
+    ValueChanged<T?> onChanged,
+  ) buildRadioGroups;
+
+  const RadioButtonGroup({
+    Key? key,
+    required this.onChanged,
+    required this.buildRadioGroups,
+  }) : super(key: key);
+
+  @override
+  _RadioButtonGroupState<T> createState() => _RadioButtonGroupState<T>();
+}
+
+class _RadioButtonGroupState<T> extends State<RadioButtonGroup<T>> {
+  @override
+  Widget build(BuildContext context) {
+    final radioListTiles = widget.buildRadioGroups(
+      context,
+      _onChanged,
+    );
+
+    return Column(
+      children: ListTile.divideTiles(
+        context: context,
+        tiles: radioListTiles,
+      ).toList(),
+    );
+  }
+
+  void _onChanged(T? value) {
+    setState(() {
+      widget.onChanged(value);
+    });
+  }
+}

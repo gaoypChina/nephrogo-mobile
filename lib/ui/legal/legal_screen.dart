@@ -180,9 +180,9 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                 width: double.infinity,
                 child: AppElevatedButton(
                   onPressed: _canContinue ? proceed : null,
-                  text: _initialAgreed
-                      ? appLocalizations.save.toUpperCase()
-                      : appLocalizations.proceed.toUpperCase(),
+                  label: _initialAgreed
+                      ? Text(appLocalizations.save.toUpperCase())
+                      : Text(appLocalizations.proceed.toUpperCase()),
                 ),
               ),
             ),

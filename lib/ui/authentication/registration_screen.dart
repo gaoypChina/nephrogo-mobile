@@ -73,7 +73,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 child: AppElevatedButton(
-                  text: appLocalizations.register,
+                  label: Text(appLocalizations.register),
                   onPressed: () => _register(context),
                 ),
               ),
