@@ -12,8 +12,6 @@ class FormUtils {
     required BuildContext context,
     required GlobalKey<FormState> formKey,
   }) async {
-    FocusScope.of(context).unfocus();
-
     if (!formKey.currentState!.validate()) {
       await showAppDialog(
         context: context,
