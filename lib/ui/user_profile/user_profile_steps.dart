@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 abstract class UserProfileStep {
   Widget build(
@@ -59,6 +60,51 @@ class GenderStep extends UserProfileStep {
   @override
   bool validate(UserProfileRequestBuilder builder) {
     return builder.gender != null;
+  }
+}
+
+class HeightStep extends UserProfileStep {
+  @override
+  Widget build(
+    BuildContext context,
+    UserProfileRequestBuilder builder,
+    void Function(VoidCallback fn) reloadState,
+  ) {
+    final height = builder.heightCm ??= _getInitialHeight(builder);
+
+    return SingleChildScrollView(
+      child: LargeSection(
+        title: Text(context.appLocalizations.height),
+        showDividers: true,
+        children: [
+          LayoutBuilder(builder: (context, constraints) {
+            return NumberPicker(
+                value: height,
+                itemWidth: constraints.maxWidth,
+                itemHeight: 80,
+                minValue: 100,
+                maxValue: 250,
+                haptics: true,
+                textMapper: (s) => '$s cm',
+                onChanged: (height) {
+                  reloadState(() => builder.heightCm = height);
+                });
+          }),
+        ],
+      ),
+    );
+  }
+
+  int _getInitialHeight(UserProfileRequestBuilder builder) {
+    if (builder.gender == GenderEnum.female) {
+      return 165;
+    }
+    return 180;
+  }
+
+  @override
+  bool validate(UserProfileRequestBuilder builder) {
+    return true;
   }
 }
 

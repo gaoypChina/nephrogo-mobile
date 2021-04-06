@@ -84,6 +84,7 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
 
   final List<UserProfileStep> _steps = [
     GenderStep(),
+    HeightStep(),
     ChronicKidneyDiseaseStageStep(),
     DialysisStep(),
     PeritonealDialysisTypeStep(),
@@ -122,6 +123,7 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
               child: PageView.builder(
                 controller: _controller,
                 itemCount: _totalSteps,
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
                   return _enabledSteps[index].build(
                     context,
