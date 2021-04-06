@@ -55,7 +55,7 @@ class _AppFormState extends State<AppForm> {
   }
 
   Future<bool?> _showChangesNotSavedDialog() {
-    return showDialog<bool>(
+    return showDialog<bool?>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -68,6 +68,10 @@ class _AppFormState extends State<AppForm> {
             TextButton(
               onPressed: () => Navigator.of(context).pop(true),
               child: Text(context.appLocalizations.save.toUpperCase()),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(null),
+              child: Text(context.appLocalizations.back.toUpperCase()),
             ),
           ],
         );
