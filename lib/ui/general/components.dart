@@ -265,7 +265,7 @@ class LargeAppListTile extends StatelessWidget {
   Widget get titleWithStyleApplied {
     return DefaultTextStyle.merge(
       style: const TextStyle(
-        fontSize: 24,
+        fontSize: 21,
         fontWeight: FontWeight.bold,
       ),
       child: title,
@@ -279,7 +279,7 @@ class LargeAppListTile extends StatelessWidget {
 
     return DefaultTextStyle.merge(
       style: const TextStyle(
-        fontSize: 16,
+        fontSize: 15,
         fontWeight: FontWeight.bold,
       ),
       child: subtitle!,
