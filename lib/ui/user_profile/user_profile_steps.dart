@@ -12,6 +12,8 @@ abstract class UserProfileStep {
 
   bool validate(UserProfileRequestBuilder builder);
 
+  bool isEnabled(UserProfileRequestBuilder builder) => true;
+
   Future<void> save() async {}
 }
 
@@ -125,7 +127,7 @@ class ChronicKidneyDiseaseStageStep extends UserProfileStep {
             onChanged: (s) => _onStageSelected(builder, s, reloadState),
           ),
           AppRadioListTile<ChronicKidneyDiseaseStageEnum>(
-            leading: const CircleAvatar(child: Icon(Icons.help)),
+            leading: const CircleAvatar(child: Text('?')),
             title: Text(appLocalizations.iDontKnown),
             value: ChronicKidneyDiseaseStageEnum.unknown,
             groupValue: builder.chronicKidneyDiseaseStage,
@@ -149,5 +151,182 @@ class ChronicKidneyDiseaseStageStep extends UserProfileStep {
   @override
   bool validate(UserProfileRequestBuilder builder) {
     return builder.chronicKidneyDiseaseStage != null;
+  }
+}
+
+class DialysisStep extends UserProfileStep {
+  @override
+  Widget build(
+    BuildContext context,
+    UserProfileRequestBuilder builder,
+    void Function(VoidCallback fn) reloadState,
+  ) {
+    final appLocalizations = context.appLocalizations;
+
+    return SingleChildScrollView(
+      child: LargeSection(
+        title: Text(appLocalizations.userProfileSectionDialysisType),
+        showDividers: true,
+        children: [
+          AppRadioListTile<DialysisTypeEnum>(
+            title: Text(
+              appLocalizations.userProfileSectionDialysisTypePeriotonicDialysis,
+            ),
+            value: DialysisTypeEnum.periotonicDialysis,
+            groupValue: builder.dialysisType,
+            onChanged: (s) => _onDialysisSelected(builder, s, reloadState),
+          ),
+          AppRadioListTile<DialysisTypeEnum>(
+            title: Text(
+              appLocalizations.userProfileSectionDialysisTypeHemodialysis,
+            ),
+            value: DialysisTypeEnum.hemodialysis,
+            groupValue: builder.dialysisType,
+            onChanged: (s) => _onDialysisSelected(builder, s, reloadState),
+          ),
+          AppRadioListTile<DialysisTypeEnum>(
+            title: Text(
+              appLocalizations.userProfileSectionDialysisTypePostTransplant,
+            ),
+            subtitle: Text(appLocalizations
+                .userProfileSectionDialysisTypePostTransplantDescription),
+            value: DialysisTypeEnum.postTransplant,
+            groupValue: builder.dialysisType,
+            onChanged: (s) => _onDialysisSelected(builder, s, reloadState),
+          ),
+          AppRadioListTile<DialysisTypeEnum>(
+            title: Text(
+              appLocalizations.userProfileSectionDialysisTypeNotPerformed,
+            ),
+            value: DialysisTypeEnum.notPerformed,
+            groupValue: builder.dialysisType,
+            onChanged: (s) => _onDialysisSelected(builder, s, reloadState),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onDialysisSelected(
+    UserProfileRequestBuilder builder,
+    DialysisTypeEnum? stage,
+    void Function(VoidCallback fn) reloadState,
+  ) {
+    reloadState(() {
+      builder.dialysisType = stage;
+    });
+  }
+
+  @override
+  bool validate(UserProfileRequestBuilder builder) {
+    return builder.dialysisType != null &&
+        builder.dialysisType != DialysisTypeEnum.unknown;
+  }
+}
+
+class PeritonealDialysisTypeStep extends UserProfileStep {
+  @override
+  Widget build(
+    BuildContext context,
+    UserProfileRequestBuilder builder,
+    void Function(VoidCallback fn) reloadState,
+  ) {
+    final appLocalizations = context.appLocalizations;
+
+    return SingleChildScrollView(
+      child: LargeSection(
+        title: Text(appLocalizations.peritonealDialysisType),
+        showDividers: true,
+        children: [
+          AppRadioListTile<PeriotonicDialysisTypeEnum>(
+            title: Text(appLocalizations.peritonealDialysisTypeAutomatic),
+            value: PeriotonicDialysisTypeEnum.automatic,
+            groupValue: builder.periotonicDialysisType,
+            onChanged: (s) => _onSelected(builder, s, reloadState),
+          ),
+          AppRadioListTile<PeriotonicDialysisTypeEnum>(
+            title: Text(appLocalizations.peritonealDialysisTypeManual),
+            value: PeriotonicDialysisTypeEnum.manual,
+            groupValue: builder.periotonicDialysisType,
+            onChanged: (s) => _onSelected(builder, s, reloadState),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onSelected(
+    UserProfileRequestBuilder builder,
+    PeriotonicDialysisTypeEnum? type,
+    void Function(VoidCallback fn) reloadState,
+  ) {
+    reloadState(() {
+      builder.periotonicDialysisType = type;
+    });
+  }
+
+  @override
+  bool validate(UserProfileRequestBuilder builder) {
+    return builder.periotonicDialysisType != null &&
+        builder.periotonicDialysisType != PeriotonicDialysisTypeEnum.unknown;
+  }
+
+  @override
+  bool isEnabled(UserProfileRequestBuilder builder) {
+    return builder.dialysisType == DialysisTypeEnum.periotonicDialysis;
+  }
+}
+
+class DiabetesStep extends UserProfileStep {
+  @override
+  Widget build(
+    BuildContext context,
+    UserProfileRequestBuilder builder,
+    void Function(VoidCallback fn) reloadState,
+  ) {
+    final appLocalizations = context.appLocalizations;
+
+    return SingleChildScrollView(
+      child: LargeSection(
+        title: Text(appLocalizations.userProfileSectionDiabetesType),
+        showDividers: true,
+        children: [
+          AppRadioListTile<DiabetesTypeEnum>(
+            title: Text(appLocalizations.userProfileSectionDiabetesType1),
+            value: DiabetesTypeEnum.type1,
+            groupValue: builder.diabetesType,
+            onChanged: (s) => _onSelected(builder, s, reloadState),
+          ),
+          AppRadioListTile<DiabetesTypeEnum>(
+            title: Text(appLocalizations.userProfileSectionDiabetesType2),
+            value: DiabetesTypeEnum.type2,
+            groupValue: builder.diabetesType,
+            onChanged: (s) => _onSelected(builder, s, reloadState),
+          ),
+          AppRadioListTile<DiabetesTypeEnum>(
+            title: Text(appLocalizations.userProfileSectionDiabetesTypeNo),
+            value: DiabetesTypeEnum.no,
+            groupValue: builder.diabetesType,
+            onChanged: (s) => _onSelected(builder, s, reloadState),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onSelected(
+    UserProfileRequestBuilder builder,
+    DiabetesTypeEnum? type,
+    void Function(VoidCallback fn) reloadState,
+  ) {
+    reloadState(() {
+      builder.diabetesType = type;
+    });
+  }
+
+  @override
+  bool validate(UserProfileRequestBuilder builder) {
+    return builder.diabetesType != null &&
+        builder.diabetesType != DiabetesTypeEnum.unknown;
   }
 }

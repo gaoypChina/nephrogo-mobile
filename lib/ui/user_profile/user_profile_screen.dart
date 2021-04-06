@@ -31,42 +31,79 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  final _controller = PageController(viewportFraction: 0.9999999);
-
   final _apiService = ApiService();
-  final _appPreferences = AppPreferences();
 
   final _userProfileMemoizer =
       AsyncMemoizer<NullableApiResponse<UserProfile>>();
 
-  final UserProfileRequestBuilder _userProfileBuilder =
-      UserProfileRequestBuilder();
+  @override
+  void initState() {
+    super.initState();
 
-  bool get _isDiabetic =>
-      _userProfileBuilder.diabetesType == DiabetesTypeEnum.type1 ||
-      _userProfileBuilder.diabetesType == DiabetesTypeEnum.type2;
+    _userProfileMemoizer.runOnce(() {
+      return _apiService.getUserProfile();
+    });
+  }
 
-  bool get _isPeritonealDialysis =>
-      _userProfileBuilder.dialysisType == DialysisTypeEnum.periotonicDialysis;
+  @override
+  Widget build(BuildContext context) {
+    return AppFutureBuilder<NullableApiResponse<UserProfile>>(
+      future: _userProfileMemoizer.future,
+      builder: (context, data) {
+        return _UserProfileScreenBody(userProfile: data.data);
+      },
+      loading: Scaffold(
+        appBar: AppBar(
+          title: Text(appLocalizations.userProfileScreenTitle),
+          centerTitle: true,
+        ),
+        body: const Center(child: CircularProgressIndicator()),
+      ),
+    );
+  }
+}
+
+class _UserProfileScreenBody extends StatefulWidget {
+  final UserProfile? userProfile;
+
+  const _UserProfileScreenBody({
+    Key? key,
+    required this.userProfile,
+  }) : super(key: key);
+
+  @override
+  _UserProfileScreenBodyState createState() => _UserProfileScreenBodyState();
+}
+
+class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
+  final _controller = PageController(viewportFraction: 0.9999999);
+
+  late UserProfileRequestBuilder _userProfileBuilder;
 
   int page = 0;
 
   final List<UserProfileStep> _steps = [
-    ChronicKidneyDiseaseStageStep(),
     GenderStep(),
+    ChronicKidneyDiseaseStageStep(),
+    DialysisStep(),
+    PeritonealDialysisTypeStep(),
+    DiabetesStep(),
   ];
 
-  List<UserProfileStep> get _activeSteps {
-    return _steps;
+  List<UserProfileStep> get _enabledSteps {
+    return _steps.where((s) => s.isEnabled(_userProfileBuilder)).toList();
   }
 
-  int get _totalSteps => _activeSteps.length;
+  int get _totalSteps => _enabledSteps.length;
 
   bool get isDone => page + 1 == _totalSteps;
 
   @override
   void initState() {
     super.initState();
+
+    _userProfileBuilder =
+        widget.userProfile?.toRequestBuilder() ?? UserProfileRequestBuilder();
   }
 
   @override
@@ -76,7 +113,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       child: Scaffold(
         appBar: AppBar(
           leading: CloseButton(onPressed: close),
-          title: Text('${page + 1} / $_totalSteps'),
+          title: _getTitle(),
           centerTitle: true,
         ),
         body: Column(
@@ -86,7 +123,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 controller: _controller,
                 itemCount: _totalSteps,
                 itemBuilder: (BuildContext context, int index) {
-                  return _activeSteps[index].build(
+                  return _enabledSteps[index].build(
                     context,
                     _userProfileBuilder,
                     setState,
@@ -122,16 +159,34 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
+  Widget _getTitle() {
+    if (page == 0) {
+      return Text(appLocalizations.userProfileScreenTitle);
+    } else {
+      return Text('${page + 1} / $_totalSteps');
+    }
+  }
+
   Future advancePageOrFinish({required bool isDone}) async {
     if (page + 1 == _totalSteps || isDone) {
     } else {
-      await _controller.animateToPage(page + 1,
-          duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+      await _controller.animateToPage(
+        page + 1,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
     }
   }
 
   Future<bool> close() {
     return advancePageOrFinish(isDone: true).then((value) => true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+
+    super.dispose();
   }
 }
 
