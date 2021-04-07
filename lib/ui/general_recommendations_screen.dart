@@ -104,23 +104,26 @@ class GeneralRecommendationCategoryScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(category.name)),
-      body: ListView.separated(
-        itemCount: subcategories.length,
-        itemBuilder: (context, index) {
-          final subcategory = subcategories[index];
+      body: Scrollbar(
+        isAlwaysShown: true,
+        child: ListView.separated(
+          itemCount: subcategories.length,
+          itemBuilder: (context, index) {
+            final subcategory = subcategories[index];
 
-          return _GeneralRecommendationListTile(
-            key: ObjectKey(subcategory),
-            name: subcategory.name,
-            onTap: () => Navigator.of(context).pushNamed(
-              Routes.routeGeneralRecommendationsSubcategory,
-              arguments: GeneralRecommendationSubcategoryScreenArguments(
-                subcategory,
+            return _GeneralRecommendationListTile(
+              key: ObjectKey(subcategory),
+              name: subcategory.name,
+              onTap: () => Navigator.of(context).pushNamed(
+                Routes.routeGeneralRecommendationsSubcategory,
+                arguments: GeneralRecommendationSubcategoryScreenArguments(
+                  subcategory,
+                ),
               ),
-            ),
-          );
-        },
-        separatorBuilder: (context, index) => const Divider(height: 1),
+            );
+          },
+          separatorBuilder: (context, index) => const Divider(height: 1),
+        ),
       ),
     );
   }
@@ -146,24 +149,27 @@ class GeneralRecommendationSubcategoryScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(subcategory.name)),
-      body: ListView.separated(
-        itemCount: recommendations.length,
-        itemBuilder: (context, index) {
-          final recommendation = recommendations[index];
+      body: Scrollbar(
+        isAlwaysShown: true,
+        child: ListView.separated(
+          itemCount: recommendations.length,
+          itemBuilder: (context, index) {
+            final recommendation = recommendations[index];
 
-          return _GeneralRecommendationListTile(
-            key: ObjectKey(recommendation),
-            name: recommendation.name,
-            onTap: () => Navigator.of(context).pushNamed(
-              Routes.routeGeneralRecommendation,
-              arguments: GeneralRecommendationScreenArguments(
-                recommendation,
-                subcategory,
+            return _GeneralRecommendationListTile(
+              key: ObjectKey(recommendation),
+              name: recommendation.name,
+              onTap: () => Navigator.of(context).pushNamed(
+                Routes.routeGeneralRecommendation,
+                arguments: GeneralRecommendationScreenArguments(
+                  recommendation,
+                  subcategory,
+                ),
               ),
-            ),
-          );
-        },
-        separatorBuilder: (context, index) => const Divider(height: 1),
+            );
+          },
+          separatorBuilder: (context, index) => const Divider(height: 1),
+        ),
       ),
     );
   }
@@ -192,11 +198,12 @@ class GeneralRecommendationScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(subcategory.name),
       ),
-      body: BasicSection.single(
-        margin: EdgeInsets.zero,
-        child: Scrollbar(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+      body: Scrollbar(
+        isAlwaysShown: true,
+        child: SingleChildScrollView(
+          child: BasicSection.single(
+            innerPadding: const EdgeInsets.all(16),
+            margin: EdgeInsets.zero,
             child: HtmlWidget(
               recommendation.body,
               factoryBuilder: () => _HtmlWidgetFactory(),
