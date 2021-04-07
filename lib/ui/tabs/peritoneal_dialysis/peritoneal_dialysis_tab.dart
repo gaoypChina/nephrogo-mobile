@@ -11,10 +11,10 @@ class PeritonealDialysisTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppFutureBuilder<PeriotonicDialysisTypeEnum>(
-      future: _appPreferences.getPeritonealDialysisType(),
+    return AppFutureBuilder<DialysisEnum>(
+      future: _appPreferences.getDialysisType(),
       builder: (context, peritonealDialysisType) {
-        if (peritonealDialysisType == PeriotonicDialysisTypeEnum.manual) {
+        if (peritonealDialysisType == DialysisEnum.manualPeritonealDialysis) {
           return ManualPeritonealDialysisTab();
         } else {
           return AutomaticPeritonealDialysisTab();

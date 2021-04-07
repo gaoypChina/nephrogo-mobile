@@ -34,7 +34,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   final _apiService = ApiService();
 
   final _userProfileMemoizer =
-      AsyncMemoizer<NullableApiResponse<UserProfile>>();
+      AsyncMemoizer<NullableApiResponse<UserProfileV2>>();
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AppFutureBuilder<NullableApiResponse<UserProfile>>(
+    return AppFutureBuilder<NullableApiResponse<UserProfileV2>>(
       future: _userProfileMemoizer.future,
       builder: (context, data) {
         return _UserProfileScreenBody(
@@ -67,7 +67,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 }
 
 class _UserProfileScreenBody extends StatefulWidget {
-  final UserProfile? userProfile;
+  final UserProfileV2? userProfile;
   final UserProfileNextScreenType nextScreenType;
 
   const _UserProfileScreenBody({
@@ -87,16 +87,16 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
   final _appPreferences = AppPreferences();
   final _authenticationProvider = AuthenticationProvider();
 
-  late UserProfileRequestBuilder _userProfileBuilder;
+  late UserProfileV2RequestBuilder _userProfileBuilder;
 
   int page = 0;
 
   final List<UserProfileStep> _steps = [
     GenderStep(),
     HeightStep(),
+    ChronicKidneyDiseaseAgeStep(),
     ChronicKidneyDiseaseStageStep(),
     DialysisStep(),
-    PeritonealDialysisTypeStep(),
     DiabetesStep(),
   ];
 
@@ -109,7 +109,7 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
     super.initState();
 
     _userProfileBuilder =
-        widget.userProfile?.toRequestBuilder() ?? UserProfileRequestBuilder();
+        widget.userProfile?.toRequestBuilder() ?? UserProfileV2RequestBuilder();
   }
 
   @override
@@ -238,7 +238,7 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
         .then((_) => true);
   }
 
-  Future<UserProfile> _saveUserProfileToApi() async {
+  Future<UserProfileV2> _saveUserProfileToApi() async {
     final userProfile = _userProfileBuilder.build();
 
     return _apiService.createOrUpdateUserProfile(userProfile);
@@ -266,10 +266,7 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
   Future<void> _onSavedSuccess() async {
     await _appPreferences.setProfileCreated();
 
-    await _appPreferences.setPeritonealDialysisType(
-      _userProfileBuilder.periotonicDialysisType ??
-          PeriotonicDialysisTypeEnum.unknown,
-    );
+    await _appPreferences.setDialysisType(_userProfileBuilder.dialysis);
 
     await _navigateToAnotherScreen();
   }

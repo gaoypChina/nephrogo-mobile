@@ -180,7 +180,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
     }
   }
 
-  Future<UserProfile?> getUserProfileAndUpdateUser() async {
+  Future<UserProfileV2?> getUserProfileAndUpdateUser() async {
     final user = await _apiService.getUser();
     var marketingAllowed = await _appPreferences.isMarketingAllowed();
 
@@ -196,9 +196,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
     final userProfile = await _apiService.getUserProfile().then((r) => r.data);
 
-    await _appPreferences.setPeritonealDialysisType(
-      userProfile?.periotonicDialysisType ?? PeriotonicDialysisTypeEnum.unknown,
-    );
+    await _appPreferences.setDialysisType(userProfile?.dialysis);
 
     return userProfile;
   }

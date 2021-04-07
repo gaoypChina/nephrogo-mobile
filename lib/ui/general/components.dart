@@ -529,7 +529,7 @@ class AppRadioListTile<T> extends StatelessWidget {
   final ValueChanged<T?>? onChanged;
   final Widget title;
   final Widget? subtitle;
-  final Widget? leading;
+  final Widget? secondary;
 
   const AppRadioListTile({
     Key? key,
@@ -537,7 +537,7 @@ class AppRadioListTile<T> extends StatelessWidget {
     required this.value,
     required this.groupValue,
     required this.onChanged,
-    this.leading,
+    this.secondary,
     this.subtitle,
   }) : super(key: key);
 
@@ -546,11 +546,10 @@ class AppRadioListTile<T> extends StatelessWidget {
     return RadioListTile<T>(
       title: title,
       subtitle: subtitle,
-      secondary: _leadingWithStyle(leading),
+      secondary: _leadingWithStyle(secondary),
       value: value,
       groupValue: groupValue,
       onChanged: onChanged,
-      controlAffinity: ListTileControlAffinity.trailing,
     );
   }
 

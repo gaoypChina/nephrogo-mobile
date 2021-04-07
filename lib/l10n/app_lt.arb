@@ -565,8 +565,24 @@
   "@userProfileSectionChronicKidneyDiseaseTitle": {
     "context": "userProfile"
   },
-  "userProfileSectionChronicKidneyDiseaseAge": "Kiek metų sergate lėtine inkstų liga",
+  "userProfileSectionChronicKidneyDiseaseAge": "Kiek laiko sergate lėtine inkstų liga?",
   "@userProfileSectionChronicKidneyDiseaseAge": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseAgeNoMoreThanYear": "Ne ilgiau nei metus",
+  "@chronicKidneyDiseaseAgeNoMoreThanYear": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseAge1To5Years": "Nuo 1 iki 5 metų",
+  "@chronicKidneyDiseaseAge1To5Years": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseAge6To10Years": "Nuo 6 iki 10 metų",
+  "@chronicKidneyDiseaseAge6To10Years": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseMoreThan10Years": "Daugiau nei 10 metų",
+  "@chronicKidneyDiseaseMoreThan10Years": {
     "context": "userProfile"
   },
   "userProfileSectionChronicKidneyDiseaseStage": "Lėtinės inkstų ligos stadija",
@@ -661,11 +677,11 @@
   "@peritonealDialysisType": {
     "context": "userProfile"
   },
-  "peritonealDialysisTypeAutomatic": "Automatinė",
+  "peritonealDialysisTypeAutomatic": "Automatinė peritoninė dializė",
   "@peritonealDialysisTypeAutomatic": {
     "context": "userProfile"
   },
-  "peritonealDialysisTypeManual": "Rankinė",
+  "peritonealDialysisTypeManual": "Rankinė peritoninė dializė",
   "@peritonealDialysisTypeManual": {
     "context": "userProfile"
   },

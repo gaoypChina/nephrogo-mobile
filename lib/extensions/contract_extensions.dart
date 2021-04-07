@@ -1175,22 +1175,18 @@ extension AutomaticPeritonealDialysisExtensions on AutomaticPeritonealDialysis {
   }
 }
 
-extension UserProfileExtensions on UserProfile {
-  UserProfileRequestBuilder toRequestBuilder() {
-    final builder = UserProfileRequestBuilder();
+extension UserProfileExtensions on UserProfileV2 {
+  UserProfileV2RequestBuilder toRequestBuilder() {
+    final builder = UserProfileV2RequestBuilder();
 
     builder.gender = gender;
-    builder.yearOfBirth = yearOfBirth;
     builder.heightCm = heightCm;
-    builder.chronicKidneyDiseaseYears = chronicKidneyDiseaseYears;
+    builder.chronicKidneyDiseaseAge = chronicKidneyDiseaseAge;
     builder.chronicKidneyDiseaseStage = chronicKidneyDiseaseStage;
 
-    builder.dialysisType = dialysisType;
-    builder.periotonicDialysisType = periotonicDialysisType;
+    builder.dialysis = dialysis;
 
     builder.diabetesType = diabetesType;
-    builder.diabetesYears = diabetesYears;
-    builder.diabetesComplications = diabetesComplications;
 
     return builder;
   }
@@ -1232,6 +1228,54 @@ extension ChronicKidneyDiseaseStageEnumExtensions
         return null;
     }
     throw ArgumentError.value(this, 'ChronicKidneyDiseaseStageEnum');
+  }
+}
+
+extension DialysisTypeExtension on DialysisEnum {
+  String title(AppLocalizations appLocalizations) {
+    switch (this) {
+      case DialysisEnum.manualPeritonealDialysis:
+        return appLocalizations.peritonealDialysisTypeManual;
+      case DialysisEnum.automaticPeritonealDialysis:
+        return appLocalizations.peritonealDialysisTypeAutomatic;
+      case DialysisEnum.hemodialysis:
+        return appLocalizations.userProfileSectionDialysisTypeHemodialysis;
+      case DialysisEnum.notPerformed:
+        return appLocalizations.userProfileSectionDialysisTypeNotPerformed;
+      case DialysisEnum.postTransplant:
+        return appLocalizations.userProfileSectionDialysisTypePostTransplant;
+      case DialysisEnum.unknown:
+        return appLocalizations.iDontKnown;
+    }
+    throw ArgumentError.value(this, 'ChronicKidneyDiseaseStageEnum');
+  }
+
+  String? description(AppLocalizations appLocalizations) {
+    switch (this) {
+      case DialysisEnum.postTransplant:
+        return appLocalizations
+            .userProfileSectionDialysisTypePostTransplantDescription;
+      default:
+        return null;
+    }
+  }
+}
+
+extension ChronicKidneyDiseaseAgeEnumExtensions on ChronicKidneyDiseaseAgeEnum {
+  String title(AppLocalizations appLocalizations) {
+    switch (this) {
+      case ChronicKidneyDiseaseAgeEnum.lessThan1:
+        return appLocalizations.chronicKidneyDiseaseAgeNoMoreThanYear;
+      case ChronicKidneyDiseaseAgeEnum.n25:
+        return appLocalizations.chronicKidneyDiseaseAge1To5Years;
+      case ChronicKidneyDiseaseAgeEnum.n610:
+        return appLocalizations.chronicKidneyDiseaseAge6To10Years;
+      case ChronicKidneyDiseaseAgeEnum.greaterThan10:
+        return appLocalizations.chronicKidneyDiseaseMoreThan10Years;
+      case ChronicKidneyDiseaseAgeEnum.unknown:
+        return appLocalizations.iDontKnown;
+    }
+    throw ArgumentError.value(this, 'ChronicKidneyDiseaseAgeEnum');
   }
 }
 

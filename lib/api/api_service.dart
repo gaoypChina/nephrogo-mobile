@@ -281,11 +281,11 @@ class ApiService {
     return _userApi.userAppReviewRetrieve().then((r) => r.data!);
   }
 
-  Future<UserProfile> createOrUpdateUserProfile(
-    UserProfileRequest userProfileRequest,
+  Future<UserProfileV2> createOrUpdateUserProfile(
+    UserProfileV2Request userProfileRequest,
   ) {
     return _userApi
-        .userProfileUpdate(userProfileRequest: userProfileRequest)
+        .userProfileV2Update(userProfileV2Request: userProfileRequest)
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
@@ -294,8 +294,9 @@ class ApiService {
         return r.data!;
       },
     ).catchError(
-      (e) => _userApi
-          .userProfileCreate(userProfileRequest: userProfileRequest)
+      (e) =>
+          _userApi
+          .userProfileV2Create(userProfileV2Request: userProfileRequest)
           .then(
         (r) {
           _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
@@ -308,12 +309,12 @@ class ApiService {
     );
   }
 
-  Future<NullableApiResponse<UserProfile>> getUserProfile() {
+  Future<NullableApiResponse<UserProfileV2>> getUserProfile() {
     return _userApi
-        .userProfileRetrieve()
-        .then((r) => NullableApiResponse<UserProfile>(r.data))
+        .userProfileV2Retrieve()
+        .then((r) => NullableApiResponse<UserProfileV2>(r.data))
         .catchError(
-          (e) => NullableApiResponse<UserProfile>(null),
+          (e) => NullableApiResponse<UserProfileV2>(null),
         );
   }
 
