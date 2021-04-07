@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
+import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/analytics.dart';
 
@@ -16,6 +17,7 @@ class _AppComponentState extends State<AppComponent> {
   static const _defaultLocale = Locale('lt', 'LT');
 
   final _apiService = ApiService();
+  final _appPreferences = AppPreferences();
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,7 @@ class _AppComponentState extends State<AppComponent> {
   @override
   Future dispose() async {
     await _apiService.dispose();
+    await _appPreferences.dispose();
 
     super.dispose();
   }

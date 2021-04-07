@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+enum _AppPreferencesChangeEvent { dialysis }
 
 class AppPreferences {
   static const _keyProfileCreated = 'PROFILE_CREATED';
@@ -15,6 +18,9 @@ class AppPreferences {
   static const _keyDialysisType = 'PERITONEAL_DIALYSIS_TYPE';
 
   static final AppPreferences _singleton = AppPreferences._internal();
+
+  final _preferencesEventsStreamController =
+      StreamController<_AppPreferencesChangeEvent>.broadcast();
 
   factory AppPreferences() {
     return _singleton;
@@ -108,12 +114,18 @@ class AppPreferences {
   Future<bool> setDialysisType(
     DialysisEnum? dialysisType,
   ) {
-    return _sharedPreferences.then(
+    return _sharedPreferences
+        .then(
       (preferences) => preferences.setString(
         _keyDialysisType,
         (dialysisType ?? DialysisEnum.unknown).name,
       ),
-    );
+    )
+        .then<bool>((v) {
+      _postPreferencesStateChangeEvent(_AppPreferencesChangeEvent.dialysis);
+
+      return v;
+    });
   }
 
   Future<DialysisEnum> getDialysisType() {
@@ -143,9 +155,24 @@ class AppPreferences {
     );
   }
 
-  Future<bool> hasPeritonealDialysisTypeSaved() {
-    return _sharedPreferences.then<bool>(
-      (preferences) => preferences.containsKey(_keyDialysisType),
-    );
+  Stream<DialysisEnum> getDialysisTypeStream() {
+    return _buildAppEventsStreamWithInitialEmit(
+            _AppPreferencesChangeEvent.dialysis)
+        .asyncMap((_) => getDialysisType());
+  }
+
+  void _postPreferencesStateChangeEvent(_AppPreferencesChangeEvent event) {
+    _preferencesEventsStreamController.add(event);
+  }
+
+  Stream<_AppPreferencesChangeEvent> _buildAppEventsStreamWithInitialEmit(
+      _AppPreferencesChangeEvent event) {
+    return StreamGroup.merge(
+      [_preferencesEventsStreamController.stream, Stream.value(event)],
+    ).where((e) => e == event);
+  }
+
+  Future dispose() {
+    return _preferencesEventsStreamController.close();
   }
 }
