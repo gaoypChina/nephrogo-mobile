@@ -1266,7 +1266,7 @@ extension ChronicKidneyDiseaseAgeEnumExtensions on ChronicKidneyDiseaseAgeEnum {
     switch (this) {
       case ChronicKidneyDiseaseAgeEnum.lessThan1:
         return appLocalizations.chronicKidneyDiseaseAgeNoMoreThanYear;
-      case ChronicKidneyDiseaseAgeEnum.n25:
+      case ChronicKidneyDiseaseAgeEnum.n15:
         return appLocalizations.chronicKidneyDiseaseAge1To5Years;
       case ChronicKidneyDiseaseAgeEnum.n610:
         return appLocalizations.chronicKidneyDiseaseAge6To10Years;

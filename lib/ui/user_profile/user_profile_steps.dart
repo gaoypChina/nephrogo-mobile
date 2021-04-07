@@ -107,9 +107,9 @@ class HeightStep extends UserProfileStep {
 }
 
 class ChronicKidneyDiseaseAgeStep extends UserProfileStep {
-  static const _invervals = <ChronicKidneyDiseaseAgeEnum>[
+  static const _intervals = <ChronicKidneyDiseaseAgeEnum>[
     ChronicKidneyDiseaseAgeEnum.lessThan1,
-    ChronicKidneyDiseaseAgeEnum.n25,
+    ChronicKidneyDiseaseAgeEnum.n15,
     ChronicKidneyDiseaseAgeEnum.n610,
     ChronicKidneyDiseaseAgeEnum.greaterThan10,
   ];
@@ -129,7 +129,7 @@ class ChronicKidneyDiseaseAgeStep extends UserProfileStep {
         ),
         showDividers: true,
         children: [
-          for (final interval in _invervals)
+          for (final interval in _intervals)
             AppRadioListTile<ChronicKidneyDiseaseAgeEnum>(
               title: Text(interval.title(appLocalizations)),
               value: interval,
