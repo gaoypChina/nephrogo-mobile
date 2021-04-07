@@ -551,7 +551,11 @@
   "@userProfileScreenTitle": {
     "context": "userProfile"
   },
-  "userProfileExplanation": "Jūsų duomenys reikalingi, kad NephroGo apskaičiuotų Jums pritaikytas mitybos normas.",
+  "userProfileExplanationTitle": "Profilio sukūrimas",
+  "@userProfileExplanationTitle": {
+    "context": "userProfile"
+  },
+  "userProfileExplanation": "Jūsų atsakymų dėka personalizuosime NephroGo ir apskaičiuosime mitybos normas skirtas būtent Jums!",
   "@userProfileExplanation": {
     "context": "userProfile"
   },
@@ -605,6 +609,30 @@
   },
   "userProfileSectionChronicKidneyDiseaseStageHelper": "GFG – glomerulų filtracijos greitis",
   "@userProfileSectionChronicKidneyDiseaseStageHelper": {
+    "context": "userProfile"
+  },
+  "stage": "stadija",
+  "@stage": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseStage1Description": "GFG ne mažiau 90 ml/min.",
+  "@chronicKidneyDiseaseStage1Description": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseStage2Description": "GFG 60 - 89 ml/min.",
+  "@chronicKidneyDiseaseStage2Description": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseStage3Description": "GFG 30 – 59 ml/min.",
+  "@chronicKidneyDiseaseStage3Description": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseStage4Description": "GFG 15 – 29 ml/min.",
+  "@chronicKidneyDiseaseStage4Description": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseStage5Description": "GFG mažiau nei 15 ml/min.",
+  "@chronicKidneyDiseaseStage5Description": {
     "context": "userProfile"
   },
   "userProfileSectionChronicKidneyDiseaseStage1": "I – GFG > 90 ml/min./1,73 m²",
@@ -679,7 +707,7 @@
   "@userProfileSectionDiabetesTitle": {
     "context": "userProfile"
   },
-  "userProfileSectionDiabetesType": "Cukriniu diabeto tipas",
+  "userProfileSectionDiabetesType": "Cukrinio diabeto tipas",
   "@userProfileSectionDiabetesType": {
     "context": "userProfile"
   },

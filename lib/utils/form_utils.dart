@@ -1,9 +1,7 @@
-import 'package:dio/dio.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
-import 'package:nephrogo/ui/general/progress_dialog.dart';
+import 'package:nephrogo/utils/utils.dart';
 
 class FormUtils {
   FormUtils._();
@@ -39,39 +37,11 @@ class FormUtils {
 
     formKey.currentState!.save();
 
-    final future = futureBuilder().catchError(
-      (e, stackTrace) async {
-        FirebaseCrashlytics.instance.recordError(e, stackTrace as StackTrace);
-
-        String? message;
-        if (onServerValidationError != null &&
-            e is DioError &&
-            e.response?.statusCode == 400) {
-          final data = e.response?.toString() ?? '';
-
-          message = onServerValidationError(data);
-        }
-
-        await showAppErrorDialog(
-          context: context,
-          message: message ?? context.appLocalizations.serverErrorDescription,
-        );
-
-        return null;
-      },
+    return ApiUtils.saveToApi(
+      context: context,
+      futureBuilder: futureBuilder,
+      onServerValidationError: onServerValidationError,
+      onSuccess: onSuccess,
     );
-
-    final res = await AppProgressDialog(context).showForFuture(future);
-
-    if (res != null) {
-      if (onSuccess != null) {
-        await onSuccess();
-      } else {
-        Navigator.of(context).pop();
-      }
-
-      return true;
-    }
-    return false;
   }
 }

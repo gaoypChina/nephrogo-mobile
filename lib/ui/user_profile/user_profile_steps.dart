@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -8,7 +9,7 @@ abstract class UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileRequestBuilder builder,
-    void Function(VoidCallback fn) reloadState,
+    void Function(VoidCallback fn) setState,
   );
 
   bool validate(UserProfileRequestBuilder builder);
@@ -23,7 +24,7 @@ class GenderStep extends UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileRequestBuilder builder,
-    void Function(VoidCallback fn) reloadState,
+    void Function(VoidCallback fn) setState,
   ) {
     return SingleChildScrollView(
       child: LargeSection(
@@ -34,13 +35,13 @@ class GenderStep extends UserProfileStep {
             title: Text(context.appLocalizations.male),
             value: GenderEnum.male,
             groupValue: builder.gender,
-            onChanged: (g) => _onGenderSelected(builder, g, reloadState),
+            onChanged: (g) => _onGenderSelected(builder, g, setState),
           ),
           AppRadioListTile<GenderEnum>(
             title: Text(context.appLocalizations.female),
             value: GenderEnum.female,
             groupValue: builder.gender,
-            onChanged: (g) => _onGenderSelected(builder, g, reloadState),
+            onChanged: (g) => _onGenderSelected(builder, g, setState),
           ),
         ],
       ),
@@ -50,9 +51,9 @@ class GenderStep extends UserProfileStep {
   void _onGenderSelected(
     UserProfileRequestBuilder builder,
     GenderEnum? gender,
-    void Function(VoidCallback fn) reloadState,
+    void Function(VoidCallback fn) setState,
   ) {
-    reloadState(() {
+    setState(() {
       builder.gender = gender;
     });
   }
@@ -68,7 +69,7 @@ class HeightStep extends UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileRequestBuilder builder,
-    void Function(VoidCallback fn) reloadState,
+    void Function(VoidCallback fn) setState,
   ) {
     final height = builder.heightCm ??= _getInitialHeight(builder);
 
@@ -87,7 +88,7 @@ class HeightStep extends UserProfileStep {
                 haptics: true,
                 textMapper: (s) => '$s cm',
                 onChanged: (height) {
-                  reloadState(() => builder.heightCm = height);
+                  setState(() => builder.heightCm = height);
                 });
           }),
         ],
@@ -109,87 +110,71 @@ class HeightStep extends UserProfileStep {
 }
 
 class ChronicKidneyDiseaseStageStep extends UserProfileStep {
+  final _stages = <ChronicKidneyDiseaseStageEnum>[
+    ChronicKidneyDiseaseStageEnum.stage1,
+    ChronicKidneyDiseaseStageEnum.stage2,
+    ChronicKidneyDiseaseStageEnum.stage3,
+    ChronicKidneyDiseaseStageEnum.stage4,
+    ChronicKidneyDiseaseStageEnum.stage5,
+    ChronicKidneyDiseaseStageEnum.unknown,
+  ];
+
   @override
   Widget build(
     BuildContext context,
     UserProfileRequestBuilder builder,
-    void Function(VoidCallback fn) reloadState,
+    void Function(VoidCallback fn) setState,
   ) {
     final appLocalizations = context.appLocalizations;
 
-    return SingleChildScrollView(
-      child: LargeSection(
-        title: Text(
-          appLocalizations.userProfileSectionChronicKidneyDiseaseStage,
+    return Scrollbar(
+      isAlwaysShown: true,
+      child: SingleChildScrollView(
+        child: LargeSection(
+          title: Text(
+            appLocalizations.userProfileSectionChronicKidneyDiseaseStage,
+          ),
+          subtitle: Text(
+            appLocalizations.userProfileSectionChronicKidneyDiseaseStageHelper,
+          ),
+          showDividers: true,
+          children: [
+            for (final stage in _stages)
+              _buildSelectionWidget(
+                stage,
+                appLocalizations,
+                builder,
+                setState,
+              ),
+          ],
         ),
-        subtitle: Text(
-          appLocalizations.userProfileSectionChronicKidneyDiseaseStageHelper,
-        ),
-        showDividers: true,
-        children: [
-          AppRadioListTile<ChronicKidneyDiseaseStageEnum>(
-            leading: const CircleAvatar(child: Text('1')),
-            title: Text(
-              appLocalizations.userProfileSectionChronicKidneyDiseaseStage1,
-            ),
-            value: ChronicKidneyDiseaseStageEnum.stage1,
-            groupValue: builder.chronicKidneyDiseaseStage,
-            onChanged: (s) => _onStageSelected(builder, s, reloadState),
-          ),
-          AppRadioListTile<ChronicKidneyDiseaseStageEnum>(
-            leading: const CircleAvatar(child: Text('2')),
-            title: Text(
-              appLocalizations.userProfileSectionChronicKidneyDiseaseStage2,
-            ),
-            value: ChronicKidneyDiseaseStageEnum.stage2,
-            groupValue: builder.chronicKidneyDiseaseStage,
-            onChanged: (s) => _onStageSelected(builder, s, reloadState),
-          ),
-          AppRadioListTile<ChronicKidneyDiseaseStageEnum>(
-            leading: const CircleAvatar(child: Text('3')),
-            title: Text(
-              appLocalizations.userProfileSectionChronicKidneyDiseaseStage3,
-            ),
-            value: ChronicKidneyDiseaseStageEnum.stage3,
-            groupValue: builder.chronicKidneyDiseaseStage,
-            onChanged: (s) => _onStageSelected(builder, s, reloadState),
-          ),
-          AppRadioListTile<ChronicKidneyDiseaseStageEnum>(
-            leading: const CircleAvatar(child: Text('4')),
-            title: Text(
-              appLocalizations.userProfileSectionChronicKidneyDiseaseStage4,
-            ),
-            value: ChronicKidneyDiseaseStageEnum.stage4,
-            groupValue: builder.chronicKidneyDiseaseStage,
-            onChanged: (s) => _onStageSelected(builder, s, reloadState),
-          ),
-          AppRadioListTile<ChronicKidneyDiseaseStageEnum>(
-            leading: const CircleAvatar(child: Text('5')),
-            title: Text(
-              appLocalizations.userProfileSectionChronicKidneyDiseaseStage5,
-            ),
-            value: ChronicKidneyDiseaseStageEnum.stage5,
-            groupValue: builder.chronicKidneyDiseaseStage,
-            onChanged: (s) => _onStageSelected(builder, s, reloadState),
-          ),
-          AppRadioListTile<ChronicKidneyDiseaseStageEnum>(
-            leading: const CircleAvatar(child: Text('?')),
-            title: Text(appLocalizations.iDontKnown),
-            value: ChronicKidneyDiseaseStageEnum.unknown,
-            groupValue: builder.chronicKidneyDiseaseStage,
-            onChanged: (s) => _onStageSelected(builder, s, reloadState),
-          ),
-        ],
       ),
+    );
+  }
+
+  Widget _buildSelectionWidget(
+    ChronicKidneyDiseaseStageEnum stage,
+    AppLocalizations appLocalizations,
+    UserProfileRequestBuilder builder,
+    void Function(VoidCallback fn) setState,
+  ) {
+    final description = stage.description(appLocalizations);
+
+    return AppRadioListTile<ChronicKidneyDiseaseStageEnum>(
+      title: Text(stage.title(appLocalizations)),
+      subtitle: description != null ? Text(description) : null,
+      value: stage,
+      groupValue: builder.chronicKidneyDiseaseStage,
+      onChanged: (s) => _onStageSelected(builder, s, setState),
     );
   }
 
   void _onStageSelected(
     UserProfileRequestBuilder builder,
     ChronicKidneyDiseaseStageEnum? stage,
-    void Function(VoidCallback fn) reloadState,
+    void Function(VoidCallback fn) setState,
   ) {
-    reloadState(() {
+    setState(() {
       builder.chronicKidneyDiseaseStage = stage;
     });
   }
@@ -205,7 +190,7 @@ class DialysisStep extends UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileRequestBuilder builder,
-    void Function(VoidCallback fn) reloadState,
+    void Function(VoidCallback fn) setState,
   ) {
     final appLocalizations = context.appLocalizations;
 
@@ -220,7 +205,7 @@ class DialysisStep extends UserProfileStep {
             ),
             value: DialysisTypeEnum.periotonicDialysis,
             groupValue: builder.dialysisType,
-            onChanged: (s) => _onDialysisSelected(builder, s, reloadState),
+            onChanged: (s) => _onDialysisSelected(builder, s, setState),
           ),
           AppRadioListTile<DialysisTypeEnum>(
             title: Text(
@@ -228,7 +213,7 @@ class DialysisStep extends UserProfileStep {
             ),
             value: DialysisTypeEnum.hemodialysis,
             groupValue: builder.dialysisType,
-            onChanged: (s) => _onDialysisSelected(builder, s, reloadState),
+            onChanged: (s) => _onDialysisSelected(builder, s, setState),
           ),
           AppRadioListTile<DialysisTypeEnum>(
             title: Text(
@@ -238,7 +223,7 @@ class DialysisStep extends UserProfileStep {
                 .userProfileSectionDialysisTypePostTransplantDescription),
             value: DialysisTypeEnum.postTransplant,
             groupValue: builder.dialysisType,
-            onChanged: (s) => _onDialysisSelected(builder, s, reloadState),
+            onChanged: (s) => _onDialysisSelected(builder, s, setState),
           ),
           AppRadioListTile<DialysisTypeEnum>(
             title: Text(
@@ -246,7 +231,7 @@ class DialysisStep extends UserProfileStep {
             ),
             value: DialysisTypeEnum.notPerformed,
             groupValue: builder.dialysisType,
-            onChanged: (s) => _onDialysisSelected(builder, s, reloadState),
+            onChanged: (s) => _onDialysisSelected(builder, s, setState),
           ),
         ],
       ),
@@ -256,9 +241,9 @@ class DialysisStep extends UserProfileStep {
   void _onDialysisSelected(
     UserProfileRequestBuilder builder,
     DialysisTypeEnum? stage,
-    void Function(VoidCallback fn) reloadState,
+    void Function(VoidCallback fn) setState,
   ) {
-    reloadState(() {
+    setState(() {
       builder.dialysisType = stage;
     });
   }
@@ -275,7 +260,7 @@ class PeritonealDialysisTypeStep extends UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileRequestBuilder builder,
-    void Function(VoidCallback fn) reloadState,
+    void Function(VoidCallback fn) setState,
   ) {
     final appLocalizations = context.appLocalizations;
 
@@ -288,13 +273,13 @@ class PeritonealDialysisTypeStep extends UserProfileStep {
             title: Text(appLocalizations.peritonealDialysisTypeAutomatic),
             value: PeriotonicDialysisTypeEnum.automatic,
             groupValue: builder.periotonicDialysisType,
-            onChanged: (s) => _onSelected(builder, s, reloadState),
+            onChanged: (s) => _onSelected(builder, s, setState),
           ),
           AppRadioListTile<PeriotonicDialysisTypeEnum>(
             title: Text(appLocalizations.peritonealDialysisTypeManual),
             value: PeriotonicDialysisTypeEnum.manual,
             groupValue: builder.periotonicDialysisType,
-            onChanged: (s) => _onSelected(builder, s, reloadState),
+            onChanged: (s) => _onSelected(builder, s, setState),
           ),
         ],
       ),
@@ -304,9 +289,9 @@ class PeritonealDialysisTypeStep extends UserProfileStep {
   void _onSelected(
     UserProfileRequestBuilder builder,
     PeriotonicDialysisTypeEnum? type,
-    void Function(VoidCallback fn) reloadState,
+    void Function(VoidCallback fn) setState,
   ) {
-    reloadState(() {
+    setState(() {
       builder.periotonicDialysisType = type;
     });
   }
@@ -328,32 +313,32 @@ class DiabetesStep extends UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileRequestBuilder builder,
-    void Function(VoidCallback fn) reloadState,
+    void Function(VoidCallback fn) setState,
   ) {
     final appLocalizations = context.appLocalizations;
 
     return SingleChildScrollView(
       child: LargeSection(
-        title: Text(appLocalizations.userProfileSectionDiabetesType),
+        title: Text(appLocalizations.userProfileSectionDiabetesTitle),
         showDividers: true,
         children: [
           AppRadioListTile<DiabetesTypeEnum>(
             title: Text(appLocalizations.userProfileSectionDiabetesType1),
             value: DiabetesTypeEnum.type1,
             groupValue: builder.diabetesType,
-            onChanged: (s) => _onSelected(builder, s, reloadState),
+            onChanged: (s) => _onSelected(builder, s, setState),
           ),
           AppRadioListTile<DiabetesTypeEnum>(
             title: Text(appLocalizations.userProfileSectionDiabetesType2),
             value: DiabetesTypeEnum.type2,
             groupValue: builder.diabetesType,
-            onChanged: (s) => _onSelected(builder, s, reloadState),
+            onChanged: (s) => _onSelected(builder, s, setState),
           ),
           AppRadioListTile<DiabetesTypeEnum>(
             title: Text(appLocalizations.userProfileSectionDiabetesTypeNo),
             value: DiabetesTypeEnum.no,
             groupValue: builder.diabetesType,
-            onChanged: (s) => _onSelected(builder, s, reloadState),
+            onChanged: (s) => _onSelected(builder, s, setState),
           ),
         ],
       ),
@@ -363,9 +348,9 @@ class DiabetesStep extends UserProfileStep {
   void _onSelected(
     UserProfileRequestBuilder builder,
     DiabetesTypeEnum? type,
-    void Function(VoidCallback fn) reloadState,
+    void Function(VoidCallback fn) setState,
   ) {
-    reloadState(() {
+    setState(() {
       builder.diabetesType = type;
     });
   }

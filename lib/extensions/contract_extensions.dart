@@ -1196,6 +1196,45 @@ extension UserProfileExtensions on UserProfile {
   }
 }
 
+extension ChronicKidneyDiseaseStageEnumExtensions
+    on ChronicKidneyDiseaseStageEnum {
+  String title(AppLocalizations appLocalizations) {
+    switch (this) {
+      case ChronicKidneyDiseaseStageEnum.stage1:
+        return '1 ${appLocalizations.stage}';
+      case ChronicKidneyDiseaseStageEnum.stage2:
+        return '2 ${appLocalizations.stage}';
+      case ChronicKidneyDiseaseStageEnum.stage3:
+        return '3 ${appLocalizations.stage}';
+      case ChronicKidneyDiseaseStageEnum.stage4:
+        return '4 ${appLocalizations.stage}';
+      case ChronicKidneyDiseaseStageEnum.stage5:
+        return '5 ${appLocalizations.stage}';
+      case ChronicKidneyDiseaseStageEnum.unknown:
+        return appLocalizations.iDontKnown;
+    }
+    throw ArgumentError.value(this, 'ChronicKidneyDiseaseStageEnum');
+  }
+
+  String? description(AppLocalizations appLocalizations) {
+    switch (this) {
+      case ChronicKidneyDiseaseStageEnum.stage1:
+        return appLocalizations.chronicKidneyDiseaseStage1Description;
+      case ChronicKidneyDiseaseStageEnum.stage2:
+        return appLocalizations.chronicKidneyDiseaseStage2Description;
+      case ChronicKidneyDiseaseStageEnum.stage3:
+        return appLocalizations.chronicKidneyDiseaseStage3Description;
+      case ChronicKidneyDiseaseStageEnum.stage4:
+        return appLocalizations.chronicKidneyDiseaseStage4Description;
+      case ChronicKidneyDiseaseStageEnum.stage5:
+        return appLocalizations.chronicKidneyDiseaseStage5Description;
+      case ChronicKidneyDiseaseStageEnum.unknown:
+        return null;
+    }
+    throw ArgumentError.value(this, 'ChronicKidneyDiseaseStageEnum');
+  }
+}
+
 extension EnumClassExtensions<E extends EnumClass> on E {
   E? enumWithoutDefault(E defaultValue) => (this == defaultValue) ? null : this;
 }

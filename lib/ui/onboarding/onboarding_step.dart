@@ -4,12 +4,16 @@ class OnboardingStepComponent extends StatelessWidget {
   final String assetName;
   final String title;
   final String description;
+  final Color? imageColor;
+  final Color? fontColor;
 
   const OnboardingStepComponent({
     Key? key,
     required this.assetName,
     required this.title,
     required this.description,
+    this.imageColor,
+    this.fontColor = Colors.white,
   }) : super(key: key);
 
   @override
@@ -22,6 +26,7 @@ class OnboardingStepComponent extends StatelessWidget {
           Expanded(
             child: Image.asset(
               assetName,
+              color: imageColor,
               fit: BoxFit.contain,
             ),
           ),
@@ -30,7 +35,7 @@ class OnboardingStepComponent extends StatelessWidget {
             child: Text(
               title,
               style: Theme.of(context).textTheme.headline4!.copyWith(
-                    color: Colors.white,
+                color: fontColor,
                   ),
               textAlign: TextAlign.center,
             ),
@@ -40,7 +45,7 @@ class OnboardingStepComponent extends StatelessWidget {
             child: Text(
               description,
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                    color: Colors.white,
+                color: fontColor,
                     fontSize: 16,
                   ),
               textAlign: TextAlign.center,
