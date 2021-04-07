@@ -145,7 +145,7 @@ class AppPreferences {
 
   Future<bool> hasPeritonealDialysisTypeSaved() {
     return _sharedPreferences.then<bool>(
-          (preferences) => preferences.containsKey(_keyDialysisType),
+      (preferences) => preferences.containsKey(_keyDialysisType),
     );
   }
 }
