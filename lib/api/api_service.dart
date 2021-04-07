@@ -297,7 +297,7 @@ class ApiService {
         return r.data!;
       },
     ).catchError(
-          (e) => _userApi
+      (e) => _userApi
           .userProfileV2Create(userProfileV2Request: userProfileRequest)
           .then(
         (r) {
