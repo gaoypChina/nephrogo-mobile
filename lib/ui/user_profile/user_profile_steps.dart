@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_material_pickers/pickers/scroll_picker.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-import 'package:numberpicker/numberpicker.dart';
 
 abstract class UserProfileStep {
   Widget build(
@@ -62,6 +62,18 @@ class GenderStep extends UserProfileStep {
 }
 
 class HeightStep extends UserProfileStep {
+  late final _heightValues = List.generate(151, (index) => 100 + index);
+
+  late final List<String> _heightFormattedValues =
+      _heightValues.map(_formatHeight).toList();
+
+  late final Map<String, int> _heightFormattedMap = Map.fromIterables(
+    _heightFormattedValues,
+    _heightValues,
+  );
+
+  String _formatHeight(int height) => '$height cm';
+
   @override
   Widget build(
     BuildContext context,
@@ -70,26 +82,21 @@ class HeightStep extends UserProfileStep {
   ) {
     final height = builder.heightCm ??= _getInitialHeight(builder);
 
-    return SingleChildScrollView(
-      child: LargeSection(
-        title: Text(context.appLocalizations.height),
-        showDividers: true,
-        children: [
-          LayoutBuilder(builder: (context, constraints) {
-            return NumberPicker(
-                value: height,
-                itemWidth: constraints.maxWidth,
-                itemHeight: 80,
-                minValue: 100,
-                maxValue: 250,
-                haptics: true,
-                textMapper: (s) => '$s cm',
-                onChanged: (height) {
-                  setState(() => builder.heightCm = height);
-                });
-          }),
-        ],
-      ),
+    return LargeSection(
+      title: Text(context.appLocalizations.height),
+      showDividers: true,
+      children: [
+        Expanded(
+          child: ScrollPicker(
+            items: _heightFormattedValues,
+            initialValue: _formatHeight(height),
+            showDivider: false,
+            onChanged: (v) => setState(
+              () => builder.heightCm = _heightFormattedMap[v],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
