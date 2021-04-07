@@ -11,7 +11,7 @@ class AppProgressDialog {
       context,
       backgroundColor: const Color(0x33000000),
       message: Text(context.appLocalizations.pleaseWait),
-      dismissable: false,
+      dismissable: true,
     );
   }
 
