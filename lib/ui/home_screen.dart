@@ -81,9 +81,11 @@ class _HomeScreenState extends State<_HomeScreen> {
         centerTitle: true,
       ),
       body: PageTransitionSwitcher(
-        transitionBuilder: (Widget child,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,) {
+        transitionBuilder: (
+          Widget child,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+        ) {
           return FadeThroughTransition(
             animation: animation,
             secondaryAnimation: secondaryAnimation,
@@ -139,15 +141,14 @@ class _HomeScreenState extends State<_HomeScreen> {
           activeIcon: Icons.water_damage,
           label: appLocalizations.tabPeritoneal,
         )
-      else
-        if (widget.dialysis == DialysisEnum.manualPeritonealDialysis)
-          _HomeScreenTab(
-            title: Text(appLocalizations.peritonealDialysisTypeManual),
-            builder: () => ManualPeritonealDialysisTab(),
-            icon: Icons.water_damage_outlined,
-            activeIcon: Icons.water_damage,
-            label: appLocalizations.tabPeritoneal,
-          ),
+      else if (widget.dialysis == DialysisEnum.manualPeritonealDialysis)
+        _HomeScreenTab(
+          title: Text(appLocalizations.peritonealDialysisTypeManual),
+          builder: () => ManualPeritonealDialysisTab(),
+          icon: Icons.water_damage_outlined,
+          activeIcon: Icons.water_damage,
+          label: appLocalizations.tabPeritoneal,
+        ),
       _HomeScreenTab(
         title: Text(appLocalizations.myProfile),
         builder: () => AccountTab(),
