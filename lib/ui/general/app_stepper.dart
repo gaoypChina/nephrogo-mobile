@@ -197,7 +197,7 @@ class AppStepper extends StatefulWidget {
   _StepperState createState() => _StepperState();
 }
 
-class _StepperState extends State<Stepper> with TickerProviderStateMixin {
+class _StepperState extends State<AppStepper> with TickerProviderStateMixin {
   late List<GlobalKey> _keys;
   final Map<int, StepState> _oldStates = <int, StepState>{};
 
@@ -215,7 +215,7 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
   }
 
   @override
-  void didUpdateWidget(Stepper oldWidget) {
+  void didUpdateWidget(AppStepper oldWidget) {
     super.didUpdateWidget(oldWidget);
     assert(widget.steps.length == oldWidget.steps.length);
 
@@ -676,7 +676,7 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
     assert(debugCheckHasMaterial(context));
     assert(debugCheckHasMaterialLocalizations(context));
     assert(() {
-      if (context.findAncestorWidgetOfExactType<Stepper>() != null) {
+      if (context.findAncestorWidgetOfExactType<AppStepper>() != null) {
         throw FlutterError('Steppers must not be nested.\n'
             'The material specification advises that one should avoid embedding '
             'steppers within steppers. '

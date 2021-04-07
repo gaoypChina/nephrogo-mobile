@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
+import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
@@ -81,8 +82,10 @@ class _UserProfileScreenBody extends StatefulWidget {
 
 class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
   final _controller = PageController(viewportFraction: 0.9999999);
+
   final _apiService = ApiService();
   final _appPreferences = AppPreferences();
+  final _authenticationProvider = AuthenticationProvider();
 
   late UserProfileRequestBuilder _userProfileBuilder;
 
@@ -167,14 +170,37 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
         leading: const CloseButton(),
         title: Text(appLocalizations.userProfileScreenTitle),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: context.appLocalizations.logout,
+            onPressed: () => _signOut(),
+          ),
+        ],
       );
     } else {
       return AppBar(
         leading: BackButton(onPressed: _previousStep),
         title: Text('$page / ${_totalSteps - 1}'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: context.appLocalizations.logout,
+            onPressed: () => _signOut(),
+          ),
+        ],
       );
     }
+  }
+
+  Future _signOut() async {
+    await _authenticationProvider.signOut();
+
+    await Navigator.pushReplacementNamed(
+      context,
+      Routes.routeStart,
+    );
   }
 
   Future<void> _advancePageOrFinish() async {
