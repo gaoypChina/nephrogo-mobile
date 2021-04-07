@@ -80,8 +80,6 @@ class _UserProfileScreenBody extends StatefulWidget {
 }
 
 class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
-  static const _animationDuration = Duration(milliseconds: 300);
-
   final _controller = PageController(viewportFraction: 0.9999999);
   final _apiService = ApiService();
   final _appPreferences = AppPreferences();
@@ -99,11 +97,7 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
     DiabetesStep(),
   ];
 
-  List<UserProfileStep> get _enabledSteps {
-    return _steps.where((s) => s.isEnabled(_userProfileBuilder)).toList();
-  }
-
-  int get _totalSteps => _enabledSteps.length + 1;
+  int get _totalSteps => _steps.length + 1;
 
   bool get isDone => page + 1 == _totalSteps;
 
@@ -136,7 +130,7 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
                     imageColor: Theme.of(context).textTheme.bodyText1!.color,
                   );
                 }
-                return _enabledSteps[index - 1].build(
+                return _steps[index - 1].build(
                   context,
                   _userProfileBuilder,
                   setState,
@@ -197,11 +191,7 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
     if (page + 1 == _totalSteps) {
       await _validateAndSaveUserProfile();
     } else {
-      await _controller.animateToPage(
-        page + 1,
-        duration: _animationDuration,
-        curve: Curves.easeIn,
-      );
+      await _animateToPage(page + 1);
     }
   }
 
@@ -209,10 +199,14 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
     if (page == 0) {
       return false;
     }
+    return _animateToPage(page - 1);
+  }
+
+  Future<bool> _animateToPage(int page) {
     return _controller
         .animateToPage(
-          page - 1,
-          duration: _animationDuration,
+          page,
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeIn,
         )
         .then((_) => true);

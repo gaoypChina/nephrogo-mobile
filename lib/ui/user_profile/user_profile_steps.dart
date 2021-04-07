@@ -14,8 +14,6 @@ abstract class UserProfileStep {
 
   bool validate(UserProfileRequestBuilder builder);
 
-  bool isEnabled(UserProfileRequestBuilder builder) => true;
-
   Future<void> save() async {}
 }
 
@@ -300,11 +298,6 @@ class PeritonealDialysisTypeStep extends UserProfileStep {
   bool validate(UserProfileRequestBuilder builder) {
     return builder.periotonicDialysisType != null &&
         builder.periotonicDialysisType != PeriotonicDialysisTypeEnum.unknown;
-  }
-
-  @override
-  bool isEnabled(UserProfileRequestBuilder builder) {
-    return builder.dialysisType == DialysisTypeEnum.periotonicDialysis;
   }
 }
 

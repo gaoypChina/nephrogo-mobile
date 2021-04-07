@@ -35,7 +35,7 @@ class OnboardingStepComponent extends StatelessWidget {
             child: Text(
               title,
               style: Theme.of(context).textTheme.headline4!.copyWith(
-                color: fontColor,
+                    color: fontColor,
                   ),
               textAlign: TextAlign.center,
             ),
