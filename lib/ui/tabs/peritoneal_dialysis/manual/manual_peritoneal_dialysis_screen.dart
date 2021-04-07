@@ -7,7 +7,7 @@ import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/manual_peritoneal_dialysis_day_balance_chart.dart';
 import 'package:nephrogo/ui/charts/manual_peritoneal_dialysis_total_balance_chart.dart';
-import 'package:nephrogo/ui/general/app_steam_builder.dart';
+import 'package:nephrogo/ui/general/app_stream_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo/ui/general/app_steam_builder.dart';
+import 'package:nephrogo/ui/general/app_stream_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 

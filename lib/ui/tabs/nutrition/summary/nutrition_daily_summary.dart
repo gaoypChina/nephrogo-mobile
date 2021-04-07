@@ -8,7 +8,7 @@ import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/daily_meal_type_consumption_column_series.dart';
 import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
-import 'package:nephrogo/ui/general/app_steam_builder.dart';
+import 'package:nephrogo/ui/general/app_stream_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';

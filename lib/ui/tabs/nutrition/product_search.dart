@@ -7,7 +7,7 @@ import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
-import 'package:nephrogo/ui/general/app_steam_builder.dart';
+import 'package:nephrogo/ui/general/app_stream_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/utils/utils.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
