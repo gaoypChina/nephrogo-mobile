@@ -6,6 +6,7 @@ import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/health_indicator_bar_chart.dart';
+import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation_screen.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
@@ -107,7 +108,10 @@ class IndicatorChartSection extends StatelessWidget {
         onPressed: () => _openWeeklyHealthIndicatorScreen(context, indicator),
         child: Text(context.appLocalizations.more.toUpperCase()),
       ),
-      footer: _buildAddButton(context),
+      footer: SectionFooterButton(
+        onPressed: () => _openAddIndicator(context),
+        child: Text(_getAddButtonText(context.appLocalizations).toUpperCase()),
+      ),
       children: [
         if (hasReports)
           Padding(
@@ -120,21 +124,6 @@ class IndicatorChartSection extends StatelessWidget {
             ),
           ),
       ],
-    );
-  }
-
-  Widget _buildAddButton(BuildContext context) {
-    final text = _getAddButtonText(context.appLocalizations).toUpperCase();
-    return SizedBox(
-      width: double.infinity,
-      child: TextButton(
-        onPressed: () => _openAddIndicator(context),
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 12),
-          textAlign: TextAlign.center,
-        ),
-      ),
     );
   }
 

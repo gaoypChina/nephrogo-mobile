@@ -5,6 +5,7 @@ import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_stream_builder.dart';
+import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/health_status/health_status_components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
@@ -99,6 +100,12 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
           ),
         ),
         child: Text(context.appLocalizations.more.toUpperCase()),
+      ),
+      footer: SectionFooterButton(
+        onPressed: () => _openDialysisCreation(context),
+        child: response.peritonealDialysisInProgress != null
+            ? Text(context.appLocalizations.continueDialysis.toUpperCase())
+            : Text(context.appLocalizations.startDialysis.toUpperCase()),
       ),
       children: [
         for (final dialysis in response.lastPeritonealDialysis)

@@ -35,3 +35,26 @@ class AppElevatedButton extends StatelessWidget {
     );
   }
 }
+
+class SectionFooterButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final Widget child;
+
+  const SectionFooterButton({
+    Key? key,
+    required this.onPressed,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: TextButton(
+        style: TextButton.styleFrom(alignment: Alignment.center),
+        onPressed: onPressed,
+        child: child,
+      ),
+    );
+  }
+}
