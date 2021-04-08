@@ -89,7 +89,7 @@ class _NutritionDailySummaryBodyState extends State<NutritionDailySummaryBody> {
       bodyBuilder: (context, header, from, to) {
         return AppStreamBuilder<
             NullableApiResponse<DailyIntakesReportResponse>>(
-          stream: _apiService.getDailyIntakesReportStream(from),
+          stream: () => _apiService.getDailyIntakesReportStream(from),
           builder: (context, data) {
             final report = data.data?.dailyIntakesReport;
 

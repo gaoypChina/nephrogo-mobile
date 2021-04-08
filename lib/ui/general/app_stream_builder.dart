@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'error_state.dart';
 
-class AppStreamBuilder<T> extends StatelessWidget {
-  final Stream<T> stream;
+class AppStreamBuilder<T> extends StatefulWidget {
+  final Stream<T> Function() stream;
   final Widget Function(BuildContext context, T data) builder;
 
   const AppStreamBuilder({
@@ -12,6 +12,13 @@ class AppStreamBuilder<T> extends StatelessWidget {
     required this.stream,
     required this.builder,
   }) : super(key: key);
+
+  @override
+  _AppStreamBuilderState<T> createState() => _AppStreamBuilderState<T>();
+}
+
+class _AppStreamBuilderState<T> extends State<AppStreamBuilder<T>> {
+  late Stream<T> stream = widget.stream();
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +33,15 @@ class AppStreamBuilder<T> extends StatelessWidget {
               snapshot.stackTrace,
             );
 
-            return ErrorStateWidget(errorText: snapshot.error.toString());
+            return ErrorStateWidget(
+              errorText: snapshot.error.toString(),
+              retry: () => setState(() => stream = widget.stream()),
+            );
           }
 
           if (snapshot.hasData) {
             // ignore: null_check_on_nullable_type_parameter
-            return builder(context, snapshot.data!);
+            return widget.builder(context, snapshot.data!);
           }
         }
 

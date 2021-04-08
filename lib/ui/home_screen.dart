@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppStreamBuilder<DialysisEnum>(
-      stream: _appPreferences.getDialysisTypeStream(),
+      stream: () => _appPreferences.getDialysisTypeStream(),
       builder: (context, dialysis) {
         return _HomeScreen(
           key: Key('HomeScreen-dialysis:$dialysis'),

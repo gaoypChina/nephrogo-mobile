@@ -25,7 +25,7 @@ class _HealthStatusTabBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppStreamBuilder<HealthStatusScreenResponse>(
-      stream: apiService.getHealthStatusScreenStream(),
+      stream: () => apiService.getHealthStatusScreenStream(),
       builder: (context, response) {
         if (!response.hasAnyStatuses) {
           return EmptyStateContainer(

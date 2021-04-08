@@ -112,7 +112,7 @@ class _HealthStatusScreenTab extends StatelessWidget {
     Date to,
   ) {
     return AppStreamBuilder<HealthStatusWeeklyScreenResponse>(
-      stream: _apiService.getHealthStatusesStream(from, to),
+      stream: () => _apiService.getHealthStatusesStream(from, to),
       builder: (context, data) {
         final indicatorsExists = data.dailyHealthStatuses
             .any((s) => s.isIndicatorExists(healthIndicator));

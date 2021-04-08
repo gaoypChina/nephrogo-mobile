@@ -117,7 +117,7 @@ class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
 
   Widget _bodyBuilder(BuildContext context, Widget header, Date from, Date to) {
     return AppStreamBuilder<HealthStatusWeeklyScreenResponse>(
-      stream: _apiService.getHealthStatusesStream(from, to),
+      stream: () => _apiService.getHealthStatusesStream(from, to),
       builder: (context, data) {
         final sortedReports = data.dailyHealthStatuses
             .where((s) => s.manualPeritonealDialysis.isNotEmpty)

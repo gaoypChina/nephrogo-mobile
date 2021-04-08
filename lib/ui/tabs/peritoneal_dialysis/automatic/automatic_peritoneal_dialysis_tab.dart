@@ -21,7 +21,7 @@ class AutomaticPeritonealDialysisTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppStreamBuilder<AutomaticPeritonealDialysisScreenResponse>(
-      stream: apiService.getAutomaticPeritonealDialysisScreenStream(),
+      stream: () => apiService.getAutomaticPeritonealDialysisScreenStream(),
       builder: (context, response) {
         return _AutomaticPeritonealDialysisTabBody(response: response);
       },

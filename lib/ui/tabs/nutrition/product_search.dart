@@ -183,7 +183,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
           children: [
             Expanded(
               child: AppStreamBuilder<ProductSearchResponse>(
-                stream: _buildStream(),
+                stream: () => _buildStream(),
                 builder: (context, productSearchResponse) {
                   final products = productSearchResponse.products.toList();
 

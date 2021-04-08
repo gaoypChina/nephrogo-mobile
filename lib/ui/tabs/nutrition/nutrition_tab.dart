@@ -28,7 +28,7 @@ class NutritionTab extends StatelessWidget {
     final appLocalizations = context.appLocalizations;
 
     return AppStreamBuilder<NutritionScreenV2Response>(
-      stream: apiService.getNutritionScreenStream(),
+      stream: () => apiService.getNutritionScreenStream(),
       builder: (context, data) {
         final latestIntakes = data.latestIntakes.toList();
 

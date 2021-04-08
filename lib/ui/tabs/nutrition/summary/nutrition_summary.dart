@@ -124,7 +124,7 @@ class _NutritionMonthlySummaryTabBody extends StatelessWidget {
           nutritionSummaryStatistics?.maxReportDate?.toDate() ?? Date.today(),
       bodyBuilder: (context, header, from, to) {
         return AppStreamBuilder<DailyIntakesReportsResponse>(
-          stream: _apiService.getLightDailyIntakeReportsStream(from, to),
+          stream: () => _apiService.getLightDailyIntakeReportsStream(from, to),
           builder: (context, data) {
             final reports = data.dailyIntakesLightReports.toList();
 
@@ -175,7 +175,7 @@ class _NutritionWeeklySummaryTabBody extends StatelessWidget {
           nutritionSummaryStatistics?.maxReportDate?.toDate() ?? Date.today(),
       bodyBuilder: (context, header, from, to) {
         return AppStreamBuilder<DailyIntakesReportsResponse>(
-          stream: _apiService.getLightDailyIntakeReportsStream(from, to),
+          stream: () => _apiService.getLightDailyIntakeReportsStream(from, to),
           builder: (context, data) {
             final reports = data.dailyIntakesLightReports.toList();
 

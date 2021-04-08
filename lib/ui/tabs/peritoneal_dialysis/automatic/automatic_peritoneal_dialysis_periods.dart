@@ -104,7 +104,8 @@ class _AutomaticPeritonealDialysisPeriodsScreenBody extends StatelessWidget {
 
   Widget _bodyBuilder(BuildContext context, Widget header, Date from, Date to) {
     return AppStreamBuilder<AutomaticPeritonealDialysisPeriodResponse>(
-      stream: _apiService.getAutomaticPeritonealDialysisPeriodStream(from, to),
+      stream: () =>
+          _apiService.getAutomaticPeritonealDialysisPeriodStream(from, to),
       builder: (context, data) {
         final sortedDialysis = data.peritonealDialysis
             .orderBy((e) => e.date, reverse: true)

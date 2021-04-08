@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/debug/debug_list_cell.dart';
+import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_future_builder.dart';
 import 'package:nephrogo/ui/general/app_network_image.dart';
@@ -12,7 +13,6 @@ import 'package:nephrogo/ui/onboarding/onboarding_screen.dart';
 import 'package:nephrogo/ui/user_profile/user_profile_screen.dart';
 import 'package:nephrogo/utils/app_store_utils.dart';
 import 'package:nephrogo/utils/utils.dart';
-import 'package:nephrogo/extensions/extensions.dart';
 import 'package:package_info/package_info.dart';
 
 class AccountTab extends StatelessWidget {
@@ -117,7 +117,7 @@ class AccountTab extends StatelessWidget {
             ),
           ),
           AppFutureBuilder<String>(
-            future: _getVersionString(),
+            future: () => _getVersionString(),
             builder: (context, version) {
               return Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),

@@ -71,8 +71,9 @@ Future<void> showContactDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return Dialog(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: BasicSection(
+          showDividers: true,
+          margin: EdgeInsets.zero,
           children: [
             AppListTile(
               contentPadding: const EdgeInsets.symmetric(

@@ -17,7 +17,7 @@ class GeneralRecommendationsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppFutureBuilder<GeneralRecommendationsResponse>(
-      future: ApiService().getGeneralRecommendations(),
+      future: () => ApiService().getGeneralRecommendations(),
       builder: (context, response) {
         final categories = response.categories.toList();
 

@@ -9,7 +9,7 @@ class DebugListCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppFutureBuilder<String?>(
-      future: _firebaseMessaging.getToken(),
+      future: () => _firebaseMessaging.getToken(),
       builder: (context, firebaseToken) {
         return AppListTile(
           leading: const Icon(Icons.bug_report),

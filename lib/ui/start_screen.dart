@@ -22,11 +22,11 @@ class _StartScreenState extends State<StartScreen> {
   Widget build(BuildContext context) {
     if (!_authenticationProvider.isUserLoggedIn) {
       return AppFutureBuilder<bool>(
-        future: _appPreferences.isOnboardingPassed(),
+        future: () => _appPreferences.isOnboardingPassed(),
         builder: (context, isOnboardingPassed) {
           if (isOnboardingPassed) {
             return AppFutureBuilder<bool>(
-              future: _appPreferences.isLegalConditionsAgreed(),
+              future: () => _appPreferences.isLegalConditionsAgreed(),
               builder: (context, isLegalConditionsAgreed) {
                 if (isLegalConditionsAgreed) {
                   return LoginScreen();
@@ -42,7 +42,7 @@ class _StartScreenState extends State<StartScreen> {
     }
 
     return AppFutureBuilder<bool>(
-      future: _appPreferences.isProfileCreated(),
+      future: () => _appPreferences.isProfileCreated(),
       builder: (context, isProfileCreated) {
         if (isProfileCreated) {
           return HomeScreen();

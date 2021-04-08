@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 
+import 'dialogs.dart';
+
 class ErrorStateWidget extends StatelessWidget {
   final String errorText;
+  final void Function()? retry;
 
   const ErrorStateWidget({
     Key? key,
     required this.errorText,
+    this.retry,
   }) : super(key: key);
 
   @override
@@ -27,9 +31,21 @@ class ErrorStateWidget extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
+          if (retry != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: ElevatedButton(
+                onPressed: retry,
+                child: Text(context.appLocalizations.tryAgain.toUpperCase()),
+              ),
+            ),
+          OutlinedButton(
+            onPressed: () => showContactDialog(context),
+            child: Text(context.appLocalizations.support.toUpperCase()),
+          ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(errorText, textAlign: TextAlign.center),
+            child: SelectableText(errorText, textAlign: TextAlign.center),
           ),
         ],
       ),

@@ -48,7 +48,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return AppFutureBuilder<NullableApiResponse<UserProfileV2>>(
-      future: _userProfileMemoizer.future,
+      future: () => _userProfileMemoizer.future,
       builder: (context, data) {
         return _UserProfileScreenBody(
           userProfile: data.data,

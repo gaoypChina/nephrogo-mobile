@@ -53,7 +53,7 @@ class _HealthStatusCreationScreenState
         ],
       ),
       body: AppFutureBuilder<NullableApiResponse<DailyHealthStatus>>(
-        future: _apiService.getDailyHealthStatus(widget.date),
+        future: () => _apiService.getDailyHealthStatus(widget.date),
         builder: (context, healthStatus) {
           _requestBuilder = healthStatus.data?.toRequest().toBuilder() ??
               DailyHealthStatusRequestBuilder();

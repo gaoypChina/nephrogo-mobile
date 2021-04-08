@@ -35,7 +35,7 @@ class LegalScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(context.appLocalizations.termsOfUse)),
       body: AppFutureBuilder<bool>(
-        future: _appPreferences.isMarketingAllowed(),
+        future: () => _appPreferences.isMarketingAllowed(),
         builder: (context, marketingAllowed) {
           return LegalScreenContent(
             initialMarketingAllowed: marketingAllowed,
