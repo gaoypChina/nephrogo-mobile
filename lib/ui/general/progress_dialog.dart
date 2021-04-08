@@ -15,14 +15,10 @@ class AppProgressDialog {
     );
   }
 
-  Future<T> showForFuture<T>(Future<T> future) async {
-    try {
-      show();
+  Future<T> showForFuture<T>(Future<T> future) {
+    show();
 
-      return await future;
-    } finally {
-      dismiss();
-    }
+    return future.whenComplete(() => dismiss());
   }
 
   void show() {

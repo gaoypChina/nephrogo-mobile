@@ -36,15 +36,15 @@ Future<bool> launchEmail(String email) {
 class ApiUtils {
   ApiUtils._();
 
-  static Future<bool> saveToApi({
+  static Future<bool> saveToApi<T>({
     required BuildContext context,
-    required Future Function() futureBuilder,
+    required Future<T> Function() futureBuilder,
     String Function(String data)? onServerValidationError,
     Future<void> Function()? onSuccess,
-  }) async {
+  }) {
     final future = futureBuilder().catchError(
-      (e, stackTrace) async {
-        FirebaseCrashlytics.instance.recordError(e, stackTrace as StackTrace);
+      (Object e, StackTrace stackTrace) async {
+        FirebaseCrashlytics.instance.recordError(e, stackTrace);
 
         String? message;
         if (onServerValidationError != null &&
@@ -60,21 +60,21 @@ class ApiUtils {
           message: message ?? context.appLocalizations.serverErrorDescription,
         );
 
-        return null;
+        throw Future.error(e, stackTrace);
       },
     );
 
-    final res = await AppProgressDialog(context).showForFuture(future);
+    return AppProgressDialog(context).showForFuture(future).then<bool>(
+      (v) async {
+        if (onSuccess != null) {
+          await onSuccess();
+        } else {
+          Navigator.of(context).pop();
+        }
 
-    if (res != null) {
-      if (onSuccess != null) {
-        await onSuccess();
-      } else {
-        Navigator.of(context).pop();
-      }
-
-      return true;
-    }
-    return false;
+        return true;
+      },
+      onError: (e) => false,
+    );
   }
 }
