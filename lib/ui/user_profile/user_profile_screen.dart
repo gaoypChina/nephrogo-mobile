@@ -173,11 +173,12 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
         title: Text(appLocalizations.userProfileScreenTitle),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: context.appLocalizations.logout,
-            onPressed: () => _signOut(),
-          ),
+          if (widget.nextScreenType == UserProfileNextScreenType.homeScreen)
+            IconButton(
+              icon: const Icon(Icons.logout),
+              tooltip: context.appLocalizations.logout,
+              onPressed: () => _signOut(),
+            ),
         ],
       );
     } else {
