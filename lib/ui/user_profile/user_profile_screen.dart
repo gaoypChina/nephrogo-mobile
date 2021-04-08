@@ -55,13 +55,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           nextScreenType: widget.nextScreenType,
         );
       },
-      loading: Scaffold(
-        appBar: AppBar(
-          title: Text(appLocalizations.userProfileScreenTitle),
-          centerTitle: true,
-        ),
-        body: const Center(child: CircularProgressIndicator()),
-      ),
+      loadingAndErrorWrapper: (context, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(appLocalizations.userProfileScreenTitle),
+            centerTitle: true,
+          ),
+          body: child,
+        );
+      },
     );
   }
 }

@@ -6,13 +6,14 @@ import 'error_state.dart';
 class AppFutureBuilder<T> extends StatelessWidget {
   final Future<T> future;
   final Widget Function(BuildContext context, T data) builder;
-  final Widget loading;
+  final Widget Function(BuildContext context, Widget child)?
+      loadingAndErrorWrapper;
 
   const AppFutureBuilder({
     Key? key,
     required this.future,
     required this.builder,
-    this.loading = const Center(child: CircularProgressIndicator()),
+    this.loadingAndErrorWrapper,
   }) : super(key: key);
 
   @override
@@ -20,24 +21,40 @@ class AppFutureBuilder<T> extends StatelessWidget {
     return FutureBuilder<T>(
       future: future,
       builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError) {
-            FirebaseCrashlytics.instance.recordError(
-              snapshot.error,
-              snapshot.stackTrace,
-            );
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
+          return builder(context, snapshot.requireData);
+        } else if (snapshot.hasError) {
+          FirebaseCrashlytics.instance.recordError(
+            snapshot.error,
+            snapshot.stackTrace,
+          );
 
-            return ErrorStateWidget(errorText: snapshot.error.toString());
-          }
-
-          if (snapshot.hasData) {
-            // ignore: null_check_on_nullable_type_parameter
-            return builder(context, snapshot.data!);
-          }
+          return _buildError(context, snapshot);
+        } else {
+          return _buildLoading(context);
         }
-
-        return loading;
       },
     );
+  }
+
+  Widget _buildError(BuildContext context, AsyncSnapshot<T> snapshot) {
+    final errorChild = ErrorStateWidget(errorText: snapshot.error.toString());
+
+    if (loadingAndErrorWrapper == null) {
+      return errorChild;
+    } else {
+      return loadingAndErrorWrapper!(context, errorChild);
+    }
+  }
+
+  Widget _buildLoading(BuildContext context) {
+    const loadingChild = Center(child: CircularProgressIndicator());
+
+    if (loadingAndErrorWrapper == null) {
+      return loadingChild;
+    } else {
+      return loadingAndErrorWrapper!(context, loadingChild);
+    }
   }
 }
