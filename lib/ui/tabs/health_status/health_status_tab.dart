@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
-import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/ui/general/app_stream_builder.dart';
-import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'health_status_components.dart';
@@ -27,12 +25,6 @@ class _HealthStatusTabBody extends StatelessWidget {
     return AppStreamBuilder<HealthStatusScreenResponse>(
       stream: () => apiService.getHealthStatusScreenStream(),
       builder: (context, response) {
-        if (!response.hasAnyStatuses) {
-          return EmptyStateContainer(
-            text: context.appLocalizations.weeklyHealthStatusEmpty,
-          );
-        }
-
         return ListView.builder(
           padding: const EdgeInsets.only(bottom: 64),
           itemCount: healthIndicators.length,
