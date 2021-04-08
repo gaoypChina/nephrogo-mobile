@@ -210,8 +210,8 @@ class ChronicKidneyDiseaseStageStep extends UserProfileStep {
 
 class DialysisStep extends UserProfileStep {
   static const _dialysisSelections = <DialysisEnum>[
-    DialysisEnum.automaticPeritonealDialysis,
     DialysisEnum.manualPeritonealDialysis,
+    DialysisEnum.automaticPeritonealDialysis,
     DialysisEnum.hemodialysis,
     DialysisEnum.postTransplant,
     DialysisEnum.notPerformed,

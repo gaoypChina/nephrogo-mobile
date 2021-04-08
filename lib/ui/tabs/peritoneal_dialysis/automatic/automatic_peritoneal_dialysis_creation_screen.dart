@@ -85,7 +85,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLocalizations.peritonealDialysis),
+        title: Text(appLocalizations.peritonealDialysisTypeAutomatic),
         actions: <Widget>[
           if (_isSecondStep)
             AppBarTextButton(

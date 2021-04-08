@@ -48,31 +48,21 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
         dialysisInProgress: response.peritonealDialysisInProgress != null,
         dialysisOnTap: _openDialysisCreation,
       ),
-      body: _buildBody(context),
-    );
-  }
-
-  Widget _buildBody(BuildContext context) {
-    if (response.lastPeritonealDialysis.isEmpty) {
-      return EmptyStateContainer(
-        text: context.appLocalizations.manualPeritonealDialysisEmpty,
-      );
-    }
-
-    return ListView(
-      padding: const EdgeInsets.only(bottom: 64),
-      children: [
-        _buildTotalBalanceSection(context),
-        NutrientChartSection(
-          reports: response.lastWeekLightNutritionReports.toList(),
-          nutrient: Nutrient.liquids,
-        ),
-        for (final indicator in indicators)
-          IndicatorChartSection(
-            indicator: indicator,
-            dailyHealthStatuses: response.lastWeekHealthStatuses.toList(),
-          )
-      ],
+      body: ListView(
+        padding: const EdgeInsets.only(bottom: 64),
+        children: [
+          _buildTotalBalanceSection(context),
+          NutrientChartSection(
+            reports: response.lastWeekLightNutritionReports.toList(),
+            nutrient: Nutrient.liquids,
+          ),
+          for (final indicator in indicators)
+            IndicatorChartSection(
+              indicator: indicator,
+              dailyHealthStatuses: response.lastWeekHealthStatuses.toList(),
+            )
+        ],
+      ),
     );
   }
 

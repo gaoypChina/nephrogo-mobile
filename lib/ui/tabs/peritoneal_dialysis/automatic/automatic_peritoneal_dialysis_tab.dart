@@ -54,12 +54,6 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    if (response.lastPeritonealDialysis == null) {
-      return EmptyStateContainer(
-        text: context.appLocalizations.automaticPeritonealDialysisEmpty,
-      );
-    }
-
     return ListView(
       padding: const EdgeInsets.only(bottom: 64),
       children: [

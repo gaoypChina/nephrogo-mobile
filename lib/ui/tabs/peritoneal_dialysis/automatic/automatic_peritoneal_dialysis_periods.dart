@@ -34,7 +34,9 @@ class AutomaticPeritonealDialysisPeriodsScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(context.appLocalizations.peritonealDialysisPlural),
+          title: Text(
+            context.appLocalizations.peritonealDialysisTypeAutomaticPlural,
+          ),
           bottom: TabBar(
             tabs: [
               Tab(text: context.appLocalizations.weekly.toUpperCase()),

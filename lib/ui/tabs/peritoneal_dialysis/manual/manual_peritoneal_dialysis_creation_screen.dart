@@ -72,7 +72,7 @@ class _ManualPeritonealDialysisCreationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLocalizations.peritonealDialysis),
+        title: Text(appLocalizations.peritonealDialysisTypeManual),
         actions: <Widget>[
           if (_isFirstStep)
             AppBarTextButton(

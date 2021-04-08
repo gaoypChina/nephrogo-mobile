@@ -1255,6 +1255,8 @@ extension DialysisTypeExtension on DialysisEnum {
       case DialysisEnum.postTransplant:
         return appLocalizations
             .userProfileSectionDialysisTypePostTransplantDescription;
+      case DialysisEnum.manualPeritonealDialysis:
+        return appLocalizations.peritonealDialysisTypeManualAlternative;
       default:
         return null;
     }

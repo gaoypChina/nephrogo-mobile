@@ -653,10 +653,6 @@
   "@userProfileSectionDialysisType": {
     "context": "userProfile"
   },
-  "userProfileSectionDialysisTypePeriotonicDialysis": "Peritoninė dializė",
-  "@userProfileSectionDialysisTypePeriotonicDialysis": {
-    "context": "userProfile"
-  },
   "userProfileSectionDialysisTypeHemodialysis": "Hemodializė",
   "@userProfileSectionDialysisTypeHemodialysis": {
     "context": "userProfile"
@@ -673,16 +669,24 @@
   "@userProfileSectionDialysisTypeNotPerformed": {
     "context": "userProfile"
   },
-  "peritonealDialysisType": "Peritoninės dializės tipas",
-  "@peritonealDialysisType": {
-    "context": "userProfile"
-  },
   "peritonealDialysisTypeAutomatic": "Automatinė peritoninė dializė",
   "@peritonealDialysisTypeAutomatic": {
     "context": "userProfile"
   },
-  "peritonealDialysisTypeManual": "Rankinė peritoninė dializė",
+  "peritonealDialysisTypeAutomaticPlural": "Automatinės peritoninės dializės",
+  "@peritonealDialysisTypeAutomaticPlural": {
+    "context": "userProfile"
+  },
+  "peritonealDialysisTypeManual": "Ambulatorinė peritoninė dializė",
   "@peritonealDialysisTypeManual": {
+    "context": "userProfile"
+  },
+  "peritonealDialysisTypeManualPlural": "Ambulatorinės peritoninės dializės",
+  "@peritonealDialysisTypeManualPlural": {
+    "context": "userProfile"
+  },
+  "peritonealDialysisTypeManualAlternative": "„Rankinė“ peritoninė dializė",
+  "@peritonealDialysisTypeManualAlternative": {
     "context": "userProfile"
   },
   "userProfileSectionDiabetesTitle": "Cukrinis diabetas",
@@ -1257,10 +1261,6 @@
   "@automaticDialysisBetaDisclaimer": {},
   "manualPeritonealDialysisPeriodEmpty": "Pasirinktame laikotarpyje nėra įvesta nė vienos peritoninės dializės!",
   "@manualPeritonealDialysisPeriodEmpty": {},
-  "manualPeritonealDialysisEmpty": "Nėra įvesta nė vienos rankinės peritoninės dializės!\n\nNorėdami atlikti automatines peritorines dializes pakeiskite dializės tipą profilyje.",
-  "@manualPeritonealDialysisEmpty": {},
-  "automaticPeritonealDialysisEmpty": "Nėra įvesta nė vienos automatinės peritoninės dializės!\n\nNorėdami atlikti rankines peritorines dializes pakeiskite dializės tipą profilyje.",
-  "@automaticPeritonealDialysisEmpty": {},
   "createBloodPressure": "Pridėti kraujo spaudimą",
   "@createBloodPressure": {},
   "createPulse": "Pridėti pulsą",
