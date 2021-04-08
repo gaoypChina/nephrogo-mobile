@@ -51,7 +51,6 @@ class SectionFooterButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: TextButton(
-        style: TextButton.styleFrom(alignment: Alignment.center),
         onPressed: onPressed,
         child: child,
       ),
