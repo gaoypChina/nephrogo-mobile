@@ -124,6 +124,7 @@ class BasicSection extends StatelessWidget {
   Widget _buildHeaderAndChildren(BuildContext context) {
     return Column(
       crossAxisAlignment: crossAxisAlignment,
+      mainAxisSize: MainAxisSize.min,
       children: _getPreparedChildren(context).toList(),
     );
   }
@@ -254,7 +255,7 @@ class LargeAppListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppListTile(
-      title: titleWithStyleApplied,
+      title: getTitleWithStyleApplied(context),
       subtitle: subtitleWithStyleApplied,
       leading: leading,
       trailing: trailing,
@@ -262,12 +263,9 @@ class LargeAppListTile extends StatelessWidget {
     );
   }
 
-  Widget get titleWithStyleApplied {
+  Widget getTitleWithStyleApplied(BuildContext context) {
     return DefaultTextStyle.merge(
-      style: const TextStyle(
-        fontSize: 21,
-        fontWeight: FontWeight.bold,
-      ),
+      style: Theme.of(context).textTheme.headline6,
       child: title,
     );
   }
