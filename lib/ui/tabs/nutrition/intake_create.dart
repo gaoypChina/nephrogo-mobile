@@ -344,6 +344,7 @@ class _IntakeEditSectionState extends State<_IntakeEditSection> {
       children: [
         AppIntegerFormField(
           focusNode: widget.focusNode,
+          prefixIcon: const Icon(Icons.kitchen),
           labelText: appLocalizations.mealCreationQuantity,
           initialValue: amount != 0 ? amount : null,
           suffixText: isAmountInMilliliters ? 'ml' : 'g',
@@ -351,13 +352,6 @@ class _IntakeEditSectionState extends State<_IntakeEditSection> {
           validator: formValidators.and(
             formValidators.nonNull(),
             formValidators.numRangeValidator(1, 10000),
-          ),
-          icon: CircleAvatar(
-            backgroundColor: Theme.of(context).accentColor,
-            child: const Icon(
-              Icons.kitchen,
-              color: Colors.white,
-            ),
           ),
           onChanged: _onChanged,
         ),
