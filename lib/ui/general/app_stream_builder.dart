@@ -40,8 +40,7 @@ class _AppStreamBuilderState<T> extends State<AppStreamBuilder<T>> {
           }
 
           if (snapshot.hasData) {
-            // ignore: null_check_on_nullable_type_parameter
-            return widget.builder(context, snapshot.data!);
+            return widget.builder(context, snapshot.requireData);
           }
         }
 
