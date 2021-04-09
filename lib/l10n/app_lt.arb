@@ -619,26 +619,6 @@
   "@chronicKidneyDiseaseStage5Description": {
     "context": "userProfile"
   },
-  "userProfileSectionChronicKidneyDiseaseStage1": "I – GFG > 90 ml/min./1,73 m²",
-  "@userProfileSectionChronicKidneyDiseaseStage1": {
-    "context": "userProfile"
-  },
-  "userProfileSectionChronicKidneyDiseaseStage2": "II – GFG 89 – 60 ml/min./1,73 m²",
-  "@userProfileSectionChronicKidneyDiseaseStage2": {
-    "context": "userProfile"
-  },
-  "userProfileSectionChronicKidneyDiseaseStage3": "III – GFG 59 – 30 ml/min./1,73 m²",
-  "@userProfileSectionChronicKidneyDiseaseStage3": {
-    "context": "userProfile"
-  },
-  "userProfileSectionChronicKidneyDiseaseStage4": "IV – GFG 29 – 15 ml/min./1,73 m²",
-  "@userProfileSectionChronicKidneyDiseaseStage4": {
-    "context": "userProfile"
-  },
-  "userProfileSectionChronicKidneyDiseaseStage5": "V – GFG < 15 ml/min./1,73 m²",
-  "@userProfileSectionChronicKidneyDiseaseStage5": {
-    "context": "userProfile"
-  },
   "iDontKnown": "Nežinau",
   "@iDontKnown": {
     "context": "userProfile"
