@@ -83,7 +83,7 @@ class _UserProfileScreenBody extends StatefulWidget {
 }
 
 class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
-  final _controller = PageController(viewportFraction: 0.9999999);
+  final _controller = PageController();
 
   final _apiService = ApiService();
   final _appPreferences = AppPreferences();
