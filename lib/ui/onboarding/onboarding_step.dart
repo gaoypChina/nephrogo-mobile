@@ -28,6 +28,7 @@ class OnboardingStepComponent extends StatelessWidget {
               assetName,
               color: imageColor,
               fit: BoxFit.contain,
+              excludeFromSemantics: true,
             ),
           ),
           Padding(
