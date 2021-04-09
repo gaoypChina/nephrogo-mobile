@@ -599,23 +599,23 @@
   "@stage": {
     "context": "userProfile"
   },
-  "chronicKidneyDiseaseStage1Description": "GFG ne mažiau 90 ml/min.",
+  "chronicKidneyDiseaseStage1Description": "GFG ne mažiau 90 ml/min./1,73 m²",
   "@chronicKidneyDiseaseStage1Description": {
     "context": "userProfile"
   },
-  "chronicKidneyDiseaseStage2Description": "GFG 60 - 89 ml/min.",
+  "chronicKidneyDiseaseStage2Description": "GFG nuo 60 iki 89 ml/min./1,73 m²",
   "@chronicKidneyDiseaseStage2Description": {
     "context": "userProfile"
   },
-  "chronicKidneyDiseaseStage3Description": "GFG 30 – 59 ml/min.",
+  "chronicKidneyDiseaseStage3Description": "GFG nuo 30 iki 59 ml/min./1,73 m²",
   "@chronicKidneyDiseaseStage3Description": {
     "context": "userProfile"
   },
-  "chronicKidneyDiseaseStage4Description": "GFG 15 – 29 ml/min.",
+  "chronicKidneyDiseaseStage4Description": "GFG nuo 15 iki 29 ml/min./1,73 m²",
   "@chronicKidneyDiseaseStage4Description": {
     "context": "userProfile"
   },
-  "chronicKidneyDiseaseStage5Description": "GFG mažiau nei 15 ml/min.",
+  "chronicKidneyDiseaseStage5Description": "GFG mažiau nei 15 ml/min./1,73 m²",
   "@chronicKidneyDiseaseStage5Description": {
     "context": "userProfile"
   },
