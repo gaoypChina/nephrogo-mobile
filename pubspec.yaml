@@ -28,7 +28,7 @@ dependencies:
 
   # https://firebase.flutter.dev/docs/migration
   animations: ^2.0.0
-  ars_dialog: 1.0.7
+  ars_dialog: 1.0.8
   async: ^2.5.0
   collection: ^1.15.0
   crypto: ^3.0.1
