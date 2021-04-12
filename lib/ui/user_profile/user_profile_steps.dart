@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_material_pickers/pickers/scroll_picker.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/general/scroll_picker.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 abstract class UserProfileStep {
