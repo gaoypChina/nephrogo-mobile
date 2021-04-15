@@ -788,6 +788,7 @@ class NutrientChartSection extends StatelessWidget {
 
     return LargeSection(
       title: Text(nutrient.name(context.appLocalizations)),
+      showHeaderDivider: true,
       subtitle: Text(subtitle),
       trailing: OutlinedButton(
         onPressed: () => openWeeklyNutritionScreen(
@@ -800,7 +801,7 @@ class NutrientChartSection extends StatelessWidget {
       children: [
         if (showGraph)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.all(8),
             child: NutrientBarChart(
               dailyIntakeLightReports: reports,
               nutrient: nutrient,

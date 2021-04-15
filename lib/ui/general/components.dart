@@ -130,22 +130,19 @@ class BasicSection extends StatelessWidget {
   }
 
   Iterable<Widget> _getPreparedChildren(BuildContext context) sync* {
-    if (header != null && !showHeaderDivider) {
+    if (header != null) {
       yield header!;
+
+      if (showHeaderDivider && children.isNotEmpty) {
+        yield const Divider(height: 1);
+      }
     }
 
-    if (showDividers) {
-      final allChildren = <Widget>[
-        if (header != null && showHeaderDivider) header!,
-        ...children
-      ];
-
-      if (allChildren.isNotEmpty) {
-        yield* ListTile.divideTiles(
-          context: context,
-          tiles: allChildren,
-        );
-      }
+    if (showDividers && children.isNotEmpty) {
+      yield* ListTile.divideTiles(
+        context: context,
+        tiles: children,
+      );
     } else {
       yield* children;
     }
