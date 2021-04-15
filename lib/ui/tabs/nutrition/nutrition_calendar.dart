@@ -11,12 +11,11 @@ class NutritionCalendar extends StatefulWidget {
   final void Function(Date date) onDaySelected;
   final Nutrient? nutrient;
 
-  const NutritionCalendar(
+  NutritionCalendar(
     this.dailyIntakesLightReports, {
-    Key? key,
     required this.onDaySelected,
     this.nutrient,
-  }) : super(key: key);
+  }) : super(key: UniqueKey());
 
   @override
   _NutritionCalendarState createState() => _NutritionCalendarState();
@@ -119,14 +118,9 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     Color? fontColor;
     FontWeight fontWeight = FontWeight.normal;
     BoxDecoration boxDecoration = const BoxDecoration();
-    if (date == _today) {
-      fontColor = Colors.white;
-      fontWeight = FontWeight.bold;
-      boxDecoration = const BoxDecoration(
-        color: Colors.blue,
-        shape: BoxShape.circle,
-      );
-    } else if (_dailyNormUnavailableDatesSet.contains(date)) {
+    final textDecoration = date == _today ? TextDecoration.underline : null;
+
+    if (_dailyNormUnavailableDatesSet.contains(date)) {
       fontColor = Colors.white;
       fontWeight = FontWeight.bold;
       boxDecoration = const BoxDecoration(
@@ -163,7 +157,11 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
         constraints: const BoxConstraints(maxHeight: 128, maxWidth: 128),
         child: Text(
           date.day.toString(),
-          style: TextStyle(color: fontColor, fontWeight: fontWeight),
+          style: TextStyle(
+            color: fontColor,
+            fontWeight: fontWeight,
+            decoration: textDecoration,
+          ),
         ),
       ),
     );
