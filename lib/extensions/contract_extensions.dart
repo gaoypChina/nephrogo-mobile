@@ -22,6 +22,10 @@ String _formatAmount<T extends num>(T amount, String dim) {
   return '${_numberFormatter.format(amount)} $dim';
 }
 
+String _formatAmountNoDim<T extends num>(T amount) {
+  return _formatAmount(amount, '').trim();
+}
+
 extension ProductExtensions on Product {
   num _getNutrientAmount(Nutrient nutrient) {
     switch (nutrient) {
@@ -299,6 +303,29 @@ extension DailyNutrientNormsWithTotalsExtensions
     return nutrient.formatAmount(norm);
   }
 
+  String formattedTotalNoDim(Nutrient nutrient) {
+    final total = getDailyNutrientConsumption(nutrient).total;
+
+    return nutrient.formatAmountNoDim(total);
+  }
+
+  String? getNutrientUsedWithPercentageFormatted(Nutrient nutrient) {
+    final consumption = getDailyNutrientConsumption(nutrient);
+    final totalFormatted = formattedTotalNoDim(nutrient);
+    final norm = consumption.norm;
+
+    if (norm != null) {
+      final normFormatted = nutrient.formatAmount(norm);
+
+      final percentageFormatted =
+          NumberFormat.percentPattern().format(consumption.normPercentage);
+
+      return '$percentageFormatted ($totalFormatted / $normFormatted)';
+    }
+
+    return null;
+  }
+
   int? getRoundedNormPercentage(Nutrient nutrient) {
     final consumption = getDailyNutrientConsumption(nutrient);
 
@@ -417,6 +444,10 @@ extension NutrientExtensions on Nutrient {
 
   String formatAmount(int amount) {
     return _formatAmount(amount * scale, scaledDimension);
+  }
+
+  String formatAmountNoDim(int amount) {
+    return _formatAmountNoDim(amount * scale);
   }
 
   num get scale {
