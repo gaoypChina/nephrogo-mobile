@@ -101,7 +101,7 @@ class ExcelReportBuilder {
     final directory = await getApplicationDocumentsDirectory();
     final fullPath = '${directory.path}/$fileName';
 
-    final bytes = _workbook.saveAsStream()!;
+    final bytes = _workbook.saveAsStream();
     final file = File(fullPath)..writeAsBytes(bytes, flush: true);
 
     _workbook.dispose();
