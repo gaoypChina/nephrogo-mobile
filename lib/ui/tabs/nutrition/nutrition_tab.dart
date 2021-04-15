@@ -32,10 +32,6 @@ class NutritionTab extends StatelessWidget {
       builder: (context, data) {
         final latestIntakes = data.latestIntakes.toList();
 
-        if (latestIntakes.isEmpty) {
-          return EmptyStateContainer(text: appLocalizations.nutritionEmpty);
-        }
-
         final lastWeekLightNutritionReports =
             data.lastWeekLightNutritionReports.toList();
         final currentMonthNutritionReports =
@@ -157,6 +153,7 @@ class DailyIntakesCard extends StatelessWidget {
       subtitle: subTitle != null ? Text(subTitle!) : null,
       trailing: leading,
       showDividers: true,
+      footer: _getFooter(context),
       children: [
         for (final intake in intakes)
           IntakeExpandableTile(
@@ -165,6 +162,24 @@ class DailyIntakesCard extends StatelessWidget {
           ),
       ],
     );
+  }
+
+  Widget? _getFooter(BuildContext context) {
+    if (intakes.isEmpty) {
+      return SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            context.appLocalizations.nutritionEmpty,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+        ),
+      );
+    } else {
+      return null;
+    }
   }
 }
 
