@@ -78,8 +78,10 @@ class NutrientBarChart extends StatelessWidget {
             .normPercentage;
         if (percent != null) {
           return _percentFormat.format(percent);
+        } else {
+          return report.nutrientNormsAndTotals
+              .getNutrientTotalAmountFormattedNoDim(nutrient);
         }
-        return '';
       },
       pointColorMapper: (report, _) => _barColor(report),
       dataLabelSettings: DataLabelSettings(
