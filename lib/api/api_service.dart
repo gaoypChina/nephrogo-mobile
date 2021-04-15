@@ -5,6 +5,7 @@ import 'package:built_value/iso_8601_date_time_serializer.dart';
 import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_brotli_transformer/dio_brotli_transformer.dart';
+import 'package:dio_firebase_performance/dio_firebase_performance.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:logging/logging.dart';
@@ -76,7 +77,7 @@ class ApiService {
 
   List<Interceptor> _buildDioInterceptors(Dio dio) {
     final interceptors = <Interceptor>[
-      // DioFirebasePerformanceInterceptor(),
+      DioFirebasePerformanceInterceptor(),
       _FirebaseAuthenticationInterceptor(dio),
     ];
 
