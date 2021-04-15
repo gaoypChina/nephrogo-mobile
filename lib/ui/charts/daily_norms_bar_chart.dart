@@ -25,9 +25,9 @@ class DailyNormsBarChart extends StatelessWidget {
           majorGridLines: const MajorGridLines(width: 0),
         ),
         primaryYAxis: NumericAxis(
-          // majorGridLines: MajorGridLines(width: 0),
           title: AxisTitle(
-            text: context.appLocalizations.dailyNormsConsumedExplanation,
+            text:
+                '${context.appLocalizations.dailyNormsConsumedExplanation}, %',
             textStyle: const TextStyle(fontSize: 12),
           ),
           minimum: 0,
