@@ -1,11 +1,6 @@
-import 'dart:io' show Platform;
-
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:in_app_review/in_app_review.dart';
-import 'package:in_app_update/in_app_update.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
-import 'package:nephrogo/preferences/app_preferences.dart';
 
 class AppReview {
   final InAppReview _inAppReview = InAppReview.instance;
@@ -32,93 +27,5 @@ class AppReview {
 
     await _requestReview();
     return true;
-  }
-}
-
-enum AppUpdateState {
-  no,
-  error,
-  flexible,
-  immediate,
-}
-
-class AppUpdate {
-  final _appPreferences = AppPreferences();
-
-  Future<bool> isUpdateExists() async {
-    if (!Platform.isAndroid) {
-      return false;
-    }
-
-    final appUpdateInfo = await InAppUpdate.checkForUpdate();
-
-    return appUpdateInfo.immediateUpdateAllowed ||
-        appUpdateInfo.flexibleUpdateAllowed;
-  }
-
-  Future<bool> _isUpdateAllowedForUser() async {
-    if (!Platform.isAndroid) {
-      return false;
-    }
-
-    final now = DateTime.now();
-    final lastAskedDate =
-        await _appPreferences.getInAppUpdateLastPromptedDate();
-
-    if (lastAskedDate != null &&
-        now.difference(lastAskedDate.toLocal()) < const Duration(hours: 24)) {
-      return false;
-    }
-
-    return true;
-  }
-
-  Future<AppUpdateState> performInAppUpdateIfNeeded() async {
-    if (!await _isUpdateAllowedForUser()) {
-      return AppUpdateState.no;
-    }
-
-    final appUpdateInfo = await InAppUpdate.checkForUpdate();
-
-    if (!appUpdateInfo.flexibleUpdateAllowed &&
-        !appUpdateInfo.immediateUpdateAllowed) {
-      return AppUpdateState.no;
-    }
-
-    await _appPreferences.setInAppUpdateLastPromptedDate(DateTime.now());
-
-    if (appUpdateInfo.flexibleUpdateAllowed) {
-      try {
-        await InAppUpdate.startFlexibleUpdate();
-      } catch (exception, stack) {
-        FirebaseCrashlytics.instance.recordError(exception, stack);
-
-        return AppUpdateState.error;
-      }
-
-      return AppUpdateState.flexible;
-    }
-
-    if (appUpdateInfo.immediateUpdateAllowed) {
-      try {
-        await InAppUpdate.performImmediateUpdate();
-      } catch (exception, stack) {
-        FirebaseCrashlytics.instance.recordError(exception, stack);
-
-        return AppUpdateState.error;
-      }
-
-      return AppUpdateState.immediate;
-    }
-
-    return AppUpdateState.no;
-  }
-
-  Future<void> completeFlexibleUpdate() {
-    return InAppUpdate.completeFlexibleUpdate();
-  }
-
-  Future<void> performImmediateUpdate() {
-    return InAppUpdate.performImmediateUpdate();
   }
 }

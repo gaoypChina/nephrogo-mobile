@@ -20,8 +20,6 @@ class AccountTab extends StatelessWidget {
 
   final _authenticationProvider = AuthenticationProvider();
 
-  final _appUpdate = AppUpdate();
-
   @override
   Widget build(BuildContext context) {
     final appLocalizations = context.appLocalizations;
@@ -89,24 +87,6 @@ class AccountTab extends StatelessWidget {
                 onTap: () => launchEmail(Constants.supportEmail),
               ),
             ],
-          ),
-          FutureBuilder<bool>(
-            future: _appUpdate.isUpdateExists(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData &&
-                  snapshot.data != null) {
-                return BasicSection.single(
-                  child: AppListTile(
-                    title: Text(appLocalizations.updateApp),
-                    leading: const Icon(Icons.system_update),
-                    onTap: () => _appUpdate.performImmediateUpdate(),
-                  ),
-                );
-              }
-
-              return const SizedBox.shrink();
-            },
           ),
           if (kDebugMode) BasicSection.single(child: DebugListCell()),
           BasicSection.single(
