@@ -303,7 +303,7 @@ extension DailyNutrientNormsWithTotalsExtensions
     return nutrient.formatAmount(norm);
   }
 
-  String formattedTotalNoDim(Nutrient nutrient) {
+  String getNutrientTotalAmountFormattedNoDim(Nutrient nutrient) {
     final total = getDailyNutrientConsumption(nutrient).total;
 
     return nutrient.formatAmountNoDim(total);
@@ -311,7 +311,7 @@ extension DailyNutrientNormsWithTotalsExtensions
 
   String? getNutrientUsedWithPercentageFormatted(Nutrient nutrient) {
     final consumption = getDailyNutrientConsumption(nutrient);
-    final totalFormatted = formattedTotalNoDim(nutrient);
+    final totalFormatted = getNutrientTotalAmountFormattedNoDim(nutrient);
     final norm = consumption.norm;
 
     if (norm != null) {

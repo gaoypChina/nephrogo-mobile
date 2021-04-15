@@ -759,6 +759,9 @@ class NutrientChartSection extends StatelessWidget {
 
     final dailyNormFormatted =
         todaysReport?.nutrientNormsAndTotals.getNutrientNormFormatted(nutrient);
+    final todayConsumptionNoDim = todaysReport?.nutrientNormsAndTotals
+        .getNutrientTotalAmountFormattedNoDim(nutrient);
+
     final todayConsumption = todaysReport?.nutrientNormsAndTotals
         .getNutrientTotalAmountFormatted(nutrient);
 
@@ -766,13 +769,15 @@ class NutrientChartSection extends StatelessWidget {
         reports.any((r) => r.nutrientNormsAndTotals.isAtLeastOneTotalNonZeo());
 
     String subtitle;
-    if (todaysReport == null || todayConsumption == null) {
+    if (todaysReport == null ||
+        todayConsumptionNoDim == null ||
+        todayConsumption == null) {
       subtitle = context.appLocalizations.todayConsumptionWithoutNorm(
         context.appLocalizations.noInfo,
       );
     } else if (dailyNormFormatted != null) {
       subtitle = context.appLocalizations.todayConsumptionWithNorm(
-        todayConsumption,
+        todayConsumptionNoDim,
         dailyNormFormatted,
       );
     } else {
