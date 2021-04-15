@@ -70,7 +70,6 @@ dependencies:
   share: ^2.0.1
   shared_preferences: ^2.0.5
   sign_in_with_apple: ^3.0.0
-  smooth_page_indicator: ^0.3.0-nullsafety.0
 
   syncfusion_flutter_charts: ^19.1.55+1
   syncfusion_flutter_xlsio: ^19.1.55-beta
