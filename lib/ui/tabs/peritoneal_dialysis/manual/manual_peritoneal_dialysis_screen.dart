@@ -207,7 +207,6 @@ class ManualPeritonealDialysisReportSection extends StatelessWidget {
         '${context.appLocalizations.dailyBalance}: '
         '${dailyHealthStatus.totalManualPeritonealDialysisBalanceFormatted}',
       ),
-      showDividers: true,
       children: [
         for (final dialysis in sortedDialysis)
           ManualPeritonealDialysisTile(dialysis)

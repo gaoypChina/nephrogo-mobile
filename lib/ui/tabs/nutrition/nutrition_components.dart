@@ -788,7 +788,6 @@ class NutrientChartSection extends StatelessWidget {
 
     return LargeSection(
       title: Text(nutrient.name(context.appLocalizations)),
-      showHeaderDivider: true,
       subtitle: Text(subtitle),
       trailing: OutlinedButton(
         onPressed: () => openWeeklyNutritionScreen(

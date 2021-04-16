@@ -123,6 +123,7 @@ class DailyNormsSection extends StatelessWidget {
     return LargeSection(
       title: Text(appLocalizations.dailyNormsSectionTitle),
       subtitle: Text(appLocalizations.dailyNormsSectionSubtitle),
+      // showHeaderDivider: false,
       children: [
         DailyNormsBarChart(dailyIntakeReport: nutritionLightReport),
       ],
@@ -152,7 +153,6 @@ class DailyIntakesCard extends StatelessWidget {
       title: Text(title),
       subtitle: subTitle != null ? Text(subTitle!) : null,
       trailing: leading,
-      showDividers: true,
       footer: _getFooter(context),
       children: [
         for (final intake in intakes)
@@ -211,9 +211,10 @@ class MonthlyNutritionSummarySection extends StatelessWidget {
         ),
         child: Text(appLocalizations.more.toUpperCase()),
       ),
+      isThreeLine: true,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
           child: NutritionCalendar(
             reports,
             onDaySelected: (_) => _openNutritionSummary(

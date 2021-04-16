@@ -80,7 +80,6 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
 
     return LargeSection(
       title: Text(context.appLocalizations.peritonealDialysisPlural),
-      showDividers: true,
       trailing: OutlinedButton(
         onPressed: () => Navigator.of(context).pushNamed(
           Routes.routeAutomaticPeritonealDialysisPeriod,

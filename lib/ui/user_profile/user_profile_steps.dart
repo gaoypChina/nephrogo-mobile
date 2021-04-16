@@ -26,7 +26,6 @@ class GenderStep extends UserProfileStep {
     return SingleChildScrollView(
       child: LargeSection(
         title: Text(context.appLocalizations.gender),
-        showDividers: true,
         children: [
           AppRadioListTile<GenderEnum>(
             title: Text(context.appLocalizations.male),
@@ -84,7 +83,6 @@ class HeightStep extends UserProfileStep {
 
     return LargeSection(
       title: Text(context.appLocalizations.height),
-      showDividers: true,
       children: [
         Expanded(
           child: ScrollPicker(
@@ -134,7 +132,6 @@ class ChronicKidneyDiseaseAgeStep extends UserProfileStep {
         title: Text(
           appLocalizations.userProfileSectionChronicKidneyDiseaseAge,
         ),
-        showDividers: true,
         children: [
           for (final interval in _intervals)
             AppRadioListTile<ChronicKidneyDiseaseAgeEnum>(
@@ -183,7 +180,6 @@ class ChronicKidneyDiseaseStageStep extends UserProfileStep {
         subtitle: Text(
           appLocalizations.userProfileSectionChronicKidneyDiseaseStageHelper,
         ),
-        showDividers: true,
         children: [
           for (final stage in _stages)
             AppRadioListTile<ChronicKidneyDiseaseStageEnum>(
@@ -228,7 +224,6 @@ class DialysisStep extends UserProfileStep {
     return SingleChildScrollView(
       child: LargeSection(
         title: Text(appLocalizations.userProfileSectionDialysisType),
-        showDividers: true,
         children: [
           for (final dialysis in _dialysisSelections)
             AppRadioListTile<DialysisEnum>(
@@ -267,7 +262,6 @@ class DiabetesStep extends UserProfileStep {
     return SingleChildScrollView(
       child: LargeSection(
         title: Text(appLocalizations.userProfileSectionDiabetesTitle),
-        showDividers: true,
         children: [
           AppRadioListTile<DiabetesTypeEnum>(
             title: Text(appLocalizations.userProfileSectionDiabetesType1),

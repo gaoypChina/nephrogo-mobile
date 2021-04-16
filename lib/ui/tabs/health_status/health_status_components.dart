@@ -102,7 +102,6 @@ class IndicatorChartSection extends StatelessWidget {
 
     return LargeSection(
       title: Text(title),
-      showDividers: true,
       subtitle: Text(subtitle),
       trailing: OutlinedButton(
         onPressed: () => _openWeeklyHealthIndicatorScreen(context, indicator),

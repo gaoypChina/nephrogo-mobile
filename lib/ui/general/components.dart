@@ -161,8 +161,7 @@ class LargeSection extends StatelessWidget {
   final Widget? leading;
   final Widget? trailing;
   final Widget? footer;
-  final bool showDividers;
-  final bool showHeaderDivider;
+  final bool isThreeLine;
   final GestureTapCallback? onTap;
 
   const LargeSection({
@@ -174,21 +173,21 @@ class LargeSection extends StatelessWidget {
     this.trailing,
     this.footer,
     this.onTap,
-    this.showDividers = false,
-    this.showHeaderDivider = false,
+    this.isThreeLine = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BasicSection(
-      showDividers: showDividers,
-      showHeaderDivider: showHeaderDivider,
+      showDividers: true,
+      showHeaderDivider: true,
       header: LargeAppListTile(
         title: title,
         subtitle: subtitle,
         leading: leading,
         trailing: trailing,
         onTap: onTap,
+        isThreeLine: isThreeLine,
       ),
       footer: footer,
       children: children,
@@ -239,6 +238,7 @@ class LargeAppListTile extends StatelessWidget {
   final Widget? subtitle;
   final Widget? trailing;
   final GestureTapCallback? onTap;
+  final bool isThreeLine;
 
   const LargeAppListTile({
     Key? key,
@@ -247,6 +247,7 @@ class LargeAppListTile extends StatelessWidget {
     this.leading,
     this.trailing,
     this.onTap,
+    this.isThreeLine = false,
   }) : super(key: key);
 
   @override
@@ -257,6 +258,7 @@ class LargeAppListTile extends StatelessWidget {
       leading: leading,
       trailing: trailing,
       onTap: onTap,
+      isThreeLine: isThreeLine,
     );
   }
 
