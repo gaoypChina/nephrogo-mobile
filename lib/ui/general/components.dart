@@ -254,7 +254,7 @@ class LargeAppListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppListTile(
       title: getTitleWithStyleApplied(context),
-      subtitle: subtitleWithStyleApplied,
+      subtitle: getSubtitleWithStyleApplied(context),
       leading: leading,
       trailing: trailing,
       onTap: onTap,
@@ -269,16 +269,13 @@ class LargeAppListTile extends StatelessWidget {
     );
   }
 
-  Widget? get subtitleWithStyleApplied {
+  Widget? getSubtitleWithStyleApplied(BuildContext context) {
     if (subtitle == null) {
       return null;
     }
 
     return DefaultTextStyle.merge(
-      style: const TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.bold,
-      ),
+      style: Theme.of(context).textTheme.subtitle2,
       child: subtitle!,
     );
   }
