@@ -54,7 +54,7 @@ class NutritionTab extends StatelessWidget {
             ),
             SliverToBoxAdapter(
               child: DailyIntakesCard(
-                title: appLocalizations.lastMealsSectionTitle,
+                title: appLocalizations.myNutrition,
                 intakes: latestIntakes,
                 dailyNutrientNormsWithTotals: dailyNutrientNormsWithTotals,
                 leading: OutlinedButton(
