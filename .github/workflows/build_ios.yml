@@ -49,5 +49,5 @@ jobs:
 
       - run: flutter test
 
-      - run: flutter build ios --release --build-number ${{ env.BUILD_NUMBER }}
+      - run: flutter build ipa --release --build-number ${{ env.BUILD_NUMBER }}
 

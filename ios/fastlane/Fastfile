@@ -26,8 +26,8 @@ platform :ios do
 
   desc "Push a new beta build to Firebase Beta"
   lane :beta do
-    prepare_ci
-    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+    # prepare_ci
+    # build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     # upload_to_testflight(api_key_path: "fastlane/app-store-key.json")
     firebase_app_distribution(
         app: "1:59243708382:ios:118cbcbc535335b57ce74f",
@@ -37,8 +37,8 @@ platform :ios do
 
   desc "Push a new release build to the App Store"
   lane :release do
-    prepare_ci
-    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+    # prepare_ci
+    # build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     upload_to_app_store(
         api_key_path: "fastlane/app-store-key.json",
         force: true,
