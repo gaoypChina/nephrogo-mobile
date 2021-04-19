@@ -38,7 +38,7 @@ platform :ios do
   desc "Push a new release build to the App Store"
   lane :release do
     # prepare_ci
-    # build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     upload_to_app_store(
         api_key_path: "fastlane/app-store-key.json",
         force: true,
