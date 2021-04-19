@@ -340,16 +340,6 @@ extension DailyNutrientNormsWithTotalsExtensions
     }
   }
 
-  int? getRoundedNormPercentage(Nutrient nutrient) {
-    final consumption = getDailyNutrientConsumption(nutrient);
-
-    if (consumption.norm == null) {
-      return null;
-    }
-
-    return ((consumption.total / consumption.norm!) * 100).round();
-  }
-
   int normsExceededCount() {
     return Nutrient.values
         .map(getDailyNutrientConsumption)
