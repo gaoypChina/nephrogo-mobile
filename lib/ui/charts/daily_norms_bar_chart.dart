@@ -84,8 +84,7 @@ class DailyNormsBarChart extends StatelessWidget {
         yValueMapper: (n, _) {
           return norms.getDailyNutrientConsumption(n).normPercentage;
         },
-        dataLabelMapper: (n, _) =>
-            norms.getNutrientUsedWithPercentageFormatted(n),
+        dataLabelMapper: (n, _) => norms.getNutrientConsumptionFormatted(n),
       ),
     ];
   }

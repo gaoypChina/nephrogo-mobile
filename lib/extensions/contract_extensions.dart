@@ -309,21 +309,35 @@ extension DailyNutrientNormsWithTotalsExtensions
     return nutrient.formatAmountNoDim(total);
   }
 
-  String? getNutrientUsedWithPercentageFormatted(Nutrient nutrient) {
+  String getNutrientConsumptionShortFormatted(Nutrient nutrient) {
     final consumption = getDailyNutrientConsumption(nutrient);
-    final totalFormatted = getNutrientTotalAmountFormattedNoDim(nutrient);
     final norm = consumption.norm;
 
     if (norm != null) {
+      final totalFormatted = getNutrientTotalAmountFormattedNoDim(nutrient);
       final normFormatted = nutrient.formatAmount(norm);
 
+      return '$totalFormatted / $normFormatted';
+    } else {
+      return getNutrientTotalAmountFormatted(nutrient);
+    }
+  }
+
+  String getNutrientConsumptionFormatted(Nutrient nutrient) {
+    final consumption = getDailyNutrientConsumption(nutrient);
+    final consumptionShortFormatted =
+        getNutrientConsumptionShortFormatted(nutrient);
+
+    final norm = consumption.norm;
+
+    if (norm != null) {
       final percentageFormatted =
           NumberFormat.percentPattern().format(consumption.normPercentage);
 
-      return '$percentageFormatted ($totalFormatted / $normFormatted)';
+      return '$percentageFormatted ($consumptionShortFormatted)';
+    } else {
+      return consumptionShortFormatted;
     }
-
-    return null;
   }
 
   int? getRoundedNormPercentage(Nutrient nutrient) {
