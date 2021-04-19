@@ -19,10 +19,10 @@ class DateHelper {
     Date startDate,
     Date endDate,
   ) sync* {
-    for (DateTime date = startDate.firstDayOfWeek();
-        date.isBefore(endDate) || date.isAtSameMomentAs(endDate);
-        date = date.add(const Duration(days: 7))) {
-      yield Date.from(date);
+    for (var date = startDate.firstDayOfWeek();
+        date.isBefore(endDate) || date == endDate;
+        date = date.add(const Duration(days: 7)).toDate()) {
+      yield date;
     }
   }
 
