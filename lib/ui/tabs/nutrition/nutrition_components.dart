@@ -787,7 +787,11 @@ class NutrientChartSection extends StatelessWidget {
     }
 
     return LargeSection(
-      title: Text(nutrient.name(context.appLocalizations)),
+      title: Text(
+        nutrient.consumptionName(context.appLocalizations).overflow,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
       subtitle: Text(subtitle),
       trailing: OutlinedButton(
         onPressed: () => openWeeklyNutritionScreen(
