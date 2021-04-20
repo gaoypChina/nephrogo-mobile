@@ -476,17 +476,10 @@ class DailyIntakesReportNutrientTile extends StatelessWidget {
   }
 
   String _getSubtitleText(AppLocalizations appLocalizations) {
-    final totalFormatted =
-        dailyNutrientNormsAndTotals.getNutrientTotalAmountFormatted(nutrient);
+    final consumptionFormatted = dailyNutrientNormsAndTotals
+        .getNutrientConsumptionFormatted(nutrient, appLocalizations);
 
-    final normFormatted =
-        dailyNutrientNormsAndTotals.getNutrientNormFormatted(nutrient);
-    if (normFormatted != null) {
-      return appLocalizations.consumptionWithNorm(
-          totalFormatted, normFormatted);
-    }
-
-    return appLocalizations.consumptionWithoutNorm(totalFormatted);
+    return appLocalizations.consumed(consumptionFormatted);
   }
 
   Widget _leadingTotalConsumptionIndicator(int? percentageRounded) {
@@ -568,17 +561,13 @@ class NutrientDailyNutritionTile extends StatelessWidget {
   }
 
   String _getConsumptionText(AppLocalizations appLocalizations) {
-    final totalFormatted =
-        dailyNutrientNormsAndTotals.getNutrientTotalAmountFormatted(nutrient);
+    final consumptionFormatted =
+        dailyNutrientNormsAndTotals.getNutrientConsumptionFormatted(
+      nutrient,
+      appLocalizations,
+    );
 
-    final normFormatted =
-        dailyNutrientNormsAndTotals.getNutrientNormFormatted(nutrient);
-    if (normFormatted != null) {
-      return appLocalizations.consumptionWithNorm(
-          totalFormatted, normFormatted);
-    }
-
-    return appLocalizations.consumptionWithoutNorm(totalFormatted);
+    return appLocalizations.consumed(consumptionFormatted);
   }
 
   String? _getNormExceededText(AppLocalizations appLocalizations) {
@@ -767,8 +756,10 @@ class NutrientChartSection extends StatelessWidget {
       );
     } else {
       subtitle = context.appLocalizations.todayConsumptionWithoutNorm(
-        todaysReport.nutrientNormsAndTotals
-            .getNutrientConsumptionShortFormatted(nutrient),
+        todaysReport.nutrientNormsAndTotals.getNutrientConsumptionFormatted(
+          nutrient,
+          context.appLocalizations,
+        ),
       );
     }
 

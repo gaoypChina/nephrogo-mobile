@@ -19,23 +19,10 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
   }) : super(key: key);
 
   String _getTitleText(AppLocalizations appLocalizations) {
-    final nutrientNorms = report.dailyNutrientNormsAndTotals;
-    final nutrientConsumption = report.dailyNutrientNormsAndTotals
-        .getDailyNutrientConsumption(nutrient);
+    final consumptionFormatted = report.dailyNutrientNormsAndTotals
+        .getNutrientConsumptionFormatted(nutrient, appLocalizations);
 
-    final totalFormatted =
-        nutrientNorms.getNutrientTotalAmountFormatted(nutrient);
-
-    if (nutrientConsumption.isNormExists) {
-      final normFormatted = nutrientNorms.getNutrientNormFormatted(nutrient)!;
-
-      return appLocalizations.consumptionWithNorm(
-        totalFormatted,
-        normFormatted,
-      );
-    }
-
-    return appLocalizations.consumptionWithoutNorm(totalFormatted);
+    return appLocalizations.consumed(consumptionFormatted);
   }
 
   @override

@@ -309,7 +309,10 @@ extension DailyNutrientNormsWithTotalsExtensions
     return nutrient.formatAmountNoDim(total);
   }
 
-  String getNutrientConsumptionShortFormatted(Nutrient nutrient) {
+  String getNutrientConsumptionFormatted(
+    Nutrient nutrient,
+    AppLocalizations appLocalizations,
+  ) {
     final consumption = getDailyNutrientConsumption(nutrient);
     final norm = consumption.norm;
 
@@ -317,16 +320,22 @@ extension DailyNutrientNormsWithTotalsExtensions
       final totalFormatted = getNutrientTotalAmountFormattedNoDim(nutrient);
       final normFormatted = nutrient.formatAmount(norm);
 
-      return '$totalFormatted / $normFormatted';
+      return appLocalizations.consumptionWithNorm(
+        totalFormatted,
+        normFormatted,
+      );
     } else {
       return getNutrientTotalAmountFormatted(nutrient);
     }
   }
 
-  String getNutrientConsumptionFormatted(Nutrient nutrient) {
+  String getNutrientConsumptionWithPercentageFormatted(
+    Nutrient nutrient,
+    AppLocalizations appLocalizations,
+  ) {
     final consumption = getDailyNutrientConsumption(nutrient);
     final consumptionShortFormatted =
-        getNutrientConsumptionShortFormatted(nutrient);
+        getNutrientConsumptionFormatted(nutrient, appLocalizations);
 
     final norm = consumption.norm;
 

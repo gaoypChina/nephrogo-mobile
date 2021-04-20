@@ -211,7 +211,16 @@
   "@dailyNormsSectionSubtitle": {},
   "dailyNormsConsumedExplanation": "Suvartotos asmeninės paros normos dalis",
   "@dailyNormsConsumedExplanation": {},
-  "consumptionWithNorm": "Suvartota: {amount} iš {norm}",
+  "consumed": "Suvartota: {consumption}",
+  "@consumed": {
+    "placeholders": {
+      "consumption": {
+        "type": "String",
+        "example": "120 g"
+      }
+    }
+  },
+  "consumptionWithNorm": "{amount} iš {norm}",
   "@consumptionWithNorm": {
     "placeholders": {
       "amount": {
@@ -221,58 +230,6 @@
       "norm": {
         "type": "String",
         "example": "150 g"
-      }
-    }
-  },
-  "consumptionWithoutNorm": "Suvartota: {amount}",
-  "@consumptionWithoutNorm": {
-    "placeholders": {
-      "amount": {
-        "type": "String",
-        "example": "120 g"
-      }
-    }
-  },
-  "todayConsumptionWithNorm": "Šiandien: {amount} iš {norm}",
-  "@todayConsumptionWithNorm": {
-    "placeholders": {
-      "amount": {
-        "type": "String",
-        "example": "120 g"
-      },
-      "norm": {
-        "type": "String",
-        "example": "150 g"
-      }
-    }
-  },
-  "consumptionWithNutrient": "{nutrient}: {amount} iš {norm}",
-  "@consumptionWithNutrient": {
-    "placeholders": {
-      "nutrient": {
-        "type": "String",
-        "example": "Kalis"
-      },
-      "amount": {
-        "type": "String",
-        "example": "120 g"
-      },
-      "norm": {
-        "type": "String",
-        "example": "150 g"
-      }
-    }
-  },
-  "consumptionWithNutrientWithoutNorm": "{nutrient}: {amount}",
-  "@consumptionWithNutrientWithoutNorm": {
-    "placeholders": {
-      "nutrient": {
-        "type": "String",
-        "example": "Kalis"
-      },
-      "amount": {
-        "type": "String",
-        "example": "120 g"
       }
     }
   },

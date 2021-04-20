@@ -303,6 +303,6 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
     final total = intakes.sumBy((e) => e.getNutrientAmount(nutrient)).toInt();
     final formattedAmount = nutrient.formatAmount(total);
 
-    return context.appLocalizations.consumptionWithoutNorm(formattedAmount);
+    return context.appLocalizations.consumed(formattedAmount);
   }
 }
