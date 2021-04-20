@@ -169,7 +169,7 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
   }
 
   Iterable<Tuple2<MealTypeEnum, List<Intake>>>
-  getIntakesGroupedByMealType() sync* {
+      getIntakesGroupedByMealType() sync* {
     final sortedIntakes = intakes.orderBy((i) => i.consumedAt, reverse: true);
     final groups = sortedIntakes.groupBy((intake) => intake.mealType);
 
@@ -195,7 +195,7 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
     bool includeEmpty = false,
   }) sync* {
     final dailyTotal =
-    intakes.sumBy((e) => e.getNutrientAmount(nutrient)).toInt();
+        intakes.sumBy((e) => e.getNutrientAmount(nutrient)).toInt();
     final groups = intakes.groupBy((intake) => intake.mealType);
 
     final mealTypes = [
@@ -273,7 +273,7 @@ extension MealTypeExtensions on MealTypeEnum {
 }
 
 extension DailyNutrientNormsWithTotalsExtensions
-on DailyNutrientNormsWithTotals {
+    on DailyNutrientNormsWithTotals {
   DailyNutrientConsumption getDailyNutrientConsumption(Nutrient nutrient) {
     switch (nutrient) {
       case Nutrient.potassium:
@@ -316,8 +316,10 @@ on DailyNutrientNormsWithTotals {
     return nutrient.formatAmountNoDim(total);
   }
 
-  String getNutrientConsumptionFormatted(Nutrient nutrient,
-      AppLocalizations appLocalizations,) {
+  String getNutrientConsumptionFormatted(
+    Nutrient nutrient,
+    AppLocalizations appLocalizations,
+  ) {
     final consumption = getDailyNutrientConsumption(nutrient);
     final norm = consumption.norm;
 
@@ -334,17 +336,19 @@ on DailyNutrientNormsWithTotals {
     }
   }
 
-  String getNutrientConsumptionWithPercentageFormatted(Nutrient nutrient,
-      AppLocalizations appLocalizations,) {
+  String getNutrientConsumptionWithPercentageFormatted(
+    Nutrient nutrient,
+    AppLocalizations appLocalizations,
+  ) {
     final consumption = getDailyNutrientConsumption(nutrient);
     final consumptionShortFormatted =
-    getNutrientConsumptionFormatted(nutrient, appLocalizations);
+        getNutrientConsumptionFormatted(nutrient, appLocalizations);
 
     final norm = consumption.norm;
 
     if (norm != null) {
       final percentageFormatted =
-      NumberFormat.percentPattern().format(consumption.normPercentage);
+          NumberFormat.percentPattern().format(consumption.normPercentage);
 
       return '$percentageFormatted ($consumptionShortFormatted)';
     } else {
@@ -643,8 +647,10 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     return builder.build();
   }
 
-  String? getHealthIndicatorFormatted(HealthIndicator indicator,
-      AppLocalizations appLocalizations,) {
+  String? getHealthIndicatorFormatted(
+    HealthIndicator indicator,
+    AppLocalizations appLocalizations,
+  ) {
     if (!isIndicatorExists(indicator)) {
       return null;
     }
@@ -1242,7 +1248,7 @@ extension UserProfileExtensions on UserProfileV2 {
 }
 
 extension ChronicKidneyDiseaseStageEnumExtensions
-on ChronicKidneyDiseaseStageEnum {
+    on ChronicKidneyDiseaseStageEnum {
   String title(AppLocalizations appLocalizations) {
     switch (this) {
       case ChronicKidneyDiseaseStageEnum.stage1:
