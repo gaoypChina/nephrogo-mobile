@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:flutter/material.dart';
@@ -12,18 +14,23 @@ import 'package:tuple/tuple.dart';
 
 final _numberFormatter = NumberFormat.decimalPattern();
 
-String _formatAmount<T extends num>(T amount, String dim) {
+String _formatAmount<T extends num>(
+  T amount,
+  String dim, [
+  int decimalPlaces = 2,
+]) {
   if (amount is double && amount < 1000) {
-    final roundedDouble = (amount * 100).round() / 100;
+    final fac = pow(10, decimalPlaces).toInt();
+    final roundedDouble = (amount * fac).round() / fac;
 
     return '${_numberFormatter.format(roundedDouble)} $dim';
   }
 
-  return '${_numberFormatter.format(amount)} $dim';
+  return '${_numberFormatter.format(amount.toInt())} $dim';
 }
 
-String _formatAmountNoDim<T extends num>(T amount) {
-  return _formatAmount(amount, '').trim();
+String _formatAmountNoDim<T extends num>(T amount, [int decimalPlaces = 2]) {
+  return _formatAmount(amount, '', decimalPlaces).trim();
 }
 
 extension ProductExtensions on Product {
@@ -162,7 +169,7 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
   }
 
   Iterable<Tuple2<MealTypeEnum, List<Intake>>>
-      getIntakesGroupedByMealType() sync* {
+  getIntakesGroupedByMealType() sync* {
     final sortedIntakes = intakes.orderBy((i) => i.consumedAt, reverse: true);
     final groups = sortedIntakes.groupBy((intake) => intake.mealType);
 
@@ -188,7 +195,7 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
     bool includeEmpty = false,
   }) sync* {
     final dailyTotal =
-        intakes.sumBy((e) => e.getNutrientAmount(nutrient)).toInt();
+    intakes.sumBy((e) => e.getNutrientAmount(nutrient)).toInt();
     final groups = intakes.groupBy((intake) => intake.mealType);
 
     final mealTypes = [
@@ -266,7 +273,7 @@ extension MealTypeExtensions on MealTypeEnum {
 }
 
 extension DailyNutrientNormsWithTotalsExtensions
-    on DailyNutrientNormsWithTotals {
+on DailyNutrientNormsWithTotals {
   DailyNutrientConsumption getDailyNutrientConsumption(Nutrient nutrient) {
     switch (nutrient) {
       case Nutrient.potassium:
@@ -309,10 +316,8 @@ extension DailyNutrientNormsWithTotalsExtensions
     return nutrient.formatAmountNoDim(total);
   }
 
-  String getNutrientConsumptionFormatted(
-    Nutrient nutrient,
-    AppLocalizations appLocalizations,
-  ) {
+  String getNutrientConsumptionFormatted(Nutrient nutrient,
+      AppLocalizations appLocalizations,) {
     final consumption = getDailyNutrientConsumption(nutrient);
     final norm = consumption.norm;
 
@@ -329,19 +334,17 @@ extension DailyNutrientNormsWithTotalsExtensions
     }
   }
 
-  String getNutrientConsumptionWithPercentageFormatted(
-    Nutrient nutrient,
-    AppLocalizations appLocalizations,
-  ) {
+  String getNutrientConsumptionWithPercentageFormatted(Nutrient nutrient,
+      AppLocalizations appLocalizations,) {
     final consumption = getDailyNutrientConsumption(nutrient);
     final consumptionShortFormatted =
-        getNutrientConsumptionFormatted(nutrient, appLocalizations);
+    getNutrientConsumptionFormatted(nutrient, appLocalizations);
 
     final norm = consumption.norm;
 
     if (norm != null) {
       final percentageFormatted =
-          NumberFormat.percentPattern().format(consumption.normPercentage);
+      NumberFormat.percentPattern().format(consumption.normPercentage);
 
       return '$percentageFormatted ($consumptionShortFormatted)';
     } else {
@@ -456,11 +459,11 @@ extension NutrientExtensions on Nutrient {
   }
 
   String formatAmount(int amount) {
-    return _formatAmount(amount * scale, scaledDimension);
+    return _formatAmount(amount * scale, scaledDimension, decimalPlaces);
   }
 
   String formatAmountNoDim(int amount) {
-    return _formatAmountNoDim(amount * scale);
+    return _formatAmountNoDim(amount * scale, decimalPlaces);
   }
 
   num get scale {
@@ -478,6 +481,10 @@ extension NutrientExtensions on Nutrient {
       case Nutrient.energy:
       case Nutrient.liquids:
         return 0;
+      case Nutrient.proteins:
+      case Nutrient.carbohydrate:
+      case Nutrient.fat:
+        return 1;
       default:
         return 2;
     }
@@ -636,10 +643,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     return builder.build();
   }
 
-  String? getHealthIndicatorFormatted(
-    HealthIndicator indicator,
-    AppLocalizations appLocalizations,
-  ) {
+  String? getHealthIndicatorFormatted(HealthIndicator indicator,
+      AppLocalizations appLocalizations,) {
     if (!isIndicatorExists(indicator)) {
       return null;
     }
@@ -1237,7 +1242,7 @@ extension UserProfileExtensions on UserProfileV2 {
 }
 
 extension ChronicKidneyDiseaseStageEnumExtensions
-    on ChronicKidneyDiseaseStageEnum {
+on ChronicKidneyDiseaseStageEnum {
   String title(AppLocalizations appLocalizations) {
     switch (this) {
       case ChronicKidneyDiseaseStageEnum.stage1:
