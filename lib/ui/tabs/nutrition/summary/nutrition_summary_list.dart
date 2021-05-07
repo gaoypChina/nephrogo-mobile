@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_calendar.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
@@ -72,10 +71,10 @@ class NutritionMonthlyReportsListState
   }
 
   void _onSelectionChanged(
-    DateTime dateTime,
+    Date date,
     List<DailyIntakesLightReport> reports,
   ) {
-    final position = getReportPosition(dateTime.toDate(), reports);
+    final position = getReportPosition(date, reports);
 
     _itemScrollController.jumpTo(index: position);
   }

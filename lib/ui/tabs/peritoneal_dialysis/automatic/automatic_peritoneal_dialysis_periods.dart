@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/charts/automatic_peritoneal_dialysis_balance_chart.dart';
 import 'package:nephrogo/ui/general/app_stream_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
@@ -70,7 +69,7 @@ class AutomaticPeritonealDialysisPeriodsScreen extends StatelessWidget {
     final dialysisResponse =
         await _apiService.getAutomaticPeritonealDialysisPeriod(
       Constants.earliestDate,
-      Date.today(),
+      DateTime.now().toDate(),
     );
 
     builder.appendAutomaticDialysisSheet(
@@ -133,8 +132,8 @@ class _AutomaticPeritonealDialysisPeriodsScreenBody extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: AutomaticPeritonealDialysisBalanceChart(
-                      minimumDate: from,
-                      maximumDate: to,
+                      minimumDate: from.toDateTime(),
+                      maximumDate: to.toDateTime(),
                       dialysis: sortedDialysis,
                     ),
                   ),

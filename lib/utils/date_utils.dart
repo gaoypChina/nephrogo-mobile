@@ -1,5 +1,5 @@
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/models/date.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class DateHelper {
   DateHelper._();
@@ -9,9 +9,9 @@ class DateHelper {
     Date endDate,
   ) sync* {
     for (var date = startDate;
-        date.isBefore(endDate) || date == endDate;
-        date = date.add(const Duration(days: 1)).toDate()) {
-      yield Date.from(date);
+        date.toDateTime().isBefore(endDate.toDateTime()) || date == endDate;
+        date = date.toDateTime().add(const Duration(days: 1)).toDate()) {
+      yield date;
     }
   }
 
@@ -21,7 +21,7 @@ class DateHelper {
   ) sync* {
     for (var date = startDate.firstDayOfWeek();
         date.isBefore(endDate) || date == endDate;
-        date = date.add(const Duration(days: 7)).toDate()) {
+        date = date.addDays(7)) {
       yield date;
     }
   }
@@ -38,15 +38,15 @@ class DateHelper {
     }
   }
 
-  static Date getFirstDayOfCurrentMonth(DateTime dateTime) {
+  static Date getFirstDayOfCurrentMonth(Date dateTime) {
     return Date(dateTime.year, dateTime.month, 1);
   }
 
-  static Date getLastDayOfCurrentMonth(DateTime dateTime) {
+  static Date getLastDayOfCurrentMonth(Date dateTime) {
     return Date(dateTime.year, dateTime.month + 1, 0);
   }
 
-  static Date getFirstDayOfNextMonth(DateTime dateTime) {
+  static Date getFirstDayOfNextMonth(Date dateTime) {
     return Date(dateTime.year, dateTime.month + 1, 1);
   }
 }

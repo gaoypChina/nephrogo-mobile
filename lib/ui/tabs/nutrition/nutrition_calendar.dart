@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -27,23 +26,24 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
 
   late List<DailyIntakesLightReport> _reportsSortedByDateReverse;
 
-  late Set<DateTime> _dailyNormExceededDatesSet;
-  late Set<DateTime> _dailyNormUnavailableDatesSet;
-  late Set<DateTime> _availableDatesSet;
+  late Set<Date> _dailyNormExceededDatesSet;
+  late Set<Date> _dailyNormUnavailableDatesSet;
+  late Set<Date> _availableDatesSet;
 
   @override
   void initState() {
-    _today = Date.today();
+    _today = DateTime.now().toDate();
 
     _reportsSortedByDateReverse = widget.dailyIntakesLightReports
         .orderBy((e) => e.date, reverse: true)
         .toList();
 
-    _focusDate =
-        _reportsSortedByDateReverse.firstOrNull()?.date.toDate() ?? _today;
+    final _reportsSortedDates =
+        _reportsSortedByDateReverse.map((e) => e.date).toList();
 
-    _availableDatesSet =
-        _reportsSortedByDateReverse.map((r) => Date.from(r.date)).toSet();
+    _focusDate = _reportsSortedDates.firstOrNull() ?? _today;
+
+    _availableDatesSet = _reportsSortedDates.toSet();
 
     _dailyNormExceededDatesSet =
         generateDailyNormExceededDates(_reportsSortedByDateReverse).toSet();
@@ -54,7 +54,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     super.initState();
   }
 
-  Iterable<DateTime> generateDailyNormExceededDates(
+  Iterable<Date> generateDailyNormExceededDates(
     List<DailyIntakesLightReport> reports,
   ) {
     if (widget.nutrient == null) {
@@ -73,7 +73,7 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
     ).map((r) => r.date);
   }
 
-  Iterable<DateTime> generateDailyNormUnavailableDates(
+  Iterable<Date> generateDailyNormUnavailableDates(
     List<DailyIntakesLightReport> reports,
   ) {
     if (widget.nutrient == null) {
@@ -93,9 +93,9 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
-      firstDay: Constants.earliestDate,
-      lastDay: _today,
-      focusedDay: _focusDate,
+      firstDay: Constants.earliestDate.toDateTime(),
+      lastDay: _today.toDateTime(),
+      focusedDay: _focusDate.toDateTime(),
       startingDayOfWeek: StartingDayOfWeek.monday,
       availableGestures: AvailableGestures.none,
       calendarStyle: const CalendarStyle(
@@ -168,12 +168,12 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    widget.onDaySelected(Date.from(selectedDay));
+    widget.onDaySelected(selectedDay.toDate());
   }
 
   int getReportPosition(DateTime dateTime) {
     final position = _reportsSortedByDateReverse
-        .indexWhere((r) => r.date == Date.from(dateTime));
+        .indexWhere((r) => r.date == dateTime.toDate());
 
     if (position == -1) {
       return 1;

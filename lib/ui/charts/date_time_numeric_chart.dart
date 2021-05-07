@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/utils/date_utils.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'numeric_chart.dart';
@@ -92,7 +92,7 @@ class DateTimeNumericChart extends StatelessWidget {
           from.toDate(),
           to.toDate(),
         ).toList(),
-        xValueMapper: (d, _) => d,
+        xValueMapper: (d, _) => d.toDateTime(),
         yValueMapper: (d, _) => 0,
         isVisibleInLegend: false,
         enableTooltip: false,

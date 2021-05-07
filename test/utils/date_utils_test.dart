@@ -1,11 +1,11 @@
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/utils/date_utils.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('getFirstDayOfNextMonth', () {
     test('returns correct date', () {
-      final today = DateTime.parse('2020-12-12T14:34:16.798918');
+      final today = DateTime.parse('2020-12-12T14:34:16.798918').toDate();
       final date = DateHelper.getFirstDayOfNextMonth(today);
 
       expect(date, Date(2021, 1, 1));

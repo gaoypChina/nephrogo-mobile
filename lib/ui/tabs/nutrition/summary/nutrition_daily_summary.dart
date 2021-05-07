@@ -4,7 +4,6 @@ import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/daily_meal_type_consumption_column_series.dart';
 import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
@@ -157,7 +156,7 @@ class _NutritionDailySummaryList extends StatelessWidget {
         return _NutritionDailySummaryListNutritionSection(
           mealType: group.item1,
           intakes: group.item2,
-          date: dailyIntakesReport.date.toDate(),
+          date: dailyIntakesReport.date,
           norms: norms,
         );
       },
@@ -282,7 +281,7 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
                 arguments: ProductSearchScreenArguments(
                   ProductSearchType.choose,
                   mealType,
-                  date: dailyIntakesReport.date.toDate(),
+                  date: dailyIntakesReport.date,
                 ),
               ),
               child: Text(context.appLocalizations.create.toUpperCase()),

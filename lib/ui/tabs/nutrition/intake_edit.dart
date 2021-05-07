@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/components.dart';
@@ -158,7 +157,7 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
                     AppDatePickerFormField(
                       initialDate: _consumedAt.toDate(),
                       firstDate: Constants.earliestDate,
-                      lastDate: Date.today(),
+                      lastDate: DateTime.now().toDate(),
                       validator: formValidators.nonNull(),
                       dateFormat: _dateFormat,
                       prefixIcon: const Icon(Icons.calendar_today),

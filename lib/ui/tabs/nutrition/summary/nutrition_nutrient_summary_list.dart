@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/charts/nutrient_bar_chart.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
@@ -45,8 +44,8 @@ class NutritionNutrientReportsList extends StatelessWidget {
                 child: NutrientBarChart(
                   dailyIntakeLightReports: reportsReverseSorted,
                   nutrient: nutrient,
-                  minimumDate: dateFrom,
-                  maximumDate: dateTo,
+                  minimumDate: dateFrom.toDateTime(),
+                  maximumDate: dateTo.toDateTime(),
                   showDataLabels: showGraphDataLabels,
                 ),
               ),

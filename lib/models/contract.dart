@@ -1,7 +1,5 @@
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
-import 'date.dart';
-
 enum Nutrient {
   potassium,
   proteins,

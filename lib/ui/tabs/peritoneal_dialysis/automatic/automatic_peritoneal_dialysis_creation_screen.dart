@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
@@ -44,7 +43,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
   final _dateFormat = DateFormat('MMM d');
 
   final now = DateTime.now();
-  final today = Date.today();
+  final today = DateTime.now().toDate();
 
   late AutomaticPeritonealDialysisRequestBuilder _requestBuilder;
 
@@ -206,7 +205,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
                   child: AppDatePickerFormField(
                     initialDate: _requestBuilder.startedAt?.toDate() ?? today,
                     firstDate: Constants.earliestDate,
-                    lastDate: Date.today(),
+                    lastDate: DateTime.now().toDate(),
                     dateFormat: _dateFormat,
                     validator: _formValidators.nonNull(),
                     onDateChanged: (date) {
@@ -491,7 +490,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
     }
 
     return _apiService.updateAutomaticPeritonealDialysis(
-      widget.initialDialysis?.date.toDate() ?? today,
+      widget.initialDialysis?.date ?? today,
       request,
     );
   }
@@ -535,7 +534,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
     final isDeleted = await showDeleteDialog(
       context: context,
       onDelete: () => _apiService.deleteAutomaticPeritonealDialysis(
-        widget.initialDialysis!.date.toDate(),
+        widget.initialDialysis!.date,
       ),
     );
 

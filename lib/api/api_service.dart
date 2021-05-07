@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
-import 'package:built_value/iso_8601_date_time_serializer.dart';
-import 'package:built_value/serializer.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_brotli_transformer/dio_brotli_transformer.dart';
 import 'package:dio_firebase_performance/dio_firebase_performance.dart';
@@ -11,7 +9,6 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:logging/logging.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/constants.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -70,7 +67,6 @@ class ApiService {
     return NephrogoApiClient(
       dio: dio,
       basePathOverride: Constants.apiUrl,
-      serializers: _buildDioSerializers(),
       interceptors: _buildDioInterceptors(dio),
     );
   }
@@ -90,13 +86,6 @@ class ApiService {
     }
 
     return interceptors;
-  }
-
-  Serializers _buildDioSerializers() {
-    final apiSerializersBuilder = standardSerializers.toBuilder()
-      ..add(DateAndDateTimeUtcSerializer());
-
-    return apiSerializersBuilder.build();
   }
 
   void _postAppStateChangeEvent(_AppStateChangeEvent event) {
@@ -617,33 +606,3 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
     return super.onError(err, handler);
   }
 }
-
-// Hack start
-class DateAndDateTimeUtcSerializer extends Iso8601DateTimeSerializer {
-  @override
-  DateTime deserialize(Serializers serializers, Object? serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final s = serialized as String?;
-
-    if (s == null || s.contains('T')) {
-      return super.deserialize(serializers, serialized);
-    }
-
-    try {
-      return Date.from(Date.dateFormat.parseStrict(s));
-    } on FormatException {
-      return super.deserialize(serializers, serialized);
-    }
-  }
-
-  @override
-  Object serialize(Serializers serializers, DateTime dateTime,
-      {FullType specifiedType = FullType.unspecified}) {
-    if (dateTime is Date) {
-      return dateTime.toString();
-    }
-
-    return super.serialize(serializers, dateTime, specifiedType: specifiedType);
-  }
-}
-// hack end

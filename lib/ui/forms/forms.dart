@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/models/date.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 import 'app_form_multi_select_dialog.dart';
 import 'app_form_single_select_dialog.dart';
@@ -465,7 +465,7 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
       onTap: _onTap,
       itemToStringConverter: (date) {
         return (widget.dateFormat ?? _defaultDateFormat)
-            .format(date.toLocal())
+            .format(date.toDateTime())
             .capitalizeFirst();
       },
       labelText: widget.labelText,
@@ -482,9 +482,9 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
   Future<Date> _onTap(BuildContext context) async {
     final dateTime = await showDatePicker(
       context: context,
-      firstDate: widget.firstDate.toLocal(),
-      lastDate: widget.lastDate.toLocal(),
-      initialDate: _selectedDate.toLocal(),
+      firstDate: widget.firstDate.toDateTime(),
+      lastDate: widget.lastDate.toDateTime(),
+      initialDate: _selectedDate.toDateTime(),
       initialDatePickerMode: widget.initialDatePickerMode,
       initialEntryMode: widget.initialEntryMode,
       fieldHintText: _fieldHintText,

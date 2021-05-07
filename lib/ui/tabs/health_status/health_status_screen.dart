@@ -6,7 +6,6 @@ import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/health_indicator_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_stream_builder.dart';
@@ -99,7 +98,7 @@ class _HealthStatusScreenTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return PeriodPager(
       pagerType: pagerType,
-      initialDate: Date.today(),
+      initialDate: DateTime.now().toDate(),
       earliestDate: Constants.earliestDate,
       bodyBuilder: _bodyBuilder,
     );
@@ -194,8 +193,8 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
   final HealthIndicator healthIndicator;
   final List<DailyHealthStatus> dailyHealthStatuses;
   final AppLocalizations appLocalizations;
-  final DateTime from;
-  final DateTime to;
+  final Date from;
+  final Date to;
   final Widget header;
   final bool smallMarkers;
 
@@ -283,7 +282,7 @@ class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
     return BasicSection(
       header: AppListTile(
         title: Text(
-          dateFormat.format(date).capitalizeFirst(),
+          dateFormat.format(date.toDateTime()).capitalizeFirst(),
           maxLines: 1,
         ),
         subtitle: Text(indicator.name(context.appLocalizations)),
@@ -321,7 +320,7 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
   @override
   Widget build(BuildContext context) {
     return DailyHealthStatusIndicatorMultiValueSection(
-      date: dailyHealthStatus.date.toDate(),
+      date: dailyHealthStatus.date,
       indicator: indicator,
       children: _buildChildren(context).toList(),
     );
@@ -424,8 +423,8 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final date = dailyHealthStatus.date.toDate();
-    final dateTitle = _dateFormat.format(date).capitalizeFirst();
+    final date = dailyHealthStatus.date;
+    final dateTitle = _dateFormat.format(date.toDateTime()).capitalizeFirst();
     final subtitle = getSubtitle(context.appLocalizations);
 
     final formattedAmount = dailyHealthStatus.getHealthIndicatorFormatted(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_stream_builder.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
@@ -73,7 +72,7 @@ class _AutomaticPeritonealDialysisTabBody extends StatelessWidget {
   }
 
   Widget _buildTotalBalanceSection(BuildContext context) {
-    final today = Date.today();
+    final today = DateTime.now().toDate();
 
     final initialDate =
         response.lastPeritonealDialysis?.startedAt.toDate() ?? today;

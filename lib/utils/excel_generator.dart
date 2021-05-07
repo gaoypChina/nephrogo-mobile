@@ -115,19 +115,18 @@ class ExcelReportBuilder {
     Iterable<DailyIntakesLightReport> lightDailyIntakeReports,
     int Function(DailyHealthStatus status) rowCount,
   ) {
-    final liquidsMap =
-        lightDailyIntakeReports.groupBy((r) => r.date.toDate()).map(
-              (d, r) => MapEntry(
-                d,
-                r.first.nutrientNormsAndTotals.liquidsMl.total,
-              ),
-            );
+    final liquidsMap = lightDailyIntakeReports.groupBy((r) => r.date).map(
+          (d, r) => MapEntry(
+            d,
+            r.first.nutrientNormsAndTotals.liquidsMl.total,
+          ),
+        );
 
     sheet.writeMergedColumn<DailyHealthStatus>(
       header: '${_appLocalizations.liquids}, ml',
       items: sortedDailyHealthStatuses,
       writer: (range, status) {
-        final date = status.date.toDate();
+        final date = status.date;
 
         if (liquidsMap.containsKey(date)) {
           range.setNumber(liquidsMap[date]!.roundToDouble());

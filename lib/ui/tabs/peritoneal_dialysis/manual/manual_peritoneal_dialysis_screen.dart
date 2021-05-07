@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/manual_peritoneal_dialysis_day_balance_chart.dart';
 import 'package:nephrogo/ui/charts/manual_peritoneal_dialysis_total_balance_chart.dart';
@@ -74,7 +73,7 @@ class ManualPeritonealDialysisScreen extends StatelessWidget {
   Future<ExcelReportBuilder> _buildExcelReport(
     ExcelReportBuilder builder,
   ) async {
-    final today = Date.today();
+    final today = DateTime.now().toDate();
 
     final dailyHealthStatusesResponse = await _apiService.getHealthStatuses(
       Constants.earliestDate,
@@ -180,8 +179,8 @@ class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
 
     return ManualPeritonealDialysisTotalBalanceChart(
       dailyHealthStatuses: dailyHealthStatus.toList(),
-      minimumDate: from,
-      maximumDate: to,
+      minimumDate: from.toDateTime(),
+      maximumDate: to.toDateTime(),
     );
   }
 }
@@ -202,7 +201,9 @@ class ManualPeritonealDialysisReportSection extends StatelessWidget {
         .orderBy((d) => d.startedAt, reverse: true);
 
     return LargeSection(
-      title: Text(_dateFormat.format(dailyHealthStatus.date).capitalizeFirst()),
+      title: Text(_dateFormat
+          .format(dailyHealthStatus.date.toDateTime())
+          .capitalizeFirst()),
       subtitle: Text(
         '${context.appLocalizations.dailyBalance}: '
         '${dailyHealthStatus.totalManualPeritonealDialysisBalanceFormatted}',

@@ -7,8 +7,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'date_time_numeric_chart.dart';
 
 class HealthIndicatorBarChart extends StatelessWidget {
-  final DateTime from;
-  final DateTime to;
+  final Date from;
+  final Date to;
   final HealthIndicator indicator;
   final List<DailyHealthStatus> dailyHealthStatuses;
   final bool smallMarkers;
@@ -29,8 +29,8 @@ class HealthIndicatorBarChart extends StatelessWidget {
       child: DateTimeNumericChart(
         series: _getGraphSeries(context),
         yAxisText: _getIndicatorNameAndDimensionParts(context).join(', '),
-        from: from,
-        to: to,
+        from: from.toDateTime(),
+        to: to.toDateTime(),
         decimalPlaces: indicator.decimalPlaces,
         interval: _getInterval(),
         maximumY: _getMaxY(),
@@ -94,7 +94,7 @@ class HealthIndicatorBarChart extends StatelessWidget {
     return [
       LineSeries<DailyHealthStatus, DateTime>(
         dataSource: dailyHealthStatuses.orderBy((e) => e.date).toList(),
-        xValueMapper: (s, _) => s.date.toDate(),
+        xValueMapper: (s, _) => s.date.toDateTime(),
         yValueMapper: (s, _) => s.getHealthIndicatorValue(indicator),
         dataLabelMapper: (s, _) =>
             s.getHealthIndicatorFormatted(indicator, context.appLocalizations),

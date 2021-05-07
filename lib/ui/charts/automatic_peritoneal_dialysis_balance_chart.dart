@@ -31,7 +31,7 @@ class AutomaticPeritonealDialysisBalanceChart extends StatelessWidget {
       series: [
         ColumnSeries<AutomaticPeritonealDialysis, DateTime>(
           dataSource: dialysis.orderBy((e) => e.date).toList(),
-          xValueMapper: (s, _) => s.date.toDate(),
+          xValueMapper: (s, _) => s.date.toDateTime(),
           yValueMapper: (s, _) => s.balance,
           pointColorMapper: (s, _) =>
               s.balance < 0 ? Colors.teal : Colors.redAccent,

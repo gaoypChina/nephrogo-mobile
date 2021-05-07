@@ -1,4 +1,4 @@
-import 'models/date.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class Constants {
   Constants._();

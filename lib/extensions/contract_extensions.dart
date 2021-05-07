@@ -5,10 +5,9 @@ import 'package:built_value/built_value.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/collection_extensions.dart';
-import 'package:nephrogo/extensions/date_extensions.dart';
+import 'package:nephrogo/extensions/date_time_extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:tuple/tuple.dart';
 
@@ -217,7 +216,7 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
             .toInt();
 
         yield DailyMealTypeNutrientConsumption(
-          date: Date.from(date),
+          date: date,
           nutrient: nutrient,
           mealType: mealType,
           drinksTotal: drinksTotal,
@@ -226,7 +225,7 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
         );
       } else if (includeEmpty && mealType != MealTypeEnum.unknown) {
         yield DailyMealTypeNutrientConsumption(
-          date: Date.from(date),
+          date: date,
           nutrient: nutrient,
           mealType: mealType,
           drinksTotal: 0,

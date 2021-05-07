@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/utils/date_utils.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -64,7 +63,7 @@ class NutrientBarChart extends StatelessWidget {
     yield ColumnSeries<DailyIntakesLightReport, DateTime>(
       dataSource: dailyIntakeLightReports.orderBy((e) => e.date).toList(),
       borderRadius: DateTimeNumericChart.rodTopRadius,
-      xValueMapper: (report, _) => report.date.toDate(),
+      xValueMapper: (report, _) => report.date.toDateTime(),
       yValueMapper: (report, _) {
         final total = report.nutrientNormsAndTotals
             .getDailyNutrientConsumption(nutrient)
@@ -114,7 +113,7 @@ class NutrientBarChart extends StatelessWidget {
 
     return LineSeries<Date, DateTime>(
       dataSource: dates,
-      xValueMapper: (date, _) => date,
+      xValueMapper: (date, _) => date.toDateTime(),
       yValueMapper: (date, _) => scaledDailyNorm,
       dashArray: [10, 10],
       width: 3,

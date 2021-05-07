@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/utils/date_utils.dart';
+import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 typedef PagerBodyBuilder = Widget Function(
   BuildContext context,
@@ -83,7 +83,7 @@ class DailyPager extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final today = Date.today();
+    final today = DateTime.now().toDate();
     final dates = DateHelper.generateDates(earliestDate, today).toList();
 
     final initialFromDateIndex = dates.indexOf(initialDate);
@@ -102,7 +102,7 @@ class DailyPager extends StatelessWidget {
   Date _dateFromToDateTo(Date from) => from;
 
   Widget _buildHeaderText(BuildContext context, Date from, Date to) {
-    return Text(_dayFormatter.format(from).capitalizeFirst());
+    return Text(_dayFormatter.format(from.toDateTime()).capitalizeFirst());
   }
 }
 
@@ -124,7 +124,7 @@ class WeeklyPager extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final today = Date.today();
+    final today = DateTime.now().toDate();
     final dates = DateHelper.generateWeekDates(earliestDate, today).toList();
 
     final initialFromDateIndex = dates.indexOf(initialDate.firstDayOfWeek());
@@ -145,12 +145,14 @@ class WeeklyPager extends StatelessWidget {
 
   Widget _buildHeaderText(BuildContext context, Date from, Date to) {
     if (from.month == to.month) {
-      final formattedFrom = _monthFormatter.format(from).capitalizeFirst();
+      final formattedFrom =
+          _monthFormatter.format(from.toDateTime()).capitalizeFirst();
       return Text('$formattedFrom${from.day} – ${to.day}');
     }
 
-    return Text('${dateFormatter.format(from).capitalizeFirst()} – '
-        '${dateFormatter.format(to).capitalizeFirst()}');
+    return Text(
+        '${dateFormatter.format(from.toDateTime()).capitalizeFirst()} – '
+        '${dateFormatter.format(to.toDateTime()).capitalizeFirst()}');
   }
 }
 
@@ -171,7 +173,7 @@ class MonthlyPager extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final today = Date.today();
+    final today = DateTime.now().toDate();
     final dates = DateHelper.generateMonthDates(earliestDate, today).toList();
 
     final initialFromDateIndex =
@@ -193,7 +195,7 @@ class MonthlyPager extends StatelessWidget {
   }
 
   Widget _buildHeaderText(BuildContext context, Date from, Date to) {
-    return Text(monthFormatter.format(from).capitalizeFirst());
+    return Text(monthFormatter.format(from.toDateTime()).capitalizeFirst());
   }
 }
 

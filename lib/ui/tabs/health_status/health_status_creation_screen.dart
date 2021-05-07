@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
@@ -16,7 +15,7 @@ class HealthStatusCreationScreenArguments {
   final Date date;
 
   HealthStatusCreationScreenArguments({Date? date})
-      : date = date ?? Date.today();
+      : date = date ?? DateTime.now().toDate();
 }
 
 class HealthStatusCreationScreen extends StatefulWidget {
@@ -44,7 +43,8 @@ class _HealthStatusCreationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_dateFormat.format(widget.date).capitalizeFirst()),
+        title: Text(
+            _dateFormat.format(widget.date.toDateTime()).capitalizeFirst()),
         actions: <Widget>[
           AppBarTextButton(
             onPressed: validateAndSave,

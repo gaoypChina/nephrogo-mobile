@@ -3,7 +3,6 @@ import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/general/app_stream_builder.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
@@ -65,9 +64,8 @@ class _NutritionSummaryScreenState extends State<NutritionSummaryScreen> {
           children: [
             NutritionDailySummaryBody(
               nutrient: widget.nutrient,
-              date:
-                  widget.nutritionSummaryStatistics?.maxReportDate?.toDate() ??
-                      Date.today(),
+              date: widget.nutritionSummaryStatistics?.maxReportDate ??
+                  DateTime.now().toDate(),
             ),
             _NutritionWeeklySummaryTabBody(
               nutrient: widget.nutrient,
@@ -118,10 +116,10 @@ class _NutritionMonthlySummaryTabBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MonthlyPager(
-      earliestDate: nutritionSummaryStatistics?.minReportDate?.toDate() ??
-          Constants.earliestDate,
+      earliestDate:
+          nutritionSummaryStatistics?.minReportDate ?? Constants.earliestDate,
       initialDate:
-          nutritionSummaryStatistics?.maxReportDate?.toDate() ?? Date.today(),
+          nutritionSummaryStatistics?.maxReportDate ?? DateTime.now().toDate(),
       bodyBuilder: (context, header, from, to) {
         return AppStreamBuilder<DailyIntakesReportsResponse>(
           stream: () => _apiService.getLightDailyIntakeReportsStream(from, to),
@@ -169,10 +167,10 @@ class _NutritionWeeklySummaryTabBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WeeklyPager(
-      earliestDate: nutritionSummaryStatistics?.minReportDate?.toDate() ??
-          Constants.earliestDate,
+      earliestDate:
+          nutritionSummaryStatistics?.minReportDate ?? Constants.earliestDate,
       initialDate:
-          nutritionSummaryStatistics?.maxReportDate?.toDate() ?? Date.today(),
+          nutritionSummaryStatistics?.maxReportDate ?? DateTime.now().toDate(),
       bodyBuilder: (context, header, from, to) {
         return AppStreamBuilder<DailyIntakesReportsResponse>(
           stream: () => _apiService.getLightDailyIntakeReportsStream(from, to),

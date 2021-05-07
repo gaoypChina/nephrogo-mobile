@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/models/date.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
 import 'package:nephrogo/ui/general/app_stepper.dart';
@@ -40,7 +39,7 @@ class _ManualPeritonealDialysisCreationScreenState
   final _dateFormat = DateFormat('MMM d');
 
   final now = DateTime.now();
-  final today = Date.today();
+  final today = DateTime.now().toDate();
   late ManualPeritonealDialysisRequestBuilder _requestBuilder;
 
   int _currentStep = 0;
@@ -187,7 +186,7 @@ class _ManualPeritonealDialysisCreationScreenState
                   child: AppDatePickerFormField(
                     initialDate: _requestBuilder.startedAt!.toDate(),
                     firstDate: Constants.earliestDate,
-                    lastDate: Date.today(),
+                    lastDate: DateTime.now().toDate(),
                     dateFormat: _dateFormat,
                     validator: formValidators.nonNull(),
                     onDateChanged: (date) {
