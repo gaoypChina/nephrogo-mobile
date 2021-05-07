@@ -257,7 +257,7 @@ class _PeriodPagerState extends State<_PeriodPager> {
       itemCount: _dates.length,
       onPageChanged: widget.onPageChanged != null
           ? (index) {
-        final from = _dates[index];
+              final from = _dates[index];
               final to = widget.dateFromToDateTo(from);
 
               widget.onPageChanged!(from, to);
