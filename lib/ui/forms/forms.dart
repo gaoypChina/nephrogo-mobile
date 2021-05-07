@@ -465,7 +465,7 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
       onTap: _onTap,
       itemToStringConverter: (date) {
         return (widget.dateFormat ?? _defaultDateFormat)
-            .format(date.toDateTime())
+            .formatDate(date)
             .capitalizeFirst();
       },
       labelText: widget.labelText,
