@@ -102,7 +102,7 @@ class DailyPager extends StatelessWidget {
   Date _dateFromToDateTo(Date from) => from;
 
   Widget _buildHeaderText(BuildContext context, Date from, Date to) {
-    return Text(_dayFormatter.format(from.toDateTime()).capitalizeFirst());
+    return Text(_dayFormatter.formatDate(from).capitalizeFirst());
   }
 }
 
@@ -145,14 +145,12 @@ class WeeklyPager extends StatelessWidget {
 
   Widget _buildHeaderText(BuildContext context, Date from, Date to) {
     if (from.month == to.month) {
-      final formattedFrom =
-          _monthFormatter.format(from.toDateTime()).capitalizeFirst();
+      final formattedFrom = _monthFormatter.formatDate(from).capitalizeFirst();
       return Text('$formattedFrom${from.day} – ${to.day}');
     }
 
-    return Text(
-        '${dateFormatter.format(from.toDateTime()).capitalizeFirst()} – '
-        '${dateFormatter.format(to.toDateTime()).capitalizeFirst()}');
+    return Text('${dateFormatter.formatDate(from).capitalizeFirst()} – '
+        '${dateFormatter.formatDate(to).capitalizeFirst()}');
   }
 }
 
@@ -195,7 +193,7 @@ class MonthlyPager extends StatelessWidget {
   }
 
   Widget _buildHeaderText(BuildContext context, Date from, Date to) {
-    return Text(monthFormatter.format(from.toDateTime()).capitalizeFirst());
+    return Text(monthFormatter.formatDate(from).capitalizeFirst());
   }
 }
 

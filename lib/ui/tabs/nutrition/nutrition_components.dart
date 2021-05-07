@@ -115,9 +115,8 @@ class DailyIntakesReportSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = Text(_dateFormat
-        .format(dailyIntakesLightReport.date.toDateTime())
-        .capitalizeFirst());
+    final title = Text(
+        _dateFormat.formatDate(dailyIntakesLightReport.date).capitalizeFirst());
 
     final sortedNutrients = dailyIntakesLightReport.nutrientNormsAndTotals
         .getSortedNutrientsByExistence();
@@ -531,7 +530,7 @@ class NutrientDailyNutritionTile extends StatelessWidget {
     final percentageRounded = consumption.totalConsumptionRoundedPercentage();
 
     return AppListTile(
-      title: Text(_dateFormat.format(date.toDateTime()).capitalizeFirst()),
+      title: Text(_dateFormat.formatDate(date).capitalizeFirst()),
       subtitle: Text(_getSubtitleText(appLocalizations)),
       leading: _leadingTotalConsumptionIndicator(),
       isThreeLine: consumption.normExceeded != null,

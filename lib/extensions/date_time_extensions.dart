@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
@@ -89,5 +90,11 @@ extension DurationExtensions on Duration {
           '${inMinutes % 60} ${appLocalizations.minutesShortSuffix}';
     }
     return '$inMinutes ${appLocalizations.minutesShortSuffix}';
+  }
+}
+
+extension DateFormatExtensions on DateFormat {
+  String formatDate(Date date, {bool utc = false}) {
+    return format(date.toDateTime(utc: utc));
   }
 }

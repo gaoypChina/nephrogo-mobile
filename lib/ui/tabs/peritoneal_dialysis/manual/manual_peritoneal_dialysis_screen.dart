@@ -201,9 +201,8 @@ class ManualPeritonealDialysisReportSection extends StatelessWidget {
         .orderBy((d) => d.startedAt, reverse: true);
 
     return LargeSection(
-      title: Text(_dateFormat
-          .format(dailyHealthStatus.date.toDateTime())
-          .capitalizeFirst()),
+      title: Text(
+          _dateFormat.formatDate(dailyHealthStatus.date).capitalizeFirst()),
       subtitle: Text(
         '${context.appLocalizations.dailyBalance}: '
         '${dailyHealthStatus.totalManualPeritonealDialysisBalanceFormatted}',

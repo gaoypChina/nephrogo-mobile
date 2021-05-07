@@ -282,7 +282,7 @@ class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
     return BasicSection(
       header: AppListTile(
         title: Text(
-          dateFormat.format(date.toDateTime()).capitalizeFirst(),
+          dateFormat.formatDate(date).capitalizeFirst(),
           maxLines: 1,
         ),
         subtitle: Text(indicator.name(context.appLocalizations)),
@@ -424,7 +424,7 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final date = dailyHealthStatus.date;
-    final dateTitle = _dateFormat.format(date.toDateTime()).capitalizeFirst();
+    final dateTitle = _dateFormat.formatDate(date).capitalizeFirst();
     final subtitle = getSubtitle(context.appLocalizations);
 
     final formattedAmount = dailyHealthStatus.getHealthIndicatorFormatted(

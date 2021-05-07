@@ -43,8 +43,7 @@ class _HealthStatusCreationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            _dateFormat.format(widget.date.toDateTime()).capitalizeFirst()),
+        title: Text(_dateFormat.formatDate(widget.date).capitalizeFirst()),
         actions: <Widget>[
           AppBarTextButton(
             onPressed: validateAndSave,
