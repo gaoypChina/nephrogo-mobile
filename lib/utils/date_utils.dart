@@ -9,8 +9,8 @@ class DateHelper {
     Date endDate,
   ) sync* {
     for (var date = startDate;
-        date.toDateTime().isBefore(endDate.toDateTime()) || date == endDate;
-        date = date.toDateTime().add(const Duration(days: 1)).toDate()) {
+        date.isBefore(endDate) || date == endDate;
+        date = date.addDays(1)) {
       yield date;
     }
   }
@@ -43,10 +43,10 @@ class DateHelper {
   }
 
   static Date getLastDayOfCurrentMonth(Date dateTime) {
-    return Date(dateTime.year, dateTime.month + 1, 0);
+    return DateTime.utc(dateTime.year, dateTime.month + 1, 0).toDate();
   }
 
   static Date getFirstDayOfNextMonth(Date dateTime) {
-    return Date(dateTime.year, dateTime.month + 1, 1);
+    return DateTime.utc(dateTime.year, dateTime.month + 1).toDate();
   }
 }

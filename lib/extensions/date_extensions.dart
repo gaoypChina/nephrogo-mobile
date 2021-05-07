@@ -1,14 +1,6 @@
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 extension DateExtensions on Date {
-  static Date today({bool utc = false}) {
-    final now = DateTime.now();
-    if (utc) {
-      return now.toUtc().toDate();
-    }
-    return now.toUtc().toDate();
-  }
-
   bool isBefore(Date other) {
     return compareTo(other).isNegative;
   }
