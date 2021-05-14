@@ -71,7 +71,7 @@ class _GeneralRecommendationsTabState extends State<GeneralRecommendationsTab> {
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                    (context, index) {
+                (context, index) {
                   final category = categories[index];
 
                   final totalUnreadRecommendations = category
