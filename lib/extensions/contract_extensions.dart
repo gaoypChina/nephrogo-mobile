@@ -1335,6 +1335,30 @@ extension ChronicKidneyDiseaseAgeEnumExtensions on ChronicKidneyDiseaseAgeEnum {
   }
 }
 
+extension GeneralRecommendationCategoryExtensions
+    on GeneralRecommendationCategory {
+  int totalUnreadRecommendations(Set<int> readRecommendationIds) {
+    return subcategories
+        .sumBy((s) => s.totalUnreadRecommendations(readRecommendationIds))
+        .toInt();
+  }
+}
+
+extension GeneralRecommendationSubcategoryExtensions
+    on GeneralRecommendationSubcategory {
+  int totalUnreadRecommendations(Set<int> readRecommendationIds) {
+    return recommendations
+        .where((r) => r.isNotRead(readRecommendationIds))
+        .length;
+  }
+}
+
+extension GeneralRecommendationExtensions on GeneralRecommendation {
+  bool isNotRead(Set<int> readRecommendationIds) {
+    return !readRecommendationIds.contains(id);
+  }
+}
+
 extension EnumClassExtensions<E extends EnumClass> on E {
   E? enumWithoutDefault(E defaultValue) => (this == defaultValue) ? null : this;
 }

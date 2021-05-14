@@ -234,19 +234,21 @@ class Routes {
         });
 
       case routeGeneralRecommendationsCategory:
-        return MaterialPageRoute(builder: (context) {
+        return MaterialPageRoute<Set<int>>(builder: (context) {
           final arguments = settings.arguments!
               as GeneralRecommendationCategoryScreenArguments;
           return GeneralRecommendationCategoryScreen(
             category: arguments.category,
+            readRecommendationIds: arguments.readRecommendationIds,
           );
         });
       case routeGeneralRecommendationsSubcategory:
-        return MaterialPageRoute(builder: (context) {
+        return MaterialPageRoute<Set<int>>(builder: (context) {
           final arguments = settings.arguments!
               as GeneralRecommendationSubcategoryScreenArguments;
           return GeneralRecommendationSubcategoryScreen(
             subcategory: arguments.subcategory,
+            readRecommendationIds: arguments.readRecommendationIds,
           );
         });
       case routeGeneralRecommendation:

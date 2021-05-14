@@ -316,6 +316,20 @@ class ApiService {
         .then((r) => r.data!);
   }
 
+  Future<CreateGeneralRecommendationRead> markGeneralRecommendationAsRead(
+    int recommendationId,
+  ) {
+    final builder = CreateGeneralRecommendationReadRequestBuilder()
+      ..generalRecommendation = recommendationId;
+
+    final request = builder.build();
+
+    return _generalRecommendationsApi
+        .generalRecommendationsReadCreate(
+            createGeneralRecommendationReadRequest: request)
+        .then((r) => r.data!);
+  }
+
   Future<HealthStatusScreenResponse> getHealthStatusScreen() {
     return _healthStatusApi.healthStatusScreenRetrieve().then((r) => r.data!);
   }
