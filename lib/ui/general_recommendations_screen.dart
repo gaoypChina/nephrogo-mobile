@@ -63,7 +63,7 @@ class _GeneralRecommendationsTabState extends State<GeneralRecommendationsTab> {
                     TextButton(
                       onPressed: () => _openSources(context),
                       child:
-                      Text(context.appLocalizations.sources.toUpperCase()),
+                          Text(context.appLocalizations.sources.toUpperCase()),
                     ),
                   ],
                 ),
