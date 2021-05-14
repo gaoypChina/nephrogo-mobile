@@ -81,7 +81,6 @@ class _GeneralRecommendationsTabState extends State<GeneralRecommendationsTab> {
                     children: [
                       if (index != 0) const Divider(height: 1),
                       _GeneralRecommendationListTile(
-                        key: ObjectKey(category),
                         name: category.name,
                         totalUnreadRecommendations: totalUnreadRecommendations,
                         onTap: () async {
