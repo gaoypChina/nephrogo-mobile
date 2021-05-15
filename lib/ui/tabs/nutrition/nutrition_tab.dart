@@ -173,7 +173,6 @@ class DailyIntakesCard extends StatelessWidget {
           child: Text(
             context.appLocalizations.nutritionEmpty,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyText1,
           ),
         ),
       );

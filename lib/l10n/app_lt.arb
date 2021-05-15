@@ -186,7 +186,7 @@
       }
     }
   },
-  "nutritionEmpty": "Pridėkite pirmąjį valgį arba gėrimą",
+  "nutritionEmpty": "Pridėkite pirmąjį valgį arba gėrimą!",
   "@nutritionEmpty": {},
   "healthStatusEmpty": "Pridėkite savo sveikatos rodiklius",
   "@healthStatusEmpty": {},
