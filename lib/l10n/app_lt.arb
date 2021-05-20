@@ -68,8 +68,6 @@
   "@meals": {},
   "drinks": "Gėrimai",
   "@drinks": {},
-  "reload": "Perkrauti",
-  "@reload": {},
   "pleaseWait": "Prašome palaukti...",
   "@pleaseWait": {},
   "sources": "Šaltiniai",
@@ -177,7 +175,7 @@
   "@report": {},
   "reportMissingProduct": "Pranešti apie trūkstamą produktą",
   "@reportMissingProduct": {},
-  "productSearchEmpty": "Pagal \"{query}\" paieškos kriterijų nebuvo rasta jokių produktų!",
+  "productSearchEmpty": "Pagal „{query}“ paieškos kriterijų nebuvo rasta jokių produktų!",
   "@productSearchEmpty": {
     "placeholders": {
       "query": {
@@ -265,68 +263,12 @@
   "@consumptionCarbohydrate": {
     "context": "nutrient:weekly"
   },
-  "todayConsumptionWithNormTooltip": "{amount}\nNorma: {norm}",
-  "@todayConsumptionWithNormTooltip": {
-    "placeholders": {
-      "amount": {
-        "type": "String",
-        "example": "120 g"
-      },
-      "norm": {
-        "type": "String",
-        "example": "150 g"
-      }
-    }
-  },
   "todayConsumptionWithoutNorm": "Šiandien: {amount}",
   "@todayConsumptionWithoutNorm": {
     "placeholders": {
       "amount": {
         "type": "String",
         "example": "120 g"
-      }
-    }
-  },
-  "consumptionTooltipWithNorm": "{date}\n{percent}%\nSuvartota: {amount}\nNorma: {norm}",
-  "@consumptionTooltipWithNorm": {
-    "placeholders": {
-      "date": {
-        "type": "String",
-        "example": "2020-12-10"
-      },
-      "percent": {
-        "type": "String",
-        "example": "12"
-      },
-      "amount": {
-        "type": "String",
-        "example": "120 g"
-      },
-      "norm": {
-        "type": "String",
-        "example": "150 g"
-      }
-    }
-  },
-  "consumptionDailyPercentage": "Paros dalis: {percent}%",
-  "@consumptionDailyPercentage": {
-    "placeholders": {
-      "percent": {
-        "type": "String",
-        "example": "12"
-      }
-    }
-  },
-  "consumptionTooltipWithoutNorm": "Suvartota: {amount}\n{date}",
-  "@consumptionTooltipWithoutNorm": {
-    "placeholders": {
-      "amount": {
-        "type": "String",
-        "example": "120 g"
-      },
-      "date": {
-        "type": "String",
-        "example": "2020-12-10"
       }
     }
   },
@@ -371,10 +313,6 @@
   "energy": "Energija",
   "@energy": {
     "context": "nutrient"
-  },
-  "tips": "Patarimai",
-  "@tips": {
-    "context": "faq"
   },
   "generalRecommendations": "Bendrieji patarimai",
   "@generalRecommendations": {},
@@ -436,18 +374,6 @@
   "@createHealthStatus": {
     "context": "weeklyNutrients"
   },
-  "mealCreationTitle": "Valgio sukūrimas",
-  "@mealCreationTitle": {
-    "context": "mealCreation"
-  },
-  "mealUpdateTitle": "Valgio redagavimas",
-  "@mealUpdateTitle": {
-    "context": "mealCreation"
-  },
-  "mealCreationMealSectionTitle": "Valgis arba gėrimas",
-  "@mealCreationMealSectionTitle": {
-    "context": "mealCreation"
-  },
   "mealCreationProduct": "Produktas",
   "@mealCreationProduct": {
     "context": "mealCreation"
@@ -498,10 +424,6 @@
   "@female": {
     "context": "userProfile"
   },
-  "birthYear": "Gimimo metai",
-  "@birthYear": {
-    "context": "userProfile"
-  },
   "height": "Ūgis",
   "@height": {
     "context": "userProfile"
@@ -510,16 +432,8 @@
   "@weight": {
     "context": "userProfile"
   },
-  "dryWeight": "Sausasis kūno svoris",
-  "@dryWeight": {
-    "context": "userProfile"
-  },
   "userProfileWeightHelper": "Jeigu atliekate dializes, įrašykite savo sausąjį svorį",
   "@userProfileWeightHelper": {
-    "context": "userProfile"
-  },
-  "userProfileSectionChronicKidneyDiseaseTitle": "Lėtinė inkstų liga",
-  "@userProfileSectionChronicKidneyDiseaseTitle": {
     "context": "userProfile"
   },
   "userProfileSectionChronicKidneyDiseaseAge": "Kiek laiko sergate lėtine inkstų liga?",
@@ -576,14 +490,6 @@
   },
   "iDontKnown": "Nežinau",
   "@iDontKnown": {
-    "context": "userProfile"
-  },
-  "yes": "Taip",
-  "@yes": {
-    "context": "userProfile"
-  },
-  "no": "Ne",
-  "@no": {
     "context": "userProfile"
   },
   "userProfileSectionDialysisType": "Atliekamos dializės tipas",
@@ -1182,18 +1088,10 @@
   "@notes": {},
   "balance": "Balansas",
   "@balance": {},
-  "dialysisPerformed": "Atlikta dializių",
-  "@dialysisPerformed": {},
   "dailyBalance": "Paros balansas",
   "@dailyBalance": {},
   "finishDialysis": "Baigti dializę",
   "@finishDialysis": {},
-  "saveAndContinueLater": "Išsaugoti ir tęsti vėliau",
-  "@saveAndContinueLater": {},
-  "continueToSecondStep": "Pildyti toliau",
-  "@continueToSecondStep": {},
-  "errorDialisateOutIsSmaller": "Išpilto dializato kiekis mažesnis už supilto tirpalo kiekį",
-  "@errorDialisateOutIsSmaller": {},
   "automaticDialysisBetaDisclaimer": "Siekiame tobulinti automatinės peritoninės dializės režimą.\nPrašome pateikti savo grįžtamąjį ryšį kūrėjams.",
   "@automaticDialysisBetaDisclaimer": {},
   "manualPeritonealDialysisPeriodEmpty": "Pasirinktame laikotarpyje nėra įvesta nė vienos peritoninės dializės!",
@@ -1218,8 +1116,6 @@
   "@createAppetite": {},
   "createShortnessOfBreath": "Įvertinti dusulį",
   "@createShortnessOfBreath": {},
-  "errorCheckDialysisDates": "Tarp dializės pradžios ir pabaigos turi būti praėję bent viena valanda",
-  "@errorCheckDialysisDates": {},
   "errorNoDialysisSolutionSelected": "Pasirinkite bent vieną tirpalą",
   "@errorNoDialysisSolutionSelected": {},
   "errorAutomaticDialysisWithSameDateExists": "Automatinė peritoninė dializė su šia data jau sukurta!\nPrašome redaguoti jau egzistuojančią dializę.",
