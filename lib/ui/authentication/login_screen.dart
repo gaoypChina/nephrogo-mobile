@@ -2,12 +2,13 @@ import 'dart:developer' as developer;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
+import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo/ui/user_profile/user_profile_screen.dart';
@@ -17,17 +18,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.contact_support_outlined),
-            tooltip: context.appLocalizations.support,
-            onPressed: () => showContactDialog(context),
-          ),
-        ],
-      ),
       backgroundColor: Theme.of(context).primaryColor,
       body: LoginScreenBody(),
     );
@@ -59,6 +49,17 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
               child: IntrinsicHeight(
                 child: Column(
                   children: [
+                    AppBar(
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
+                      actions: [
+                        IconButton(
+                          icon: const Icon(Icons.contact_support_outlined),
+                          tooltip: context.appLocalizations.support,
+                          onPressed: () => showContactDialog(context),
+                        ),
+                      ],
+                    ),
                     Expanded(
                       child: Image.asset(
                         'assets/logo/logo-with-title.png',
@@ -70,10 +71,18 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                       padding: const EdgeInsets.all(8),
                       child: SizedBox(
                         width: double.infinity,
-                        child: SignInButton(
-                          Buttons.Google,
-                          padding: const EdgeInsets.all(8),
-                          text: appLocalizations.loginGoogle,
+                        child: LoginButton(
+                          label: Text(appLocalizations.loginGoogle),
+                          innerPadding: const EdgeInsets.symmetric(
+                            vertical: 8,
+                            horizontal: 16,
+                          ),
+                          icon: Image.asset(
+                            'assets/logo/google_light.png',
+                            height: 40.0,
+                          ),
+                          color: Colors.white,
+                          textColor: Colors.black,
                           onPressed: () => _loginWithSocial(
                             context,
                             SocialAuthenticationProvider.google,
@@ -85,10 +94,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
                         width: double.infinity,
-                        child: SignInButton(
-                          Buttons.Facebook,
-                          padding: const EdgeInsets.all(16),
-                          text: appLocalizations.loginFacebook,
+                        child: LoginButton(
+                          label: Text(appLocalizations.loginFacebook),
+                          icon: const Icon(Icons.facebook),
+                          color: const Color(0xFF3B5998),
                           onPressed: () => _loginWithSocial(
                             context,
                             SocialAuthenticationProvider.facebook,
@@ -101,10 +110,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                         padding: const EdgeInsets.all(8.0),
                         child: SizedBox(
                           width: double.infinity,
-                          child: SignInButton(
-                            Buttons.AppleDark,
-                            padding: const EdgeInsets.all(16),
-                            text: appLocalizations.loginApple,
+                          child: LoginButton(
+                            label: Text(appLocalizations.loginApple),
+                            icon: const Icon(FontAwesomeIcons.apple),
+                            color: Colors.black,
                             onPressed: () => _loginWithSocial(
                               context,
                               SocialAuthenticationProvider.apple,
@@ -116,10 +125,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
                         width: double.infinity,
-                        child: SignInButton(
-                          Buttons.Email,
-                          padding: const EdgeInsets.all(16),
-                          text: appLocalizations.registerUsingEmail,
+                        child: LoginButton(
+                          label: Text(appLocalizations.registerUsingEmail),
+                          icon: const Icon(Icons.email),
+                          color: Colors.brown,
                           onPressed: () => _registerAndLoginUsingEmail(context),
                         ),
                       ),

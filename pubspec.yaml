@@ -47,8 +47,9 @@ dependencies:
   firebase_performance: ^0.7.0+3
   flutter_facebook_auth: ^3.4.1
 
+  font_awesome_flutter: ^9.0.0
+
   flutter_linkify: ^5.0.0
-  flutter_signin_button: ^2.0.0
   flutter_speed_dial: ^4.0.0-dev.1
   flutter_widget_from_html_core: ^0.6.0
   fwfh_url_launcher: ^0.6.1+2
@@ -101,6 +102,9 @@ flutter:
   assets:
     - assets/logo/logo.png
     - assets/logo/logo-with-title.png
+    - assets/logo/google_light.png
+    - assets/logo/2.0x/
+    - assets/logo/3.0x/
     - assets/anonymous_avatar.jpg
     - assets/empty.png
     - assets/onboarding/
