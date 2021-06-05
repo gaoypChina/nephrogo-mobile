@@ -240,10 +240,7 @@ class EmailLoginButtonComponent extends StatelessWidget {
       children: [
         Text(
           appLocalizations.alreadyRegisterWhenLogin,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-          ),
+          style: const TextStyle(color: Colors.white),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -256,7 +253,10 @@ class EmailLoginButtonComponent extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Text(appLocalizations.loginEmail.toUpperCase()),
+                child: Text(
+                  appLocalizations.loginEmail.toUpperCase(),
+                  textAlign: TextAlign.center,
+                ),
               )),
         )
       ],

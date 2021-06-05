@@ -222,9 +222,11 @@ class NutrientCalendarExplanation extends StatelessWidget {
             shape: BoxShape.circle,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 4.0),
-          child: Text(text),
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4.0),
+            child: Text(text),
+          ),
         )
       ],
     );
