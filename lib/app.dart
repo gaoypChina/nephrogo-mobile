@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
@@ -44,9 +45,31 @@ class _AppComponentState extends State<AppComponent> {
       navigatorObservers: [analytics.observer],
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      localeListResolutionCallback: (locales, supportedLocales) {
+        final appLocale = _resolveLocale(locales ?? [], supportedLocales);
+
+        Intl.defaultLocale = appLocale.toLanguageTag();
+
+        return appLocale;
+      },
       initialRoute: Routes.routeStart,
       onGenerateRoute: Routes.onGenerateRoute,
     );
+  }
+
+  Locale _resolveLocale(
+    List<Locale> locales,
+    Iterable<Locale> supportedLocales,
+  ) {
+    for (final locale in locales) {
+      for (final supportedLocale in supportedLocales) {
+        if (supportedLocale.languageCode == locale.languageCode) {
+          return supportedLocale;
+        }
+      }
+    }
+
+    return const Locale('lt');
   }
 
   @override
