@@ -2,7 +2,6 @@ import 'dart:developer' as developer;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/extensions/extensions.dart';
@@ -112,7 +111,11 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                           width: double.infinity,
                           child: LoginButton(
                             label: Text(appLocalizations.loginApple),
-                            icon: const Icon(FontAwesomeIcons.apple),
+                            icon: Image.asset(
+                              'assets/logo/apple.png',
+                              height: 24.0,
+                              color: Colors.white,
+                            ),
                             color: Colors.black,
                             onPressed: () => _loginWithSocial(
                               context,
