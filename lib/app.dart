@@ -21,7 +21,7 @@ class _AppComponentState extends State<AppComponent> {
 
   @override
   Widget build(BuildContext context) {
-    Intl.defaultLocale = 'lt';
+    Intl.defaultLocale = 'de';
 
     final analytics = Analytics();
 
@@ -55,7 +55,10 @@ class _AppComponentState extends State<AppComponent> {
         GlobalCupertinoLocalizations.delegate,
       ],
       locale: _defaultLocale,
-      supportedLocales: const [_defaultLocale],
+      supportedLocales: const [
+        _defaultLocale,
+        Locale('de', 'DE'),
+      ],
       initialRoute: Routes.routeStart,
       onGenerateRoute: Routes.onGenerateRoute,
     );
