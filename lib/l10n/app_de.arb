@@ -192,7 +192,7 @@
   "@formMultiSelectDialogActionChoose": {},
   "dialogCancel": "Abbrechen",
   "@dialogCancel": {},
-  "percentageOfDailyNorm": "Täglicher Ratenanteil: {Prozent}%",
+  "percentageOfDailyNorm": "Täglicher Ratenanteil: {percentage}%",
   "@percentageOfDailyNorm": {
     "placeholders": {
       "percentage": {
@@ -209,7 +209,7 @@
   "@dailyNormsSectionSubtitle": {},
   "dailyNormsConsumedExplanation": "Teil der persönlichen verbrauchten Tagesnorm",
   "@dailyNormsConsumedExplanation": {},
-  "consumed": "Verbraucht: {Verbrauch}",
+  "consumed": "Verbraucht: {consumption}",
   "@consumed": {
     "placeholders": {
       "consumption": {
@@ -218,7 +218,7 @@
       }
     }
   },
-  "consumptionWithNorm": "{Menge} von {Norm}",
+  "consumptionWithNorm": "{amount} von {norm}",
   "@consumptionWithNorm": {
     "placeholders": {
       "amount": {
@@ -263,7 +263,7 @@
   "@consumptionCarbohydrate": {
     "context": "nutrient:weekly"
   },
-  "todayConsumptionWithoutNorm": "Heute: {Menge}",
+  "todayConsumptionWithoutNorm": "Heute: {amount}",
   "@todayConsumptionWithoutNorm": {
     "placeholders": {
       "amount": {
@@ -352,7 +352,7 @@
       }
     }
   },
-  "healthIndicatorSubtitle": "Heute: {Menge}",
+  "healthIndicatorSubtitle": "Heute: {value}",
   "@healthIndicatorSubtitle": {
     "context": "healthIndicators",
     "placeholders": {

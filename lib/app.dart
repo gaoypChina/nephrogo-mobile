@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
@@ -14,15 +12,11 @@ class AppComponent extends StatefulWidget {
 }
 
 class _AppComponentState extends State<AppComponent> {
-  static const _defaultLocale = Locale('lt', 'LT');
-
   final _apiService = ApiService();
   final _appPreferences = AppPreferences();
 
   @override
   Widget build(BuildContext context) {
-    Intl.defaultLocale = 'de';
-
     final analytics = Analytics();
 
     const inputDecorationTheme = InputDecorationTheme(
@@ -48,17 +42,8 @@ class _AppComponentState extends State<AppComponent> {
         inputDecorationTheme: inputDecorationTheme,
       ),
       navigatorObservers: [analytics.observer],
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      locale: _defaultLocale,
-      supportedLocales: const [
-        _defaultLocale,
-        Locale('de', 'DE'),
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       initialRoute: Routes.routeStart,
       onGenerateRoute: Routes.onGenerateRoute,
     );
