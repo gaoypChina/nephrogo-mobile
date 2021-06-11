@@ -72,13 +72,9 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                         width: double.infinity,
                         child: LoginButton(
                           label: Text(appLocalizations.loginGoogle),
-                          innerPadding: const EdgeInsets.symmetric(
-                            vertical: 8,
-                            horizontal: 16,
-                          ),
                           icon: Image.asset(
                             'assets/logo/google_light.png',
-                            height: 40.0,
+                            height: 24.0,
                           ),
                           color: Colors.white,
                           textColor: Colors.black,
