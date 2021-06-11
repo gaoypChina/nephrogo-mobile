@@ -1125,5 +1125,17 @@
   "minutesShortSuffix": "min.",
   "@minutesShortSuffix": {},
   "duration": "Trukmė",
-  "@duration": {}
+  "@duration": {},
+  "chooseCountry": "Pasirinkite šalį",
+  "@chooseCountry": {},
+  "countries": "Šalys",
+  "@countries": {},
+  "country": "Šalis",
+  "@country": {},
+  "recommendedCountry": "Rekomenduojama šalis",
+  "@recommendedCountry": {},
+  "germany": "Vokietija",
+  "@germany": {},
+  "lithuania": "Lietuva",
+  "@lithuania": {}
 }

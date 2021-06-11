@@ -1125,5 +1125,17 @@
   "minutesShortSuffix": "Minuten",
   "@minutesShortSuffix": {},
   "duration": "Dauer",
-  "@duration": {}
+  "@duration": {},
+  "chooseCountry": "Land auswählen",
+  "@chooseCountry": {},
+  "countries": "Länder",
+  "@countries": {},
+  "country": "Land",
+  "@country": {},
+  "recommendedCountry": "Empfohlenes Land",
+  "@recommendedCountry": {},
+  "germany": "Deutschland",
+  "@germany": {},
+  "lithuania": "Litauen",
+  "@lithuania": {}
 }

@@ -57,6 +57,11 @@ class AccountTab extends StatelessWidget {
                       OnboardingScreenArguments(OnboardingScreenExitType.close),
                 ),
               ),
+              AppListTile(
+                title: Text(appLocalizations.country),
+                leading: const Icon(Icons.flag),
+                onTap: () => _navigateToCountrySelection(context),
+              ),
             ],
           ),
           BasicSection.single(
@@ -114,6 +119,14 @@ class AccountTab extends StatelessWidget {
     return Navigator.pushNamed(
       context,
       Routes.routeLegal,
+      arguments: const LegalScreenArguments(LegalScreenExitType.close),
+    );
+  }
+
+  Future _navigateToCountrySelection(BuildContext context) {
+    return Navigator.pushNamed(
+      context,
+      Routes.routeCountry,
       arguments: const LegalScreenArguments(LegalScreenExitType.close),
     );
   }

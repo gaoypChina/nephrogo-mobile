@@ -80,7 +80,7 @@ class ApiService {
     if (kDebugMode) {
       interceptors.add(
         PrettyDioLogger(
-          responseBody: false,
+          responseBody: true,
         ),
       );
     }
@@ -548,6 +548,21 @@ class ApiService {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
       },
     );
+  }
+
+  Future<CountryResponse> getCountries() {
+    return _userApi.userCountriesRetrieve().then(
+          (r) => r.data!,
+        );
+  }
+
+  Future<User> selectCountry(Country country) {
+    final builder = UserRequestBuilder();
+    builder.selectedCountryCode = country.code;
+
+    return _userApi.userPartialUpdate(userRequest: builder.build()).then(
+          (r) => r.data!,
+        );
   }
 
   Future dispose() async {

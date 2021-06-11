@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/ui/authentication/email_password_login_screen.dart';
+import 'package:nephrogo/ui/country/country_screen.dart';
 import 'package:nephrogo/ui/general_recommendations_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_edit_screen.dart';
@@ -72,6 +73,7 @@ class Routes {
   static const routeGeneralRecommendation = 'generalRecommendation';
 
   static const routeLegal = 'legal';
+  static const routeCountry = 'country';
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -117,6 +119,10 @@ class Routes {
           final arguments = settings.arguments! as LegalScreenArguments;
 
           return LegalScreen(exitType: arguments.exitType);
+        });
+      case routeCountry:
+        return MaterialPageRoute(builder: (context) {
+          return CountryScreen();
         });
       case routeIntakeCreate:
         return MaterialPageRoute(builder: (context) {
