@@ -595,16 +595,18 @@ class _FirebaseAuthenticationInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    try {
-      dio.interceptors.requestLock.lock();
-      final forceRegenerateToken =
-          options.extra.containsKey(_tokenRegeneratedKey);
+    if (_authenticationProvider.isUserLoggedIn) {
+      try {
+        dio.interceptors.requestLock.lock();
+        final forceRegenerateToken =
+            options.extra.containsKey(_tokenRegeneratedKey);
 
-      final idToken = await _getIdToken(forceRegenerateToken);
+        final idToken = await _getIdToken(forceRegenerateToken);
 
-      options.headers['authorization'] = 'Bearer $idToken';
-    } finally {
-      dio.interceptors.requestLock.unlock();
+        options.headers['authorization'] = 'Bearer $idToken';
+      } finally {
+        dio.interceptors.requestLock.unlock();
+      }
     }
 
     super.onRequest(options, handler);
