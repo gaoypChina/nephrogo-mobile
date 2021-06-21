@@ -91,9 +91,13 @@ class _CountryTile extends StatelessWidget {
         horizontal: 16.0,
         vertical: 8.0,
       ),
-      leading: Text(
-        country.flagEmoji,
-        style: const TextStyle(fontSize: 32),
+      leading: SizedBox(
+        width: 40,
+        height: 40,
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: Text(country.flagEmoji),
+        ),
       ),
       selected: selectedCountry == country,
       onTap: () => onCountrySelected(country),
