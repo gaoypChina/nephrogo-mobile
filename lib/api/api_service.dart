@@ -556,9 +556,9 @@ class ApiService {
         );
   }
 
-  Future<User> selectCountry(Country country) {
+  Future<User> selectCountry(String countryCode) {
     final builder = UserRequestBuilder();
-    builder.selectedCountryCode = country.code;
+    builder.selectedCountryCode = countryCode;
 
     return _userApi.userPartialUpdate(userRequest: builder.build()).then(
           (r) => r.data!,

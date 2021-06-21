@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
+import 'package:nephrogo/ui/country/country_screen.dart';
 import 'package:nephrogo/ui/legal/legal_screen.dart';
 import 'package:nephrogo/ui/user_profile/user_profile_screen.dart';
 
@@ -22,21 +23,30 @@ class _StartScreenState extends State<StartScreen> {
   Widget build(BuildContext context) {
     if (!_authenticationProvider.isUserLoggedIn) {
       return AppFutureBuilder<bool>(
-        future: () => _appPreferences.isOnboardingPassed(),
-        builder: (context, isOnboardingPassed) {
-          if (isOnboardingPassed) {
-            return AppFutureBuilder<bool>(
-              future: () => _appPreferences.isLegalConditionsAgreed(),
-              builder: (context, isLegalConditionsAgreed) {
-                if (isLegalConditionsAgreed) {
-                  return LoginScreen();
-                }
-                return LegalScreen(exitType: LegalScreenExitType.login);
-              },
-            );
+        future: () => _appPreferences.isCountrySet(),
+        builder: (context, isCountrySet) {
+          if (!isCountrySet) {
+            return const CountryScreen();
           }
-          return const OnboardingScreen(
-              exitType: OnboardingScreenExitType.legal);
+          return AppFutureBuilder<bool>(
+            future: () => _appPreferences.isOnboardingPassed(),
+            builder: (context, isOnboardingPassed) {
+              if (isOnboardingPassed) {
+                return AppFutureBuilder<bool>(
+                  future: () => _appPreferences.isLegalConditionsAgreed(),
+                  builder: (context, isLegalConditionsAgreed) {
+                    if (isLegalConditionsAgreed) {
+                      return LoginScreen();
+                    }
+                    return LegalScreen(exitType: LegalScreenExitType.login);
+                  },
+                );
+              }
+              return const OnboardingScreen(
+                exitType: OnboardingScreenExitType.legal,
+              );
+            },
+          );
         },
       );
     }

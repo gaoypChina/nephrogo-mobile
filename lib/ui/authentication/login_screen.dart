@@ -191,6 +191,7 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
   Future<UserProfileV2?> getUserProfileAndUpdateUser() async {
     final user = await _apiService.getUser();
     var marketingAllowed = await _appPreferences.isMarketingAllowed();
+    final _selectedCountry = await _appPreferences.getCountry();
 
     if (!await _appPreferences.hasMarketingAllowed()) {
       marketingAllowed = user.isMarketingAllowed ?? false;
@@ -198,6 +199,10 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
 
     if (marketingAllowed != user.isMarketingAllowed) {
       await _apiService.updateUser(marketingAllowed: marketingAllowed);
+    }
+
+    if (_selectedCountry != null) {
+      await _apiService.selectCountry(_selectedCountry);
     }
 
     await _appPreferences.setMarketingAllowed(marketingAllowed);

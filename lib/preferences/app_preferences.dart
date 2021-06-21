@@ -103,6 +103,12 @@ class AppPreferences {
     );
   }
 
+  Future<bool> isCountrySet() {
+    return _sharedPreferences.then(
+      (preferences) => preferences.containsKey(_keyCountry),
+    );
+  }
+
   Stream<String?> getCountryStream() {
     return _buildAppEventsStreamWithInitialEmit(
       _AppPreferencesChangeEvent.country,
