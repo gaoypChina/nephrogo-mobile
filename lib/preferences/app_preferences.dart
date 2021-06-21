@@ -118,11 +118,17 @@ class AppPreferences {
   Future<bool> setCountry(String countyCode) {
     return _sharedPreferences.then(
       (preferences) async {
-        await preferences.setString(_keyCountry, countyCode);
+        final previousCountry = await getCountry();
 
-        _postPreferencesStateChangeEvent(_AppPreferencesChangeEvent.country);
+        if (countyCode != previousCountry) {
+          await preferences.setString(_keyCountry, countyCode);
 
-        return true;
+          _postPreferencesStateChangeEvent(_AppPreferencesChangeEvent.country);
+
+          return true;
+        }
+
+        return false;
       },
     );
   }
