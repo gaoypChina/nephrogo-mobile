@@ -26,35 +26,60 @@ class _AppComponentState extends State<AppComponent> {
       errorMaxLines: 5,
     );
 
-    return MaterialApp(
-      title: 'NephroGo',
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-        accentColor: Colors.redAccent,
-        brightness: Brightness.light,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        inputDecorationTheme: inputDecorationTheme,
-      ),
-      darkTheme: ThemeData(
-        primarySwatch: Colors.teal,
-        accentColor: Colors.redAccent,
-        brightness: Brightness.dark,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        inputDecorationTheme: inputDecorationTheme,
-      ),
-      navigatorObservers: [analytics.observer],
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      localeListResolutionCallback: (locales, supportedLocales) {
-        final appLocale = _resolveLocale(locales ?? [], supportedLocales);
+    return StreamBuilder<String?>(
+        stream: _appPreferences.getCountryStream(),
+        builder: (context, snapshot) {
+          final userChosenLocale = _getUserChosenLocale(snapshot.data);
 
-        Intl.defaultLocale = appLocale.toLanguageTag();
+          if (userChosenLocale != null) {
+            Intl.defaultLocale = userChosenLocale.toLanguageTag();
+          }
 
-        return appLocale;
-      },
-      initialRoute: Routes.routeStart,
-      onGenerateRoute: Routes.onGenerateRoute,
-    );
+          return MaterialApp(
+            key: Key('app-with-locale-$userChosenLocale'),
+            title: 'NephroGo',
+            theme: ThemeData(
+              primarySwatch: Colors.teal,
+              accentColor: Colors.redAccent,
+              brightness: Brightness.light,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              inputDecorationTheme: inputDecorationTheme,
+            ),
+            darkTheme: ThemeData(
+              primarySwatch: Colors.teal,
+              accentColor: Colors.redAccent,
+              brightness: Brightness.dark,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              inputDecorationTheme: inputDecorationTheme,
+            ),
+            navigatorObservers: [analytics.observer],
+            locale: userChosenLocale,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            localeListResolutionCallback: (locales, supportedLocales) {
+              final appLocale = _resolveLocale(
+                locales ?? [],
+                supportedLocales,
+              );
+
+              Intl.defaultLocale = appLocale.toLanguageTag();
+
+              return appLocale;
+            },
+            initialRoute: Routes.routeStart,
+            onGenerateRoute: Routes.onGenerateRoute,
+          );
+        });
+  }
+
+  Locale? _getUserChosenLocale(String? savedCountryCode) {
+    for (final supportedLocale in AppLocalizations.supportedLocales) {
+      if (supportedLocale.languageCode == savedCountryCode?.toLowerCase()) {
+        return supportedLocale;
+      }
+    }
+
+    return null;
   }
 
   Locale _resolveLocale(

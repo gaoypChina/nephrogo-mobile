@@ -4,7 +4,7 @@ import 'package:async/async.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum _AppPreferencesChangeEvent { dialysis }
+enum _AppPreferencesChangeEvent { dialysis, country }
 
 class AppPreferences {
   static const _keyProfileCreated = 'PROFILE_CREATED';
@@ -13,6 +13,7 @@ class AppPreferences {
   static const _keyMarketingAllowed = 'MARKETING_ALLOWED';
   static const _keyInAppUpdateLastPromptedDate =
       'IN_APP_UPDATE_LAST_PROMPTED_DATE';
+  static const _keyCountry = 'COUNTRY';
 
   // PERITONEAL_DIALYSIS_TYPE is due to historical reasons
   static const _keyDialysisType = 'PERITONEAL_DIALYSIS_TYPE';
@@ -93,6 +94,36 @@ class AppPreferences {
         _keyInAppUpdateLastPromptedDate,
         dateTime.toIso8601String(),
       ),
+    );
+  }
+
+  Future<String?> getCountry() {
+    return _sharedPreferences.then(
+      (preferences) => preferences.getString(_keyCountry),
+    );
+  }
+
+  Stream<String?> getCountryStream() {
+    return _buildAppEventsStreamWithInitialEmit(
+      _AppPreferencesChangeEvent.country,
+    ).asyncMap((_) => getCountry());
+  }
+
+  Future<bool> setCountry(String countyCode) {
+    return _sharedPreferences.then(
+      (preferences) async {
+        final previousCountry = await getCountry();
+
+        if (countyCode != previousCountry) {
+          await preferences.setString(_keyCountry, countyCode);
+
+          _postPreferencesStateChangeEvent(_AppPreferencesChangeEvent.country);
+
+          return true;
+        }
+
+        return false;
+      },
     );
   }
 

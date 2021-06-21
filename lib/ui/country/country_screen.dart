@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
+import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/ui/general/app_future_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
@@ -15,6 +16,7 @@ class CountryScreen extends StatefulWidget {
 
 class _CountryScreenState extends State<CountryScreen> {
   final _apiService = ApiService();
+  final _appPreferences = AppPreferences();
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,7 @@ class _CountryScreenState extends State<CountryScreen> {
 
   Future<void> _onCountrySelected(Country country) async {
     await _apiService.selectCountry(country);
+    await _appPreferences.setCountry(country.code);
 
     Navigator.pop(context);
   }
