@@ -524,6 +524,8 @@ class AppRadioListTile<T> extends StatelessWidget {
   final Widget title;
   final Widget? subtitle;
   final Widget? secondary;
+  final EdgeInsetsGeometry? contentPadding;
+  final ListTileControlAffinity controlAffinity;
 
   const AppRadioListTile({
     Key? key,
@@ -531,8 +533,10 @@ class AppRadioListTile<T> extends StatelessWidget {
     required this.value,
     required this.groupValue,
     required this.onChanged,
+    this.controlAffinity = ListTileControlAffinity.platform,
     this.secondary,
     this.subtitle,
+    this.contentPadding,
   }) : super(key: key);
 
   @override
@@ -541,9 +545,11 @@ class AppRadioListTile<T> extends StatelessWidget {
       title: title,
       subtitle: subtitle,
       secondary: _leadingWithStyle(secondary),
+      controlAffinity: controlAffinity,
       value: value,
       groupValue: groupValue,
       onChanged: onChanged,
+      contentPadding: contentPadding,
     );
   }
 

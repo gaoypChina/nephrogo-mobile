@@ -26,7 +26,7 @@ class _StartScreenState extends State<StartScreen> {
         future: () => _appPreferences.isCountrySet(),
         builder: (context, isCountrySet) {
           if (!isCountrySet) {
-            return const CountryScreen();
+            return CountryScreen();
           }
           return AppFutureBuilder<bool>(
             future: () => _appPreferences.isOnboardingPassed(),

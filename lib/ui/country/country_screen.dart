@@ -6,20 +6,12 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_future_builder.dart';
+import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
-class CountryScreen extends StatefulWidget {
-  const CountryScreen({Key? key}) : super(key: key);
-
-  @override
-  _CountryScreenState createState() => _CountryScreenState();
-}
-
-class _CountryScreenState extends State<CountryScreen> {
+class CountryScreen extends StatelessWidget {
   final _apiService = ApiService();
-  final _appPreferences = AppPreferences();
-  final _authenticationProvider = AuthenticationProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -28,42 +20,107 @@ class _CountryScreenState extends State<CountryScreen> {
       body: AppFutureBuilder<CountryResponse>(
         future: _apiService.getCountries,
         builder: (context, response) {
-          final suggestedCountry = response.suggestedCountry;
-          final selectedCountry = response.selectedCountry;
-
-          return ListView(
-            children: [
-              if (suggestedCountry != null)
-                SmallSection(
-                  title: context.appLocalizations.recommendedCountry,
-                  children: [
-                    _CountryTile(
-                      country: suggestedCountry,
-                      selectedCountry: selectedCountry,
-                      onCountrySelected: _onCountrySelected,
-                    ),
-                  ],
-                ),
-              SmallSection(
-                title: context.appLocalizations.countries,
-                showDividers: true,
-                children: [
-                  for (final country in response.countries)
-                    _CountryTile(
-                      country: country,
-                      selectedCountry: selectedCountry,
-                      onCountrySelected: _onCountrySelected,
-                    ),
-                ],
-              )
-            ],
-          );
+          return CountryScreenBody(countryResponse: response);
         },
       ),
     );
   }
+}
 
-  Future<void> _onCountrySelected(Country country) async {
+class CountryScreenBody extends StatefulWidget {
+  final CountryResponse countryResponse;
+
+  const CountryScreenBody({Key? key, required this.countryResponse})
+      : super(key: key);
+
+  @override
+  _CountryScreenBodyState createState() => _CountryScreenBodyState();
+}
+
+class _CountryScreenBodyState extends State<CountryScreenBody> {
+  final _apiService = ApiService();
+  final _appPreferences = AppPreferences();
+  final _authenticationProvider = AuthenticationProvider();
+
+  Country? selectedCountry;
+
+  @override
+  void initState() {
+    selectedCountry = widget.countryResponse.selectedCountry ??
+        widget.countryResponse.suggestedCountry;
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.separated(
+            itemCount: widget.countryResponse.countries.length,
+            separatorBuilder: (context, index) => const Divider(height: 1),
+            itemBuilder: (context, index) {
+              final country = widget.countryResponse.countries[index];
+
+              return BasicSection.single(
+                margin: EdgeInsets.zero,
+                child: AppRadioListTile<Country>(
+                  title: Text(
+                    _localizedCountryName(country, context.appLocalizations) ??
+                        country.name,
+                  ),
+                  value: country,
+                  subtitle: _countrySubtitle(country, context.appLocalizations),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  secondary: SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text(country.flagEmoji),
+                    ),
+                  ),
+                  groupValue: selectedCountry,
+                  onChanged: _onCountryChanged,
+                ),
+              );
+            },
+          ),
+        ),
+        BasicSection(
+          margin: EdgeInsets.zero,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+              child: SizedBox(
+                width: double.infinity,
+                child: AppElevatedButton(
+                  onPressed: selectedCountry != null
+                      ? () => _onCountrySelectionSaved(selectedCountry!)
+                      : null,
+                  label: Text(appLocalizations.formMultiSelectDialogActionChoose
+                      .toUpperCase()),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  void _onCountryChanged(Country? country) {
+    setState(() {
+      selectedCountry = country;
+    });
+  }
+
+  Future<void> _onCountrySelectionSaved(Country country) async {
     if (_authenticationProvider.isUserLoggedIn) {
       await _apiService.selectCountry(country.code);
     }
@@ -78,45 +135,9 @@ class _CountryScreenState extends State<CountryScreen> {
       );
     }
   }
-}
 
-class _CountryTile extends StatelessWidget {
-  final Country country;
-  final void Function(Country selectedCountry) onCountrySelected;
-  final Country? selectedCountry;
-
-  const _CountryTile({
-    Key? key,
-    required this.country,
-    required this.onCountrySelected,
-    this.selectedCountry,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AppListTile(
-      title: Text(
-        _localizedCountryName(context.appLocalizations) ?? country.name,
-      ),
-      subtitle: _countrySubtitle(context.appLocalizations),
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 16.0,
-        vertical: 8.0,
-      ),
-      leading: SizedBox(
-        width: 40,
-        height: 40,
-        child: FittedBox(
-          fit: BoxFit.cover,
-          child: Text(country.flagEmoji),
-        ),
-      ),
-      selected: selectedCountry == country,
-      onTap: () => onCountrySelected(country),
-    );
-  }
-
-  String? _localizedCountryName(AppLocalizations appLocalizations) {
+  String? _localizedCountryName(
+      Country country, AppLocalizations appLocalizations) {
     switch (country.code) {
       case 'LT':
         return appLocalizations.lithuania;
@@ -127,9 +148,9 @@ class _CountryTile extends StatelessWidget {
     }
   }
 
-  Text? _countrySubtitle(AppLocalizations appLocalizations) {
+  Text? _countrySubtitle(Country country, AppLocalizations appLocalizations) {
     final localizedName =
-        _localizedCountryName(appLocalizations) ?? country.name;
+        _localizedCountryName(country, appLocalizations) ?? country.name;
 
     if (localizedName != country.name) {
       return Text(country.name);
