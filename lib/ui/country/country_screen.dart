@@ -57,8 +57,8 @@ class _CountryScreenBodyState extends State<CountryScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    final locale =
-        selectedCountry?.locale ?? Locale(context.appLocalizations.localeName);
+    final locale = selectedCountry?.supportedLocale ??
+        Locale(context.appLocalizations.localeName);
 
     return Localizations.override(
       context: context,

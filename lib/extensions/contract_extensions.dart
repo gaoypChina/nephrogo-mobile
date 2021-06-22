@@ -1371,7 +1371,7 @@ extension CountryExtension on Country {
     }
   }
 
-  Locale? get locale {
+  Locale? get supportedLocale {
     return AppLocalizations.supportedLocales
         .where((loc) => loc.languageCode == languageCode)
         .firstOrNull();
