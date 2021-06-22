@@ -54,63 +54,73 @@ class _CountryScreenBodyState extends State<CountryScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.separated(
-            itemCount: widget.countryResponse.countries.length,
-            separatorBuilder: (context, index) => const Divider(height: 1),
-            itemBuilder: (context, index) {
-              final country = widget.countryResponse.countries[index];
+    final locale = AppLocalizations.supportedLocales
+            .where((loc) => loc.languageCode == selectedCountry?.code)
+            .firstOrNull() ??
+        Locale(context.appLocalizations.localeName);
 
-              return BasicSection.single(
-                margin: EdgeInsets.zero,
-                child: AppRadioListTile<Country>(
-                  title: Text(
-                    _localizedCountryName(country, context.appLocalizations) ??
-                        country.name,
-                  ),
-                  value: country,
-                  subtitle: _countrySubtitle(country, context.appLocalizations),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 8.0,
-                  ),
-                  controlAffinity: ListTileControlAffinity.trailing,
-                  secondary: SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: Text(country.flagEmoji),
+    return Localizations.override(
+      context: context,
+      locale: locale,
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView.separated(
+              itemCount: widget.countryResponse.countries.length,
+              separatorBuilder: (context, index) => const Divider(height: 1),
+              itemBuilder: (context, index) {
+                final country = widget.countryResponse.countries[index];
+
+                return BasicSection.single(
+                  margin: EdgeInsets.zero,
+                  child: AppRadioListTile<Country>(
+                    title: Text(
+                      _localizedCountryName(country, appLocalizations) ??
+                          country.name,
                     ),
+                    value: country,
+                    subtitle: _countrySubtitle(country, appLocalizations),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 8.0,
+                    ),
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    secondary: SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        child: Text(country.flagEmoji),
+                      ),
+                    ),
+                    groupValue: selectedCountry,
+                    onChanged: _onCountryChanged,
                   ),
-                  groupValue: selectedCountry,
-                  onChanged: _onCountryChanged,
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-        BasicSection(
-          margin: EdgeInsets.zero,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-              child: SizedBox(
-                width: double.infinity,
-                child: AppElevatedButton(
-                  onPressed: selectedCountry != null
-                      ? () => _onCountrySelectionSaved(selectedCountry!)
-                      : null,
-                  label: Text(appLocalizations.formMultiSelectDialogActionChoose
-                      .toUpperCase()),
+          BasicSection(
+            margin: EdgeInsets.zero,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: AppElevatedButton(
+                    onPressed: selectedCountry != null
+                        ? () => _onCountrySelectionSaved(selectedCountry!)
+                        : null,
+                    label: Text(appLocalizations
+                        .formMultiSelectDialogActionChoose
+                        .toUpperCase()),
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -124,7 +134,8 @@ class _CountryScreenBodyState extends State<CountryScreenBody> {
     if (_authenticationProvider.isUserLoggedIn) {
       await _apiService.selectCountry(country.code);
     }
-    await _appPreferences.setCountry(country.code);
+    await _appPreferences.setCountry(country);
+    await _appPreferences.setLanguage(country);
 
     if (_authenticationProvider.isUserLoggedIn) {
       Navigator.pop(context);

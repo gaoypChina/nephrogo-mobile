@@ -4,7 +4,7 @@ import 'package:async/async.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum _AppPreferencesChangeEvent { dialysis, country }
+enum _AppPreferencesChangeEvent { dialysis, language }
 
 class AppPreferences {
   static const _keyProfileCreated = 'PROFILE_CREATED';
@@ -13,6 +13,7 @@ class AppPreferences {
   static const _keyMarketingAllowed = 'MARKETING_ALLOWED';
   static const _keyInAppUpdateLastPromptedDate =
       'IN_APP_UPDATE_LAST_PROMPTED_DATE';
+  static const _keyLanguage = 'LANGUAGE';
   static const _keyCountry = 'COUNTRY';
 
   // PERITONEAL_DIALYSIS_TYPE is due to historical reasons
@@ -97,33 +98,49 @@ class AppPreferences {
     );
   }
 
-  Future<String?> getCountry() {
-    return _sharedPreferences.then(
-      (preferences) => preferences.getString(_keyCountry),
-    );
-  }
-
   Future<bool> isCountrySet() {
     return _sharedPreferences.then(
       (preferences) => preferences.containsKey(_keyCountry),
     );
   }
 
-  Stream<String?> getCountryStream() {
-    return _buildAppEventsStreamWithInitialEmit(
-      _AppPreferencesChangeEvent.country,
-    ).asyncMap((_) => getCountry());
+  Future<bool> setCountry(Country country) {
+    return _sharedPreferences.then(
+      (preferences) {
+        return preferences.setString(_keyCountry, country.code);
+      },
+    );
   }
 
-  Future<bool> setCountry(String countyCode) {
+  Future<String?> getCountryCode() {
+    return _sharedPreferences.then(
+      (preferences) {
+        return preferences.getString(_keyCountry);
+      },
+    );
+  }
+
+  Future<String?> getLanguageCode() {
+    return _sharedPreferences.then(
+      (preferences) => preferences.getString(_keyLanguage),
+    );
+  }
+
+  Stream<String?> getLanguageCodeStream() {
+    return _buildAppEventsStreamWithInitialEmit(
+      _AppPreferencesChangeEvent.language,
+    ).asyncMap((_) => getLanguageCode());
+  }
+
+  Future<bool> setLanguage(Country country) {
     return _sharedPreferences.then(
       (preferences) async {
-        final previousCountry = await getCountry();
+        final previousLanguage = await getLanguageCode();
 
-        if (countyCode != previousCountry) {
-          await preferences.setString(_keyCountry, countyCode);
+        if (country.languageCode != previousLanguage) {
+          await preferences.setString(_keyLanguage, country.languageCode);
 
-          _postPreferencesStateChangeEvent(_AppPreferencesChangeEvent.country);
+          _postPreferencesStateChangeEvent(_AppPreferencesChangeEvent.language);
 
           return true;
         }

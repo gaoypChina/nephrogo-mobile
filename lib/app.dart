@@ -27,7 +27,7 @@ class _AppComponentState extends State<AppComponent> {
     );
 
     return StreamBuilder<String?>(
-        stream: _appPreferences.getCountryStream(),
+        stream: _appPreferences.getLanguageCodeStream(),
         builder: (context, snapshot) {
           final userChosenLocale = _getUserChosenLocale(snapshot.data);
 
