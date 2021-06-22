@@ -1359,6 +1359,19 @@ extension GeneralRecommendationExtensions on GeneralRecommendation {
   }
 }
 
+extension CountryExtension on Country {
+  String? localizedName(AppLocalizations appLocalizations) {
+    switch (code.toUpperCase()) {
+      case 'LT':
+        return appLocalizations.lithuania;
+      case 'DE':
+        return appLocalizations.germany;
+      default:
+        return null;
+    }
+  }
+}
+
 extension EnumClassExtensions<E extends EnumClass> on E {
   E? enumWithoutDefault(E defaultValue) => (this == defaultValue) ? null : this;
 }

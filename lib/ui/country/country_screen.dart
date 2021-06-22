@@ -15,14 +15,17 @@ class CountryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(context.appLocalizations.chooseCountry)),
-      body: AppFutureBuilder<CountryResponse>(
-        future: _apiService.getCountries,
-        builder: (context, response) {
-          return CountryScreenBody(countryResponse: response);
-        },
-      ),
+    return AppFutureBuilder<CountryResponse>(
+      future: _apiService.getCountries,
+      builder: (context, response) {
+        return CountryScreenBody(countryResponse: response);
+      },
+      loadingAndErrorWrapper: (context, child) {
+        return Scaffold(
+          appBar: AppBar(title: Text(context.appLocalizations.chooseCountry)),
+          body: child,
+        );
+      },
     );
   }
 }
@@ -55,72 +58,83 @@ class _CountryScreenBodyState extends State<CountryScreenBody> {
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.supportedLocales
-            .where((loc) => loc.languageCode == selectedCountry?.code)
+            .where((loc) => loc.languageCode == selectedCountry?.languageCode)
             .firstOrNull() ??
         Locale(context.appLocalizations.localeName);
 
     return Localizations.override(
       context: context,
       locale: locale,
-      child: Column(
-        children: [
-          Expanded(
-            child: ListView.separated(
-              itemCount: widget.countryResponse.countries.length,
-              separatorBuilder: (context, index) => const Divider(height: 1),
-              itemBuilder: (context, index) {
-                final country = widget.countryResponse.countries[index];
+      child: LayoutBuilder(
+        builder: (context, _) {
+          return Scaffold(
+            appBar: AppBar(title: Text(context.appLocalizations.chooseCountry)),
+            body: _buildBody(context),
+          );
+        },
+      ),
+    );
+  }
 
-                return BasicSection.single(
-                  margin: EdgeInsets.zero,
-                  child: AppRadioListTile<Country>(
-                    title: Text(
-                      _localizedCountryName(country, appLocalizations) ??
-                          country.name,
-                    ),
-                    value: country,
-                    subtitle: _countrySubtitle(country, appLocalizations),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 8.0,
-                    ),
-                    controlAffinity: ListTileControlAffinity.trailing,
-                    secondary: SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: FittedBox(
-                        fit: BoxFit.cover,
-                        child: Text(country.flagEmoji),
-                      ),
-                    ),
-                    groupValue: selectedCountry,
-                    onChanged: _onCountryChanged,
+  Widget _buildBody(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.separated(
+            itemCount: widget.countryResponse.countries.length,
+            separatorBuilder: (context, index) => const Divider(height: 1),
+            itemBuilder: (context, index) {
+              final country = widget.countryResponse.countries[index];
+
+              return BasicSection.single(
+                margin: EdgeInsets.zero,
+                child: AppRadioListTile<Country>(
+                  title: Text(
+                    country.localizedName(context.appLocalizations) ??
+                        country.name,
                   ),
-                );
-              },
-            ),
+                  value: country,
+                  subtitle: _countrySubtitle(country, context.appLocalizations),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  secondary: SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text(country.flagEmoji),
+                    ),
+                  ),
+                  groupValue: selectedCountry,
+                  onChanged: _onCountryChanged,
+                ),
+              );
+            },
           ),
-          BasicSection(
-            margin: EdgeInsets.zero,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: AppElevatedButton(
-                    onPressed: selectedCountry != null
-                        ? () => _onCountrySelectionSaved(selectedCountry!)
-                        : null,
-                    label: Text(appLocalizations
-                        .formMultiSelectDialogActionChoose
-                        .toUpperCase()),
-                  ),
+        ),
+        BasicSection(
+          margin: EdgeInsets.zero,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+              child: SizedBox(
+                width: double.infinity,
+                child: AppElevatedButton(
+                  onPressed: selectedCountry != null
+                      ? () => _onCountrySelectionSaved(selectedCountry!)
+                      : null,
+                  label: Text(context
+                      .appLocalizations.formMultiSelectDialogActionChoose
+                      .toUpperCase()),
                 ),
               ),
-            ],
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -147,21 +161,12 @@ class _CountryScreenBodyState extends State<CountryScreenBody> {
     }
   }
 
-  String? _localizedCountryName(
-      Country country, AppLocalizations appLocalizations) {
-    switch (country.code) {
-      case 'LT':
-        return appLocalizations.lithuania;
-      case 'DE':
-        return appLocalizations.germany;
-      default:
-        return null;
-    }
-  }
-
-  Text? _countrySubtitle(Country country, AppLocalizations appLocalizations) {
+  Text? _countrySubtitle(
+    Country country,
+    AppLocalizations appLocalizations,
+  ) {
     final localizedName =
-        _localizedCountryName(country, appLocalizations) ?? country.name;
+        country.localizedName(appLocalizations) ?? country.name;
 
     if (localizedName != country.name) {
       return Text(country.name);
