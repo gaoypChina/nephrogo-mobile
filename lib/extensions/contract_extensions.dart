@@ -1370,6 +1370,12 @@ extension CountryExtension on Country {
         return null;
     }
   }
+
+  Locale? get locale {
+    return AppLocalizations.supportedLocales
+        .where((loc) => loc.languageCode == languageCode)
+        .firstOrNull();
+  }
 }
 
 extension EnumClassExtensions<E extends EnumClass> on E {
