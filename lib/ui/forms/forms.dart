@@ -46,7 +46,8 @@ class AppTextFormField extends StatelessWidget {
   final bool disabled;
   final bool autoFocus;
   final bool obscureText;
-  final int maxLines;
+  final int? minLines;
+  final int? maxLines;
   final TextCapitalization textCapitalization;
 
   const AppTextFormField({
@@ -70,6 +71,7 @@ class AppTextFormField extends StatelessWidget {
     this.autoFocus = false,
     this.disabled = false,
     this.obscureText = false,
+    this.minLines,
     this.maxLines = 1,
     this.autofillHints,
     this.textInputAction,
@@ -108,6 +110,7 @@ class AppTextFormField extends StatelessWidget {
         obscureText: obscureText,
         onTap: onTap,
         maxLines: maxLines,
+        minLines: minLines,
         textInputAction: textInputAction,
         onEditingComplete: onEditingComplete,
         onFieldSubmitted: onFieldSubmitted,

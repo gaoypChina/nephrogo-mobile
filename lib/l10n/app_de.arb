@@ -173,6 +173,8 @@
   "@continueDialysis": {},
   "report": "Melden",
   "@report": {},
+  "message": "Bericht",
+  "@message": {},
   "reportMissingProduct": "Ein fehlendes Produkt melden",
   "@reportMissingProduct": {},
   "productSearchEmpty": "Es wurden keine Produkte gefunden, die den Suchkriterien von {query} entsprechen!",

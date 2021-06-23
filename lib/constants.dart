@@ -5,8 +5,6 @@ class Constants {
 
   static const apiUrl = 'https://api.nephrogo.com/';
   static const supportEmail = 'info@nephrogo.com';
-  static const reportMissingProductUrl =
-      'https://www.nephrogo.com/missing-product/';
   static const appStoreId = '1549505165';
 
   static final earliestDate = Date(2021, 1, 1);

@@ -565,6 +565,18 @@ class ApiService {
         );
   }
 
+  Future<MissingProduct> createMissingProduct(
+    MissingProductRequest missingProductRequest,
+  ) {
+    return _nutritionApi
+        .nutritionProductsMissingCreate(
+          missingProductRequest: missingProductRequest,
+        )
+        .then(
+          (r) => r.data!,
+        );
+  }
+
   Future dispose() async {
     await _appEventsStreamController.close();
   }

@@ -9,6 +9,7 @@ import 'package:nephrogo/ui/general/app_future_builder.dart';
 import 'package:nephrogo/ui/general/app_network_image.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/legal/legal_screen.dart';
+import 'package:nephrogo/ui/missing_product/missing_product_dialog.dart';
 import 'package:nephrogo/ui/onboarding/onboarding_screen.dart';
 import 'package:nephrogo/ui/user_profile/user_profile_screen.dart';
 import 'package:nephrogo/utils/app_store_utils.dart';
@@ -68,7 +69,10 @@ class AccountTab extends StatelessWidget {
             child: AppListTile(
               title: Text(appLocalizations.reportMissingProduct),
               leading: const Icon(Icons.feedback),
-              onTap: () => launchURL(Constants.reportMissingProductUrl),
+              onTap: () => showDialog<void>(
+                context: context,
+                builder: (_) => MissingProductDialog(),
+              ),
             ),
           ),
           BasicSection.single(

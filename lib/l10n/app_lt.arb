@@ -173,6 +173,8 @@
   "@continueDialysis": {},
   "report": "Pranešti",
   "@report": {},
+  "message": "Pranešimas",
+  "@message": {},
   "reportMissingProduct": "Pranešti apie trūkstamą produktą",
   "@reportMissingProduct": {},
   "productSearchEmpty": "Pagal „{query}“ paieškos kriterijų nebuvo rasta jokių produktų!",
