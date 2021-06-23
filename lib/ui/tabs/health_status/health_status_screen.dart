@@ -397,12 +397,12 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
 }
 
 class DailyHealthStatusIndicatorTile extends StatelessWidget {
-  static final _dateFormat = DateFormat('EEEE, MMMM d');
+  final _dateFormat = DateFormat('EEEE, MMMM d');
 
   final DailyHealthStatus dailyHealthStatus;
   final HealthIndicator indicator;
 
-  const DailyHealthStatusIndicatorTile({
+  DailyHealthStatusIndicatorTile({
     Key? key,
     required this.dailyHealthStatus,
     required this.indicator,
