@@ -18,7 +18,11 @@ class CountryScreen extends StatelessWidget {
     return AppFutureBuilder<CountryResponse>(
       future: _apiService.getCountries,
       builder: (context, response) {
-        return CountryScreenBody(countryResponse: response);
+        return _CountryScreen(
+          countries: response.countries.toList(),
+          initialCountrySelection:
+              response.selectedCountry ?? response.suggestedCountry,
+        );
       },
       loadingAndErrorWrapper: (context, child) {
         return Scaffold(
@@ -30,17 +34,21 @@ class CountryScreen extends StatelessWidget {
   }
 }
 
-class CountryScreenBody extends StatefulWidget {
-  final CountryResponse countryResponse;
+class _CountryScreen extends StatefulWidget {
+  final List<Country> countries;
+  final Country? initialCountrySelection;
 
-  const CountryScreenBody({Key? key, required this.countryResponse})
-      : super(key: key);
+  const _CountryScreen({
+    Key? key,
+    required this.countries,
+    required this.initialCountrySelection,
+  }) : super(key: key);
 
   @override
-  _CountryScreenBodyState createState() => _CountryScreenBodyState();
+  _CountryScreenState createState() => _CountryScreenState();
 }
 
-class _CountryScreenBodyState extends State<CountryScreenBody> {
+class _CountryScreenState extends State<_CountryScreen> {
   final _apiService = ApiService();
   final _appPreferences = AppPreferences();
   final _authenticationProvider = AuthenticationProvider();
@@ -49,8 +57,7 @@ class _CountryScreenBodyState extends State<CountryScreenBody> {
 
   @override
   void initState() {
-    selectedCountry = widget.countryResponse.selectedCountry ??
-        widget.countryResponse.suggestedCountry;
+    selectedCountry = widget.initialCountrySelection;
 
     super.initState();
   }
@@ -79,10 +86,10 @@ class _CountryScreenBodyState extends State<CountryScreenBody> {
       children: [
         Expanded(
           child: ListView.separated(
-            itemCount: widget.countryResponse.countries.length,
+            itemCount: widget.countries.length,
             separatorBuilder: (context, index) => const Divider(height: 1),
             itemBuilder: (context, index) {
-              final country = widget.countryResponse.countries[index];
+              final country = widget.countries[index];
 
               return BasicSection.single(
                 margin: EdgeInsets.zero,
