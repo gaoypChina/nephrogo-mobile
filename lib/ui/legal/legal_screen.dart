@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
-import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
@@ -121,7 +120,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                       context,
                       appLocalizations.loginConditionsAgreeWith,
                       appLocalizations.agreeWithHealthDataProcessing,
-                      Constants.healthDataProcessingPolicyUrl,
+                      appLocalizations.healthDataProcessingPolicyUrl,
                     ),
                     value: _healthDataProcessingAgreed,
                     onChanged: (b) =>
@@ -132,7 +131,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                       context,
                       appLocalizations.loginConditionsAgree,
                       appLocalizations.agreeWithPrivacyPolicy,
-                      Constants.privacyPolicyUrl,
+                      appLocalizations.privacyPolicyUrl,
                     ),
                     value: _privacyPolicyAgreed,
                     onChanged: (b) => setState(() => _privacyPolicyAgreed = b),
@@ -142,7 +141,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                       context,
                       appLocalizations.loginConditionsAgree,
                       appLocalizations.agreeWithUsageRules,
-                      Constants.rulesUrl,
+                      appLocalizations.fairUseRulesUrl,
                     ),
                     value: _usageRulesAgreed,
                     onChanged: (b) => setState(() => _usageRulesAgreed = b),

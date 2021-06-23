@@ -81,11 +81,12 @@ class AccountTab extends StatelessWidget {
           BasicSection(
             showDividers: true,
             children: [
-              AppListTile(
-                title: Text(appLocalizations.supportPhone),
-                leading: const Icon(Icons.call),
-                onTap: () => launchPhone(Constants.supportPhone),
-              ),
+              if (appLocalizations.supportPhoneNumber.isNotEmpty)
+                AppListTile(
+                  title: Text(appLocalizations.supportPhone),
+                  leading: const Icon(Icons.call),
+                  onTap: () => launchPhone(appLocalizations.supportPhoneNumber),
+                ),
               AppListTile(
                 title: Text(appLocalizations.supportEmail),
                 leading: const Icon(Icons.email),

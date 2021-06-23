@@ -84,15 +84,16 @@ Future<void> showContactDialog(BuildContext context) {
               leading: const Icon(Icons.email),
               onTap: () => launchEmail(Constants.supportEmail),
             ),
-            AppListTile(
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: 16,
+            if (appLocalizations.supportPhoneNumber.isNotEmpty)
+              AppListTile(
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 16,
+                ),
+                title: Text(appLocalizations.supportPhone),
+                leading: const Icon(Icons.phone),
+                onTap: () => launchPhone(appLocalizations.supportPhoneNumber),
               ),
-              title: Text(appLocalizations.supportPhone),
-              leading: const Icon(Icons.phone),
-              onTap: () => launchPhone(Constants.supportPhone),
-            ),
           ],
         ),
       );
