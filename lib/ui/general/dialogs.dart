@@ -77,8 +77,8 @@ Future<void> showContactDialog(BuildContext context) {
           children: [
             AppListTile(
               contentPadding: const EdgeInsets.symmetric(
-                vertical: 4.0,
-                horizontal: 16,
+                horizontal: 16.0,
+                vertical: 8.0,
               ),
               title: Text(appLocalizations.supportEmail),
               leading: const Icon(Icons.email),
@@ -87,8 +87,8 @@ Future<void> showContactDialog(BuildContext context) {
             if (appLocalizations.supportPhoneNumber.isNotEmpty)
               AppListTile(
                 contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
                   vertical: 8.0,
-                  horizontal: 16,
                 ),
                 title: Text(appLocalizations.supportPhone),
                 leading: const Icon(Icons.phone),
