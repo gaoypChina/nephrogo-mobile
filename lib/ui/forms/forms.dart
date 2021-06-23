@@ -448,7 +448,7 @@ class AppDatePickerFormField extends StatefulWidget {
 }
 
 class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
-  static final DateFormat _defaultDateFormat = DateFormat.yMd();
+  final DateFormat _defaultDateFormat = DateFormat.yMd();
 
   // This is a bug with platform translation. Incorrect format is shown. Set to correct one.
   static const _fieldHintText = 'yyyy-mm-dd';

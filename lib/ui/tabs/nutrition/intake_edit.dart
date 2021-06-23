@@ -41,7 +41,7 @@ class IntakeEditScreen extends StatefulWidget {
 }
 
 class _IntakeEditScreenState extends State<IntakeEditScreen> {
-  static final _dateFormat = DateFormat.yMEd();
+  final _dateFormat = DateFormat.yMEd();
 
   final _formKey = GlobalKey<FormState>();
   final _apiService = ApiService();

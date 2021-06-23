@@ -257,7 +257,7 @@ class IntakeTile extends StatelessWidget {
 }
 
 class IntakeExpandableTile extends StatelessWidget {
-  static final dateFormat = DateFormat('E, d MMM');
+  final dateFormat = DateFormat('E, d MMM');
 
   final Intake intake;
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;

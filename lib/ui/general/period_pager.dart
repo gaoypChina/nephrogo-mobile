@@ -155,14 +155,14 @@ class WeeklyPager extends StatelessWidget {
 }
 
 class MonthlyPager extends StatelessWidget {
-  static final monthFormatter = DateFormat.yMMMM();
+  final monthFormatter = DateFormat.yMMMM();
 
   final Date earliestDate;
   final Date initialDate;
 
   final PagerBodyBuilder bodyBuilder;
 
-  const MonthlyPager({
+  MonthlyPager({
     Key? key,
     required this.earliestDate,
     required this.initialDate,
