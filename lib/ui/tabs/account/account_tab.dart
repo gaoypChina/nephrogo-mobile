@@ -44,6 +44,11 @@ class AccountTab extends StatelessWidget {
             showDividers: true,
             children: [
               AppListTile(
+                title: Text(appLocalizations.country),
+                leading: const Icon(Icons.language),
+                onTap: () => _navigateToCountrySelection(context),
+              ),
+              AppListTile(
                 title: Text(appLocalizations.termsOfUse),
                 leading: const Icon(Icons.description),
                 onTap: () => _navigateToTermsOfUse(context),
@@ -57,11 +62,6 @@ class AccountTab extends StatelessWidget {
                   arguments:
                       OnboardingScreenArguments(OnboardingScreenExitType.close),
                 ),
-              ),
-              AppListTile(
-                title: Text(appLocalizations.country),
-                leading: const Icon(Icons.flag),
-                onTap: () => _navigateToCountrySelection(context),
               ),
             ],
           ),
@@ -95,6 +95,11 @@ class AccountTab extends StatelessWidget {
                 title: Text(appLocalizations.supportEmail),
                 leading: const Icon(Icons.email),
                 onTap: () => launchEmail(Constants.supportEmail),
+              ),
+              AppListTile(
+                title: Text(appLocalizations.website),
+                leading: const Icon(Icons.public),
+                onTap: () => launchURL(appLocalizations.websiteUrl),
               ),
             ],
           ),

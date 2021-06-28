@@ -1143,5 +1143,9 @@
   "healthDataProcessingPolicyUrl": "https://www.nephrogo.com/documents/de/processing-of-personal-health-data.pdf",
   "@healthDataProcessingPolicyUrl": {},
   "fairUseRulesUrl": "https://www.nephrogo.com/documents/de/fair-use-rules.pdf",
-  "@fairUseRulesUrl": {}
+  "@fairUseRulesUrl": {},
+  "website": "Webseite",
+  "@website": {},
+  "websiteUrl": "https://www.nephrogo.de/",
+  "@websiteUrl": {}
 }

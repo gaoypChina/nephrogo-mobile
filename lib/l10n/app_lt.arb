@@ -1143,5 +1143,9 @@
   "healthDataProcessingPolicyUrl": "https://www.nephrogo.com/documents/lt/processing-of-personal-health-data.pdf",
   "@healthDataProcessingPolicyUrl": {},
   "fairUseRulesUrl": "https://www.nephrogo.com/documents/lt/fair-use-rules.pdf",
-  "@fairUseRulesUrl": {}
+  "@fairUseRulesUrl": {},
+  "website": "Svetainė",
+  "@website": {},
+  "websiteUrl": "https://www.nephrogo.lt/",
+  "@websiteUrl": {}
 }
