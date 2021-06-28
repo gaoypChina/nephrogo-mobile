@@ -98,7 +98,7 @@ class AccountTab extends StatelessWidget {
               ),
               AppListTile(
                 title: Text(appLocalizations.website),
-                leading: const Icon(Icons.public),
+                leading: const Icon(Icons.web),
                 onTap: () => launchURL(appLocalizations.websiteUrl),
               ),
             ],
