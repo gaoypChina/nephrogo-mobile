@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_future_builder.dart';
@@ -114,8 +113,7 @@ class _CountryScreenState extends State<_CountryScreen> {
                                 country.name,
                           ),
                           value: country,
-                          subtitle: _countrySubtitle(
-                              country, context.appLocalizations),
+                          subtitle: Text(country.name),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16.0,
                             vertical: 8.0,
@@ -183,20 +181,6 @@ class _CountryScreenState extends State<_CountryScreen> {
         context,
         Routes.routeStart,
       );
-    }
-  }
-
-  Text? _countrySubtitle(
-    Country country,
-    AppLocalizations appLocalizations,
-  ) {
-    final localizedName =
-        country.localizedName(appLocalizations) ?? country.name;
-
-    if (localizedName != country.name) {
-      return Text(country.name);
-    } else {
-      return null;
     }
   }
 }
