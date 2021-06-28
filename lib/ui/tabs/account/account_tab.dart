@@ -26,6 +26,7 @@ class AccountTab extends StatelessWidget {
     final appLocalizations = context.appLocalizations;
 
     return Scrollbar(
+      isAlwaysShown: true,
       child: ListView(
         children: [
           BasicSection.single(child: _buildUserProfileTile(context)),
@@ -37,7 +38,7 @@ class AccountTab extends StatelessWidget {
                 context,
                 Routes.routeUserProfile,
                 arguments: UserProfileNextScreenType.close,
-              ),
+                  ),
             ),
           ),
           BasicSection(
@@ -60,7 +61,7 @@ class AccountTab extends StatelessWidget {
                   context,
                   Routes.routeOnboarding,
                   arguments:
-                      OnboardingScreenArguments(OnboardingScreenExitType.close),
+                  OnboardingScreenArguments(OnboardingScreenExitType.close),
                 ),
               ),
             ],
@@ -173,24 +174,27 @@ class AccountTab extends StatelessWidget {
 
   Widget _buildUserProfileTile(BuildContext context) {
     final user = _authenticationProvider.currentUser;
+    final title = user?.displayName ?? user?.email ?? '';
+    final subtitle = user?.email ?? title;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: AppListTile(
-        leading: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: SizedBox(
-            width: 64,
-            height: 64,
-            child: getUserProfilePhoto(),
-          ),
-        ),
-        title: Text(
-          user?.displayName ?? user?.email ?? '',
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        subtitle: user?.displayName != null ? Text(user?.email ?? '') : null,
+    return AppListTile(
+      contentPadding: const EdgeInsets.symmetric(
+        vertical: 8.0,
+        horizontal: 16.0,
       ),
+      leading: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: SizedBox(
+          width: 64,
+          height: 64,
+          child: getUserProfilePhoto(),
+        ),
+      ),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.headline6,
+      ),
+      subtitle: subtitle != title ? Text(subtitle) : null,
     );
   }
 }
