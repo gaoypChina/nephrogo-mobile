@@ -25,100 +25,101 @@ class AccountTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final appLocalizations = context.appLocalizations;
 
-    return Scrollbar(
-      isAlwaysShown: true,
-      child: ListView(
-        children: [
-          BasicSection.single(child: _buildUserProfileTile(context)),
-          BasicSection(
-            showDividers: true,
+    return AppFutureBuilder<String>(
+      future: () => _getVersionString(),
+      builder: (context, version) {
+        return Scrollbar(
+          child: ListView(
             children: [
-              AppListTile(
-                title: Text(appLocalizations.userProfileScreenTitle),
-                leading: const Icon(Icons.account_box),
-                onTap: () => Navigator.pushNamed(
-                  context,
-                  Routes.routeUserProfile,
-                  arguments: UserProfileNextScreenType.close,
-                ),
+              BasicSection.single(child: _buildUserProfileTile(context)),
+              BasicSection(
+                showDividers: true,
+                children: [
+                  AppListTile(
+                    title: Text(appLocalizations.userProfileScreenTitle),
+                    leading: const Icon(Icons.account_box),
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      Routes.routeUserProfile,
+                      arguments: UserProfileNextScreenType.close,
+                    ),
+                  ),
+                  AppListTile(
+                    title: Text(appLocalizations.country),
+                    leading: const Icon(Icons.language),
+                    onTap: () => _navigateToCountrySelection(context),
+                  ),
+                  AppListTile(
+                    title: Text(appLocalizations.termsOfUse),
+                    leading: const Icon(Icons.description),
+                    onTap: () => _navigateToTermsOfUse(context),
+                  ),
+                  AppListTile(
+                    title: Text(appLocalizations.onboarding),
+                    leading: const Icon(Icons.explore),
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      Routes.routeOnboarding,
+                      arguments: OnboardingScreenArguments(
+                        OnboardingScreenExitType.close,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              AppListTile(
-                title: Text(appLocalizations.country),
-                leading: const Icon(Icons.language),
-                onTap: () => _navigateToCountrySelection(context),
-              ),
-              AppListTile(
-                title: Text(appLocalizations.termsOfUse),
-                leading: const Icon(Icons.description),
-                onTap: () => _navigateToTermsOfUse(context),
-              ),
-              AppListTile(
-                title: Text(appLocalizations.onboarding),
-                leading: const Icon(Icons.explore),
-                onTap: () => Navigator.pushNamed(
-                  context,
-                  Routes.routeOnboarding,
-                  arguments:
-                      OnboardingScreenArguments(OnboardingScreenExitType.close),
-                ),
-              ),
-            ],
-          ),
-          BasicSection(showDividers: true, children: [
-            AppListTile(
-              title: Text(appLocalizations.reportMissingProduct),
-              leading: const Icon(Icons.feedback),
-              onTap: () => showDialog<void>(
-                context: context,
-                builder: (_) => MissingProductDialog(),
-              ),
-            ),
-            AppListTile(
-              title: Text(appLocalizations.rateApp),
-              leading: const Icon(Icons.rate_review),
-              onTap: () => AppReview().openStoreListing(),
-            ),
-          ]),
-          BasicSection(
-            showDividers: true,
-            children: [
-              AppListTile(
-                title: Text(appLocalizations.website),
-                leading: const Icon(Icons.web),
-                onTap: () => launchURL(appLocalizations.websiteUrl),
-              ),
-              if (appLocalizations.supportPhoneNumber.isNotEmpty)
+              BasicSection(showDividers: true, children: [
                 AppListTile(
-                  title: Text(appLocalizations.supportPhone),
-                  leading: const Icon(Icons.call),
-                  onTap: () => launchPhone(appLocalizations.supportPhoneNumber),
+                  title: Text(appLocalizations.reportMissingProduct),
+                  leading: const Icon(Icons.feedback),
+                  onTap: () => showDialog<void>(
+                    context: context,
+                    builder: (_) => MissingProductDialog(),
+                  ),
                 ),
-              AppListTile(
-                title: Text(appLocalizations.supportEmail),
-                leading: const Icon(Icons.email),
-                onTap: () => launchEmail(Constants.supportEmail),
+                AppListTile(
+                  title: Text(appLocalizations.rateApp),
+                  leading: const Icon(Icons.rate_review),
+                  onTap: () => AppReview().openStoreListing(),
+                ),
+              ]),
+              BasicSection(
+                showDividers: true,
+                children: [
+                  AppListTile(
+                    title: Text(appLocalizations.website),
+                    leading: const Icon(Icons.web),
+                    onTap: () => launchURL(appLocalizations.websiteUrl),
+                  ),
+                  AppListTile(
+                    title: Text(appLocalizations.supportEmail),
+                    leading: const Icon(Icons.email),
+                    onTap: () => launchEmail(Constants.supportEmail),
+                  ),
+                  if (appLocalizations.supportPhoneNumber.isNotEmpty)
+                    AppListTile(
+                      title: Text(appLocalizations.supportPhone),
+                      leading: const Icon(Icons.support_agent),
+                      onTap: () =>
+                          launchPhone(appLocalizations.supportPhoneNumber),
+                    ),
+                ],
               ),
-            ],
-          ),
-          if (kDebugMode) BasicSection.single(child: DebugListCell()),
-          BasicSection.single(
-            child: AppListTile(
-              title: Text(appLocalizations.logout),
-              leading: const Icon(Icons.logout),
-              onTap: () => _signOut(context),
-            ),
-          ),
-          AppFutureBuilder<String>(
-            future: () => _getVersionString(),
-            builder: (context, version) {
-              return Padding(
+              if (kDebugMode) BasicSection.single(child: DebugListCell()),
+              BasicSection.single(
+                child: AppListTile(
+                  title: Text(appLocalizations.logout),
+                  leading: const Icon(Icons.logout),
+                  onTap: () => _signOut(context),
+                ),
+              ),
+              Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
                 child: Center(child: Text(version)),
-              );
-            },
-          )
-        ],
-      ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
