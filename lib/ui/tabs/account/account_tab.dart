@@ -30,20 +30,18 @@ class AccountTab extends StatelessWidget {
       child: ListView(
         children: [
           BasicSection.single(child: _buildUserProfileTile(context)),
-          BasicSection.single(
-            child: AppListTile(
-              title: Text(appLocalizations.userProfileScreenTitle),
-              leading: const Icon(Icons.account_box),
-              onTap: () => Navigator.pushNamed(
-                context,
-                Routes.routeUserProfile,
-                arguments: UserProfileNextScreenType.close,
-                  ),
-            ),
-          ),
           BasicSection(
             showDividers: true,
             children: [
+              AppListTile(
+                title: Text(appLocalizations.userProfileScreenTitle),
+                leading: const Icon(Icons.account_box),
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  Routes.routeUserProfile,
+                  arguments: UserProfileNextScreenType.close,
+                ),
+              ),
               AppListTile(
                 title: Text(appLocalizations.country),
                 leading: const Icon(Icons.language),
@@ -61,13 +59,13 @@ class AccountTab extends StatelessWidget {
                   context,
                   Routes.routeOnboarding,
                   arguments:
-                  OnboardingScreenArguments(OnboardingScreenExitType.close),
+                      OnboardingScreenArguments(OnboardingScreenExitType.close),
                 ),
               ),
             ],
           ),
-          BasicSection.single(
-            child: AppListTile(
+          BasicSection(showDividers: true, children: [
+            AppListTile(
               title: Text(appLocalizations.reportMissingProduct),
               leading: const Icon(Icons.feedback),
               onTap: () => showDialog<void>(
@@ -75,17 +73,20 @@ class AccountTab extends StatelessWidget {
                 builder: (_) => MissingProductDialog(),
               ),
             ),
-          ),
-          BasicSection.single(
-            child: AppListTile(
+            AppListTile(
               title: Text(appLocalizations.rateApp),
               leading: const Icon(Icons.rate_review),
               onTap: () => AppReview().openStoreListing(),
             ),
-          ),
+          ]),
           BasicSection(
             showDividers: true,
             children: [
+              AppListTile(
+                title: Text(appLocalizations.website),
+                leading: const Icon(Icons.web),
+                onTap: () => launchURL(appLocalizations.websiteUrl),
+              ),
               if (appLocalizations.supportPhoneNumber.isNotEmpty)
                 AppListTile(
                   title: Text(appLocalizations.supportPhone),
@@ -96,11 +97,6 @@ class AccountTab extends StatelessWidget {
                 title: Text(appLocalizations.supportEmail),
                 leading: const Icon(Icons.email),
                 onTap: () => launchEmail(Constants.supportEmail),
-              ),
-              AppListTile(
-                title: Text(appLocalizations.website),
-                leading: const Icon(Icons.web),
-                onTap: () => launchURL(appLocalizations.websiteUrl),
               ),
             ],
           ),
@@ -183,7 +179,7 @@ class AccountTab extends StatelessWidget {
         horizontal: 16.0,
       ),
       leading: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
         child: SizedBox(
           width: 64,
           height: 64,
