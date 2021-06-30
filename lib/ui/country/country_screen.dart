@@ -63,12 +63,15 @@ class _CountryScreenState extends State<_CountryScreen> {
   final _apiService = ApiService();
   final _appPreferences = AppPreferences();
   final _authenticationProvider = AuthenticationProvider();
+  late List<Country> soredCountries;
 
   Country? selectedCountry;
 
   @override
   void initState() {
     selectedCountry = widget.initialCountrySelection;
+    soredCountries = widget.countries
+        .orderBy((c) => c == selectedCountry ? -1 : c.order ?? 0);
 
     super.initState();
   }
@@ -99,11 +102,11 @@ class _CountryScreenState extends State<_CountryScreen> {
               children: [
                 Expanded(
                   child: ListView.separated(
-                    itemCount: widget.countries.length,
+                    itemCount: soredCountries.length,
                     separatorBuilder: (context, index) =>
                         const Divider(height: 1),
                     itemBuilder: (context, index) {
-                      final country = widget.countries[index];
+                      final country = soredCountries[index];
 
                       return BasicSection.single(
                         margin: EdgeInsets.zero,
