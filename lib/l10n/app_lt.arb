@@ -1133,9 +1133,21 @@
   "country": "Šalis",
   "@country": {},
   "germany": "Vokietija",
-  "@germany": {},
+  "@germany": {
+    "context": "country"
+  },
   "lithuania": "Lietuva",
-  "@lithuania": {},
+  "@lithuania": {
+    "context": "country"
+  },
+  "switzerland": "Šveicarija",
+  "@switzerland": {
+    "context": "country"
+  },
+  "austria": "Austrija",
+  "@austria": {
+    "context": "country"
+  },
   "supportPhoneNumber": "+37065253669",
   "@supportPhoneNumber": {},
   "privacyPolicyUrl": "https://www.nephrogo.com/documents/lt/privacy-policy.pdf",

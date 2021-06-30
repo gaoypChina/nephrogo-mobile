@@ -1366,6 +1366,10 @@ extension CountryExtension on Country {
         return appLocalizations.lithuania;
       case 'DE':
         return appLocalizations.germany;
+      case 'CH':
+        return appLocalizations.switzerland;
+      case 'OT':
+        return appLocalizations.austria;
       default:
         return null;
     }

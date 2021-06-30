@@ -1133,9 +1133,21 @@
   "country": "Land",
   "@country": {},
   "germany": "Deutschland",
-  "@germany": {},
+  "@germany": {
+    "context": "country"
+  },
   "lithuania": "Litauen",
-  "@lithuania": {},
+  "@lithuania": {
+    "context": "country"
+  },
+  "switzerland": "Schweiz",
+  "@switzerland": {
+    "context": "country"
+  },
+  "austria": "Österreich",
+  "@austria": {
+    "context": "country"
+  },
   "supportPhoneNumber": "",
   "@supportPhoneNumber": {},
   "privacyPolicyUrl": "https://www.nephrogo.com/documents/de/privacy-policy.pdf",
