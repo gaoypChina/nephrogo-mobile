@@ -33,7 +33,7 @@ class ManualPeritonealDialysisDayBalanceChart extends StatelessWidget {
       dataSource: dialysis,
       xValueMapper: (d, _) => d.startedAt.timeOfDayLocal.format(context),
       yValueMapper: (d, i) => d.balance,
-      dataLabelSettings: DataLabelSettings(
+      dataLabelSettings: const DataLabelSettings(
         isVisible: true,
         labelAlignment: ChartDataLabelAlignment.outer,
       ),

@@ -64,9 +64,9 @@ class DailyNormsBarChart extends StatelessWidget {
         borderRadius: const BorderRadius.horizontal(right: Radius.circular(6)),
         isTrackVisible: true,
         trackBorderWidth: 0,
-        dataLabelSettings: DataLabelSettings(
+        dataLabelSettings: const DataLabelSettings(
           isVisible: true,
-          textStyle: const TextStyle(color: Colors.white),
+          textStyle: TextStyle(color: Colors.white),
         ),
         sortFieldValueMapper: (_, i) => i,
         sortingOrder: SortingOrder.descending,
