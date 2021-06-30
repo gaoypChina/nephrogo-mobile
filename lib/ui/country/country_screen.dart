@@ -126,7 +126,6 @@ class _CountryScreenState extends State<_CountryScreen> {
                             width: 40,
                             height: 40,
                             child: FittedBox(
-                              fit: BoxFit.cover,
                               child: Text(country.flagEmoji),
                             ),
                           ),
