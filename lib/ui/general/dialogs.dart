@@ -91,7 +91,7 @@ Future<void> showContactDialog(BuildContext context) {
                   vertical: 8.0,
                 ),
                 title: Text(appLocalizations.supportPhone),
-                leading: const Icon(Icons.phone),
+                leading: const Icon(Icons.support_agent),
                 onTap: () => launchPhone(appLocalizations.supportPhoneNumber),
               ),
           ],
