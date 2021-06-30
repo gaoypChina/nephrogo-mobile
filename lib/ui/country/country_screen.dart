@@ -101,39 +101,41 @@ class _CountryScreenState extends State<_CountryScreen> {
             body: Column(
               children: [
                 Expanded(
-                  child: ListView.separated(
-                    itemCount: soredCountries.length,
-                    separatorBuilder: (context, index) =>
-                        const Divider(height: 1),
-                    itemBuilder: (context, index) {
-                      final country = soredCountries[index];
+                  child: Scrollbar(
+                    child: ListView.separated(
+                      itemCount: soredCountries.length,
+                      separatorBuilder: (context, index) =>
+                          const Divider(height: 1),
+                      itemBuilder: (context, index) {
+                        final country = soredCountries[index];
 
-                      return BasicSection.single(
-                        margin: EdgeInsets.zero,
-                        child: AppRadioListTile<Country>(
-                          title: Text(
-                            country.localizedName(context.appLocalizations) ??
-                                country.name,
-                          ),
-                          value: country,
-                          subtitle: Text(country.name),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16.0,
-                            vertical: 8.0,
-                          ),
-                          controlAffinity: ListTileControlAffinity.trailing,
-                          secondary: SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: FittedBox(
-                              child: Text(country.flagEmoji),
+                        return BasicSection.single(
+                          margin: EdgeInsets.zero,
+                          child: AppRadioListTile<Country>(
+                            title: Text(
+                              country.localizedName(context.appLocalizations) ??
+                                  country.name,
                             ),
+                            value: country,
+                            subtitle: Text(country.name),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                              vertical: 8.0,
+                            ),
+                            controlAffinity: ListTileControlAffinity.trailing,
+                            secondary: SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: FittedBox(
+                                child: Text(country.flagEmoji),
+                              ),
+                            ),
+                            groupValue: selectedCountry,
+                            onChanged: _onCountryChanged,
                           ),
-                          groupValue: selectedCountry,
-                          onChanged: _onCountryChanged,
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
                 BasicSection(
