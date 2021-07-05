@@ -375,7 +375,7 @@ class IntakeNutrientDenseTile extends StatelessWidget {
     }
 
     final amountText =
-    intake!.product.getFormattedTotalAmount(nutrient, intake!.amountG);
+        intake!.product.getFormattedTotalAmount(nutrient, intake!.amountG);
 
     final subtitle = _getSubtitle(appLocalizations);
 
