@@ -122,14 +122,6 @@ extension ProductExtensions on Product {
 }
 
 extension DailyNutrientConsumptionExtensions on DailyNutrientConsumption {
-  int? totalConsumptionRoundedPercentage() {
-    if (norm == null) {
-      return null;
-    }
-
-    return ((total / norm!) * 100).round();
-  }
-
   double? get normPercentage {
     if (norm == null) {
       return null;
@@ -138,12 +130,12 @@ extension DailyNutrientConsumptionExtensions on DailyNutrientConsumption {
     return total / norm!;
   }
 
-  int? normPercentageRounded(int nutrientAmount) {
+  double? normPercentageWithAmount(num nutrientAmount) {
     if (norm == null) {
       return null;
     }
 
-    return ((nutrientAmount / norm!) * 100).round();
+    return nutrientAmount / norm!;
   }
 
   bool get isNormExists => norm != null;

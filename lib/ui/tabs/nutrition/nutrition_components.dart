@@ -348,11 +348,13 @@ class IntakeExpandableTile extends StatelessWidget {
 }
 
 class IntakeNutrientDenseTile extends StatelessWidget {
+  final _percentageFormatter = NumberFormat.percentPattern();
+
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
   final Intake? intake;
   final Nutrient nutrient;
 
-  const IntakeNutrientDenseTile(
+  IntakeNutrientDenseTile(
     this.intake,
     this.nutrient,
     this.dailyNutrientNormsAndTotals, {
@@ -373,7 +375,7 @@ class IntakeNutrientDenseTile extends StatelessWidget {
     }
 
     final amountText =
-        intake!.product.getFormattedTotalAmount(nutrient, intake!.amountG);
+    intake!.product.getFormattedTotalAmount(nutrient, intake!.amountG);
 
     final subtitle = _getSubtitle(appLocalizations);
 
@@ -412,11 +414,12 @@ class IntakeNutrientDenseTile extends StatelessWidget {
 
     final percentage = dailyNutrientNormsAndTotals
         .getDailyNutrientConsumption(nutrient)
-        .normPercentageRounded(nutrientAmount)
-        ?.toString();
+        .normPercentageWithAmount(nutrientAmount);
 
     if (percentage != null) {
-      return appLocalizations.percentageOfDailyNorm(percentage);
+      return appLocalizations.percentageOfDailyNorm(
+        _percentageFormatter.format(percentage),
+      );
     }
 
     return null;
@@ -439,10 +442,11 @@ class DailyIntakesReportNutrientTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final appLocalizations = context.appLocalizations;
     final nutrientName = nutrient.name(appLocalizations);
+    final percentageFormatter = NumberFormat.percentPattern();
 
     final percentage = dailyNutrientNormsAndTotals
         .getDailyNutrientConsumption(nutrient)
-        .totalConsumptionRoundedPercentage();
+        .normPercentage;
 
     return AppListTile(
       title: Text(nutrientName),
@@ -458,7 +462,7 @@ class DailyIntakesReportNutrientTile extends StatelessWidget {
             if (percentage != null)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Text('$percentage%'),
+                child: Text(percentageFormatter.format(percentage)),
               ),
             const Icon(Icons.chevron_right),
           ],
@@ -481,12 +485,12 @@ class DailyIntakesReportNutrientTile extends StatelessWidget {
     return appLocalizations.consumed(consumptionFormatted);
   }
 
-  Widget _leadingTotalConsumptionIndicator(int? percentageRounded) {
+  Widget _leadingTotalConsumptionIndicator(double? percentageRounded) {
     if (percentageRounded == null) {
       return const SizedBox();
     }
 
-    if (percentageRounded > 100) {
+    if (percentageRounded > 1) {
       return const CircleAvatar(
         backgroundColor: Colors.transparent,
         child: Icon(Icons.error, color: Colors.redAccent),
@@ -502,6 +506,7 @@ class DailyIntakesReportNutrientTile extends StatelessWidget {
 
 class NutrientDailyNutritionTile extends StatelessWidget {
   final _dateFormat = DateFormat('EEEE, MMMM d');
+  final _percentageFormatter = NumberFormat.percentPattern();
 
   final Date date;
   final DailyNutrientNormsWithTotals dailyNutrientNormsAndTotals;
@@ -527,7 +532,7 @@ class NutrientDailyNutritionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final appLocalizations = context.appLocalizations;
 
-    final percentageRounded = consumption.totalConsumptionRoundedPercentage();
+    final percentage = consumption.normPercentage;
 
     return AppListTile(
       title: Text(_dateFormat.formatDate(date).capitalizeFirst()),
@@ -540,10 +545,10 @@ class NutrientDailyNutritionTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (percentageRounded != null)
+            if (percentage != null)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Text('$percentageRounded%'),
+                child: Text(_percentageFormatter.format(percentage)),
               ),
             const Icon(Icons.chevron_right),
           ],
@@ -591,9 +596,9 @@ class NutrientDailyNutritionTile extends StatelessWidget {
   }
 
   Widget _leadingTotalConsumptionIndicator() {
-    final percentageRounded = consumption.totalConsumptionRoundedPercentage();
+    final percentage = consumption.normPercentage;
 
-    if (percentageRounded == null) {
+    if (percentage == null) {
       return CircleAvatar(
         backgroundColor: Colors.brown,
         child: Text(
@@ -607,7 +612,7 @@ class NutrientDailyNutritionTile extends StatelessWidget {
       );
     }
 
-    if (percentageRounded > 100) {
+    if (percentage > 1) {
       return const CircleAvatar(
         backgroundColor: Colors.redAccent,
         child: Icon(Icons.error, color: Colors.white),
@@ -623,6 +628,7 @@ class NutrientDailyNutritionTile extends StatelessWidget {
 
 class NutrientIntakeTile extends StatelessWidget {
   final dateFormat = DateFormat('E, d MMM');
+  final _percentageFormat = NumberFormat.percentPattern();
 
   final Intake intake;
   final Nutrient nutrient;
@@ -680,11 +686,12 @@ class NutrientIntakeTile extends StatelessWidget {
 
     final percentage = dailyNutrientNormsAndTotals
         .getDailyNutrientConsumption(nutrient)
-        .normPercentageRounded(nutrientAmount)
-        ?.toString();
+        .normPercentageWithAmount(nutrientAmount);
 
     if (percentage != null) {
-      return appLocalizations.percentageOfDailyNorm(percentage);
+      return appLocalizations.percentageOfDailyNorm(
+        _percentageFormat.format(percentage),
+      );
     }
 
     return null;
