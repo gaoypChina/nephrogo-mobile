@@ -41,5 +41,25 @@ void main() {
       expect(dates.first, Date(2021, 1, 11));
       expect(dates.last, Date(2021, 4, 12));
     });
+    test('returns correct dates', () {
+      final from = Date(2021, 10, 1);
+      final to = Date(2021, 11, 3);
+      final dates = DateHelper.generateWeekDates(from, to).toList();
+
+      expect(dates.length, 6);
+      expect(dates.first, Date(2021, 9, 27));
+      expect(dates.last, Date(2021, 11, 01));
+    });
+  });
+  group('generateDates', () {
+    test('returns correct dates', () {
+      final from = Date(2021, 10, 1);
+      final to = Date(2021, 11, 3);
+      final dates = DateHelper.generateDates(from, to).toList();
+
+      expect(dates.length, 34);
+      expect(dates.first, Date(2021, 10, 1));
+      expect(dates.last, Date(2021, 11, 3));
+    });
   });
 }

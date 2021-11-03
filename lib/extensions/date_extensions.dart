@@ -6,7 +6,7 @@ extension DateExtensions on Date {
   }
 
   Date addDays(int days) {
-    return toDateTime(utc: true).add(Duration(days: days)).toDate();
+    return DateTime.utc(year, month, day + days).toDate();
   }
 
   Date subtractDays(int days) {
