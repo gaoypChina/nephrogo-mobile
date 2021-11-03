@@ -121,7 +121,8 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
                         formValidators.numRangeValidator(1, 10000),
                       ),
                       icon: CircleAvatar(
-                        backgroundColor: Theme.of(context).accentColor,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
                         child: const Icon(
                           Icons.kitchen,
                           color: Colors.white,

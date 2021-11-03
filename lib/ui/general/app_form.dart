@@ -29,9 +29,7 @@ class _AppFormState extends State<AppForm> {
       onChanged: () {
         _isChanged = true;
 
-        if (widget.onChanged != null) {
-          widget.onChanged!();
-        }
+        widget.onChanged?.call();
       },
       child: widget.child,
     );

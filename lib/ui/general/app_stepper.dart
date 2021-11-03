@@ -586,9 +586,7 @@ class _StepperState extends State<AppStepper> with TickerProviderStateMixin {
                           duration: kThemeAnimationDuration,
                         );
 
-                        if (widget.onStepTapped != null) {
-                          widget.onStepTapped!(i);
-                        }
+                        widget.onStepTapped?.call(i);
                       }
                     : null,
                 canRequestFocus: widget.steps[i].state != StepState.disabled,
@@ -607,9 +605,7 @@ class _StepperState extends State<AppStepper> with TickerProviderStateMixin {
         InkResponse(
           onTap: widget.steps[i].state != StepState.disabled
               ? () {
-                  if (widget.onStepTapped != null) {
-                    widget.onStepTapped!(i);
-                  }
+            widget.onStepTapped?.call(i);
                 }
               : null,
           canRequestFocus: widget.steps[i].state != StepState.disabled,
