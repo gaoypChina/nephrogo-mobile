@@ -26,6 +26,16 @@ class _AppComponentState extends State<AppComponent> {
       errorMaxLines: 5,
     );
 
+    final theme = ThemeData(
+      primarySwatch: Colors.teal,
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+      inputDecorationTheme: inputDecorationTheme,
+    );
+
+    final appTheme = theme.copyWith(
+      colorScheme: theme.colorScheme.copyWith(secondary: Colors.redAccent),
+    );
+
     return StreamBuilder<String?>(
         stream: _appPreferences.getLanguageCodeStream(),
         builder: (context, snapshot) {
@@ -38,20 +48,8 @@ class _AppComponentState extends State<AppComponent> {
           return MaterialApp(
             key: Key('app-with-locale-$userChosenLocale'),
             title: 'NephroGo',
-            theme: ThemeData(
-              primarySwatch: Colors.teal,
-              accentColor: Colors.redAccent,
-              brightness: Brightness.light,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-              inputDecorationTheme: inputDecorationTheme,
-            ),
-            darkTheme: ThemeData(
-              primarySwatch: Colors.teal,
-              accentColor: Colors.redAccent,
-              brightness: Brightness.dark,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-              inputDecorationTheme: inputDecorationTheme,
-            ),
+            theme: appTheme.copyWith(brightness: Brightness.light),
+            darkTheme: appTheme.copyWith(brightness: Brightness.dark),
             navigatorObservers: [analytics.observer],
             locale: userChosenLocale,
             localizationsDelegates: AppLocalizations.localizationsDelegates,

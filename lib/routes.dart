@@ -29,6 +29,7 @@ import 'ui/tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_creation_s
 import 'ui/tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_screen.dart';
 import 'ui/user_profile/user_profile_screen.dart';
 
+// ignore: avoid_classes_with_only_static_members
 class Routes {
   static const routeStart = 'start';
 

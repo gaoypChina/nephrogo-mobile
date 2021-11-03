@@ -56,8 +56,8 @@ class _ScrollPickerState extends State<ScrollPicker> {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     final TextStyle? defaultStyle = themeData.textTheme.bodyText2;
-    final TextStyle? selectedStyle =
-        themeData.textTheme.headline5?.copyWith(color: themeData.accentColor);
+    final TextStyle? selectedStyle = themeData.textTheme.headline5
+        ?.copyWith(color: themeData.colorScheme.secondary);
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -95,8 +95,8 @@ class _ScrollPickerState extends State<ScrollPicker> {
                 height: itemHeight,
                 decoration: BoxDecoration(
                   border: Border(
-                    top: BorderSide(color: themeData.accentColor),
-                    bottom: BorderSide(color: themeData.accentColor),
+                    top: BorderSide(color: themeData.colorScheme.secondary),
+                    bottom: BorderSide(color: themeData.colorScheme.secondary),
                   ),
                 ),
               ),
