@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
+import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/analytics.dart';
-
-import 'l10n/localizations.dart';
 
 class AppComponent extends StatefulWidget {
   @override

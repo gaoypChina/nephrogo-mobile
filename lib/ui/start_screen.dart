@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
+import 'package:nephrogo/ui/authentication/login_screen.dart';
 import 'package:nephrogo/ui/country/country_screen.dart';
+import 'package:nephrogo/ui/general/app_future_builder.dart';
+import 'package:nephrogo/ui/home_screen.dart';
 import 'package:nephrogo/ui/legal/legal_screen.dart';
+import 'package:nephrogo/ui/onboarding/onboarding_screen.dart';
 import 'package:nephrogo/ui/user_profile/user_profile_screen.dart';
-
-import 'authentication/login_screen.dart';
-import 'general/app_future_builder.dart';
-import 'home_screen.dart';
-import 'onboarding/onboarding_screen.dart';
 
 class StartScreen extends StatefulWidget {
   @override

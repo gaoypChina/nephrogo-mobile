@@ -5,12 +5,11 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/ui/general/app_stream_builder.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_nutrient_summary_list.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_list.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'nutrition_daily_summary.dart';
-import 'nutrition_nutrient_summary_list.dart';
-import 'nutrition_summary_components.dart';
-import 'nutrition_summary_list.dart';
 
 enum NutritionSummaryScreenType { daily, weekly, monthly }
 

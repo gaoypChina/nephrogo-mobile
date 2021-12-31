@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_calendar.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-
-import 'nutrition_summary_components.dart';
 
 class NutritionMonthlyReportsList extends StatefulWidget {
   final List<DailyIntakesLightReport> reports;
@@ -15,7 +14,7 @@ class NutritionMonthlyReportsList extends StatefulWidget {
     Key? key,
     required this.reports,
     required this.header,
-  })   : assert(reports.isNotEmpty),
+  })  : assert(reports.isNotEmpty),
         super(key: key);
 
   @override
@@ -95,7 +94,7 @@ class NutritionWeeklyReportsList extends StatelessWidget {
     Key? key,
     required this.reports,
     required this.header,
-  })   : assert(reports.isNotEmpty),
+  })  : assert(reports.isNotEmpty),
         super(key: key);
 
   @override

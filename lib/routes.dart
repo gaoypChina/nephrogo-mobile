@@ -1,33 +1,31 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/ui/authentication/email_password_login_screen.dart';
+import 'package:nephrogo/ui/authentication/login_screen.dart';
+import 'package:nephrogo/ui/authentication/registration_screen.dart';
+import 'package:nephrogo/ui/authentication/remind_password.dart';
 import 'package:nephrogo/ui/country/country_screen.dart';
 import 'package:nephrogo/ui/general_recommendations_screen.dart';
+import 'package:nephrogo/ui/home_screen.dart';
+import 'package:nephrogo/ui/legal/legal_screen.dart';
+import 'package:nephrogo/ui/onboarding/onboarding_screen.dart';
+import 'package:nephrogo/ui/start_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/blood_pressure_edit_screen.dart';
+import 'package:nephrogo/ui/tabs/health_status/health_status_creation_screen.dart';
+import 'package:nephrogo/ui/tabs/health_status/health_status_screen.dart';
 import 'package:nephrogo/ui/tabs/health_status/pulse_edit_screen.dart';
+import 'package:nephrogo/ui/tabs/nutrition/intake_create.dart';
 import 'package:nephrogo/ui/tabs/nutrition/intake_edit.dart';
+import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary.dart';
+import 'package:nephrogo/ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_creation_screen.dart';
+import 'package:nephrogo/ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_periods.dart';
+import 'package:nephrogo/ui/tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_creation_screen.dart';
+import 'package:nephrogo/ui/tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_screen.dart';
+import 'package:nephrogo/ui/user_profile/user_profile_screen.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'ui/authentication/login_screen.dart';
-import 'ui/authentication/registration_screen.dart';
-import 'ui/authentication/remind_password.dart';
-import 'ui/general_recommendations_screen.dart';
-import 'ui/home_screen.dart';
-import 'ui/legal/legal_screen.dart';
-import 'ui/onboarding/onboarding_screen.dart';
-import 'ui/start_screen.dart';
-import 'ui/tabs/health_status/health_status_creation_screen.dart';
-import 'ui/tabs/health_status/health_status_screen.dart';
-import 'ui/tabs/nutrition/intake_create.dart';
-import 'ui/tabs/nutrition/product_search.dart';
-import 'ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
-import 'ui/tabs/nutrition/summary/nutrition_summary.dart';
-import 'ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_creation_screen.dart';
-import 'ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_periods.dart';
-import 'ui/tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_creation_screen.dart';
-import 'ui/tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_screen.dart';
-import 'ui/user_profile/user_profile_screen.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class Routes {

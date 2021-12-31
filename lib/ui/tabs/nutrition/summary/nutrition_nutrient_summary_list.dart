@@ -4,9 +4,8 @@ import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/ui/charts/nutrient_bar_chart.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'nutrition_summary_components.dart';
 
 class NutritionNutrientReportsList extends StatelessWidget {
   final List<DailyIntakesLightReport> reports;
@@ -24,7 +23,7 @@ class NutritionNutrientReportsList extends StatelessWidget {
     required this.dateFrom,
     required this.dateTo,
     required this.showGraphDataLabels,
-  })   : assert(reports.isNotEmpty),
+  })  : assert(reports.isNotEmpty),
         super(key: key);
 
   @override

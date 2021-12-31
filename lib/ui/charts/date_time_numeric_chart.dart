@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/ui/charts/numeric_chart.dart';
 import 'package:nephrogo/utils/date_utils.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-import 'numeric_chart.dart';
 
 class DateTimeNumericChart extends StatelessWidget {
   static const rodTopRadius = BorderRadius.vertical(top: Radius.circular(6));

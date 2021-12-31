@@ -12,9 +12,8 @@ import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/period_pager.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary_components.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'nutrition_summary_components.dart';
 
 class NutritionDailySummaryScreenArguments {
   final Date date;

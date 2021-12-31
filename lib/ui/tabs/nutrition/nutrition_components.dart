@@ -10,12 +10,11 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/nutrient_bar_chart.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/tabs/nutrition/intake_edit.dart';
+import 'package:nephrogo/ui/tabs/nutrition/product_search.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_daily_summary.dart';
 import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'intake_edit.dart';
-import 'product_search.dart';
 
 class IntakeCreationFloatingActionButton extends StatelessWidget {
   final _mealTypesWithColors = LinkedHashMap.fromEntries([

@@ -2,17 +2,16 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
+import 'package:nephrogo/ui/general/app_bar_logo.dart';
 import 'package:nephrogo/ui/general/app_stream_builder.dart';
+import 'package:nephrogo/ui/general_recommendations_screen.dart';
+import 'package:nephrogo/ui/tabs/account/account_tab.dart';
+import 'package:nephrogo/ui/tabs/health_status/health_status_tab.dart';
+import 'package:nephrogo/ui/tabs/nutrition/nutrition_tab.dart';
+import 'package:nephrogo/ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_tab.dart';
+import 'package:nephrogo/ui/tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_tab.dart';
 import 'package:nephrogo/utils/app_store_utils.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'general/app_bar_logo.dart';
-import 'general_recommendations_screen.dart';
-import 'tabs/account/account_tab.dart';
-import 'tabs/health_status/health_status_tab.dart';
-import 'tabs/nutrition/nutrition_tab.dart';
-import 'tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_tab.dart';
-import 'tabs/peritoneal_dialysis/manual/manual_peritoneal_dialysis_tab.dart';
 
 class HomeScreen extends StatelessWidget {
   final _appPreferences = AppPreferences();

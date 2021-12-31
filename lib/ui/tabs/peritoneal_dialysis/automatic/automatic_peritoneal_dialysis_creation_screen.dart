@@ -6,15 +6,13 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
-import 'package:nephrogo/ui/general/app_stepper.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
+import 'package:nephrogo/ui/tabs/peritoneal_dialysis/automatic/beta_banner.dart';
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/peritoneal_dialysis_components.dart';
 import 'package:nephrogo/utils/form_utils.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'beta_banner.dart';
 
 class AutomaticPeritonealDialysisCreationScreenArguments {
   final AutomaticPeritonealDialysis? dialysis;
@@ -107,7 +105,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
             return _submit();
           }
         },
-        child: AppStepper(
+        child: Stepper(
           type: StepperType.horizontal,
           currentStep: _currentStep,
           onStepTapped: _validateAndProceedToStep,
@@ -119,7 +117,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
             }
           },
           onStepCancel: _submit,
-          controlsBuilder: (context, {onStepContinue, onStepCancel}) {
+          controlsBuilder: (context, details) {
             return BasicSection(
               innerPadding: const EdgeInsets.symmetric(horizontal: 16.0),
               children: [

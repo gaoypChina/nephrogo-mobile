@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
-
-import 'dialogs.dart';
+import 'package:nephrogo/ui/general/dialogs.dart';
 
 class ErrorStateWidget extends StatelessWidget {
   final String errorText;

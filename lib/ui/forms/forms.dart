@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/ui/forms/app_form_multi_select_dialog.dart';
+import 'package:nephrogo/ui/forms/app_form_single_select_dialog.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'app_form_multi_select_dialog.dart';
-import 'app_form_single_select_dialog.dart';
 
 typedef FormFieldItemSetter<T> = void Function(T newItem);
 

@@ -8,9 +8,8 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/general/app_stream_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/missing_product/missing_product_dialog.dart';
+import 'package:nephrogo/ui/tabs/nutrition/intake_create.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'intake_create.dart';
 
 enum ProductSearchType {
   choose,

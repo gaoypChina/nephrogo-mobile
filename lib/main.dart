@@ -6,8 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-
-import 'app.dart';
+import 'package:nephrogo/app.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

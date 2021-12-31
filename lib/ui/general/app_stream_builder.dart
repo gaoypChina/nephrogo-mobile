@@ -1,7 +1,6 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-
-import 'error_state.dart';
+import 'package:nephrogo/ui/general/error_state.dart';
 
 class AppStreamBuilder<T> extends StatefulWidget {
   final Stream<T> Function() stream;

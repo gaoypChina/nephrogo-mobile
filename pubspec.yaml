@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 3.1.0+1
 
 environment:
-  sdk: ">=2.14.0 <3.0.0"
+  sdk: ">=2.15.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -39,16 +39,16 @@ dependencies:
   equatable: ^2.0.0
 
   # https://firebase.flutter.dev/docs/migration
-  firebase_analytics: ^8.1.0
+  firebase_analytics: ^9.0.4
   firebase_auth: ^3.0.1
   firebase_core: ^1.2.0
   firebase_crashlytics: ^2.0.4
-  firebase_messaging: ^10.0.0
-  firebase_performance: ^0.7.0+3
+  firebase_messaging: ^11.2.4
+  firebase_performance: ^0.8.0+3
   flutter_facebook_auth: ^3.4.1
 
   flutter_linkify: ^5.0.0
-  flutter_speed_dial: ^4.0.0-dev.1
+  flutter_speed_dial: ^5.0.0+1
   flutter_widget_from_html_core: ^0.8.1
   fwfh_url_launcher: ^0.6.1+2
   google_sign_in: ^5.0.1
@@ -83,6 +83,10 @@ dev_dependencies:
 
   lint: ^1.5.3
   test: ^1.16.5
+
+dependency_overrides:
+  firebase_performance: ^0.8.0+3
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

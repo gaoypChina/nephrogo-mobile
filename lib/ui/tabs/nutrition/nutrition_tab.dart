@@ -6,11 +6,10 @@ import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/charts/daily_norms_bar_chart.dart';
 import 'package:nephrogo/ui/general/app_stream_builder.dart';
 import 'package:nephrogo/ui/general/components.dart';
+import 'package:nephrogo/ui/tabs/nutrition/nutrition_calendar.dart';
+import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
+import 'package:nephrogo/ui/tabs/nutrition/summary/nutrition_summary.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'nutrition_calendar.dart';
-import 'nutrition_components.dart';
-import 'summary/nutrition_summary.dart';
 
 class NutritionTab extends StatelessWidget {
   final now = DateTime.now();

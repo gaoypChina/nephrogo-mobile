@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/models/contract.dart';
+import 'package:nephrogo/ui/charts/date_time_numeric_chart.dart';
+import 'package:nephrogo/ui/charts/numeric_chart.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-import 'date_time_numeric_chart.dart';
-import 'numeric_chart.dart';
 
 class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
   final DailyIntakesReport report;

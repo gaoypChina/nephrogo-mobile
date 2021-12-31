@@ -10,10 +10,9 @@ import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
 import 'package:nephrogo/ui/onboarding/onboarding_step.dart';
+import 'package:nephrogo/ui/user_profile/user_profile_steps.dart';
 import 'package:nephrogo/utils/utils.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'user_profile_steps.dart';
 
 enum UserProfileNextScreenType {
   close,

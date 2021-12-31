@@ -8,12 +8,11 @@ import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/tabs/health_status/health_status_components.dart';
 import 'package:nephrogo/ui/tabs/nutrition/nutrition_components.dart';
+import 'package:nephrogo/ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_components.dart';
+import 'package:nephrogo/ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_creation_screen.dart';
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/automatic/automatic_peritoneal_dialysis_periods.dart';
 import 'package:nephrogo/ui/tabs/peritoneal_dialysis/peritoneal_dialysis_components.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'automatic_peritoneal_dialysis_components.dart';
-import 'automatic_peritoneal_dialysis_creation_screen.dart';
 
 class AutomaticPeritonealDialysisTab extends StatelessWidget {
   final apiService = ApiService();

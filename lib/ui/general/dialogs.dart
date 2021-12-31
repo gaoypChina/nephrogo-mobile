@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/progress_dialog.dart';
 import 'package:nephrogo/utils/utils.dart';
-
-import 'components.dart';
 
 Future<void> showAppDialog({
   required BuildContext context,

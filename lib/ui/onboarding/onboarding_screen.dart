@@ -4,8 +4,7 @@ import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/analytics.dart';
 import 'package:nephrogo/ui/legal/legal_screen.dart';
-
-import 'onboarding_step.dart';
+import 'package:nephrogo/ui/onboarding/onboarding_step.dart';
 
 enum OnboardingScreenExitType {
   close,

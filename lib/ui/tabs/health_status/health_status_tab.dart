@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/models/contract.dart';
 import 'package:nephrogo/ui/general/app_stream_builder.dart';
+import 'package:nephrogo/ui/tabs/health_status/health_status_components.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-
-import 'health_status_components.dart';
 
 class HealthStatusTab extends StatelessWidget {
   @override
