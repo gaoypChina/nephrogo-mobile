@@ -99,6 +99,7 @@ class _ManualPeritonealDialysisCreationScreenState
         child: Stepper(
           type: StepperType.horizontal,
           currentStep: _currentStep,
+          margin: EdgeInsets.zero,
           onStepTapped: _validateAndProceedToStep,
           controlsBuilder: (context, details) {
             return BasicSection(

@@ -108,6 +108,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
         child: Stepper(
           type: StepperType.horizontal,
           currentStep: _currentStep,
+          margin: EdgeInsets.zero,
           onStepTapped: _validateAndProceedToStep,
           onStepContinue: () async {
             if (_currentStep == 0) {
