@@ -239,6 +239,18 @@ class ApiService {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
         return r.data!;
       },
+    ).catchError(
+      (e) => _healthStatusApi
+          .healthStatusCreate(
+        dailyHealthStatusRequest: dailyHealthStatusRequest,
+      )
+          .then(
+        (r) {
+          _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+          return r.data!;
+        },
+      ),
+      test: (e) => e is DioError && e.response?.statusCode == 404,
     );
   }
 

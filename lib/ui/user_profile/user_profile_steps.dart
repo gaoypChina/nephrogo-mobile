@@ -124,15 +124,17 @@ class WeightStep extends UserProfileStep {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: AppDoubleInputField(
-              labelText: null,
-              hintText: '73.8',
+              labelText: context.appLocalizations.weight,
               autoFocus: true,
               fractionDigits: 1,
               suffixText: 'kg',
               textInputAction: TextInputAction.done,
               helperText: context.appLocalizations.userProfileWeightHelper,
               validator: FormValidators(context).numRangeValidator(30.0, 300.0),
-              onChanged: (w) => healthStatusBuilder.weightKg = w,
+              onChanged: (w) {
+                healthStatusBuilder.date = Date.now(utc: true);
+                healthStatusBuilder.weightKg = w;
+              },
             ),
           ),
         ],
