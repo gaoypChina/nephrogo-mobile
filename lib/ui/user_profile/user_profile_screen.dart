@@ -114,6 +114,7 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
 
     _userProfileBuilder =
         widget.userProfile?.toRequestBuilder() ?? UserProfileV2RequestBuilder();
+    _healthStatusBuilder = DailyHealthStatusRequestBuilder();
   }
 
   @override
