@@ -6,6 +6,7 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
+import 'package:nephrogo/ui/general/app_stepper.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
@@ -105,7 +106,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
             return _submit();
           }
         },
-        child: Stepper(
+        child: AppStepper(
           type: StepperType.horizontal,
           currentStep: _currentStep,
           margin: EdgeInsets.zero,
