@@ -94,13 +94,13 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
 
   final List<UserProfileStep> _steps = [
     GenderStep(),
-    BirthdayStep(),
-    WeightStep(),
-    HeightStep(),
     ChronicKidneyDiseaseAgeStep(),
     ChronicKidneyDiseaseStageStep(),
     DialysisStep(),
     DiabetesStep(),
+    HeightStep(),
+    BirthdayStep(),
+    WeightStep(),
   ];
 
   int get _totalSteps => _steps.length + 1;
@@ -117,52 +117,55 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _getAppBar(),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: PageView.builder(
-              controller: _controller,
-              itemCount: _totalSteps,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (BuildContext context, int index) {
-                if (index == 0) {
-                  return OnboardingStepComponent(
-                    assetName: 'assets/onboarding/3.png',
-                    title: appLocalizations.userProfileExplanationTitle,
-                    description: appLocalizations.userProfileExplanation,
-                    fontColor: null,
-                    imageColor: Theme.of(context).textTheme.bodyText1!.color,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: _getAppBar(),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: PageView.builder(
+                controller: _controller,
+                itemCount: _totalSteps,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  if (index == 0) {
+                    return OnboardingStepComponent(
+                      assetName: 'assets/onboarding/3.png',
+                      title: appLocalizations.userProfileExplanationTitle,
+                      description: appLocalizations.userProfileExplanation,
+                      fontColor: null,
+                      imageColor: Theme.of(context).textTheme.bodyText1!.color,
+                    );
+                  }
+                  return _steps[index - 1].build(
+                    context,
+                    _userProfileBuilder,
+                    setState,
                   );
-                }
-                return _steps[index - 1].build(
-                  context,
-                  _userProfileBuilder,
-                  setState,
-                );
-              },
-              onPageChanged: (int p) {
-                setState(() => page = p);
-              },
+                },
+                onPageChanged: (int p) {
+                  setState(() => page = p);
+                },
+              ),
             ),
-          ),
-          BasicSection.single(
-            margin: EdgeInsets.zero,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-              child: SizedBox(
-                width: double.infinity,
-                child: AppElevatedButton(
-                  onPressed: () => _advancePageOrFinish(),
-                  label: isDone
-                      ? Text(appLocalizations.save.toUpperCase())
-                      : Text(appLocalizations.further.toUpperCase()),
+            BasicSection.single(
+              margin: EdgeInsets.zero,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: AppElevatedButton(
+                    onPressed: () => _advancePageOrFinish(),
+                    label: isDone
+                        ? Text(appLocalizations.save.toUpperCase())
+                        : Text(appLocalizations.further.toUpperCase()),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -231,6 +234,12 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
       return false;
     }
     return _animateToPage(page - 1);
+  }
+
+  Future<bool> _onWillPop() async {
+    final hasPrevious = await _previousStep();
+
+    return !hasPrevious;
   }
 
   Future<bool> _animateToPage(int page) {

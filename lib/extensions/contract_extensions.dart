@@ -1235,6 +1235,7 @@ extension UserProfileExtensions on UserProfileV2 {
     builder.dialysis = dialysis;
 
     builder.diabetesType = diabetesType;
+    builder.dateOfBirth = dateOfBirth;
 
     return builder;
   }

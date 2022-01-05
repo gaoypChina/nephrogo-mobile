@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/scroll_picker.dart';
-import 'package:nephrogo/utils/formatters/date_formatter.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 abstract class UserProfileStep {
@@ -65,44 +63,29 @@ class GenderStep extends UserProfileStep {
 }
 
 class BirthdayStep extends UserProfileStep {
-  Date? _parsedDate;
-  final DateFormat _dateFormat = DateFormat('yyyy/MM/dd');
-
   @override
   Widget build(
     BuildContext context,
     UserProfileV2RequestBuilder builder,
     void Function(VoidCallback fn) setState,
   ) {
-    final dateTime = _parsedDate?.toDateTime(utc: true);
-
     return SingleChildScrollView(
       child: LargeSection(
         title: Text(context.appLocalizations.dateOfBirth),
         children: [
           Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AppTextFormField(
-                  labelText: null,
-                  initialValue:
-                      dateTime != null ? _dateFormat.format(dateTime) : null,
-                  keyboardType: TextInputType.number,
-                  autoFocus: true,
-                  hintText: 'yyyy/mm/dd',
-                  inputFormatters: [
-                    DateInputFormatter(),
-                  ],
-                  onChanged: (text) {
-                    setState(() {
-                      try {
-                        _parsedDate = text != null
-                            ? _dateFormat.parseStrict(text, true).toDate()
-                            : null;
-                      } on FormatException catch (_) {
-                        _parsedDate = null;
-                      }
-                    });
-                  })),
+            padding: const EdgeInsets.all(8.0),
+            child: AppDatePickerFormField(
+              firstDate: Date(1900, 1, 1),
+              lastDate: Date.now(),
+              initialDate: builder.dateOfBirth ?? Date(1995, 6, 26),
+              selectedDate: builder.dateOfBirth,
+              initialDatePickerMode: DatePickerMode.year,
+              initialEntryMode: DatePickerEntryMode.input,
+              labelText: context.appLocalizations.dateOfBirth,
+              onDateChanged: (d) => builder.dateOfBirth = d,
+            ),
+          ),
         ],
       ),
     );
@@ -110,7 +93,7 @@ class BirthdayStep extends UserProfileStep {
 
   @override
   bool validate(UserProfileV2RequestBuilder builder) {
-    return _parsedDate != null;
+    return builder.dateOfBirth != null;
   }
 }
 
@@ -128,13 +111,15 @@ class WeightStep extends UserProfileStep {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: AppDoubleInputField(
-              labelText: context.appLocalizations.weight,
+              labelText: null,
+              hintText: '73.8',
+              autoFocus: true,
               fractionDigits: 1,
               suffixText: 'kg',
-              textInputAction: TextInputAction.next,
+              textInputAction: TextInputAction.done,
               helperText: context.appLocalizations.userProfileWeightHelper,
-              initialValue: 45.1,
               validator: FormValidators(context).numRangeValidator(30.0, 300.0),
+              onChanged: (d) => print(d),
               // onChanged: (value) => _requestBuilder.weightKg = value,
             ),
           ),

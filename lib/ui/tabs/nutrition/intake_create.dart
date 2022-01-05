@@ -175,6 +175,7 @@ class _IntakeCreateScreenState extends State<IntakeCreateScreen> {
                 children: [
                   AppDatePickerFormField(
                     initialDate: _consumedAt.toDate(),
+                    selectedDate: _consumedAt.toDate(),
                     firstDate: Constants.earliestDate,
                     lastDate: DateTime.now().toDate(),
                     validator: formValidators.nonNull(),

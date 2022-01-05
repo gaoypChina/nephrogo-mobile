@@ -411,6 +411,7 @@ class _AppMultipleSelectFormFieldState<T>
 
 class AppDatePickerFormField extends StatefulWidget {
   final Date initialDate;
+  final Date? selectedDate;
   final Date firstDate;
   final Date lastDate;
   final String labelText;
@@ -431,6 +432,7 @@ class AppDatePickerFormField extends StatefulWidget {
     required this.lastDate,
     required this.initialDate,
     required this.labelText,
+    this.selectedDate,
     this.onDateSaved,
     this.onDateChanged,
     this.dateFormat,
@@ -452,13 +454,13 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
   // This is a bug with platform translation. Incorrect format is shown. Set to correct one.
   static const _fieldHintText = 'yyyy-mm-dd';
 
-  late Date _selectedDate;
+  Date? _selectedDate;
 
   @override
   void initState() {
     super.initState();
 
-    _selectedDate = widget.initialDate;
+    _selectedDate = widget.selectedDate;
   }
 
   @override
@@ -481,12 +483,12 @@ class _AppDatePickerFormFieldState extends State<AppDatePickerFormField> {
     );
   }
 
-  Future<Date> _onTap(BuildContext context) async {
+  Future<Date?> _onTap(BuildContext context) async {
     final dateTime = await showDatePicker(
       context: context,
       firstDate: widget.firstDate.toDateTime(),
       lastDate: widget.lastDate.toDateTime(),
-      initialDate: _selectedDate.toDateTime(),
+      initialDate: (_selectedDate ?? widget.initialDate).toDateTime(),
       initialDatePickerMode: widget.initialDatePickerMode,
       initialEntryMode: widget.initialEntryMode,
       fieldHintText: _fieldHintText,
@@ -646,7 +648,7 @@ class AppDoubleInputField extends StatelessWidget {
   static final floatRegexPattern =
       RegExp(r'^((0|([1-9][0-9]{0,3}))(\.|,)?\d*)$');
 
-  final String labelText;
+  final String? labelText;
   final int fractionDigits;
 
   final String? helperText;
