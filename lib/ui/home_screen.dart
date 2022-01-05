@@ -119,13 +119,6 @@ class _HomeScreenState extends State<_HomeScreen> {
         label: appLocalizations.tabNutrition,
       ),
       _HomeScreenTab(
-        title: Text(appLocalizations.generalRecommendations),
-        builder: () => GeneralRecommendationsTab(),
-        icon: Icons.explore_outlined,
-        activeIcon: Icons.explore,
-        label: appLocalizations.tabGeneralRecommendations,
-      ),
-      _HomeScreenTab(
         title: Text(appLocalizations.healthStatusIndicators),
         builder: () => HealthStatusTab(),
         icon: Icons.assessment_outlined,
@@ -148,6 +141,13 @@ class _HomeScreenState extends State<_HomeScreen> {
           activeIcon: Icons.water_damage,
           label: appLocalizations.tabPeritoneal,
         ),
+      _HomeScreenTab(
+        title: Text(appLocalizations.generalRecommendations),
+        builder: () => GeneralRecommendationsTab(),
+        icon: Icons.explore_outlined,
+        activeIcon: Icons.explore,
+        label: appLocalizations.tabGeneralRecommendations,
+      ),
       _HomeScreenTab(
         title: Text(appLocalizations.myProfile),
         builder: () => AccountTab(),
