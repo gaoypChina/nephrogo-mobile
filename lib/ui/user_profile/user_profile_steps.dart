@@ -9,11 +9,15 @@ import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 abstract class UserProfileStep {
   Widget build(
     BuildContext context,
-    UserProfileV2RequestBuilder builder,
+    UserProfileV2RequestBuilder userProfileBuilder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
     void Function(VoidCallback fn) setState,
   );
 
-  bool validate(UserProfileV2RequestBuilder builder);
+  bool validate(
+    UserProfileV2RequestBuilder userProfileBuilder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
+  );
 
   Future<void> save() async {}
 }
@@ -23,6 +27,7 @@ class GenderStep extends UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
     void Function(VoidCallback fn) setState,
   ) {
     return SingleChildScrollView(
@@ -57,7 +62,10 @@ class GenderStep extends UserProfileStep {
   }
 
   @override
-  bool validate(UserProfileV2RequestBuilder builder) {
+  bool validate(
+    UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
+  ) {
     return builder.gender != null;
   }
 }
@@ -67,6 +75,7 @@ class BirthdayStep extends UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
     void Function(VoidCallback fn) setState,
   ) {
     return SingleChildScrollView(
@@ -92,7 +101,10 @@ class BirthdayStep extends UserProfileStep {
   }
 
   @override
-  bool validate(UserProfileV2RequestBuilder builder) {
+  bool validate(
+    UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
+  ) {
     return builder.dateOfBirth != null;
   }
 }
@@ -102,6 +114,7 @@ class WeightStep extends UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
     void Function(VoidCallback fn) setState,
   ) {
     return SingleChildScrollView(
@@ -119,8 +132,7 @@ class WeightStep extends UserProfileStep {
               textInputAction: TextInputAction.done,
               helperText: context.appLocalizations.userProfileWeightHelper,
               validator: FormValidators(context).numRangeValidator(30.0, 300.0),
-              onChanged: (d) => print(d),
-              // onChanged: (value) => _requestBuilder.weightKg = value,
+              onChanged: (w) => healthStatusBuilder.weightKg = w,
             ),
           ),
         ],
@@ -129,13 +141,16 @@ class WeightStep extends UserProfileStep {
   }
 
   @override
-  bool validate(UserProfileV2RequestBuilder builder) {
-    return true;
+  bool validate(
+    UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
+  ) {
+    return healthStatusBuilder.weightKg != null;
   }
 }
 
 class HeightStep extends UserProfileStep {
-  late final _heightValues = List.generate(151, (index) => 100 + index);
+  final _heightValues = List.generate(151, (index) => 100 + index);
 
   late final List<String> _heightFormattedValues =
       _heightValues.map(_formatHeight).toList();
@@ -151,6 +166,7 @@ class HeightStep extends UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
     void Function(VoidCallback fn) setState,
   ) {
     final height = builder.heightCm ??= _getInitialHeight(builder);
@@ -180,7 +196,10 @@ class HeightStep extends UserProfileStep {
   }
 
   @override
-  bool validate(UserProfileV2RequestBuilder builder) {
+  bool validate(
+    UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
+  ) {
     return true;
   }
 }
@@ -197,6 +216,7 @@ class ChronicKidneyDiseaseAgeStep extends UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
     void Function(VoidCallback fn) setState,
   ) {
     final appLocalizations = context.appLocalizations;
@@ -222,7 +242,10 @@ class ChronicKidneyDiseaseAgeStep extends UserProfileStep {
   }
 
   @override
-  bool validate(UserProfileV2RequestBuilder builder) {
+  bool validate(
+    UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
+  ) {
     return builder.chronicKidneyDiseaseAge != null &&
         builder.chronicKidneyDiseaseAge != ChronicKidneyDiseaseAgeEnum.unknown;
   }
@@ -242,6 +265,7 @@ class ChronicKidneyDiseaseStageStep extends UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
     void Function(VoidCallback fn) setState,
   ) {
     final appLocalizations = context.appLocalizations;
@@ -273,7 +297,10 @@ class ChronicKidneyDiseaseStageStep extends UserProfileStep {
   }
 
   @override
-  bool validate(UserProfileV2RequestBuilder builder) {
+  bool validate(
+    UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
+  ) {
     return builder.chronicKidneyDiseaseStage != null;
   }
 }
@@ -291,6 +318,7 @@ class DialysisStep extends UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
     void Function(VoidCallback fn) setState,
   ) {
     final appLocalizations = context.appLocalizations;
@@ -319,7 +347,10 @@ class DialysisStep extends UserProfileStep {
   }
 
   @override
-  bool validate(UserProfileV2RequestBuilder builder) {
+  bool validate(
+    UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
+  ) {
     return builder.dialysis != null && builder.dialysis != DialysisEnum.unknown;
   }
 }
@@ -329,6 +360,7 @@ class DiabetesStep extends UserProfileStep {
   Widget build(
     BuildContext context,
     UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
     void Function(VoidCallback fn) setState,
   ) {
     final appLocalizations = context.appLocalizations;
@@ -371,7 +403,10 @@ class DiabetesStep extends UserProfileStep {
   }
 
   @override
-  bool validate(UserProfileV2RequestBuilder builder) {
+  bool validate(
+    UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
+  ) {
     return builder.diabetesType != null &&
         builder.diabetesType != DiabetesTypeEnum.unknown;
   }

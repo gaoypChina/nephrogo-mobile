@@ -89,6 +89,7 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
   final _authenticationProvider = AuthenticationProvider();
 
   late UserProfileV2RequestBuilder _userProfileBuilder;
+  late DailyHealthStatusRequestBuilder _healthStatusBuilder;
 
   int page = 0;
 
@@ -141,6 +142,7 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
                   return _steps[index - 1].build(
                     context,
                     _userProfileBuilder,
+                    _healthStatusBuilder,
                     setState,
                   );
                 },
@@ -213,7 +215,10 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
 
   Future<void> _advancePageOrFinish() async {
     if (page != 0) {
-      if (!_steps[page - 1].validate(_userProfileBuilder)) {
+      if (!_steps[page - 1].validate(
+        _userProfileBuilder,
+        _healthStatusBuilder,
+      )) {
         return showAppDialog(
           context: context,
           title: context.appLocalizations.error,
@@ -253,13 +258,25 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
   }
 
   Future<UserProfileV2> _saveUserProfileToApi() async {
-    final userProfile = _userProfileBuilder.build();
+    final userProfileRequest = _userProfileBuilder.build();
+    final healthStatusPartialRequest = _healthStatusBuilder.build();
 
-    return _apiService.createOrUpdateUserProfile(userProfile);
+    final userProfile =
+        _apiService.createOrUpdateUserProfile(userProfileRequest);
+
+    await _apiService
+        .partialUpdateDailyHealthStatus(healthStatusPartialRequest);
+
+    return userProfile;
   }
 
   Future<bool> _validateAndSaveUserProfile() async {
-    final notValid = _steps.any((s) => !s.validate(_userProfileBuilder));
+    final notValid = _steps.any(
+      (s) => !s.validate(
+        _userProfileBuilder,
+        _healthStatusBuilder,
+      ),
+    );
 
     if (notValid) {
       await showAppErrorDialog(
