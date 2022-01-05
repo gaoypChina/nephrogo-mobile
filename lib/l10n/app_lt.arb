@@ -274,6 +274,8 @@
       }
     }
   },
+  "dateOfBirth": "Gimimo data",
+  "@dateOfBirth": {},
   "myNutrition": "Mano mityba",
   "@myNutrition": {},
   "create": "Pridėti",

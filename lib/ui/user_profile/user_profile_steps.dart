@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:nephrogo/ui/forms/form_validators.dart';
+import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/scroll_picker.dart';
+import 'package:nephrogo/utils/formatters/date_formatter.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 abstract class UserProfileStep {
@@ -57,6 +61,91 @@ class GenderStep extends UserProfileStep {
   @override
   bool validate(UserProfileV2RequestBuilder builder) {
     return builder.gender != null;
+  }
+}
+
+class BirthdayStep extends UserProfileStep {
+  Date? _parsedDate;
+  final DateFormat _dateFormat = DateFormat('yyyy/MM/dd');
+
+  @override
+  Widget build(
+    BuildContext context,
+    UserProfileV2RequestBuilder builder,
+    void Function(VoidCallback fn) setState,
+  ) {
+    final dateTime = _parsedDate?.toDateTime(utc: true);
+
+    return SingleChildScrollView(
+      child: LargeSection(
+        title: Text(context.appLocalizations.dateOfBirth),
+        children: [
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppTextFormField(
+                  labelText: null,
+                  initialValue:
+                      dateTime != null ? _dateFormat.format(dateTime) : null,
+                  keyboardType: TextInputType.number,
+                  autoFocus: true,
+                  hintText: 'yyyy/mm/dd',
+                  inputFormatters: [
+                    DateInputFormatter(),
+                  ],
+                  onChanged: (text) {
+                    setState(() {
+                      try {
+                        _parsedDate = text != null
+                            ? _dateFormat.parseStrict(text, true).toDate()
+                            : null;
+                      } on FormatException catch (_) {
+                        _parsedDate = null;
+                      }
+                    });
+                  })),
+        ],
+      ),
+    );
+  }
+
+  @override
+  bool validate(UserProfileV2RequestBuilder builder) {
+    return _parsedDate != null;
+  }
+}
+
+class WeightStep extends UserProfileStep {
+  @override
+  Widget build(
+    BuildContext context,
+    UserProfileV2RequestBuilder builder,
+    void Function(VoidCallback fn) setState,
+  ) {
+    return SingleChildScrollView(
+      child: LargeSection(
+        title: Text(context.appLocalizations.weight),
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AppDoubleInputField(
+              labelText: context.appLocalizations.weight,
+              fractionDigits: 1,
+              suffixText: 'kg',
+              textInputAction: TextInputAction.next,
+              helperText: context.appLocalizations.userProfileWeightHelper,
+              initialValue: 45.1,
+              validator: FormValidators(context).numRangeValidator(30.0, 300.0),
+              // onChanged: (value) => _requestBuilder.weightKg = value,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  bool validate(UserProfileV2RequestBuilder builder) {
+    return true;
   }
 }
 

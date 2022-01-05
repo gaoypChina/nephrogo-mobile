@@ -68,6 +68,8 @@
   "@meals": {},
   "drinks": "Getränke",
   "@drinks": {},
+  "dateOfBirth": "Geburtsdatum",
+  "@dateOfBirth": {},
   "pleaseWait": "Bitte warten...",
   "@pleaseWait": {},
   "sources": "Quellen",

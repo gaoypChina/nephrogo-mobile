@@ -94,6 +94,8 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
 
   final List<UserProfileStep> _steps = [
     GenderStep(),
+    BirthdayStep(),
+    WeightStep(),
     HeightStep(),
     ChronicKidneyDiseaseAgeStep(),
     ChronicKidneyDiseaseStageStep(),

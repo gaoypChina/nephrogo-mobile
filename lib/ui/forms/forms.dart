@@ -19,7 +19,7 @@ class AppDropdownMenuItem<T> {
 const _defaultFieldPadding = EdgeInsets.symmetric(horizontal: 16, vertical: 12);
 
 class AppTextFormField extends StatelessWidget {
-  final String labelText;
+  final String? labelText;
 
   final TextEditingController? controller;
   final FocusNode? focusNode;
@@ -658,6 +658,7 @@ class AppDoubleInputField extends StatelessWidget {
   final FormFieldSetter<double?>? onChanged;
   final String? suffixText;
   final TextInputAction? textInputAction;
+  final bool autoFocus;
 
   const AppDoubleInputField({
     Key? key,
@@ -672,6 +673,7 @@ class AppDoubleInputField extends StatelessWidget {
     this.validator,
     this.suffixText,
     this.textInputAction,
+    this.autoFocus = false,
   }) : super(key: key);
 
   @override
@@ -689,6 +691,7 @@ class AppDoubleInputField extends StatelessWidget {
       inputFormatters: [FilteringTextInputFormatter.allow(floatRegexPattern)],
       suffixText: suffixText,
       textInputAction: textInputAction,
+      autoFocus: autoFocus,
     );
   }
 

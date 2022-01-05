@@ -70,8 +70,8 @@ dependencies:
   shared_preferences: ^2.0.5
   sign_in_with_apple: ^3.0.0
 
-  syncfusion_flutter_charts: ^19.1.64
-  syncfusion_flutter_xlsio: ^19.1.64-beta
+  syncfusion_flutter_charts: ^19.4.41
+  syncfusion_flutter_xlsio: ^19.4.41-beta
 
   table_calendar: ^3.0.0
   tuple: ^2.0.0
