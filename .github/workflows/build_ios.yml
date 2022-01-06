@@ -36,7 +36,7 @@ jobs:
           MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.IOS_MATCH_GIT_BASIC_AUTHORIZATION_BASE_64 }}
 
 
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
 
