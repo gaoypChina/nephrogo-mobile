@@ -87,7 +87,7 @@ class BirthdayStep extends UserProfileStep {
             child: AppDatePickerFormField(
               firstDate: Date(1900, 1, 1),
               lastDate: Date.now(),
-              initialDate: builder.dateOfBirth ?? Date(1995, 6, 26),
+              initialDate: builder.dateOfBirth ?? Date(1995, 1, 1),
               selectedDate: builder.dateOfBirth,
               initialDatePickerMode: DatePickerMode.year,
               initialEntryMode: DatePickerEntryMode.input,
