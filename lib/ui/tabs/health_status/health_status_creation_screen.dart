@@ -32,7 +32,8 @@ class HealthStatusCreationScreen extends StatefulWidget {
       _HealthStatusCreationScreenState();
 }
 
-class _HealthStatusCreationScreenState extends State<HealthStatusCreationScreen> {
+class _HealthStatusCreationScreenState
+    extends State<HealthStatusCreationScreen> {
   final _formKey = GlobalKey<FormState>();
   final _dateFormat = DateFormat.MMMMd();
 
@@ -84,7 +85,7 @@ class _HealthStatusCreationScreenState extends State<HealthStatusCreationScreen>
                   textInputAction: TextInputAction.next,
                   helperText: appLocalizations.userProfileWeightHelper,
                   initialValue: _requestBuilder.weightKg,
-                  validator: formValidators.numRangeValidator(30.0, 300.0),
+                  validator: formValidators.numRangeValidator(1.0, 300.0),
                   onChanged: (value) => _requestBuilder.weightKg = value,
                 ),
                 AppIntegerFormField(
@@ -111,14 +112,14 @@ class _HealthStatusCreationScreenState extends State<HealthStatusCreationScreen>
               children: [
                 AppSelectFormField<SwellingDifficultyEnum>(
                   labelText:
-                  appLocalizations.healthStatusCreationSwellingDifficulty,
+                      appLocalizations.healthStatusCreationSwellingDifficulty,
                   dialogHelpText: appLocalizations
                       .healthStatusCreationSwellingDifficultyHelper,
                   initialValue: _requestBuilder.swellingDifficulty
                       ?.enumWithoutDefault(SwellingDifficultyEnum.unknown),
                   focusNextOnSelection: true,
                   onChanged: (v) =>
-                  _requestBuilder.swellingDifficulty = v?.value,
+                      _requestBuilder.swellingDifficulty = v?.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: '0+',
@@ -236,7 +237,7 @@ class _HealthStatusCreationScreenState extends State<HealthStatusCreationScreen>
                     ),
                     AppSelectFormFieldItem(
                       text:
-                      appLocalizations.healthStatusCreationWellFeelingGood,
+                          appLocalizations.healthStatusCreationWellFeelingGood,
                       icon: const Icon(Icons.sentiment_satisfied),
                       value: WellFeelingEnum.good,
                     ),
@@ -268,7 +269,7 @@ class _HealthStatusCreationScreenState extends State<HealthStatusCreationScreen>
                   items: [
                     AppSelectFormFieldItem(
                       text:
-                      appLocalizations.healthStatusCreationAppetitePerfect,
+                          appLocalizations.healthStatusCreationAppetitePerfect,
                       icon: const Icon(Icons.sentiment_very_satisfied),
                       value: AppetiteEnum.perfect,
                     ),
@@ -279,7 +280,7 @@ class _HealthStatusCreationScreenState extends State<HealthStatusCreationScreen>
                     ),
                     AppSelectFormFieldItem(
                       text:
-                      appLocalizations.healthStatusCreationAppetiteAverage,
+                          appLocalizations.healthStatusCreationAppetiteAverage,
                       icon: const Icon(Icons.sentiment_dissatisfied),
                       value: AppetiteEnum.average,
                     ),
@@ -290,7 +291,7 @@ class _HealthStatusCreationScreenState extends State<HealthStatusCreationScreen>
                     ),
                     AppSelectFormFieldItem(
                       text:
-                      appLocalizations.healthStatusCreationAppetiteVeryBad,
+                          appLocalizations.healthStatusCreationAppetiteVeryBad,
                       icon: const Icon(Icons.sick),
                       value: AppetiteEnum.veryBad,
                     ),
@@ -298,11 +299,11 @@ class _HealthStatusCreationScreenState extends State<HealthStatusCreationScreen>
                 ),
                 AppSelectFormField<ShortnessOfBreathEnum>(
                   labelText:
-                  appLocalizations.healthStatusCreationShortnessOfBreath,
+                      appLocalizations.healthStatusCreationShortnessOfBreath,
                   initialValue: _requestBuilder.shortnessOfBreath
                       ?.enumWithoutDefault(ShortnessOfBreathEnum.unknown),
                   onChanged: (v) =>
-                  _requestBuilder.shortnessOfBreath = v?.value,
+                      _requestBuilder.shortnessOfBreath = v?.value,
                   items: [
                     AppSelectFormFieldItem(
                       text: appLocalizations

@@ -130,7 +130,7 @@ class WeightStep extends UserProfileStep {
               suffixText: 'kg',
               textInputAction: TextInputAction.done,
               helperText: context.appLocalizations.userProfileWeightHelper,
-              validator: FormValidators(context).numRangeValidator(30.0, 300.0),
+              validator: FormValidators(context).numRangeValidator(1.0, 300.0),
               onChanged: (w) {
                 healthStatusBuilder.date = Date.now(utc: true);
                 healthStatusBuilder.weightKg = w;
@@ -152,7 +152,7 @@ class WeightStep extends UserProfileStep {
 }
 
 class HeightStep extends UserProfileStep {
-  final _heightValues = List.generate(151, (index) => 100 + index);
+  final _heightValues = List.generate(235, (index) => 15 + index);
 
   late final List<String> _heightFormattedValues =
       _heightValues.map(_formatHeight).toList();
