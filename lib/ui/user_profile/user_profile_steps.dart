@@ -109,6 +109,46 @@ class BirthdayStep extends UserProfileStep {
   }
 }
 
+class HeightStep extends UserProfileStep {
+  @override
+  Widget build(
+    BuildContext context,
+    UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
+    void Function(VoidCallback fn) setState,
+  ) {
+    return SingleChildScrollView(
+      child: LargeSection(
+        title: Text(context.appLocalizations.height),
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AppIntegerFormField(
+              labelText: context.appLocalizations.height,
+              autoFocus: builder.heightCm == null,
+              initialValue: builder.heightCm,
+              suffixText: 'cm',
+              textInputAction: TextInputAction.done,
+              validator: FormValidators(context).numRangeValidator(15, 250),
+              onChanged: (height) {
+                builder.heightCm = height;
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  bool validate(
+    UserProfileV2RequestBuilder builder,
+    DailyHealthStatusRequestBuilder healthStatusBuilder,
+  ) {
+    return builder.heightCm != null;
+  }
+}
+
 class WeightStep extends UserProfileStep {
   @override
   Widget build(
@@ -148,61 +188,6 @@ class WeightStep extends UserProfileStep {
     DailyHealthStatusRequestBuilder healthStatusBuilder,
   ) {
     return healthStatusBuilder.weightKg != null;
-  }
-}
-
-class HeightStep extends UserProfileStep {
-  final _heightValues = List.generate(235, (index) => 15 + index);
-
-  late final List<String> _heightFormattedValues =
-      _heightValues.map(_formatHeight).toList();
-
-  late final Map<String, int> _heightFormattedMap = Map.fromIterables(
-    _heightFormattedValues,
-    _heightValues,
-  );
-
-  String _formatHeight(int height) => '$height cm';
-
-  @override
-  Widget build(
-    BuildContext context,
-    UserProfileV2RequestBuilder builder,
-    DailyHealthStatusRequestBuilder healthStatusBuilder,
-    void Function(VoidCallback fn) setState,
-  ) {
-    final height = builder.heightCm ??= _getInitialHeight(builder);
-
-    return LargeSection(
-      title: Text(context.appLocalizations.height),
-      children: [
-        Expanded(
-          child: ScrollPicker(
-            items: _heightFormattedValues,
-            initialValue: _formatHeight(height),
-            showDivider: false,
-            onChanged: (v) => setState(
-              () => builder.heightCm = _heightFormattedMap[v],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  int _getInitialHeight(UserProfileV2RequestBuilder builder) {
-    if (builder.gender == GenderEnum.female) {
-      return 165;
-    }
-    return 180;
-  }
-
-  @override
-  bool validate(
-    UserProfileV2RequestBuilder builder,
-    DailyHealthStatusRequestBuilder healthStatusBuilder,
-  ) {
-    return true;
   }
 }
 

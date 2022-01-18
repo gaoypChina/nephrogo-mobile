@@ -99,8 +99,8 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
     ChronicKidneyDiseaseStageStep(),
     DialysisStep(),
     DiabetesStep(),
-    HeightStep(),
     BirthdayStep(),
+    HeightStep(),
     WeightStep(),
   ];
 
