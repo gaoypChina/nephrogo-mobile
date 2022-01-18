@@ -347,9 +347,12 @@ class _AutomaticPeritonealDialysisCreationScreenState
               helperText: appLocalizations.initialDrainingHelper,
               suffixText: 'ml',
               textInputAction: TextInputAction.next,
-              validator: _formValidators.and(
-                _formValidators.nonNull(),
-                _formValidators.numRangeValidator(0, 20000),
+              validator: _formValidators.or(
+                _formValidators.and(
+                  _formValidators.nonNull(),
+                  _formValidators.numRangeValidator(0, 20000),
+                ),
+                (_) => _isFirstStep ? null : '',
               ),
               initialValue: _requestBuilder.initialDrainingMl,
               onChanged: (p) => _requestBuilder.initialDrainingMl = p,
@@ -359,9 +362,12 @@ class _AutomaticPeritonealDialysisCreationScreenState
               helperText: appLocalizations.totalDrainVolumeHelper,
               suffixText: 'ml',
               textInputAction: TextInputAction.next,
-              validator: _formValidators.and(
-                _formValidators.nonNull(),
-                _formValidators.numRangeValidator(0, 20000),
+              validator: _formValidators.or(
+                _formValidators.and(
+                  _formValidators.nonNull(),
+                  _formValidators.numRangeValidator(0, 20000),
+                ),
+                (_) => _isFirstStep ? null : '',
               ),
               initialValue: _requestBuilder.totalDrainVolumeMl,
               onChanged: (p) => _requestBuilder.totalDrainVolumeMl = p,
@@ -371,9 +377,12 @@ class _AutomaticPeritonealDialysisCreationScreenState
               helperText: appLocalizations.lastFillHelper,
               suffixText: 'ml',
               textInputAction: TextInputAction.next,
-              validator: _formValidators.and(
-                _formValidators.nonNull(),
-                _formValidators.numRangeValidator(0, 15000),
+              validator: _formValidators.or(
+                _formValidators.and(
+                  _formValidators.nonNull(),
+                  _formValidators.numRangeValidator(0, 15000),
+                ),
+                (_) => _isFirstStep ? null : '',
               ),
               initialValue: _requestBuilder.lastFillMl,
               onChanged: (p) => _requestBuilder.lastFillMl = p,
@@ -383,9 +392,12 @@ class _AutomaticPeritonealDialysisCreationScreenState
               helperText: appLocalizations.totalUltraFiltrationHelper,
               suffixText: 'ml',
               textInputAction: TextInputAction.next,
-              validator: _formValidators.and(
-                _formValidators.nonNull(),
-                _formValidators.numRangeValidator(0, 40000),
+              validator: _formValidators.or(
+                _formValidators.and(
+                  _formValidators.nonNull(),
+                  _formValidators.numRangeValidator(0, 40000),
+                ),
+                (_) => _isFirstStep ? null : '',
               ),
               initialValue: _requestBuilder.totalUltrafiltrationMl,
               onChanged: (p) => _requestBuilder.totalUltrafiltrationMl = p,
@@ -433,7 +445,10 @@ class _AutomaticPeritonealDialysisCreationScreenState
                         Constants.earliestDate,
                     lastDate: today,
                     dateFormat: _dateFormat,
-                    validator: _formValidators.nonNull(),
+                    validator: _formValidators.or(
+                      _formValidators.nonNull(),
+                      (_) => _isFirstStep ? null : '',
+                    ),
                     onDateChanged: (date) {
                       _requestBuilder.finishedAt =
                           (_requestBuilder.finishedAt ?? now)
