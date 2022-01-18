@@ -3,7 +3,6 @@ import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/forms/form_validators.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/components.dart';
-import 'package:nephrogo/ui/general/scroll_picker.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 abstract class UserProfileStep {
