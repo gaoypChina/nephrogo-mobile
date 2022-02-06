@@ -95,3 +95,23 @@ class SectionFooterButton extends StatelessWidget {
     );
   }
 }
+
+class ListFullWidthButton extends StatelessWidget {
+  final Widget child;
+
+  const ListFullWidthButton({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: SizedBox(
+        width: double.infinity,
+        child: child,
+      ),
+    );
+  }
+}

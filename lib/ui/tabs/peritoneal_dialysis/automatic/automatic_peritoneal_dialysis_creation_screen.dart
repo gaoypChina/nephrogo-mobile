@@ -481,21 +481,17 @@ class _AutomaticPeritonealDialysisCreationScreenState
   }
 
   Widget _deleteButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: SizedBox(
-        width: double.infinity,
-        child: OutlinedButton(
-          style: OutlinedButton.styleFrom(
-            primary: Colors.redAccent,
-            textStyle: const TextStyle(fontSize: 14),
-          ),
-          onPressed: _delete,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              context.appLocalizations.delete.toUpperCase(),
-            ),
+    return ListFullWidthButton(
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          primary: Colors.redAccent,
+          textStyle: const TextStyle(fontSize: 14),
+        ),
+        onPressed: _delete,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            context.appLocalizations.delete.toUpperCase(),
           ),
         ),
       ),
@@ -503,29 +499,21 @@ class _AutomaticPeritonealDialysisCreationScreenState
   }
 
   Widget _completeAndSubmitButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: SizedBox(
-        width: double.infinity,
-        child: AppElevatedButton(
-          label: Text(
-            context.appLocalizations.finishDialysis.toUpperCase(),
-          ),
-          onPressed: _completeAndSubmit,
+    return ListFullWidthButton(
+      child: AppElevatedButton(
+        label: Text(
+          context.appLocalizations.finishDialysis.toUpperCase(),
         ),
+        onPressed: _completeAndSubmit,
       ),
     );
   }
 
   Widget _submitButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: SizedBox(
-        width: double.infinity,
-        child: AppElevatedButton(
-          label: Text(context.appLocalizations.save.toUpperCase()),
-          onPressed: _submit,
-        ),
+    return ListFullWidthButton(
+      child: AppElevatedButton(
+        label: Text(context.appLocalizations.save.toUpperCase()),
+        onPressed: _submit,
       ),
     );
   }
