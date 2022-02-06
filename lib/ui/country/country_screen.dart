@@ -149,9 +149,11 @@ class _CountryScreenState extends State<_CountryScreen> {
                           onPressed: selectedCountry != null
                               ? () => _onCountrySelectionSaved(selectedCountry!)
                               : null,
-                          label: Text(context.appLocalizations
-                              .formMultiSelectDialogActionChoose
-                              .toUpperCase()),
+                          label: Text(
+                            context.appLocalizations
+                                .formMultiSelectDialogActionChoose
+                                .toUpperCase(),
+                          ),
                         ),
                       ),
                     ),

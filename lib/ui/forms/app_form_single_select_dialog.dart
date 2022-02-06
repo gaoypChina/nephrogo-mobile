@@ -50,7 +50,9 @@ class AppFormSingleSelectDialog<T> extends StatelessWidget {
   }
 
   AppListTile _generateItemCell(
-      BuildContext context, AppSelectFormFieldItem item) {
+    BuildContext context,
+    AppSelectFormFieldItem item,
+  ) {
     final selected = selectedValue != null && item.value == selectedValue;
 
     final radioIconData =

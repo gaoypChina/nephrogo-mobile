@@ -149,8 +149,10 @@ class WeeklyPager extends StatelessWidget {
       return Text('$formattedFrom${from.day} – ${to.day}');
     }
 
-    return Text('${dateFormatter.formatDate(from).capitalizeFirst()} – '
-        '${dateFormatter.formatDate(to).capitalizeFirst()}');
+    return Text(
+      '${dateFormatter.formatDate(from).capitalizeFirst()} – '
+      '${dateFormatter.formatDate(to).capitalizeFirst()}',
+    );
   }
 }
 
@@ -278,12 +280,16 @@ class _PeriodPagerState extends State<_PeriodPager> {
 
   Future<void> advanceToNextDateRange() {
     return _pageController.previousPage(
-        duration: _animationDuration, curve: Curves.ease);
+      duration: _animationDuration,
+      curve: Curves.ease,
+    );
   }
 
   Future<void> advanceToPreviousDateRange() {
     return _pageController.nextPage(
-        duration: _animationDuration, curve: Curves.ease);
+      duration: _animationDuration,
+      curve: Curves.ease,
+    );
   }
 
   Widget _buildDateSelectionSection(int index, Date from, Date to) {

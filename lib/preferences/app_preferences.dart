@@ -50,12 +50,14 @@ class AppPreferences {
 
   Future<bool> isProfileCreated() {
     return _sharedPreferences.then(
-        (preferences) => preferences.getBool(_keyProfileCreated) ?? false);
+      (preferences) => preferences.getBool(_keyProfileCreated) ?? false,
+    );
   }
 
   Future<bool> isOnboardingPassed() {
     return _sharedPreferences.then(
-        (preferences) => preferences.getBool(_keyOnboardingPassed) ?? false);
+      (preferences) => preferences.getBool(_keyOnboardingPassed) ?? false,
+    );
   }
 
   Future<bool> setOnboardingPassed() {
@@ -64,13 +66,15 @@ class AppPreferences {
   }
 
   Future<bool> isLegalConditionsAgreed() {
-    return _sharedPreferences.then((preferences) =>
-        preferences.getBool(_keyLegalConditionsAgreed) ?? false);
+    return _sharedPreferences.then(
+      (preferences) => preferences.getBool(_keyLegalConditionsAgreed) ?? false,
+    );
   }
 
   Future<bool> setLegalConditionsAgreed() {
     return _sharedPreferences.then(
-        (preferences) => preferences.setBool(_keyLegalConditionsAgreed, true));
+      (preferences) => preferences.setBool(_keyLegalConditionsAgreed, true),
+    );
   }
 
   Future<bool> hasMarketingAllowed() {
@@ -80,13 +84,15 @@ class AppPreferences {
 
   Future<bool> isMarketingAllowed() {
     return _sharedPreferences.then(
-        (preferences) => preferences.getBool(_keyMarketingAllowed) ?? false);
+      (preferences) => preferences.getBool(_keyMarketingAllowed) ?? false,
+    );
   }
 
   // ignore: avoid_positional_boolean_parameters
   Future<bool> setMarketingAllowed(bool allowed) {
     return _sharedPreferences.then(
-        (preferences) => preferences.setBool(_keyMarketingAllowed, allowed));
+      (preferences) => preferences.setBool(_keyMarketingAllowed, allowed),
+    );
   }
 
   Future<bool> setInAppUpdateLastPromptedDate(DateTime dateTime) {
@@ -211,8 +217,8 @@ class AppPreferences {
 
   Stream<DialysisEnum> getDialysisTypeStream() {
     return _buildAppEventsStreamWithInitialEmit(
-            _AppPreferencesChangeEvent.dialysis)
-        .asyncMap((_) => getDialysisType());
+      _AppPreferencesChangeEvent.dialysis,
+    ).asyncMap((_) => getDialysisType());
   }
 
   void _postPreferencesStateChangeEvent(_AppPreferencesChangeEvent event) {
@@ -220,7 +226,8 @@ class AppPreferences {
   }
 
   Stream<_AppPreferencesChangeEvent> _buildAppEventsStreamWithInitialEmit(
-      _AppPreferencesChangeEvent event) {
+    _AppPreferencesChangeEvent event,
+  ) {
     return StreamGroup.merge(
       [_preferencesEventsStreamController.stream, Stream.value(event)],
     ).where((e) => e == event);

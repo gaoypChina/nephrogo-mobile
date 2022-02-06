@@ -52,19 +52,22 @@ class ApiService {
   NephrogoApiClient _buildNephrogoApiClient() {
     final timeZoneName = DateTime.now().timeZoneName;
 
-    final dio = Dio(BaseOptions(
-      baseUrl: Constants.apiUrl,
-      connectTimeout: 8000,
-      receiveTimeout: 5000,
-      headers: {
-        'time-zone-name': timeZoneName,
-        'accept-encoding': 'br',
-      },
-    ));
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: Constants.apiUrl,
+        connectTimeout: 8000,
+        receiveTimeout: 5000,
+        headers: {
+          'time-zone-name': timeZoneName,
+          'accept-encoding': 'br',
+        },
+      ),
+    );
 
     dio.transformer = DioBrotliTransformer();
     dio.httpClientAdapter = Http2Adapter(
-        ConnectionManager(idleTimeout: _connectionIdleTimeout.inMilliseconds));
+      ConnectionManager(idleTimeout: _connectionIdleTimeout.inMilliseconds),
+    );
 
     return NephrogoApiClient(
       dio: dio,
@@ -95,7 +98,8 @@ class ApiService {
   }
 
   Stream<_AppStateChangeEvent> _buildAppEventsStreamWithInitialEmit(
-      _AppStateChangeEvent event) {
+    _AppStateChangeEvent event,
+  ) {
     return StreamGroup.merge(
       [_appEventsStreamController.stream, Stream.value(event)],
     ).where((e) => e == event);
@@ -128,7 +132,8 @@ class ApiService {
   }
 
   Future<NullableApiResponse<DailyIntakesReportResponse>> getDailyIntakesReport(
-      Date date) {
+    Date date,
+  ) {
     return _nutritionApi
         .nutritionDailyReportsRetrieve(date: date)
         .then((r) => NullableApiResponse<DailyIntakesReportResponse>(r.data))
@@ -145,14 +150,18 @@ class ApiService {
   }
 
   Future<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReport(
-      Date from, Date to) {
+    Date from,
+    Date to,
+  ) {
     return _nutritionApi
         .nutritionWeeklyRetrieve(from: from, to: to)
         .then((r) => r.data!);
   }
 
   Stream<NutrientWeeklyScreenResponse> getWeeklyDailyIntakesReportStream(
-      Date from, Date to) {
+    Date from,
+    Date to,
+  ) {
     return _buildAppEventsStreamWithInitialEmit(_AppStateChangeEvent.nutrition)
         .asyncMap((_) => getWeeklyDailyIntakesReport(from, to));
   }
@@ -206,7 +215,8 @@ class ApiService {
   }
 
   Future<DailyHealthStatus> createOrUpdateDailyHealthStatus(
-      DailyHealthStatusRequest dailyHealthStatusRequest) {
+    DailyHealthStatusRequest dailyHealthStatusRequest,
+  ) {
     return _healthStatusApi
         .healthStatusUpdate(dailyHealthStatusRequest: dailyHealthStatusRequest)
         .then(
@@ -217,7 +227,8 @@ class ApiService {
     ).catchError(
       (e) => _healthStatusApi
           .healthStatusCreate(
-              dailyHealthStatusRequest: dailyHealthStatusRequest)
+        dailyHealthStatusRequest: dailyHealthStatusRequest,
+      )
           .then(
         (r) {
           _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
@@ -233,7 +244,8 @@ class ApiService {
   ) {
     return _healthStatusApi
         .healthStatusPartialUpdate(
-            dailyHealthStatusRequest: dailyHealthStatusRequest)
+      dailyHealthStatusRequest: dailyHealthStatusRequest,
+    )
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
@@ -255,7 +267,8 @@ class ApiService {
   }
 
   Future<NullableApiResponse<DailyHealthStatus>> getDailyHealthStatus(
-      Date date) {
+    Date date,
+  ) {
     return _healthStatusApi
         .healthStatusRetrieve(date: date)
         .then((r) => NullableApiResponse<DailyHealthStatus>(r.data))
@@ -340,7 +353,8 @@ class ApiService {
 
     return _generalRecommendationsApi
         .generalRecommendationsReadCreate(
-            createGeneralRecommendationReadRequest: request)
+          createGeneralRecommendationReadRequest: request,
+        )
         .then((r) => r.data!);
   }
 
@@ -350,8 +364,8 @@ class ApiService {
 
   Stream<HealthStatusScreenResponse> getHealthStatusScreenStream() {
     return _buildAppEventsStreamWithInitialEmit(
-            _AppStateChangeEvent.healthStatus)
-        .asyncMap((_) => getHealthStatusScreen());
+      _AppStateChangeEvent.healthStatus,
+    ).asyncMap((_) => getHealthStatusScreen());
   }
 
   Future<HealthStatusWeeklyScreenResponse> getHealthStatuses(
@@ -368,8 +382,8 @@ class ApiService {
     Date to,
   ) {
     return _buildAppEventsStreamWithInitialEmit(
-            _AppStateChangeEvent.healthStatus)
-        .asyncMap((_) => getHealthStatuses(from, to));
+      _AppStateChangeEvent.healthStatus,
+    ).asyncMap((_) => getHealthStatuses(from, to));
   }
 
   Future<BloodPressure> createBloodPressure(
@@ -377,7 +391,8 @@ class ApiService {
   ) {
     return _healthStatusApi
         .healthStatusBloodPressureCreate(
-            bloodPressureRequest: bloodPressureRequest)
+      bloodPressureRequest: bloodPressureRequest,
+    )
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
@@ -446,10 +461,12 @@ class ApiService {
   }
 
   Future<ManualPeritonealDialysis> createManualPeritonealDialysis(
-      ManualPeritonealDialysisRequest request) {
+    ManualPeritonealDialysisRequest request,
+  ) {
     return _peritonealDialysisApi
         .peritonealDialysisManualDialysisCreateCreate(
-            manualPeritonealDialysisRequest: request)
+      manualPeritonealDialysisRequest: request,
+    )
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
@@ -460,10 +477,14 @@ class ApiService {
   }
 
   Future<ManualPeritonealDialysis> updateManualPeritonealDialysis(
-      int id, ManualPeritonealDialysisRequest request) {
+    int id,
+    ManualPeritonealDialysisRequest request,
+  ) {
     return _peritonealDialysisApi
         .peritonealDialysisManualDialysisUpdate(
-            id: id, manualPeritonealDialysisRequest: request)
+      id: id,
+      manualPeritonealDialysisRequest: request,
+    )
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
@@ -493,8 +514,8 @@ class ApiService {
   Stream<ManualPeritonealDialysisScreenResponse>
       getManualPeritonealDialysisScreenStream() {
     return _buildAppEventsStreamWithInitialEmit(
-            _AppStateChangeEvent.healthStatus)
-        .asyncMap((_) => getManualPeritonealDialysisScreen());
+      _AppStateChangeEvent.healthStatus,
+    ).asyncMap((_) => getManualPeritonealDialysisScreen());
   }
 
   Future<AutomaticPeritonealDialysisScreenResponse>
@@ -526,7 +547,8 @@ class ApiService {
   }
 
   Future<AutomaticPeritonealDialysis> createAutomaticPeritonealDialysis(
-      AutomaticPeritonealDialysisRequest request) {
+    AutomaticPeritonealDialysisRequest request,
+  ) {
     return _peritonealDialysisApi
         .peritonealDialysisAutomaticDialysisCreateCreate(
       automaticPeritonealDialysisRequest: request,
@@ -541,10 +563,14 @@ class ApiService {
   }
 
   Future<AutomaticPeritonealDialysis> updateAutomaticPeritonealDialysis(
-      Date date, AutomaticPeritonealDialysisRequest request) {
+    Date date,
+    AutomaticPeritonealDialysisRequest request,
+  ) {
     return _peritonealDialysisApi
         .peritonealDialysisAutomaticDialysisUpdate(
-            date: date, automaticPeritonealDialysisRequest: request)
+      date: date,
+      automaticPeritonealDialysisRequest: request,
+    )
         .then(
       (r) {
         _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);

@@ -115,7 +115,8 @@ class DailyIntakesReportSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = Text(
-        _dateFormat.formatDate(dailyIntakesLightReport.date).capitalizeFirst());
+      _dateFormat.formatDate(dailyIntakesLightReport.date).capitalizeFirst(),
+    );
 
     final sortedNutrients = dailyIntakesLightReport.nutrientNormsAndTotals
         .getSortedNutrientsByExistence();
@@ -128,7 +129,8 @@ class DailyIntakesReportSection extends StatelessWidget {
         onTap: () => Navigator.of(context).pushNamed(
           Routes.routeNutritionDailySummary,
           arguments: NutritionDailySummaryScreenArguments(
-              dailyIntakesLightReport.date),
+            dailyIntakesLightReport.date,
+          ),
         ),
       ),
       showDividers: true,

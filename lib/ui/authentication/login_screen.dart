@@ -134,7 +134,9 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 32),
+                        horizontal: 8,
+                        vertical: 32,
+                      ),
                       child: EmailLoginButtonComponent(
                         onCredentialsRetrieved: (userCredential) =>
                             navigateToNextScreen(context, userCredential),
@@ -215,7 +217,9 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
   }
 
   Future navigateToNextScreen(
-      BuildContext context, UserCredential userCredential) async {
+    BuildContext context,
+    UserCredential userCredential,
+  ) async {
     final userProfile = await AppProgressDialog(context)
         .showForFuture(getUserProfileAndUpdateUser());
 
@@ -260,17 +264,18 @@ class EmailLoginButtonComponent extends StatelessWidget {
           child: OutlinedButton(
               onPressed: () => _onLoginPressed(context),
               style: OutlinedButton.styleFrom(
-                primary: Colors.white,
-                side: const BorderSide(width: 2, color: Colors.white),
-                textStyle: const TextStyle(fontSize: 16, color: Colors.white),
+              primary: Colors.white,
+              side: const BorderSide(width: 2, color: Colors.white),
+              textStyle: const TextStyle(fontSize: 16, color: Colors.white),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                appLocalizations.loginEmail.toUpperCase(),
+                textAlign: TextAlign.center,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  appLocalizations.loginEmail.toUpperCase(),
-                  textAlign: TextAlign.center,
-                ),
-              )),
+            ),
+          ),
         )
       ],
     );

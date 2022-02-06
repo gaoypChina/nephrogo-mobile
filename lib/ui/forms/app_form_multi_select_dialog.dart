@@ -29,8 +29,10 @@ class _AppFormMultipleSelectDialogState<T> extends State<AppFormMultipleSelectDi
     super.initState();
 
     _itemsSelection = widget.items
-        .map((e) =>
-            widget.selectedItems.where((s) => e.value == s.value).isNotEmpty)
+        .map(
+          (e) =>
+              widget.selectedItems.where((s) => e.value == s.value).isNotEmpty,
+        )
         .toList();
   }
 

@@ -760,7 +760,8 @@ extension DailyHealthStatusExtensions on DailyHealthStatus {
     switch (indicator) {
       case HealthIndicator.bloodPressure:
         throw ArgumentError(
-            'Unable to get blood pressure indicator value. Please use different method');
+          'Unable to get blood pressure indicator value. Please use different method',
+        );
       case HealthIndicator.pulse:
         return pulses.maxBy((p) => p.measuredAt)!.pulse;
       case HealthIndicator.weight:

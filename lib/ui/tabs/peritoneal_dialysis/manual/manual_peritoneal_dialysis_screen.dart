@@ -202,7 +202,8 @@ class ManualPeritonealDialysisReportSection extends StatelessWidget {
 
     return LargeSection(
       title: Text(
-          _dateFormat.formatDate(dailyHealthStatus.date).capitalizeFirst()),
+        _dateFormat.formatDate(dailyHealthStatus.date).capitalizeFirst(),
+      ),
       subtitle: Text(
         '${context.appLocalizations.dailyBalance}: '
         '${dailyHealthStatus.totalManualPeritonealDialysisBalanceFormatted}',
@@ -229,9 +230,9 @@ class ManualPeritonealDialysisTile extends StatelessWidget {
         foregroundColor: dialysis.dialysisSolution?.textColor,
         child: _getIcon(),
       ),
-      title: Text(_dateTimeFormat
-          .format(dialysis.startedAt.toLocal())
-          .capitalizeFirst()),
+      title: Text(
+        _dateTimeFormat.format(dialysis.startedAt.toLocal()).capitalizeFirst(),
+      ),
       // isThreeLine: true,
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

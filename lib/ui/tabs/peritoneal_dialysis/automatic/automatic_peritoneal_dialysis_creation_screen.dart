@@ -141,8 +141,9 @@ class _AutomaticPeritonealDialysisCreationScreenState
                     child: SizedBox(
                       width: double.infinity,
                       child: AppElevatedButton(
-                        label: Text(context.appLocalizations.finishDialysis
-                            .toUpperCase()),
+                        label: Text(
+                          context.appLocalizations.finishDialysis.toUpperCase(),
+                        ),
                         onPressed: _completeAndSubmit,
                       ),
                     ),

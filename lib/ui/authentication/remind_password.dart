@@ -68,7 +68,9 @@ class _RemindPasswordScreenState extends State<RemindPasswordScreen> {
                           width: double.infinity,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 12, horizontal: 16),
+                              vertical: 12,
+                              horizontal: 16,
+                            ),
                             child: AppElevatedButton(
                               label: Text(appLocalizations.confirm),
                               onPressed: () => _remindPassword(context),

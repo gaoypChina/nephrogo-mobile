@@ -119,17 +119,21 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
     currentQuery = trimmedQuery;
 
     if (trimmedQuery.isEmpty || submit) {
-      _queryStreamController.add(_Query(
-        trimmedQuery,
-        wait: false,
-        submit: submit,
-      ));
+      _queryStreamController.add(
+        _Query(
+          trimmedQuery,
+          wait: false,
+          submit: submit,
+        ),
+      );
     } else if (trimmedQuery.length >= 2) {
-      _queryStreamController.add(_Query(
-        trimmedQuery,
-        wait: true,
-        submit: submit,
-      ));
+      _queryStreamController.add(
+        _Query(
+          trimmedQuery,
+          wait: true,
+          submit: submit,
+        ),
+      );
     }
   }
 

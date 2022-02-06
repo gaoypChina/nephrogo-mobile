@@ -88,7 +88,9 @@ class _GeneralRecommendationsTabState extends State<GeneralRecommendationsTab> {
                             Routes.routeGeneralRecommendationsCategory,
                             arguments:
                                 GeneralRecommendationCategoryScreenArguments(
-                                    category, _readRecommendationIds),
+                              category,
+                              _readRecommendationIds,
+                            ),
                           );
 
                           if (ids == null) {

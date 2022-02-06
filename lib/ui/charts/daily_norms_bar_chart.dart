@@ -42,9 +42,11 @@ class DailyNormsBarChart extends StatelessWidget {
 
   double _getGraphMax() {
     final maximumConsumption = Nutrient.values
-        .map((n) => dailyIntakeReport.nutrientNormsAndTotals
-            .getDailyNutrientConsumption(n)
-            .normPercentage)
+        .map(
+          (n) => dailyIntakeReport.nutrientNormsAndTotals
+              .getDailyNutrientConsumption(n)
+              .normPercentage,
+        )
         .where((n) => n != null)
         .max;
 
@@ -86,7 +88,9 @@ class DailyNormsBarChart extends StatelessWidget {
         },
         dataLabelMapper: (n, _) =>
             norms.getNutrientConsumptionWithPercentageFormatted(
-                n, context.appLocalizations),
+          n,
+          context.appLocalizations,
+        ),
       ),
     ];
   }

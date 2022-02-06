@@ -100,7 +100,9 @@ class AuthenticationProvider {
   }
 
   Future<UserCredential> signInWithEmailAndPassword(
-      String email, String password) async {
+    String email,
+    String password,
+  ) async {
     try {
       return await _auth.signInWithEmailAndPassword(
         email: email,
@@ -119,7 +121,9 @@ class AuthenticationProvider {
   }
 
   Future<UserCredential> createUserWithEmailAndPassword(
-      String email, String password) async {
+    String email,
+    String password,
+  ) async {
     try {
       return await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -141,7 +145,8 @@ class AuthenticationProvider {
 
   // Adapted from https://firebase.flutter.dev/docs/auth/error-handling
   Future<UserCredential> _linkDifferentProviders(
-      FirebaseAuthException authException) async {
+    FirebaseAuthException authException,
+  ) async {
     if (authException.code != 'account-exists-with-different-credential') {
       throw ArgumentError.value(
         authException,
@@ -151,7 +156,8 @@ class AuthenticationProvider {
     }
 
     logger.info(
-        'Linking ${authException.credential} provider to different provider');
+      'Linking ${authException.credential} provider to different provider',
+    );
 
     final email = authException.email;
     final pendingCredential = authException.credential;
@@ -196,7 +202,8 @@ class AuthenticationProvider {
   }
 
   Future<UserCredential> _signInWithCredential(
-      AuthCredential authCredential) async {
+    AuthCredential authCredential,
+  ) async {
     try {
       return await _auth.signInWithCredential(authCredential);
     } on FirebaseAuthException catch (e) {
@@ -231,8 +238,11 @@ class AuthenticationProvider {
       case SocialAuthenticationProvider.apple:
         return signInWithApple();
       default:
-        throw ArgumentError.value(provider, 'provider',
-            'Unable to find specified provider for sign in.');
+        throw ArgumentError.value(
+          provider,
+          'provider',
+          'Unable to find specified provider for sign in.',
+        );
     }
   }
 

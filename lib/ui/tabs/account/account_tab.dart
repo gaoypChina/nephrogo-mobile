@@ -71,17 +71,18 @@ class AccountTab extends StatelessWidget {
                 AppListTile(
                   title: Text(appLocalizations.reportMissingProduct),
                   leading: const Icon(Icons.feedback),
-                  onTap: () => showDialog<void>(
-                    context: context,
-                    builder: (_) => MissingProductDialog(),
+                    onTap: () => showDialog<void>(
+                      context: context,
+                      builder: (_) => MissingProductDialog(),
+                    ),
                   ),
-                ),
-                AppListTile(
-                  title: Text(appLocalizations.rateApp),
-                  leading: const Icon(Icons.rate_review),
-                  onTap: () => AppReview().openStoreListing(),
-                ),
-              ]),
+                  AppListTile(
+                    title: Text(appLocalizations.rateApp),
+                    leading: const Icon(Icons.rate_review),
+                    onTap: () => AppReview().openStoreListing(),
+                  ),
+                ],
+              ),
               BasicSection(
                 showDividers: true,
                 children: [

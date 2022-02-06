@@ -111,9 +111,11 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
             padding: EdgeInsets.only(right: 4),
             child: Icon(Icons.update, size: 14),
           ),
-          Text(_dateTimeFormat
-              .format(dialysis.finishedAt!.toLocal())
-              .capitalizeFirst()),
+          Text(
+            _dateTimeFormat
+                .format(dialysis.finishedAt!.toLocal())
+                .capitalizeFirst(),
+          ),
         ],
       );
     } else {

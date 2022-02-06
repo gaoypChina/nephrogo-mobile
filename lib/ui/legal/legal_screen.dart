@@ -222,11 +222,17 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
   }
 
   Widget _buildTextWithUrl(
-      BuildContext context, String text, String urlText, String url) {
+    BuildContext context,
+    String text,
+    String urlText,
+    String url,
+  ) {
     return RichText(
       text: TextSpan(
         style: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color, fontSize: 16),
+          color: Theme.of(context).textTheme.bodyText1!.color,
+          fontSize: 16,
+        ),
         children: [
           TextSpan(text: '$text '),
           TextSpan(

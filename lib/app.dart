@@ -67,17 +67,18 @@ class _AppComponentState extends State<AppComponent> {
             localeListResolutionCallback: (locales, supportedLocales) {
               final appLocale = _resolveLocale(
                 locales ?? [],
-                supportedLocales,
-              );
+              supportedLocales,
+            );
 
-              Intl.defaultLocale = appLocale.toLanguageTag();
+            Intl.defaultLocale = appLocale.toLanguageTag();
 
-              return appLocale;
-            },
-            initialRoute: Routes.routeStart,
-            onGenerateRoute: Routes.onGenerateRoute,
-          );
-        });
+            return appLocale;
+          },
+          initialRoute: Routes.routeStart,
+          onGenerateRoute: Routes.onGenerateRoute,
+        );
+      },
+    );
   }
 
   Locale? _getUserChosenLocale(String? savedCountryCode) {

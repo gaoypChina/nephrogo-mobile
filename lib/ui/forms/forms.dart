@@ -301,8 +301,10 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
     final initialSelection =
         widget.items.where((e) => e.value == widget.initialValue).firstOrNull();
     if (initialSelection == null) {
-      throw ArgumentError.value('initialValue',
-          'Unable to find initial value in AppSelectFormField items');
+      throw ArgumentError.value(
+        'initialValue',
+        'Unable to find initial value in AppSelectFormField items',
+      );
     }
 
     return initialSelection;
@@ -310,15 +312,16 @@ class _AppSelectFormFieldState<T> extends State<AppSelectFormField<T>> {
 
   Future<AppSelectFormFieldItem<T>?> onTap(BuildContext context) async {
     final item = await showDialog<AppSelectFormFieldItem<T>>(
-        context: context,
-        builder: (BuildContext context) {
-          return AppFormSingleSelectDialog<T>(
-            items: widget.items,
-            selectedValue: selectedItem?.value,
-            title: widget.labelText,
-            helpText: widget.dialogHelpText,
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AppFormSingleSelectDialog<T>(
+          items: widget.items,
+          selectedValue: selectedItem?.value,
+          title: widget.labelText,
+          helpText: widget.dialogHelpText,
+        );
+      },
+    );
 
     setState(() => selectedItem = item ?? selectedItem);
 
@@ -390,14 +393,15 @@ class _AppMultipleSelectFormFieldState<T>
 
   Future<List<AppSelectFormFieldItem<T>>> onTap(BuildContext context) async {
     final items = await showDialog<List<AppSelectFormFieldItem<T>>>(
-        context: context,
-        builder: (BuildContext context) {
-          return AppFormMultipleSelectDialog<T>(
-            title: widget.labelText,
-            items: widget.items,
-            selectedItems: _selectedItems,
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AppFormMultipleSelectDialog<T>(
+          title: widget.labelText,
+          items: widget.items,
+          selectedItems: _selectedItems,
+        );
+      },
+    );
 
     _selectedItems = items ?? _selectedItems;
 
@@ -714,7 +718,8 @@ class AppDoubleInputField extends StatelessWidget {
       return null;
     }
     return double.parse(
-        double.parse(v.replaceFirst(',', '.')).toStringAsFixed(fractionDigits));
+      double.parse(v.replaceFirst(',', '.')).toStringAsFixed(fractionDigits),
+    );
   }
 
   void _onSaved(String? v) {

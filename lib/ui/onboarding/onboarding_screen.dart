@@ -136,8 +136,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Future advancePageOrFinish(
-      {required bool isDone, bool skippedOnboarding = false}) async {
+  Future advancePageOrFinish({
+    required bool isDone,
+    bool skippedOnboarding = false,
+  }) async {
     if (isDone) {
       await AppPreferences().setOnboardingPassed();
 
@@ -160,8 +162,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           break;
       }
     } else {
-      await _controller.animateToPage(_page + 1,
-          duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+      await _controller.animateToPage(
+        _page + 1,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
     }
   }
 

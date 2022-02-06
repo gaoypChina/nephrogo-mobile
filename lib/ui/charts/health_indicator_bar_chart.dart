@@ -128,7 +128,8 @@ class HealthIndicatorBarChart extends StatelessWidget {
   }
 
   Iterable<String> _getIndicatorNameAndDimensionParts(
-      BuildContext context) sync* {
+    BuildContext context,
+  ) sync* {
     yield indicator.name(context.appLocalizations);
 
     final dimension = indicator.dimension(context.appLocalizations);

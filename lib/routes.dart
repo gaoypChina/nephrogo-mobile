@@ -77,81 +77,107 @@ class Routes {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case routeStart:
-        return MaterialPageRoute(builder: (context) {
-          return StartScreen();
-        });
+        return MaterialPageRoute(
+          builder: (context) {
+            return StartScreen();
+          },
+        );
       case routeOnboarding:
         return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments as OnboardingScreenArguments?;
+            final arguments = settings.arguments as OnboardingScreenArguments?;
 
-          if (arguments == null) {
-            throw ArgumentError.value(
-              arguments,
-              'Pass OnboardingScreenArguments',
-            );
-          }
+            if (arguments == null) {
+              throw ArgumentError.value(
+                arguments,
+                'Pass OnboardingScreenArguments',
+              );
+            }
 
-          return OnboardingScreen(exitType: arguments.exitType);
-        });
+            return OnboardingScreen(exitType: arguments.exitType);
+          },
+        );
       case routeLogin:
-        return MaterialPageRoute(builder: (context) {
-          return LoginScreen();
-        });
+        return MaterialPageRoute(
+          builder: (context) {
+            return LoginScreen();
+          },
+        );
       case routeRegistration:
-        return MaterialPageRoute<UserCredential>(builder: (context) {
-          return RegistrationScreen();
-        });
+        return MaterialPageRoute<UserCredential>(
+          builder: (context) {
+            return RegistrationScreen();
+          },
+        );
       case routeRemindPassword:
-        return MaterialPageRoute(builder: (context) {
-          return RemindPasswordScreen();
-        });
+        return MaterialPageRoute(
+          builder: (context) {
+            return RemindPasswordScreen();
+          },
+        );
       case routeLoginEmailPassword:
-        return MaterialPageRoute<UserCredential>(builder: (context) {
-          return EmailPasswordLoginScreen();
-        });
+        return MaterialPageRoute<UserCredential>(
+          builder: (context) {
+            return EmailPasswordLoginScreen();
+          },
+        );
       case routeHome:
-        return MaterialPageRoute(builder: (context) {
-          return HomeScreen();
-        });
+        return MaterialPageRoute(
+          builder: (context) {
+            return HomeScreen();
+          },
+        );
       case routeLegal:
-        return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments! as LegalScreenArguments;
+        return MaterialPageRoute(
+          builder: (context) {
+            final arguments = settings.arguments! as LegalScreenArguments;
 
-          return LegalScreen(exitType: arguments.exitType);
-        });
+            return LegalScreen(exitType: arguments.exitType);
+          },
+        );
       case routeCountry:
-        return MaterialPageRoute(builder: (context) {
-          return CountryScreen();
-        });
+        return MaterialPageRoute(
+          builder: (context) {
+            return CountryScreen();
+          },
+        );
       case routeIntakeCreate:
-        return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments! as IntakeCreateScreenArguments;
+        return MaterialPageRoute(
+          builder: (context) {
+            final arguments =
+                settings.arguments! as IntakeCreateScreenArguments;
 
-          return IntakeCreateScreen(
-            dailyNutrientNormsAndTotals: arguments.dailyNutrientNormsAndTotals,
-            initialProduct: arguments.product,
-            initialDate: arguments.initialDate,
-            mealType: arguments.mealType,
-          );
-        });
+            return IntakeCreateScreen(
+              dailyNutrientNormsAndTotals:
+                  arguments.dailyNutrientNormsAndTotals,
+              initialProduct: arguments.product,
+              initialDate: arguments.initialDate,
+              mealType: arguments.mealType,
+            );
+          },
+        );
       case routeIntakeEdit:
-        return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments! as IntakeEditScreenArguments;
+        return MaterialPageRoute(
+          builder: (context) {
+            final arguments = settings.arguments! as IntakeEditScreenArguments;
 
-          return IntakeEditScreen(
-            dailyNutrientNormsAndTotals: arguments.dailyNutrientNormsAndTotals,
-            intake: arguments.intake,
-          );
-        });
+            return IntakeEditScreen(
+              dailyNutrientNormsAndTotals:
+                  arguments.dailyNutrientNormsAndTotals,
+              intake: arguments.intake,
+            );
+          },
+        );
       case routeManualPeritonealDialysisCreation:
-        return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments!
-              as ManualPeritonealDialysisCreationScreenArguments;
+        return MaterialPageRoute(
+          builder: (context) {
+            final arguments = settings.arguments!
+                as ManualPeritonealDialysisCreationScreenArguments;
 
-          return ManualPeritonealDialysisCreationScreen(
-            initialDialysis: arguments.dialysis,
-          );
-        });
+            return ManualPeritonealDialysisCreationScreen(
+              initialDialysis: arguments.dialysis,
+            );
+          },
+        );
       case routeManualPeritonealDialysisScreen:
         return MaterialPageRoute(
           builder: (context) {
@@ -186,116 +212,141 @@ class Routes {
           },
         );
       case routeProductSearch:
-        return MaterialPageRoute<Product>(builder: (context) {
-          final arguments = settings.arguments! as ProductSearchScreenArguments;
+        return MaterialPageRoute<Product>(
+          builder: (context) {
+            final arguments =
+                settings.arguments! as ProductSearchScreenArguments;
 
-          return ProductSearchScreen(
-            searchType: arguments.searchType,
-            excludeProductsIds: arguments.excludeProductsIds,
-            date: arguments.date,
-            mealType: arguments.mealType,
-          );
-        });
+            return ProductSearchScreen(
+              searchType: arguments.searchType,
+              excludeProductsIds: arguments.excludeProductsIds,
+              date: arguments.date,
+              mealType: arguments.mealType,
+            );
+          },
+        );
       case routeNutritionDailySummary:
-        return MaterialPageRoute(builder: (context) {
-          final arguments =
-              settings.arguments! as NutritionDailySummaryScreenArguments;
+        return MaterialPageRoute(
+          builder: (context) {
+            final arguments =
+                settings.arguments! as NutritionDailySummaryScreenArguments;
 
-          return NutritionDailySummaryScreen(
-            arguments.date,
-            nutrient: arguments.nutrient,
-          );
-        });
+            return NutritionDailySummaryScreen(
+              arguments.date,
+              nutrient: arguments.nutrient,
+            );
+          },
+        );
       case routeHealthStatusCreation:
-        return MaterialPageRoute(builder: (context) {
-          final arguments =
-              settings.arguments! as HealthStatusCreationScreenArguments;
+        return MaterialPageRoute(
+          builder: (context) {
+            final arguments =
+                settings.arguments! as HealthStatusCreationScreenArguments;
 
-          return HealthStatusCreationScreen(date: arguments.date);
-        });
+            return HealthStatusCreationScreen(date: arguments.date);
+          },
+        );
       case routeBloodPressureAndPulseCreation:
-        return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments!
-              as BloodPressureAndPulseCreationScreenArguments;
+        return MaterialPageRoute(
+          builder: (context) {
+            final arguments = settings.arguments!
+                as BloodPressureAndPulseCreationScreenArguments;
 
-          return BloodPressureAndPulseCreationScreen(
-            initialDate: arguments.date,
-          );
-        });
+            return BloodPressureAndPulseCreationScreen(
+              initialDate: arguments.date,
+            );
+          },
+        );
       case routeBloodPressureEdit:
-        return MaterialPageRoute(builder: (context) {
-          final arguments =
-              settings.arguments! as BloodPressureEditScreenArguments;
+        return MaterialPageRoute(
+          builder: (context) {
+            final arguments =
+                settings.arguments! as BloodPressureEditScreenArguments;
 
-          return BloodPressureEditScreen(
-            bloodPressure: arguments.bloodPressure,
-          );
-        });
+            return BloodPressureEditScreen(
+              bloodPressure: arguments.bloodPressure,
+            );
+          },
+        );
       case routePulseEdit:
-        return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments! as PulseEditScreenArguments;
+        return MaterialPageRoute(
+          builder: (context) {
+            final arguments = settings.arguments! as PulseEditScreenArguments;
 
-          return PulseEditScreen(pulse: arguments.pulse);
-        });
+            return PulseEditScreen(pulse: arguments.pulse);
+          },
+        );
 
       case routeGeneralRecommendationsCategory:
-        return MaterialPageRoute<Set<int>>(builder: (context) {
-          final arguments = settings.arguments!
-              as GeneralRecommendationCategoryScreenArguments;
-          return GeneralRecommendationCategoryScreen(
-            category: arguments.category,
-            readRecommendationIds: arguments.readRecommendationIds,
-          );
-        });
+        return MaterialPageRoute<Set<int>>(
+          builder: (context) {
+            final arguments = settings.arguments!
+                as GeneralRecommendationCategoryScreenArguments;
+            return GeneralRecommendationCategoryScreen(
+              category: arguments.category,
+              readRecommendationIds: arguments.readRecommendationIds,
+            );
+          },
+        );
       case routeGeneralRecommendationsSubcategory:
-        return MaterialPageRoute<Set<int>>(builder: (context) {
-          final arguments = settings.arguments!
-              as GeneralRecommendationSubcategoryScreenArguments;
-          return GeneralRecommendationSubcategoryScreen(
-            subcategory: arguments.subcategory,
-            readRecommendationIds: arguments.readRecommendationIds,
-          );
-        });
+        return MaterialPageRoute<Set<int>>(
+          builder: (context) {
+            final arguments = settings.arguments!
+                as GeneralRecommendationSubcategoryScreenArguments;
+            return GeneralRecommendationSubcategoryScreen(
+              subcategory: arguments.subcategory,
+              readRecommendationIds: arguments.readRecommendationIds,
+            );
+          },
+        );
       case routeGeneralRecommendation:
-        return MaterialPageRoute(builder: (context) {
-          final arguments =
-              settings.arguments! as GeneralRecommendationScreenArguments;
+        return MaterialPageRoute(
+          builder: (context) {
+            final arguments =
+                settings.arguments! as GeneralRecommendationScreenArguments;
 
-          return GeneralRecommendationScreen(
-            recommendation: arguments.recommendation,
-            subcategory: arguments.subcategory,
-          );
-        });
+            return GeneralRecommendationScreen(
+              recommendation: arguments.recommendation,
+              subcategory: arguments.subcategory,
+            );
+          },
+        );
       case routeUserProfile:
-        return MaterialPageRoute(builder: (context) {
-          final nextScreenType =
-              settings.arguments! as UserProfileNextScreenType;
+        return MaterialPageRoute(
+          builder: (context) {
+            final nextScreenType =
+                settings.arguments! as UserProfileNextScreenType;
 
-          return UserProfileScreen(
-            nextScreenType: nextScreenType,
-          );
-        });
+            return UserProfileScreen(
+              nextScreenType: nextScreenType,
+            );
+          },
+        );
       case routeNutritionSummary:
         return MaterialPageRoute(builder: (context) {
-          assert(settings.arguments is NutritionSummaryScreenArguments);
+            assert(settings.arguments is NutritionSummaryScreenArguments);
 
-          final arguments =
-              settings.arguments! as NutritionSummaryScreenArguments;
+            final arguments =
+                settings.arguments! as NutritionSummaryScreenArguments;
 
-          return NutritionSummaryScreen(
-            screenType: arguments.screenType,
-            nutrient: arguments.nutrient,
-            nutritionSummaryStatistics: arguments.nutritionSummaryStatistics,
-          );
-        });
+            return NutritionSummaryScreen(
+              screenType: arguments.screenType,
+              nutrient: arguments.nutrient,
+              nutritionSummaryStatistics: arguments.nutritionSummaryStatistics,
+            );
+          },
+        );
       case routeHealthStatusScreen:
-        return MaterialPageRoute(builder: (context) {
-          final arguments = settings.arguments! as HealthStatusScreenArguments;
+        return MaterialPageRoute(
+          builder: (context) {
+            final arguments =
+                settings.arguments! as HealthStatusScreenArguments;
 
-          return HealthStatusScreen(
-            healthIndicator: arguments.healthIndicator,
-          );
-        });
+            return HealthStatusScreen(
+              healthIndicator: arguments.healthIndicator,
+            );
+          },
+        );
       default:
         throw Exception('Unable to find route ${settings.name} in routes');
     }

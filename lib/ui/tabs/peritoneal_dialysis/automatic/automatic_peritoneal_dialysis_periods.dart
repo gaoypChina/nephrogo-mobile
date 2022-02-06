@@ -15,17 +15,19 @@ import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 class AutomaticPeritonealDialysisPeriodsScreenArguments {
   final Date initialDate;
 
-  AutomaticPeritonealDialysisPeriodsScreenArguments(
-      {required this.initialDate});
+  AutomaticPeritonealDialysisPeriodsScreenArguments({
+    required this.initialDate,
+  });
 }
 
 class AutomaticPeritonealDialysisPeriodsScreen extends StatelessWidget {
   final _apiService = ApiService();
   final Date initialDate;
 
-  AutomaticPeritonealDialysisPeriodsScreen(
-      {Key? key, required this.initialDate})
-      : super(key: key);
+  AutomaticPeritonealDialysisPeriodsScreen({
+    Key? key,
+    required this.initialDate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

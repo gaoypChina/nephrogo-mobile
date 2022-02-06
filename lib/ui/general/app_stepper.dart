@@ -246,7 +246,9 @@ class _StepperState extends State<AppStepper> with TickerProviderStateMixin {
         ),
         child: Center(
           child: _buildCircleChild(
-              index, oldState && widget.steps[index].state == StepState.error),
+            index,
+            oldState && widget.steps[index].state == StepState.error,
+          ),
         ),
       ),
     );
@@ -269,8 +271,10 @@ class _StepperState extends State<AppStepper> with TickerProviderStateMixin {
             child: Align(
               alignment: const Alignment(0.0, 0.8),
               // 0.8 looks better than the geometrical 0.33.
-              child: _buildCircleChild(index,
-                  oldState && widget.steps[index].state != StepState.error),
+              child: _buildCircleChild(
+                index,
+                oldState && widget.steps[index].state != StepState.error,
+              ),
             ),
           ),
         ),
@@ -329,7 +333,8 @@ class _StepperState extends State<AppStepper> with TickerProviderStateMixin {
         MaterialLocalizations.of(context);
 
     const OutlinedBorder buttonShape = RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(2)));
+      borderRadius: BorderRadius.all(Radius.circular(2)),
+    );
     const EdgeInsets buttonPadding = EdgeInsets.symmetric(horizontal: 16.0);
 
     return Container(
@@ -359,7 +364,8 @@ class _StepperState extends State<AppStepper> with TickerProviderStateMixin {
                       : colorScheme.primary;
                 }),
                 padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    buttonPadding),
+                  buttonPadding,
+                ),
                 shape: MaterialStateProperty.all<OutlinedBorder>(buttonShape),
               ),
               child: Text(localizations.continueButtonLabel),
@@ -618,8 +624,9 @@ class _StepperState extends State<AppStepper> with TickerProviderStateMixin {
                 curve: Curves.fastOutSlowIn,
                 duration: kThemeAnimationDuration,
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: stepPanels),
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: stepPanels,
+                ),
               ),
               _buildVerticalControls(widget.currentStep),
             ],
@@ -633,17 +640,19 @@ class _StepperState extends State<AppStepper> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterial(context));
     assert(debugCheckHasMaterialLocalizations(context));
-    assert(() {
-      if (context.findAncestorWidgetOfExactType<Stepper>() != null) {
-        throw FlutterError(
-          'Steppers must not be nested.\n'
-          'The material specification advises that one should avoid embedding '
-          'steppers within steppers. '
-          'https://material.io/archive/guidelines/components/steppers.html#steppers-usage',
-        );
-      }
-      return true;
-    }());
+    assert(
+      () {
+        if (context.findAncestorWidgetOfExactType<Stepper>() != null) {
+          throw FlutterError(
+            'Steppers must not be nested.\n'
+            'The material specification advises that one should avoid embedding '
+            'steppers within steppers. '
+            'https://material.io/archive/guidelines/components/steppers.html#steppers-usage',
+          );
+        }
+        return true;
+      }(),
+    );
     switch (widget.type) {
       case StepperType.vertical:
         return _buildVertical();

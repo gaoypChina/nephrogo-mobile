@@ -29,13 +29,15 @@ Future<void> main() async {
   await FirebaseCrashlytics.instance
       .setCrashlyticsCollectionEnabled(!kDebugMode);
 
-  Isolate.current.addErrorListener(RawReceivePort((pair) async {
-    final List<dynamic> errorAndStacktrace = pair as List<dynamic>;
-    await FirebaseCrashlytics.instance.recordError(
-      errorAndStacktrace.first,
-      errorAndStacktrace.last as StackTrace,
-    );
-  }).sendPort);
+  Isolate.current.addErrorListener(
+    RawReceivePort((pair) async {
+      final List<dynamic> errorAndStacktrace = pair as List<dynamic>;
+      await FirebaseCrashlytics.instance.recordError(
+        errorAndStacktrace.first,
+        errorAndStacktrace.last as StackTrace,
+      );
+    }).sendPort,
+  );
 
   runZonedGuarded<void>(
     () => runApp(AppComponent()),
