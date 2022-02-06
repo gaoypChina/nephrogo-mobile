@@ -5,7 +5,6 @@ import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/extensions/extensions.dart';
 import 'package:nephrogo/ui/forms/forms.dart';
 import 'package:nephrogo/ui/general/app_form.dart';
-import 'package:nephrogo/ui/general/app_stepper.dart';
 import 'package:nephrogo/ui/general/buttons.dart';
 import 'package:nephrogo/ui/general/components.dart';
 import 'package:nephrogo/ui/general/dialogs.dart';
@@ -31,6 +30,12 @@ class ManualPeritonealDialysisCreationScreen extends StatefulWidget {
       _ManualPeritonealDialysisCreationScreenState();
 }
 
+enum _ManualDialysisState {
+  initial,
+  secondStep,
+  completed,
+}
+
 class _ManualPeritonealDialysisCreationScreenState
     extends State<ManualPeritonealDialysisCreationScreen> {
   final _formKey = GlobalKey<FormState>();
@@ -42,15 +47,15 @@ class _ManualPeritonealDialysisCreationScreenState
   final today = DateTime.now().toDate();
   late ManualPeritonealDialysisRequestBuilder _requestBuilder;
 
-  int _currentStep = 0;
-
-  bool _formChanged = false;
-
-  bool get _isFirstStep => _currentStep == 0;
-
-  bool get _isSecondStep => _currentStep == 1;
-
-  bool get _isCompleted => widget.initialDialysis?.isCompleted ?? false;
+  _ManualDialysisState get _dialysisState {
+    if (widget.initialDialysis == null) {
+      return _ManualDialysisState.initial;
+    } else if (widget.initialDialysis?.isCompleted == true) {
+      return _ManualDialysisState.completed;
+    } else {
+      return _ManualDialysisState.secondStep;
+    }
+  }
 
   @override
   void initState() {
@@ -60,7 +65,6 @@ class _ManualPeritonealDialysisCreationScreenState
         ManualPeritonealDialysisRequestBuilder();
 
     _requestBuilder.startedAt ??= DateTime.now().toUtc();
-    _currentStep = _requestBuilder.isCompleted == false ? 1 : 0;
 
     _requestBuilder.isCompleted ??= false;
     _requestBuilder.dialysateColor ??= DialysateColorEnum.unknown;
@@ -73,102 +77,33 @@ class _ManualPeritonealDialysisCreationScreenState
       appBar: AppBar(
         title: Text(appLocalizations.peritonealDialysisTypeManual),
         actions: <Widget>[
-          if (_isFirstStep)
-            AppBarTextButton(
-              onPressed: _submit,
-              child: Text(appLocalizations.save.toUpperCase()),
-            ),
-          if (_isSecondStep)
+          if (_dialysisState == _ManualDialysisState.secondStep)
             AppBarTextButton(
               onPressed: _completeAndSubmit,
               child: Text(appLocalizations.finish.toUpperCase()),
-            ),
+            )
+          else
+            AppBarTextButton(
+              onPressed: _submit,
+              child: Text(appLocalizations.save.toUpperCase()),
+            )
         ],
       ),
       body: AppForm(
         formKey: _formKey,
         save: () {
-          if (_isFirstStep) {
+          if (_dialysisState == _ManualDialysisState.initial) {
             return _submit();
           } else {
             return _completeAndSubmit();
           }
         },
-        onChanged: () {
-          _formChanged = true;
-        },
-        child: AppStepper(
-          type: StepperType.horizontal,
-          currentStep: _currentStep,
-          margin: EdgeInsets.zero,
-          onStepTapped: _validateAndProceedToStep,
-          controlsBuilder: (context, details) {
-            return BasicSection(
+        child: ListView(
+          children: [
+            ..._getDialysisFormWidgets(),
+            BasicSection(
               innerPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-              children: [
-                if (_isFirstStep || _isCompleted)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: AppElevatedButton(
-                        label:
-                            Text(context.appLocalizations.save.toUpperCase()),
-                        onPressed: _submit,
-                      ),
-                    ),
-                  )
-                else
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: AppElevatedButton(
-                        label: Text(
-                          context.appLocalizations.finishDialysis.toUpperCase(),
-                        ),
-                        onPressed: _completeAndSubmit,
-                      ),
-                    ),
-                  ),
-                if (widget.initialDialysis != null &&
-                    (_isCompleted || _isFirstStep))
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          primary: Colors.redAccent,
-                          textStyle: const TextStyle(fontSize: 14),
-                        ),
-                        onPressed: _delete,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            context.appLocalizations.delete.toUpperCase(),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            );
-          },
-          steps: [
-            Step(
-              title: Text(appLocalizations.manualPeritonealDialysisStep1),
-              isActive: _currentStep == 0,
-              state: _currentStep == 0 ? StepState.indexed : StepState.complete,
-              content: _getFirstStep(),
-            ),
-            Step(
-              title: Text(appLocalizations.manualPeritonealDialysisStep2),
-              isActive: _currentStep == 1,
-              state: _isCompleted && _currentStep != 1
-                  ? StepState.complete
-                  : StepState.indexed,
-              content: _getSecondStep(),
+              children: _getFormButtons().toList(),
             ),
           ],
         ),
@@ -176,142 +111,176 @@ class _ManualPeritonealDialysisCreationScreenState
     );
   }
 
-  Widget _getFirstStep() {
-    return Column(
-      children: [
-        SmallSection(
-          title: appLocalizations.manualDialysisStartDateTime,
-          children: [
-            Row(
-              children: [
-                Flexible(
-                  child: AppDatePickerFormField(
-                    initialDate: _requestBuilder.startedAt!.toDate(),
-                    selectedDate: _requestBuilder.startedAt!.toDate(),
-                    firstDate: Constants.earliestDate,
-                    lastDate: DateTime.now().toDate(),
-                    dateFormat: _dateFormat,
-                    validator: formValidators.nonNull(),
-                    onDateChanged: (date) {
-                      _requestBuilder.startedAt =
-                          _requestBuilder.startedAt!.appliedDate(date).toUtc();
-                    },
-                    labelText: appLocalizations.date,
-                  ),
-                ),
-                Flexible(
-                  child: AppTimePickerFormField(
-                    initialTime: _requestBuilder.startedAt!.timeOfDayLocal,
-                    labelText: appLocalizations.mealCreationTime,
-                    onTimeChanged: (t) => _requestBuilder.startedAt =
-                        _requestBuilder.startedAt!.appliedLocalTime(t).toUtc(),
-                    onTimeSaved: (t) => _requestBuilder.startedAt =
-                        _requestBuilder.startedAt!.appliedLocalTime(t).toUtc(),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        SmallSection(
-          title: appLocalizations.dialysisSolution,
-          children: [
-            AppSelectFormField<DialysisSolutionEnum>(
-              labelText: appLocalizations.dialysisSolution,
-              initialValue: _requestBuilder.dialysisSolution
-                  ?.enumWithoutDefault(DialysisSolutionEnum.unknown),
-              focusNextOnSelection: true,
-              validator: formValidators.nonNull(),
-              onChanged: (v) => _requestBuilder.dialysisSolution = v?.value,
-              items: [
-                for (final solution in DialysisSolutionEnum.values
-                    .where((v) => v != DialysisSolutionEnum.unknown))
-                  AppSelectFormFieldItem(
-                    text: solution.localizedName(appLocalizations),
-                    description:
-                        solution.localizedDescription(appLocalizations),
-                    icon: Icon(Icons.circle, color: solution.color),
-                    value: solution,
-                  ),
-              ],
-            ),
-            AppIntegerFormField(
-              labelText: appLocalizations.dialysisSolutionIn,
-              suffixText: 'ml',
-              textInputAction: TextInputAction.next,
-              prefixIcon: const Icon(Icons.next_plan_outlined),
-              validator: formValidators.and(
-                formValidators.nonNull(),
-                formValidators.numRangeValidator(500, 15000),
-              ),
-              initialValue: _requestBuilder.solutionInMl,
-              onChanged: (p) => _requestBuilder.solutionInMl = p,
-            ),
-          ],
-        ),
-      ],
-    );
+  List<Widget> _getDialysisFormWidgets() {
+    switch (_dialysisState) {
+      case _ManualDialysisState.initial:
+        return _getFirstStepWidgets();
+      case _ManualDialysisState.secondStep:
+        return [
+          ..._getSecondStepWidgets(),
+          ..._getFirstStepWidgets(),
+        ];
+      case _ManualDialysisState.completed:
+        return [
+          ..._getFirstStepWidgets(),
+          ..._getSecondStepWidgets(),
+        ];
+    }
   }
 
-  Widget _getSecondStep() {
-    return Column(
-      children: [
-        SmallSection(
-          title: appLocalizations.dialysate,
-          children: [
-            AppSelectFormField<DialysateColorEnum>(
-              labelText: appLocalizations.dialysateColor,
-              initialValue: _requestBuilder.dialysateColor
-                      ?.enumWithoutDefault(DialysateColorEnum.unknown) ??
-                  DialysateColorEnum.transparent,
-              focusNextOnSelection: true,
-              dialogHelpText: appLocalizations.dialysateColorWarning,
-              onChanged: (v) => _requestBuilder.dialysateColor = v?.value,
-              onSaved: (v) {
-                if (_isSecondStep) {
-                  _requestBuilder.dialysateColor = v?.value;
-                }
-              },
-              items: [
-                for (final color in DialysateColorEnum.values
-                    .where((v) => v != DialysateColorEnum.unknown))
-                  AppSelectFormFieldItem(
-                    text: color.localizedName(appLocalizations),
-                    icon: Icon(Icons.circle, color: color.color),
-                    value: color,
-                  ),
-              ],
-            ),
-            AppIntegerFormField(
-              labelText: appLocalizations.dialysisSolutionOut,
-              suffixText: 'ml',
-              textInputAction: TextInputAction.next,
-              prefixIcon: const Icon(Icons.outbond_outlined),
-              validator: formValidators.and(
-                _isSecondStep ? formValidators.nonNull() : (v) => null,
-                formValidators.numRangeValidator(0, 20000),
+  List<Widget> _getFirstStepWidgets() {
+    return [
+      LargeSection(
+        title: Text(appLocalizations.manualPeritonealDialysisStep1),
+        leading: const CircleAvatar(
+          child: Icon(Icons.opacity),
+        ),
+        children: const [],
+      ),
+      SmallSection(
+        title: appLocalizations.manualDialysisStartDateTime,
+        children: [
+          Row(
+            children: [
+              Flexible(
+                child: AppDatePickerFormField(
+                  initialDate: _requestBuilder.startedAt!.toDate(),
+                  selectedDate: _requestBuilder.startedAt!.toDate(),
+                  firstDate: Constants.earliestDate,
+                  lastDate: DateTime.now().toDate(),
+                  dateFormat: _dateFormat,
+                  validator: formValidators.nonNull(),
+                  onDateChanged: (date) {
+                    _requestBuilder.startedAt =
+                        _requestBuilder.startedAt!.appliedDate(date).toUtc();
+                  },
+                  labelText: appLocalizations.date,
+                ),
               ),
-              initialValue: _requestBuilder.solutionOutMl,
-              onChanged: (p) => _requestBuilder.solutionOutMl = p,
+              Flexible(
+                child: AppTimePickerFormField(
+                  initialTime: _requestBuilder.startedAt!.timeOfDayLocal,
+                  labelText: appLocalizations.mealCreationTime,
+                  onTimeChanged: (t) => _requestBuilder.startedAt =
+                      _requestBuilder.startedAt!.appliedLocalTime(t).toUtc(),
+                  onTimeSaved: (t) => _requestBuilder.startedAt =
+                      _requestBuilder.startedAt!.appliedLocalTime(t).toUtc(),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      SmallSection(
+        title: appLocalizations.dialysisSolution,
+        children: [
+          AppSelectFormField<DialysisSolutionEnum>(
+            labelText: appLocalizations.dialysisSolution,
+            initialValue: _requestBuilder.dialysisSolution
+                ?.enumWithoutDefault(DialysisSolutionEnum.unknown),
+            focusNextOnSelection: true,
+            validator: formValidators.nonNull(),
+            onChanged: (v) => _requestBuilder.dialysisSolution = v?.value,
+            items: [
+              for (final solution in DialysisSolutionEnum.values
+                  .where((v) => v != DialysisSolutionEnum.unknown))
+                AppSelectFormFieldItem(
+                  text: solution.localizedName(appLocalizations),
+                  description: solution.localizedDescription(appLocalizations),
+                  icon: Icon(Icons.circle, color: solution.color),
+                  value: solution,
+                ),
+            ],
+          ),
+          AppIntegerFormField(
+            labelText: appLocalizations.dialysisSolutionIn,
+            suffixText: 'ml',
+            textInputAction: TextInputAction.next,
+            prefixIcon: const Icon(Icons.next_plan_outlined),
+            validator: formValidators.and(
+              formValidators.nonNull(),
+              formValidators.numRangeValidator(500, 15000),
             ),
-          ],
+            initialValue: _requestBuilder.solutionInMl,
+            onChanged: (p) => _requestBuilder.solutionInMl = p,
+          ),
+        ],
+      ),
+    ];
+  }
+
+  List<Widget> _getSecondStepWidgets() {
+    return [
+      LargeSection(
+        title: Text(appLocalizations.manualPeritonealDialysisStep2),
+        leading: const CircleAvatar(
+          child: Icon(Icons.outbound),
         ),
-        SmallSection(
-          title: appLocalizations.notes,
-          children: [
-            AppTextFormField(
-              textCapitalization: TextCapitalization.sentences,
-              labelText: appLocalizations.notes,
-              initialValue: _requestBuilder.notes,
-              textInputAction: TextInputAction.next,
-              onChanged: (s) => _requestBuilder.notes = s,
-              onSaved: (s) => _requestBuilder.notes = s,
-              maxLines: 3,
+        children: const [],
+      ),
+      SmallSection(
+        title: appLocalizations.dialysate,
+        children: [
+          AppSelectFormField<DialysateColorEnum>(
+            labelText: appLocalizations.dialysateColor,
+            initialValue: _requestBuilder.dialysateColor
+                    ?.enumWithoutDefault(DialysateColorEnum.unknown) ??
+                DialysateColorEnum.transparent,
+            focusNextOnSelection: true,
+            dialogHelpText: appLocalizations.dialysateColorWarning,
+            onChanged: (v) => _requestBuilder.dialysateColor = v?.value,
+            onSaved: (v) => _requestBuilder.dialysateColor = v?.value,
+            items: [
+              for (final color in DialysateColorEnum.values
+                  .where((v) => v != DialysateColorEnum.unknown))
+                AppSelectFormFieldItem(
+                  text: color.localizedName(appLocalizations),
+                  icon: Icon(Icons.circle, color: color.color),
+                  value: color,
+                ),
+            ],
+          ),
+          AppIntegerFormField(
+            labelText: appLocalizations.dialysisSolutionOut,
+            suffixText: 'ml',
+            textInputAction: TextInputAction.next,
+            prefixIcon: const Icon(Icons.outbond_outlined),
+            validator: formValidators.and(
+              formValidators.nonNull(),
+              formValidators.numRangeValidator(0, 20000),
             ),
-          ],
-        ),
-      ],
-    );
+            initialValue: _requestBuilder.solutionOutMl,
+            onChanged: (p) => _requestBuilder.solutionOutMl = p,
+          ),
+        ],
+      ),
+      SmallSection(
+        title: appLocalizations.notes,
+        children: [
+          AppTextFormField(
+            textCapitalization: TextCapitalization.sentences,
+            labelText: appLocalizations.notes,
+            initialValue: _requestBuilder.notes,
+            textInputAction: TextInputAction.next,
+            onChanged: (s) => _requestBuilder.notes = s,
+            onSaved: (s) => _requestBuilder.notes = s,
+            maxLines: 3,
+          ),
+        ],
+      ),
+    ];
+  }
+
+  Iterable<Widget> _getFormButtons() sync* {
+    if (_dialysisState == _ManualDialysisState.secondStep) {
+      yield _completeAndSubmitButton();
+    } else {
+      yield _submitButton();
+    }
+
+    if (_dialysisState != _ManualDialysisState.initial) {
+      yield _deleteButton();
+    }
   }
 
   Future<ManualPeritonealDialysis> _save() {
@@ -341,22 +310,6 @@ class _ManualPeritonealDialysisCreationScreenState
     );
   }
 
-  Future<bool> _validateAndProceedToStep(int step) async {
-    var valid = true;
-    if (_formChanged) {
-      valid = await FormUtils.validate(
-        context: context,
-        formKey: _formKey,
-      );
-    }
-
-    if (valid) {
-      setState(() => _currentStep = step);
-      return true;
-    }
-    return false;
-  }
-
   Future<void> _delete() async {
     final isDeleted = await showDeleteDialog(
       context: context,
@@ -368,5 +321,43 @@ class _ManualPeritonealDialysisCreationScreenState
     if (isDeleted) {
       Navigator.pop(context);
     }
+  }
+
+  Widget _deleteButton() {
+    return ListFullWidthButton(
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          primary: Colors.redAccent,
+          textStyle: const TextStyle(fontSize: 14),
+        ),
+        onPressed: _delete,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            context.appLocalizations.delete.toUpperCase(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _completeAndSubmitButton() {
+    return ListFullWidthButton(
+      child: AppElevatedButton(
+        label: Text(
+          context.appLocalizations.finishDialysis.toUpperCase(),
+        ),
+        onPressed: _completeAndSubmit,
+      ),
+    );
+  }
+
+  Widget _submitButton() {
+    return ListFullWidthButton(
+      child: AppElevatedButton(
+        label: Text(context.appLocalizations.save.toUpperCase()),
+        onPressed: _submit,
+      ),
+    );
   }
 }
