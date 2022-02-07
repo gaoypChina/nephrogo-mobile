@@ -99,3 +99,4 @@ jobs:
           releaseFiles: app-release.aab
           mappingFile: mapping.txt
           track: production
+          status: completed
