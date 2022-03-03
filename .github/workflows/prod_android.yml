@@ -56,19 +56,19 @@ jobs:
           KEY_ALIAS: ${{ secrets.ANDROID_SIGNING_KEY_ALIAS }}
           KEY_PATH: key.jks
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         name: Upload Android AAB
         with:
           name: app-release.aab
           path: build/app/outputs/bundle/release/app-release.aab
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         name: Upload Proguard mapping.txt
         with:
           name: mapping.txt
           path: build/app/outputs/mapping/release/mapping.txt
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         name: Upload pubspec.lock
         with:
           name: pubspec.lock
