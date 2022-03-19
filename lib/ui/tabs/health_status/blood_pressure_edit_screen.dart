@@ -161,10 +161,13 @@ class _BloodPressureEditScreenState extends State<BloodPressureEditScreen> {
                 horizontal: 16,
                 vertical: 8,
               ),
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(primary: Colors.redAccent),
-                onPressed: _deleteBloodPressure,
-                child: Text(appLocalizations.delete.toUpperCase()),
+              child: SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(primary: Colors.redAccent),
+                  onPressed: _deleteBloodPressure,
+                  child: Text(appLocalizations.delete.toUpperCase()),
+                ),
               ),
             ),
           ],

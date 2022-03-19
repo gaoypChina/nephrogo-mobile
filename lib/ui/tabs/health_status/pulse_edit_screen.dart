@@ -128,10 +128,13 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
                 horizontal: 16,
                 vertical: 8,
               ),
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(primary: Colors.redAccent),
-                onPressed: _deletePulse,
-                child: Text(appLocalizations.delete.toUpperCase()),
+              child: SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(primary: Colors.redAccent),
+                  onPressed: _deletePulse,
+                  child: Text(appLocalizations.delete.toUpperCase()),
+                ),
               ),
             ),
           ],
