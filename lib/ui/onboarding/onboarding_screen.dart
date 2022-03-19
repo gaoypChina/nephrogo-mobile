@@ -105,8 +105,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+            SafeArea(
+              minimum: const EdgeInsets.all(16),
               child: SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(

@@ -141,8 +141,8 @@ class _CountryScreenState extends State<_CountryScreen> {
                 BasicSection(
                   margin: EdgeInsets.zero,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                    SafeArea(
+                      minimum: const EdgeInsets.all(16),
                       child: SizedBox(
                         width: double.infinity,
                         child: AppElevatedButton(

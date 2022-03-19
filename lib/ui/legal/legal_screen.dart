@@ -173,8 +173,8 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
                 onChanged: _agreeWithEverything,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+            SafeArea(
+              minimum: const EdgeInsets.fromLTRB(16, 8, 16, 16),
               child: SizedBox(
                 width: double.infinity,
                 child: AppElevatedButton(

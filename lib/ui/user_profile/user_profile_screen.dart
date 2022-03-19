@@ -154,8 +154,8 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
             ),
             BasicSection.single(
               margin: EdgeInsets.zero,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+              child: SafeArea(
+                minimum: const EdgeInsets.all(16),
                 child: SizedBox(
                   width: double.infinity,
                   child: AppElevatedButton(
