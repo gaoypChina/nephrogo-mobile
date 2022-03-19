@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/extensions/extensions.dart';
@@ -123,11 +124,10 @@ class _CountryScreenState extends State<_CountryScreen> {
                               vertical: 8.0,
                             ),
                             controlAffinity: ListTileControlAffinity.trailing,
-                            secondary: SizedBox(
-                              width: 40,
-                              height: 40,
-                              child: FittedBox(
-                                child: Text(country.flagEmoji),
+                            secondary: CircleAvatar(
+                              child: SvgPicture.string(
+                                country.flagSvg,
+                                excludeFromSemantics: true,
                               ),
                             ),
                             groupValue: selectedCountry,
