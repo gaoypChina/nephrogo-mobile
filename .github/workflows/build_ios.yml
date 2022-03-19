@@ -51,3 +51,15 @@ jobs:
 
       - run: flutter build ipa --release --build-number ${{ env.BUILD_NUMBER }}
 
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7.2'
+
+      - uses: maierj/fastlane-action@v2.2.0
+        with:
+          lane: 'beta'
+          subdirectory: 'ios'
+          bundle-install-path: 'vendor/bundle'
+        env:
+          git_url: ${{ secrets.IOS_CERTIFICATES_GIT_REPO }}
+          MATCH_PASSWORD: ${{ secrets.IOS_MATCH_PASSWORD }}
