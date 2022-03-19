@@ -14,141 +14,121 @@ import 'package:nephrogo/ui/user_profile/user_profile_screen.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
 
 class LoginScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: LoginScreenBody(),
-    );
-  }
-}
-
-class LoginScreenBody extends StatefulWidget {
-  @override
-  _LoginScreenBodyState createState() => _LoginScreenBodyState();
-}
-
-class _LoginScreenBodyState extends State<LoginScreenBody> {
   final _authenticationProvider = AuthenticationProvider();
   final _apiService = ApiService();
   final _appPreferences = AppPreferences();
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minWidth: constraints.maxWidth,
-              minHeight: constraints.maxHeight,
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.contact_support_outlined),
+            tooltip: context.appLocalizations.support,
+            onPressed: () => showContactDialog(context),
+          ),
+        ],
+      ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: Image.asset(
+              'assets/logo/logo-with-title.png',
+              fit: BoxFit.scaleDown,
+              excludeFromSemantics: true,
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 16, right: 8, left: 8),
-              child: IntrinsicHeight(
-                child: Column(
-                  children: [
-                    AppBar(
-                      elevation: 0,
-                      backgroundColor: Colors.transparent,
-                      actions: [
-                        IconButton(
-                          icon: const Icon(Icons.contact_support_outlined),
-                          tooltip: context.appLocalizations.support,
-                          onPressed: () => showContactDialog(context),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: Image.asset(
-                        'assets/logo/logo-with-title.png',
-                        fit: BoxFit.scaleDown,
-                        excludeFromSemantics: true,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: LoginButton(
-                          label: Text(appLocalizations.loginGoogle),
-                          icon: Image.asset(
-                            'assets/logo/google_light.png',
-                            height: 24.0,
-                          ),
-                          color: Colors.white,
-                          textColor: Colors.black,
-                          onPressed: () => _loginWithSocial(
-                            context,
-                            SocialAuthenticationProvider.google,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: LoginButton(
-                          label: Text(appLocalizations.loginFacebook),
-                          icon: const Icon(Icons.facebook),
-                          color: const Color(0xFF3B5998),
-                          onPressed: () => _loginWithSocial(
-                            context,
-                            SocialAuthenticationProvider.facebook,
-                          ),
-                        ),
-                      ),
-                    ),
-                    if (Theme.of(context).platform == TargetPlatform.iOS)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: LoginButton(
-                            label: Text(appLocalizations.loginApple),
-                            icon: Image.asset(
-                              'assets/logo/apple.png',
-                              height: 24.0,
-                              color: Colors.white,
-                            ),
-                            color: Colors.black,
-                            onPressed: () => _loginWithSocial(
-                              context,
-                              SocialAuthenticationProvider.apple,
-                            ),
-                          ),
-                        ),
-                      ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: LoginButton(
-                          label: Text(appLocalizations.registerUsingEmail),
-                          icon: const Icon(Icons.email),
-                          color: Colors.brown,
-                          onPressed: () => _registerAndLoginUsingEmail(context),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 32,
-                      ),
-                      child: EmailLoginButtonComponent(
-                        onCredentialsRetrieved: (userCredential) =>
-                            navigateToNextScreen(context, userCredential),
-                      ),
-                    ),
-                  ],
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 16,
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              child: LoginButton(
+                label: Text(context.appLocalizations.loginGoogle),
+                icon: Image.asset(
+                  'assets/logo/google_light.png',
+                  height: 24.0,
+                ),
+                color: Colors.white,
+                textColor: Colors.black,
+                onPressed: () => _loginWithSocial(
+                  context,
+                  SocialAuthenticationProvider.google,
                 ),
               ),
             ),
           ),
-        );
-      },
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 16,
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              child: LoginButton(
+                label: Text(context.appLocalizations.loginFacebook),
+                icon: const Icon(Icons.facebook),
+                color: const Color(0xFF3B5998),
+                onPressed: () => _loginWithSocial(
+                  context,
+                  SocialAuthenticationProvider.facebook,
+                ),
+              ),
+            ),
+          ),
+          if (Theme.of(context).platform == TargetPlatform.iOS)
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 16,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: LoginButton(
+                  label: Text(context.appLocalizations.loginApple),
+                  icon: Image.asset(
+                    'assets/logo/apple.png',
+                    height: 24.0,
+                    color: Colors.white,
+                  ),
+                  color: Colors.black,
+                  onPressed: () => _loginWithSocial(
+                    context,
+                    SocialAuthenticationProvider.apple,
+                  ),
+                ),
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8,
+              horizontal: 16,
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              child: LoginButton(
+                label: Text(context.appLocalizations.registerUsingEmail),
+                icon: const Icon(Icons.email),
+                color: Colors.brown,
+                onPressed: () => _registerAndLoginUsingEmail(context),
+              ),
+            ),
+          ),
+          SafeArea(
+            minimum: const EdgeInsets.all(16),
+            child: EmailLoginButtonComponent(
+              onCredentialsRetrieved: (userCredential) =>
+                  navigateToNextScreen(context, userCredential),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -262,8 +242,8 @@ class EmailLoginButtonComponent extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: OutlinedButton(
-              onPressed: () => _onLoginPressed(context),
-              style: OutlinedButton.styleFrom(
+            onPressed: () => _onLoginPressed(context),
+            style: OutlinedButton.styleFrom(
               primary: Colors.white,
               side: const BorderSide(width: 2, color: Colors.white),
               textStyle: const TextStyle(fontSize: 16, color: Colors.white),
