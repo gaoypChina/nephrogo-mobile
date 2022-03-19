@@ -36,6 +36,10 @@
 	<string>685980628732699</string>
 	<key>FacebookDisplayName</key>
 	<string>NephroGo</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+    <false/>
+    <key>FacebookAdvertiserIDCollectionEnabled</key>
+    <false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
