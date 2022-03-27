@@ -10,7 +10,7 @@ on:
 jobs:
   build_ios:
     name: Build iOS NephroGo
-    runs-on: macos-10.15
+    runs-on: macos-latest
     timeout-minutes: 45
 
     steps:
