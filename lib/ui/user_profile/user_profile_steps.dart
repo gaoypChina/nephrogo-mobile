@@ -144,7 +144,9 @@ class HeightStep extends UserProfileStep {
     UserProfileV2RequestBuilder builder,
     DailyHealthStatusRequestBuilder healthStatusBuilder,
   ) {
-    return builder.heightCm != null;
+    final heightCm = builder.heightCm;
+
+    return heightCm != null && heightCm >= 15 && heightCm <= 250;
   }
 }
 
@@ -186,7 +188,9 @@ class WeightStep extends UserProfileStep {
     UserProfileV2RequestBuilder builder,
     DailyHealthStatusRequestBuilder healthStatusBuilder,
   ) {
-    return healthStatusBuilder.weightKg != null;
+    final weightKg = healthStatusBuilder.weightKg;
+
+    return weightKg != null && weightKg <= 300 && weightKg >= 1;
   }
 }
 
