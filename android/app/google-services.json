@@ -50,7 +50,8 @@
               "client_id": "59243708382-i7vp7hs924nq5oc44pjtr95ioa2391on.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.nephrogo"
+                "bundle_id": "com.nephrogo",
+                "app_store_id": "1549505165"
               }
             }
           ]
@@ -94,7 +95,8 @@
               "client_id": "59243708382-i7vp7hs924nq5oc44pjtr95ioa2391on.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.nephrogo"
+                "bundle_id": "com.nephrogo",
+                "app_store_id": "1549505165"
               }
             }
           ]

@@ -7,11 +7,14 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:nephrogo/app.dart';
+import 'package:nephrogo/firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
