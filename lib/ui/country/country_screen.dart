@@ -125,9 +125,11 @@ class _CountryScreenState extends State<_CountryScreen> {
                             ),
                             controlAffinity: ListTileControlAffinity.trailing,
                             secondary: CircleAvatar(
-                              child: SvgPicture.string(
-                                country.flagSvg,
-                                excludeFromSemantics: true,
+                              child: ClipOval(
+                                child: SvgPicture.string(
+                                  country.flagSvg,
+                                  excludeFromSemantics: true,
+                                ),
                               ),
                             ),
                             groupValue: selectedCountry,
