@@ -1138,6 +1138,14 @@
   "@germany": {
     "context": "country"
   },
+  "unitedKingdom": "Jungtinė Karalystė",
+  "@unitedKingdom": {
+    "context": "country"
+  },
+  "ireland": "Airija",
+  "@ireland": {
+    "context": "country"
+  },
   "lithuania": "Lietuva",
   "@lithuania": {
     "context": "country"
