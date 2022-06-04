@@ -179,7 +179,7 @@ class _GeneralRecommendationCategoryScreenState
       child: Scaffold(
         appBar: AppBar(title: Text(widget.category.name)),
         body: Scrollbar(
-          isAlwaysShown: true,
+          thumbVisibility: true,
           child: ListView.separated(
             itemCount: subcategories.length,
             itemBuilder: (context, index) {
@@ -269,7 +269,7 @@ class _GeneralRecommendationSubcategoryScreenState
       child: Scaffold(
         appBar: AppBar(title: Text(widget.subcategory.name)),
         body: Scrollbar(
-          isAlwaysShown: true,
+          thumbVisibility: true,
           child: ListView.separated(
             itemCount: recommendations.length,
             itemBuilder: (context, index) {
@@ -334,7 +334,7 @@ class _GeneralRecommendationScreenState
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!.addPostFrameCallback(
+    WidgetsBinding.instance.addPostFrameCallback(
       (_) => _markRecommendationAsRead(),
     );
   }
@@ -346,7 +346,7 @@ class _GeneralRecommendationScreenState
         title: Text(widget.subcategory.name),
       ),
       body: Scrollbar(
-        isAlwaysShown: true,
+        thumbVisibility: true,
         child: SingleChildScrollView(
           child: BasicSection.single(
             innerPadding: const EdgeInsets.all(16),

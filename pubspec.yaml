@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 3.4.2+1
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -47,10 +47,10 @@ dependencies:
   firebase_crashlytics: ^2.5.0
   firebase_messaging: ^11.2.6
   firebase_performance: ^0.8.0+5
-  flutter_facebook_auth: 4.2.0
+  flutter_facebook_auth: 4.3.4
 
   flutter_linkify: ^5.0.0
-  flutter_speed_dial: ^5.0.0+1
+  flutter_speed_dial: ^6.0.0
   flutter_widget_from_html_core: ^0.8.4
   fwfh_url_launcher: ^0.6.1+2
   google_sign_in: ^5.0.1
@@ -70,7 +70,7 @@ dependencies:
   scrollable_positioned_list: ^0.3.0
   share: ^2.0.1
   shared_preferences: ^2.0.5
-  sign_in_with_apple: ^3.0.0
+  sign_in_with_apple: ^4.0.0
 
   syncfusion_flutter_charts: ^20.1.50
   syncfusion_flutter_xlsio: ^20.1.50-beta
@@ -87,7 +87,7 @@ dev_dependencies:
   test: ^1.16.5
 
 dependency_overrides:
-  firebase_performance: ^0.8.0+7
+  firebase_performance: ^0.8.0+13
 
 
 # For information on the generic Dart part of this file, see the

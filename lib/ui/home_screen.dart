@@ -67,7 +67,7 @@ class _HomeScreenState extends State<_HomeScreen> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance!.addPostFrameCallback(
+    WidgetsBinding.instance.addPostFrameCallback(
       (_) => _appReview.requestReviewConditionally(),
     );
   }
