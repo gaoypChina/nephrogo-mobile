@@ -1,0 +1,1173 @@
+{
+  "@@locale": "en",
+  "tabNutrition": "Nutrition",
+  "@tabNutrition": {},
+  "tabHealthIndicators": "Health status",
+  "@tabHealthIndicators": {},
+  "tabGeneralRecommendations": "Recommendations",
+  "@tabGeneralRecommendations": {},
+  "tabPeritoneal": "Peritoneal",
+  "@tabPeritoneal": {},
+  "tabProfile": "Profile",
+  "@tabProfile": {},
+  "myProfile": "My profile",
+  "@myProfile": {},
+  "more": "More",
+  "@more": {},
+  "open": "Open",
+  "@open": {},
+  "send": "Send",
+  "@send": {},
+  "delete": "Delete",
+  "@delete": {},
+  "deleteConfirmation": "Do you want to delete?",
+  "@deleteConfirmation": {},
+  "formChangesNotSaved": "Changes are not saved",
+  "@formChangesNotSaved": {},
+  "save": "Save",
+  "@save": {},
+  "discard": "Discard",
+  "@discard": {},
+  "close": "Close",
+  "@close": {},
+  "update": "Update",
+  "@update": {},
+  "updateApp": "Update the app",
+  "@updateApp": {},
+  "tryAgain": "Try again",
+  "@tryAgain": {},
+  "proceed": "Continue",
+  "@proceed": {},
+  "feedback": "Feedback",
+  "@feedback": {},
+  "back": "Back",
+  "@back": {},
+  "ok": "OK",
+  "@ok": {},
+  "confirm": "Confirm",
+  "@confirm": {},
+  "edit": "Edit",
+  "@edit": {},
+  "support": "Support",
+  "@support": {},
+  "summary": "Summary",
+  "@summary": {},
+  "mealType": "Type of the meal",
+  "@mealType": {},
+  "breakfast": "Breakfast",
+  "@breakfast": {},
+  "lunch": "Lunch",
+  "@lunch": {},
+  "dinner": "Dinner",
+  "@dinner": {},
+  "snacks": "Snacks",
+  "@snacks": {},
+  "otherMeals": "Other meals",
+  "@otherMeals": {},
+  "meals": "Meals",
+  "@meals": {},
+  "drinks": "Drinks",
+  "@drinks": {},
+  "pleaseWait": "Please wait...",
+  "@pleaseWait": {},
+  "sources": "Sources",
+  "@sources": {},
+  "optionally": "Optional",
+  "@optionally": {},
+  "mandatory": "Mandatory",
+  "@mandatory": {},
+  "weightAndUrine": "Weight and Urine",
+  "@weightAndUrine": {},
+  "addHealthStatus": "Add Health status",
+  "@addHealthStatus": {},
+  "bloodPressureAndPulse": "Blood pressure and pulse",
+  "@bloodPressureAndPulse": {},
+  "healthStatusIndicators": "Health status",
+  "@healthStatusIndicators": {},
+  "dailyHealthStatusIndicators": "Daily Health status",
+  "@dailyHealthStatusIndicators": {},
+  "conditionsExplanation": "If you want to use NephroGo, you have to agree with the conditions.",
+  "@conditionsExplanation": {},
+  "loginConditionsAgree": "I have read",
+  "@loginConditionsAgree": {},
+  "loginConditionsAgreeWith": "I agree with",
+  "@loginConditionsAgreeWith": {},
+  "agreeWithHealthDataProcessing": "NephroGo would process my health data",
+  "@agreeWithHealthDataProcessing": {},
+  "agreeWithPrivacyPolicy": "NephroGo Privacy policy",
+  "@agreeWithPrivacyPolicy": {},
+  "agreeWithUsageRules": "NephroGo Usage rules",
+  "@agreeWithUsageRules": {},
+  "agreeWithAllConditions": "I agree with all conditions",
+  "@agreeWithAllConditions": {},
+  "agreeWithAllConditionsSubtitle": "I agree with obligatory and mandatory conditions",
+  "@agreeWithAllConditionsSubtitle": {},
+  "agreeToCommunicate": "I agree to get the news about the updates",
+  "@agreeToCommunicate": {},
+  "error": "Error",
+  "@error": {},
+  "nutritionSummary": "Nutrition summary",
+  "@nutritionSummary": {},
+  "dailyNutritionSummary": "Daily nutrition summary",
+  "@dailyNutritionSummary": {},
+  "monthly": "Monthly",
+  "@monthly": {},
+  "weekly": "Weekly",
+  "@weekly": {},
+  "daily": "Daily",
+  "@daily": {},
+  "supportEmail": "Email support",
+  "@supportEmail": {},
+  "help": "Support",
+  "@help": {},
+  "rateApp": "Rate NephroGo",
+  "@rateApp": {},
+  "supportPhone": "Phone support",
+  "@supportPhone": {},
+  "serverErrorDescription": "Server error. Try again. Update the app or contact support.",
+  "@serverErrorDescription": {},
+  "formErrorDescription": "Some data is missing or is incorrect. Please review the data.",
+  "@formErrorDescription": {},
+  "formErrorNoMealsAdded": "Add a meal.",
+  "@formErrorNoMealsAdded": {},
+  "noInfo": "No information",
+  "@noInfo": {},
+  "logout": "Logout",
+  "@logout": {},
+  "dailyNormExplanationExceeded": "Daily norm is exceeded",
+  "@dailyNormExplanationExceeded": {},
+  "dailyNormExplanationNotExceeded": "Daily norm is not exceeded",
+  "@dailyNormExplanationNotExceeded": {},
+  "dailyNormsExceededZero": "Daily norms are not exceeded",
+  "@dailyNormsExceededZero": {},
+  "dailyNormsExceededOne": "One daily norm is exceeded",
+  "@dailyNormsExceededOne": {},
+  "dailyNormsExceededOther": "Exceeded {count} daily norms",
+  "@dailyNormsExceededOther": {
+    "type": "text",
+    "placeholders": {
+      "count": {
+        "example": "5"
+      }
+    }
+  },
+  "searchUnableToFindProduct": "Are you not able to find a product?",
+  "@searchUnableToFindProduct": {},
+  "todayPerformedDialysis": "Today‘s performed dialysis",
+  "@todayPerformedDialysis": {},
+  "todayBalance": "Today‘s balance",
+  "@todayBalance": {},
+  "todayDialysisNotPerformed": "No dialysis performed today",
+  "@todayDialysisNotPerformed": {},
+  "peritonealDialysis": "Peritoneal dialysis",
+  "@peritonealDialysis": {},
+  "peritonealDialysisPlural": "Peritoneal dialysis",
+  "@peritonealDialysisPlural": {},
+  "manualPeritonealDialysisStep1": "Fill",
+  "@manualPeritonealDialysisStep1": {},
+  "manualPeritonealDialysisStep2": "Drain",
+  "@manualPeritonealDialysisStep2": {},
+  "startDialysis": "Start the dialysis",
+  "@startDialysis": {},
+  "continueDialysis": "Continue the dialysis",
+  "@continueDialysis": {},
+  "report": "Report",
+  "@report": {},
+  "message": "Message",
+  "@message": {},
+  "reportMissingProduct": "Report a missing product",
+  "@reportMissingProduct": {},
+  "productSearchEmpty": "No „{query}“ were found!",
+  "@productSearchEmpty": {
+    "placeholders": {
+      "query": {
+        "type": "String",
+        "example": "Meat"
+      }
+    }
+  },
+  "nutritionEmpty": "Add your first meal or drink!",
+  "@nutritionEmpty": {},
+  "healthStatusEmpty": "Add your health status!",
+  "@healthStatusEmpty": {},
+  "formMultiSelectDialogActionChoose": "Choose",
+  "@formMultiSelectDialogActionChoose": {},
+  "dialogCancel": "Cancel",
+  "@dialogCancel": {},
+  "percentageOfDailyNorm": "Percentage of a daily norm: {percentage_formatted}",
+  "@percentageOfDailyNorm": {
+    "placeholders": {
+      "percentage_formatted": {
+        "type": "String",
+        "example": "99 %"
+      }
+    }
+  },
+  "dailyNorm": "Personal daily norm",
+  "@dailyNorm": {},
+  "dailyNormsSectionTitle": "Personal daily norms",
+  "@dailyNormsSectionTitle": {},
+  "dailyNormsSectionSubtitle": "Daily norm of today‘s consumed nutrition",
+  "@dailyNormsSectionSubtitle": {},
+  "dailyNormsConsumedExplanation": "Precentage of consumed personal daily norm",
+  "@dailyNormsConsumedExplanation": {},
+  "consumed": "Consumed: {consumption}",
+  "@consumed": {
+    "placeholders": {
+      "consumption": {
+        "type": "String",
+        "example": "120 g"
+      }
+    }
+  },
+  "consumptionWithNorm": "{amount} of {norm}",
+  "@consumptionWithNorm": {
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "120 g"
+      },
+      "norm": {
+        "type": "String",
+        "example": "150 g"
+      }
+    }
+  },
+  "consumptionEnergy": "Energy consumption",
+  "@consumptionEnergy": {
+    "context": "nutrient:weekly"
+  },
+  "consumptionLiquids": "Liquids consumption",
+  "@consumptionLiquids": {
+    "context": "nutrient:weekly"
+  },
+  "consumptionProteins": "Protein consumption ",
+  "@consumptionProteins": {
+    "context": "nutrient:weekly"
+  },
+  "consumptionSodium": "Sodium consumption",
+  "@consumptionSodium": {
+    "context": "nutrient:weekly"
+  },
+  "consumptionPotassium": "Potassium consumption",
+  "@consumptionPotassium": {
+    "context": "nutrient:weekly"
+  },
+  "consumptionPhosphorus": "Phosphorus consumption",
+  "@consumptionPhosphorus": {
+    "context": "nutrient:weekly"
+  },
+  "consumptionFat": "Fat consumption",
+  "@consumptionFat": {
+    "context": "nutrient:weekly"
+  },
+  "consumptionCarbohydrate": "Carbohydrate consumption",
+  "@consumptionCarbohydrate": {
+    "context": "nutrient:weekly"
+  },
+  "todayConsumptionWithoutNorm": "Today: {amount}",
+  "@todayConsumptionWithoutNorm": {
+    "placeholders": {
+      "amount": {
+        "type": "String",
+        "example": "120 g"
+      }
+    }
+  },
+  "dateOfBirth": "Date of birth",
+  "@dateOfBirth": {},
+  "myNutrition": "My nutrition",
+  "@myNutrition": {},
+  "create": "Add",
+  "@create": {},
+  "createMeals": "Add meals",
+  "@createMeals": {},
+  "createAdditionalMeal": "Add other meal",
+  "@createAdditionalMeal": {},
+  "productSearchTitle": "Search the product",
+  "@productSearchTitle": {},
+  "potassium": "Potassium",
+  "@potassium": {
+    "context": "nutrient"
+  },
+  "proteins": "Proteins",
+  "@proteins": {
+    "context": "nutrient"
+  },
+  "sodium": "Sodium",
+  "@sodium": {
+    "context": "nutrient"
+  },
+  "phosphorus": "Phosphorus",
+  "@phosphorus": {
+    "context": "nutrient"
+  },
+  "fat": "Fat",
+  "@fat": {
+    "context": "nutrient"
+  },
+  "carbohydrate": "Carbohydrate",
+  "@carbohydrate": {
+    "context": "nutrient"
+  },
+  "liquids": "Liquids",
+  "@liquids": {
+    "context": "nutrient"
+  },
+  "energy": "Energy",
+  "@energy": {
+    "context": "nutrient"
+  },
+  "generalRecommendations": "General recommendations",
+  "@generalRecommendations": {},
+  "generalRecommendationsDisclaimer": "The advice is not a substitute for a treatment. Please always follow your doctor‘s instructions.",
+  "@generalRecommendationsDisclaimer": {},
+  "formValidatorNonEmptyText": "This field is required.",
+  "@formValidatorNonEmptyText": {
+    "context": "form:validator"
+  },
+  "formValidatorMinLength": "Minimal lenght {min} symbols.",
+  "@formValidatorMinLength": {
+    "context": "form:validator",
+    "placeholders": {
+      "min": {
+        "type": "String",
+        "example": "10"
+      }
+    }
+  },
+  "formValidatorMinValue": "The value cannot be less than {min}.",
+  "@formValidatorMinValue": {
+    "context": "form:validator",
+    "placeholders": {
+      "min": {
+        "type": "String",
+        "example": "10"
+      }
+    }
+  },
+  "formValidatorMaxValue": "The value cannot be more than {max}.",
+  "@formValidatorMaxValue": {
+    "context": "form:validator",
+    "placeholders": {
+      "max": {
+        "type": "String",
+        "example": "10"
+      }
+    }
+  },
+  "healthIndicatorSubtitle": "Today: {value}",
+  "@healthIndicatorSubtitle": {
+    "context": "healthIndicators",
+    "placeholders": {
+      "value": {
+        "type": "String",
+        "example": "10 kcal"
+      }
+    }
+  },
+  "weeklyHealthStatusEmpty": "There are no health status entered for the selected time period!",
+  "@weeklyHealthStatusEmpty": {
+    "context": "healthStatus"
+  },
+  "weeklyNutrientsEmpty": "There are no meals or drinks entered for the selected time period!",
+  "@weeklyNutrientsEmpty": {
+    "context": "weeklyNutrients"
+  },
+  "createHealthStatus": "Add health status",
+  "@createHealthStatus": {
+    "context": "weeklyNutrients"
+  },
+  "mealCreationProduct": "Product",
+  "@mealCreationProduct": {
+    "context": "mealCreation"
+  },
+  "mealCreationQuantity": "Quantity",
+  "@mealCreationQuantity": {
+    "context": "mealCreation"
+  },
+  "mealCreationDatetimeSectionTitle": "Date and time",
+  "@mealCreationDatetimeSectionTitle": {
+    "context": "mealCreation"
+  },
+  "date": "Date",
+  "@date": {},
+  "mealCreationTime": "Time",
+  "@mealCreationTime": {
+    "context": "mealCreation"
+  },
+  "mealCreationErrorNoProductSelected": "No products selected!",
+  "@mealCreationErrorNoProductSelected": {
+    "context": "mealCreation"
+  },
+  "userProfileScreenTitle": "My profile",
+  "@userProfileScreenTitle": {
+    "context": "userProfile"
+  },
+  "userProfileExplanationTitle": "Creating a profile",
+  "@userProfileExplanationTitle": {
+    "context": "userProfile"
+  },
+  "userProfileExplanation": "According to your answers we will personalize NephroGo and calculate the dietary norms for You!",
+  "@userProfileExplanation": {
+    "context": "userProfile"
+  },
+  "userProfileSectionGeneralInformationTitle": "General information",
+  "@userProfileSectionGeneralInformationTitle": {
+    "context": "userProfile"
+  },
+  "gender": "Gender",
+  "@gender": {
+    "context": "userProfile"
+  },
+  "male": "Male",
+  "@male": {
+    "context": "userProfile"
+  },
+  "female": "Female",
+  "@female": {
+    "context": "userProfile"
+  },
+  "height": "Height",
+  "@height": {
+    "context": "userProfile"
+  },
+  "weight": "Weight",
+  "@weight": {
+    "context": "userProfile"
+  },
+  "userProfileWeightHelper": "If you perform dialysis, record your dry weight",
+  "@userProfileWeightHelper": {
+    "context": "userProfile"
+  },
+  "userProfileSectionChronicKidneyDiseaseAge": "How long do you have a chronic kidney disease?",
+  "@userProfileSectionChronicKidneyDiseaseAge": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseAgeNoMoreThanYear": "No more than a year",
+  "@chronicKidneyDiseaseAgeNoMoreThanYear": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseAge1To5Years": "From 1 to 5 years",
+  "@chronicKidneyDiseaseAge1To5Years": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseAge6To10Years": "From 6 to 10 years",
+  "@chronicKidneyDiseaseAge6To10Years": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseMoreThan10Years": "More than 10 years",
+  "@chronicKidneyDiseaseMoreThan10Years": {
+    "context": "userProfile"
+  },
+  "userProfileSectionChronicKidneyDiseaseStage": "Stage of a chronic kidney disease",
+  "@userProfileSectionChronicKidneyDiseaseStage": {
+    "context": "userProfile"
+  },
+  "userProfileSectionChronicKidneyDiseaseStageHelper": "GFR – glomerular filtration rate",
+  "@userProfileSectionChronicKidneyDiseaseStageHelper": {
+    "context": "userProfile"
+  },
+  "stage": "Stage",
+  "@stage": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseStage1Description": "GFR not less than 90 ml/min./1,73 m²",
+  "@chronicKidneyDiseaseStage1Description": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseStage2Description": "GFR from 60 to 89 ml/min./1,73 m²",
+  "@chronicKidneyDiseaseStage2Description": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseStage3Description": "GFR from 30 to 59 ml/min./1,73 m²",
+  "@chronicKidneyDiseaseStage3Description": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseStage4Description": "GFR from 15 to 29 ml/min./1,73 m²",
+  "@chronicKidneyDiseaseStage4Description": {
+    "context": "userProfile"
+  },
+  "chronicKidneyDiseaseStage5Description": "GFR less than 15 ml/min./1,73 m²",
+  "@chronicKidneyDiseaseStage5Description": {
+    "context": "userProfile"
+  },
+  "iDontKnown": "I don‘t know",
+  "@iDontKnown": {
+    "context": "userProfile"
+  },
+  "userProfileSectionDialysisType": "Type of dialysis",
+  "@userProfileSectionDialysisType": {
+    "context": "userProfile"
+  },
+  "userProfileSectionDialysisTypeHemodialysis": "Hemodialysis",
+  "@userProfileSectionDialysisTypeHemodialysis": {
+    "context": "userProfile"
+  },
+  "userProfileSectionDialysisTypePostTransplant": "I don‘t perform dialysis, I am after kidney transplantation",
+  "@userProfileSectionDialysisTypePostTransplant": {
+    "context": "userProfile"
+  },
+  "userProfileSectionDialysisTypePostTransplantDescription": "6 and more weeks after transplantation",
+  "@userProfileSectionDialysisTypePostTransplantDescription": {
+    "context": "userProfile"
+  },
+  "userProfileSectionDialysisTypeNotPerformed": "I don‘t perform",
+  "@userProfileSectionDialysisTypeNotPerformed": {
+    "context": "userProfile"
+  },
+  "peritonealDialysisTypeAutomatic": "Automatic peritoneal dialysis",
+  "@peritonealDialysisTypeAutomatic": {
+    "context": "userProfile"
+  },
+  "peritonealDialysisTypeAutomaticPlural": "Automatic peritoneal dialysis",
+  "@peritonealDialysisTypeAutomaticPlural": {
+    "context": "userProfile"
+  },
+  "peritonealDialysisTypeManual": "Ambulatory peritoneal dialysis",
+  "@peritonealDialysisTypeManual": {
+    "context": "userProfile"
+  },
+  "peritonealDialysisTypeManualPlural": "Ambulatory peritoneal dialysis",
+  "@peritonealDialysisTypeManualPlural": {
+    "context": "userProfile"
+  },
+  "peritonealDialysisTypeManualAlternative": "„Manual“ peritoneal dialysis",
+  "@peritonealDialysisTypeManualAlternative": {
+    "context": "userProfile"
+  },
+  "userProfileSectionDiabetesTitle": "Diabetes",
+  "@userProfileSectionDiabetesTitle": {
+    "context": "userProfile"
+  },
+  "userProfileSectionDiabetesType": "Type of diabetes",
+  "@userProfileSectionDiabetesType": {
+    "context": "userProfile"
+  },
+  "userProfileSectionDiabetesType1": "1st type",
+  "@userProfileSectionDiabetesType1": {
+    "context": "userProfile"
+  },
+  "userProfileSectionDiabetesType2": "2nd type",
+  "@userProfileSectionDiabetesType2": {
+    "context": "userProfile"
+  },
+  "userProfileSectionDiabetesTypeNo": "I don‘t have diabetes",
+  "@userProfileSectionDiabetesTypeNo": {
+    "context": "userProfile"
+  },
+  "userProfileSectionDiabetesAge": "How long do you have diabetes?",
+  "@userProfileSectionDiabetesAge": {
+    "context": "userProfile"
+  },
+  "userProfileSectionDiabetesComplications": "Do you have any complications of diabetes",
+  "@userProfileSectionDiabetesComplications": {
+    "context": "userProfile"
+  },
+  "ageSuffix": "m.",
+  "@ageSuffix": {
+    "context": "userProfile"
+  },
+  "pulse": "Pulsas",
+  "@pulse": {},
+  "pulseDimension": "bpm",
+  "@pulseDimension": {},
+  "measureDateAndTime": "Date and time of a measure",
+  "@measureDateAndTime": {},
+  "healthStatusCreationTodayTitle": "Today‘s health status",
+  "@healthStatusCreationTodayTitle": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationBloodPressure": "Blood pressure",
+  "@healthStatusCreationBloodPressure": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationBloodPressureHelper": "If you use medicine to control your blood pressure, measure your blood pressure only after taking the medicine!",
+  "@healthStatusCreationBloodPressureHelper": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSystolic": "Systolic",
+  "@healthStatusCreationSystolic": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationDiastolic": "Diastolic",
+  "@healthStatusCreationDiastolic": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSectionGeneralInfo": "General information",
+  "@healthStatusCreationSectionGeneralInfo": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationUrine": "Amount of urine",
+  "@healthStatusCreationUrine": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationGlucose": "Blood glucose concentration",
+  "@healthStatusCreationGlucose": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellings": "Edema",
+  "@healthStatusCreationSwellings": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficulty": "Difficulty of edemas",
+  "@healthStatusCreationSwellingDifficulty": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficultyHelper": "Check the swelling by gently pressing the skin on the front of the calf with the fingers.",
+  "@healthStatusCreationSwellingDifficultyHelper": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficulty0": "No pit",
+  "@healthStatusCreationSwellingDifficulty0": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficulty1": "The pit is about 2 mm depth. It disappears immediately.",
+  "@healthStatusCreationSwellingDifficulty1": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficulty2": "The pit is about 4 mm depth. It disappears in 10-15 seconds.",
+  "@healthStatusCreationSwellingDifficulty2": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficulty3": "The pit is about 6 mm in depth. It disappears in 60 sec.",
+  "@healthStatusCreationSwellingDifficulty3": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingDifficulty4": " The pit is about 8 mm in depth. It disappears in 2 min.",
+  "@healthStatusCreationSwellingDifficulty4": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalization": "Localization of edema",
+  "@healthStatusCreationSwellingsLocalization": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationEyes": "Under the eyes",
+  "@healthStatusCreationSwellingsLocalizationEyes": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationWholeFace": "Whole face",
+  "@healthStatusCreationSwellingsLocalizationWholeFace": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationHandBreadth": "Hands",
+  "@healthStatusCreationSwellingsLocalizationHandBreadth": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationHands": "Arms",
+  "@healthStatusCreationSwellingsLocalizationHands": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationBelly": "Belly",
+  "@healthStatusCreationSwellingsLocalizationBelly": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationKnees": "Knees",
+  "@healthStatusCreationSwellingsLocalizationKnees": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationFoot": "Foot",
+  "@healthStatusCreationSwellingsLocalizationFoot": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationSwellingsLocalizationWholeLegs": "Whole legs",
+  "@healthStatusCreationSwellingsLocalizationWholeLegs": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationWellFeeling": "Well-being",
+  "@healthStatusCreationWellFeeling": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationWellFeelingPerfect": "Perfect",
+  "@healthStatusCreationWellFeelingPerfect": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationWellFeelingGood": "Good",
+  "@healthStatusCreationWellFeelingGood": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationWellFeelingAverage": "Average",
+  "@healthStatusCreationWellFeelingAverage": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationWellFeelingBad": "Bad",
+  "@healthStatusCreationWellFeelingBad": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationWellFeelingVeryBad": "Very bad",
+  "@healthStatusCreationWellFeelingVeryBad": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationAppetite": "Apptite",
+  "@healthStatusCreationAppetite": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationAppetitePerfect": "Perfect",
+  "@healthStatusCreationAppetitePerfect": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationAppetiteGood": "Good",
+  "@healthStatusCreationAppetiteGood": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationAppetiteAverage": "Average",
+  "@healthStatusCreationAppetiteAverage": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationAppetiteBad": "Bad",
+  "@healthStatusCreationAppetiteBad": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationAppetiteVeryBad": "Very bad",
+  "@healthStatusCreationAppetiteVeryBad": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreath": "Breathlessness",
+  "@healthStatusCreationShortnessOfBreath": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathNo": "None",
+  "@healthStatusCreationShortnessOfBreathNo": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathLight": "Light",
+  "@healthStatusCreationShortnessOfBreathLight": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathLightHelper": "Breathlessness with strenous physical exercise (walking 500 m in an average speed or climbing to the 5th floor).",
+  "@healthStatusCreationShortnessOfBreathLightHelper": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathAverage": "Average",
+  "@healthStatusCreationShortnessOfBreathAverage": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathAverageHelper": "Breathlessness with average physical exercise (walking 200 m in an average speed or climbing to the 3-4th floor).",
+  "@healthStatusCreationShortnessOfBreathAverageHelper": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathSevere": "Bad",
+  "@healthStatusCreationShortnessOfBreathSevere": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathSevereHelper": "Breathlessness with light physical exercise (walking 100 m in an average speed or climbing to the 2nd floor).",
+  "@healthStatusCreationShortnessOfBreathSevereHelper": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathBackbreaking": "Severe",
+  "@healthStatusCreationShortnessOfBreathBackbreaking": {
+    "context": "healthStatusCreation"
+  },
+  "healthStatusCreationShortnessOfBreathBackbreakingHelper": "Breathlessness with no or little physical exercise (dressing or undressing, walking in a room).",
+  "@healthStatusCreationShortnessOfBreathBackbreakingHelper": {
+    "context": "healthStatusCreation"
+  },
+  "loginGoogle": "Login with Google",
+  "@loginGoogle": {
+    "context": "authentication:login"
+  },
+  "loginFacebook": "Login with Facebook",
+  "@loginFacebook": {
+    "context": "authentication:login"
+  },
+  "loginApple": "Login with Apple",
+  "@loginApple": {
+    "context": "authentication:login"
+  },
+  "registerUsingEmail": "Register using Email",
+  "@registerUsingEmail": {
+    "context": "authentication:login"
+  },
+  "loginEmail": "Login with Email",
+  "@loginEmail": {
+    "context": "authentication:login"
+  },
+  "alreadyRegisterWhenLogin": "Are you already registred with an Email?",
+  "@alreadyRegisterWhenLogin": {
+    "context": "authentication:login"
+  },
+  "finish": "Finish",
+  "@finish": {
+    "context": "onboarding"
+  },
+  "further": "Further",
+  "@further": {
+    "context": "onboarding"
+  },
+  "onboarding": "Onboarding",
+  "@onboarding": {
+    "context": "onboarding"
+  },
+  "onboardingStep1Title": "Welcome to NephroGo!",
+  "@onboardingStep1Title": {
+    "context": "onboarding"
+  },
+  "onboardingStep1Description": "We invite you to get acquainted with the app!",
+  "@onboardingStep1Description": {
+    "context": "onboarding"
+  },
+  "onboardingStep2Title": "Follow your diet",
+  "@onboardingStep2Title": {
+    "context": "onboarding"
+  },
+  "onboardingStep2Description": "Add meals from the NephroGo database and you will find out how much of potassium, sodium, phosphorus, proteins, fluids and kilocalories they contain.",
+  "@onboardingStep2Description": {
+    "context": "onboarding"
+  },
+  "onboardingStep3Title": "Personal daily norms",
+  "@onboardingStep3Title": {
+    "context": "onboarding"
+  },
+  "onboardingStep3Description": "NephroGo will calculate how much of nutrients you can consume today.",
+  "@onboardingStep3Description": {
+    "context": "onboarding"
+  },
+  "onboardingStep4Title": "Personal nutrition summaries",
+  "@onboardingStep4Title": {
+    "context": "onboarding"
+  },
+  "onboardingStep4Description": "See your daily intake of nutrients and track your kidney-friendly diet.",
+  "@onboardingStep4Description": {
+    "context": "onboarding"
+  },
+  "onboardingStep5Title": "Track your health status",
+  "@onboardingStep5Title": {
+    "context": "onboarding"
+  },
+  "onboardingStep5Description": "Easily add and save data about your health status and track your weekly performance.",
+  "@onboardingStep5Description": {
+    "context": "onboarding"
+  },
+  "onboardingStep6Title": "Recommendations",
+  "@onboardingStep6Title": {
+    "context": "onboarding"
+  },
+  "onboardingStep6Description": "Get asnwers to the most important questions you have about chronic kidney disease.",
+  "@onboardingStep6Description": {
+    "context": "onboarding"
+  },
+  "login": "Login",
+  "@login": {
+    "context": "login"
+  },
+  "loginAction": "Login",
+  "@loginAction": {
+    "context": "login"
+  },
+  "registration": "Registration",
+  "@registration": {
+    "context": "login"
+  },
+  "register": "Register",
+  "@register": {
+    "context": "login"
+  },
+  "forgetPassword": "Did you forget your password?",
+  "@forgetPassword": {
+    "context": "login"
+  },
+  "email": "Email",
+  "@email": {
+    "context": "login"
+  },
+  "password": "Password",
+  "@password": {
+    "context": "login"
+  },
+  "errorUserNotFound": "User not found",
+  "@errorUserNotFound": {
+    "context": "login"
+  },
+  "errorInvalidPassword": "Wrong password",
+  "@errorInvalidPassword": {
+    "context": "login"
+  },
+  "errorEmailAlreadyInUse": "This Email is already used",
+  "@errorEmailAlreadyInUse": {
+    "context": "registration"
+  },
+  "errorInvalidEmail": "Wrong Email",
+  "@errorInvalidEmail": {
+    "context": "registration"
+  },
+  "errorWeakPassword": "The password is too weak",
+  "@errorWeakPassword": {
+    "context": "registration"
+  },
+  "passwordRecovery": "Password recovery",
+  "@passwordRecovery": {
+    "context": "login"
+  },
+  "passwordRecoveryEmailSent": "We sent a password reset to {email}",
+  "@passwordRecoveryEmailSent": {
+    "context": "login",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "example": "email@email.lt"
+      }
+    }
+  },
+  "passwordRecoveryInstructions": "Enter your Email and we will send you the instructions how to change your password.",
+  "@passwordRecoveryInstructions": {
+    "context": "login"
+  },
+  "termsOfUse": "Terms of Use",
+  "@termsOfUse": {},
+  "unknown": "Unknown",
+  "@unknown": {},
+  "recommendationsSources": "A clinical psychologist Miglė Rudytė assisted in developing the recommendations.\n\nIkizler TA, Burrowes JD, Byham-Gray LD, et al; KDOQI Nutrition in CKD Guideline Work Group. KDOQI clinical practice guideline for nutrition in CKD: 2020 update. Am J Kidney Dis. 2020;76(3)(suppl 1):S1-S107.\n\nAlgirdas Tamošaitis, Regina Galubauskienė „Lėtinis inkstų nepakankamumas ir mityba“, 2013 m., Vilnius, ISBN 978-9955-721-07-9\n\nLaurynas Rimševičius, Marius Miglinas „Peritoninės dializės pagrindai ir gairės“, 2017 m., Vilnius, ISBN 978-609-459-844-9\n\nhttps://www.diaverum.com/lt-LT/gyvenimas-sergant-l-tine-inkst-liga/Gyvenimas-sergant-ltine-inkst-liga/Aktyvus-gyvenimas/ \nhttps://www.lndta.lt/wp-content/uploads/informacija-pacientams/L%C4%97tinis-inkst%C5%B3-funkcijos-nepakankamumas.pdf \nhttps://www.rkligonine.lt/uploads/docs/apie_peritonine_dialize_ir_hemodialize.pdf \nhttps://www.kidney.org/atoz/content/taking-care-your-peritoneal-dialysis-pd-catheter \nhttps://www.freseniuskidneycare.com/thrive-central/stress-and-kidney-disease \nhttps://tuesi.lt/pagalbos-teikejai/",
+  "@recommendationsSources": {},
+  "dialysisActive": "Dialysis is in progress",
+  "@dialysisActive": {
+    "context": "automaticDialysis"
+  },
+  "dialysisSolutionVolumes": "Volumes of solutions",
+  "@dialysisSolutionVolumes": {
+    "context": "automaticDialysis"
+  },
+  "machineReadings": "Machine readings",
+  "@machineReadings": {
+    "context": "automaticDialysis"
+  },
+  "initialDraining": "Initial draining",
+  "@initialDraining": {
+    "context": "automaticDialysis"
+  },
+  "initialDrainingHelper": "Initial draining / I-DRAIN",
+  "@initialDrainingHelper": {
+    "context": "automaticDialysis"
+  },
+  "totalDrainVolume": "Total drain volume",
+  "@totalDrainVolume": {
+    "context": "automaticDialysis"
+  },
+  "totalDrainVolumeHelper": "Total drain volume",
+  "@totalDrainVolumeHelper": {
+    "context": "automaticDialysis"
+  },
+  "lastFill": "Last fill",
+  "@lastFill": {
+    "context": "automaticDialysis"
+  },
+  "lastFillHelper": "Last fill",
+  "@lastFillHelper": {
+    "context": "automaticDialysis"
+  },
+  "totalUltraFiltration": "Total ultrafiltration",
+  "@totalUltraFiltration": {
+    "context": "automaticDialysis"
+  },
+  "totalUltraFiltrationHelper": "Total UF",
+  "@totalUltraFiltrationHelper": {
+    "context": "automaticDialysis"
+  },
+  "additionalDrainSectionTitle": "Additional drain",
+  "@additionalDrainSectionTitle": {
+    "context": "automaticDialysis"
+  },
+  "additionalDrain": "Aditional drain",
+  "@additionalDrain": {
+    "context": "automaticDialysis"
+  },
+  "additionalDrainHelper": "If you make additional changes of the solution during the day, complete this field.",
+  "@additionalDrainHelper": {
+    "context": "automaticDialysis"
+  },
+  "dialysisStartDateTime": "Date and time of dialysis start",
+  "@dialysisStartDateTime": {
+    "context": "manualDialysis"
+  },
+  "manualDialysisStartDateTime": "Date and time of solution fill",
+  "@manualDialysisStartDateTime": {
+    "context": "manualDialysis"
+  },
+  "manualDialysisEndDateTime": "Date and time of dialysate drain",
+  "@manualDialysisEndDateTime": {
+    "context": "manualDialysis"
+  },
+  "automaticDialysisStartDateTime": "Date and time of solution fill",
+  "@automaticDialysisStartDateTime": {
+    "context": "autoamticDialysis"
+  },
+  "automaticDialysisEndDateTime": "Date and time of dialysate drain",
+  "@automaticDialysisEndDateTime": {
+    "context": "autoamticDialysis"
+  },
+  "mandatoryHealthStatusIndicators": "Mandatory health status indicators",
+  "@mandatoryHealthStatusIndicators": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionSection": "Choice of the solution",
+  "@dialysisSolutionSection": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolution": "Solution",
+  "@dialysisSolution": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionIn": "Solution fill",
+  "@dialysisSolutionIn": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionOut": "Dialysate drain",
+  "@dialysisSolutionOut": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionGreen": "Green",
+  "@dialysisSolutionGreen": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionGreenDescription": "Physioneal 2,27% glucose",
+  "@dialysisSolutionGreenDescription": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionYellow": "Yellow",
+  "@dialysisSolutionYellow": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionYellowDescription": "Physioneal 1,36% glucose",
+  "@dialysisSolutionYellowDescription": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionOrange": "Orange",
+  "@dialysisSolutionOrange": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionOrangeDescription": "Physioneal 3,86% glucose",
+  "@dialysisSolutionOrangeDescription": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionBlue": "Blue",
+  "@dialysisSolutionBlue": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionBlueDescription": "Nutrineal 1,1% amino acids",
+  "@dialysisSolutionBlueDescription": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionPurple": "Purple",
+  "@dialysisSolutionPurple": {
+    "context": "manualDialysis"
+  },
+  "dialysisSolutionPurpleDescription": "Extraneal 7,5% icodextrin",
+  "@dialysisSolutionPurpleDescription": {
+    "context": "manualDialysis"
+  },
+  "dialysate": "Dialysate",
+  "@dialysate": {
+    "context": "manualDialysis"
+  },
+  "dialysateColor": "Dialysate color",
+  "@dialysateColor": {
+    "context": "manualDialysis"
+  },
+  "dialysateColorWarning": "If the color of the dialysate is not transparent, read more in the Recommendations section and contact your doctor!",
+  "@dialysateColorWarning": {},
+  "dialysateColorTransparent": "Transparent",
+  "@dialysateColorTransparent": {
+    "context": "manualDialysis"
+  },
+  "dialysateColorPink": "Pink",
+  "@dialysateColorPink": {
+    "context": "manualDialysis"
+  },
+  "dialysateColorCloudyYellowish": "Cloudy yellowish",
+  "@dialysateColorCloudyYellowish": {
+    "context": "manualDialysis"
+  },
+  "dialysateColorGreenish": "Greenish",
+  "@dialysateColorGreenish": {
+    "context": "manualDialysis"
+  },
+  "dialysateColorBrown": "Brown",
+  "@dialysateColorBrown": {
+    "context": "manualDialysis"
+  },
+  "dialysateColorCloudyWhite": "Cloudy white",
+  "@dialysateColorCloudyWhite": {
+    "context": "manualDialysis"
+  },
+  "notes": "Notes",
+  "@notes": {},
+  "balance": "Balance",
+  "@balance": {},
+  "dailyBalance": "Daily balance",
+  "@dailyBalance": {},
+  "finishDialysis": "Finish dialysis",
+  "@finishDialysis": {},
+  "automaticDialysisBetaDisclaimer": "We are working to improve the automatic peritoneal dialysis function.\nPlease provide the feedback to the developers.",
+  "@automaticDialysisBetaDisclaimer": {},
+  "manualPeritonealDialysisPeriodEmpty": "No peritoneal dialys was recorded for the selected period!",
+  "@manualPeritonealDialysisPeriodEmpty": {},
+  "createBloodPressure": "Add blood pressure",
+  "@createBloodPressure": {},
+  "createPulse": "Pridėti pulsą",
+  "@createPulse": {},
+  "createUrine": "Add urine volume",
+  "@createUrine": {},
+  "createWeight": "Add weight",
+  "@createWeight": {},
+  "createBloodConcentration": "Add glucose concentration",
+  "@createBloodConcentration": {},
+  "createSwellings": "Add edemas",
+  "@createSwellings": {},
+  "createSeverityOfSwelling": "Add the severity of edemas",
+  "@createSeverityOfSwelling": {},
+  "createWellBeing": "Evaluate your well-being",
+  "@createWellBeing": {},
+  "createAppetite": "Evaluate your appetite",
+  "@createAppetite": {},
+  "createShortnessOfBreath": "Evaluate your breathlessness",
+  "@createShortnessOfBreath": {},
+  "errorNoDialysisSolutionSelected": "Add at least one solution",
+  "@errorNoDialysisSolutionSelected": {},
+  "errorAutomaticDialysisWithSameDateExists": "Automatic peritoneal dialysis of this date is already created!\nPlease edit existing dialysis.",
+  "@errorAutomaticDialysisWithSameDateExists": {},
+  "hoursShortSuffix": "h",
+  "@hoursShortSuffix": {},
+  "minutesShortSuffix": "min",
+  "@minutesShortSuffix": {},
+  "duration": "Duration",
+  "@duration": {},
+  "chooseCountry": "Choose country",
+  "@chooseCountry": {},
+  "country": "Country",
+  "@country": {},
+  "germany": "Germany",
+  "@germany": {
+    "context": "country"
+  },
+  "unitedKingdom": "United Kingdom",
+  "@unitedKingdom": {
+    "context": "country"
+  },
+  "ireland": "Ireland",
+  "@ireland": {
+    "context": "country"
+  },
+  "lithuania": "Lithuania",
+  "@lithuania": {
+    "context": "country"
+  },
+  "switzerland": "Switzerland",
+  "@switzerland": {
+    "context": "country"
+  },
+  "austria": "Austria",
+  "@austria": {
+    "context": "country"
+  },
+  "supportPhoneNumber": "+37065253669",
+  "@supportPhoneNumber": {},
+  "privacyPolicyUrl": "https://www.nephrogo.com/documents/en/privacy-policy.pdf",
+  "@privacyPolicyUrl": {},
+  "healthDataProcessingPolicyUrl": "https://www.nephrogo.com/documents/en/processing-of-personal-health-data.pdf",
+  "@healthDataProcessingPolicyUrl": {},
+  "fairUseRulesUrl": "https://www.nephrogo.com/documents/en/fair-use-rules.pdf",
+  "@fairUseRulesUrl": {},
+  "website": "Website",
+  "@website": {},
+  "websiteUrl": "https://www.nephrogo.lt/",
+  "@websiteUrl": {}
+}
