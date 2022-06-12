@@ -2,7 +2,7 @@
   "@@locale": "en",
   "tabNutrition": "Nutrition",
   "@tabNutrition": {},
-  "tabHealthIndicators": "Health status",
+  "tabHealthIndicators": "Health",
   "@tabHealthIndicators": {},
   "tabGeneralRecommendations": "Recommendations",
   "@tabGeneralRecommendations": {},
@@ -790,7 +790,7 @@
   "@finish": {
     "context": "onboarding"
   },
-  "further": "Further",
+  "further": "Next",
   "@further": {
     "context": "onboarding"
   },
