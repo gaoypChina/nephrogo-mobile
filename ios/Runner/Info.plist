@@ -34,6 +34,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FacebookAppID</key>
 	<string>685980628732699</string>
+	<key>FacebookClientToken</key>
+    <string>e38ac07c51e22bf444fbd61828bb63e2</string>
 	<key>FacebookDisplayName</key>
 	<string>NephroGo</string>
 	<key>FacebookAutoLogAppEventsEnabled</key>
