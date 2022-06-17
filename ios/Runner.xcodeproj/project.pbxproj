@@ -39,6 +39,8 @@
 		6D8E0F7A25B5BF7400FAD644 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		6DACE17C26831F8500C7492D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		6DACE17D26831F8500C7492D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		6DCC19F1285CB6A9005A6962 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/Main.strings; sourceTree = "<group>"; };
+		6DCC19F2285CB6A9005A6962 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				en,
 				Base,
 				de,
+				lt,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
@@ -314,6 +317,7 @@
 			children = (
 				97C146FB1CF9000F007C117D /* Base */,
 				6DACE17C26831F8500C7492D /* de */,
+				6DCC19F1285CB6A9005A6962 /* lt */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -323,6 +327,7 @@
 			children = (
 				97C147001CF9000F007C117D /* Base */,
 				6DACE17D26831F8500C7492D /* de */,
+				6DCC19F2285CB6A9005A6962 /* lt */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
