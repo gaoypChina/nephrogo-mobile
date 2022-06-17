@@ -177,7 +177,7 @@
   "@message": {},
   "reportMissingProduct": "Report a missing product",
   "@reportMissingProduct": {},
-  "productSearchEmpty": "No „{query}“ were found!",
+  "productSearchEmpty": "No \"{query}\" were found!",
   "@productSearchEmpty": {
     "placeholders": {
       "query": {
@@ -209,7 +209,7 @@
   "@dailyNormsSectionTitle": {},
   "dailyNormsSectionSubtitle": "Daily norm of today‘s consumed nutrition",
   "@dailyNormsSectionSubtitle": {},
-  "dailyNormsConsumedExplanation": "Precentage of consumed personal daily norm",
+  "dailyNormsConsumedExplanation": "Percentage of consumed personal daily norm",
   "@dailyNormsConsumedExplanation": {},
   "consumed": "Consumed: {consumption}",
   "@consumed": {
@@ -326,7 +326,7 @@
   "@formValidatorNonEmptyText": {
     "context": "form:validator"
   },
-  "formValidatorMinLength": "Minimal lenght {min} symbols.",
+  "formValidatorMinLength": "Minimal length {min} symbols.",
   "@formValidatorMinLength": {
     "context": "form:validator",
     "placeholders": {
@@ -532,7 +532,7 @@
   "@peritonealDialysisTypeManualPlural": {
     "context": "userProfile"
   },
-  "peritonealDialysisTypeManualAlternative": "„Manual“ peritoneal dialysis",
+  "peritonealDialysisTypeManualAlternative": "\"Manual\" peritoneal dialysis",
   "@peritonealDialysisTypeManualAlternative": {
     "context": "userProfile"
   },
@@ -568,7 +568,7 @@
   "@ageSuffix": {
     "context": "userProfile"
   },
-  "pulse": "Pulsas",
+  "pulse": "Pulse",
   "@pulse": {},
   "pulseDimension": "bpm",
   "@pulseDimension": {},
@@ -698,7 +698,7 @@
   "@healthStatusCreationWellFeelingVeryBad": {
     "context": "healthStatusCreation"
   },
-  "healthStatusCreationAppetite": "Apptite",
+  "healthStatusCreationAppetite": "Appetite",
   "@healthStatusCreationAppetite": {
     "context": "healthStatusCreation"
   },
@@ -734,7 +734,7 @@
   "@healthStatusCreationShortnessOfBreathLight": {
     "context": "healthStatusCreation"
   },
-  "healthStatusCreationShortnessOfBreathLightHelper": "Breathlessness with strenous physical exercise (walking 500 m in an average speed or climbing to the 5th floor).",
+  "healthStatusCreationShortnessOfBreathLightHelper": "Breathlessness with strenuous physical exercise (walking 500 m in an average speed or climbing to the 5th floor).",
   "@healthStatusCreationShortnessOfBreathLightHelper": {
     "context": "healthStatusCreation"
   },
@@ -782,7 +782,7 @@
   "@loginEmail": {
     "context": "authentication:login"
   },
-  "alreadyRegisterWhenLogin": "Are you already registred with an Email?",
+  "alreadyRegisterWhenLogin": "Are you already registered with an Email?",
   "@alreadyRegisterWhenLogin": {
     "context": "authentication:login"
   },
@@ -842,7 +842,7 @@
   "@onboardingStep6Title": {
     "context": "onboarding"
   },
-  "onboardingStep6Description": "Get asnwers to the most important questions you have about chronic kidney disease.",
+  "onboardingStep6Description": "Get answers to the most important questions you have about chronic kidney disease.",
   "@onboardingStep6Description": {
     "context": "onboarding"
   },
@@ -1098,11 +1098,11 @@
   "@finishDialysis": {},
   "automaticDialysisBetaDisclaimer": "We are working to improve the automatic peritoneal dialysis function.\nPlease provide the feedback to the developers.",
   "@automaticDialysisBetaDisclaimer": {},
-  "manualPeritonealDialysisPeriodEmpty": "No peritoneal dialys was recorded for the selected period!",
+  "manualPeritonealDialysisPeriodEmpty": "No peritoneal dialysis was recorded for the selected period!",
   "@manualPeritonealDialysisPeriodEmpty": {},
   "createBloodPressure": "Add blood pressure",
   "@createBloodPressure": {},
-  "createPulse": "Pridėti pulsą",
+  "createPulse": "Add pulse",
   "@createPulse": {},
   "createUrine": "Add urine volume",
   "@createUrine": {},
