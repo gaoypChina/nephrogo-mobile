@@ -218,17 +218,17 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
                 },
               ),
             ),
-            BasicSection(
+            BasicSection.single(
               margin: EdgeInsets.zero,
-              children: [
-                AppListTile(
+              child: SafeArea(
+                child: AppListTile(
                   title: Text(appLocalizations.searchUnableToFindProduct),
                   trailing: OutlinedButton(
                     onPressed: _reportMissingProduct,
                     child: Text(appLocalizations.report.toUpperCase()),
                   ),
                 ),
-              ],
+              ),
             ),
           ],
         ),
