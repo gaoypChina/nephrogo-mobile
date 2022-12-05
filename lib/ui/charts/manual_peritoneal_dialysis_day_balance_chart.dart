@@ -9,10 +9,10 @@ class ManualPeritonealDialysisDayBalanceChart extends StatelessWidget {
   final Iterable<ManualPeritonealDialysis> manualPeritonealDialysis;
 
   const ManualPeritonealDialysisDayBalanceChart({
-    Key? key,
+    super.key,
     required this.manualPeritonealDialysis,
     required this.date,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

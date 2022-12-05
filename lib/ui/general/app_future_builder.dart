@@ -10,11 +10,11 @@ class AppFutureBuilder<T> extends StatefulWidget {
       loadingAndErrorWrapper;
 
   const AppFutureBuilder({
-    Key? key,
+    super.key,
     required this.future,
     required this.builder,
     this.loadingAndErrorWrapper,
-  }) : super(key: key);
+  });
 
   @override
   _AppFutureBuilderState<T> createState() => _AppFutureBuilderState<T>();

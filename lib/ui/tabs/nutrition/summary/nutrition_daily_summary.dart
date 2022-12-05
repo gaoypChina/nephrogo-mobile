@@ -28,9 +28,9 @@ class NutritionDailySummaryScreen extends StatelessWidget {
 
   const NutritionDailySummaryScreen(
     this.date, {
-    Key? key,
+    super.key,
     required this.nutrient,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +54,10 @@ class NutritionDailySummaryBody extends StatefulWidget {
   final Nutrient? nutrient;
 
   const NutritionDailySummaryBody({
-    Key? key,
+    super.key,
     required this.date,
     this.nutrient,
-  }) : super(key: key);
+  });
 
   @override
   _NutritionDailySummaryBodyState createState() =>
@@ -123,9 +123,8 @@ class _NutritionDailySummaryList extends StatelessWidget {
 
   const _NutritionDailySummaryList(
     this.dailyIntakesReport, {
-    Key? key,
     required this.header,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -170,12 +169,11 @@ class _NutritionDailySummaryListNutritionSection extends StatelessWidget {
   final Date date;
 
   const _NutritionDailySummaryListNutritionSection({
-    Key? key,
     required this.mealType,
     required this.intakes,
     required this.date,
     required this.norms,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -215,9 +213,8 @@ class _DailyNutritionNutrientList extends StatelessWidget {
   const _DailyNutritionNutrientList(
     this.dailyIntakesReport,
     this.nutrient, {
-    Key? key,
     required this.header,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -260,12 +257,11 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
   final DailyIntakesReport dailyIntakesReport;
 
   const _DailyNutritionNutrientSection({
-    Key? key,
     required this.nutrient,
     required this.mealType,
     required this.intakes,
     required this.dailyIntakesReport,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -12,10 +12,10 @@ class DailyMealTypeConsumptionColumnSeries extends StatelessWidget {
   final Nutrient nutrient;
 
   const DailyMealTypeConsumptionColumnSeries({
-    Key? key,
+    super.key,
     required this.report,
     required this.nutrient,
-  }) : super(key: key);
+  });
 
   String _getTitleText(AppLocalizations appLocalizations) {
     final consumptionFormatted = report.dailyNutrientNormsAndTotals

@@ -36,12 +36,12 @@ class IntakeCreateScreen extends StatefulWidget {
   final MealTypeEnum mealType;
 
   const IntakeCreateScreen({
-    Key? key,
+    super.key,
     required this.dailyNutrientNormsAndTotals,
     required this.mealType,
     required this.initialProduct,
     this.initialDate,
-  }) : super(key: key);
+  });
 
   @override
   _IntakeCreateScreenState createState() => _IntakeCreateScreenState();
@@ -288,14 +288,14 @@ class _IntakeEditSection extends StatefulWidget {
   final bool initiallyExpanded;
 
   const _IntakeEditSection({
-    Key? key,
+    super.key,
     required this.initialFakedIntake,
     required this.dailyNutrientNormsAndTotals,
     required this.onChanged,
     required this.onDelete,
     required this.focusNode,
     required this.initiallyExpanded,
-  }) : super(key: key);
+  });
 
   @override
   _IntakeEditSectionState createState() => _IntakeEditSectionState();

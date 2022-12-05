@@ -78,11 +78,11 @@ class MealTypeSelectionFormField extends StatelessWidget {
   final FormFieldSetter<MealTypeEnum> onSaved;
 
   const MealTypeSelectionFormField({
-    Key? key,
+    super.key,
     required this.initialMealType,
     required this.onChanged,
     required this.onSaved,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -359,8 +359,8 @@ class IntakeNutrientDenseTile extends StatelessWidget {
     this.intake,
     this.nutrient,
     this.dailyNutrientNormsAndTotals, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -436,8 +436,8 @@ class DailyIntakesReportNutrientTile extends StatelessWidget {
     this.dailyNutrientNormsAndTotals,
     this.date,
     this.nutrient, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -517,8 +517,8 @@ class NutrientDailyNutritionTile extends StatelessWidget {
     this.date,
     this.dailyNutrientNormsAndTotals,
     this.nutrient, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   NutrientDailyNutritionTile.fromLightReport(
     this.nutrient,
@@ -639,8 +639,8 @@ class NutrientIntakeTile extends StatelessWidget {
     this.intake,
     this.nutrient,
     this.dailyNutrientNormsAndTotals, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -725,11 +725,11 @@ class NutrientChartSection extends StatelessWidget {
   final Nutrient nutrient;
 
   const NutrientChartSection({
-    Key? key,
+    super.key,
     required this.reports,
     required this.nutrient,
     this.nutritionSummaryStatistics,
-  }) : super(key: key);
+  });
 
   Future openWeeklyNutritionScreen(
     BuildContext context,

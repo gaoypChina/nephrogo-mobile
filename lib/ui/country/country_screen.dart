@@ -51,10 +51,9 @@ class _CountryScreen extends StatefulWidget {
   final Country? initialCountrySelection;
 
   const _CountryScreen({
-    Key? key,
     required this.countries,
     required this.initialCountrySelection,
-  }) : super(key: key);
+  });
 
   @override
   _CountryScreenState createState() => _CountryScreenState();

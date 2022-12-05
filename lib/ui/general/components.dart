@@ -9,12 +9,12 @@ class SpeedDialFloatingActionButton extends StatefulWidget {
   final IconData icon;
 
   const SpeedDialFloatingActionButton({
-    Key? key,
+    super.key,
     required this.label,
     this.onPress,
     this.icon = Icons.add,
     this.children = const [],
-  }) : super(key: key);
+  });
 
   @override
   _SpeedDialFloatingActionButtonState createState() =>
@@ -78,7 +78,7 @@ class BasicSection extends StatelessWidget {
   final CrossAxisAlignment crossAxisAlignment;
 
   BasicSection({
-    Key? key,
+    super.key,
     this.header,
     this.footer,
     this.children = const [],
@@ -92,8 +92,7 @@ class BasicSection extends StatelessWidget {
           'Either header or at least one child should be passed',
         ),
         assert(!showHeaderDivider || (showHeaderDivider && header != null)),
-        margin = margin ?? const EdgeInsets.only(bottom: 16),
-        super(key: key);
+        margin = margin ?? const EdgeInsets.only(bottom: 16);
 
   const BasicSection.single({
     required Widget child,
@@ -166,7 +165,7 @@ class LargeSection extends StatelessWidget {
   final GestureTapCallback? onTap;
 
   const LargeSection({
-    Key? key,
+    super.key,
     required this.title,
     required this.children,
     this.subtitle,
@@ -175,7 +174,7 @@ class LargeSection extends StatelessWidget {
     this.footer,
     this.onTap,
     this.isThreeLine = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -204,13 +203,13 @@ class SmallSection extends StatelessWidget {
   final EdgeInsets innerPadding;
 
   const SmallSection({
-    Key? key,
+    super.key,
     required this.title,
     required this.children,
     this.trailing,
     this.showDividers = false,
     this.innerPadding = const EdgeInsets.only(bottom: 4),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -242,14 +241,14 @@ class LargeAppListTile extends StatelessWidget {
   final bool isThreeLine;
 
   const LargeAppListTile({
-    Key? key,
+    super.key,
     required this.title,
     this.subtitle,
     this.leading,
     this.trailing,
     this.onTap,
     this.isThreeLine = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -295,7 +294,7 @@ class AppListTile extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
 
   const AppListTile({
-    Key? key,
+    super.key,
     required this.title,
     this.subtitle,
     this.leading,
@@ -305,7 +304,7 @@ class AppListTile extends StatelessWidget {
     this.selected = false,
     this.dense = false,
     this.isThreeLine = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -335,14 +334,14 @@ class AppExpansionTile extends StatelessWidget {
   final GestureLongPressCallback? onLongPress;
 
   const AppExpansionTile({
-    Key? key,
+    super.key,
     required this.title,
     required this.children,
     this.subtitle,
     this.leading,
     this.onLongPress,
     this.initiallyExpanded = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -391,13 +390,13 @@ class AppCheckboxListTile extends StatelessWidget {
   final bool dense;
 
   const AppCheckboxListTile({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
     required this.onChanged,
     this.subtitle,
     this.dense = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -440,7 +439,7 @@ class ProductKindIcon extends StatelessWidget {
 class EmptyStateContainer extends StatelessWidget {
   final String text;
 
-  const EmptyStateContainer({Key? key, required this.text}) : super(key: key);
+  const EmptyStateContainer({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -472,15 +471,15 @@ class AppBarTextButton extends StatelessWidget {
   final Widget child;
 
   const AppBarTextButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      style: TextButton.styleFrom(primary: Colors.white),
+      style: TextButton.styleFrom(foregroundColor: Colors.white),
       onPressed: onPressed,
       child: child,
     );
@@ -493,11 +492,11 @@ class TextWithLeadingIcon extends StatelessWidget {
   final String? semanticLabel;
 
   const TextWithLeadingIcon({
-    Key? key,
+    super.key,
     required this.text,
     required this.icon,
     this.semanticLabel,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -529,7 +528,7 @@ class AppRadioListTile<T> extends StatelessWidget {
   final ListTileControlAffinity controlAffinity;
 
   const AppRadioListTile({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
     required this.groupValue,
@@ -538,7 +537,7 @@ class AppRadioListTile<T> extends StatelessWidget {
     this.secondary,
     this.subtitle,
     this.contentPadding,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -575,10 +574,10 @@ class RadioButtonGroup<T> extends StatefulWidget {
   ) buildRadioGroups;
 
   const RadioButtonGroup({
-    Key? key,
+    super.key,
     required this.onChanged,
     required this.buildRadioGroups,
-  }) : super(key: key);
+  });
 
   @override
   _RadioButtonGroupState<T> createState() => _RadioButtonGroupState<T>();

@@ -27,7 +27,7 @@ class LegalScreen extends StatelessWidget {
 
   final LegalScreenExitType exitType;
 
-  LegalScreen({Key? key, required this.exitType}) : super(key: key);
+  LegalScreen({super.key, required this.exitType});
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +51,10 @@ class LegalScreenContent extends StatefulWidget {
   final bool initialMarketingAllowed;
 
   const LegalScreenContent({
-    Key? key,
+    super.key,
     required this.exitType,
     required this.initialMarketingAllowed,
-  }) : super(key: key);
+  });
 
   @override
   _LegalScreenContentState createState() => _LegalScreenContentState();

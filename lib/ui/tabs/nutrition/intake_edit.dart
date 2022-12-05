@@ -30,10 +30,10 @@ class IntakeEditScreen extends StatefulWidget {
   final Intake intake;
 
   const IntakeEditScreen({
-    Key? key,
+    super.key,
     required this.dailyNutrientNormsAndTotals,
     required this.intake,
-  }) : super(key: key);
+  });
 
   @override
   _IntakeEditScreenState createState() => _IntakeEditScreenState();
@@ -86,7 +86,7 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
         title: Text(title),
         actions: <Widget>[
           TextButton(
-            style: TextButton.styleFrom(primary: Colors.white),
+            style: TextButton.styleFrom(foregroundColor: Colors.white),
             onPressed: _validateAndSaveIntake,
             child: Text(appLocalizations.update.toUpperCase()),
           ),

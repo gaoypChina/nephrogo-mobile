@@ -10,11 +10,11 @@ class ManualPeritonealDialysisTotalBalanceChart extends StatelessWidget {
   final List<DailyHealthStatus> dailyHealthStatuses;
 
   const ManualPeritonealDialysisTotalBalanceChart({
-    Key? key,
+    super.key,
     required this.dailyHealthStatuses,
     required this.minimumDate,
     required this.maximumDate,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

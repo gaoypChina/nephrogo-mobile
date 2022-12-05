@@ -20,9 +20,9 @@ class PulseEditScreen extends StatefulWidget {
   final Pulse pulse;
 
   const PulseEditScreen({
-    Key? key,
+    super.key,
     required this.pulse,
-  }) : super(key: key);
+  });
 
   @override
   _PulseEditScreenState createState() => _PulseEditScreenState();
@@ -131,7 +131,9 @@ class _PulseEditScreenState extends State<PulseEditScreen> {
               child: SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(primary: Colors.redAccent),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.redAccent,
+                  ),
                   onPressed: _deletePulse,
                   child: Text(appLocalizations.delete.toUpperCase()),
                 ),

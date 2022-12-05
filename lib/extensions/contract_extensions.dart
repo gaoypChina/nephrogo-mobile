@@ -192,7 +192,7 @@ extension DailyIntakesReportExtensions on DailyIntakesReport {
     final groups = intakes.groupBy((intake) => intake.mealType);
 
     final mealTypes = [
-      ...MealTypeEnum.values.where((e) => e != MealTypeEnum.unknown).toList(),
+      ...MealTypeEnum.values.where((e) => e != MealTypeEnum.unknown),
       MealTypeEnum.unknown
     ];
 

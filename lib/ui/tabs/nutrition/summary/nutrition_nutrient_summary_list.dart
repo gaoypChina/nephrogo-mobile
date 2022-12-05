@@ -16,15 +16,14 @@ class NutritionNutrientReportsList extends StatelessWidget {
   final bool showGraphDataLabels;
 
   NutritionNutrientReportsList({
-    Key? key,
+    super.key,
     required this.reports,
     required this.header,
     required this.nutrient,
     required this.dateFrom,
     required this.dateTo,
     required this.showGraphDataLabels,
-  })  : assert(reports.isNotEmpty),
-        super(key: key);
+  }) : assert(reports.isNotEmpty);
 
   @override
   Widget build(BuildContext context) {

@@ -31,11 +31,11 @@ class NutritionSummaryScreen extends StatefulWidget {
   final NutritionSummaryStatistics? nutritionSummaryStatistics;
 
   const NutritionSummaryScreen({
-    Key? key,
+    super.key,
     required this.screenType,
     required this.nutrient,
     required this.nutritionSummaryStatistics,
-  }) : super(key: key);
+  });
 
   @override
   _NutritionSummaryScreenState createState() => _NutritionSummaryScreenState();
@@ -107,10 +107,9 @@ class _NutritionMonthlySummaryTabBody extends StatelessWidget {
   final NutritionSummaryStatistics? nutritionSummaryStatistics;
 
   _NutritionMonthlySummaryTabBody({
-    Key? key,
     required this.nutritionSummaryStatistics,
     required this.nutrient,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -158,10 +157,9 @@ class _NutritionWeeklySummaryTabBody extends StatelessWidget {
   final NutritionSummaryStatistics? nutritionSummaryStatistics;
 
   _NutritionWeeklySummaryTabBody({
-    Key? key,
     this.nutrient,
     this.nutritionSummaryStatistics,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

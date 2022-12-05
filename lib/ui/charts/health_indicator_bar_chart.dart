@@ -13,13 +13,13 @@ class HealthIndicatorBarChart extends StatelessWidget {
   final bool smallMarkers;
 
   const HealthIndicatorBarChart({
-    Key? key,
+    super.key,
     required this.dailyHealthStatuses,
     required this.indicator,
     required this.from,
     required this.to,
     this.smallMarkers = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

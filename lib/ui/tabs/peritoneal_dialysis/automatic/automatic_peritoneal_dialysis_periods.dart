@@ -25,9 +25,9 @@ class AutomaticPeritonealDialysisPeriodsScreen extends StatelessWidget {
   final Date initialDate;
 
   AutomaticPeritonealDialysisPeriodsScreen({
-    Key? key,
+    super.key,
     required this.initialDate,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -88,10 +88,9 @@ class _AutomaticPeritonealDialysisPeriodsScreenBody extends StatelessWidget {
   final Date initialDate;
 
   _AutomaticPeritonealDialysisPeriodsScreenBody({
-    Key? key,
     required this.pagerType,
     required this.initialDate,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

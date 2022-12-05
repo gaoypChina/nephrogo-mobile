@@ -146,10 +146,10 @@ class GeneralRecommendationCategoryScreen extends StatefulWidget {
   final Set<int> readRecommendationIds;
 
   const GeneralRecommendationCategoryScreen({
-    Key? key,
+    super.key,
     required this.category,
     required this.readRecommendationIds,
-  }) : super(key: key);
+  });
 
   @override
   _GeneralRecommendationCategoryScreenState createState() =>
@@ -236,10 +236,10 @@ class GeneralRecommendationSubcategoryScreen extends StatefulWidget {
   final Set<int> readRecommendationIds;
 
   const GeneralRecommendationSubcategoryScreen({
-    Key? key,
+    super.key,
     required this.subcategory,
     required this.readRecommendationIds,
-  }) : super(key: key);
+  });
 
   @override
   _GeneralRecommendationSubcategoryScreenState createState() =>
@@ -316,10 +316,10 @@ class GeneralRecommendationScreen extends StatefulWidget {
   final GeneralRecommendationSubcategory subcategory;
 
   const GeneralRecommendationScreen({
-    Key? key,
+    super.key,
     required this.recommendation,
     required this.subcategory,
-  }) : super(key: key);
+  });
 
   @override
   _GeneralRecommendationScreenState createState() =>
@@ -378,12 +378,11 @@ class _GeneralRecommendationListTile extends StatelessWidget {
   final IconData? singleRecommendationIcon;
 
   const _GeneralRecommendationListTile({
-    Key? key,
     required this.name,
     required this.totalUnreadRecommendations,
     required this.onTap,
     this.singleRecommendationIcon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

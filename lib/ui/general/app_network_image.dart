@@ -5,10 +5,10 @@ class AppNetworkImage extends StatelessWidget {
   final String fallbackAssetImage;
 
   const AppNetworkImage({
-    Key? key,
+    super.key,
     required this.url,
     required this.fallbackAssetImage,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

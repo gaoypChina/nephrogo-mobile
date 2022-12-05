@@ -15,7 +15,7 @@ class NumericChart extends StatelessWidget {
   final LegendPosition legendPosition;
 
   const NumericChart({
-    Key? key,
+    super.key,
     required this.primaryXAxis,
     required this.series,
     this.chartTitleText,
@@ -26,12 +26,10 @@ class NumericChart extends StatelessWidget {
     bool? showLegend,
     LegendPosition? legendPosition,
     bool? legendToggleSeriesVisibility,
-  })
-      : showLegend = showLegend ?? true,
+  })  : showLegend = showLegend ?? true,
         legendPosition = legendPosition ?? LegendPosition.top,
         legendToggleSeriesVisibility = legendToggleSeriesVisibility ?? true,
-        decimalPlaces = decimalPlaces ?? 3,
-        super(key: key);
+        decimalPlaces = decimalPlaces ?? 3;
 
   @override
   Widget build(BuildContext context) {

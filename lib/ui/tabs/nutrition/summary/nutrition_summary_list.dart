@@ -11,11 +11,10 @@ class NutritionMonthlyReportsList extends StatefulWidget {
   final Widget header;
 
   NutritionMonthlyReportsList({
-    Key? key,
+    super.key,
     required this.reports,
     required this.header,
-  })  : assert(reports.isNotEmpty),
-        super(key: key);
+  }) : assert(reports.isNotEmpty);
 
   @override
   NutritionMonthlyReportsListState createState() =>
@@ -91,11 +90,10 @@ class NutritionWeeklyReportsList extends StatelessWidget {
   final Widget header;
 
   NutritionWeeklyReportsList({
-    Key? key,
+    super.key,
     required this.reports,
     required this.header,
-  })  : assert(reports.isNotEmpty),
-        super(key: key);
+  }) : assert(reports.isNotEmpty);
 
   @override
   Widget build(BuildContext context) {

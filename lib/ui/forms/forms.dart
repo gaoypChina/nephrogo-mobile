@@ -50,7 +50,7 @@ class AppTextFormField extends StatelessWidget {
   final TextCapitalization textCapitalization;
 
   const AppTextFormField({
-    Key? key,
+    super.key,
     required this.labelText,
     this.onSaved,
     this.onChanged,
@@ -78,7 +78,7 @@ class AppTextFormField extends StatelessWidget {
     this.onEditingComplete,
     this.onFieldSubmitted,
     this.textCapitalization = TextCapitalization.none,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +148,7 @@ class AppSelectionScreenFormField<T> extends StatefulWidget {
   final FormFieldValidator<T>? validator;
 
   const AppSelectionScreenFormField({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.itemToStringConverter,
     required this.labelText,
@@ -159,7 +159,7 @@ class AppSelectionScreenFormField<T> extends StatefulWidget {
     this.onChanged,
     this.onSaved,
     this.validator,
-  }) : super(key: key);
+  });
 
   @override
   _AppSelectionScreenFormFieldState createState() =>
@@ -250,7 +250,7 @@ class AppSelectFormField<T> extends StatefulWidget {
   final T? initialValue;
 
   const AppSelectFormField({
-    Key? key,
+    super.key,
     required this.items,
     required this.labelText,
     this.helperText,
@@ -261,7 +261,7 @@ class AppSelectFormField<T> extends StatefulWidget {
     this.validator,
     this.dialogHelpText,
     this.focusNextOnSelection = false,
-  }) : super(key: key);
+  });
 
   @override
   _AppSelectFormFieldState<T> createState() => _AppSelectFormFieldState<T>();
@@ -344,7 +344,7 @@ class AppMultipleSelectFormField<T> extends StatefulWidget {
   final bool focusNextOnSelection;
 
   const AppMultipleSelectFormField({
-    Key? key,
+    super.key,
     required this.items,
     required this.initialValues,
     required this.labelText,
@@ -353,7 +353,7 @@ class AppMultipleSelectFormField<T> extends StatefulWidget {
     this.onChanged,
     this.onSaved,
     this.focusNextOnSelection = false,
-  }) : super(key: key);
+  });
 
   @override
   _AppMultipleSelectFormFieldState<T> createState() =>
@@ -431,7 +431,7 @@ class AppDatePickerFormField extends StatefulWidget {
   final DatePickerMode initialDatePickerMode;
 
   const AppDatePickerFormField({
-    Key? key,
+    super.key,
     required this.firstDate,
     required this.lastDate,
     required this.initialDate,
@@ -446,7 +446,7 @@ class AppDatePickerFormField extends StatefulWidget {
     this.validator,
     this.initialEntryMode = DatePickerEntryMode.calendar,
     this.initialDatePickerMode = DatePickerMode.day,
-  }) : super(key: key);
+  });
 
   @override
   _AppDatePickerFormFieldState createState() => _AppDatePickerFormFieldState();
@@ -512,14 +512,14 @@ class AppTimePickerFormField extends StatefulWidget {
   final void Function(TimeOfDay timeOfDay)? onTimeChanged;
 
   const AppTimePickerFormField({
-    Key? key,
+    super.key,
     required this.initialTime,
     required this.labelText,
     this.onTimeSaved,
     this.onTimeChanged,
     this.helperText,
     this.prefixIcon,
-  }) : super(key: key);
+  });
 
   @override
   _AppTimePickerFormFieldState createState() => _AppTimePickerFormFieldState();
@@ -582,7 +582,7 @@ class AppIntegerFormField extends StatelessWidget {
   final TextInputAction? textInputAction;
 
   const AppIntegerFormField({
-    Key? key,
+    super.key,
     required this.labelText,
     this.onSaved,
     this.helperText,
@@ -596,7 +596,7 @@ class AppIntegerFormField extends StatelessWidget {
     this.focusNode,
     this.autoFocus = false,
     this.textInputAction,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -667,7 +667,7 @@ class AppDoubleInputField extends StatelessWidget {
   final bool autoFocus;
 
   const AppDoubleInputField({
-    Key? key,
+    super.key,
     required this.labelText,
     required this.fractionDigits,
     this.onSaved,
@@ -680,7 +680,7 @@ class AppDoubleInputField extends StatelessWidget {
     this.suffixText,
     this.textInputAction,
     this.autoFocus = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

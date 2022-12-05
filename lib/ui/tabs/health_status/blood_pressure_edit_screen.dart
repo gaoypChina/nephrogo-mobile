@@ -20,9 +20,9 @@ class BloodPressureEditScreen extends StatefulWidget {
   final BloodPressure bloodPressure;
 
   const BloodPressureEditScreen({
-    Key? key,
+    super.key,
     required this.bloodPressure,
-  }) : super(key: key);
+  });
 
   @override
   _BloodPressureEditScreenState createState() =>
@@ -164,7 +164,8 @@ class _BloodPressureEditScreenState extends State<BloodPressureEditScreen> {
               child: SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(primary: Colors.redAccent),
+                  style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.redAccent),
                   onPressed: _deleteBloodPressure,
                   child: Text(appLocalizations.delete.toUpperCase()),
                 ),

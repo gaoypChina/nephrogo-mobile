@@ -8,13 +8,13 @@ class OnboardingStepComponent extends StatelessWidget {
   final Color? fontColor;
 
   const OnboardingStepComponent({
-    Key? key,
+    super.key,
     required this.assetName,
     required this.title,
     required this.description,
     this.imageColor,
     this.fontColor = Colors.white,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

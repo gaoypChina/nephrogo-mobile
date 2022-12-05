@@ -9,19 +9,19 @@ class AppElevatedButton extends StatelessWidget {
   final EdgeInsets innerPadding;
 
   const AppElevatedButton({
-    Key? key,
+    super.key,
     required this.label,
     required this.onPressed,
     this.color,
     this.textColor,
     this.innerPadding = const EdgeInsets.all(16.0),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: color ?? Theme.of(context).primaryColor,
+        backgroundColor: color ?? Theme.of(context).primaryColor,
         padding: innerPadding,
       ),
       onPressed: onPressed,
@@ -46,20 +46,20 @@ class LoginButton extends StatelessWidget {
   final EdgeInsets innerPadding;
 
   const LoginButton({
-    Key? key,
+    super.key,
     required this.label,
     required this.icon,
     required this.onPressed,
     this.color,
     this.textColor,
     this.innerPadding = const EdgeInsets.all(16.0),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        primary: color ?? Theme.of(context).primaryColor,
+        backgroundColor: color ?? Theme.of(context).primaryColor,
         padding: innerPadding,
       ),
       onPressed: onPressed,
@@ -79,10 +79,10 @@ class SectionFooterButton extends StatelessWidget {
   final Widget child;
 
   const SectionFooterButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -100,9 +100,9 @@ class ListFullWidthButton extends StatelessWidget {
   final Widget child;
 
   const ListFullWidthButton({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

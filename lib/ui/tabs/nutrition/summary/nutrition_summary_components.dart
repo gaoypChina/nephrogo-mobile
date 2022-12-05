@@ -10,10 +10,10 @@ class NutritionDailyListWithHeaderEmpty extends StatelessWidget {
   final Date date;
 
   const NutritionDailyListWithHeaderEmpty({
-    Key? key,
+    super.key,
     required this.header,
     required this.date,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +54,9 @@ class NutritionListWithHeaderEmpty extends StatelessWidget {
   final Widget header;
 
   const NutritionListWithHeaderEmpty({
-    Key? key,
+    super.key,
     required this.header,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +78,10 @@ class DateSwitcherHeaderSection extends StatelessWidget {
   final List<Widget> children;
 
   const DateSwitcherHeaderSection({
-    Key? key,
+    super.key,
     required this.header,
     this.children = const [],
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

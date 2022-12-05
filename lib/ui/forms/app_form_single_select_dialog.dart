@@ -9,12 +9,12 @@ class AppFormSingleSelectDialog<T> extends StatelessWidget {
   final String? helpText;
 
   const AppFormSingleSelectDialog({
-    Key? key,
+    super.key,
     required this.items,
     required this.title,
     this.selectedValue,
     this.helpText,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -7,10 +7,10 @@ class AppStreamBuilder<T> extends StatefulWidget {
   final Widget Function(BuildContext context, T data) builder;
 
   const AppStreamBuilder({
-    Key? key,
+    super.key,
     required this.stream,
     required this.builder,
-  }) : super(key: key);
+  });
 
   @override
   _AppStreamBuilderState<T> createState() => _AppStreamBuilderState<T>();

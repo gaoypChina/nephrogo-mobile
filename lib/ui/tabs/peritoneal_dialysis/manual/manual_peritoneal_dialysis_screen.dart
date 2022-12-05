@@ -25,8 +25,7 @@ class ManualPeritonealDialysisScreen extends StatelessWidget {
   final _apiService = ApiService();
   final Date initialDate;
 
-  ManualPeritonealDialysisScreen({Key? key, required this.initialDate})
-      : super(key: key);
+  ManualPeritonealDialysisScreen({super.key, required this.initialDate});
 
   @override
   Widget build(BuildContext context) {
@@ -99,10 +98,9 @@ class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
   final Date initialDate;
 
   _ManualPeritonealDialysisDialysisList({
-    Key? key,
     required this.pagerType,
     required this.initialDate,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -191,9 +189,9 @@ class ManualPeritonealDialysisReportSection extends StatelessWidget {
   final DailyHealthStatus dailyHealthStatus;
 
   ManualPeritonealDialysisReportSection({
-    Key? key,
+    super.key,
     required this.dailyHealthStatus,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

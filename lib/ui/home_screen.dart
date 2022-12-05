@@ -49,7 +49,7 @@ class _HomeScreenTab {
 class _HomeScreen extends StatefulWidget {
   final DialysisEnum dialysis;
 
-  const _HomeScreen({Key? key, required this.dialysis}) : super(key: key);
+  const _HomeScreen({super.key, required this.dialysis});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();

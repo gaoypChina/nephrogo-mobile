@@ -10,11 +10,11 @@ class AppFormMultipleSelectDialog<T> extends StatefulWidget {
   final List<AppSelectFormFieldItem<T>> selectedItems;
 
   const AppFormMultipleSelectDialog({
-    Key? key,
+    super.key,
     required this.items,
     required this.title,
     required this.selectedItems,
-  }) : super(key: key);
+  });
 
   @override
   _AppFormMultipleSelectDialogState<T> createState() =>

@@ -38,12 +38,12 @@ class _NutritionCalendarState extends State<NutritionCalendar> {
         .orderBy((e) => e.date, reverse: true)
         .toList();
 
-    final _reportsSortedDates =
+    final reportsSortedDates =
         _reportsSortedByDateReverse.map((e) => e.date).toList();
 
-    _focusDate = _reportsSortedDates.firstOrNull() ?? _today;
+    _focusDate = reportsSortedDates.firstOrNull() ?? _today;
 
-    _availableDatesSet = _reportsSortedDates.toSet();
+    _availableDatesSet = reportsSortedDates.toSet();
 
     _dailyNormExceededDatesSet =
         generateDailyNormExceededDates(_reportsSortedByDateReverse).toSet();

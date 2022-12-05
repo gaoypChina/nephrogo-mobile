@@ -22,8 +22,7 @@ enum UserProfileNextScreenType {
 class UserProfileScreen extends StatefulWidget {
   final UserProfileNextScreenType nextScreenType;
 
-  const UserProfileScreen({Key? key, required this.nextScreenType})
-      : super(key: key);
+  const UserProfileScreen({super.key, required this.nextScreenType});
 
   @override
   _UserProfileScreenState createState() => _UserProfileScreenState();
@@ -72,10 +71,9 @@ class _UserProfileScreenBody extends StatefulWidget {
   final UserProfileNextScreenType nextScreenType;
 
   const _UserProfileScreenBody({
-    Key? key,
     required this.userProfile,
     required this.nextScreenType,
-  }) : super(key: key);
+  });
 
   @override
   _UserProfileScreenBodyState createState() => _UserProfileScreenBodyState();

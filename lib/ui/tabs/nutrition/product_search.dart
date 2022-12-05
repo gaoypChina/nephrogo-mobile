@@ -45,12 +45,12 @@ class ProductSearchScreen extends StatefulWidget {
   final MealTypeEnum mealType;
 
   const ProductSearchScreen({
-    Key? key,
+    super.key,
     required this.searchType,
     required this.excludeProductsIds,
     required this.mealType,
     this.date,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _ProductSearchScreenState();

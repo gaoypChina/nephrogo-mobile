@@ -72,10 +72,10 @@ class IndicatorChartSection extends StatelessWidget {
   final List<DailyHealthStatus> dailyHealthStatuses;
 
   const IndicatorChartSection({
-    Key? key,
+    super.key,
     required this.indicator,
     required this.dailyHealthStatuses,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

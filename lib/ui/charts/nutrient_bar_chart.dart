@@ -17,13 +17,13 @@ class NutrientBarChart extends StatelessWidget {
   final bool showDataLabels;
 
   NutrientBarChart({
-    Key? key,
+    super.key,
     required this.dailyIntakeLightReports,
     required this.nutrient,
     required this.minimumDate,
     required this.maximumDate,
     required this.showDataLabels,
-  }) : super(key: key);
+  });
 
   double? get _dailyNorm {
     return dailyIntakeLightReports

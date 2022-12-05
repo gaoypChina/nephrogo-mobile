@@ -23,9 +23,9 @@ class AutomaticPeritonealDialysisCreationScreen extends StatefulWidget {
   final AutomaticPeritonealDialysis? initialDialysis;
 
   const AutomaticPeritonealDialysisCreationScreen({
-    Key? key,
+    super.key,
     required this.initialDialysis,
-  }) : super(key: key);
+  });
 
   @override
   _AutomaticPeritonealDialysisCreationScreenState createState() =>
@@ -484,7 +484,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
     return ListFullWidthButton(
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          primary: Colors.redAccent,
+          foregroundColor: Colors.redAccent,
           textStyle: const TextStyle(fontSize: 14),
         ),
         onPressed: _delete,

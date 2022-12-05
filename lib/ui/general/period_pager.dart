@@ -31,12 +31,12 @@ class PeriodPager extends StatelessWidget {
   final PagerBodyBuilder bodyBuilder;
 
   const PeriodPager({
-    Key? key,
+    super.key,
     required this.pagerType,
     required this.earliestDate,
     required this.initialDate,
     required this.bodyBuilder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -74,12 +74,12 @@ class DailyPager extends StatelessWidget {
   final PagerBodyBuilder bodyBuilder;
 
   DailyPager({
-    Key? key,
+    super.key,
     required this.earliestDate,
     required this.initialDate,
     required this.bodyBuilder,
     this.onPageChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -116,11 +116,11 @@ class WeeklyPager extends StatelessWidget {
   final PagerBodyBuilder bodyBuilder;
 
   WeeklyPager({
-    Key? key,
+    super.key,
     required this.earliestDate,
     required this.initialDate,
     required this.bodyBuilder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -165,11 +165,11 @@ class MonthlyPager extends StatelessWidget {
   final PagerBodyBuilder bodyBuilder;
 
   MonthlyPager({
-    Key? key,
+    super.key,
     required this.earliestDate,
     required this.initialDate,
     required this.bodyBuilder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -214,14 +214,13 @@ class _PeriodPager extends StatefulWidget {
   ) headerTextBuilder;
 
   const _PeriodPager({
-    Key? key,
     required this.allFromDates,
     required this.initialFromDate,
     required this.bodyBuilder,
     required this.headerTextBuilder,
     required this.dateFromToDateTo,
     this.onPageChanged,
-  }) : super(key: key);
+  });
 
   @override
   _PeriodPagerState createState() => _PeriodPagerState();

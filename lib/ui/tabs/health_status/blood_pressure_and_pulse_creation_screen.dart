@@ -19,9 +19,9 @@ class BloodPressureAndPulseCreationScreen extends StatefulWidget {
   final Date? initialDate;
 
   const BloodPressureAndPulseCreationScreen({
-    Key? key,
+    super.key,
     required this.initialDate,
-  }) : super(key: key);
+  });
 
   @override
   _BloodPressureAndPulseCreationScreenState createState() =>

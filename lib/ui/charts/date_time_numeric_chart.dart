@@ -22,7 +22,7 @@ class DateTimeNumericChart extends StatelessWidget {
   final LegendPosition? legendPosition;
 
   const DateTimeNumericChart({
-    Key? key,
+    super.key,
     required this.series,
     required this.from,
     required this.to,
@@ -35,7 +35,7 @@ class DateTimeNumericChart extends StatelessWidget {
     this.maximumY,
     this.legendPosition,
     this.legendToggleSeriesVisibility,
-  }) : super(key: key);
+  });
 
   // Disable legend temporary due to bug after getting back from route
   // I/flutter ( 1493): ════════════════════════════════════════════════════════════════════════════════════════════════════

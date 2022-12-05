@@ -26,8 +26,7 @@ class HealthStatusScreenArguments {
 class HealthStatusScreen extends StatefulWidget {
   final HealthIndicator healthIndicator;
 
-  const HealthStatusScreen({Key? key, required this.healthIndicator})
-      : super(key: key);
+  const HealthStatusScreen({super.key, required this.healthIndicator});
 
   @override
   _HealthStatusScreenState createState() => _HealthStatusScreenState();
@@ -87,10 +86,9 @@ class _HealthStatusScreenTab extends StatelessWidget {
   final PeriodPagerType pagerType;
 
   _HealthStatusScreenTab({
-    Key? key,
     required this.healthIndicator,
     required this.pagerType,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -153,11 +151,11 @@ class EmptyDailyHealthIndicatorsListWithChart extends StatelessWidget {
   final Widget header;
 
   const EmptyDailyHealthIndicatorsListWithChart({
-    Key? key,
+    super.key,
     required this.date,
     required this.healthIndicator,
     required this.header,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +195,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
   final bool smallMarkers;
 
   const HealthIndicatorsListWithChart({
-    Key? key,
+    super.key,
     required this.dailyHealthStatuses,
     required this.healthIndicator,
     required this.appLocalizations,
@@ -205,7 +203,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
     required this.to,
     required this.header,
     required this.smallMarkers,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -269,11 +267,11 @@ class DailyHealthStatusIndicatorMultiValueSection extends StatelessWidget {
   final List<Widget> children;
 
   DailyHealthStatusIndicatorMultiValueSection({
-    Key? key,
+    super.key,
     required this.date,
     required this.indicator,
     required this.children,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -310,10 +308,10 @@ class DailyHealthStatusIndicatorMultiValueSectionWithTiles
   final HealthIndicator indicator;
 
   DailyHealthStatusIndicatorMultiValueSectionWithTiles({
-    Key? key,
+    super.key,
     required this.dailyHealthStatus,
     required this.indicator,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -401,10 +399,10 @@ class DailyHealthStatusIndicatorTile extends StatelessWidget {
   final HealthIndicator indicator;
 
   DailyHealthStatusIndicatorTile({
-    Key? key,
+    super.key,
     required this.dailyHealthStatus,
     required this.indicator,
-  }) : super(key: key);
+  });
 
   String? getSubtitle(AppLocalizations appLocalizations) {
     if (indicator == HealthIndicator.swellings) {

@@ -173,7 +173,7 @@ class LoginScreen extends StatelessWidget {
   Future<UserProfileV2?> getUserProfileAndUpdateUser() async {
     final user = await _apiService.getUser();
     var marketingAllowed = await _appPreferences.isMarketingAllowed();
-    final _selectedCountryCode = await _appPreferences.getCountryCode();
+    final selectedCountryCode = await _appPreferences.getCountryCode();
 
     if (!await _appPreferences.hasMarketingAllowed()) {
       marketingAllowed = user.isMarketingAllowed ?? false;
@@ -183,8 +183,8 @@ class LoginScreen extends StatelessWidget {
       await _apiService.updateUser(marketingAllowed: marketingAllowed);
     }
 
-    if (_selectedCountryCode != null) {
-      await _apiService.selectCountry(_selectedCountryCode);
+    if (selectedCountryCode != null) {
+      await _apiService.selectCountry(selectedCountryCode);
     }
 
     await _appPreferences.setMarketingAllowed(marketingAllowed);
@@ -224,9 +224,9 @@ class EmailLoginButtonComponent extends StatelessWidget {
   final void Function(UserCredential userCredential) onCredentialsRetrieved;
 
   const EmailLoginButtonComponent({
-    Key? key,
+    super.key,
     required this.onCredentialsRetrieved,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -244,7 +244,7 @@ class EmailLoginButtonComponent extends StatelessWidget {
           child: OutlinedButton(
             onPressed: () => _onLoginPressed(context),
             style: OutlinedButton.styleFrom(
-              primary: Colors.white,
+              foregroundColor: Colors.white,
               side: const BorderSide(width: 2, color: Colors.white),
               textStyle: const TextStyle(fontSize: 16, color: Colors.white),
             ),

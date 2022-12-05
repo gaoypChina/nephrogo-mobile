@@ -18,10 +18,10 @@ class PeritonealDialysisCreationFloatingActionButton extends StatelessWidget {
   final Future<void> Function(BuildContext context) dialysisOnTap;
 
   const PeritonealDialysisCreationFloatingActionButton({
-    Key? key,
+    super.key,
     required this.dialysisInProgress,
     required this.dialysisOnTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -106,12 +106,12 @@ class DialysisSolutionAvatar extends StatelessWidget {
   final double? radius;
 
   const DialysisSolutionAvatar({
-    Key? key,
+    super.key,
     required this.dialysisSolution,
     this.isCompleted = true,
     this.isDialysateColorNonRegular = false,
     this.radius,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -142,9 +142,9 @@ class PeritonealDialysisSummaryFloatingActionButton extends StatelessWidget {
       reportBuilder;
 
   const PeritonealDialysisSummaryFloatingActionButton({
-    Key? key,
+    super.key,
     required this.reportBuilder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

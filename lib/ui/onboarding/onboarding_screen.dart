@@ -20,7 +20,7 @@ class OnboardingScreenArguments {
 class OnboardingScreen extends StatefulWidget {
   final OnboardingScreenExitType exitType;
 
-  const OnboardingScreen({Key? key, required this.exitType}) : super(key: key);
+  const OnboardingScreen({super.key, required this.exitType});
 
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
@@ -111,7 +111,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 width: double.infinity,
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    primary: Colors.black,
+                    foregroundColor: Colors.black,
                     side: const BorderSide(width: 2, color: Colors.white),
                   ),
                   onPressed: () => advancePageOrFinish(isDone: _isDone),

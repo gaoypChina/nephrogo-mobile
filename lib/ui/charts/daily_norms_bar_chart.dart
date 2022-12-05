@@ -11,9 +11,9 @@ class DailyNormsBarChart extends StatelessWidget {
   final DailyIntakesLightReport dailyIntakeReport;
 
   const DailyNormsBarChart({
-    Key? key,
+    super.key,
     required this.dailyIntakeReport,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

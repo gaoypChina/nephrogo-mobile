@@ -111,9 +111,9 @@ class DailyNormsSection extends StatelessWidget {
   final DailyIntakesLightReport nutritionLightReport;
 
   const DailyNormsSection({
-    Key? key,
+    super.key,
     required this.nutritionLightReport,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -138,13 +138,13 @@ class DailyIntakesCard extends StatelessWidget {
   final DailyNutrientNormsWithTotals dailyNutrientNormsWithTotals;
 
   const DailyIntakesCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.intakes,
     required this.dailyNutrientNormsWithTotals,
     this.subTitle,
     this.leading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -189,8 +189,8 @@ class MonthlyNutritionSummarySection extends StatelessWidget {
   MonthlyNutritionSummarySection(
     this.reports,
     this.nutritionSummaryStatistics, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
