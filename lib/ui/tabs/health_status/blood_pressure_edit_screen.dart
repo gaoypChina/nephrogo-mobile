@@ -165,7 +165,8 @@ class _BloodPressureEditScreenState extends State<BloodPressureEditScreen> {
                 width: double.infinity,
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.redAccent),
+                    foregroundColor: Colors.redAccent,
+                  ),
                   onPressed: _deleteBloodPressure,
                   child: Text(appLocalizations.delete.toUpperCase()),
                 ),
