@@ -306,7 +306,7 @@ class _PeriodPagerState extends State<_PeriodPager> {
         Expanded(
           child: DefaultTextStyle.merge(
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyLarge,
             child: widget.headerTextBuilder(context, from, to),
           ),
         ),

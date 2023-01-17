@@ -194,10 +194,10 @@
   "@formMultiSelectDialogActionChoose": {},
   "dialogCancel": "Cancel",
   "@dialogCancel": {},
-  "percentageOfDailyNorm": "Percentage of a daily norm: {percentage_formatted}",
+  "percentageOfDailyNorm": "Percentage of a daily norm: {percentageFormatted}",
   "@percentageOfDailyNorm": {
     "placeholders": {
-      "percentage_formatted": {
+      "percentageFormatted": {
         "type": "String",
         "example": "99 %"
       }

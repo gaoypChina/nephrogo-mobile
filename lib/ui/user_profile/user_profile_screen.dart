@@ -135,7 +135,7 @@ class _UserProfileScreenBodyState extends State<_UserProfileScreenBody> {
                       title: appLocalizations.userProfileExplanationTitle,
                       description: appLocalizations.userProfileExplanation,
                       fontColor: null,
-                      imageColor: Theme.of(context).textTheme.bodyText1!.color,
+                      imageColor: Theme.of(context).textTheme.bodyLarge!.color,
                     );
                   }
                   return _steps[index - 1].build(

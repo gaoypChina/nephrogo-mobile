@@ -123,7 +123,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           : appLocalizations.further.toUpperCase(),
                       style: Theme.of(context)
                           .textTheme
-                          .button!
+                          .labelLarge!
                           .copyWith(fontSize: 18, color: Colors.white),
                     ),
                   ),

@@ -220,7 +220,7 @@ class SmallSection extends StatelessWidget {
           title,
           style: Theme.of(context)
               .textTheme
-              .subtitle1!
+              .titleMedium!
               .copyWith(color: Colors.grey),
         ),
         trailing: trailing,
@@ -264,7 +264,7 @@ class LargeAppListTile extends StatelessWidget {
 
   Widget getTitleWithStyleApplied(BuildContext context) {
     return DefaultTextStyle.merge(
-      style: Theme.of(context).textTheme.headline6,
+      style: Theme.of(context).textTheme.titleLarge,
       child: title,
     );
   }
@@ -275,7 +275,7 @@ class LargeAppListTile extends StatelessWidget {
     }
 
     return DefaultTextStyle.merge(
-      style: Theme.of(context).textTheme.subtitle2,
+      style: Theme.of(context).textTheme.titleSmall,
       child: subtitle!,
     );
   }
@@ -357,7 +357,7 @@ class AppExpansionTile extends StatelessWidget {
             leading: leading,
             title: DefaultTextStyle.merge(
               style: TextStyle(
-                color: Theme.of(context).textTheme.bodyText1!.color,
+                color: Theme.of(context).textTheme.bodyLarge!.color,
               ),
               child: title,
             ),
@@ -375,7 +375,7 @@ class AppExpansionTile extends StatelessWidget {
     }
 
     return DefaultTextStyle.merge(
-      style: TextStyle(color: Theme.of(context).textTheme.caption!.color),
+      style: TextStyle(color: Theme.of(context).textTheme.bodySmall!.color),
       child: subtitle!,
     );
   }
@@ -458,7 +458,7 @@ class EmptyStateContainer extends StatelessWidget {
           Text(
             text,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
           )
         ],
       ),

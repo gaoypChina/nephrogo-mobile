@@ -67,10 +67,12 @@ class AccountTab extends StatelessWidget {
                   ),
                 ],
               ),
-              BasicSection(showDividers: true, children: [
-                AppListTile(
-                  title: Text(appLocalizations.reportMissingProduct),
-                  leading: const Icon(Icons.feedback),
+              BasicSection(
+                showDividers: true,
+                children: [
+                  AppListTile(
+                    title: Text(appLocalizations.reportMissingProduct),
+                    leading: const Icon(Icons.feedback),
                     onTap: () => showDialog<void>(
                       context: context,
                       builder: (_) => MissingProductDialog(),
@@ -96,13 +98,6 @@ class AccountTab extends StatelessWidget {
                     leading: const Icon(Icons.email),
                     onTap: () => launchEmail(Constants.supportEmail),
                   ),
-                  if (appLocalizations.supportPhoneNumber.isNotEmpty)
-                    AppListTile(
-                      title: Text(appLocalizations.supportPhone),
-                      leading: const Icon(Icons.support_agent),
-                      onTap: () =>
-                          launchPhone(appLocalizations.supportPhoneNumber),
-                    ),
                 ],
               ),
               if (kDebugMode) BasicSection.single(child: DebugListCell()),
@@ -190,7 +185,7 @@ class AccountTab extends StatelessWidget {
       ),
       title: Text(
         title,
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
       subtitle: subtitle != title ? Text(subtitle) : null,
     );

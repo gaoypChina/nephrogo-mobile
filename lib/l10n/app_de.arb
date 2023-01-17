@@ -196,10 +196,10 @@
   "@formMultiSelectDialogActionChoose": {},
   "dialogCancel": "Abbrechen",
   "@dialogCancel": {},
-  "percentageOfDailyNorm": "Täglicher Ratenanteil: {percentage_formatted}",
+  "percentageOfDailyNorm": "Täglicher Ratenanteil: {percentageFormatted}",
   "@percentageOfDailyNorm": {
     "placeholders": {
-      "percentage_formatted": {
+      "percentageFormatted": {
         "type": "String",
         "example": "99 %"
       }

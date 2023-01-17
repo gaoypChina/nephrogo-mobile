@@ -194,10 +194,10 @@
   "@formMultiSelectDialogActionChoose": {},
   "dialogCancel": "Atšaukti",
   "@dialogCancel": {},
-  "percentageOfDailyNorm": "Paros normos dalis: {percentage_formatted}",
+  "percentageOfDailyNorm": "Paros normos dalis: {percentageFormatted}",
   "@percentageOfDailyNorm": {
     "placeholders": {
-      "percentage_formatted": {
+      "percentageFormatted": {
         "type": "String",
         "example": "99 %"
       }

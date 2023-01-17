@@ -355,7 +355,7 @@ class _GeneralRecommendationScreenState
               widget.recommendation.body,
               factoryBuilder: () => _HtmlWidgetFactory(),
               baseUrl: Uri.parse(Constants.apiUrl),
-              textStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
+              textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 16,
                   ),
             ),

@@ -149,7 +149,7 @@ class _ProductSearchScreenState<T> extends State<ProductSearchScreen> {
           onChanged: (q) => _changeQuery(q, submit: false),
           onSubmitted: (q) => _changeQuery(q, submit: true),
           focusNode: focusNode,
-          style: theme.textTheme.headline6!.copyWith(color: Colors.white),
+          style: theme.textTheme.titleLarge!.copyWith(color: Colors.white),
           textInputAction: TextInputAction.search,
           keyboardType: TextInputType.text,
           autofocus: true,

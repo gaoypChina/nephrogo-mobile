@@ -207,18 +207,21 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
   }
 
   Future<void> _updateApiUserWithProgressDialog() async {
-    final userFuture =
-        _apiService.updateUser(marketingAllowed: _marketingAllowed);
+    final userFuture = _apiService.updateUser(
+      marketingAllowed: _marketingAllowed,
+    );
 
-    await AppProgressDialog(context).showForFuture(userFuture).catchError(
-      (e, stackTrace) async {
+    try {
+      await AppProgressDialog(context).showForFuture(userFuture);
+    } catch (ex) {
+      if (mounted) {
         await showAppDialog(
           context: context,
           title: appLocalizations.error,
           content: Text(appLocalizations.serverErrorDescription),
         );
-      },
-    );
+      }
+    }
   }
 
   Widget _buildTextWithUrl(
@@ -230,7 +233,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
     return RichText(
       text: TextSpan(
         style: TextStyle(
-          color: Theme.of(context).textTheme.bodyText1!.color,
+          color: Theme.of(context).textTheme.bodyLarge!.color,
           fontSize: 16,
         ),
         children: [
