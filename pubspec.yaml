@@ -38,7 +38,7 @@ dependencies:
   dio_http2_adapter: ^2.0.0
   equatable: ^2.0.0
 
-  flutter_svg: ^1.0.3
+  flutter_svg: ^2.0.4
 
   # https://firebase.flutter.dev/docs/migration
   firebase_core: ^2.3.0
@@ -51,9 +51,9 @@ dependencies:
 
   flutter_linkify: ^5.0.0
   flutter_speed_dial: ^6.0.0
-  flutter_widget_from_html_core: ^0.9.0+2
+  flutter_widget_from_html_core: ^0.10.0
   fwfh_url_launcher: ^0.9.0
-  google_sign_in: ^5.0.1
+  google_sign_in: ^6.0.2
   in_app_review: ^2.0.1
   intl: ^0.17.0
   logging: ^1.0.1
@@ -72,8 +72,8 @@ dependencies:
   shared_preferences: ^2.0.5
   sign_in_with_apple: ^4.0.0
 
-  syncfusion_flutter_charts: ^20.3.59
-  syncfusion_flutter_xlsio: ^20.3.59-beta
+  syncfusion_flutter_charts: ^21.1.37
+  syncfusion_flutter_xlsio: ^21.1.37
 
   table_calendar: ^3.0.8
   tuple: ^2.0.0
