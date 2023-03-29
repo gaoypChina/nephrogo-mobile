@@ -16,7 +16,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="NephroGo"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round">
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"
