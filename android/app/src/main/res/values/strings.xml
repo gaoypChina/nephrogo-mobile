@@ -2,5 +2,5 @@
 <resources>
     <string name="app_name">NephroGo</string>
     <string name="facebook_app_id">685980628732699</string>
-    <string name="fb_login_protocol_scheme">fb685980628732699</string>
+    <string name="facebook_client_token">fb685980628732699</string>
 </resources>
