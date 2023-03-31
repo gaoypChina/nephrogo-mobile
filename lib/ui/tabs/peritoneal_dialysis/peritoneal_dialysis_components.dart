@@ -10,7 +10,7 @@ import 'package:nephrogo/ui/tabs/health_status/blood_pressure_and_pulse_creation
 import 'package:nephrogo/ui/tabs/health_status/health_status_creation_screen.dart';
 import 'package:nephrogo/utils/excel_generator.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:share/share.dart';
 
 class PeritonealDialysisCreationFloatingActionButton extends StatelessWidget {
@@ -189,7 +189,7 @@ class PeritonealDialysisSummaryFloatingActionButton extends StatelessWidget {
         subject: name,
       );
     } else {
-      return OpenFile.open(file.path);
+      return OpenFilex.open(file.path);
     }
   }
 
