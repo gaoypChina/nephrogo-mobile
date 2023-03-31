@@ -33,9 +33,10 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7'
+          ruby-version: '3.0'
+          bundler-cache: true
 
-      - uses: maierj/fastlane-action@v2.2.1
+      - uses: maierj/fastlane-action@v3.0.0
         with:
           lane: 'prepare_ci'
           subdirectory: 'ios'
