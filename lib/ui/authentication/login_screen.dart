@@ -256,7 +256,7 @@ class EmailLoginButtonComponent extends StatelessWidget {
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }

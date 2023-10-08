@@ -141,7 +141,7 @@ class DailyIntakesReportSection extends StatelessWidget {
             dailyIntakesLightReport.nutrientNormsAndTotals,
             dailyIntakesLightReport.date,
             nutrient,
-          )
+          ),
       ],
     );
   }
@@ -205,7 +205,7 @@ class IntakeWithNormsSection extends StatelessWidget {
             intake,
             nutrient,
             dailyNutrientNormsAndTotals,
-          )
+          ),
       ],
     );
   }
@@ -296,7 +296,7 @@ class IntakeExpandableTile extends StatelessWidget {
                 intake,
                 nutrient,
                 dailyNutrientNormsAndTotals,
-              )
+              ),
           ],
         ).toList(),
       ),
@@ -796,7 +796,7 @@ class NutrientChartSection extends StatelessWidget {
               minimumDate: today.toDateTime().subtract(const Duration(days: 6)),
               showDataLabels: true,
             ),
-          )
+          ),
       ],
     );
   }

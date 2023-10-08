@@ -103,6 +103,13 @@ class AccountTab extends StatelessWidget {
               if (kDebugMode) BasicSection.single(child: DebugListCell()),
               BasicSection.single(
                 child: AppListTile(
+                  title: Text(appLocalizations.deleteAccount),
+                  leading: const Icon(Icons.delete_forever),
+                  onTap: () => _deleteAccount(context),
+                ),
+              ),
+              BasicSection.single(
+                child: AppListTile(
                   title: Text(appLocalizations.logout),
                   leading: const Icon(Icons.logout),
                   onTap: () => _signOut(context),
@@ -141,6 +148,42 @@ class AccountTab extends StatelessWidget {
     await Navigator.pushReplacementNamed(
       context,
       Routes.routeStart,
+    );
+  }
+
+  Future _deleteAccount(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(context.appLocalizations.deleteAccountTitle),
+          content: Text(context.appLocalizations.deleteAccountDescription),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: Text(
+                context.appLocalizations.deleteAccount.toUpperCase(),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: Text(
+                context.appLocalizations.dialogCancel.toUpperCase(),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

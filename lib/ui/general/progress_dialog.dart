@@ -1,17 +1,15 @@
-import 'package:ars_dialog/ars_dialog.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nephrogo/extensions/extensions.dart';
+import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class AppProgressDialog {
   late ProgressDialog dialog;
+  late String message;
 
   AppProgressDialog(BuildContext context) {
+    message = context.appLocalizations.pleaseWait;
     dialog = ProgressDialog(
-      context,
-      backgroundColor: const Color(0x33000000),
-      message: Text(context.appLocalizations.pleaseWait),
-      dismissable: true,
+      context: context,
     );
   }
 
@@ -22,10 +20,14 @@ class AppProgressDialog {
   }
 
   void show() {
-    dialog.show();
+    dialog.show(
+      backgroundColor: const Color(0x33000000),
+      msg: message,
+      barrierDismissible: true,
+    );
   }
 
   void dismiss() {
-    dialog.dismiss();
+    dialog.close();
   }
 }

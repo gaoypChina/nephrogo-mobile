@@ -128,7 +128,7 @@ class _ManualPeritonealDialysisDialysisList extends StatelessWidget {
               EmptyStateContainer(
                 text: context
                     .appLocalizations.manualPeritonealDialysisPeriodEmpty,
-              )
+              ),
             ],
           );
         }
@@ -208,7 +208,7 @@ class ManualPeritonealDialysisReportSection extends StatelessWidget {
       ),
       children: [
         for (final dialysis in sortedDialysis)
-          ManualPeritonealDialysisTile(dialysis)
+          ManualPeritonealDialysisTile(dialysis),
       ],
     );
   }

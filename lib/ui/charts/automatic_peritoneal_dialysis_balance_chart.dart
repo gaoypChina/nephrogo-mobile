@@ -36,7 +36,7 @@ class AutomaticPeritonealDialysisBalanceChart extends StatelessWidget {
               s.balance < 0 ? Colors.teal : Colors.redAccent,
           name: context.appLocalizations.dailyBalance,
           color: Colors.teal,
-        )
+        ),
       ],
     );
   }

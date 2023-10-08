@@ -41,7 +41,7 @@ class AppFormSingleSelectDialog<T> extends StatelessWidget {
             margin: EdgeInsets.zero,
             showDividers: true,
             children: [
-              for (final item in items) _generateItemCell(context, item)
+              for (final item in items) _generateItemCell(context, item),
             ],
           ),
         ],

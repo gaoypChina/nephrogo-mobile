@@ -48,7 +48,7 @@ class ApiUtils {
 
         String? message;
         if (onServerValidationError != null &&
-            e is DioError &&
+            e is DioException &&
             e.response?.statusCode == 400) {
           final data = e.response?.toString() ?? '';
 

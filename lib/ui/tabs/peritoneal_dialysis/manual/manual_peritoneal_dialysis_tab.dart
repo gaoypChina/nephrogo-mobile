@@ -58,7 +58,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
             IndicatorChartSection(
               indicator: indicator,
               dailyHealthStatuses: response.lastWeekHealthStatuses.toList(),
-            )
+            ),
         ],
       ),
     );
@@ -105,7 +105,7 @@ class _ManualPeritonealDialysisTabBody extends StatelessWidget {
       ),
       children: [
         for (final dialysis in response.lastPeritonealDialysis)
-          ManualPeritonealDialysisTile(dialysis)
+          ManualPeritonealDialysisTile(dialysis),
       ],
     );
   }

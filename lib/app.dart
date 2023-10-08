@@ -1,3 +1,4 @@
+// Openapi Generator last run: : 2023-10-07T15:05:35.101223
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nephrogo/api/api_service.dart';
@@ -5,7 +6,19 @@ import 'package:nephrogo/l10n/localizations.dart';
 import 'package:nephrogo/preferences/app_preferences.dart';
 import 'package:nephrogo/routes.dart';
 import 'package:nephrogo/ui/analytics.dart';
+import 'package:openapi_generator_annotations/openapi_generator_annotations.dart';
 
+@Openapi(
+  additionalProperties: DioProperties(
+    pubName: 'nephrogo_api_client',
+    pubAuthor: 'Karolis',
+    useEnumExtension: false,
+  ),
+  inputSpecFile: 'openapi.yaml',
+  generatorName: Generator.dio,
+  useNextGen: false,
+  outputDirectory: 'nephrogo_api_client',
+)
 class AppComponent extends StatefulWidget {
   @override
   _AppComponentState createState() => _AppComponentState();
@@ -39,34 +52,34 @@ class _AppComponentState extends State<AppComponent> {
     );
 
     return StreamBuilder<String?>(
-        stream: _appPreferences.getLanguageCodeStream(),
-        builder: (context, snapshot) {
-          final userChosenLocale = _getUserChosenLocale(snapshot.data);
+      stream: _appPreferences.getLanguageCodeStream(),
+      builder: (context, snapshot) {
+        final userChosenLocale = _getUserChosenLocale(snapshot.data);
 
-          if (userChosenLocale != null) {
-            Intl.defaultLocale = userChosenLocale.toLanguageTag();
-          }
+        if (userChosenLocale != null) {
+          Intl.defaultLocale = userChosenLocale.toLanguageTag();
+        }
 
-          return MaterialApp(
-            key: Key('app-with-locale-$userChosenLocale'),
-            title: 'NephroGo',
-            theme: lightTheme.copyWith(
-              colorScheme: lightTheme.colorScheme.copyWith(
-                secondary: Colors.redAccent,
-              ),
+        return MaterialApp(
+          key: Key('app-with-locale-$userChosenLocale'),
+          title: 'NephroGo',
+          theme: lightTheme.copyWith(
+            colorScheme: lightTheme.colorScheme.copyWith(
+              secondary: Colors.redAccent,
             ),
-            darkTheme: darkTheme.copyWith(
-              colorScheme: darkTheme.colorScheme.copyWith(
-                secondary: Colors.redAccent,
-              ),
+          ),
+          darkTheme: darkTheme.copyWith(
+            colorScheme: darkTheme.colorScheme.copyWith(
+              secondary: Colors.redAccent,
             ),
-            navigatorObservers: [analytics.observer],
-            locale: userChosenLocale,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            localeListResolutionCallback: (locales, supportedLocales) {
-              final appLocale = _resolveLocale(
-                locales ?? [],
+          ),
+          navigatorObservers: [analytics.observer],
+          locale: userChosenLocale,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localeListResolutionCallback: (locales, supportedLocales) {
+            final appLocale = _resolveLocale(
+              locales ?? [],
               supportedLocales,
             );
 

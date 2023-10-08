@@ -125,7 +125,7 @@ class _HealthStatusScreenTab extends StatelessWidget {
               children: [
                 EmptyStateContainer(
                   text: context.appLocalizations.weeklyHealthStatusEmpty,
-                )
+                ),
               ],
             );
           }
@@ -253,7 +253,7 @@ class HealthIndicatorsListWithChart extends StatelessWidget {
         DailyHealthStatusIndicatorTile(
           dailyHealthStatus: dailyHealthStatus,
           indicator: healthIndicator,
-        )
+        ),
       ],
     );
   }

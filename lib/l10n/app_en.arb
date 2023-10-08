@@ -1169,5 +1169,11 @@
   "website": "Website",
   "@website": {},
   "websiteUrl": "https://www.nephrogo.com/",
-  "@websiteUrl": {}
+  "@websiteUrl": {},
+  "deleteAccount": "Delete account",
+  "@deleteAccount": {},
+  "deleteAccountTitle": "Delete account?",
+  "@deleteAccountTitle": {},
+  "deleteAccountDescription": "This account will no longer, and all data in the account will be permanently deleted.\nThis action cannot be undone!",
+  "@deleteAccountDescription": {}
 }

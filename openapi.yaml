@@ -1,0 +1,2518 @@
+openapi: 3.0.3
+info:
+  title: NephroGo API
+  version: 1.0.0
+paths:
+  /v1/general-recommendations/read/:
+    post:
+      operationId: general_recommendations_read_create
+      tags:
+        - general-recommendations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGeneralRecommendationReadRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateGeneralRecommendationReadRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateGeneralRecommendationReadRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateGeneralRecommendationRead'
+          description: ''
+  /v1/general-recommendations/v2/:
+    get:
+      operationId: general_recommendations_v2_retrieve
+      tags:
+        - general-recommendations
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralRecommendationsResponse'
+          description: ''
+  /v1/health-status/:
+    post:
+      operationId: health_status_create
+      tags:
+        - health-status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DailyHealthStatusRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DailyHealthStatusRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DailyHealthStatusRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyHealthStatus'
+          description: ''
+    put:
+      operationId: health_status_update
+      tags:
+        - health-status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DailyHealthStatusRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DailyHealthStatusRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DailyHealthStatusRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyHealthStatus'
+          description: ''
+    patch:
+      operationId: health_status_partial_update
+      tags:
+        - health-status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DailyHealthStatusRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DailyHealthStatusRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DailyHealthStatusRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyHealthStatus'
+          description: ''
+  /v1/health-status/{date}/:
+    get:
+      operationId: health_status_retrieve
+      parameters:
+        - in: path
+          name: date
+          schema:
+            type: string
+            format: date
+          required: true
+      tags:
+        - health-status
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyHealthStatus'
+          description: ''
+  /v1/health-status/blood-pressure/:
+    post:
+      operationId: health_status_blood_pressure_create
+      tags:
+        - health-status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BloodPressureRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BloodPressureRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BloodPressureRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BloodPressure'
+          description: ''
+  /v1/health-status/blood-pressure/{id}/:
+    put:
+      operationId: health_status_blood_pressure_update
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - health-status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BloodPressureRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BloodPressureRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BloodPressureRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BloodPressure'
+          description: ''
+    patch:
+      operationId: health_status_blood_pressure_partial_update
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - health-status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BloodPressureRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BloodPressureRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BloodPressureRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BloodPressure'
+          description: ''
+    delete:
+      operationId: health_status_blood_pressure_destroy
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - health-status
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /v1/health-status/pulse/:
+    post:
+      operationId: health_status_pulse_create
+      tags:
+        - health-status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PulseRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PulseRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PulseRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pulse'
+          description: ''
+  /v1/health-status/pulse/{id}/:
+    put:
+      operationId: health_status_pulse_update
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - health-status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PulseRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PulseRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PulseRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pulse'
+          description: ''
+    patch:
+      operationId: health_status_pulse_partial_update
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - health-status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PulseRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PulseRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PulseRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pulse'
+          description: ''
+    delete:
+      operationId: health_status_pulse_destroy
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - health-status
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /v1/health-status/screen/:
+    get:
+      operationId: health_status_screen_retrieve
+      tags:
+        - health-status
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatusScreenResponse'
+          description: ''
+  /v1/health-status/weekly/:
+    get:
+      operationId: health_status_weekly_retrieve
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+          required: true
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+          required: true
+      tags:
+        - health-status
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatusWeeklyScreenResponse'
+          description: ''
+  /v1/nutrition/daily-reports/{date}/:
+    get:
+      operationId: nutrition_daily_reports_retrieve
+      parameters:
+        - in: path
+          name: date
+          schema:
+            type: string
+            format: date
+          required: true
+      tags:
+        - nutrition
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyIntakesReportResponse'
+          description: ''
+  /v1/nutrition/daily-reports/light/:
+    get:
+      operationId: nutrition_daily_reports_light_retrieve
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+          required: true
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+          required: true
+      tags:
+        - nutrition
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyIntakesReportsResponse'
+          description: ''
+  /v1/nutrition/intake/:
+    post:
+      operationId: nutrition_intake_create
+      tags:
+        - nutrition
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntakeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/IntakeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/IntakeRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Intake'
+          description: ''
+  /v1/nutrition/intake/{id}/:
+    get:
+      operationId: nutrition_intake_retrieve
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - nutrition
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Intake'
+          description: ''
+    put:
+      operationId: nutrition_intake_update
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - nutrition
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntakeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/IntakeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/IntakeRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Intake'
+          description: ''
+    patch:
+      operationId: nutrition_intake_partial_update
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - nutrition
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntakeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/IntakeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/IntakeRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Intake'
+          description: ''
+    delete:
+      operationId: nutrition_intake_destroy
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - nutrition
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /v1/nutrition/products/missing/:
+    post:
+      operationId: nutrition_products_missing_create
+      tags:
+        - nutrition
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MissingProductRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MissingProductRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MissingProductRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MissingProduct'
+          description: ''
+  /v1/nutrition/products/search/:
+    get:
+      operationId: nutrition_products_search_retrieve
+      parameters:
+        - in: query
+          name: exclude_products
+          schema:
+            type: string
+        - in: query
+          name: meal_type
+          schema:
+            type: string
+            enum:
+              - Breakfast
+              - Dinner
+              - Lunch
+              - Snack
+              - Unknown
+            default: Unknown
+        - in: query
+          name: query
+          schema:
+            type: string
+            default: ''
+        - in: query
+          name: submit
+          schema:
+            type: boolean
+      tags:
+        - nutrition
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductSearchResponse'
+          description: ''
+  /v1/nutrition/screen/v2/:
+    get:
+      operationId: nutrition_screen_v2_retrieve
+      tags:
+        - nutrition
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutritionScreenV2Response'
+          description: ''
+  /v1/nutrition/weekly/:
+    get:
+      operationId: nutrition_weekly_retrieve
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+          required: true
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+          required: true
+      tags:
+        - nutrition
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NutrientWeeklyScreenResponse'
+          description: ''
+  /v1/peritoneal-dialysis/automatic/dialysis/{date}/:
+    put:
+      operationId: peritoneal_dialysis_automatic_dialysis_update
+      parameters:
+        - in: path
+          name: date
+          schema:
+            type: string
+            format: date
+          required: true
+      tags:
+        - peritoneal-dialysis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutomaticPeritonealDialysisRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AutomaticPeritonealDialysisRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AutomaticPeritonealDialysisRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomaticPeritonealDialysis'
+          description: ''
+    patch:
+      operationId: peritoneal_dialysis_automatic_dialysis_partial_update
+      parameters:
+        - in: path
+          name: date
+          schema:
+            type: string
+            format: date
+          required: true
+      tags:
+        - peritoneal-dialysis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutomaticPeritonealDialysisRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AutomaticPeritonealDialysisRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AutomaticPeritonealDialysisRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomaticPeritonealDialysis'
+          description: ''
+    delete:
+      operationId: peritoneal_dialysis_automatic_dialysis_destroy
+      parameters:
+        - in: path
+          name: date
+          schema:
+            type: string
+            format: date
+          required: true
+      tags:
+        - peritoneal-dialysis
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /v1/peritoneal-dialysis/automatic/dialysis/create/:
+    post:
+      operationId: peritoneal_dialysis_automatic_dialysis_create_create
+      tags:
+        - peritoneal-dialysis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AutomaticPeritonealDialysisRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AutomaticPeritonealDialysisRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AutomaticPeritonealDialysisRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomaticPeritonealDialysis'
+          description: ''
+  /v1/peritoneal-dialysis/automatic/period/:
+    get:
+      operationId: peritoneal_dialysis_automatic_period_retrieve
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+          required: true
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+          required: true
+      tags:
+        - peritoneal-dialysis
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomaticPeritonealDialysisPeriodResponse'
+          description: ''
+  /v1/peritoneal-dialysis/automatic/screen/:
+    get:
+      operationId: peritoneal_dialysis_automatic_screen_retrieve
+      tags:
+        - peritoneal-dialysis
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AutomaticPeritonealDialysisScreenResponse'
+          description: ''
+  /v1/peritoneal-dialysis/manual/dialysis/{id}/:
+    put:
+      operationId: peritoneal_dialysis_manual_dialysis_update
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - peritoneal-dialysis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualPeritonealDialysisRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ManualPeritonealDialysisRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ManualPeritonealDialysisRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualPeritonealDialysis'
+          description: ''
+    patch:
+      operationId: peritoneal_dialysis_manual_dialysis_partial_update
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - peritoneal-dialysis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualPeritonealDialysisRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ManualPeritonealDialysisRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ManualPeritonealDialysisRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualPeritonealDialysis'
+          description: ''
+    delete:
+      operationId: peritoneal_dialysis_manual_dialysis_destroy
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      tags:
+        - peritoneal-dialysis
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /v1/peritoneal-dialysis/manual/dialysis/create/:
+    post:
+      operationId: peritoneal_dialysis_manual_dialysis_create_create
+      tags:
+        - peritoneal-dialysis
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualPeritonealDialysisRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ManualPeritonealDialysisRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ManualPeritonealDialysisRequest'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualPeritonealDialysis'
+          description: ''
+  /v1/peritoneal-dialysis/manual/screen/v2/:
+    get:
+      operationId: peritoneal_dialysis_manual_screen_v2_retrieve
+      tags:
+        - peritoneal-dialysis
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualPeritonealDialysisScreenResponse'
+          description: ''
+  /v1/user/:
+    get:
+      operationId: user_retrieve
+      tags:
+        - user
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: user_update
+      tags:
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: user_partial_update
+      tags:
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: user_destroy
+      tags:
+        - user
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /v1/user/app-review/:
+    get:
+      operationId: user_app_review_retrieve
+      tags:
+        - user
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAppReview'
+          description: ''
+  /v1/user/countries/:
+    get:
+      operationId: user_countries_retrieve
+      tags:
+        - user
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+        - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountryResponse'
+          description: ''
+  /v1/user/profile/v2/:
+    get:
+      operationId: user_profile_v2_retrieve
+      tags:
+        - user
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileV2'
+          description: ''
+    post:
+      operationId: user_profile_v2_create
+      tags:
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfileV2Request'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserProfileV2Request'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserProfileV2Request'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileV2'
+          description: ''
+    put:
+      operationId: user_profile_v2_update
+      tags:
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfileV2Request'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserProfileV2Request'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserProfileV2Request'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileV2'
+          description: ''
+    patch:
+      operationId: user_profile_v2_partial_update
+      tags:
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfileV2Request'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserProfileV2Request'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserProfileV2Request'
+        required: true
+      security:
+        - firebaseAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileV2'
+          description: ''
+components:
+  schemas:
+    AppetiteEnum:
+      enum:
+        - Unknown
+        - Perfect
+        - Good
+        - Average
+        - Bad
+        - VeryBad
+      type: string
+      description: |-
+        * `Unknown` - Unknown
+        * `Perfect` - Perfect
+        * `Good` - Good
+        * `Average` - Average
+        * `Bad` - Bad
+        * `VeryBad` - Verybad
+    AutomaticPeritonealDialysis:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          readOnly: true
+        daily_health_status:
+          allOf:
+            - $ref: '#/components/schemas/DailyHealthStatus'
+          readOnly: true
+        daily_intakes_light_report:
+          allOf:
+            - $ref: '#/components/schemas/DailyIntakesLightReport'
+          readOnly: true
+        is_completed:
+          type: boolean
+        started_at:
+          type: string
+          format: date-time
+        solution_green_in_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        solution_yellow_in_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        solution_orange_in_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        solution_blue_in_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        solution_purple_in_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        initial_draining_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        total_drain_volume_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        last_fill_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        total_ultrafiltration_ml:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        dialysate_color:
+          $ref: '#/components/schemas/DialysateColorEnum'
+        notes:
+          type: string
+        finished_at:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+        - daily_health_status
+        - daily_intakes_light_report
+        - date
+        - started_at
+    AutomaticPeritonealDialysisPeriodResponse:
+      type: object
+      properties:
+        peritoneal_dialysis:
+          type: array
+          items:
+            $ref: '#/components/schemas/AutomaticPeritonealDialysis'
+          readOnly: true
+      required:
+        - peritoneal_dialysis
+    AutomaticPeritonealDialysisRequest:
+      type: object
+      properties:
+        is_completed:
+          type: boolean
+        started_at:
+          type: string
+          format: date-time
+        solution_green_in_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        solution_yellow_in_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        solution_orange_in_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        solution_blue_in_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        solution_purple_in_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        initial_draining_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        total_drain_volume_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        last_fill_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        total_ultrafiltration_ml:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+        dialysate_color:
+          $ref: '#/components/schemas/DialysateColorEnum'
+        notes:
+          type: string
+        finished_at:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+        - started_at
+    AutomaticPeritonealDialysisScreenResponse:
+      type: object
+      properties:
+        last_peritoneal_dialysis:
+          allOf:
+            - $ref: '#/components/schemas/AutomaticPeritonealDialysis'
+          readOnly: true
+          nullable: true
+        last_week_health_statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyHealthStatus'
+          readOnly: true
+        last_week_light_nutrition_reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyIntakesLightReport'
+          readOnly: true
+        peritoneal_dialysis_in_progress:
+          allOf:
+            - $ref: '#/components/schemas/AutomaticPeritonealDialysis'
+          readOnly: true
+          nullable: true
+      required:
+        - last_peritoneal_dialysis
+        - last_week_health_statuses
+        - last_week_light_nutrition_reports
+        - peritoneal_dialysis_in_progress
+    BloodPressure:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        systolic_blood_pressure:
+          type: integer
+          maximum: 350
+          minimum: 1
+        diastolic_blood_pressure:
+          type: integer
+          maximum: 200
+          minimum: 1
+        measured_at:
+          type: string
+          format: date-time
+      required:
+        - diastolic_blood_pressure
+        - id
+        - measured_at
+        - systolic_blood_pressure
+    BloodPressureRequest:
+      type: object
+      properties:
+        systolic_blood_pressure:
+          type: integer
+          maximum: 350
+          minimum: 1
+        diastolic_blood_pressure:
+          type: integer
+          maximum: 200
+          minimum: 1
+        measured_at:
+          type: string
+          format: date-time
+      required:
+        - diastolic_blood_pressure
+        - measured_at
+        - systolic_blood_pressure
+    ChronicKidneyDiseaseAgeEnum:
+      enum:
+        - Unknown
+        - <1
+        - 1-5
+        - 6-10
+        - '>10'
+      type: string
+      description: |-
+        * `Unknown` - Nežinoma
+        * `<1` - Ne ilgiau nei metus
+        * `1-5` - Nuo 1 iki 5 metų
+        * `6-10` - Nuo 6 iki 10 metų
+        * `>10` - Daugiau nei 10 metų
+    ChronicKidneyDiseaseStageEnum:
+      enum:
+        - Unknown
+        - Stage1
+        - Stage2
+        - Stage3
+        - Stage4
+        - Stage5
+      type: string
+      description: |-
+        * `Unknown` - Nežinoma
+        * `Stage1` - 1 stadija
+        * `Stage2` - 2 stadija
+        * `Stage3` - 3 stadija
+        * `Stage4` - 4 stadija
+        * `Stage5` - 5 stadija
+    Country:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 64
+        code:
+          type: string
+          description: ISO 3166-1 Alpha 2
+          maxLength: 2
+        flag_svg:
+          type: string
+          description: Download from https://github.com/HatScripts/circle-flags
+        language_code:
+          type: string
+          maxLength: 2
+        order:
+          type: integer
+          maximum: 32767
+          minimum: 0
+      required:
+        - code
+        - flag_svg
+        - language_code
+        - name
+    CountryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 64
+        code:
+          type: string
+          minLength: 1
+          description: ISO 3166-1 Alpha 2
+          maxLength: 2
+        flag_svg:
+          type: string
+          minLength: 1
+          description: Download from https://github.com/HatScripts/circle-flags
+        language_code:
+          type: string
+          minLength: 1
+          maxLength: 2
+        order:
+          type: integer
+          maximum: 32767
+          minimum: 0
+      required:
+        - code
+        - flag_svg
+        - language_code
+        - name
+    CountryResponse:
+      type: object
+      properties:
+        selected_country:
+          allOf:
+            - $ref: '#/components/schemas/Country'
+          readOnly: true
+          nullable: true
+        suggested_country:
+          allOf:
+            - $ref: '#/components/schemas/Country'
+          readOnly: true
+          nullable: true
+        countries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'
+      required:
+        - countries
+        - selected_country
+        - suggested_country
+    CreateGeneralRecommendationRead:
+      type: object
+      properties:
+        general_recommendation:
+          type: integer
+      required:
+        - general_recommendation
+    CreateGeneralRecommendationReadRequest:
+      type: object
+      properties:
+        general_recommendation:
+          type: integer
+      required:
+        - general_recommendation
+    DailyHealthStatus:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        weight_kg:
+          type: number
+          format: double
+          maximum: 300
+          minimum: 1
+          nullable: true
+        glucose:
+          type: number
+          format: double
+          maximum: 100000
+          minimum: 0
+          exclusiveMaximum: true
+          nullable: true
+        urine_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        swelling_difficulty:
+          $ref: '#/components/schemas/SwellingDifficultyEnum'
+        well_feeling:
+          $ref: '#/components/schemas/WellFeelingEnum'
+        appetite:
+          $ref: '#/components/schemas/AppetiteEnum'
+        shortness_of_breath:
+          $ref: '#/components/schemas/ShortnessOfBreathEnum'
+        swellings:
+          type: array
+          items:
+            $ref: '#/components/schemas/Swelling'
+        blood_pressures:
+          type: array
+          items:
+            $ref: '#/components/schemas/BloodPressure'
+          readOnly: true
+        pulses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pulse'
+          readOnly: true
+        manual_peritoneal_dialysis:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManualPeritonealDialysis'
+          readOnly: true
+      required:
+        - blood_pressures
+        - date
+        - manual_peritoneal_dialysis
+        - pulses
+        - swellings
+    DailyHealthStatusRequest:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        weight_kg:
+          type: number
+          format: double
+          maximum: 300
+          minimum: 1
+          nullable: true
+        glucose:
+          type: number
+          format: double
+          maximum: 100000
+          minimum: 0
+          exclusiveMaximum: true
+          nullable: true
+        urine_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        swelling_difficulty:
+          $ref: '#/components/schemas/SwellingDifficultyEnum'
+        well_feeling:
+          $ref: '#/components/schemas/WellFeelingEnum'
+        appetite:
+          $ref: '#/components/schemas/AppetiteEnum'
+        shortness_of_breath:
+          $ref: '#/components/schemas/ShortnessOfBreathEnum'
+        swellings:
+          type: array
+          items:
+            $ref: '#/components/schemas/SwellingRequest'
+      required:
+        - date
+        - swellings
+    DailyIntakesLightReport:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          readOnly: true
+        nutrient_norms_and_totals:
+          allOf:
+            - $ref: '#/components/schemas/DailyNutrientNormsWithTotals'
+          readOnly: true
+      required:
+        - date
+        - nutrient_norms_and_totals
+    DailyIntakesReport:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          readOnly: true
+        intakes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Intake'
+          readOnly: true
+        daily_nutrient_norms_and_totals:
+          allOf:
+            - $ref: '#/components/schemas/DailyNutrientNormsWithTotals'
+          readOnly: true
+      required:
+        - daily_nutrient_norms_and_totals
+        - date
+        - intakes
+    DailyIntakesReportResponse:
+      type: object
+      properties:
+        daily_intakes_report:
+          $ref: '#/components/schemas/DailyIntakesReport'
+      required:
+        - daily_intakes_report
+    DailyIntakesReportsResponse:
+      type: object
+      properties:
+        daily_intakes_light_reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyIntakesLightReport'
+          readOnly: true
+      required:
+        - daily_intakes_light_reports
+    DailyNutrientConsumption:
+      type: object
+      properties:
+        norm:
+          type: integer
+          minimum: 1
+          readOnly: true
+          nullable: true
+        total:
+          type: integer
+          minimum: 0
+          readOnly: true
+      required:
+        - norm
+        - total
+    DailyNutrientNormsWithTotals:
+      type: object
+      properties:
+        potassium_mg:
+          allOf:
+            - $ref: '#/components/schemas/DailyNutrientConsumption'
+          readOnly: true
+        proteins_mg:
+          allOf:
+            - $ref: '#/components/schemas/DailyNutrientConsumption'
+          readOnly: true
+        sodium_mg:
+          allOf:
+            - $ref: '#/components/schemas/DailyNutrientConsumption'
+          readOnly: true
+        phosphorus_mg:
+          allOf:
+            - $ref: '#/components/schemas/DailyNutrientConsumption'
+          readOnly: true
+        energy_kcal:
+          allOf:
+            - $ref: '#/components/schemas/DailyNutrientConsumption'
+          readOnly: true
+        liquids_ml:
+          allOf:
+            - $ref: '#/components/schemas/DailyNutrientConsumption'
+          readOnly: true
+        carbohydrates_mg:
+          allOf:
+            - $ref: '#/components/schemas/DailyNutrientConsumption'
+          readOnly: true
+        fat_mg:
+          allOf:
+            - $ref: '#/components/schemas/DailyNutrientConsumption'
+          readOnly: true
+      required:
+        - carbohydrates_mg
+        - energy_kcal
+        - fat_mg
+        - liquids_ml
+        - phosphorus_mg
+        - potassium_mg
+        - proteins_mg
+        - sodium_mg
+    DiabetesTypeEnum:
+      enum:
+        - Unknown
+        - Type1
+        - Type2
+        - 'No'
+      type: string
+      description: |-
+        * `Unknown` - Nežinoma
+        * `Type1` - 1 tipo
+        * `Type2` - 2 tipo
+        * `No` - Neserga
+    DialysateColorEnum:
+      enum:
+        - Unknown
+        - Transparent
+        - Pink
+        - CloudyYellowish
+        - Greenish
+        - Brown
+        - CloudyWhite
+      type: string
+      description: |-
+        * `Unknown` - Unknown
+        * `Transparent` - Transparent
+        * `Pink` - Pink
+        * `CloudyYellowish` - Cloudyyellowish
+        * `Greenish` - Greenish
+        * `Brown` - Brown
+        * `CloudyWhite` - Cloudywhite
+    DialysisEnum:
+      enum:
+        - Unknown
+        - AutomaticPeritonealDialysis
+        - ManualPeritonealDialysis
+        - Hemodialysis
+        - PostTransplant
+        - NotPerformed
+      type: string
+      description: |-
+        * `Unknown` - Nežinoma
+        * `AutomaticPeritonealDialysis` - Automatinė peritoninė dializė
+        * `ManualPeritonealDialysis` - Ambulatorinė peritoninė dializė
+        * `Hemodialysis` - Hemodializė
+        * `PostTransplant` - Neatlieka, po inkstų transplantacijos
+        * `NotPerformed` - Neatlieka
+    DialysisSolutionEnum:
+      enum:
+        - Unknown
+        - Yellow
+        - Green
+        - Orange
+        - Blue
+        - Purple
+      type: string
+      description: |-
+        * `Unknown` - Unknown
+        * `Yellow` - Yellow
+        * `Green` - Green
+        * `Orange` - Orange
+        * `Blue` - Blue
+        * `Purple` - Purple
+    GenderEnum:
+      enum:
+        - Male
+        - Female
+      type: string
+      description: |-
+        * `Male` - Vyras
+        * `Female` - Moteris
+    GeneralRecommendation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        body:
+          type: string
+          readOnly: true
+      required:
+        - body
+        - id
+        - name
+    GeneralRecommendationCategory:
+      type: object
+      properties:
+        name:
+          type: string
+          readOnly: true
+        subcategories:
+          type: array
+          items:
+            $ref: '#/components/schemas/GeneralRecommendationSubcategory'
+      required:
+        - name
+        - subcategories
+    GeneralRecommendationSubcategory:
+      type: object
+      properties:
+        name:
+          type: string
+          readOnly: true
+        recommendations:
+          type: array
+          items:
+            $ref: '#/components/schemas/GeneralRecommendation'
+      required:
+        - name
+        - recommendations
+    GeneralRecommendationsResponse:
+      type: object
+      properties:
+        read_recommendation_ids:
+          type: array
+          items:
+            type: integer
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/GeneralRecommendationCategory'
+      required:
+        - categories
+        - read_recommendation_ids
+    HealthStatusScreenResponse:
+      type: object
+      properties:
+        has_any_statuses:
+          type: boolean
+          readOnly: true
+        daily_health_statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyHealthStatus'
+          readOnly: true
+      required:
+        - daily_health_statuses
+        - has_any_statuses
+    HealthStatusWeeklyScreenResponse:
+      type: object
+      properties:
+        earliest_health_status_date:
+          type: string
+          format: date
+          readOnly: true
+          nullable: true
+        daily_health_statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyHealthStatus'
+          readOnly: true
+      required:
+        - daily_health_statuses
+        - earliest_health_status_date
+    Intake:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        meal_type:
+          $ref: '#/components/schemas/MealTypeEnum'
+        consumed_at:
+          type: string
+          format: date-time
+        amount_g:
+          type: integer
+          maximum: 32767
+          minimum: 1
+        amount_ml:
+          type: integer
+          maximum: 32767
+          minimum: 1
+          nullable: true
+        potassium_mg:
+          type: integer
+          readOnly: true
+        proteins_mg:
+          type: integer
+          readOnly: true
+        sodium_mg:
+          type: integer
+          readOnly: true
+        phosphorus_mg:
+          type: integer
+          readOnly: true
+        energy_kcal:
+          type: integer
+          readOnly: true
+        liquids_ml:
+          type: integer
+          readOnly: true
+        carbohydrates_mg:
+          type: integer
+          readOnly: true
+        fat_mg:
+          type: integer
+          readOnly: true
+        product:
+          allOf:
+            - $ref: '#/components/schemas/Product'
+          readOnly: true
+      required:
+        - amount_g
+        - carbohydrates_mg
+        - consumed_at
+        - energy_kcal
+        - fat_mg
+        - id
+        - liquids_ml
+        - phosphorus_mg
+        - potassium_mg
+        - product
+        - proteins_mg
+        - sodium_mg
+    IntakeRequest:
+      type: object
+      properties:
+        product_id:
+          type: integer
+          writeOnly: true
+        meal_type:
+          $ref: '#/components/schemas/MealTypeEnum'
+        consumed_at:
+          type: string
+          format: date-time
+        amount_g:
+          type: integer
+          maximum: 32767
+          minimum: 1
+        amount_ml:
+          type: integer
+          maximum: 32767
+          minimum: 1
+          nullable: true
+      required:
+        - amount_g
+        - consumed_at
+        - product_id
+    ManualPeritonealDialysis:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_completed:
+          type: boolean
+        started_at:
+          type: string
+          format: date-time
+        dialysis_solution:
+          $ref: '#/components/schemas/DialysisSolutionEnum'
+        solution_in_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        solution_out_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        dialysate_color:
+          $ref: '#/components/schemas/DialysateColorEnum'
+        notes:
+          type: string
+        finished_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+        - finished_at
+        - id
+        - solution_in_ml
+        - started_at
+    ManualPeritonealDialysisRequest:
+      type: object
+      properties:
+        is_completed:
+          type: boolean
+        started_at:
+          type: string
+          format: date-time
+        dialysis_solution:
+          $ref: '#/components/schemas/DialysisSolutionEnum'
+        solution_in_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        solution_out_ml:
+          type: integer
+          maximum: 32767
+          minimum: 0
+          nullable: true
+        dialysate_color:
+          $ref: '#/components/schemas/DialysateColorEnum'
+        notes:
+          type: string
+      required:
+        - solution_in_ml
+        - started_at
+    ManualPeritonealDialysisScreenResponse:
+      type: object
+      properties:
+        peritoneal_dialysis_in_progress:
+          allOf:
+            - $ref: '#/components/schemas/ManualPeritonealDialysis'
+          nullable: true
+        last_peritoneal_dialysis:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManualPeritonealDialysis'
+        last_week_light_nutrition_reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyIntakesLightReport'
+        last_week_health_statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyHealthStatus'
+      required:
+        - last_peritoneal_dialysis
+        - last_week_health_statuses
+        - last_week_light_nutrition_reports
+        - peritoneal_dialysis_in_progress
+    MealTypeEnum:
+      enum:
+        - Unknown
+        - Breakfast
+        - Lunch
+        - Dinner
+        - Snack
+      type: string
+      description: |-
+        * `Unknown` - Unknown
+        * `Breakfast` - Breakfast
+        * `Lunch` - Lunch
+        * `Dinner` - Dinner
+        * `Snack` - Snack
+    MissingProduct:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+    MissingProductRequest:
+      type: object
+      properties:
+        message:
+          type: string
+          minLength: 1
+      required:
+        - message
+    NutrientWeeklyScreenResponse:
+      type: object
+      properties:
+        earliest_report_date:
+          type: string
+          format: date
+          readOnly: true
+          nullable: true
+        daily_intakes_reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyIntakesReport'
+          readOnly: true
+      required:
+        - daily_intakes_reports
+        - earliest_report_date
+    NutritionScreenV2Response:
+      type: object
+      properties:
+        today_light_nutrition_report:
+          allOf:
+            - $ref: '#/components/schemas/DailyIntakesLightReport'
+          readOnly: true
+        last_week_light_nutrition_reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyIntakesLightReport'
+          readOnly: true
+        current_month_nutrition_reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyIntakesLightReport'
+          readOnly: true
+        latest_intakes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Intake'
+          readOnly: true
+        nutrition_summary_statistics:
+          allOf:
+            - $ref: '#/components/schemas/NutritionSummaryStatistics'
+          readOnly: true
+      required:
+        - current_month_nutrition_reports
+        - last_week_light_nutrition_reports
+        - latest_intakes
+        - nutrition_summary_statistics
+        - today_light_nutrition_report
+    NutritionSummaryStatistics:
+      type: object
+      properties:
+        min_report_date:
+          type: string
+          format: date
+          nullable: true
+        max_report_date:
+          type: string
+          format: date
+          nullable: true
+      required:
+        - max_report_date
+        - min_report_date
+    NutritionSummaryStatisticsRequest:
+      type: object
+      properties:
+        min_report_date:
+          type: string
+          format: date
+          nullable: true
+        max_report_date:
+          type: string
+          format: date
+          nullable: true
+      required:
+        - max_report_date
+        - min_report_date
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        product_kind:
+          $ref: '#/components/schemas/ProductKindEnum'
+        potassium_mg:
+          type: number
+          format: double
+          maximum: 100000
+          minimum: 0
+          exclusiveMaximum: true
+        proteins_mg:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        sodium_mg:
+          type: number
+          format: double
+          maximum: 100000
+          minimum: 0
+          exclusiveMaximum: true
+        phosphorus_mg:
+          type: number
+          format: double
+          maximum: 100000
+          minimum: 0
+          exclusiveMaximum: true
+        energy_kcal:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        liquids_ml:
+          type: integer
+        carbohydrates_mg:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        fat_mg:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        density_g_ml:
+          type: number
+          format: double
+          maximum: 100
+          minimum: 0.01
+          exclusiveMaximum: true
+          nullable: true
+      required:
+        - carbohydrates_mg
+        - energy_kcal
+        - fat_mg
+        - id
+        - liquids_ml
+        - name
+        - phosphorus_mg
+        - potassium_mg
+        - proteins_mg
+        - sodium_mg
+    ProductKindEnum:
+      enum:
+        - Unknown
+        - Food
+        - Drink
+      type: string
+      description: |-
+        * `Unknown` - Unknown
+        * `Food` - Food
+        * `Drink` - Drink
+    ProductRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        product_kind:
+          $ref: '#/components/schemas/ProductKindEnum'
+        potassium_mg:
+          type: number
+          format: double
+          maximum: 100000
+          minimum: 0
+          exclusiveMaximum: true
+        proteins_mg:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        sodium_mg:
+          type: number
+          format: double
+          maximum: 100000
+          minimum: 0
+          exclusiveMaximum: true
+        phosphorus_mg:
+          type: number
+          format: double
+          maximum: 100000
+          minimum: 0
+          exclusiveMaximum: true
+        energy_kcal:
+          type: integer
+          maximum: 32767
+          minimum: 0
+        liquids_ml:
+          type: integer
+        carbohydrates_mg:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        fat_mg:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        density_g_ml:
+          type: number
+          format: double
+          maximum: 100
+          minimum: 0.01
+          exclusiveMaximum: true
+          nullable: true
+      required:
+        - carbohydrates_mg
+        - energy_kcal
+        - fat_mg
+        - liquids_ml
+        - name
+        - phosphorus_mg
+        - potassium_mg
+        - proteins_mg
+        - sodium_mg
+    ProductSearchResponse:
+      type: object
+      properties:
+        query:
+          type: string
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        daily_nutrient_norms_and_totals:
+          allOf:
+            - $ref: '#/components/schemas/DailyNutrientNormsWithTotals'
+          readOnly: true
+      required:
+        - daily_nutrient_norms_and_totals
+        - products
+        - query
+    Pulse:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        pulse:
+          type: integer
+          maximum: 200
+          minimum: 10
+        measured_at:
+          type: string
+          format: date-time
+      required:
+        - id
+        - measured_at
+        - pulse
+    PulseRequest:
+      type: object
+      properties:
+        pulse:
+          type: integer
+          maximum: 200
+          minimum: 10
+        measured_at:
+          type: string
+          format: date-time
+      required:
+        - measured_at
+        - pulse
+    ShortnessOfBreathEnum:
+      enum:
+        - Unknown
+        - 'No'
+        - Light
+        - Average
+        - Severe
+        - Backbreaking
+      type: string
+      description: |-
+        * `Unknown` - Unknown
+        * `No` - No
+        * `Light` - Light
+        * `Average` - Average
+        * `Severe` - Severe
+        * `Backbreaking` - Backbreaking
+    Swelling:
+      type: object
+      properties:
+        swelling:
+          $ref: '#/components/schemas/SwellingEnum'
+      required:
+        - swelling
+    SwellingDifficultyEnum:
+      enum:
+        - Unknown
+        - 0+
+        - 1+
+        - 2+
+        - 3+
+        - 4+
+      type: string
+      description: |-
+        * `Unknown` - Unknown
+        * `0+` - Difficulty0
+        * `1+` - Difficulty1
+        * `2+` - Difficulty2
+        * `3+` - Difficulty3
+        * `4+` - Difficulty4
+    SwellingEnum:
+      enum:
+        - Unknown
+        - Eyes
+        - WholeFace
+        - HandBreadth
+        - Hands
+        - Belly
+        - Knees
+        - Foot
+        - WholeLegs
+      type: string
+      description: |-
+        * `Unknown` - Unknown
+        * `Eyes` - Eyes
+        * `WholeFace` - Wholeface
+        * `HandBreadth` - Handbreadth
+        * `Hands` - Hands
+        * `Belly` - Belly
+        * `Knees` - Knees
+        * `Foot` - Foot
+        * `WholeLegs` - Wholelegs
+    SwellingRequest:
+      type: object
+      properties:
+        swelling:
+          $ref: '#/components/schemas/SwellingEnum'
+      required:
+        - swelling
+    User:
+      type: object
+      properties:
+        is_marketing_allowed:
+          type: boolean
+          nullable: true
+        nutrition_summary:
+          allOf:
+            - $ref: '#/components/schemas/NutritionSummaryStatistics'
+          readOnly: true
+        selected_country:
+          allOf:
+            - $ref: '#/components/schemas/Country'
+          readOnly: true
+          nullable: true
+      required:
+        - nutrition_summary
+        - selected_country
+    UserAppReview:
+      type: object
+      properties:
+        show_app_review_dialog:
+          type: boolean
+          readOnly: true
+      required:
+        - show_app_review_dialog
+    UserProfileV2:
+      type: object
+      properties:
+        gender:
+          $ref: '#/components/schemas/GenderEnum'
+        height_cm:
+          type: integer
+          maximum: 250
+          minimum: 15
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        chronic_kidney_disease_age:
+          $ref: '#/components/schemas/ChronicKidneyDiseaseAgeEnum'
+        chronic_kidney_disease_stage:
+          $ref: '#/components/schemas/ChronicKidneyDiseaseStageEnum'
+        dialysis:
+          $ref: '#/components/schemas/DialysisEnum'
+        diabetes_type:
+          $ref: '#/components/schemas/DiabetesTypeEnum'
+      required:
+        - chronic_kidney_disease_stage
+        - gender
+        - height_cm
+    UserProfileV2Request:
+      type: object
+      properties:
+        gender:
+          $ref: '#/components/schemas/GenderEnum'
+        height_cm:
+          type: integer
+          maximum: 250
+          minimum: 15
+        date_of_birth:
+          type: string
+          format: date
+          nullable: true
+        chronic_kidney_disease_age:
+          $ref: '#/components/schemas/ChronicKidneyDiseaseAgeEnum'
+        chronic_kidney_disease_stage:
+          $ref: '#/components/schemas/ChronicKidneyDiseaseStageEnum'
+        dialysis:
+          $ref: '#/components/schemas/DialysisEnum'
+        diabetes_type:
+          $ref: '#/components/schemas/DiabetesTypeEnum'
+      required:
+        - chronic_kidney_disease_stage
+        - gender
+        - height_cm
+    UserRequest:
+      type: object
+      properties:
+        is_marketing_allowed:
+          type: boolean
+          nullable: true
+        selected_country_code:
+          type: string
+          minLength: 1
+          description: ISO 3166-1 Alpha 2
+          writeOnly: true
+          nullable: true
+    WellFeelingEnum:
+      enum:
+        - Unknown
+        - Perfect
+        - Good
+        - Average
+        - Bad
+        - VeryBad
+      type: string
+      description: |-
+        * `Unknown` - Unknown
+        * `Perfect` - Perfect
+        * `Good` - Good
+        * `Average` - Average
+        * `Bad` - Bad
+        * `VeryBad` - Verybad
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    firebaseAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Bearer

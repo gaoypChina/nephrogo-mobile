@@ -280,7 +280,7 @@ class ChronicKidneyDiseaseStageStep extends UserProfileStep {
               onChanged: (s) {
                 setState(() => builder.chronicKidneyDiseaseStage = stage);
               },
-            )
+            ),
         ],
       ),
     );

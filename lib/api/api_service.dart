@@ -5,10 +5,9 @@ import 'dart:async';
 import 'package:async/async.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_brotli_transformer/dio_brotli_transformer.dart';
-import 'package:dio_firebase_performance/dio_firebase_performance.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
+
 import 'package:flutter/foundation.dart' show kDebugMode;
-import 'package:logging/logging.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo_api_client/nephrogo_api_client.dart';
@@ -55,8 +54,8 @@ class ApiService {
     final dio = Dio(
       BaseOptions(
         baseUrl: Constants.apiUrl,
-        connectTimeout: 8000,
-        receiveTimeout: 5000,
+        connectTimeout: const Duration(seconds: 8),
+        receiveTimeout: const Duration(seconds: 5),
         headers: {
           'time-zone-name': timeZoneName,
           'accept-encoding': 'br',
@@ -66,7 +65,7 @@ class ApiService {
 
     dio.transformer = DioBrotliTransformer();
     dio.httpClientAdapter = Http2Adapter(
-      ConnectionManager(idleTimeout: _connectionIdleTimeout.inMilliseconds),
+      ConnectionManager(idleTimeout: _connectionIdleTimeout),
     );
 
     return NephrogoApiClient(
@@ -78,7 +77,7 @@ class ApiService {
 
   List<Interceptor> _buildDioInterceptors(Dio dio) {
     final interceptors = <Interceptor>[
-      DioFirebasePerformanceInterceptor(),
+      // DioFirebasePerformanceInterceptor(),
       _FirebaseAuthenticationInterceptor(dio),
     ];
 
@@ -335,6 +334,13 @@ class ApiService {
         .catchError(
           (e) => NullableApiResponse<UserProfileV2>(null),
         );
+  }
+
+  Future<void> deleteUser() {
+    return _userApi.userDestroy().then((_) {
+      _postAppStateChangeEvent(_AppStateChangeEvent.healthStatus);
+      _postAppStateChangeEvent(_AppStateChangeEvent.nutrition);
+    });
   }
 
   Future<GeneralRecommendationsResponse> getGeneralRecommendations() {
@@ -629,63 +635,22 @@ class NullableApiResponse<T> {
 }
 
 class _FirebaseAuthenticationInterceptor extends Interceptor {
-  static const _tokenRegeneratedKey = 'tokenRegenerated';
-
-  final logger = Logger('ApiService');
   final _authenticationProvider = AuthenticationProvider();
 
   final Dio dio;
 
   _FirebaseAuthenticationInterceptor(this.dio);
 
-  Future<String> _getIdToken(bool forceRefresh) {
-    return _authenticationProvider.idToken(forceRefresh: forceRefresh);
-  }
-
   @override
   Future<void> onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    if (_authenticationProvider.isUserLoggedIn) {
-      try {
-        dio.interceptors.requestLock.lock();
-        final forceRegenerateToken =
-            options.extra.containsKey(_tokenRegeneratedKey);
-
-        final idToken = await _getIdToken(forceRegenerateToken);
-
-        options.headers['authorization'] = 'Bearer $idToken';
-      } finally {
-        dio.interceptors.requestLock.unlock();
-      }
+    final idToken = await _authenticationProvider.idToken();
+    if (idToken != null) {
+      options.headers['authorization'] = 'Bearer $idToken';
     }
 
     super.onRequest(options, handler);
-  }
-
-  @override
-  Future onError(
-    DioError err,
-    ErrorInterceptorHandler handler,
-  ) async {
-    final statusCode = err.response?.statusCode;
-    if (statusCode == 403 || statusCode == 401) {
-      if (err.requestOptions.extra.containsKey(_tokenRegeneratedKey)) {
-        logger.severe('Authentication error after regenerating token.');
-      } else {
-        logger.warning('Authentication error. Regenerating user id token.');
-
-        err.requestOptions.extra.addAll({_tokenRegeneratedKey: true});
-
-        try {
-          // We retry with the updated options
-          return await dio.fetch(err.requestOptions);
-        } catch (e) {
-          return super.onError(err, handler);
-        }
-      }
-    }
-    return super.onError(err, handler);
   }
 }

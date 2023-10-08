@@ -51,7 +51,7 @@ class OnboardingStepComponent extends StatelessWidget {
                   ),
               textAlign: TextAlign.center,
             ),
-          )
+          ),
         ],
       ),
     );

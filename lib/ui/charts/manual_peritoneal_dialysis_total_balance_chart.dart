@@ -37,7 +37,7 @@ class ManualPeritonealDialysisTotalBalanceChart extends StatelessWidget {
               : Colors.redAccent,
           name: context.appLocalizations.dailyBalance,
           color: Colors.teal,
-        )
+        ),
       ],
     );
   }

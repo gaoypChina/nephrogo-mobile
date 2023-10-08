@@ -459,7 +459,7 @@ class EmptyStateContainer extends StatelessWidget {
             text,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleLarge,
-          )
+          ),
         ],
       ),
     );
@@ -511,7 +511,7 @@ class TextWithLeadingIcon extends StatelessWidget {
             size: 14,
           ),
         ),
-        text
+        text,
       ],
     );
   }

@@ -1169,5 +1169,12 @@
   "website": "Webseite",
   "@website": {},
   "websiteUrl": "https://www.nephrogo.de/",
-  "@websiteUrl": {}
+  "@websiteUrl": {},
+  "deleteAccount": "Konto löschen",
+  "@deleteAccount": {},
+  "deleteAccountTitle": "Konto löschen?",
+  "@deleteAccountTitle": {},
+  "deleteAccountDescription": "Dieses Konto wird nicht mehr verwendet und alle Daten im Konto werden dauerhaft gelöscht.\nDiese Aktion kann nicht rückgängig gemacht werden!",
+  "@deleteAccountDescription": {}
+
 }

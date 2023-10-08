@@ -55,7 +55,7 @@ class AutomaticPeritonealDialysisTile extends StatelessWidget {
                   AutomaticPeritonealDialysisCreationScreenArguments(dialysis),
             ),
           ),
-          ...solutionTiles
+          ...solutionTiles,
         ],
       ).toList(),
     );

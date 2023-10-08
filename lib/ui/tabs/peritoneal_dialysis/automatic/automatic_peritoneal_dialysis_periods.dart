@@ -118,7 +118,7 @@ class _AutomaticPeritonealDialysisPeriodsScreenBody extends StatelessWidget {
               EmptyStateContainer(
                 text: context
                     .appLocalizations.manualPeritonealDialysisPeriodEmpty,
-              )
+              ),
             ],
           );
         }

@@ -1169,5 +1169,11 @@
   "website": "Internetinė svetainė",
   "@website": {},
   "websiteUrl": "https://www.nephrogo.lt/",
-  "@websiteUrl": {}
+  "@websiteUrl": {},
+  "deleteAccount": "Ištrinti paskyrą",
+  "@deleteAccount": {},
+  "deleteAccountTitle": "Ištrinti paskyrą?",
+  "@deleteAccountTitle": {},
+  "deleteAccountDescription": "Ši paskyra bus ištrinta, o visi paskyroje esantys duomenys bus ištrinti visam laikui.\nŠio veiksmo atšaukti nebus galima!",
+  "@deleteAccountDescription": {}
 }

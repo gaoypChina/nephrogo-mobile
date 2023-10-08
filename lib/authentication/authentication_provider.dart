@@ -79,12 +79,8 @@ class AuthenticationProvider {
     }
   }
 
-  Future<String> idToken({bool forceRefresh = false}) {
-    if (currentUser == null) {
-      throw Exception('User should be logged in in order to retrieve id token');
-    }
-
-    return currentUser!.getIdToken(forceRefresh);
+  Future<String?> idToken() async {
+    return currentUser?.getIdToken();
   }
 
   Future<void> signOut() async {

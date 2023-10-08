@@ -199,7 +199,7 @@ class _NutritionDailySummaryListNutritionSection extends StatelessWidget {
             intake,
             norms,
             margin: EdgeInsets.zero,
-          )
+          ),
       ],
     );
   }
@@ -288,7 +288,7 @@ class _DailyNutritionNutrientSection extends StatelessWidget {
             intake,
             nutrient,
             dailyIntakesReport.dailyNutrientNormsAndTotals,
-          )
+          ),
       ],
     );
   }

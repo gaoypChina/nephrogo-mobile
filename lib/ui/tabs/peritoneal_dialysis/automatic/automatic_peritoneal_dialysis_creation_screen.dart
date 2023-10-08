@@ -98,7 +98,7 @@ class _AutomaticPeritonealDialysisCreationScreenState
             AppBarTextButton(
               onPressed: _submit,
               child: Text(appLocalizations.save.toUpperCase()),
-            )
+            ),
         ],
       ),
       body: AppForm(

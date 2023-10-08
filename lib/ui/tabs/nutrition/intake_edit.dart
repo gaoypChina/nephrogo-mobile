@@ -149,7 +149,7 @@ class _IntakeEditScreenState extends State<IntakeEditScreen> {
                       widget.dailyNutrientNormsAndTotals,
                       initiallyExpanded: true,
                       allowLongClick: false,
-                    )
+                    ),
                   ],
                 ),
                 BasicSection(
