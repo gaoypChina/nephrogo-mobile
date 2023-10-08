@@ -89,6 +89,10 @@ class AuthenticationProvider {
     await _auth.signOut();
   }
 
+  Future<bool> delete() async {
+    return (await currentUser?.delete().then((_) => true)) ?? false;
+  }
+
   Future<void> sendPasswordResetEmail(String email) async {
     return _auth.sendPasswordResetEmail(
       email: email,

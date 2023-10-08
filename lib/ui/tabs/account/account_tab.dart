@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:nephrogo/api/api_service.dart';
 import 'package:nephrogo/authentication/authentication_provider.dart';
 import 'package:nephrogo/constants.dart';
 import 'package:nephrogo/debug/debug_list_cell.dart';
@@ -20,6 +21,7 @@ class AccountTab extends StatelessWidget {
   static const anonymousPhotoPath = 'assets/anonymous_avatar.jpg';
 
   final _authenticationProvider = AuthenticationProvider();
+  final _apiService = ApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -166,8 +168,14 @@ class AccountTab extends StatelessWidget {
               child: Text(
                 context.appLocalizations.deleteAccount.toUpperCase(),
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
+              onPressed: () async {
+                await _apiService.deleteUser();
+                await _authenticationProvider.delete();
+
+                await Navigator.pushReplacementNamed(
+                  context,
+                  Routes.routeStart,
+                );
               },
             ),
             TextButton(
