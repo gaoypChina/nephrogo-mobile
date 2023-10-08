@@ -103,19 +103,22 @@ class AccountTab extends StatelessWidget {
                 ],
               ),
               if (kDebugMode) BasicSection.single(child: DebugListCell()),
-              BasicSection.single(
-                child: AppListTile(
-                  title: Text(appLocalizations.deleteAccount),
-                  leading: const Icon(Icons.delete_forever),
-                  onTap: () => _deleteAccount(context),
-                ),
-              ),
-              BasicSection.single(
-                child: AppListTile(
-                  title: Text(appLocalizations.logout),
-                  leading: const Icon(Icons.logout),
-                  onTap: () => _signOut(context),
-                ),
+              BasicSection(
+                children: [
+                  AppListTile(
+                    title: Text(appLocalizations.deleteAccount),
+                    leading: const Icon(
+                      Icons.delete_forever,
+                      color: Colors.redAccent,
+                    ),
+                    onTap: () => _deleteAccount(context),
+                  ),
+                  AppListTile(
+                    title: Text(appLocalizations.logout),
+                    leading: const Icon(Icons.logout),
+                    onTap: () => _signOut(context),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
