@@ -31,14 +31,14 @@ def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 } else {
-    keystoreProperties.setProperty('storePassword', 'debug')
-    keystoreProperties.setProperty('keyPassword', 'debug')
-    keystoreProperties.setProperty('keyAlias', 'debug')
-    keystoreProperties.setProperty('storeFile', 'debug.keystore')
+    keystoreProperties.setProperty('storePassword', System.getenv('KEY_STORE_PASSWORD'))
+    keystoreProperties.setProperty('keyPassword', System.getenv('KEY_PASSWORD'))
+    keystoreProperties.setProperty('keyAlias', System.getenv('KEY_ALIAS'))
+    keystoreProperties.setProperty('storeFile', System.getenv('KEY_PATH'))
 }
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     lintOptions {
         disable 'InvalidPackage'
@@ -47,7 +47,7 @@ android {
     defaultConfig {
         applicationId "com.nephrogo"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
