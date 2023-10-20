@@ -76,7 +76,7 @@ dependencies:
   url_launcher: ^6.1.7
   open_filex: ^4.3.2
   openapi_generator_annotations: ^4.13.1
-  future_progress_dialog: ^0.2.1
+  future_loading_dialog: ^0.2.4
 
 dev_dependencies:
   flutter_test:
