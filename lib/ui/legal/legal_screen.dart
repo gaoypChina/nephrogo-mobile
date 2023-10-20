@@ -212,7 +212,7 @@ class _LegalScreenContentState extends State<LegalScreenContent> {
     );
 
     try {
-      await AppProgressDialog(context).showForFuture(userFuture);
+      await AppProgressDialog.showForFuture(context, userFuture);
     } catch (ex) {
       if (mounted) {
         await showAppDialog(

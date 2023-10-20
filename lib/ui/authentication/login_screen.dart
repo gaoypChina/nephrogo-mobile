@@ -200,8 +200,10 @@ class LoginScreen extends StatelessWidget {
     BuildContext context,
     UserCredential userCredential,
   ) async {
-    final userProfile = await AppProgressDialog(context)
-        .showForFuture(getUserProfileAndUpdateUser());
+    final userProfile = await AppProgressDialog.showForFuture(
+      context,
+      getUserProfileAndUpdateUser(),
+    );
 
     if (userProfile != null) {
       await _appPreferences.setProfileCreated();

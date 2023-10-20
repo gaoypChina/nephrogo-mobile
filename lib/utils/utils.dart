@@ -64,7 +64,7 @@ class ApiUtils {
       },
     );
 
-    return AppProgressDialog(context).showForFuture(future).then<bool>(
+    return AppProgressDialog.showForFuture(context, future).then<bool>(
       (v) async {
         if (onSuccess != null) {
           await onSuccess();

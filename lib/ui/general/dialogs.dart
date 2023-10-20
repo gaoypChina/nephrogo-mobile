@@ -117,7 +117,7 @@ Future<bool> showDeleteDialog({
           ),
           TextButton(
             onPressed: () async {
-              await AppProgressDialog(context).showForFuture(onDelete());
+              await AppProgressDialog.showForFuture(context, onDelete());
 
               Navigator.of(context).pop(true);
             },
