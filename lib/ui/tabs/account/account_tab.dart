@@ -199,7 +199,7 @@ class AccountTab extends StatelessWidget {
   }
 
   Widget getUserProfilePhoto() {
-    final photoURL = _authenticationProvider.currentUserPhotoURL;
+    final photoURL = _authenticationProvider.userPhotoURL;
     if (photoURL == null) {
       return Image.asset(
         anonymousPhotoPath,
@@ -220,9 +220,11 @@ class AccountTab extends StatelessWidget {
   }
 
   Widget _buildUserProfileTile(BuildContext context) {
-    final user = _authenticationProvider.currentUser;
-    final title = user?.displayName ?? user?.email ?? '';
-    final subtitle = user?.email ?? title;
+    final displayName = _authenticationProvider.userDisplayName;
+    final email = _authenticationProvider.userDisplayEmail;
+
+    final title = displayName ?? email ?? '';
+    final subtitle = email ?? title;
 
     return AppListTile(
       contentPadding: const EdgeInsets.symmetric(

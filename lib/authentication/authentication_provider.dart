@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -54,18 +55,43 @@ class AuthenticationProvider {
     _auth.authStateChanges().forEach(_onAuthStateChange);
   }
 
-  User? get currentUser => _auth.currentUser;
+  User? get _currentUser => _auth.currentUser;
 
-  bool get isUserLoggedIn => currentUser != null;
+  bool get isUserLoggedIn => _currentUser != null;
 
-  String? get currentUserPhotoURL {
-    final photoURL =
-        _auth.currentUser?.photoURL?.replaceFirst('/s96-c/', '/s300-c/');
-    if (photoURL == null) {
+  String? get userDisplayName {
+    if (_currentUser?.displayName?.isNotEmpty ?? false) {
+      return _currentUser?.displayName;
+    } else {
+      return _currentUser?.providerData
+          .firstWhereOrNull((d) => d.displayName?.isNotEmpty ?? false)
+          ?.displayName;
+    }
+  }
+
+  String? get userDisplayEmail {
+    if (_currentUser?.email?.isNotEmpty ?? false) {
+      return _currentUser?.email;
+    } else {
+      return _currentUser?.providerData
+          .firstWhereOrNull((d) => d.email?.isNotEmpty ?? false)
+          ?.email;
+    }
+  }
+
+  String? get userPhotoURL {
+    final originalPhotoURL = _currentUser?.photoURL ??
+        _currentUser?.providerData
+            .firstWhereOrNull((d) => d.photoURL?.isNotEmpty ?? false)
+            ?.photoURL;
+
+    final photoUrl = originalPhotoURL?.replaceFirst('/s96-c/', '/s300-c/');
+
+    if (photoUrl == null) {
       return null;
     }
 
-    return '$photoURL?height=300';
+    return '$photoUrl?height=300';
   }
 
   Future<void> _onAuthStateChange(User? user) async {
@@ -80,7 +106,7 @@ class AuthenticationProvider {
   }
 
   Future<String?> idToken() async {
-    return currentUser?.getIdToken();
+    return _currentUser?.getIdToken();
   }
 
   Future<void> signOut() async {
@@ -90,7 +116,7 @@ class AuthenticationProvider {
   }
 
   Future<bool> delete() async {
-    return (await currentUser?.delete().then((_) => true)) ?? false;
+    return (await _currentUser?.delete().then((_) => true)) ?? false;
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
