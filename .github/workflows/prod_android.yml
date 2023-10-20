@@ -30,7 +30,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
-          java-version: '15'
+          java-version: '17'
 
       - run: echo $ANDROID_SIGNING_KEY_BASE64 | base64 -d > android/app/key.jks
         env:
